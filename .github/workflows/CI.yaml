@@ -2,9 +2,9 @@ name: CI - Tests et Analyse de Code
 
 on:
   push:
-    branches: [ "main", "develop" ]
+    branches: [ "main", "prod" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "prod" ]
   workflow_dispatch:  # Permet de lancer manuellement
 
 jobs:
