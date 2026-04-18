@@ -168,7 +168,7 @@ public class SecurityConfiguration {
                     .hasAnyRole("ADMIN", "ADMINISTRATION")
                     // DELETE /incomes - ADMIN uniquement
                     .requestMatchers(DELETE, "/incomes/*")
-                    .hasRole("ADMIN")
+                    .hasAnyRole("ADMIN", "WAREHOUSE_WORKER", "EMPLOYEE", "ADMINISTRATION")
 
                     // =========================
                     // TRAVEL EXPENSE
@@ -275,10 +275,10 @@ public class SecurityConfiguration {
                     .hasRole("ADMIN")
 
                     // =========================
-                    // DEFAULT - Toute autre requête nécessite une authentification ADMIN
+                    // DEFAULT - Toute autre requête non auizer
                     // =========================
                     .anyRequest()
-                    .hasRole("ADMIN"));
+                    .denyAll());
 
     http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 

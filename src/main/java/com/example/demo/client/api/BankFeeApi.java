@@ -50,7 +50,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-16T20:35:51.739693168+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-18T05:40:17.233941351+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class BankFeeApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -90,24 +90,32 @@ public class BankFeeApi {
   /**
    * Create new bank fees or update existing ones
    * 
+   * @param compId  (required)
+   * @param jobId  (required)
+   * @param userId  (required)
+   * @param expensesId  (required)
    * @param crupdateBankFee  (required)
    * @return List&lt;BankFee&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<BankFee> crupdateBankFees(List<CrupdateBankFee> crupdateBankFee) throws ApiException {
-    ApiResponse<List<BankFee>> localVarResponse = crupdateBankFeesWithHttpInfo(crupdateBankFee);
+  public List<BankFee> crupdateBankFees(String compId, String jobId, String userId, String expensesId, List<CrupdateBankFee> crupdateBankFee) throws ApiException {
+    ApiResponse<List<BankFee>> localVarResponse = crupdateBankFeesWithHttpInfo(compId, jobId, userId, expensesId, crupdateBankFee);
     return localVarResponse.getData();
   }
 
   /**
    * Create new bank fees or update existing ones
    * 
+   * @param compId  (required)
+   * @param jobId  (required)
+   * @param userId  (required)
+   * @param expensesId  (required)
    * @param crupdateBankFee  (required)
    * @return ApiResponse&lt;List&lt;BankFee&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<BankFee>> crupdateBankFeesWithHttpInfo(List<CrupdateBankFee> crupdateBankFee) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = crupdateBankFeesRequestBuilder(crupdateBankFee);
+  public ApiResponse<List<BankFee>> crupdateBankFeesWithHttpInfo(String compId, String jobId, String userId, String expensesId, List<CrupdateBankFee> crupdateBankFee) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = crupdateBankFeesRequestBuilder(compId, jobId, userId, expensesId, crupdateBankFee);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -135,7 +143,23 @@ public class BankFeeApi {
     }
   }
 
-  private HttpRequest.Builder crupdateBankFeesRequestBuilder(List<CrupdateBankFee> crupdateBankFee) throws ApiException {
+  private HttpRequest.Builder crupdateBankFeesRequestBuilder(String compId, String jobId, String userId, String expensesId, List<CrupdateBankFee> crupdateBankFee) throws ApiException {
+    // verify the required parameter 'compId' is set
+    if (compId == null) {
+      throw new ApiException(400, "Missing the required parameter 'compId' when calling crupdateBankFees");
+    }
+    // verify the required parameter 'jobId' is set
+    if (jobId == null) {
+      throw new ApiException(400, "Missing the required parameter 'jobId' when calling crupdateBankFees");
+    }
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling crupdateBankFees");
+    }
+    // verify the required parameter 'expensesId' is set
+    if (expensesId == null) {
+      throw new ApiException(400, "Missing the required parameter 'expensesId' when calling crupdateBankFees");
+    }
     // verify the required parameter 'crupdateBankFee' is set
     if (crupdateBankFee == null) {
       throw new ApiException(400, "Missing the required parameter 'crupdateBankFee' when calling crupdateBankFees");
@@ -143,7 +167,11 @@ public class BankFeeApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/bank_fees";
+    String localVarPath = "/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/bank_fees"
+        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()))
+        .replace("{job_id}", ApiClient.urlEncode(jobId.toString()))
+        .replace("{user_id}", ApiClient.urlEncode(userId.toString()))
+        .replace("{expenses_id}", ApiClient.urlEncode(expensesId.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
@@ -168,22 +196,30 @@ public class BankFeeApi {
   /**
    * Delete bank fee by identifier
    * 
+   * @param compId  (required)
+   * @param jobId  (required)
+   * @param userId  (required)
+   * @param expensesId  (required)
    * @param id  (required)
    * @throws ApiException if fails to make API call
    */
-  public void deleteBankFeeById(String id) throws ApiException {
-    deleteBankFeeByIdWithHttpInfo(id);
+  public void deleteBankFeeById(String compId, String jobId, String userId, String expensesId, String id) throws ApiException {
+    deleteBankFeeByIdWithHttpInfo(compId, jobId, userId, expensesId, id);
   }
 
   /**
    * Delete bank fee by identifier
    * 
+   * @param compId  (required)
+   * @param jobId  (required)
+   * @param userId  (required)
+   * @param expensesId  (required)
    * @param id  (required)
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Void> deleteBankFeeByIdWithHttpInfo(String id) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = deleteBankFeeByIdRequestBuilder(id);
+  public ApiResponse<Void> deleteBankFeeByIdWithHttpInfo(String compId, String jobId, String userId, String expensesId, String id) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = deleteBankFeeByIdRequestBuilder(compId, jobId, userId, expensesId, id);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -216,7 +252,23 @@ public class BankFeeApi {
     }
   }
 
-  private HttpRequest.Builder deleteBankFeeByIdRequestBuilder(String id) throws ApiException {
+  private HttpRequest.Builder deleteBankFeeByIdRequestBuilder(String compId, String jobId, String userId, String expensesId, String id) throws ApiException {
+    // verify the required parameter 'compId' is set
+    if (compId == null) {
+      throw new ApiException(400, "Missing the required parameter 'compId' when calling deleteBankFeeById");
+    }
+    // verify the required parameter 'jobId' is set
+    if (jobId == null) {
+      throw new ApiException(400, "Missing the required parameter 'jobId' when calling deleteBankFeeById");
+    }
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling deleteBankFeeById");
+    }
+    // verify the required parameter 'expensesId' is set
+    if (expensesId == null) {
+      throw new ApiException(400, "Missing the required parameter 'expensesId' when calling deleteBankFeeById");
+    }
     // verify the required parameter 'id' is set
     if (id == null) {
       throw new ApiException(400, "Missing the required parameter 'id' when calling deleteBankFeeById");
@@ -224,24 +276,14 @@ public class BankFeeApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/bank_fees";
+    String localVarPath = "/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/bank_fees/{id}"
+        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()))
+        .replace("{job_id}", ApiClient.urlEncode(jobId.toString()))
+        .replace("{user_id}", ApiClient.urlEncode(userId.toString()))
+        .replace("{expenses_id}", ApiClient.urlEncode(expensesId.toString()))
+        .replace("{id}", ApiClient.urlEncode(id.toString()));
 
-    List<Pair> localVarQueryParams = new ArrayList<>();
-    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
-    String localVarQueryParameterBaseName;
-    localVarQueryParameterBaseName = "id";
-    localVarQueryParams.addAll(ApiClient.parameterToPairs("id", id));
-
-    if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
-      StringJoiner queryJoiner = new StringJoiner("&");
-      localVarQueryParams.forEach(p -> queryJoiner.add(p.getName() + '=' + p.getValue()));
-      if (localVarQueryStringJoiner.length() != 0) {
-        queryJoiner.add(localVarQueryStringJoiner.toString());
-      }
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
-    } else {
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
-    }
+    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
     localVarRequestBuilder.header("Accept", "application/json");
 
@@ -258,24 +300,32 @@ public class BankFeeApi {
   /**
    * Get bank fee by identifier
    * 
+   * @param compId  (required)
+   * @param jobId  (required)
+   * @param userId  (required)
+   * @param expensesId  (required)
    * @param id  (required)
    * @return BankFee
    * @throws ApiException if fails to make API call
    */
-  public BankFee getBankFeeById(String id) throws ApiException {
-    ApiResponse<BankFee> localVarResponse = getBankFeeByIdWithHttpInfo(id);
+  public BankFee getBankFeeById(String compId, String jobId, String userId, String expensesId, String id) throws ApiException {
+    ApiResponse<BankFee> localVarResponse = getBankFeeByIdWithHttpInfo(compId, jobId, userId, expensesId, id);
     return localVarResponse.getData();
   }
 
   /**
    * Get bank fee by identifier
    * 
+   * @param compId  (required)
+   * @param jobId  (required)
+   * @param userId  (required)
+   * @param expensesId  (required)
    * @param id  (required)
    * @return ApiResponse&lt;BankFee&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<BankFee> getBankFeeByIdWithHttpInfo(String id) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getBankFeeByIdRequestBuilder(id);
+  public ApiResponse<BankFee> getBankFeeByIdWithHttpInfo(String compId, String jobId, String userId, String expensesId, String id) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getBankFeeByIdRequestBuilder(compId, jobId, userId, expensesId, id);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -303,7 +353,23 @@ public class BankFeeApi {
     }
   }
 
-  private HttpRequest.Builder getBankFeeByIdRequestBuilder(String id) throws ApiException {
+  private HttpRequest.Builder getBankFeeByIdRequestBuilder(String compId, String jobId, String userId, String expensesId, String id) throws ApiException {
+    // verify the required parameter 'compId' is set
+    if (compId == null) {
+      throw new ApiException(400, "Missing the required parameter 'compId' when calling getBankFeeById");
+    }
+    // verify the required parameter 'jobId' is set
+    if (jobId == null) {
+      throw new ApiException(400, "Missing the required parameter 'jobId' when calling getBankFeeById");
+    }
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling getBankFeeById");
+    }
+    // verify the required parameter 'expensesId' is set
+    if (expensesId == null) {
+      throw new ApiException(400, "Missing the required parameter 'expensesId' when calling getBankFeeById");
+    }
     // verify the required parameter 'id' is set
     if (id == null) {
       throw new ApiException(400, "Missing the required parameter 'id' when calling getBankFeeById");
@@ -311,7 +377,11 @@ public class BankFeeApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/bank_fees/{id}"
+    String localVarPath = "/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/bank_fees/{id}"
+        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()))
+        .replace("{job_id}", ApiClient.urlEncode(jobId.toString()))
+        .replace("{user_id}", ApiClient.urlEncode(userId.toString()))
+        .replace("{expenses_id}", ApiClient.urlEncode(expensesId.toString()))
         .replace("{id}", ApiClient.urlEncode(id.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
@@ -331,26 +401,34 @@ public class BankFeeApi {
   /**
    * Get all bank fees
    * 
+   * @param compId  (required)
+   * @param jobId  (required)
+   * @param userId  (required)
+   * @param expensesId  (required)
    * @param page  (optional)
    * @param pageSize  (optional)
    * @return List&lt;BankFee&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<BankFee> getBankFees(Integer page, Integer pageSize) throws ApiException {
-    ApiResponse<List<BankFee>> localVarResponse = getBankFeesWithHttpInfo(page, pageSize);
+  public List<BankFee> getBankFees(String compId, String jobId, String userId, String expensesId, Integer page, Integer pageSize) throws ApiException {
+    ApiResponse<List<BankFee>> localVarResponse = getBankFeesWithHttpInfo(compId, jobId, userId, expensesId, page, pageSize);
     return localVarResponse.getData();
   }
 
   /**
    * Get all bank fees
    * 
+   * @param compId  (required)
+   * @param jobId  (required)
+   * @param userId  (required)
+   * @param expensesId  (required)
    * @param page  (optional)
    * @param pageSize  (optional)
    * @return ApiResponse&lt;List&lt;BankFee&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<BankFee>> getBankFeesWithHttpInfo(Integer page, Integer pageSize) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getBankFeesRequestBuilder(page, pageSize);
+  public ApiResponse<List<BankFee>> getBankFeesWithHttpInfo(String compId, String jobId, String userId, String expensesId, Integer page, Integer pageSize) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getBankFeesRequestBuilder(compId, jobId, userId, expensesId, page, pageSize);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -378,11 +456,31 @@ public class BankFeeApi {
     }
   }
 
-  private HttpRequest.Builder getBankFeesRequestBuilder(Integer page, Integer pageSize) throws ApiException {
+  private HttpRequest.Builder getBankFeesRequestBuilder(String compId, String jobId, String userId, String expensesId, Integer page, Integer pageSize) throws ApiException {
+    // verify the required parameter 'compId' is set
+    if (compId == null) {
+      throw new ApiException(400, "Missing the required parameter 'compId' when calling getBankFees");
+    }
+    // verify the required parameter 'jobId' is set
+    if (jobId == null) {
+      throw new ApiException(400, "Missing the required parameter 'jobId' when calling getBankFees");
+    }
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling getBankFees");
+    }
+    // verify the required parameter 'expensesId' is set
+    if (expensesId == null) {
+      throw new ApiException(400, "Missing the required parameter 'expensesId' when calling getBankFees");
+    }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/bank_fees";
+    String localVarPath = "/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/bank_fees"
+        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()))
+        .replace("{job_id}", ApiClient.urlEncode(jobId.toString()))
+        .replace("{user_id}", ApiClient.urlEncode(userId.toString()))
+        .replace("{expenses_id}", ApiClient.urlEncode(expensesId.toString()));
 
     List<Pair> localVarQueryParams = new ArrayList<>();
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");

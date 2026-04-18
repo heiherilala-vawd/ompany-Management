@@ -19,6 +19,7 @@ public class UserController {
   private final UserMapper userMapper;
 
   @PutMapping(value = "/users")
+  @PreAuthorize("hasAnyRole(\"ADMIN\", \"ADMINISTRATION\")\n")
   public List<User> crupdateUsers(@RequestBody List<CrupdateUser> toWrite) {
     var saved = userService.saveAll(toWrite.stream().map(userMapper::toDomain).toList());
     return saved.stream().map(userMapper::toRestUser).toList();
@@ -48,6 +49,7 @@ public class UserController {
   }
 
   @DeleteMapping("/users/{id}")
+  @PreAuthorize("hasRole('ADMIN')")
   public void deleteUserById(@PathVariable String id) {
     userService.deleteById(id);
   }

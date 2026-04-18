@@ -50,7 +50,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-16T20:35:51.739693168+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-18T05:40:17.233941351+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class EmployeePaymentApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -90,24 +90,32 @@ public class EmployeePaymentApi {
   /**
    * Create new employee payments or update existing ones
    * 
+   * @param compId  (required)
+   * @param jobId  (required)
+   * @param userId  (required)
+   * @param expensesId  (required)
    * @param crupdateEmployeePayment  (required)
    * @return List&lt;EmployeePayment&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<EmployeePayment> crupdateEmployeePayments(List<CrupdateEmployeePayment> crupdateEmployeePayment) throws ApiException {
-    ApiResponse<List<EmployeePayment>> localVarResponse = crupdateEmployeePaymentsWithHttpInfo(crupdateEmployeePayment);
+  public List<EmployeePayment> crupdateEmployeePayments(String compId, String jobId, String userId, String expensesId, List<CrupdateEmployeePayment> crupdateEmployeePayment) throws ApiException {
+    ApiResponse<List<EmployeePayment>> localVarResponse = crupdateEmployeePaymentsWithHttpInfo(compId, jobId, userId, expensesId, crupdateEmployeePayment);
     return localVarResponse.getData();
   }
 
   /**
    * Create new employee payments or update existing ones
    * 
+   * @param compId  (required)
+   * @param jobId  (required)
+   * @param userId  (required)
+   * @param expensesId  (required)
    * @param crupdateEmployeePayment  (required)
    * @return ApiResponse&lt;List&lt;EmployeePayment&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<EmployeePayment>> crupdateEmployeePaymentsWithHttpInfo(List<CrupdateEmployeePayment> crupdateEmployeePayment) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = crupdateEmployeePaymentsRequestBuilder(crupdateEmployeePayment);
+  public ApiResponse<List<EmployeePayment>> crupdateEmployeePaymentsWithHttpInfo(String compId, String jobId, String userId, String expensesId, List<CrupdateEmployeePayment> crupdateEmployeePayment) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = crupdateEmployeePaymentsRequestBuilder(compId, jobId, userId, expensesId, crupdateEmployeePayment);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -135,7 +143,23 @@ public class EmployeePaymentApi {
     }
   }
 
-  private HttpRequest.Builder crupdateEmployeePaymentsRequestBuilder(List<CrupdateEmployeePayment> crupdateEmployeePayment) throws ApiException {
+  private HttpRequest.Builder crupdateEmployeePaymentsRequestBuilder(String compId, String jobId, String userId, String expensesId, List<CrupdateEmployeePayment> crupdateEmployeePayment) throws ApiException {
+    // verify the required parameter 'compId' is set
+    if (compId == null) {
+      throw new ApiException(400, "Missing the required parameter 'compId' when calling crupdateEmployeePayments");
+    }
+    // verify the required parameter 'jobId' is set
+    if (jobId == null) {
+      throw new ApiException(400, "Missing the required parameter 'jobId' when calling crupdateEmployeePayments");
+    }
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling crupdateEmployeePayments");
+    }
+    // verify the required parameter 'expensesId' is set
+    if (expensesId == null) {
+      throw new ApiException(400, "Missing the required parameter 'expensesId' when calling crupdateEmployeePayments");
+    }
     // verify the required parameter 'crupdateEmployeePayment' is set
     if (crupdateEmployeePayment == null) {
       throw new ApiException(400, "Missing the required parameter 'crupdateEmployeePayment' when calling crupdateEmployeePayments");
@@ -143,7 +167,11 @@ public class EmployeePaymentApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/employee_payments";
+    String localVarPath = "/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/employee_payments"
+        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()))
+        .replace("{job_id}", ApiClient.urlEncode(jobId.toString()))
+        .replace("{user_id}", ApiClient.urlEncode(userId.toString()))
+        .replace("{expenses_id}", ApiClient.urlEncode(expensesId.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
@@ -168,22 +196,30 @@ public class EmployeePaymentApi {
   /**
    * Delete employee payment by identifier
    * 
+   * @param compId  (required)
+   * @param jobId  (required)
+   * @param userId  (required)
+   * @param expensesId  (required)
    * @param id  (required)
    * @throws ApiException if fails to make API call
    */
-  public void deleteEmployeePaymentById(String id) throws ApiException {
-    deleteEmployeePaymentByIdWithHttpInfo(id);
+  public void deleteEmployeePaymentById(String compId, String jobId, String userId, String expensesId, String id) throws ApiException {
+    deleteEmployeePaymentByIdWithHttpInfo(compId, jobId, userId, expensesId, id);
   }
 
   /**
    * Delete employee payment by identifier
    * 
+   * @param compId  (required)
+   * @param jobId  (required)
+   * @param userId  (required)
+   * @param expensesId  (required)
    * @param id  (required)
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Void> deleteEmployeePaymentByIdWithHttpInfo(String id) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = deleteEmployeePaymentByIdRequestBuilder(id);
+  public ApiResponse<Void> deleteEmployeePaymentByIdWithHttpInfo(String compId, String jobId, String userId, String expensesId, String id) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = deleteEmployeePaymentByIdRequestBuilder(compId, jobId, userId, expensesId, id);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -216,7 +252,23 @@ public class EmployeePaymentApi {
     }
   }
 
-  private HttpRequest.Builder deleteEmployeePaymentByIdRequestBuilder(String id) throws ApiException {
+  private HttpRequest.Builder deleteEmployeePaymentByIdRequestBuilder(String compId, String jobId, String userId, String expensesId, String id) throws ApiException {
+    // verify the required parameter 'compId' is set
+    if (compId == null) {
+      throw new ApiException(400, "Missing the required parameter 'compId' when calling deleteEmployeePaymentById");
+    }
+    // verify the required parameter 'jobId' is set
+    if (jobId == null) {
+      throw new ApiException(400, "Missing the required parameter 'jobId' when calling deleteEmployeePaymentById");
+    }
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling deleteEmployeePaymentById");
+    }
+    // verify the required parameter 'expensesId' is set
+    if (expensesId == null) {
+      throw new ApiException(400, "Missing the required parameter 'expensesId' when calling deleteEmployeePaymentById");
+    }
     // verify the required parameter 'id' is set
     if (id == null) {
       throw new ApiException(400, "Missing the required parameter 'id' when calling deleteEmployeePaymentById");
@@ -224,24 +276,14 @@ public class EmployeePaymentApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/employee_payments";
+    String localVarPath = "/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/employee_payments/{id}"
+        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()))
+        .replace("{job_id}", ApiClient.urlEncode(jobId.toString()))
+        .replace("{user_id}", ApiClient.urlEncode(userId.toString()))
+        .replace("{expenses_id}", ApiClient.urlEncode(expensesId.toString()))
+        .replace("{id}", ApiClient.urlEncode(id.toString()));
 
-    List<Pair> localVarQueryParams = new ArrayList<>();
-    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
-    String localVarQueryParameterBaseName;
-    localVarQueryParameterBaseName = "id";
-    localVarQueryParams.addAll(ApiClient.parameterToPairs("id", id));
-
-    if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
-      StringJoiner queryJoiner = new StringJoiner("&");
-      localVarQueryParams.forEach(p -> queryJoiner.add(p.getName() + '=' + p.getValue()));
-      if (localVarQueryStringJoiner.length() != 0) {
-        queryJoiner.add(localVarQueryStringJoiner.toString());
-      }
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
-    } else {
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
-    }
+    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
     localVarRequestBuilder.header("Accept", "application/json");
 
@@ -258,24 +300,32 @@ public class EmployeePaymentApi {
   /**
    * Get employee payment by identifier
    * 
+   * @param compId  (required)
+   * @param jobId  (required)
+   * @param userId  (required)
+   * @param expensesId  (required)
    * @param id  (required)
    * @return EmployeePayment
    * @throws ApiException if fails to make API call
    */
-  public EmployeePayment getEmployeePaymentById(String id) throws ApiException {
-    ApiResponse<EmployeePayment> localVarResponse = getEmployeePaymentByIdWithHttpInfo(id);
+  public EmployeePayment getEmployeePaymentById(String compId, String jobId, String userId, String expensesId, String id) throws ApiException {
+    ApiResponse<EmployeePayment> localVarResponse = getEmployeePaymentByIdWithHttpInfo(compId, jobId, userId, expensesId, id);
     return localVarResponse.getData();
   }
 
   /**
    * Get employee payment by identifier
    * 
+   * @param compId  (required)
+   * @param jobId  (required)
+   * @param userId  (required)
+   * @param expensesId  (required)
    * @param id  (required)
    * @return ApiResponse&lt;EmployeePayment&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<EmployeePayment> getEmployeePaymentByIdWithHttpInfo(String id) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getEmployeePaymentByIdRequestBuilder(id);
+  public ApiResponse<EmployeePayment> getEmployeePaymentByIdWithHttpInfo(String compId, String jobId, String userId, String expensesId, String id) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getEmployeePaymentByIdRequestBuilder(compId, jobId, userId, expensesId, id);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -303,7 +353,23 @@ public class EmployeePaymentApi {
     }
   }
 
-  private HttpRequest.Builder getEmployeePaymentByIdRequestBuilder(String id) throws ApiException {
+  private HttpRequest.Builder getEmployeePaymentByIdRequestBuilder(String compId, String jobId, String userId, String expensesId, String id) throws ApiException {
+    // verify the required parameter 'compId' is set
+    if (compId == null) {
+      throw new ApiException(400, "Missing the required parameter 'compId' when calling getEmployeePaymentById");
+    }
+    // verify the required parameter 'jobId' is set
+    if (jobId == null) {
+      throw new ApiException(400, "Missing the required parameter 'jobId' when calling getEmployeePaymentById");
+    }
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling getEmployeePaymentById");
+    }
+    // verify the required parameter 'expensesId' is set
+    if (expensesId == null) {
+      throw new ApiException(400, "Missing the required parameter 'expensesId' when calling getEmployeePaymentById");
+    }
     // verify the required parameter 'id' is set
     if (id == null) {
       throw new ApiException(400, "Missing the required parameter 'id' when calling getEmployeePaymentById");
@@ -311,7 +377,11 @@ public class EmployeePaymentApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/employee_payments/{id}"
+    String localVarPath = "/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/employee_payments/{id}"
+        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()))
+        .replace("{job_id}", ApiClient.urlEncode(jobId.toString()))
+        .replace("{user_id}", ApiClient.urlEncode(userId.toString()))
+        .replace("{expenses_id}", ApiClient.urlEncode(expensesId.toString()))
         .replace("{id}", ApiClient.urlEncode(id.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
@@ -331,28 +401,36 @@ public class EmployeePaymentApi {
   /**
    * Get all employee payments
    * 
+   * @param compId  (required)
+   * @param jobId  (required)
+   * @param userId  (required)
+   * @param expensesId  (required)
    * @param page  (optional)
    * @param pageSize  (optional)
    * @param employeeId  (optional)
    * @return List&lt;EmployeePayment&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<EmployeePayment> getEmployeePayments(Integer page, Integer pageSize, String employeeId) throws ApiException {
-    ApiResponse<List<EmployeePayment>> localVarResponse = getEmployeePaymentsWithHttpInfo(page, pageSize, employeeId);
+  public List<EmployeePayment> getEmployeePayments(String compId, String jobId, String userId, String expensesId, Integer page, Integer pageSize, String employeeId) throws ApiException {
+    ApiResponse<List<EmployeePayment>> localVarResponse = getEmployeePaymentsWithHttpInfo(compId, jobId, userId, expensesId, page, pageSize, employeeId);
     return localVarResponse.getData();
   }
 
   /**
    * Get all employee payments
    * 
+   * @param compId  (required)
+   * @param jobId  (required)
+   * @param userId  (required)
+   * @param expensesId  (required)
    * @param page  (optional)
    * @param pageSize  (optional)
    * @param employeeId  (optional)
    * @return ApiResponse&lt;List&lt;EmployeePayment&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<EmployeePayment>> getEmployeePaymentsWithHttpInfo(Integer page, Integer pageSize, String employeeId) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getEmployeePaymentsRequestBuilder(page, pageSize, employeeId);
+  public ApiResponse<List<EmployeePayment>> getEmployeePaymentsWithHttpInfo(String compId, String jobId, String userId, String expensesId, Integer page, Integer pageSize, String employeeId) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getEmployeePaymentsRequestBuilder(compId, jobId, userId, expensesId, page, pageSize, employeeId);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -380,11 +458,31 @@ public class EmployeePaymentApi {
     }
   }
 
-  private HttpRequest.Builder getEmployeePaymentsRequestBuilder(Integer page, Integer pageSize, String employeeId) throws ApiException {
+  private HttpRequest.Builder getEmployeePaymentsRequestBuilder(String compId, String jobId, String userId, String expensesId, Integer page, Integer pageSize, String employeeId) throws ApiException {
+    // verify the required parameter 'compId' is set
+    if (compId == null) {
+      throw new ApiException(400, "Missing the required parameter 'compId' when calling getEmployeePayments");
+    }
+    // verify the required parameter 'jobId' is set
+    if (jobId == null) {
+      throw new ApiException(400, "Missing the required parameter 'jobId' when calling getEmployeePayments");
+    }
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling getEmployeePayments");
+    }
+    // verify the required parameter 'expensesId' is set
+    if (expensesId == null) {
+      throw new ApiException(400, "Missing the required parameter 'expensesId' when calling getEmployeePayments");
+    }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/employee_payments";
+    String localVarPath = "/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/employee_payments"
+        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()))
+        .replace("{job_id}", ApiClient.urlEncode(jobId.toString()))
+        .replace("{user_id}", ApiClient.urlEncode(userId.toString()))
+        .replace("{expenses_id}", ApiClient.urlEncode(expensesId.toString()));
 
     List<Pair> localVarQueryParams = new ArrayList<>();
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");

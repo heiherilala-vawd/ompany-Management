@@ -142,6 +142,30 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
+    delete:
+      tags:
+        - Users
+      summary: Delete a user by identifier
+      operationId: deleteUserById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: User deleted successfully
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
   /users:
     get:
       tags:
@@ -229,30 +253,7 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-    delete:
-      tags:
-        - Users
-      summary: Delete a user by identifier
-      operationId: deleteUserById
-      parameters:
-        - name: id
-          in: query
-          required: true
-          schema:
-            type: string
-      responses:
-        '204':
-          description: User deleted successfully
-        '400':
-          $ref: '#/components/responses/400'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '429':
-          $ref: '#/components/responses/429'
-        '500':
-          $ref: '#/components/responses/500'
+
 
 
   # =========================
@@ -277,6 +278,30 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Company'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      tags:
+        - Company
+      summary: Delete a company by identifier
+      operationId: deleteCompanyById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Company deleted successfully
         '400':
           $ref: '#/components/responses/400'
         '403':
@@ -363,41 +388,23 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-    delete:
-      tags:
-        - Company
-      summary: Delete a company by identifier
-      operationId: deleteCompanyById
-      parameters:
-        - name: id
-          in: query
-          required: true
-          schema:
-            type: string
-      responses:
-        '204':
-          description: Company deleted successfully
-        '400':
-          $ref: '#/components/responses/400'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '429':
-          $ref: '#/components/responses/429'
-        '500':
-          $ref: '#/components/responses/500'
+
 
   # =========================
   # JOB
   # =========================
-  '/jobs/{id}':
+  '/companies/{comp_id}/jobs/{id}':
     get:
       tags:
         - Job
       summary: Get job by identifier
       operationId: getJobById
       parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
         - name: id
           in: path
           required: true
@@ -420,13 +427,47 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-  /jobs:
+    delete:
+      tags:
+        - Job
+      summary: Delete a job by identifier
+      operationId: deleteJobById
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Job deleted successfully
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /companies/{comp_id}/jobs:
     get:
       tags:
         - Job
       summary: Get all jobs
       operationId: getJobs
       parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
         - name: page
           in: query
           schema:
@@ -467,6 +508,12 @@ paths:
         - Job
       summary: Create new jobs or update existing jobs
       operationId: crupdateJobs
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
       requestBody:
         required: true
         content:
@@ -494,41 +541,23 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-    delete:
-      tags:
-        - Job
-      summary: Delete a job by identifier
-      operationId: deleteJobById
-      parameters:
-        - name: id
-          in: query
-          required: true
-          schema:
-            type: string
-      responses:
-        '204':
-          description: Job deleted successfully
-        '400':
-          $ref: '#/components/responses/400'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '429':
-          $ref: '#/components/responses/429'
-        '500':
-          $ref: '#/components/responses/500'
+
 
   # =========================
   # WAREHOUSE
   # =========================
-  '/warehouses/{id}':
+  '/companies/{comp_id}/warehouses/{id}':
     get:
       tags:
         - Warehouse
       summary: Get warehouse by identifier
       operationId: getWarehouseById
       parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
         - name: id
           in: path
           required: true
@@ -551,13 +580,47 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-  /warehouses:
+    delete:
+      tags:
+        - Warehouse
+      summary: Delete a warehouse by identifier
+      operationId: deleteWarehouseById
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Warehouse deleted successfully
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /companies/{comp_id}/warehouses:
     get:
       tags:
         - Warehouse
       summary: Get all warehouses
       operationId: getWarehouses
       parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
         - name: page
           in: query
           schema:
@@ -594,6 +657,12 @@ paths:
         - Warehouse
       summary: Create new warehouses or update existing warehouses
       operationId: crupdateWarehouses
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
       requestBody:
         required: true
         content:
@@ -621,41 +690,23 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-    delete:
-      tags:
-        - Warehouse
-      summary: Delete a warehouse by identifier
-      operationId: deleteWarehouseById
-      parameters:
-        - name: id
-          in: query
-          required: true
-          schema:
-            type: string
-      responses:
-        '204':
-          description: Warehouse deleted successfully
-        '400':
-          $ref: '#/components/responses/400'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '429':
-          $ref: '#/components/responses/429'
-        '500':
-          $ref: '#/components/responses/500'
+
 
   # =========================
   # EQUIPMENT
   # =========================
-  '/equipment/{id}':
+  '/companies/{comp_id}/equipment/{id}':
     get:
       tags:
         - Equipment
       summary: Get equipment by identifier
       operationId: getEquipmentById
       parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
         - name: id
           in: path
           required: true
@@ -678,13 +729,47 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-  /equipment:
+    delete:
+      tags:
+        - Equipment
+      summary: Delete equipment by identifier
+      operationId: deleteEquipmentById
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Equipment deleted successfully
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /companies/{comp_id}/equipment:
     get:
       tags:
         - Equipment
       summary: Get all equipment
       operationId: getEquipment
       parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
         - name: page
           in: query
           schema:
@@ -721,6 +806,12 @@ paths:
         - Equipment
       summary: Create new equipment or update existing equipment
       operationId: crupdateEquipment
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
       requestBody:
         required: true
         content:
@@ -748,30 +839,7 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-    delete:
-      tags:
-        - Equipment
-      summary: Delete equipment by identifier
-      operationId: deleteEquipmentById
-      parameters:
-        - name: id
-          in: query
-          required: true
-          schema:
-            type: string
-      responses:
-        '204':
-          description: Equipment deleted successfully
-        '400':
-          $ref: '#/components/responses/400'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '429':
-          $ref: '#/components/responses/429'
-        '500':
-          $ref: '#/components/responses/500'
+
 
   # =========================
   # MATERIAL
@@ -795,6 +863,30 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Material'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      tags:
+        - Material
+      summary: Delete material by identifier
+      operationId: deleteMaterialById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Material deleted successfully
         '400':
           $ref: '#/components/responses/400'
         '403':
@@ -875,30 +967,7 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-    delete:
-      tags:
-        - Material
-      summary: Delete material by identifier
-      operationId: deleteMaterialById
-      parameters:
-        - name: id
-          in: query
-          required: true
-          schema:
-            type: string
-      responses:
-        '204':
-          description: Material deleted successfully
-        '400':
-          $ref: '#/components/responses/400'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '429':
-          $ref: '#/components/responses/429'
-        '500':
-          $ref: '#/components/responses/500'
+
 
   # =========================
   # MONETARY MOVEMENT
@@ -922,6 +991,30 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/MonetaryMovement'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      tags:
+        - MonetaryMovement
+      summary: Delete monetary movement by identifier
+      operationId: deleteMonetaryMovementById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Monetary movement deleted successfully
         '400':
           $ref: '#/components/responses/400'
         '403':
@@ -998,41 +1091,33 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-    delete:
-      tags:
-        - MonetaryMovement
-      summary: Delete monetary movement by identifier
-      operationId: deleteMonetaryMovementById
-      parameters:
-        - name: id
-          in: query
-          required: true
-          schema:
-            type: string
-      responses:
-        '204':
-          description: Monetary movement deleted successfully
-        '400':
-          $ref: '#/components/responses/400'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '429':
-          $ref: '#/components/responses/429'
-        '500':
-          $ref: '#/components/responses/500'
+
 
   # =========================
   # EXPENSE
   # =========================
-  '/expenses/{id}':
+  '/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{id}':
     get:
       tags:
         - Expense
       summary: Get expense by identifier
       operationId: getExpenseById
       parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
         - name: id
           in: path
           required: true
@@ -1055,13 +1140,67 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-  /expenses:
+    delete:
+      tags:
+        - Expense
+      summary: Delete expense by identifier
+      operationId: deleteExpenseById
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Expense deleted successfully
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /companies/{comp_id}/job/{job_id}/user/{user_id}/expenses:
     get:
       tags:
         - Expense
       summary: Get all expenses
       operationId: getExpenses
       parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
         - name: page
           in: query
           schema:
@@ -1094,6 +1233,22 @@ paths:
         - Expense
       summary: Create new expenses or update existing ones
       operationId: crupdateExpenses
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
       requestBody:
         required: true
         content:
@@ -1121,41 +1276,33 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-    delete:
-      tags:
-        - Expense
-      summary: Delete expense by identifier
-      operationId: deleteExpenseById
-      parameters:
-        - name: id
-          in: query
-          required: true
-          schema:
-            type: string
-      responses:
-        '204':
-          description: Expense deleted successfully
-        '400':
-          $ref: '#/components/responses/400'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '429':
-          $ref: '#/components/responses/429'
-        '500':
-          $ref: '#/components/responses/500'
+
 
   # =========================
   # INCOME
   # =========================
-  '/incomes/{id}':
+  '/companies/{comp_id}/job/{job_id}/user/{user_id}/incomes/{id}':
     get:
       tags:
         - Income
       summary: Get income by identifier
       operationId: getIncomeById
       parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
         - name: id
           in: path
           required: true
@@ -1178,13 +1325,67 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-  /incomes:
+    delete:
+      tags:
+        - Income
+      summary: Delete income by identifier
+      operationId: deleteIncomeById
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Income deleted successfully
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /companies/{comp_id}/job/{job_id}/user/{user_id}/incomes:
     get:
       tags:
         - Income
       summary: Get all incomes
       operationId: getIncomes
       parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
         - name: page
           in: query
           schema:
@@ -1217,6 +1418,22 @@ paths:
         - Income
       summary: Create new incomes or update existing ones
       operationId: crupdateIncomes
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
       requestBody:
         required: true
         content:
@@ -1244,41 +1461,38 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-    delete:
-      tags:
-        - Income
-      summary: Delete income by identifier
-      operationId: deleteIncomeById
-      parameters:
-        - name: id
-          in: query
-          required: true
-          schema:
-            type: string
-      responses:
-        '204':
-          description: Income deleted successfully
-        '400':
-          $ref: '#/components/responses/400'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '429':
-          $ref: '#/components/responses/429'
-        '500':
-          $ref: '#/components/responses/500'
+
 
   # =========================
   # TRAVEL EXPENSE
   # =========================
-  '/travel_expenses/{id}':
+  '/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/travel_expenses/{id}':
     get:
       tags:
         - TravelExpense
       summary: Get travel expense by identifier
       operationId: getTravelExpenseById
       parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: expenses_id
+          in: path
+          required: true
+          schema:
+            type: string
         - name: id
           in: path
           required: true
@@ -1301,13 +1515,77 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-  /travel_expenses:
+    delete:
+      tags:
+        - TravelExpense
+      summary: Delete travel expense by identifier
+      operationId: deleteTravelExpenseById
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: expenses_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Travel expense deleted successfully
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/travel_expenses:
     get:
       tags:
         - TravelExpense
       summary: Get all travel expenses
       operationId: getTravelExpenses
       parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: expenses_id
+          in: path
+          required: true
+          schema:
+            type: string
         - name: page
           in: query
           schema:
@@ -1340,6 +1618,27 @@ paths:
         - TravelExpense
       summary: Create new travel expenses or update existing ones
       operationId: crupdateTravelExpenses
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: expenses_id
+          in: path
+          required: true
+          schema:
+            type: string
       requestBody:
         required: true
         content:
@@ -1367,41 +1666,38 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-    delete:
-      tags:
-        - TravelExpense
-      summary: Delete travel expense by identifier
-      operationId: deleteTravelExpenseById
-      parameters:
-        - name: id
-          in: query
-          required: true
-          schema:
-            type: string
-      responses:
-        '204':
-          description: Travel expense deleted successfully
-        '400':
-          $ref: '#/components/responses/400'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '429':
-          $ref: '#/components/responses/429'
-        '500':
-          $ref: '#/components/responses/500'
+
 
   # =========================
   # PURCHASE
   # =========================
-  '/purchases/{id}':
+  '/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/purchases/{id}':
     get:
       tags:
         - Purchase
       summary: Get purchase by identifier
       operationId: getPurchaseById
       parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: expenses_id
+          in: path
+          required: true
+          schema:
+            type: string
         - name: id
           in: path
           required: true
@@ -1424,13 +1720,77 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-  /purchases:
+    delete:
+      tags:
+        - Purchase
+      summary: Delete purchase by identifier
+      operationId: deletePurchaseById
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: expenses_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Purchase deleted successfully
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/purchases:
     get:
       tags:
         - Purchase
       summary: Get all purchases
       operationId: getPurchases
       parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: expenses_id
+          in: path
+          required: true
+          schema:
+            type: string
         - name: page
           in: query
           schema:
@@ -1463,6 +1823,27 @@ paths:
         - Purchase
       summary: Create new purchases or update existing ones
       operationId: crupdatePurchases
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: expenses_id
+          in: path
+          required: true
+          schema:
+            type: string
       requestBody:
         required: true
         content:
@@ -1490,41 +1871,38 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-    delete:
-      tags:
-        - Purchase
-      summary: Delete purchase by identifier
-      operationId: deletePurchaseById
-      parameters:
-        - name: id
-          in: query
-          required: true
-          schema:
-            type: string
-      responses:
-        '204':
-          description: Purchase deleted successfully
-        '400':
-          $ref: '#/components/responses/400'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '429':
-          $ref: '#/components/responses/429'
-        '500':
-          $ref: '#/components/responses/500'
+
 
   # =========================
   # BANK FEE
   # =========================
-  '/bank_fees/{id}':
+  '/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/bank_fees/{id}':
     get:
       tags:
         - BankFee
       summary: Get bank fee by identifier
       operationId: getBankFeeById
       parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: expenses_id
+          in: path
+          required: true
+          schema:
+            type: string
         - name: id
           in: path
           required: true
@@ -1547,13 +1925,77 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-  /bank_fees:
+    delete:
+      tags:
+        - BankFee
+      summary: Delete bank fee by identifier
+      operationId: deleteBankFeeById
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: expenses_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Bank fee deleted successfully
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/bank_fees:
     get:
       tags:
         - BankFee
       summary: Get all bank fees
       operationId: getBankFees
       parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: expenses_id
+          in: path
+          required: true
+          schema:
+            type: string
         - name: page
           in: query
           schema:
@@ -1586,6 +2028,27 @@ paths:
         - BankFee
       summary: Create new bank fees or update existing ones
       operationId: crupdateBankFees
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: expenses_id
+          in: path
+          required: true
+          schema:
+            type: string
       requestBody:
         required: true
         content:
@@ -1613,41 +2076,38 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-    delete:
-      tags:
-        - BankFee
-      summary: Delete bank fee by identifier
-      operationId: deleteBankFeeById
-      parameters:
-        - name: id
-          in: query
-          required: true
-          schema:
-            type: string
-      responses:
-        '204':
-          description: Bank fee deleted successfully
-        '400':
-          $ref: '#/components/responses/400'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '429':
-          $ref: '#/components/responses/429'
-        '500':
-          $ref: '#/components/responses/500'
+
 
   # =========================
   # OTHER EXPENSE
   # =========================
-  '/other_expenses/{id}':
+  '/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/other_expenses/{id}':
     get:
       tags:
         - OtherExpense
       summary: Get other expense by identifier
       operationId: getOtherExpenseById
       parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: expenses_id
+          in: path
+          required: true
+          schema:
+            type: string
         - name: id
           in: path
           required: true
@@ -1670,13 +2130,77 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-  /other_expenses:
+    delete:
+      tags:
+        - OtherExpense
+      summary: Delete other expense by identifier
+      operationId: deleteOtherExpenseById
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: expenses_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Other expense deleted successfully
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/other_expenses:
     get:
       tags:
         - OtherExpense
       summary: Get all other expenses
       operationId: getOtherExpenses
       parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: expenses_id
+          in: path
+          required: true
+          schema:
+            type: string
         - name: page
           in: query
           schema:
@@ -1709,6 +2233,27 @@ paths:
         - OtherExpense
       summary: Create new other expenses or update existing ones
       operationId: crupdateOtherExpenses
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: expenses_id
+          in: path
+          required: true
+          schema:
+            type: string
       requestBody:
         required: true
         content:
@@ -1736,41 +2281,38 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-    delete:
-      tags:
-        - OtherExpense
-      summary: Delete other expense by identifier
-      operationId: deleteOtherExpenseById
-      parameters:
-        - name: id
-          in: query
-          required: true
-          schema:
-            type: string
-      responses:
-        '204':
-          description: Other expense deleted successfully
-        '400':
-          $ref: '#/components/responses/400'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '429':
-          $ref: '#/components/responses/429'
-        '500':
-          $ref: '#/components/responses/500'
+
 
   # =========================
   # EMPLOYEE PAYMENT
   # =========================
-  '/employee_payments/{id}':
+  '/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/employee_payments/{id}':
     get:
       tags:
         - EmployeePayment
       summary: Get employee payment by identifier
       operationId: getEmployeePaymentById
       parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: expenses_id
+          in: path
+          required: true
+          schema:
+            type: string
         - name: id
           in: path
           required: true
@@ -1793,13 +2335,77 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-  /employee_payments:
+    delete:
+      tags:
+        - EmployeePayment
+      summary: Delete employee payment by identifier
+      operationId: deleteEmployeePaymentById
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: expenses_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Employee payment deleted successfully
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/employee_payments:
     get:
       tags:
         - EmployeePayment
       summary: Get all employee payments
       operationId: getEmployeePayments
       parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: expenses_id
+          in: path
+          required: true
+          schema:
+            type: string
         - name: page
           in: query
           schema:
@@ -1836,6 +2442,27 @@ paths:
         - EmployeePayment
       summary: Create new employee payments or update existing ones
       operationId: crupdateEmployeePayments
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: expenses_id
+          in: path
+          required: true
+          schema:
+            type: string
       requestBody:
         required: true
         content:
@@ -1863,41 +2490,43 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-    delete:
-      tags:
-        - EmployeePayment
-      summary: Delete employee payment by identifier
-      operationId: deleteEmployeePaymentById
-      parameters:
-        - name: id
-          in: query
-          required: true
-          schema:
-            type: string
-      responses:
-        '204':
-          description: Employee payment deleted successfully
-        '400':
-          $ref: '#/components/responses/400'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '429':
-          $ref: '#/components/responses/429'
-        '500':
-          $ref: '#/components/responses/500'
+
 
   # =========================
   # TRAVEL PEOPLE
   # =========================
-  '/travel_people/{id}':
+  '/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/travel_expenses/{travel_expenses_id}/travel_people/{id}':
     get:
       tags:
         - TravelPeople
       summary: Get travel people by identifier
       operationId: getTravelPeopleById
       parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: expenses_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: travel_expenses_id
+          in: path
+          required: true
+          schema:
+            type: string
         - name: id
           in: path
           required: true
@@ -1920,13 +2549,87 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-  /travel_people:
+    delete:
+      tags:
+        - TravelPeople
+      summary: Delete travel people by identifier
+      operationId: deleteTravelPeopleById
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: expenses_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: travel_expenses_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Travel people deleted successfully
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/travel_expenses/{travel_expenses_id}/travel_people:
     get:
       tags:
         - TravelPeople
       summary: Get all travel people
       operationId: getTravelPeople
       parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: expenses_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: travel_expenses_id
+          in: path
+          required: true
+          schema:
+            type: string
         - name: page
           in: query
           schema:
@@ -1963,6 +2666,32 @@ paths:
         - TravelPeople
       summary: Create new travel people or update existing ones
       operationId: crupdateTravelPeople
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: expenses_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: travel_expenses_id
+          in: path
+          required: true
+          schema:
+            type: string
       requestBody:
         required: true
         content:
@@ -1990,41 +2719,43 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-    delete:
-      tags:
-        - TravelPeople
-      summary: Delete travel people by identifier
-      operationId: deleteTravelPeopleById
-      parameters:
-        - name: id
-          in: query
-          required: true
-          schema:
-            type: string
-      responses:
-        '204':
-          description: Travel people deleted successfully
-        '400':
-          $ref: '#/components/responses/400'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '429':
-          $ref: '#/components/responses/429'
-        '500':
-          $ref: '#/components/responses/500'
+
 
   # =========================
   # TRAVEL MATERIALS
   # =========================
-  '/travel_materials/{id}':
+  '/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/travel_expenses/{travel_expenses_id}/travel_materials/{id}':
     get:
       tags:
         - TravelMaterials
       summary: Get travel materials by identifier
       operationId: getTravelMaterialsById
       parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: expenses_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: travel_expenses_id
+          in: path
+          required: true
+          schema:
+            type: string
         - name: id
           in: path
           required: true
@@ -2047,13 +2778,87 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-  /travel_materials:
+    delete:
+      tags:
+        - TravelMaterials
+      summary: Delete travel materials by identifier
+      operationId: deleteTravelMaterialsById
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: expenses_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: travel_expenses_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Travel materials deleted successfully
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/travel_expenses/{travel_expenses_id}/travel_materials:
     get:
       tags:
         - TravelMaterials
       summary: Get all travel materials
       operationId: getTravelMaterials
       parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: expenses_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: travel_expenses_id
+          in: path
+          required: true
+          schema:
+            type: string
         - name: page
           in: query
           schema:
@@ -2090,6 +2895,32 @@ paths:
         - TravelMaterials
       summary: Create new travel materials or update existing ones
       operationId: crupdateTravelMaterials
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: expenses_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: travel_expenses_id
+          in: path
+          required: true
+          schema:
+            type: string
       requestBody:
         required: true
         content:
@@ -2117,41 +2948,43 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-    delete:
-      tags:
-        - TravelMaterials
-      summary: Delete travel materials by identifier
-      operationId: deleteTravelMaterialsById
-      parameters:
-        - name: id
-          in: query
-          required: true
-          schema:
-            type: string
-      responses:
-        '204':
-          description: Travel materials deleted successfully
-        '400':
-          $ref: '#/components/responses/400'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '429':
-          $ref: '#/components/responses/429'
-        '500':
-          $ref: '#/components/responses/500'
+
 
   # =========================
   # TRAVEL EQUIPMENT
   # =========================
-  '/travel_equipment/{id}':
+  '/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/travel_expenses/{travel_expenses_id}/travel_equipment/{id}':
     get:
       tags:
         - TravelEquipment
       summary: Get travel equipment by identifier
       operationId: getTravelEquipmentById
       parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: expenses_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: travel_expenses_id
+          in: path
+          required: true
+          schema:
+            type: string
         - name: id
           in: path
           required: true
@@ -2174,13 +3007,87 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-  /travel_equipment:
+    delete:
+      tags:
+        - TravelEquipment
+      summary: Delete travel equipment by identifier
+      operationId: deleteTravelEquipmentById
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: expenses_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: travel_expenses_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Travel equipment deleted successfully
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/travel_expenses/{travel_expenses_id}/travel_equipment:
     get:
       tags:
         - TravelEquipment
       summary: Get all travel equipment
       operationId: getTravelEquipment
       parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: expenses_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: travel_expenses_id
+          in: path
+          required: true
+          schema:
+            type: string
         - name: page
           in: query
           schema:
@@ -2217,6 +3124,32 @@ paths:
         - TravelEquipment
       summary: Create new travel equipment or update existing ones
       operationId: crupdateTravelEquipment
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: expenses_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: travel_expenses_id
+          in: path
+          required: true
+          schema:
+            type: string
       requestBody:
         required: true
         content:
@@ -2244,30 +3177,7 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-    delete:
-      tags:
-        - TravelEquipment
-      summary: Delete travel equipment by identifier
-      operationId: deleteTravelEquipmentById
-      parameters:
-        - name: id
-          in: query
-          required: true
-          schema:
-            type: string
-      responses:
-        '204':
-          description: Travel equipment deleted successfully
-        '400':
-          $ref: '#/components/responses/400'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '429':
-          $ref: '#/components/responses/429'
-        '500':
-          $ref: '#/components/responses/500'
+
 
 components:
   securitySchemes:
@@ -2876,7 +3786,7 @@ components:
           type: string
         role:
           type: string
-          
+
     # =========================
     # LoginRequest
     # =========================
