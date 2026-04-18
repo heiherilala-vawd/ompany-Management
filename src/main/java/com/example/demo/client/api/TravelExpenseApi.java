@@ -50,7 +50,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-16T20:35:51.739693168+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-18T05:40:17.233941351+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class TravelExpenseApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -90,24 +90,32 @@ public class TravelExpenseApi {
   /**
    * Create new travel expenses or update existing ones
    * 
+   * @param compId  (required)
+   * @param jobId  (required)
+   * @param userId  (required)
+   * @param expensesId  (required)
    * @param crupdateTravelExpense  (required)
    * @return List&lt;TravelExpense&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<TravelExpense> crupdateTravelExpenses(List<CrupdateTravelExpense> crupdateTravelExpense) throws ApiException {
-    ApiResponse<List<TravelExpense>> localVarResponse = crupdateTravelExpensesWithHttpInfo(crupdateTravelExpense);
+  public List<TravelExpense> crupdateTravelExpenses(String compId, String jobId, String userId, String expensesId, List<CrupdateTravelExpense> crupdateTravelExpense) throws ApiException {
+    ApiResponse<List<TravelExpense>> localVarResponse = crupdateTravelExpensesWithHttpInfo(compId, jobId, userId, expensesId, crupdateTravelExpense);
     return localVarResponse.getData();
   }
 
   /**
    * Create new travel expenses or update existing ones
    * 
+   * @param compId  (required)
+   * @param jobId  (required)
+   * @param userId  (required)
+   * @param expensesId  (required)
    * @param crupdateTravelExpense  (required)
    * @return ApiResponse&lt;List&lt;TravelExpense&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<TravelExpense>> crupdateTravelExpensesWithHttpInfo(List<CrupdateTravelExpense> crupdateTravelExpense) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = crupdateTravelExpensesRequestBuilder(crupdateTravelExpense);
+  public ApiResponse<List<TravelExpense>> crupdateTravelExpensesWithHttpInfo(String compId, String jobId, String userId, String expensesId, List<CrupdateTravelExpense> crupdateTravelExpense) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = crupdateTravelExpensesRequestBuilder(compId, jobId, userId, expensesId, crupdateTravelExpense);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -135,7 +143,23 @@ public class TravelExpenseApi {
     }
   }
 
-  private HttpRequest.Builder crupdateTravelExpensesRequestBuilder(List<CrupdateTravelExpense> crupdateTravelExpense) throws ApiException {
+  private HttpRequest.Builder crupdateTravelExpensesRequestBuilder(String compId, String jobId, String userId, String expensesId, List<CrupdateTravelExpense> crupdateTravelExpense) throws ApiException {
+    // verify the required parameter 'compId' is set
+    if (compId == null) {
+      throw new ApiException(400, "Missing the required parameter 'compId' when calling crupdateTravelExpenses");
+    }
+    // verify the required parameter 'jobId' is set
+    if (jobId == null) {
+      throw new ApiException(400, "Missing the required parameter 'jobId' when calling crupdateTravelExpenses");
+    }
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling crupdateTravelExpenses");
+    }
+    // verify the required parameter 'expensesId' is set
+    if (expensesId == null) {
+      throw new ApiException(400, "Missing the required parameter 'expensesId' when calling crupdateTravelExpenses");
+    }
     // verify the required parameter 'crupdateTravelExpense' is set
     if (crupdateTravelExpense == null) {
       throw new ApiException(400, "Missing the required parameter 'crupdateTravelExpense' when calling crupdateTravelExpenses");
@@ -143,7 +167,11 @@ public class TravelExpenseApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/travel_expenses";
+    String localVarPath = "/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/travel_expenses"
+        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()))
+        .replace("{job_id}", ApiClient.urlEncode(jobId.toString()))
+        .replace("{user_id}", ApiClient.urlEncode(userId.toString()))
+        .replace("{expenses_id}", ApiClient.urlEncode(expensesId.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
@@ -168,22 +196,30 @@ public class TravelExpenseApi {
   /**
    * Delete travel expense by identifier
    * 
+   * @param compId  (required)
+   * @param jobId  (required)
+   * @param userId  (required)
+   * @param expensesId  (required)
    * @param id  (required)
    * @throws ApiException if fails to make API call
    */
-  public void deleteTravelExpenseById(String id) throws ApiException {
-    deleteTravelExpenseByIdWithHttpInfo(id);
+  public void deleteTravelExpenseById(String compId, String jobId, String userId, String expensesId, String id) throws ApiException {
+    deleteTravelExpenseByIdWithHttpInfo(compId, jobId, userId, expensesId, id);
   }
 
   /**
    * Delete travel expense by identifier
    * 
+   * @param compId  (required)
+   * @param jobId  (required)
+   * @param userId  (required)
+   * @param expensesId  (required)
    * @param id  (required)
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Void> deleteTravelExpenseByIdWithHttpInfo(String id) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = deleteTravelExpenseByIdRequestBuilder(id);
+  public ApiResponse<Void> deleteTravelExpenseByIdWithHttpInfo(String compId, String jobId, String userId, String expensesId, String id) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = deleteTravelExpenseByIdRequestBuilder(compId, jobId, userId, expensesId, id);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -216,7 +252,23 @@ public class TravelExpenseApi {
     }
   }
 
-  private HttpRequest.Builder deleteTravelExpenseByIdRequestBuilder(String id) throws ApiException {
+  private HttpRequest.Builder deleteTravelExpenseByIdRequestBuilder(String compId, String jobId, String userId, String expensesId, String id) throws ApiException {
+    // verify the required parameter 'compId' is set
+    if (compId == null) {
+      throw new ApiException(400, "Missing the required parameter 'compId' when calling deleteTravelExpenseById");
+    }
+    // verify the required parameter 'jobId' is set
+    if (jobId == null) {
+      throw new ApiException(400, "Missing the required parameter 'jobId' when calling deleteTravelExpenseById");
+    }
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling deleteTravelExpenseById");
+    }
+    // verify the required parameter 'expensesId' is set
+    if (expensesId == null) {
+      throw new ApiException(400, "Missing the required parameter 'expensesId' when calling deleteTravelExpenseById");
+    }
     // verify the required parameter 'id' is set
     if (id == null) {
       throw new ApiException(400, "Missing the required parameter 'id' when calling deleteTravelExpenseById");
@@ -224,24 +276,14 @@ public class TravelExpenseApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/travel_expenses";
+    String localVarPath = "/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/travel_expenses/{id}"
+        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()))
+        .replace("{job_id}", ApiClient.urlEncode(jobId.toString()))
+        .replace("{user_id}", ApiClient.urlEncode(userId.toString()))
+        .replace("{expenses_id}", ApiClient.urlEncode(expensesId.toString()))
+        .replace("{id}", ApiClient.urlEncode(id.toString()));
 
-    List<Pair> localVarQueryParams = new ArrayList<>();
-    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
-    String localVarQueryParameterBaseName;
-    localVarQueryParameterBaseName = "id";
-    localVarQueryParams.addAll(ApiClient.parameterToPairs("id", id));
-
-    if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
-      StringJoiner queryJoiner = new StringJoiner("&");
-      localVarQueryParams.forEach(p -> queryJoiner.add(p.getName() + '=' + p.getValue()));
-      if (localVarQueryStringJoiner.length() != 0) {
-        queryJoiner.add(localVarQueryStringJoiner.toString());
-      }
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
-    } else {
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
-    }
+    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
     localVarRequestBuilder.header("Accept", "application/json");
 
@@ -258,24 +300,32 @@ public class TravelExpenseApi {
   /**
    * Get travel expense by identifier
    * 
+   * @param compId  (required)
+   * @param jobId  (required)
+   * @param userId  (required)
+   * @param expensesId  (required)
    * @param id  (required)
    * @return TravelExpense
    * @throws ApiException if fails to make API call
    */
-  public TravelExpense getTravelExpenseById(String id) throws ApiException {
-    ApiResponse<TravelExpense> localVarResponse = getTravelExpenseByIdWithHttpInfo(id);
+  public TravelExpense getTravelExpenseById(String compId, String jobId, String userId, String expensesId, String id) throws ApiException {
+    ApiResponse<TravelExpense> localVarResponse = getTravelExpenseByIdWithHttpInfo(compId, jobId, userId, expensesId, id);
     return localVarResponse.getData();
   }
 
   /**
    * Get travel expense by identifier
    * 
+   * @param compId  (required)
+   * @param jobId  (required)
+   * @param userId  (required)
+   * @param expensesId  (required)
    * @param id  (required)
    * @return ApiResponse&lt;TravelExpense&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<TravelExpense> getTravelExpenseByIdWithHttpInfo(String id) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getTravelExpenseByIdRequestBuilder(id);
+  public ApiResponse<TravelExpense> getTravelExpenseByIdWithHttpInfo(String compId, String jobId, String userId, String expensesId, String id) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getTravelExpenseByIdRequestBuilder(compId, jobId, userId, expensesId, id);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -303,7 +353,23 @@ public class TravelExpenseApi {
     }
   }
 
-  private HttpRequest.Builder getTravelExpenseByIdRequestBuilder(String id) throws ApiException {
+  private HttpRequest.Builder getTravelExpenseByIdRequestBuilder(String compId, String jobId, String userId, String expensesId, String id) throws ApiException {
+    // verify the required parameter 'compId' is set
+    if (compId == null) {
+      throw new ApiException(400, "Missing the required parameter 'compId' when calling getTravelExpenseById");
+    }
+    // verify the required parameter 'jobId' is set
+    if (jobId == null) {
+      throw new ApiException(400, "Missing the required parameter 'jobId' when calling getTravelExpenseById");
+    }
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling getTravelExpenseById");
+    }
+    // verify the required parameter 'expensesId' is set
+    if (expensesId == null) {
+      throw new ApiException(400, "Missing the required parameter 'expensesId' when calling getTravelExpenseById");
+    }
     // verify the required parameter 'id' is set
     if (id == null) {
       throw new ApiException(400, "Missing the required parameter 'id' when calling getTravelExpenseById");
@@ -311,7 +377,11 @@ public class TravelExpenseApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/travel_expenses/{id}"
+    String localVarPath = "/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/travel_expenses/{id}"
+        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()))
+        .replace("{job_id}", ApiClient.urlEncode(jobId.toString()))
+        .replace("{user_id}", ApiClient.urlEncode(userId.toString()))
+        .replace("{expenses_id}", ApiClient.urlEncode(expensesId.toString()))
         .replace("{id}", ApiClient.urlEncode(id.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
@@ -331,26 +401,34 @@ public class TravelExpenseApi {
   /**
    * Get all travel expenses
    * 
+   * @param compId  (required)
+   * @param jobId  (required)
+   * @param userId  (required)
+   * @param expensesId  (required)
    * @param page  (optional)
    * @param pageSize  (optional)
    * @return List&lt;TravelExpense&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<TravelExpense> getTravelExpenses(Integer page, Integer pageSize) throws ApiException {
-    ApiResponse<List<TravelExpense>> localVarResponse = getTravelExpensesWithHttpInfo(page, pageSize);
+  public List<TravelExpense> getTravelExpenses(String compId, String jobId, String userId, String expensesId, Integer page, Integer pageSize) throws ApiException {
+    ApiResponse<List<TravelExpense>> localVarResponse = getTravelExpensesWithHttpInfo(compId, jobId, userId, expensesId, page, pageSize);
     return localVarResponse.getData();
   }
 
   /**
    * Get all travel expenses
    * 
+   * @param compId  (required)
+   * @param jobId  (required)
+   * @param userId  (required)
+   * @param expensesId  (required)
    * @param page  (optional)
    * @param pageSize  (optional)
    * @return ApiResponse&lt;List&lt;TravelExpense&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<TravelExpense>> getTravelExpensesWithHttpInfo(Integer page, Integer pageSize) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getTravelExpensesRequestBuilder(page, pageSize);
+  public ApiResponse<List<TravelExpense>> getTravelExpensesWithHttpInfo(String compId, String jobId, String userId, String expensesId, Integer page, Integer pageSize) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getTravelExpensesRequestBuilder(compId, jobId, userId, expensesId, page, pageSize);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -378,11 +456,31 @@ public class TravelExpenseApi {
     }
   }
 
-  private HttpRequest.Builder getTravelExpensesRequestBuilder(Integer page, Integer pageSize) throws ApiException {
+  private HttpRequest.Builder getTravelExpensesRequestBuilder(String compId, String jobId, String userId, String expensesId, Integer page, Integer pageSize) throws ApiException {
+    // verify the required parameter 'compId' is set
+    if (compId == null) {
+      throw new ApiException(400, "Missing the required parameter 'compId' when calling getTravelExpenses");
+    }
+    // verify the required parameter 'jobId' is set
+    if (jobId == null) {
+      throw new ApiException(400, "Missing the required parameter 'jobId' when calling getTravelExpenses");
+    }
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling getTravelExpenses");
+    }
+    // verify the required parameter 'expensesId' is set
+    if (expensesId == null) {
+      throw new ApiException(400, "Missing the required parameter 'expensesId' when calling getTravelExpenses");
+    }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/travel_expenses";
+    String localVarPath = "/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/travel_expenses"
+        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()))
+        .replace("{job_id}", ApiClient.urlEncode(jobId.toString()))
+        .replace("{user_id}", ApiClient.urlEncode(userId.toString()))
+        .replace("{expenses_id}", ApiClient.urlEncode(expensesId.toString()));
 
     List<Pair> localVarQueryParams = new ArrayList<>();
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");

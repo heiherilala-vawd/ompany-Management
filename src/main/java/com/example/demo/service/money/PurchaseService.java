@@ -1,0 +1,73 @@
+package com.example.demo.service.money;
+
+import com.example.demo.model.BoundedPageSize;
+import com.example.demo.model.PageFromOne;
+import com.example.demo.model.money.Purchase;
+import com.example.demo.repository.money.PurchaseRepository;
+import com.example.demo.service.utils.PageUtils;
+import java.util.List;
+import java.util.Optional;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+@RequiredArgsConstructor
+@Transactional(readOnly = true)
+public class PurchaseService {
+
+  private final PurchaseRepository purchaseRepository;
+
+  public Optional<Purchase> findById(String id) {
+    return purchaseRepository.findById(id);
+  }
+
+  public Page<Purchase> findAll(PageFromOne page, BoundedPageSize pageSize) {
+    Pageable pageable = PageUtils.createPageable(page, pageSize);
+
+    return purchaseRepository.findAll(pageable);
+  }
+
+  public Page<Purchase> findByExpenseId(
+      String expenseId, PageFromOne page, BoundedPageSize pageSize) {
+    Pageable pageable = PageUtils.createPageable(page, pageSize);
+
+    return purchaseRepository.findByExpenseId(expenseId, pageable);
+  }
+
+  public Page<Purchase> findBySupplier(
+      String supplier, PageFromOne page, BoundedPageSize pageSize) {
+    Pageable pageable = PageUtils.createPageable(page, pageSize);
+
+    return purchaseRepository.findBySupplierContainingIgnoreCase(supplier, pageable);
+  }
+
+  public Page<Purchase> findByIsEquipment(
+      Boolean isEquipment, PageFromOne page, BoundedPageSize pageSize) {
+    Pageable pageable = PageUtils.createPageable(page, pageSize);
+
+    return purchaseRepository.findByIsEquipment(isEquipment, pageable);
+  }
+
+  @Transactional
+  public Purchase create(Purchase purchase) {
+    return purchaseRepository.save(purchase);
+  }
+
+  @Transactional
+  public Purchase update(Purchase purchase) {
+    return purchaseRepository.save(purchase);
+  }
+
+  @Transactional
+  public List<Purchase> createOrUpdateAll(List<Purchase> purchases) {
+    return purchaseRepository.saveAll(purchases);
+  }
+
+  @Transactional
+  public void deleteById(String id) {
+    purchaseRepository.deleteById(id);
+  }
+}

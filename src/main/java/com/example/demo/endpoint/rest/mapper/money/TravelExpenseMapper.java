@@ -1,0 +1,63 @@
+package com.example.demo.endpoint.rest.mapper.money;
+
+import com.example.demo.client.model.CrupdateTravelExpense;
+import com.example.demo.client.model.TravelExpense;
+import com.example.demo.service.money.ExpenseMoneyService;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Component;
+
+@Component
+@AllArgsConstructor
+public class TravelExpenseMapper {
+
+  private final ExpenseMoneyService expenseMoneyService;
+
+  public com.example.demo.model.money.TravelExpense toDomain(TravelExpense restTravelExpense) {
+    if (restTravelExpense == null) return null;
+
+    return com.example.demo.model.money.TravelExpense.builder()
+        .id(restTravelExpense.getId())
+        .expense(
+            restTravelExpense.getExpenseId() != null
+                ? expenseMoneyService.findById(restTravelExpense.getExpenseId()).orElse(null)
+                : null)
+        .departureLocation(restTravelExpense.getDepartureLocation())
+        .arrivalLocation(restTravelExpense.getArrivalLocation())
+        .departureDate(restTravelExpense.getDepartureDate())
+        .arrivalDate(restTravelExpense.getArrivalDate())
+        .build();
+  }
+
+  public com.example.demo.model.money.TravelExpense toDomain(
+      CrupdateTravelExpense restTravelExpense) {
+    if (restTravelExpense == null) return null;
+
+    return com.example.demo.model.money.TravelExpense.builder()
+        .id(restTravelExpense.getId())
+        .expense(
+            restTravelExpense.getExpenseId() != null
+                ? expenseMoneyService.findById(restTravelExpense.getExpenseId()).orElse(null)
+                : null)
+        .departureLocation(restTravelExpense.getDepartureLocation())
+        .arrivalLocation(restTravelExpense.getArrivalLocation())
+        .departureDate(restTravelExpense.getDepartureDate())
+        .arrivalDate(restTravelExpense.getArrivalDate())
+        .build();
+  }
+
+  public TravelExpense toRestTravelExpense(
+      com.example.demo.model.money.TravelExpense domainTravelExpense) {
+    if (domainTravelExpense == null) return null;
+
+    TravelExpense restTravelExpense = new TravelExpense();
+    restTravelExpense.setId(domainTravelExpense.getId());
+    restTravelExpense.setExpenseId(
+        domainTravelExpense.getExpense() != null ? domainTravelExpense.getExpense().getId() : null);
+    restTravelExpense.setDepartureLocation(domainTravelExpense.getDepartureLocation());
+    restTravelExpense.setArrivalLocation(domainTravelExpense.getArrivalLocation());
+    restTravelExpense.setDepartureDate(domainTravelExpense.getDepartureDate());
+    restTravelExpense.setArrivalDate(domainTravelExpense.getArrivalDate());
+
+    return restTravelExpense;
+  }
+}
