@@ -3,6 +3,7 @@ package com.example.demo.endpoint.rest.mapper.movement;
 import com.example.demo.client.model.CrupdateTravelEquipment;
 import com.example.demo.client.model.TransportStatus;
 import com.example.demo.client.model.TravelEquipment;
+import com.example.demo.endpoint.rest.mapper.EnumMapper;
 import com.example.demo.endpoint.rest.mapper.RestAuditMapperUtils;
 import com.example.demo.service.money.TravelExpenseService;
 import com.example.demo.service.movement.EquipmentService;
@@ -34,10 +35,9 @@ public class TravelEquipmentMapper {
         .quantity(restTravelEquipment.getQuantity())
         .comment(restTravelEquipment.getComment())
         .status(
-            restTravelEquipment.getStatus() != null
-                ? com.example.demo.model.movement.TravelEquipment.TransportStatus.valueOf(
-                    restTravelEquipment.getStatus().name())
-                : null)
+            EnumMapper.mapEnum(
+                restTravelEquipment.getStatus(),
+                com.example.demo.model.movement.TravelEquipment.TransportStatus.class))
         .build();
   }
 
@@ -58,10 +58,9 @@ public class TravelEquipmentMapper {
         .quantity(restTravelEquipment.getQuantity())
         .comment(restTravelEquipment.getComment())
         .status(
-            restTravelEquipment.getStatus() != null
-                ? com.example.demo.model.movement.TravelEquipment.TransportStatus.valueOf(
-                    restTravelEquipment.getStatus().name())
-                : null)
+            EnumMapper.mapEnum(
+                restTravelEquipment.getStatus(),
+                com.example.demo.model.movement.TravelEquipment.TransportStatus.class))
         .build();
   }
 
@@ -81,9 +80,7 @@ public class TravelEquipmentMapper {
             : null);
     restTravelEquipment.setQuantity(domainTravelEquipment.getQuantity());
     restTravelEquipment.setStatus(
-        domainTravelEquipment.getStatus() != null
-            ? TransportStatus.valueOf(domainTravelEquipment.getStatus().name())
-            : null);
+        EnumMapper.mapEnum(domainTravelEquipment.getStatus(), TransportStatus.class));
     RestAuditMapperUtils.mapAuditFields(
         domainTravelEquipment,
         restTravelEquipment::setCreatedAt,

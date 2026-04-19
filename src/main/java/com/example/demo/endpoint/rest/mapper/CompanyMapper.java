@@ -24,10 +24,8 @@ public class CompanyMapper {
         .description(restCompany.getDescription())
         .comment(restCompany.getComment())
         .companyType(
-            restCompany.getCompanyType() != null
-                ? com.example.demo.model.Company.CompanyType.valueOf(
-                    restCompany.getCompanyType().name())
-                : null)
+            EnumMapper.mapEnum(
+                restCompany.getCompanyType(), com.example.demo.model.Company.CompanyType.class))
         .build();
   }
 
@@ -41,10 +39,8 @@ public class CompanyMapper {
         .description(restCompany.getDescription())
         .comment(restCompany.getComment())
         .companyType(
-            restCompany.getCompanyType() != null
-                ? com.example.demo.model.Company.CompanyType.valueOf(
-                    restCompany.getCompanyType().name())
-                : null)
+            EnumMapper.mapEnum(
+                restCompany.getCompanyType(), com.example.demo.model.Company.CompanyType.class))
         .build();
   }
 
@@ -57,9 +53,7 @@ public class CompanyMapper {
     restCompany.setRib(domainCompany.getRib());
     restCompany.setDescription(domainCompany.getDescription());
     restCompany.setCompanyType(
-        domainCompany.getCompanyType() != null
-            ? CompanyType.valueOf(domainCompany.getCompanyType().name())
-            : null);
+        EnumMapper.mapEnum(domainCompany.getCompanyType(), CompanyType.class));
     RestAuditMapperUtils.mapAuditFields(
         domainCompany,
         restCompany::setCreatedAt,
