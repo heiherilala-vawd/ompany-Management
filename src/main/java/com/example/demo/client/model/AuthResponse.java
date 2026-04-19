@@ -38,7 +38,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   AuthResponse.JSON_PROPERTY_EMAIL,
   AuthResponse.JSON_PROPERTY_ROLE
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-19T19:46:07.221674154+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-20T02:26:20.273755402+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class AuthResponse {
   public static final String JSON_PROPERTY_TOKEN = "token";
   private String token;

@@ -28,10 +28,7 @@ public class JobMapper {
         .startDate(restJob.getStartDate())
         .endDate(restJob.getEndDate())
         .comment(restJob.getComment())
-        .status(
-            restJob.getStatus() != null
-                ? com.example.demo.model.Job.JobStatus.valueOf(restJob.getStatus().name())
-                : null)
+        .status(EnumMapper.mapEnum(restJob.getStatus(), com.example.demo.model.Job.JobStatus.class))
         .build();
   }
 
@@ -49,10 +46,7 @@ public class JobMapper {
         .startDate(restJob.getStartDate())
         .endDate(restJob.getEndDate())
         .comment(restJob.getComment())
-        .status(
-            restJob.getStatus() != null
-                ? com.example.demo.model.Job.JobStatus.valueOf(restJob.getStatus().name())
-                : null)
+        .status(EnumMapper.mapEnum(restJob.getStatus(), com.example.demo.model.Job.JobStatus.class))
         .build();
   }
 
@@ -66,8 +60,7 @@ public class JobMapper {
     restJob.setContractSignatureDate(domainJob.getContractSignatureDate());
     restJob.setStartDate(domainJob.getStartDate());
     restJob.setEndDate(domainJob.getEndDate());
-    restJob.setStatus(
-        domainJob.getStatus() != null ? JobStatus.valueOf(domainJob.getStatus().name()) : null);
+    restJob.setStatus(EnumMapper.mapEnum(domainJob.getStatus(), JobStatus.class));
     RestAuditMapperUtils.mapAuditFields(
         domainJob,
         restJob::setCreatedAt,

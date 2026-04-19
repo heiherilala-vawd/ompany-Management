@@ -56,7 +56,7 @@ public class JobController {
 
   @DeleteMapping("/companies/{comp_id}/jobs/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
-  public void deleteJobById(@PathVariable String comp_id, @RequestParam String id) {
+  public void deleteJobById(@PathVariable String comp_id, @PathVariable String id) {
     jobService.deleteById(id);
   }
 }

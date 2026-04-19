@@ -20,10 +20,10 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class UserService {
   private final UserRepository repository;
-  private final UserManagerDao UserManagerDao;
+  private final UserManagerDao userManagerDao;
   private final ModificationUtils modificationUtils;
 
-  public List<User> saveAll(List<User> users) {
+  public List<User> updateExistingUsers(List<User> users) {
 
     List<User> usersToSave = new ArrayList<>();
 
@@ -43,10 +43,10 @@ public class UserService {
     return repository.saveAll(usersToSave);
   }
 
-  public User getById(String UserId) {
+  public User getById(String userId) {
     return repository
-        .findById(UserId)
-        .orElseThrow(() -> new NotFoundException("User with id " + UserId + " not found"));
+        .findById(userId)
+        .orElseThrow(() -> new NotFoundException("User with id " + userId + " not found"));
   }
 
   public Optional<User> getByEmail(String email) {
@@ -62,12 +62,12 @@ public class UserService {
       User.Role role) {
     Pageable pageable = PageUtils.createPageable(page, pageSize);
 
-    return UserManagerDao.findByCriteria(firstName, lastName, email, role, pageable);
+    return userManagerDao.findByCriteria(firstName, lastName, email, role, pageable);
   }
 
-  public void deleteById(String UserId) {
-    User User = getById(UserId);
-    repository.delete(User);
+  public void deleteById(String userId) {
+    User user = getById(userId);
+    repository.delete(user);
   }
 
   public User getByEmailOrThrow(String email) {

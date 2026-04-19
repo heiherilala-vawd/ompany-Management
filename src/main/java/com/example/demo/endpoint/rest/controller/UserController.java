@@ -2,6 +2,7 @@ package com.example.demo.endpoint.rest.controller;
 
 import com.example.demo.client.model.CrupdateUser;
 import com.example.demo.client.model.User;
+import com.example.demo.endpoint.rest.mapper.EnumMapper;
 import com.example.demo.endpoint.rest.mapper.UserMapper;
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
@@ -21,7 +22,8 @@ public class UserController {
   @PutMapping(value = "/users")
   @PreAuthorize("hasAnyRole(\"ADMIN\", \"ADMINISTRATION\")\n")
   public List<User> crupdateUsers(@RequestBody List<CrupdateUser> toWrite) {
-    var saved = userService.saveAll(toWrite.stream().map(userMapper::toDomain).toList());
+    var saved =
+        userService.updateExistingUsers(toWrite.stream().map(userMapper::toDomain).toList());
     return saved.stream().map(userMapper::toRestUser).toList();
   }
 
@@ -40,10 +42,15 @@ public class UserController {
       @RequestParam(name = "email", required = false, defaultValue = "") String email,
       @RequestParam(name = "role", required = false) com.example.demo.model.User.Role role) {
 
-    com.example.demo.model.User.Role domainRole =
-        role != null ? com.example.demo.model.User.Role.valueOf(role.name()) : null;
-
-    return userService.getUsers(page, pageSize, firstName, lastName, email, domainRole).stream()
+    return userService
+        .getUsers(
+            page,
+            pageSize,
+            firstName,
+            lastName,
+            email,
+            EnumMapper.mapEnum(role, com.example.demo.model.User.Role.class))
+        .stream()
         .map(userMapper::toRestUser)
         .collect(Collectors.toList());
   }

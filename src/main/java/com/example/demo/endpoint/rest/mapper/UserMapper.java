@@ -15,16 +15,10 @@ public class UserMapper {
   public com.example.demo.model.User toDomain(User restUser) {
     return com.example.demo.model.User.builder()
         .id(restUser.getId())
-        .role(
-            restUser.getRole() != null
-                ? com.example.demo.model.User.Role.valueOf(restUser.getRole().name())
-                : null)
+        .role(EnumMapper.mapEnum(restUser.getRole(), com.example.demo.model.User.Role.class))
         .firstName(restUser.getFirstName())
         .lastName(restUser.getLastName())
-        .sex(
-            restUser.getSex() != null
-                ? com.example.demo.model.User.Sex.valueOf(restUser.getSex().name())
-                : null)
+        .sex(EnumMapper.mapEnum(restUser.getSex(), com.example.demo.model.User.Sex.class))
         .email(restUser.getEmail())
         .comment(restUser.getComment())
         .build();
@@ -39,10 +33,7 @@ public class UserMapper {
                 : com.example.demo.model.User.Role.EMPLOYEE)
         .firstName(restUser.getFirstName())
         .lastName(restUser.getLastName())
-        .sex(
-            restUser.getSex() != null
-                ? com.example.demo.model.User.Sex.valueOf(restUser.getSex().name())
-                : null)
+        .sex(EnumMapper.mapEnum(restUser.getSex(), com.example.demo.model.User.Sex.class))
         .email(restUser.getEmail())
         .password(restUser.getPassword())
         .comment(restUser.getComment())
@@ -52,11 +43,10 @@ public class UserMapper {
   public User toRestUser(com.example.demo.model.User domainUser) {
     User restUser = new User();
     restUser.setId(domainUser.getId());
-    restUser.setRole(
-        domainUser.getRole() == null ? null : Role.valueOf(domainUser.getRole().name()));
-    restUser.setFirstName(domainUser.getFirstName());
+    restUser.setRole(EnumMapper.mapEnum(domainUser.getRole(), Role.class));
     restUser.setLastName(domainUser.getLastName());
-    restUser.setSex(domainUser.getSex() == null ? null : Sex.valueOf(domainUser.getSex().name()));
+    restUser.setFirstName(domainUser.getFirstName());
+    restUser.setSex(EnumMapper.mapEnum(domainUser.getSex(), Sex.class));
     restUser.setEmail(domainUser.getEmail());
     RestAuditMapperUtils.mapAuditFields(
         domainUser,
