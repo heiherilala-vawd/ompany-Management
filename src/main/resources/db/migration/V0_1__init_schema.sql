@@ -167,30 +167,19 @@ create table if not exists material (
 
 SELECT add_audit_columns('material');
 
-
-
--- =========================
--- MONETARY MOVEMENT (BASE)
--- =========================
-
-create table if not exists monetary_movement (
-                                                 id VARCHAR(150) constraint monetary_movement_pk  primary key default uuid_generate_v4(),
-    amount integer not null,
-    description TEXT
-    );
-
-SELECT add_audit_columns('monetary_movement');
-
 -- =========================
 -- INCOME
 -- =========================
 
 create table if not exists income_money (
                                             id VARCHAR(150) constraint income_money_pk  primary key default uuid_generate_v4(),
-    monetary_id VARCHAR(150) constraint income_money_monetary_movement_pk REFERENCES monetary_movement(id),
     source_organization VARCHAR(150),
-    invoice_reference VARCHAR(150)
+    invoice_reference VARCHAR(150),
+    amount integer not null,
+    description TEXT
     );
+
+SELECT add_audit_columns('income_money');
 
 -- =========================
 -- EXPENSE
@@ -198,9 +187,11 @@ create table if not exists income_money (
 
 create table if not exists expense_money (
                                              id VARCHAR(150) constraint expense_money_pk  primary key default uuid_generate_v4(),
-    monetary_id VARCHAR(150) constraint expense_money_monetary_movement_pk REFERENCES monetary_movement(id)
+    amount integer not null,
+    description TEXT
     );
 
+SELECT add_audit_columns('expense_money');
 
 
 -- =========================

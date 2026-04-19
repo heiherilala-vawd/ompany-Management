@@ -26,6 +26,7 @@ public class UserMapper {
                 ? com.example.demo.model.User.Sex.valueOf(restUser.getSex().name())
                 : null)
         .email(restUser.getEmail())
+        .comment(restUser.getComment())
         .build();
   }
 
@@ -44,6 +45,7 @@ public class UserMapper {
                 : null)
         .email(restUser.getEmail())
         .password(restUser.getPassword())
+        .comment(restUser.getComment())
         .build();
   }
 
@@ -56,16 +58,13 @@ public class UserMapper {
     restUser.setLastName(domainUser.getLastName());
     restUser.setSex(domainUser.getSex() == null ? null : Sex.valueOf(domainUser.getSex().name()));
     restUser.setEmail(domainUser.getEmail());
-    restUser.setCreatedAt(domainUser.getCreatedAt());
-    restUser.setUpdatedAt(domainUser.getUpdatedAt());
-    restUser.setComment(domainUser.getComment());
-
-    if (domainUser.getCreatedBy() != null) {
-      restUser.setCreatedBy(domainUser.getCreatedBy().getId());
-    }
-    if (domainUser.getUpdatedBy() != null) {
-      restUser.setUpdatedBy(domainUser.getUpdatedBy().getId());
-    }
+    RestAuditMapperUtils.mapAuditFields(
+        domainUser,
+        restUser::setCreatedAt,
+        restUser::setUpdatedAt,
+        restUser::setComment,
+        restUser::setCreatedBy,
+        restUser::setUpdatedBy);
 
     return restUser;
   }

@@ -30,10 +30,6 @@ public class IncomeMoneyService {
     return incomeMoneyRepository.findAll(pageable);
   }
 
-  public Optional<IncomeMoney> findByMonetaryMovementId(String monetaryMovementId) {
-    return incomeMoneyRepository.findByMonetaryMovementId(monetaryMovementId);
-  }
-
   public Optional<IncomeMoney> findByInvoiceReference(String invoiceReference) {
     return incomeMoneyRepository.findByInvoiceReference(invoiceReference);
   }

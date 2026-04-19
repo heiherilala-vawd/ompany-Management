@@ -22,6 +22,7 @@ public class CompanyMapper {
         .name(restCompany.getName())
         .rib(restCompany.getRib())
         .description(restCompany.getDescription())
+        .comment(restCompany.getComment())
         .companyType(
             restCompany.getCompanyType() != null
                 ? com.example.demo.model.Company.CompanyType.valueOf(
@@ -38,6 +39,7 @@ public class CompanyMapper {
         .name(restCompany.getName())
         .rib(restCompany.getRib())
         .description(restCompany.getDescription())
+        .comment(restCompany.getComment())
         .companyType(
             restCompany.getCompanyType() != null
                 ? com.example.demo.model.Company.CompanyType.valueOf(
@@ -58,16 +60,13 @@ public class CompanyMapper {
         domainCompany.getCompanyType() != null
             ? CompanyType.valueOf(domainCompany.getCompanyType().name())
             : null);
-    restCompany.setCreatedAt(domainCompany.getCreatedAt());
-    restCompany.setUpdatedAt(domainCompany.getUpdatedAt());
-    restCompany.setComment(domainCompany.getComment());
-
-    if (domainCompany.getCreatedBy() != null) {
-      restCompany.setCreatedBy(domainCompany.getCreatedBy().getId());
-    }
-    if (domainCompany.getUpdatedBy() != null) {
-      restCompany.setUpdatedBy(domainCompany.getUpdatedBy().getId());
-    }
+    RestAuditMapperUtils.mapAuditFields(
+        domainCompany,
+        restCompany::setCreatedAt,
+        restCompany::setUpdatedAt,
+        restCompany::setComment,
+        restCompany::setCreatedBy,
+        restCompany::setUpdatedBy);
 
     return restCompany;
   }

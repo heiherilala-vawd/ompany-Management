@@ -40,9 +40,10 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   CrupdateJob.JSON_PROPERTY_CONTRACT_SIGNATURE_DATE,
   CrupdateJob.JSON_PROPERTY_START_DATE,
   CrupdateJob.JSON_PROPERTY_END_DATE,
-  CrupdateJob.JSON_PROPERTY_STATUS
+  CrupdateJob.JSON_PROPERTY_STATUS,
+  CrupdateJob.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-18T05:40:17.233941351+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-19T19:46:07.221674154+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdateJob {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -64,6 +65,9 @@ public class CrupdateJob {
 
   public static final String JSON_PROPERTY_STATUS = "status";
   private JobStatus status;
+
+  public static final String JSON_PROPERTY_COMMENT = "comment";
+  private String comment;
 
   public CrupdateJob() { 
   }
@@ -243,6 +247,31 @@ public class CrupdateJob {
   }
 
 
+  public CrupdateJob comment(String comment) {
+    this.comment = comment;
+    return this;
+  }
+
+   /**
+   * Get comment
+   * @return comment
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_COMMENT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getComment() {
+    return comment;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_COMMENT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setComment(String comment) {
+    this.comment = comment;
+  }
+
+
   /**
    * Return true if this CrupdateJob object is equal to o.
    */
@@ -261,12 +290,13 @@ public class CrupdateJob {
         Objects.equals(this.contractSignatureDate, crupdateJob.contractSignatureDate) &&
         Objects.equals(this.startDate, crupdateJob.startDate) &&
         Objects.equals(this.endDate, crupdateJob.endDate) &&
-        Objects.equals(this.status, crupdateJob.status);
+        Objects.equals(this.status, crupdateJob.status) &&
+        Objects.equals(this.comment, crupdateJob.comment);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, companyId, description, contractSignatureDate, startDate, endDate, status);
+    return Objects.hash(id, companyId, description, contractSignatureDate, startDate, endDate, status, comment);
   }
 
   @Override
@@ -280,6 +310,7 @@ public class CrupdateJob {
     sb.append("    startDate: ").append(toIndentedString(startDate)).append("\n");
     sb.append("    endDate: ").append(toIndentedString(endDate)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
+    sb.append("    comment: ").append(toIndentedString(comment)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -327,39 +358,9 @@ public class CrupdateJob {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `id` to the URL query string
-    if (getId() != null) {
-      joiner.add(String.format("%sid%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-    }
-
-    // add `company_id` to the URL query string
-    if (getCompanyId() != null) {
-      joiner.add(String.format("%scompany_id%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getCompanyId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-    }
-
-    // add `description` to the URL query string
-    if (getDescription() != null) {
-      joiner.add(String.format("%sdescription%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getDescription()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-    }
-
-    // add `contract_signature_date` to the URL query string
-    if (getContractSignatureDate() != null) {
-      joiner.add(String.format("%scontract_signature_date%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getContractSignatureDate()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-    }
-
-    // add `start_date` to the URL query string
-    if (getStartDate() != null) {
-      joiner.add(String.format("%sstart_date%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getStartDate()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-    }
-
-    // add `end_date` to the URL query string
-    if (getEndDate() != null) {
-      joiner.add(String.format("%send_date%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getEndDate()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-    }
-
-    // add `status` to the URL query string
-    if (getStatus() != null) {
-      joiner.add(String.format("%sstatus%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getStatus()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    // add `comment` to the URL query string
+    if (getComment() != null) {
+      joiner.add(String.format("%scomment%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getComment()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

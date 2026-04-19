@@ -32,7 +32,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  * MonetaryMovement
  */
 @JsonPropertyOrder({
-  MonetaryMovement.JSON_PROPERTY_ID,
   MonetaryMovement.JSON_PROPERTY_AMOUNT,
   MonetaryMovement.JSON_PROPERTY_DESCRIPTION,
   MonetaryMovement.JSON_PROPERTY_CREATED_AT,
@@ -41,11 +40,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   MonetaryMovement.JSON_PROPERTY_UPDATED_BY,
   MonetaryMovement.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-18T05:40:17.233941351+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-19T19:46:07.221674154+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class MonetaryMovement {
-  public static final String JSON_PROPERTY_ID = "id";
-  private String id;
-
   public static final String JSON_PROPERTY_AMOUNT = "amount";
   private Integer amount;
 
@@ -69,31 +65,6 @@ public class MonetaryMovement {
 
   public MonetaryMovement() { 
   }
-
-  public MonetaryMovement id(String id) {
-    this.id = id;
-    return this;
-  }
-
-   /**
-   * Get id
-   * @return id
-  **/
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ID)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-  public String getId() {
-    return id;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_ID)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setId(String id) {
-    this.id = id;
-  }
-
 
   public MonetaryMovement amount(Integer amount) {
     this.amount = amount;
@@ -282,8 +253,7 @@ public class MonetaryMovement {
       return false;
     }
     MonetaryMovement monetaryMovement = (MonetaryMovement) o;
-    return Objects.equals(this.id, monetaryMovement.id) &&
-        Objects.equals(this.amount, monetaryMovement.amount) &&
+    return Objects.equals(this.amount, monetaryMovement.amount) &&
         Objects.equals(this.description, monetaryMovement.description) &&
         Objects.equals(this.createdAt, monetaryMovement.createdAt) &&
         Objects.equals(this.updatedAt, monetaryMovement.updatedAt) &&
@@ -294,14 +264,13 @@ public class MonetaryMovement {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, amount, description, createdAt, updatedAt, createdBy, updatedBy, comment);
+    return Objects.hash(amount, description, createdAt, updatedAt, createdBy, updatedBy, comment);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class MonetaryMovement {\n");
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    amount: ").append(toIndentedString(amount)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");

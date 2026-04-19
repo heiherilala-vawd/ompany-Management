@@ -2,6 +2,7 @@ package com.example.demo.endpoint.rest.mapper.movement;
 
 import com.example.demo.client.model.CrupdateEquipment;
 import com.example.demo.client.model.Equipment;
+import com.example.demo.endpoint.rest.mapper.RestAuditMapperUtils;
 import com.example.demo.service.movement.WarehouseService;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -26,6 +27,7 @@ public class EquipmentMapper {
                 : null)
         .floorNumber(restEquipment.getFloorNumber())
         .storageNumber(restEquipment.getStorageNumber())
+        .comment(restEquipment.getComment())
         .build();
   }
 
@@ -42,6 +44,7 @@ public class EquipmentMapper {
                 : null)
         .floorNumber(restEquipment.getFloorNumber())
         .storageNumber(restEquipment.getStorageNumber())
+        .comment(restEquipment.getComment())
         .build();
   }
 
@@ -56,16 +59,13 @@ public class EquipmentMapper {
         domainEquipment.getWarehouse() != null ? domainEquipment.getWarehouse().getId() : null);
     restEquipment.setFloorNumber(domainEquipment.getFloorNumber());
     restEquipment.setStorageNumber(domainEquipment.getStorageNumber());
-    restEquipment.setCreatedAt(domainEquipment.getCreatedAt());
-    restEquipment.setUpdatedAt(domainEquipment.getUpdatedAt());
-    restEquipment.setComment(domainEquipment.getComment());
-
-    if (domainEquipment.getCreatedBy() != null) {
-      restEquipment.setCreatedBy(domainEquipment.getCreatedBy().getId());
-    }
-    if (domainEquipment.getUpdatedBy() != null) {
-      restEquipment.setUpdatedBy(domainEquipment.getUpdatedBy().getId());
-    }
+    RestAuditMapperUtils.mapAuditFields(
+        domainEquipment,
+        restEquipment::setCreatedAt,
+        restEquipment::setUpdatedAt,
+        restEquipment::setComment,
+        restEquipment::setCreatedBy,
+        restEquipment::setUpdatedBy);
 
     return restEquipment;
   }
