@@ -37,9 +37,10 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   CrupdateEquipment.JSON_PROPERTY_DESCRIPTION,
   CrupdateEquipment.JSON_PROPERTY_WAREHOUSE_ID,
   CrupdateEquipment.JSON_PROPERTY_FLOOR_NUMBER,
-  CrupdateEquipment.JSON_PROPERTY_STORAGE_NUMBER
+  CrupdateEquipment.JSON_PROPERTY_STORAGE_NUMBER,
+  CrupdateEquipment.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-18T05:40:17.233941351+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-19T19:46:07.221674154+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdateEquipment {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -58,6 +59,9 @@ public class CrupdateEquipment {
 
   public static final String JSON_PROPERTY_STORAGE_NUMBER = "storage_number";
   private Integer storageNumber;
+
+  public static final String JSON_PROPERTY_COMMENT = "comment";
+  private String comment;
 
   public CrupdateEquipment() { 
   }
@@ -212,6 +216,31 @@ public class CrupdateEquipment {
   }
 
 
+  public CrupdateEquipment comment(String comment) {
+    this.comment = comment;
+    return this;
+  }
+
+   /**
+   * Get comment
+   * @return comment
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_COMMENT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getComment() {
+    return comment;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_COMMENT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setComment(String comment) {
+    this.comment = comment;
+  }
+
+
   /**
    * Return true if this CrupdateEquipment object is equal to o.
    */
@@ -229,12 +258,13 @@ public class CrupdateEquipment {
         Objects.equals(this.description, crupdateEquipment.description) &&
         Objects.equals(this.warehouseId, crupdateEquipment.warehouseId) &&
         Objects.equals(this.floorNumber, crupdateEquipment.floorNumber) &&
-        Objects.equals(this.storageNumber, crupdateEquipment.storageNumber);
+        Objects.equals(this.storageNumber, crupdateEquipment.storageNumber) &&
+        Objects.equals(this.comment, crupdateEquipment.comment);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, description, warehouseId, floorNumber, storageNumber);
+    return Objects.hash(id, name, description, warehouseId, floorNumber, storageNumber, comment);
   }
 
   @Override
@@ -247,6 +277,7 @@ public class CrupdateEquipment {
     sb.append("    warehouseId: ").append(toIndentedString(warehouseId)).append("\n");
     sb.append("    floorNumber: ").append(toIndentedString(floorNumber)).append("\n");
     sb.append("    storageNumber: ").append(toIndentedString(storageNumber)).append("\n");
+    sb.append("    comment: ").append(toIndentedString(comment)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -294,34 +325,9 @@ public class CrupdateEquipment {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `id` to the URL query string
-    if (getId() != null) {
-      joiner.add(String.format("%sid%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-    }
-
-    // add `name` to the URL query string
-    if (getName() != null) {
-      joiner.add(String.format("%sname%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-    }
-
-    // add `description` to the URL query string
-    if (getDescription() != null) {
-      joiner.add(String.format("%sdescription%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getDescription()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-    }
-
-    // add `warehouse_id` to the URL query string
-    if (getWarehouseId() != null) {
-      joiner.add(String.format("%swarehouse_id%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getWarehouseId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-    }
-
-    // add `floor_number` to the URL query string
-    if (getFloorNumber() != null) {
-      joiner.add(String.format("%sfloor_number%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getFloorNumber()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-    }
-
-    // add `storage_number` to the URL query string
-    if (getStorageNumber() != null) {
-      joiner.add(String.format("%sstorage_number%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getStorageNumber()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    // add `comment` to the URL query string
+    if (getComment() != null) {
+      joiner.add(String.format("%scomment%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getComment()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

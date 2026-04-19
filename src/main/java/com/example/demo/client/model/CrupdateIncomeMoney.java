@@ -33,23 +33,31 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  */
 @JsonPropertyOrder({
   CrupdateIncomeMoney.JSON_PROPERTY_ID,
-  CrupdateIncomeMoney.JSON_PROPERTY_MONETARY_ID,
   CrupdateIncomeMoney.JSON_PROPERTY_SOURCE_ORGANIZATION,
-  CrupdateIncomeMoney.JSON_PROPERTY_INVOICE_REFERENCE
+  CrupdateIncomeMoney.JSON_PROPERTY_INVOICE_REFERENCE,
+  CrupdateIncomeMoney.JSON_PROPERTY_AMOUNT,
+  CrupdateIncomeMoney.JSON_PROPERTY_DESCRIPTION,
+  CrupdateIncomeMoney.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-18T05:40:17.233941351+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-19T19:46:07.221674154+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdateIncomeMoney {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
-
-  public static final String JSON_PROPERTY_MONETARY_ID = "monetary_id";
-  private String monetaryId;
 
   public static final String JSON_PROPERTY_SOURCE_ORGANIZATION = "source_organization";
   private String sourceOrganization;
 
   public static final String JSON_PROPERTY_INVOICE_REFERENCE = "invoice_reference";
   private String invoiceReference;
+
+  public static final String JSON_PROPERTY_AMOUNT = "amount";
+  private Integer amount;
+
+  public static final String JSON_PROPERTY_DESCRIPTION = "description";
+  private String description;
+
+  public static final String JSON_PROPERTY_COMMENT = "comment";
+  private String comment;
 
   public CrupdateIncomeMoney() { 
   }
@@ -76,31 +84,6 @@ public class CrupdateIncomeMoney {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setId(String id) {
     this.id = id;
-  }
-
-
-  public CrupdateIncomeMoney monetaryId(String monetaryId) {
-    this.monetaryId = monetaryId;
-    return this;
-  }
-
-   /**
-   * Get monetaryId
-   * @return monetaryId
-  **/
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_MONETARY_ID)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-  public String getMonetaryId() {
-    return monetaryId;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_MONETARY_ID)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setMonetaryId(String monetaryId) {
-    this.monetaryId = monetaryId;
   }
 
 
@@ -154,6 +137,81 @@ public class CrupdateIncomeMoney {
   }
 
 
+  public CrupdateIncomeMoney amount(Integer amount) {
+    this.amount = amount;
+    return this;
+  }
+
+   /**
+   * Get amount
+   * @return amount
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_AMOUNT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public Integer getAmount() {
+    return amount;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_AMOUNT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setAmount(Integer amount) {
+    this.amount = amount;
+  }
+
+
+  public CrupdateIncomeMoney description(String description) {
+    this.description = description;
+    return this;
+  }
+
+   /**
+   * Get description
+   * @return description
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_DESCRIPTION)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getDescription() {
+    return description;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_DESCRIPTION)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
+
+  public CrupdateIncomeMoney comment(String comment) {
+    this.comment = comment;
+    return this;
+  }
+
+   /**
+   * Get comment
+   * @return comment
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_COMMENT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getComment() {
+    return comment;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_COMMENT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setComment(String comment) {
+    this.comment = comment;
+  }
+
+
   /**
    * Return true if this CrupdateIncomeMoney object is equal to o.
    */
@@ -167,14 +225,16 @@ public class CrupdateIncomeMoney {
     }
     CrupdateIncomeMoney crupdateIncomeMoney = (CrupdateIncomeMoney) o;
     return Objects.equals(this.id, crupdateIncomeMoney.id) &&
-        Objects.equals(this.monetaryId, crupdateIncomeMoney.monetaryId) &&
         Objects.equals(this.sourceOrganization, crupdateIncomeMoney.sourceOrganization) &&
-        Objects.equals(this.invoiceReference, crupdateIncomeMoney.invoiceReference);
+        Objects.equals(this.invoiceReference, crupdateIncomeMoney.invoiceReference) &&
+        Objects.equals(this.amount, crupdateIncomeMoney.amount) &&
+        Objects.equals(this.description, crupdateIncomeMoney.description) &&
+        Objects.equals(this.comment, crupdateIncomeMoney.comment);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, monetaryId, sourceOrganization, invoiceReference);
+    return Objects.hash(id, sourceOrganization, invoiceReference, amount, description, comment);
   }
 
   @Override
@@ -182,9 +242,11 @@ public class CrupdateIncomeMoney {
     StringBuilder sb = new StringBuilder();
     sb.append("class CrupdateIncomeMoney {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    monetaryId: ").append(toIndentedString(monetaryId)).append("\n");
     sb.append("    sourceOrganization: ").append(toIndentedString(sourceOrganization)).append("\n");
     sb.append("    invoiceReference: ").append(toIndentedString(invoiceReference)).append("\n");
+    sb.append("    amount: ").append(toIndentedString(amount)).append("\n");
+    sb.append("    description: ").append(toIndentedString(description)).append("\n");
+    sb.append("    comment: ").append(toIndentedString(comment)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -232,24 +294,19 @@ public class CrupdateIncomeMoney {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `id` to the URL query string
-    if (getId() != null) {
-      joiner.add(String.format("%sid%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    // add `amount` to the URL query string
+    if (getAmount() != null) {
+      joiner.add(String.format("%samount%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getAmount()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `monetary_id` to the URL query string
-    if (getMonetaryId() != null) {
-      joiner.add(String.format("%smonetary_id%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getMonetaryId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    // add `description` to the URL query string
+    if (getDescription() != null) {
+      joiner.add(String.format("%sdescription%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getDescription()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `source_organization` to the URL query string
-    if (getSourceOrganization() != null) {
-      joiner.add(String.format("%ssource_organization%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getSourceOrganization()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-    }
-
-    // add `invoice_reference` to the URL query string
-    if (getInvoiceReference() != null) {
-      joiner.add(String.format("%sinvoice_reference%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getInvoiceReference()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    // add `comment` to the URL query string
+    if (getComment() != null) {
+      joiner.add(String.format("%scomment%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getComment()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

@@ -27,6 +27,7 @@ public class JobMapper {
         .contractSignatureDate(restJob.getContractSignatureDate())
         .startDate(restJob.getStartDate())
         .endDate(restJob.getEndDate())
+        .comment(restJob.getComment())
         .status(
             restJob.getStatus() != null
                 ? com.example.demo.model.Job.JobStatus.valueOf(restJob.getStatus().name())
@@ -47,6 +48,7 @@ public class JobMapper {
         .contractSignatureDate(restJob.getContractSignatureDate())
         .startDate(restJob.getStartDate())
         .endDate(restJob.getEndDate())
+        .comment(restJob.getComment())
         .status(
             restJob.getStatus() != null
                 ? com.example.demo.model.Job.JobStatus.valueOf(restJob.getStatus().name())
@@ -66,16 +68,13 @@ public class JobMapper {
     restJob.setEndDate(domainJob.getEndDate());
     restJob.setStatus(
         domainJob.getStatus() != null ? JobStatus.valueOf(domainJob.getStatus().name()) : null);
-    restJob.setCreatedAt(domainJob.getCreatedAt());
-    restJob.setUpdatedAt(domainJob.getUpdatedAt());
-    restJob.setComment(domainJob.getComment());
-
-    if (domainJob.getCreatedBy() != null) {
-      restJob.setCreatedBy(domainJob.getCreatedBy().getId());
-    }
-    if (domainJob.getUpdatedBy() != null) {
-      restJob.setUpdatedBy(domainJob.getUpdatedBy().getId());
-    }
+    RestAuditMapperUtils.mapAuditFields(
+        domainJob,
+        restJob::setCreatedAt,
+        restJob::setUpdatedAt,
+        restJob::setComment,
+        restJob::setCreatedBy,
+        restJob::setUpdatedBy);
 
     return restJob;
   }

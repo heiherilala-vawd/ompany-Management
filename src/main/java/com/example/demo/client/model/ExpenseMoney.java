@@ -33,15 +33,39 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  */
 @JsonPropertyOrder({
   ExpenseMoney.JSON_PROPERTY_ID,
-  ExpenseMoney.JSON_PROPERTY_MONETARY_ID
+  ExpenseMoney.JSON_PROPERTY_AMOUNT,
+  ExpenseMoney.JSON_PROPERTY_DESCRIPTION,
+  ExpenseMoney.JSON_PROPERTY_CREATED_AT,
+  ExpenseMoney.JSON_PROPERTY_UPDATED_AT,
+  ExpenseMoney.JSON_PROPERTY_CREATED_BY,
+  ExpenseMoney.JSON_PROPERTY_UPDATED_BY,
+  ExpenseMoney.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-18T05:40:17.233941351+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-19T19:46:07.221674154+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class ExpenseMoney {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
 
-  public static final String JSON_PROPERTY_MONETARY_ID = "monetary_id";
-  private String monetaryId;
+  public static final String JSON_PROPERTY_AMOUNT = "amount";
+  private Integer amount;
+
+  public static final String JSON_PROPERTY_DESCRIPTION = "description";
+  private String description;
+
+  public static final String JSON_PROPERTY_CREATED_AT = "created_at";
+  private java.time.Instant createdAt;
+
+  public static final String JSON_PROPERTY_UPDATED_AT = "updated_at";
+  private java.time.Instant updatedAt;
+
+  public static final String JSON_PROPERTY_CREATED_BY = "created_by";
+  private String createdBy;
+
+  public static final String JSON_PROPERTY_UPDATED_BY = "updated_by";
+  private String updatedBy;
+
+  public static final String JSON_PROPERTY_COMMENT = "comment";
+  private String comment;
 
   public ExpenseMoney() { 
   }
@@ -71,28 +95,178 @@ public class ExpenseMoney {
   }
 
 
-  public ExpenseMoney monetaryId(String monetaryId) {
-    this.monetaryId = monetaryId;
+  public ExpenseMoney amount(Integer amount) {
+    this.amount = amount;
     return this;
   }
 
    /**
-   * Get monetaryId
-   * @return monetaryId
+   * Get amount
+   * @return amount
   **/
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_MONETARY_ID)
+  @JsonProperty(JSON_PROPERTY_AMOUNT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getMonetaryId() {
-    return monetaryId;
+  public Integer getAmount() {
+    return amount;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_MONETARY_ID)
+  @JsonProperty(JSON_PROPERTY_AMOUNT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setMonetaryId(String monetaryId) {
-    this.monetaryId = monetaryId;
+  public void setAmount(Integer amount) {
+    this.amount = amount;
+  }
+
+
+  public ExpenseMoney description(String description) {
+    this.description = description;
+    return this;
+  }
+
+   /**
+   * Get description
+   * @return description
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_DESCRIPTION)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getDescription() {
+    return description;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_DESCRIPTION)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
+
+  public ExpenseMoney createdAt(java.time.Instant createdAt) {
+    this.createdAt = createdAt;
+    return this;
+  }
+
+   /**
+   * Get createdAt
+   * @return createdAt
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_CREATED_AT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public java.time.Instant getCreatedAt() {
+    return createdAt;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_CREATED_AT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setCreatedAt(java.time.Instant createdAt) {
+    this.createdAt = createdAt;
+  }
+
+
+  public ExpenseMoney updatedAt(java.time.Instant updatedAt) {
+    this.updatedAt = updatedAt;
+    return this;
+  }
+
+   /**
+   * Get updatedAt
+   * @return updatedAt
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_UPDATED_AT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public java.time.Instant getUpdatedAt() {
+    return updatedAt;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_UPDATED_AT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setUpdatedAt(java.time.Instant updatedAt) {
+    this.updatedAt = updatedAt;
+  }
+
+
+  public ExpenseMoney createdBy(String createdBy) {
+    this.createdBy = createdBy;
+    return this;
+  }
+
+   /**
+   * Get createdBy
+   * @return createdBy
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_CREATED_BY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getCreatedBy() {
+    return createdBy;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_CREATED_BY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setCreatedBy(String createdBy) {
+    this.createdBy = createdBy;
+  }
+
+
+  public ExpenseMoney updatedBy(String updatedBy) {
+    this.updatedBy = updatedBy;
+    return this;
+  }
+
+   /**
+   * Get updatedBy
+   * @return updatedBy
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_UPDATED_BY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getUpdatedBy() {
+    return updatedBy;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_UPDATED_BY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setUpdatedBy(String updatedBy) {
+    this.updatedBy = updatedBy;
+  }
+
+
+  public ExpenseMoney comment(String comment) {
+    this.comment = comment;
+    return this;
+  }
+
+   /**
+   * Get comment
+   * @return comment
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_COMMENT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getComment() {
+    return comment;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_COMMENT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setComment(String comment) {
+    this.comment = comment;
   }
 
 
@@ -109,12 +283,18 @@ public class ExpenseMoney {
     }
     ExpenseMoney expenseMoney = (ExpenseMoney) o;
     return Objects.equals(this.id, expenseMoney.id) &&
-        Objects.equals(this.monetaryId, expenseMoney.monetaryId);
+        Objects.equals(this.amount, expenseMoney.amount) &&
+        Objects.equals(this.description, expenseMoney.description) &&
+        Objects.equals(this.createdAt, expenseMoney.createdAt) &&
+        Objects.equals(this.updatedAt, expenseMoney.updatedAt) &&
+        Objects.equals(this.createdBy, expenseMoney.createdBy) &&
+        Objects.equals(this.updatedBy, expenseMoney.updatedBy) &&
+        Objects.equals(this.comment, expenseMoney.comment);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, monetaryId);
+    return Objects.hash(id, amount, description, createdAt, updatedAt, createdBy, updatedBy, comment);
   }
 
   @Override
@@ -122,7 +302,13 @@ public class ExpenseMoney {
     StringBuilder sb = new StringBuilder();
     sb.append("class ExpenseMoney {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    monetaryId: ").append(toIndentedString(monetaryId)).append("\n");
+    sb.append("    amount: ").append(toIndentedString(amount)).append("\n");
+    sb.append("    description: ").append(toIndentedString(description)).append("\n");
+    sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
+    sb.append("    updatedAt: ").append(toIndentedString(updatedAt)).append("\n");
+    sb.append("    createdBy: ").append(toIndentedString(createdBy)).append("\n");
+    sb.append("    updatedBy: ").append(toIndentedString(updatedBy)).append("\n");
+    sb.append("    comment: ").append(toIndentedString(comment)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -170,14 +356,39 @@ public class ExpenseMoney {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `id` to the URL query string
-    if (getId() != null) {
-      joiner.add(String.format("%sid%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    // add `amount` to the URL query string
+    if (getAmount() != null) {
+      joiner.add(String.format("%samount%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getAmount()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `monetary_id` to the URL query string
-    if (getMonetaryId() != null) {
-      joiner.add(String.format("%smonetary_id%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getMonetaryId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    // add `description` to the URL query string
+    if (getDescription() != null) {
+      joiner.add(String.format("%sdescription%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getDescription()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `created_at` to the URL query string
+    if (getCreatedAt() != null) {
+      joiner.add(String.format("%screated_at%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getCreatedAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `updated_at` to the URL query string
+    if (getUpdatedAt() != null) {
+      joiner.add(String.format("%supdated_at%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getUpdatedAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `created_by` to the URL query string
+    if (getCreatedBy() != null) {
+      joiner.add(String.format("%screated_by%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getCreatedBy()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `updated_by` to the URL query string
+    if (getUpdatedBy() != null) {
+      joiner.add(String.format("%supdated_by%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getUpdatedBy()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `comment` to the URL query string
+    if (getComment() != null) {
+      joiner.add(String.format("%scomment%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getComment()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

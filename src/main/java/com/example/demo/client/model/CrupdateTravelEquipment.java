@@ -37,9 +37,10 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   CrupdateTravelEquipment.JSON_PROPERTY_TRAVEL_ID,
   CrupdateTravelEquipment.JSON_PROPERTY_EQUIPMENT,
   CrupdateTravelEquipment.JSON_PROPERTY_QUANTITY,
-  CrupdateTravelEquipment.JSON_PROPERTY_STATUS
+  CrupdateTravelEquipment.JSON_PROPERTY_STATUS,
+  CrupdateTravelEquipment.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-18T05:40:17.233941351+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-19T19:46:07.221674154+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdateTravelEquipment {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -55,6 +56,9 @@ public class CrupdateTravelEquipment {
 
   public static final String JSON_PROPERTY_STATUS = "status";
   private TransportStatus status;
+
+  public static final String JSON_PROPERTY_COMMENT = "comment";
+  private String comment;
 
   public CrupdateTravelEquipment() { 
   }
@@ -184,6 +188,31 @@ public class CrupdateTravelEquipment {
   }
 
 
+  public CrupdateTravelEquipment comment(String comment) {
+    this.comment = comment;
+    return this;
+  }
+
+   /**
+   * Get comment
+   * @return comment
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_COMMENT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getComment() {
+    return comment;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_COMMENT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setComment(String comment) {
+    this.comment = comment;
+  }
+
+
   /**
    * Return true if this CrupdateTravelEquipment object is equal to o.
    */
@@ -200,12 +229,13 @@ public class CrupdateTravelEquipment {
         Objects.equals(this.travelId, crupdateTravelEquipment.travelId) &&
         Objects.equals(this.equipment, crupdateTravelEquipment.equipment) &&
         Objects.equals(this.quantity, crupdateTravelEquipment.quantity) &&
-        Objects.equals(this.status, crupdateTravelEquipment.status);
+        Objects.equals(this.status, crupdateTravelEquipment.status) &&
+        Objects.equals(this.comment, crupdateTravelEquipment.comment);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, travelId, equipment, quantity, status);
+    return Objects.hash(id, travelId, equipment, quantity, status, comment);
   }
 
   @Override
@@ -217,6 +247,7 @@ public class CrupdateTravelEquipment {
     sb.append("    equipment: ").append(toIndentedString(equipment)).append("\n");
     sb.append("    quantity: ").append(toIndentedString(quantity)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
+    sb.append("    comment: ").append(toIndentedString(comment)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -264,29 +295,9 @@ public class CrupdateTravelEquipment {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `id` to the URL query string
-    if (getId() != null) {
-      joiner.add(String.format("%sid%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-    }
-
-    // add `travel_id` to the URL query string
-    if (getTravelId() != null) {
-      joiner.add(String.format("%stravel_id%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getTravelId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-    }
-
-    // add `equipment` to the URL query string
-    if (getEquipment() != null) {
-      joiner.add(String.format("%sequipment%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getEquipment()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-    }
-
-    // add `quantity` to the URL query string
-    if (getQuantity() != null) {
-      joiner.add(String.format("%squantity%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getQuantity()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-    }
-
-    // add `status` to the URL query string
-    if (getStatus() != null) {
-      joiner.add(String.format("%sstatus%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getStatus()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    // add `comment` to the URL query string
+    if (getComment() != null) {
+      joiner.add(String.format("%scomment%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getComment()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

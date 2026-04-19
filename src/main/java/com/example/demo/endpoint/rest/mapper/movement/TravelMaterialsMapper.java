@@ -2,6 +2,7 @@ package com.example.demo.endpoint.rest.mapper.movement;
 
 import com.example.demo.client.model.CrupdateTravelMaterials;
 import com.example.demo.client.model.TravelMaterials;
+import com.example.demo.endpoint.rest.mapper.RestAuditMapperUtils;
 import com.example.demo.service.money.TravelExpenseService;
 import com.example.demo.service.movement.MaterialService;
 import java.util.List;
@@ -31,6 +32,7 @@ public class TravelMaterialsMapper {
                 : null)
         .quantity(restTravelMaterials.getQuantity())
         .quantityReceived(restTravelMaterials.getQuantityReceived())
+        .comment(restTravelMaterials.getComment())
         .build();
   }
 
@@ -50,6 +52,7 @@ public class TravelMaterialsMapper {
                 : null)
         .quantity(restTravelMaterials.getQuantity())
         .quantityReceived(restTravelMaterials.getQuantityReceived())
+        .comment(restTravelMaterials.getComment())
         .build();
   }
 
@@ -69,16 +72,13 @@ public class TravelMaterialsMapper {
             : null);
     restTravelMaterials.setQuantity(domainTravelMaterials.getQuantity());
     restTravelMaterials.setQuantityReceived(domainTravelMaterials.getQuantityReceived());
-    restTravelMaterials.setCreatedAt(domainTravelMaterials.getCreatedAt());
-    restTravelMaterials.setUpdatedAt(domainTravelMaterials.getUpdatedAt());
-    restTravelMaterials.setComment(domainTravelMaterials.getComment());
-
-    if (domainTravelMaterials.getCreatedBy() != null) {
-      restTravelMaterials.setCreatedBy(domainTravelMaterials.getCreatedBy().getId());
-    }
-    if (domainTravelMaterials.getUpdatedBy() != null) {
-      restTravelMaterials.setUpdatedBy(domainTravelMaterials.getUpdatedBy().getId());
-    }
+    RestAuditMapperUtils.mapAuditFields(
+        domainTravelMaterials,
+        restTravelMaterials::setCreatedAt,
+        restTravelMaterials::setUpdatedAt,
+        restTravelMaterials::setComment,
+        restTravelMaterials::setCreatedBy,
+        restTravelMaterials::setUpdatedBy);
 
     return restTravelMaterials;
   }

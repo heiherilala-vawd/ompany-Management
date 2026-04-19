@@ -33,23 +33,47 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  */
 @JsonPropertyOrder({
   IncomeMoney.JSON_PROPERTY_ID,
-  IncomeMoney.JSON_PROPERTY_MONETARY_ID,
   IncomeMoney.JSON_PROPERTY_SOURCE_ORGANIZATION,
-  IncomeMoney.JSON_PROPERTY_INVOICE_REFERENCE
+  IncomeMoney.JSON_PROPERTY_INVOICE_REFERENCE,
+  IncomeMoney.JSON_PROPERTY_AMOUNT,
+  IncomeMoney.JSON_PROPERTY_DESCRIPTION,
+  IncomeMoney.JSON_PROPERTY_CREATED_AT,
+  IncomeMoney.JSON_PROPERTY_UPDATED_AT,
+  IncomeMoney.JSON_PROPERTY_CREATED_BY,
+  IncomeMoney.JSON_PROPERTY_UPDATED_BY,
+  IncomeMoney.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-18T05:40:17.233941351+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-19T19:46:07.221674154+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class IncomeMoney {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
-
-  public static final String JSON_PROPERTY_MONETARY_ID = "monetary_id";
-  private String monetaryId;
 
   public static final String JSON_PROPERTY_SOURCE_ORGANIZATION = "source_organization";
   private String sourceOrganization;
 
   public static final String JSON_PROPERTY_INVOICE_REFERENCE = "invoice_reference";
   private String invoiceReference;
+
+  public static final String JSON_PROPERTY_AMOUNT = "amount";
+  private Integer amount;
+
+  public static final String JSON_PROPERTY_DESCRIPTION = "description";
+  private String description;
+
+  public static final String JSON_PROPERTY_CREATED_AT = "created_at";
+  private java.time.Instant createdAt;
+
+  public static final String JSON_PROPERTY_UPDATED_AT = "updated_at";
+  private java.time.Instant updatedAt;
+
+  public static final String JSON_PROPERTY_CREATED_BY = "created_by";
+  private String createdBy;
+
+  public static final String JSON_PROPERTY_UPDATED_BY = "updated_by";
+  private String updatedBy;
+
+  public static final String JSON_PROPERTY_COMMENT = "comment";
+  private String comment;
 
   public IncomeMoney() { 
   }
@@ -76,31 +100,6 @@ public class IncomeMoney {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setId(String id) {
     this.id = id;
-  }
-
-
-  public IncomeMoney monetaryId(String monetaryId) {
-    this.monetaryId = monetaryId;
-    return this;
-  }
-
-   /**
-   * Get monetaryId
-   * @return monetaryId
-  **/
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_MONETARY_ID)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-  public String getMonetaryId() {
-    return monetaryId;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_MONETARY_ID)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setMonetaryId(String monetaryId) {
-    this.monetaryId = monetaryId;
   }
 
 
@@ -154,6 +153,181 @@ public class IncomeMoney {
   }
 
 
+  public IncomeMoney amount(Integer amount) {
+    this.amount = amount;
+    return this;
+  }
+
+   /**
+   * Get amount
+   * @return amount
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_AMOUNT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public Integer getAmount() {
+    return amount;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_AMOUNT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setAmount(Integer amount) {
+    this.amount = amount;
+  }
+
+
+  public IncomeMoney description(String description) {
+    this.description = description;
+    return this;
+  }
+
+   /**
+   * Get description
+   * @return description
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_DESCRIPTION)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getDescription() {
+    return description;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_DESCRIPTION)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
+
+  public IncomeMoney createdAt(java.time.Instant createdAt) {
+    this.createdAt = createdAt;
+    return this;
+  }
+
+   /**
+   * Get createdAt
+   * @return createdAt
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_CREATED_AT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public java.time.Instant getCreatedAt() {
+    return createdAt;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_CREATED_AT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setCreatedAt(java.time.Instant createdAt) {
+    this.createdAt = createdAt;
+  }
+
+
+  public IncomeMoney updatedAt(java.time.Instant updatedAt) {
+    this.updatedAt = updatedAt;
+    return this;
+  }
+
+   /**
+   * Get updatedAt
+   * @return updatedAt
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_UPDATED_AT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public java.time.Instant getUpdatedAt() {
+    return updatedAt;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_UPDATED_AT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setUpdatedAt(java.time.Instant updatedAt) {
+    this.updatedAt = updatedAt;
+  }
+
+
+  public IncomeMoney createdBy(String createdBy) {
+    this.createdBy = createdBy;
+    return this;
+  }
+
+   /**
+   * Get createdBy
+   * @return createdBy
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_CREATED_BY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getCreatedBy() {
+    return createdBy;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_CREATED_BY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setCreatedBy(String createdBy) {
+    this.createdBy = createdBy;
+  }
+
+
+  public IncomeMoney updatedBy(String updatedBy) {
+    this.updatedBy = updatedBy;
+    return this;
+  }
+
+   /**
+   * Get updatedBy
+   * @return updatedBy
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_UPDATED_BY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getUpdatedBy() {
+    return updatedBy;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_UPDATED_BY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setUpdatedBy(String updatedBy) {
+    this.updatedBy = updatedBy;
+  }
+
+
+  public IncomeMoney comment(String comment) {
+    this.comment = comment;
+    return this;
+  }
+
+   /**
+   * Get comment
+   * @return comment
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_COMMENT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getComment() {
+    return comment;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_COMMENT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setComment(String comment) {
+    this.comment = comment;
+  }
+
+
   /**
    * Return true if this IncomeMoney object is equal to o.
    */
@@ -167,14 +341,20 @@ public class IncomeMoney {
     }
     IncomeMoney incomeMoney = (IncomeMoney) o;
     return Objects.equals(this.id, incomeMoney.id) &&
-        Objects.equals(this.monetaryId, incomeMoney.monetaryId) &&
         Objects.equals(this.sourceOrganization, incomeMoney.sourceOrganization) &&
-        Objects.equals(this.invoiceReference, incomeMoney.invoiceReference);
+        Objects.equals(this.invoiceReference, incomeMoney.invoiceReference) &&
+        Objects.equals(this.amount, incomeMoney.amount) &&
+        Objects.equals(this.description, incomeMoney.description) &&
+        Objects.equals(this.createdAt, incomeMoney.createdAt) &&
+        Objects.equals(this.updatedAt, incomeMoney.updatedAt) &&
+        Objects.equals(this.createdBy, incomeMoney.createdBy) &&
+        Objects.equals(this.updatedBy, incomeMoney.updatedBy) &&
+        Objects.equals(this.comment, incomeMoney.comment);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, monetaryId, sourceOrganization, invoiceReference);
+    return Objects.hash(id, sourceOrganization, invoiceReference, amount, description, createdAt, updatedAt, createdBy, updatedBy, comment);
   }
 
   @Override
@@ -182,9 +362,15 @@ public class IncomeMoney {
     StringBuilder sb = new StringBuilder();
     sb.append("class IncomeMoney {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    monetaryId: ").append(toIndentedString(monetaryId)).append("\n");
     sb.append("    sourceOrganization: ").append(toIndentedString(sourceOrganization)).append("\n");
     sb.append("    invoiceReference: ").append(toIndentedString(invoiceReference)).append("\n");
+    sb.append("    amount: ").append(toIndentedString(amount)).append("\n");
+    sb.append("    description: ").append(toIndentedString(description)).append("\n");
+    sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
+    sb.append("    updatedAt: ").append(toIndentedString(updatedAt)).append("\n");
+    sb.append("    createdBy: ").append(toIndentedString(createdBy)).append("\n");
+    sb.append("    updatedBy: ").append(toIndentedString(updatedBy)).append("\n");
+    sb.append("    comment: ").append(toIndentedString(comment)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -232,24 +418,39 @@ public class IncomeMoney {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `id` to the URL query string
-    if (getId() != null) {
-      joiner.add(String.format("%sid%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    // add `amount` to the URL query string
+    if (getAmount() != null) {
+      joiner.add(String.format("%samount%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getAmount()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `monetary_id` to the URL query string
-    if (getMonetaryId() != null) {
-      joiner.add(String.format("%smonetary_id%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getMonetaryId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    // add `description` to the URL query string
+    if (getDescription() != null) {
+      joiner.add(String.format("%sdescription%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getDescription()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `source_organization` to the URL query string
-    if (getSourceOrganization() != null) {
-      joiner.add(String.format("%ssource_organization%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getSourceOrganization()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    // add `created_at` to the URL query string
+    if (getCreatedAt() != null) {
+      joiner.add(String.format("%screated_at%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getCreatedAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `invoice_reference` to the URL query string
-    if (getInvoiceReference() != null) {
-      joiner.add(String.format("%sinvoice_reference%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getInvoiceReference()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    // add `updated_at` to the URL query string
+    if (getUpdatedAt() != null) {
+      joiner.add(String.format("%supdated_at%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getUpdatedAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `created_by` to the URL query string
+    if (getCreatedBy() != null) {
+      joiner.add(String.format("%screated_by%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getCreatedBy()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `updated_by` to the URL query string
+    if (getUpdatedBy() != null) {
+      joiner.add(String.format("%supdated_by%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getUpdatedBy()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `comment` to the URL query string
+    if (getComment() != null) {
+      joiner.add(String.format("%scomment%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getComment()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

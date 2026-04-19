@@ -2,6 +2,7 @@ package com.example.demo.endpoint.rest.mapper.movement;
 
 import com.example.demo.client.model.CrupdateTravelPeople;
 import com.example.demo.client.model.TravelPeople;
+import com.example.demo.endpoint.rest.mapper.RestAuditMapperUtils;
 import com.example.demo.service.money.TravelExpenseService;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -23,6 +24,7 @@ public class TravelPeopleMapper {
                 ? travelExpenseService.findById(restTravelPeople.getTravelId()).orElse(null)
                 : null)
         .personName(restTravelPeople.getPersonName())
+        .comment(restTravelPeople.getComment())
         .build();
   }
 
@@ -37,6 +39,7 @@ public class TravelPeopleMapper {
                 ? travelExpenseService.findById(restTravelPeople.getTravelId()).orElse(null)
                 : null)
         .personName(restTravelPeople.getPersonName())
+        .comment(restTravelPeople.getComment())
         .build();
   }
 
@@ -49,16 +52,13 @@ public class TravelPeopleMapper {
     restTravelPeople.setTravelId(
         domainTravelPeople.getTravel() != null ? domainTravelPeople.getTravel().getId() : null);
     restTravelPeople.setPersonName(domainTravelPeople.getPersonName());
-    restTravelPeople.setCreatedAt(domainTravelPeople.getCreatedAt());
-    restTravelPeople.setUpdatedAt(domainTravelPeople.getUpdatedAt());
-    restTravelPeople.setComment(domainTravelPeople.getComment());
-
-    if (domainTravelPeople.getCreatedBy() != null) {
-      restTravelPeople.setCreatedBy(domainTravelPeople.getCreatedBy().getId());
-    }
-    if (domainTravelPeople.getUpdatedBy() != null) {
-      restTravelPeople.setUpdatedBy(domainTravelPeople.getUpdatedBy().getId());
-    }
+    RestAuditMapperUtils.mapAuditFields(
+        domainTravelPeople,
+        restTravelPeople::setCreatedAt,
+        restTravelPeople::setUpdatedAt,
+        restTravelPeople::setComment,
+        restTravelPeople::setCreatedBy,
+        restTravelPeople::setUpdatedBy);
 
     return restTravelPeople;
   }

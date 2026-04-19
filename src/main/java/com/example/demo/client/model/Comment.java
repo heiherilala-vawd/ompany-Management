@@ -29,136 +29,20 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
 /**
- * CrupdateWarehouse
+ * Comment
  */
 @JsonPropertyOrder({
-  CrupdateWarehouse.JSON_PROPERTY_ID,
-  CrupdateWarehouse.JSON_PROPERTY_NAME,
-  CrupdateWarehouse.JSON_PROPERTY_DESCRIPTION,
-  CrupdateWarehouse.JSON_PROPERTY_JOB_ID,
-  CrupdateWarehouse.JSON_PROPERTY_COMMENT
+  Comment.JSON_PROPERTY_COMMENT
 })
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-19T19:46:07.221674154+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
-public class CrupdateWarehouse {
-  public static final String JSON_PROPERTY_ID = "id";
-  private String id;
-
-  public static final String JSON_PROPERTY_NAME = "name";
-  private String name;
-
-  public static final String JSON_PROPERTY_DESCRIPTION = "description";
-  private String description;
-
-  public static final String JSON_PROPERTY_JOB_ID = "job_id";
-  private String jobId;
-
+public class Comment {
   public static final String JSON_PROPERTY_COMMENT = "comment";
   private String comment;
 
-  public CrupdateWarehouse() { 
+  public Comment() { 
   }
 
-  public CrupdateWarehouse id(String id) {
-    this.id = id;
-    return this;
-  }
-
-   /**
-   * Get id
-   * @return id
-  **/
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ID)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-  public String getId() {
-    return id;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_ID)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setId(String id) {
-    this.id = id;
-  }
-
-
-  public CrupdateWarehouse name(String name) {
-    this.name = name;
-    return this;
-  }
-
-   /**
-   * Get name
-   * @return name
-  **/
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_NAME)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-  public String getName() {
-    return name;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_NAME)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setName(String name) {
-    this.name = name;
-  }
-
-
-  public CrupdateWarehouse description(String description) {
-    this.description = description;
-    return this;
-  }
-
-   /**
-   * Get description
-   * @return description
-  **/
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_DESCRIPTION)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-  public String getDescription() {
-    return description;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_DESCRIPTION)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setDescription(String description) {
-    this.description = description;
-  }
-
-
-  public CrupdateWarehouse jobId(String jobId) {
-    this.jobId = jobId;
-    return this;
-  }
-
-   /**
-   * Get jobId
-   * @return jobId
-  **/
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_JOB_ID)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-  public String getJobId() {
-    return jobId;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_JOB_ID)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setJobId(String jobId) {
-    this.jobId = jobId;
-  }
-
-
-  public CrupdateWarehouse comment(String comment) {
+  public Comment comment(String comment) {
     this.comment = comment;
     return this;
   }
@@ -184,7 +68,7 @@ public class CrupdateWarehouse {
 
 
   /**
-   * Return true if this CrupdateWarehouse object is equal to o.
+   * Return true if this comment object is equal to o.
    */
   @Override
   public boolean equals(Object o) {
@@ -194,27 +78,19 @@ public class CrupdateWarehouse {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    CrupdateWarehouse crupdateWarehouse = (CrupdateWarehouse) o;
-    return Objects.equals(this.id, crupdateWarehouse.id) &&
-        Objects.equals(this.name, crupdateWarehouse.name) &&
-        Objects.equals(this.description, crupdateWarehouse.description) &&
-        Objects.equals(this.jobId, crupdateWarehouse.jobId) &&
-        Objects.equals(this.comment, crupdateWarehouse.comment);
+    Comment comment = (Comment) o;
+    return Objects.equals(this.comment, comment.comment);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, description, jobId, comment);
+    return Objects.hash(comment);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class CrupdateWarehouse {\n");
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    name: ").append(toIndentedString(name)).append("\n");
-    sb.append("    description: ").append(toIndentedString(description)).append("\n");
-    sb.append("    jobId: ").append(toIndentedString(jobId)).append("\n");
+    sb.append("class Comment {\n");
     sb.append("    comment: ").append(toIndentedString(comment)).append("\n");
     sb.append("}");
     return sb.toString();

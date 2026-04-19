@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface IncomeMoneyRepository extends JpaRepository<IncomeMoney, String> {
-  Optional<IncomeMoney> findByMonetaryMovementId(String monetaryMovementId);
 
   Page<IncomeMoney> findBySourceOrganizationContainingIgnoreCase(
       String sourceOrganization, Pageable pageable);

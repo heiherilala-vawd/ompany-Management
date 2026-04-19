@@ -2,6 +2,7 @@ package com.example.demo.endpoint.rest.mapper.movement;
 
 import com.example.demo.client.model.CrupdateWarehouse;
 import com.example.demo.client.model.Warehouse;
+import com.example.demo.endpoint.rest.mapper.RestAuditMapperUtils;
 import com.example.demo.service.JobService;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -24,6 +25,7 @@ public class WarehouseMapper {
             restWarehouse.getJobId() != null
                 ? jobService.findById(restWarehouse.getJobId()).orElse(null)
                 : null)
+        .comment(restWarehouse.getComment())
         .build();
   }
 
@@ -38,6 +40,7 @@ public class WarehouseMapper {
             restWarehouse.getJobId() != null
                 ? jobService.findById(restWarehouse.getJobId()).orElse(null)
                 : null)
+        .comment(restWarehouse.getComment())
         .build();
   }
 
@@ -50,16 +53,13 @@ public class WarehouseMapper {
     restWarehouse.setDescription(domainWarehouse.getDescription());
     restWarehouse.setJobId(
         domainWarehouse.getJob() != null ? domainWarehouse.getJob().getId() : null);
-    restWarehouse.setCreatedAt(domainWarehouse.getCreatedAt());
-    restWarehouse.setUpdatedAt(domainWarehouse.getUpdatedAt());
-    restWarehouse.setComment(domainWarehouse.getComment());
-
-    if (domainWarehouse.getCreatedBy() != null) {
-      restWarehouse.setCreatedBy(domainWarehouse.getCreatedBy().getId());
-    }
-    if (domainWarehouse.getUpdatedBy() != null) {
-      restWarehouse.setUpdatedBy(domainWarehouse.getUpdatedBy().getId());
-    }
+    RestAuditMapperUtils.mapAuditFields(
+        domainWarehouse,
+        restWarehouse::setCreatedAt,
+        restWarehouse::setUpdatedAt,
+        restWarehouse::setComment,
+        restWarehouse::setCreatedBy,
+        restWarehouse::setUpdatedBy);
 
     return restWarehouse;
   }
