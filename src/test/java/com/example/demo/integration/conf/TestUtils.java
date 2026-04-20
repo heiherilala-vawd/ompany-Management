@@ -21,7 +21,10 @@ import com.example.demo.client.model.CrupdateJob;
 import com.example.demo.client.model.CrupdateMaterial;
 import com.example.demo.client.model.CrupdateOtherExpense;
 import com.example.demo.client.model.CrupdatePurchase;
+import com.example.demo.client.model.CrupdateTravelEquipment;
 import com.example.demo.client.model.CrupdateTravelExpense;
+import com.example.demo.client.model.CrupdateTravelMaterials;
+import com.example.demo.client.model.CrupdateTravelPeople;
 import com.example.demo.client.model.CrupdateUser;
 import com.example.demo.client.model.CrupdateWarehouse;
 import com.example.demo.client.model.EmployeePayment;
@@ -36,7 +39,11 @@ import com.example.demo.client.model.PaymentType;
 import com.example.demo.client.model.Purchase;
 import com.example.demo.client.model.Role;
 import com.example.demo.client.model.Sex;
+import com.example.demo.client.model.TransportStatus;
+import com.example.demo.client.model.TravelEquipment;
 import com.example.demo.client.model.TravelExpense;
+import com.example.demo.client.model.TravelMaterials;
+import com.example.demo.client.model.TravelPeople;
 import com.example.demo.client.model.User;
 import com.example.demo.client.model.Warehouse;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
@@ -89,6 +96,12 @@ public class TestUtils {
   public static final String PURCHASE2_ID = "purchase2_id";
   public static final String TRAVEL_EXPENSE1_ID = "travel_expense1_id";
   public static final String TRAVEL_EXPENSE2_ID = "travel_expense2_id";
+  public static final String TRAVEL_PEOPLE1_ID = "travel_people1_id";
+  public static final String TRAVEL_PEOPLE2_ID = "travel_people2_id";
+  public static final String TRAVEL_MATERIALS1_ID = "travel_materials1_id";
+  public static final String TRAVEL_MATERIALS2_ID = "travel_materials2_id";
+  public static final String TRAVEL_EQUIPMENT1_ID = "travel_equipment1_id";
+  public static final String TRAVEL_EQUIPMENT2_ID = "travel_equipment2_id";
 
   // Emails de test
   public static final String ADMIN_EMAIL = "admin@hei.school";
@@ -834,6 +847,120 @@ public class TestUtils {
     travelExpense.setDepartureDate(Instant.parse("2024-04-01T08:00:00Z"));
     travelExpense.setArrivalDate(Instant.parse("2024-04-01T18:00:00Z"));
     return travelExpense;
+  }
+
+  public static TravelPeople travelPeople1() {
+    TravelPeople tp = new TravelPeople();
+    tp.setId(TRAVEL_PEOPLE1_ID);
+    tp.setTravelId(TRAVEL_EXPENSE1_ID);
+    tp.setPersonName("Alice Martin");
+    return tp;
+  }
+
+  public static TravelPeople travelPeople2() {
+    TravelPeople tp = new TravelPeople();
+    tp.setId(TRAVEL_PEOPLE2_ID);
+    tp.setTravelId(TRAVEL_EXPENSE1_ID);
+    tp.setPersonName("Bob Dupont");
+    return tp;
+  }
+
+  public static CrupdateTravelPeople travelPeopleToCrupdateTravelPeople(TravelPeople travelPeople) {
+    CrupdateTravelPeople c = new CrupdateTravelPeople();
+    c.setId(travelPeople.getId());
+    c.setTravelId(travelPeople.getTravelId());
+    c.setPersonName(travelPeople.getPersonName());
+    c.setComment(travelPeople.getComment());
+    return c;
+  }
+
+  public static CrupdateTravelPeople someCreatableTravelPeople() {
+    CrupdateTravelPeople c = new CrupdateTravelPeople();
+    c.setTravelId(TRAVEL_EXPENSE1_ID);
+    c.setPersonName("Nouveau passager");
+    return c;
+  }
+
+  public static TravelMaterials travelMaterials1() {
+    TravelMaterials tm = new TravelMaterials();
+    tm.setId(TRAVEL_MATERIALS1_ID);
+    tm.setTravelId(TRAVEL_EXPENSE1_ID);
+    tm.setMaterial(MATERIAL1_ID);
+    tm.setQuantity(10);
+    tm.setQuantityReceived(5);
+    return tm;
+  }
+
+  public static TravelMaterials travelMaterials2() {
+    TravelMaterials tm = new TravelMaterials();
+    tm.setId(TRAVEL_MATERIALS2_ID);
+    tm.setTravelId(TRAVEL_EXPENSE2_ID);
+    tm.setMaterial(MATERIAL2_ID);
+    tm.setQuantity(20);
+    tm.setQuantityReceived(null);
+    return tm;
+  }
+
+  public static CrupdateTravelMaterials travelMaterialsToCrupdateTravelMaterials(
+      TravelMaterials travelMaterials) {
+    CrupdateTravelMaterials c = new CrupdateTravelMaterials();
+    c.setId(travelMaterials.getId());
+    c.setTravelId(travelMaterials.getTravelId());
+    c.setMaterial(travelMaterials.getMaterial());
+    c.setQuantity(travelMaterials.getQuantity());
+    c.setQuantityReceived(travelMaterials.getQuantityReceived());
+    c.setComment(travelMaterials.getComment());
+    return c;
+  }
+
+  public static CrupdateTravelMaterials someCreatableTravelMaterials() {
+    CrupdateTravelMaterials c = new CrupdateTravelMaterials();
+    c.setTravelId(TRAVEL_EXPENSE1_ID);
+    c.setMaterial(MATERIAL3_ID);
+    c.setQuantity(3);
+    c.setQuantityReceived(0);
+    return c;
+  }
+
+  public static TravelEquipment travelEquipment1() {
+    TravelEquipment te = new TravelEquipment();
+    te.setId(TRAVEL_EQUIPMENT1_ID);
+    te.setTravelId(TRAVEL_EXPENSE1_ID);
+    te.setEquipment(EQUIPMENT1_ID);
+    te.setQuantity(2);
+    te.setStatus(TransportStatus.IN_PROGRESS);
+    return te;
+  }
+
+  public static TravelEquipment travelEquipment2() {
+    TravelEquipment te = new TravelEquipment();
+    te.setId(TRAVEL_EQUIPMENT2_ID);
+    te.setTravelId(TRAVEL_EXPENSE2_ID);
+    te.setEquipment(EQUIPMENT2_ID);
+    te.setQuantity(1);
+    te.setStatus(TransportStatus.ARRIVED);
+    return te;
+  }
+
+  public static CrupdateTravelEquipment travelEquipmentToCrupdateTravelEquipment(
+      TravelEquipment travelEquipment) {
+    CrupdateTravelEquipment c = new CrupdateTravelEquipment();
+    c.setId(travelEquipment.getId());
+    c.setTravelId(travelEquipment.getTravelId());
+    c.setEquipment(travelEquipment.getEquipment());
+    c.setQuantity(travelEquipment.getQuantity());
+    c.setStatus(travelEquipment.getStatus());
+    c.setComment(travelEquipment.getComment());
+    return c;
+  }
+
+  public static CrupdateTravelEquipment someCreatableTravelEquipment() {
+    CrupdateTravelEquipment c = new CrupdateTravelEquipment();
+    c.setTravelId(TRAVEL_EXPENSE1_ID);
+    c.setEquipment(EQUIPMENT3_ID);
+    c.setQuantity(1);
+    c.setStatus(TransportStatus.LOST);
+    return c;
   }
 
   public static int anAvailableRandomPort() {
