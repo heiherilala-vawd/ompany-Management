@@ -14,8 +14,6 @@ public interface EmployeePaymentRepository extends JpaRepository<EmployeePayment
 
   Page<EmployeePayment> findByExpenseId(String expenseId, Pageable pageable);
 
-  List<EmployeePayment> findByEmployeeIdOrderByCreatedAtDesc(String employeeId);
-
   Page<EmployeePayment> findByPaymentType(PaymentType paymentType, Pageable pageable);
 
   List<EmployeePayment> findByEmployeeIdAndPaymentType(String employeeId, PaymentType paymentType);

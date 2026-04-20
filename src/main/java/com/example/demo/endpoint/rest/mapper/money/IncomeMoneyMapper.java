@@ -17,6 +17,8 @@ public class IncomeMoneyMapper {
         .id(restIncome.getId())
         .sourceOrganization(restIncome.getSourceOrganization())
         .invoiceReference(restIncome.getInvoiceReference())
+        .amount(restIncome.getAmount())
+        .description(restIncome.getDescription())
         .comment(restIncome.getComment())
         .build();
   }
@@ -28,6 +30,8 @@ public class IncomeMoneyMapper {
         .id(restIncome.getId())
         .sourceOrganization(restIncome.getSourceOrganization())
         .invoiceReference(restIncome.getInvoiceReference())
+        .amount(restIncome.getAmount())
+        .description(restIncome.getDescription())
         .comment(restIncome.getComment())
         .build();
   }
@@ -39,6 +43,8 @@ public class IncomeMoneyMapper {
     restIncome.setId(domainIncome.getId());
     restIncome.setSourceOrganization(domainIncome.getSourceOrganization());
     restIncome.setInvoiceReference(domainIncome.getInvoiceReference());
+    restIncome.setAmount(domainIncome.getAmount());
+    restIncome.setDescription(domainIncome.getDescription());
     RestAuditMapperUtils.mapAuditFields(
         domainIncome,
         restIncome::setCreatedAt,

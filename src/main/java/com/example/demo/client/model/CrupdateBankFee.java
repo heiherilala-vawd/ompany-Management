@@ -37,7 +37,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   CrupdateBankFee.JSON_PROPERTY_BANK_NAME,
   CrupdateBankFee.JSON_PROPERTY_DESCRIPTION
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-20T05:06:16.985560548+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-20T05:54:08.630511555+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdateBankFee {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
