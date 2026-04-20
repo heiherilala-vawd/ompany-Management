@@ -11,17 +11,15 @@ import com.example.demo.client.model.CrupdateUser;
 import com.example.demo.client.model.LoginRequest;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
+import com.example.demo.integration.conf.TestDataSqlLoader;
 import com.example.demo.integration.conf.TestUtils;
 import jakarta.transaction.Transactional;
-import java.sql.Connection;
 import javax.sql.DataSource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.jdbc.datasource.init.ScriptUtils;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
@@ -57,9 +55,7 @@ class AuthIT {
     // Configuration du mock JwtService pour les tokens
     TestUtils.setUpJwtService(jwtServiceMock);
     TestUtils.setUpAuthenticationManager(authenticationManagerMock);
-    try (Connection conn = dataSource.getConnection()) {
-      ScriptUtils.executeSqlScript(conn, new ClassPathResource("db/testdata/V99_1__testdata.sql"));
-    }
+    TestDataSqlLoader.executeAllSqlScripts(dataSource);
   }
 
   @Test
