@@ -10,8 +10,8 @@ import com.example.demo.client.model.CrupdateTravelExpense;
 import com.example.demo.client.model.TravelExpense;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
+import com.example.demo.integration.conf.TestDataSqlLoader;
 import com.example.demo.integration.conf.TestUtils;
-import java.sql.Connection;
 import java.util.List;
 import javax.sql.DataSource;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,8 +19,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.jdbc.datasource.init.ScriptUtils;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
@@ -46,9 +44,7 @@ class TravelExpenseIT {
   void setUp() throws Exception {
     TestUtils.setUpJwtService(jwtServiceMock);
     TestUtils.setUpAuthenticationManager(authenticationManagerMock);
-    try (Connection conn = dataSource.getConnection()) {
-      ScriptUtils.executeSqlScript(conn, new ClassPathResource("db/testdata/V99_1__testdata.sql"));
-    }
+    TestDataSqlLoader.executeAllSqlScripts(dataSource);
   }
 
   @Test
@@ -77,7 +73,8 @@ class TravelExpenseIT {
     TravelExpenseApi api = new TravelExpenseApi(anApiClient(ADMIN_TOKEN));
 
     List<TravelExpense> travelExpenses =
-        api.getTravelExpenses(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, 1, 100);
+        api.getTravelExpenses(
+            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, 1, 100, null, null, null);
 
     assertEquals(2, travelExpenses.size());
     assertTrue(
@@ -86,6 +83,42 @@ class TravelExpenseIT {
     assertTrue(
         travelExpenses.stream()
             .anyMatch(travelExpense -> TRAVEL_EXPENSE2_ID.equals(travelExpense.getId())));
+  }
+
+  @Test
+  void admin_can_filter_travel_expenses_by_expense_id() throws Exception {
+    TravelExpenseApi api = new TravelExpenseApi(anApiClient(ADMIN_TOKEN));
+
+    List<TravelExpense> travelExpenses =
+        api.getTravelExpenses(
+            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, 1, 100, EXPENSE2_ID, null, null);
+
+    assertEquals(1, travelExpenses.size());
+    assertEquals(TRAVEL_EXPENSE2_ID, travelExpenses.get(0).getId());
+  }
+
+  @Test
+  void admin_can_filter_travel_expenses_by_departure_location() throws Exception {
+    TravelExpenseApi api = new TravelExpenseApi(anApiClient(ADMIN_TOKEN));
+
+    List<TravelExpense> travelExpenses =
+        api.getTravelExpenses(
+            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, 1, 100, null, "Antananarivo", null);
+
+    assertEquals(1, travelExpenses.size());
+    assertEquals(TRAVEL_EXPENSE1_ID, travelExpenses.get(0).getId());
+  }
+
+  @Test
+  void admin_can_filter_travel_expenses_by_arrival_location() throws Exception {
+    TravelExpenseApi api = new TravelExpenseApi(anApiClient(ADMIN_TOKEN));
+
+    List<TravelExpense> travelExpenses =
+        api.getTravelExpenses(
+            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, 1, 100, null, null, "Antsirabe");
+
+    assertEquals(1, travelExpenses.size());
+    assertEquals(TRAVEL_EXPENSE2_ID, travelExpenses.get(0).getId());
   }
 
   @Test

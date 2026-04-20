@@ -10,8 +10,8 @@ import com.example.demo.client.model.CrupdateExpenseMoney;
 import com.example.demo.client.model.ExpenseMoney;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
+import com.example.demo.integration.conf.TestDataSqlLoader;
 import com.example.demo.integration.conf.TestUtils;
-import java.sql.Connection;
 import java.util.List;
 import javax.sql.DataSource;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,8 +19,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.jdbc.datasource.init.ScriptUtils;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
@@ -46,9 +44,7 @@ class ExpenseIT {
   void setUp() throws Exception {
     TestUtils.setUpJwtService(jwtServiceMock);
     TestUtils.setUpAuthenticationManager(authenticationManagerMock);
-    try (Connection conn = dataSource.getConnection()) {
-      ScriptUtils.executeSqlScript(conn, new ClassPathResource("db/testdata/V99_1__testdata.sql"));
-    }
+    TestDataSqlLoader.executeAllSqlScripts(dataSource);
   }
 
   @Test
@@ -81,7 +77,8 @@ class ExpenseIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     ExpenseApi api = new ExpenseApi(adminClient);
 
-    List<ExpenseMoney> expenses = api.getExpenses(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100);
+    List<ExpenseMoney> expenses =
+        api.getExpenses(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, null);
 
     assertEquals(2, expenses.size());
     assertTrue(expenses.stream().anyMatch(expense -> EXPENSE1_ID.equals(expense.getId())));
@@ -94,7 +91,31 @@ class ExpenseIT {
     ExpenseApi api = new ExpenseApi(employeeClient);
 
     assertThrowsForbiddenException(
-        () -> api.getExpenses(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100));
+        () -> api.getExpenses(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, null));
+  }
+
+  @Test
+  void admin_can_filter_expenses_by_description() throws Exception {
+    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
+    ExpenseApi api = new ExpenseApi(adminClient);
+
+    List<ExpenseMoney> expenses =
+        api.getExpenses(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, "sous-traitant", null);
+
+    assertEquals(1, expenses.size());
+    assertEquals(EXPENSE2_ID, expenses.get(0).getId());
+  }
+
+  @Test
+  void admin_can_filter_expenses_by_amount() throws Exception {
+    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
+    ExpenseApi api = new ExpenseApi(adminClient);
+
+    List<ExpenseMoney> expenses =
+        api.getExpenses(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, 45000);
+
+    assertEquals(1, expenses.size());
+    assertEquals(EXPENSE1_ID, expenses.get(0).getId());
   }
 
   @Test

@@ -11,8 +11,8 @@ import com.example.demo.client.model.Job;
 import com.example.demo.client.model.JobStatus;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
+import com.example.demo.integration.conf.TestDataSqlLoader;
 import com.example.demo.integration.conf.TestUtils;
-import java.sql.Connection;
 import java.util.List;
 import javax.sql.DataSource;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,8 +20,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.jdbc.datasource.init.ScriptUtils;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
@@ -47,9 +45,7 @@ class JobIT {
   void setUp() throws Exception {
     TestUtils.setUpJwtService(jwtServiceMock);
     TestUtils.setUpAuthenticationManager(authenticationManagerMock);
-    try (Connection conn = dataSource.getConnection()) {
-      ScriptUtils.executeSqlScript(conn, new ClassPathResource("db/testdata/V99_1__testdata.sql"));
-    }
+    TestDataSqlLoader.executeAllSqlScripts(dataSource);
   }
 
   @Test
@@ -81,7 +77,7 @@ class JobIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     JobApi api = new JobApi(adminClient);
 
-    List<Job> jobs = api.getJobs(COMPANY1_ID, 1, 100, null, null);
+    List<Job> jobs = api.getJobs(COMPANY1_ID, 1, 100, null, null, null);
 
     assertEquals(2, jobs.size());
     assertTrue(jobs.stream().anyMatch(job -> JOB1_ID.equals(job.getId())));
@@ -93,7 +89,7 @@ class JobIT {
     ApiClient employeeClient = anApiClient(EMPLOYEE_TOKEN);
     JobApi api = new JobApi(employeeClient);
 
-    assertThrowsForbiddenException(() -> api.getJobs(COMPANY1_ID, 1, 100, null, null));
+    assertThrowsForbiddenException(() -> api.getJobs(COMPANY1_ID, 1, 100, null, null, null));
   }
 
   @Test
@@ -101,7 +97,7 @@ class JobIT {
     ApiClient warehouseClient = anApiClient(WAREHOUSE_TOKEN);
     JobApi api = new JobApi(warehouseClient);
 
-    List<Job> jobs = api.getJobs(COMPANY1_ID, 1, 100, JobStatus.IN_PROGRESS, null);
+    List<Job> jobs = api.getJobs(COMPANY1_ID, 1, 100, JobStatus.IN_PROGRESS, null, null);
 
     assertEquals(1, jobs.size());
     assertEquals(JOB1_ID, jobs.get(0).getId());
@@ -112,10 +108,21 @@ class JobIT {
     ApiClient administrationClient = anApiClient(ADMINISTRATION_TOKEN);
     JobApi api = new JobApi(administrationClient);
 
-    List<Job> jobs = api.getJobs(COMPANY1_ID, 1, 100, null, COMPANY2_ID);
+    List<Job> jobs = api.getJobs(COMPANY1_ID, 1, 100, null, COMPANY2_ID, null);
 
     assertEquals(1, jobs.size());
     assertEquals(JOB2_ID, jobs.get(0).getId());
+  }
+
+  @Test
+  void administration_can_filter_jobs_by_description() throws Exception {
+    ApiClient administrationClient = anApiClient(ADMINISTRATION_TOKEN);
+    JobApi api = new JobApi(administrationClient);
+
+    List<Job> jobs = api.getJobs(COMPANY1_ID, 1, 100, null, null, "bâtiment A");
+
+    assertEquals(1, jobs.size());
+    assertEquals(JOB1_ID, jobs.get(0).getId());
   }
 
   @Test

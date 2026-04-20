@@ -23,6 +23,7 @@ import com.example.demo.client.model.InternalServerException;
 import com.example.demo.client.model.NotAuthorizedException;
 import com.example.demo.client.model.ResourceNotFoundException;
 import com.example.demo.client.model.TooManyRequestsException;
+import com.example.demo.client.model.TransportStatus;
 import com.example.demo.client.model.TravelEquipment;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -50,7 +51,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-20T07:38:02.725832860+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-20T11:19:32.360037432+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class TravelEquipmentApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -322,11 +323,14 @@ public class TravelEquipmentApi {
    * @param page  (optional)
    * @param pageSize  (optional)
    * @param travelId  (optional)
+   * @param equipmentId  (optional)
+   * @param quantity  (optional)
+   * @param status  (optional)
    * @return List&lt;TravelEquipment&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<TravelEquipment> getTravelEquipment(String compId, String jobId, String userId, String expensesId, String travelExpensesId, Integer page, Integer pageSize, String travelId) throws ApiException {
-    ApiResponse<List<TravelEquipment>> localVarResponse = getTravelEquipmentWithHttpInfo(compId, jobId, userId, expensesId, travelExpensesId, page, pageSize, travelId);
+  public List<TravelEquipment> getTravelEquipment(String compId, String jobId, String userId, String expensesId, String travelExpensesId, Integer page, Integer pageSize, String travelId, String equipmentId, Integer quantity, TransportStatus status) throws ApiException {
+    ApiResponse<List<TravelEquipment>> localVarResponse = getTravelEquipmentWithHttpInfo(compId, jobId, userId, expensesId, travelExpensesId, page, pageSize, travelId, equipmentId, quantity, status);
     return localVarResponse.getData();
   }
 
@@ -341,11 +345,14 @@ public class TravelEquipmentApi {
    * @param page  (optional)
    * @param pageSize  (optional)
    * @param travelId  (optional)
+   * @param equipmentId  (optional)
+   * @param quantity  (optional)
+   * @param status  (optional)
    * @return ApiResponse&lt;List&lt;TravelEquipment&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<TravelEquipment>> getTravelEquipmentWithHttpInfo(String compId, String jobId, String userId, String expensesId, String travelExpensesId, Integer page, Integer pageSize, String travelId) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getTravelEquipmentRequestBuilder(compId, jobId, userId, expensesId, travelExpensesId, page, pageSize, travelId);
+  public ApiResponse<List<TravelEquipment>> getTravelEquipmentWithHttpInfo(String compId, String jobId, String userId, String expensesId, String travelExpensesId, Integer page, Integer pageSize, String travelId, String equipmentId, Integer quantity, TransportStatus status) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getTravelEquipmentRequestBuilder(compId, jobId, userId, expensesId, travelExpensesId, page, pageSize, travelId, equipmentId, quantity, status);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -373,7 +380,7 @@ public class TravelEquipmentApi {
     }
   }
 
-  private HttpRequest.Builder getTravelEquipmentRequestBuilder(String compId, String jobId, String userId, String expensesId, String travelExpensesId, Integer page, Integer pageSize, String travelId) throws ApiException {
+  private HttpRequest.Builder getTravelEquipmentRequestBuilder(String compId, String jobId, String userId, String expensesId, String travelExpensesId, Integer page, Integer pageSize, String travelId, String equipmentId, Integer quantity, TransportStatus status) throws ApiException {
     // verify the required parameter 'compId' is set
     if (compId == null) {
       throw new ApiException(400, "Missing the required parameter 'compId' when calling getTravelEquipment");
@@ -413,6 +420,12 @@ public class TravelEquipmentApi {
     localVarQueryParams.addAll(ApiClient.parameterToPairs("page_size", pageSize));
     localVarQueryParameterBaseName = "travel_id";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("travel_id", travelId));
+    localVarQueryParameterBaseName = "equipment_id";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("equipment_id", equipmentId));
+    localVarQueryParameterBaseName = "quantity";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("quantity", quantity));
+    localVarQueryParameterBaseName = "status";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("status", status));
 
     if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
       StringJoiner queryJoiner = new StringJoiner("&");

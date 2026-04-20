@@ -8,10 +8,11 @@ import com.example.demo.client.api.EmployeePaymentApi;
 import com.example.demo.client.invoker.ApiClient;
 import com.example.demo.client.model.CrupdateEmployeePayment;
 import com.example.demo.client.model.EmployeePayment;
+import com.example.demo.client.model.PaymentType;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
+import com.example.demo.integration.conf.TestDataSqlLoader;
 import com.example.demo.integration.conf.TestUtils;
-import java.sql.Connection;
 import java.util.List;
 import javax.sql.DataSource;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,8 +20,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.jdbc.datasource.init.ScriptUtils;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
@@ -46,9 +45,7 @@ class EmployeePaymentIT {
   void setUp() throws Exception {
     TestUtils.setUpJwtService(jwtServiceMock);
     TestUtils.setUpAuthenticationManager(authenticationManagerMock);
-    try (Connection conn = dataSource.getConnection()) {
-      ScriptUtils.executeSqlScript(conn, new ClassPathResource("db/testdata/V99_1__testdata.sql"));
-    }
+    TestDataSqlLoader.executeAllSqlScripts(dataSource);
   }
 
   @Test
@@ -77,7 +74,8 @@ class EmployeePaymentIT {
     EmployeePaymentApi api = new EmployeePaymentApi(anApiClient(ADMIN_TOKEN));
 
     List<EmployeePayment> employeePayments =
-        api.getEmployeePayments(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, 1, 100, null);
+        api.getEmployeePayments(
+            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, 1, 100, null, null, null, null);
 
     assertEquals(2, employeePayments.size());
     assertTrue(
@@ -86,6 +84,63 @@ class EmployeePaymentIT {
     assertTrue(
         employeePayments.stream()
             .anyMatch(employeePayment -> EMPLOYEE_PAYMENT2_ID.equals(employeePayment.getId())));
+  }
+
+  @Test
+  void admin_can_filter_employee_payments_by_employee_id() throws Exception {
+    EmployeePaymentApi api = new EmployeePaymentApi(anApiClient(ADMIN_TOKEN));
+
+    List<EmployeePayment> employeePayments =
+        api.getEmployeePayments(
+            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, 1, 100, USER1_ID, null, null, null);
+
+    assertEquals(1, employeePayments.size());
+    assertEquals(EMPLOYEE_PAYMENT2_ID, employeePayments.get(0).getId());
+  }
+
+  @Test
+  void admin_can_filter_employee_payments_by_expense_id() throws Exception {
+    EmployeePaymentApi api = new EmployeePaymentApi(anApiClient(ADMIN_TOKEN));
+
+    List<EmployeePayment> employeePayments =
+        api.getEmployeePayments(
+            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, 1, 100, null, EXPENSE1_ID, null, null);
+
+    assertEquals(1, employeePayments.size());
+    assertEquals(EMPLOYEE_PAYMENT1_ID, employeePayments.get(0).getId());
+  }
+
+  @Test
+  void admin_can_filter_employee_payments_by_payment_description() throws Exception {
+    EmployeePaymentApi api = new EmployeePaymentApi(anApiClient(ADMIN_TOKEN));
+
+    List<EmployeePayment> employeePayments =
+        api.getEmployeePayments(
+            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, 1, 100, null, null, "mensuel", null);
+
+    assertEquals(1, employeePayments.size());
+    assertEquals(EMPLOYEE_PAYMENT2_ID, employeePayments.get(0).getId());
+  }
+
+  @Test
+  void admin_can_filter_employee_payments_by_payment_type() throws Exception {
+    EmployeePaymentApi api = new EmployeePaymentApi(anApiClient(ADMIN_TOKEN));
+
+    List<EmployeePayment> employeePayments =
+        api.getEmployeePayments(
+            COMPANY1_ID,
+            JOB1_ID,
+            EMPLOYEE_ID,
+            EXPENSE1_ID,
+            1,
+            100,
+            null,
+            null,
+            null,
+            PaymentType.ADVANCE);
+
+    assertEquals(1, employeePayments.size());
+    assertEquals(EMPLOYEE_PAYMENT1_ID, employeePayments.get(0).getId());
   }
 
   @Test

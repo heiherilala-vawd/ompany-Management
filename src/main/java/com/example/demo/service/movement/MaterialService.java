@@ -1,7 +1,11 @@
 package com.example.demo.service.movement;
 
+import static com.example.demo.repository.specification.SpecificationUtils.containsIgnoreCase;
+import static com.example.demo.repository.specification.SpecificationUtils.equal;
+
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
+import com.example.demo.model.criteria.MaterialCriteria;
 import com.example.demo.model.movement.Material;
 import com.example.demo.repository.movement.MaterialRepository;
 import com.example.demo.service.utils.PageUtils;
@@ -10,6 +14,7 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,14 +29,10 @@ public class MaterialService {
     return materialRepository.findById(id);
   }
 
-  public Page<Material> findAll(PageFromOne page, BoundedPageSize pageSize, String warehouseId) {
+  public Page<Material> findAll(
+      PageFromOne page, BoundedPageSize pageSize, MaterialCriteria criteria) {
     Pageable pageable = PageUtils.createPageable(page, pageSize);
-
-    if (warehouseId != null) {
-      return materialRepository.findByWarehouseId(warehouseId, pageable);
-    }
-
-    return materialRepository.findAll(pageable);
+    return materialRepository.findAll(toSpecification(criteria), pageable);
   }
 
   public List<Material> findAll() {
@@ -64,5 +65,13 @@ public class MaterialService {
 
   public boolean existsById(String id) {
     return materialRepository.existsById(id);
+  }
+
+  private Specification<Material> toSpecification(MaterialCriteria criteria) {
+    return Specification.<Material>where(equal(criteria.getWarehouseId(), "warehouse", "id"))
+        .and(containsIgnoreCase(criteria.getName(), "name"))
+        .and(containsIgnoreCase(criteria.getDescription(), "description"))
+        .and(equal(criteria.getFloorNumber(), "floorNumber"))
+        .and(equal(criteria.getStorageNumber(), "storageNumber"));
   }
 }

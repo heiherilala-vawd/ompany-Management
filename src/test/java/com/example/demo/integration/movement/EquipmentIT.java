@@ -10,8 +10,8 @@ import com.example.demo.client.model.CrupdateEquipment;
 import com.example.demo.client.model.Equipment;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
+import com.example.demo.integration.conf.TestDataSqlLoader;
 import com.example.demo.integration.conf.TestUtils;
-import java.sql.Connection;
 import java.util.List;
 import javax.sql.DataSource;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,8 +19,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.jdbc.datasource.init.ScriptUtils;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
@@ -46,9 +44,7 @@ class EquipmentIT {
   void setUp() throws Exception {
     TestUtils.setUpJwtService(jwtServiceMock);
     TestUtils.setUpAuthenticationManager(authenticationManagerMock);
-    try (Connection conn = dataSource.getConnection()) {
-      ScriptUtils.executeSqlScript(conn, new ClassPathResource("db/testdata/V99_1__testdata.sql"));
-    }
+    TestDataSqlLoader.executeAllSqlScripts(dataSource);
   }
 
   @Test
@@ -80,7 +76,7 @@ class EquipmentIT {
     ApiClient employeeClient = anApiClient(EMPLOYEE_TOKEN);
     EquipmentApi api = new EquipmentApi(employeeClient);
 
-    List<Equipment> equipment = api.getEquipment(COMPANY1_ID, 1, 100, null);
+    List<Equipment> equipment = api.getEquipment(COMPANY1_ID, 1, 100, null, null, null, null, null);
 
     assertEquals(3, equipment.size());
     assertTrue(equipment.stream().anyMatch(item -> EQUIPMENT1_ID.equals(item.getId())));
@@ -93,10 +89,57 @@ class EquipmentIT {
     ApiClient employeeClient = anApiClient(EMPLOYEE_TOKEN);
     EquipmentApi api = new EquipmentApi(employeeClient);
 
-    List<Equipment> equipment = api.getEquipment(COMPANY1_ID, 1, 100, WAREHOUSE2_ID);
+    List<Equipment> equipment =
+        api.getEquipment(COMPANY1_ID, 1, 100, WAREHOUSE2_ID, null, null, null, null);
 
     assertEquals(1, equipment.size());
     assertEquals(EQUIPMENT3_ID, equipment.get(0).getId());
+  }
+
+  @Test
+  void employee_can_filter_equipment_by_name() throws Exception {
+    ApiClient employeeClient = anApiClient(EMPLOYEE_TOKEN);
+    EquipmentApi api = new EquipmentApi(employeeClient);
+
+    List<Equipment> equipment =
+        api.getEquipment(COMPANY1_ID, 1, 100, null, "Bétonnière", null, null, null);
+
+    assertEquals(1, equipment.size());
+    assertEquals(EQUIPMENT2_ID, equipment.get(0).getId());
+  }
+
+  @Test
+  void employee_can_filter_equipment_by_description() throws Exception {
+    ApiClient employeeClient = anApiClient(EMPLOYEE_TOKEN);
+    EquipmentApi api = new EquipmentApi(employeeClient);
+
+    List<Equipment> equipment =
+        api.getEquipment(COMPANY1_ID, 1, 100, null, null, "extérieure", null, null);
+
+    assertEquals(1, equipment.size());
+    assertEquals(EQUIPMENT3_ID, equipment.get(0).getId());
+  }
+
+  @Test
+  void employee_can_filter_equipment_by_floor_number() throws Exception {
+    ApiClient employeeClient = anApiClient(EMPLOYEE_TOKEN);
+    EquipmentApi api = new EquipmentApi(employeeClient);
+
+    List<Equipment> equipment = api.getEquipment(COMPANY1_ID, 1, 100, null, null, null, 2, null);
+
+    assertEquals(1, equipment.size());
+    assertEquals(EQUIPMENT3_ID, equipment.get(0).getId());
+  }
+
+  @Test
+  void employee_can_filter_equipment_by_storage_number() throws Exception {
+    ApiClient employeeClient = anApiClient(EMPLOYEE_TOKEN);
+    EquipmentApi api = new EquipmentApi(employeeClient);
+
+    List<Equipment> equipment = api.getEquipment(COMPANY1_ID, 1, 100, null, null, null, null, 10);
+
+    assertEquals(1, equipment.size());
+    assertEquals(EQUIPMENT1_ID, equipment.get(0).getId());
   }
 
   @Test

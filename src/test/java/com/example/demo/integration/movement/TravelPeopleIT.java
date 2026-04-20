@@ -10,8 +10,8 @@ import com.example.demo.client.model.CrupdateTravelPeople;
 import com.example.demo.client.model.TravelPeople;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
+import com.example.demo.integration.conf.TestDataSqlLoader;
 import com.example.demo.integration.conf.TestUtils;
-import java.sql.Connection;
 import java.util.List;
 import javax.sql.DataSource;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,8 +19,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.jdbc.datasource.init.ScriptUtils;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
@@ -46,9 +44,7 @@ class TravelPeopleIT {
   void setUp() throws Exception {
     TestUtils.setUpJwtService(jwtServiceMock);
     TestUtils.setUpAuthenticationManager(authenticationManagerMock);
-    try (Connection conn = dataSource.getConnection()) {
-      ScriptUtils.executeSqlScript(conn, new ClassPathResource("db/testdata/V99_1__testdata.sql"));
-    }
+    TestDataSqlLoader.executeAllSqlScripts(dataSource);
   }
 
   @Test
@@ -90,11 +86,51 @@ class TravelPeopleIT {
 
     List<TravelPeople> list =
         api.getTravelPeople(
-            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, TRAVEL_EXPENSE1_ID, 1, 100, null);
+            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, TRAVEL_EXPENSE1_ID, 1, 100, null, null);
 
     assertEquals(2, list.size());
     assertTrue(list.stream().anyMatch(tp -> TRAVEL_PEOPLE1_ID.equals(tp.getId())));
     assertTrue(list.stream().anyMatch(tp -> TRAVEL_PEOPLE2_ID.equals(tp.getId())));
+  }
+
+  @Test
+  void admin_can_filter_travel_people_by_travel_id() throws Exception {
+    TravelPeopleApi api = new TravelPeopleApi(anApiClient(ADMIN_TOKEN));
+
+    List<TravelPeople> list =
+        api.getTravelPeople(
+            COMPANY1_ID,
+            JOB1_ID,
+            EMPLOYEE_ID,
+            EXPENSE1_ID,
+            TRAVEL_EXPENSE1_ID,
+            1,
+            100,
+            TRAVEL_EXPENSE1_ID,
+            null);
+
+    assertEquals(2, list.size());
+    assertTrue(list.stream().allMatch(tp -> TRAVEL_EXPENSE1_ID.equals(tp.getTravelId())));
+  }
+
+  @Test
+  void admin_can_filter_travel_people_by_person_name() throws Exception {
+    TravelPeopleApi api = new TravelPeopleApi(anApiClient(ADMIN_TOKEN));
+
+    List<TravelPeople> list =
+        api.getTravelPeople(
+            COMPANY1_ID,
+            JOB1_ID,
+            EMPLOYEE_ID,
+            EXPENSE1_ID,
+            TRAVEL_EXPENSE1_ID,
+            1,
+            100,
+            null,
+            "Bob");
+
+    assertEquals(1, list.size());
+    assertEquals(TRAVEL_PEOPLE2_ID, list.get(0).getId());
   }
 
   @Test

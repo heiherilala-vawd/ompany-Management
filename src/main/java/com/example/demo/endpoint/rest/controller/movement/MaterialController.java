@@ -5,6 +5,7 @@ import com.example.demo.client.model.Material;
 import com.example.demo.endpoint.rest.mapper.movement.MaterialMapper;
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
+import com.example.demo.model.criteria.MaterialCriteria;
 import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.service.movement.MaterialService;
 import java.util.List;
@@ -33,9 +34,19 @@ public class MaterialController {
   public List<Material> getMaterials(
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
-      @RequestParam(name = "warehouse_id", required = false) String warehouseId) {
+      @RequestParam(name = "warehouse_id", required = false) String warehouseId,
+      @RequestParam(name = "name", required = false) String name,
+      @RequestParam(name = "description", required = false) String description,
+      @RequestParam(name = "floor_number", required = false) Integer floorNumber,
+      @RequestParam(name = "storage_number", required = false) Integer storageNumber) {
+    MaterialCriteria criteria = new MaterialCriteria();
+    criteria.setWarehouseId(warehouseId);
+    criteria.setName(name);
+    criteria.setDescription(description);
+    criteria.setFloorNumber(floorNumber);
+    criteria.setStorageNumber(storageNumber);
 
-    return materialService.findAll(page, pageSize, warehouseId).stream()
+    return materialService.findAll(page, pageSize, criteria).stream()
         .map(materialMapper::toRestMaterial)
         .toList();
   }

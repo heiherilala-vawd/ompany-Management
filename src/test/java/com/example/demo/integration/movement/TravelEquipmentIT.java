@@ -11,8 +11,8 @@ import com.example.demo.client.model.TransportStatus;
 import com.example.demo.client.model.TravelEquipment;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
+import com.example.demo.integration.conf.TestDataSqlLoader;
 import com.example.demo.integration.conf.TestUtils;
-import java.sql.Connection;
 import java.util.List;
 import javax.sql.DataSource;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,8 +20,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.jdbc.datasource.init.ScriptUtils;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
@@ -47,9 +45,7 @@ class TravelEquipmentIT {
   void setUp() throws Exception {
     TestUtils.setUpJwtService(jwtServiceMock);
     TestUtils.setUpAuthenticationManager(authenticationManagerMock);
-    try (Connection conn = dataSource.getConnection()) {
-      ScriptUtils.executeSqlScript(conn, new ClassPathResource("db/testdata/V99_1__testdata.sql"));
-    }
+    TestDataSqlLoader.executeAllSqlScripts(dataSource);
   }
 
   @Test
@@ -96,11 +92,109 @@ class TravelEquipmentIT {
 
     List<TravelEquipment> list =
         api.getTravelEquipment(
-            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, TRAVEL_EXPENSE1_ID, 1, 100, null);
+            COMPANY1_ID,
+            JOB1_ID,
+            EMPLOYEE_ID,
+            EXPENSE1_ID,
+            TRAVEL_EXPENSE1_ID,
+            1,
+            100,
+            null,
+            null,
+            null,
+            null);
 
     assertEquals(2, list.size());
     assertTrue(list.stream().anyMatch(te -> TRAVEL_EQUIPMENT1_ID.equals(te.getId())));
     assertTrue(list.stream().anyMatch(te -> TRAVEL_EQUIPMENT2_ID.equals(te.getId())));
+  }
+
+  @Test
+  void admin_can_filter_travel_equipment_by_travel_id() throws Exception {
+    TravelEquipmentApi api = new TravelEquipmentApi(anApiClient(ADMIN_TOKEN));
+
+    List<TravelEquipment> list =
+        api.getTravelEquipment(
+            COMPANY1_ID,
+            JOB1_ID,
+            EMPLOYEE_ID,
+            EXPENSE1_ID,
+            TRAVEL_EXPENSE1_ID,
+            1,
+            100,
+            TRAVEL_EXPENSE2_ID,
+            null,
+            null,
+            null);
+
+    assertEquals(1, list.size());
+    assertEquals(TRAVEL_EQUIPMENT2_ID, list.get(0).getId());
+  }
+
+  @Test
+  void admin_can_filter_travel_equipment_by_equipment_id() throws Exception {
+    TravelEquipmentApi api = new TravelEquipmentApi(anApiClient(ADMIN_TOKEN));
+
+    List<TravelEquipment> list =
+        api.getTravelEquipment(
+            COMPANY1_ID,
+            JOB1_ID,
+            EMPLOYEE_ID,
+            EXPENSE1_ID,
+            TRAVEL_EXPENSE1_ID,
+            1,
+            100,
+            null,
+            EQUIPMENT1_ID,
+            null,
+            null);
+
+    assertEquals(1, list.size());
+    assertEquals(TRAVEL_EQUIPMENT1_ID, list.get(0).getId());
+  }
+
+  @Test
+  void admin_can_filter_travel_equipment_by_quantity() throws Exception {
+    TravelEquipmentApi api = new TravelEquipmentApi(anApiClient(ADMIN_TOKEN));
+
+    List<TravelEquipment> list =
+        api.getTravelEquipment(
+            COMPANY1_ID,
+            JOB1_ID,
+            EMPLOYEE_ID,
+            EXPENSE1_ID,
+            TRAVEL_EXPENSE1_ID,
+            1,
+            100,
+            null,
+            null,
+            1,
+            null);
+
+    assertEquals(1, list.size());
+    assertEquals(TRAVEL_EQUIPMENT2_ID, list.get(0).getId());
+  }
+
+  @Test
+  void admin_can_filter_travel_equipment_by_status() throws Exception {
+    TravelEquipmentApi api = new TravelEquipmentApi(anApiClient(ADMIN_TOKEN));
+
+    List<TravelEquipment> list =
+        api.getTravelEquipment(
+            COMPANY1_ID,
+            JOB1_ID,
+            EMPLOYEE_ID,
+            EXPENSE1_ID,
+            TRAVEL_EXPENSE1_ID,
+            1,
+            100,
+            null,
+            null,
+            null,
+            TransportStatus.ARRIVED);
+
+    assertEquals(1, list.size());
+    assertEquals(TRAVEL_EQUIPMENT2_ID, list.get(0).getId());
   }
 
   @Test

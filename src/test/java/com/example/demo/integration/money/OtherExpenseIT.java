@@ -10,8 +10,8 @@ import com.example.demo.client.model.CrupdateOtherExpense;
 import com.example.demo.client.model.OtherExpense;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
+import com.example.demo.integration.conf.TestDataSqlLoader;
 import com.example.demo.integration.conf.TestUtils;
-import java.sql.Connection;
 import java.util.List;
 import javax.sql.DataSource;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,8 +19,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.jdbc.datasource.init.ScriptUtils;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
@@ -46,9 +44,7 @@ class OtherExpenseIT {
   void setUp() throws Exception {
     TestUtils.setUpJwtService(jwtServiceMock);
     TestUtils.setUpAuthenticationManager(authenticationManagerMock);
-    try (Connection conn = dataSource.getConnection()) {
-      ScriptUtils.executeSqlScript(conn, new ClassPathResource("db/testdata/V99_1__testdata.sql"));
-    }
+    TestDataSqlLoader.executeAllSqlScripts(dataSource);
   }
 
   @Test
@@ -76,7 +72,7 @@ class OtherExpenseIT {
     OtherExpenseApi api = new OtherExpenseApi(anApiClient(ADMIN_TOKEN));
 
     List<OtherExpense> otherExpenses =
-        api.getOtherExpenses(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, 1, 100);
+        api.getOtherExpenses(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, 1, 100, null, null);
 
     assertEquals(2, otherExpenses.size());
     assertTrue(
@@ -85,6 +81,30 @@ class OtherExpenseIT {
     assertTrue(
         otherExpenses.stream()
             .anyMatch(otherExpense -> OTHER_EXPENSE2_ID.equals(otherExpense.getId())));
+  }
+
+  @Test
+  void admin_can_filter_other_expenses_by_expense_id() throws Exception {
+    OtherExpenseApi api = new OtherExpenseApi(anApiClient(ADMIN_TOKEN));
+
+    List<OtherExpense> otherExpenses =
+        api.getOtherExpenses(
+            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, 1, 100, EXPENSE2_ID, null);
+
+    assertEquals(1, otherExpenses.size());
+    assertEquals(OTHER_EXPENSE2_ID, otherExpenses.get(0).getId());
+  }
+
+  @Test
+  void admin_can_filter_other_expenses_by_description() throws Exception {
+    OtherExpenseApi api = new OtherExpenseApi(anApiClient(ADMIN_TOKEN));
+
+    List<OtherExpense> otherExpenses =
+        api.getOtherExpenses(
+            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, 1, 100, null, "administratifs");
+
+    assertEquals(1, otherExpenses.size());
+    assertEquals(OTHER_EXPENSE1_ID, otherExpenses.get(0).getId());
   }
 
   @Test

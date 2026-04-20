@@ -50,7 +50,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-20T07:38:02.725832860+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-20T11:19:32.360037432+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class WarehouseApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -342,11 +342,13 @@ public class WarehouseApi {
    * @param page  (optional)
    * @param pageSize  (optional)
    * @param jobId  (optional)
+   * @param name Filter warehouses by name, case is ignored (optional)
+   * @param description Filter warehouses by description, case is ignored (optional)
    * @return List&lt;Warehouse&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<Warehouse> getWarehouses(String compId, Integer page, Integer pageSize, String jobId) throws ApiException {
-    ApiResponse<List<Warehouse>> localVarResponse = getWarehousesWithHttpInfo(compId, page, pageSize, jobId);
+  public List<Warehouse> getWarehouses(String compId, Integer page, Integer pageSize, String jobId, String name, String description) throws ApiException {
+    ApiResponse<List<Warehouse>> localVarResponse = getWarehousesWithHttpInfo(compId, page, pageSize, jobId, name, description);
     return localVarResponse.getData();
   }
 
@@ -357,11 +359,13 @@ public class WarehouseApi {
    * @param page  (optional)
    * @param pageSize  (optional)
    * @param jobId  (optional)
+   * @param name Filter warehouses by name, case is ignored (optional)
+   * @param description Filter warehouses by description, case is ignored (optional)
    * @return ApiResponse&lt;List&lt;Warehouse&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<Warehouse>> getWarehousesWithHttpInfo(String compId, Integer page, Integer pageSize, String jobId) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getWarehousesRequestBuilder(compId, page, pageSize, jobId);
+  public ApiResponse<List<Warehouse>> getWarehousesWithHttpInfo(String compId, Integer page, Integer pageSize, String jobId, String name, String description) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getWarehousesRequestBuilder(compId, page, pageSize, jobId, name, description);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -389,7 +393,7 @@ public class WarehouseApi {
     }
   }
 
-  private HttpRequest.Builder getWarehousesRequestBuilder(String compId, Integer page, Integer pageSize, String jobId) throws ApiException {
+  private HttpRequest.Builder getWarehousesRequestBuilder(String compId, Integer page, Integer pageSize, String jobId, String name, String description) throws ApiException {
     // verify the required parameter 'compId' is set
     if (compId == null) {
       throw new ApiException(400, "Missing the required parameter 'compId' when calling getWarehouses");
@@ -409,6 +413,10 @@ public class WarehouseApi {
     localVarQueryParams.addAll(ApiClient.parameterToPairs("page_size", pageSize));
     localVarQueryParameterBaseName = "job_id";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("job_id", jobId));
+    localVarQueryParameterBaseName = "name";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("name", name));
+    localVarQueryParameterBaseName = "description";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("description", description));
 
     if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
       StringJoiner queryJoiner = new StringJoiner("&");

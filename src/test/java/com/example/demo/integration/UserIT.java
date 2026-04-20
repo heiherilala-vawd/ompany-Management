@@ -12,8 +12,8 @@ import com.example.demo.client.model.Sex;
 import com.example.demo.client.model.User;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
+import com.example.demo.integration.conf.TestDataSqlLoader;
 import com.example.demo.integration.conf.TestUtils;
-import java.sql.Connection;
 import java.util.List;
 import javax.sql.DataSource;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,8 +21,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.jdbc.datasource.init.ScriptUtils;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
@@ -49,9 +47,7 @@ class UserIT {
     // Configuration du mock JwtService - ÉQUIVALENT DE setUpCognito
     TestUtils.setUpJwtService(jwtServiceMock);
     TestUtils.setUpAuthenticationManager(authenticationManagerMock);
-    try (Connection conn = dataSource.getConnection()) {
-      ScriptUtils.executeSqlScript(conn, new ClassPathResource("db/testdata/V99_1__testdata.sql"));
-    }
+    TestDataSqlLoader.executeAllSqlScripts(dataSource);
   }
 
   // =========================
@@ -200,6 +196,28 @@ class UserIT {
     List<User> users = api.getUsers(1, 100, null, null, null, Role.EMPLOYEE);
 
     assertTrue(users.stream().allMatch(u -> u.getRole() == Role.EMPLOYEE));
+  }
+
+  @Test
+  void admin_can_filter_users_by_last_name() throws Exception {
+    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
+    UsersApi api = new UsersApi(adminClient);
+
+    List<User> users = api.getUsers(1, 100, null, "Martin", null, null);
+
+    assertEquals(1, users.size());
+    assertEquals(USER1_ID, users.get(0).getId());
+  }
+
+  @Test
+  void admin_can_filter_users_by_email() throws Exception {
+    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
+    UsersApi api = new UsersApi(adminClient);
+
+    List<User> users = api.getUsers(1, 100, null, null, USER1_EMAIL, null);
+
+    assertEquals(1, users.size());
+    assertEquals(USER1_ID, users.get(0).getId());
   }
 
   // =========================

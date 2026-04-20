@@ -50,7 +50,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-20T07:38:02.725832860+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-20T11:19:32.360037432+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class MaterialApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -320,11 +320,15 @@ public class MaterialApi {
    * @param page  (optional)
    * @param pageSize  (optional)
    * @param warehouseId  (optional)
+   * @param name Filter materials by name, case is ignored (optional)
+   * @param description Filter materials by description, case is ignored (optional)
+   * @param floorNumber  (optional)
+   * @param storageNumber  (optional)
    * @return List&lt;Material&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<Material> getMaterials(Integer page, Integer pageSize, String warehouseId) throws ApiException {
-    ApiResponse<List<Material>> localVarResponse = getMaterialsWithHttpInfo(page, pageSize, warehouseId);
+  public List<Material> getMaterials(Integer page, Integer pageSize, String warehouseId, String name, String description, Integer floorNumber, Integer storageNumber) throws ApiException {
+    ApiResponse<List<Material>> localVarResponse = getMaterialsWithHttpInfo(page, pageSize, warehouseId, name, description, floorNumber, storageNumber);
     return localVarResponse.getData();
   }
 
@@ -334,11 +338,15 @@ public class MaterialApi {
    * @param page  (optional)
    * @param pageSize  (optional)
    * @param warehouseId  (optional)
+   * @param name Filter materials by name, case is ignored (optional)
+   * @param description Filter materials by description, case is ignored (optional)
+   * @param floorNumber  (optional)
+   * @param storageNumber  (optional)
    * @return ApiResponse&lt;List&lt;Material&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<Material>> getMaterialsWithHttpInfo(Integer page, Integer pageSize, String warehouseId) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getMaterialsRequestBuilder(page, pageSize, warehouseId);
+  public ApiResponse<List<Material>> getMaterialsWithHttpInfo(Integer page, Integer pageSize, String warehouseId, String name, String description, Integer floorNumber, Integer storageNumber) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getMaterialsRequestBuilder(page, pageSize, warehouseId, name, description, floorNumber, storageNumber);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -366,7 +374,7 @@ public class MaterialApi {
     }
   }
 
-  private HttpRequest.Builder getMaterialsRequestBuilder(Integer page, Integer pageSize, String warehouseId) throws ApiException {
+  private HttpRequest.Builder getMaterialsRequestBuilder(Integer page, Integer pageSize, String warehouseId, String name, String description, Integer floorNumber, Integer storageNumber) throws ApiException {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -381,6 +389,14 @@ public class MaterialApi {
     localVarQueryParams.addAll(ApiClient.parameterToPairs("page_size", pageSize));
     localVarQueryParameterBaseName = "warehouse_id";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("warehouse_id", warehouseId));
+    localVarQueryParameterBaseName = "name";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("name", name));
+    localVarQueryParameterBaseName = "description";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("description", description));
+    localVarQueryParameterBaseName = "floor_number";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("floor_number", floorNumber));
+    localVarQueryParameterBaseName = "storage_number";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("storage_number", storageNumber));
 
     if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
       StringJoiner queryJoiner = new StringJoiner("&");

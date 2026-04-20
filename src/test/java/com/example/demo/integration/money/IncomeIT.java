@@ -10,8 +10,8 @@ import com.example.demo.client.model.CrupdateIncomeMoney;
 import com.example.demo.client.model.IncomeMoney;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
+import com.example.demo.integration.conf.TestDataSqlLoader;
 import com.example.demo.integration.conf.TestUtils;
-import java.sql.Connection;
 import java.util.List;
 import javax.sql.DataSource;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,8 +19,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.jdbc.datasource.init.ScriptUtils;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
@@ -46,9 +44,7 @@ class IncomeIT {
   void setUp() throws Exception {
     TestUtils.setUpJwtService(jwtServiceMock);
     TestUtils.setUpAuthenticationManager(authenticationManagerMock);
-    try (Connection conn = dataSource.getConnection()) {
-      ScriptUtils.executeSqlScript(conn, new ClassPathResource("db/testdata/V99_1__testdata.sql"));
-    }
+    TestDataSqlLoader.executeAllSqlScripts(dataSource);
   }
 
   @Test
@@ -81,7 +77,8 @@ class IncomeIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     IncomeApi api = new IncomeApi(adminClient);
 
-    List<IncomeMoney> incomes = api.getIncomes(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100);
+    List<IncomeMoney> incomes =
+        api.getIncomes(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, null, null, null);
 
     assertEquals(2, incomes.size());
     assertTrue(incomes.stream().anyMatch(income -> INCOME1_ID.equals(income.getId())));
@@ -93,7 +90,56 @@ class IncomeIT {
     ApiClient employeeClient = anApiClient(EMPLOYEE_TOKEN);
     IncomeApi api = new IncomeApi(employeeClient);
 
-    assertThrowsForbiddenException(() -> api.getIncomes(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100));
+    assertThrowsForbiddenException(
+        () -> api.getIncomes(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, null, null, null));
+  }
+
+  @Test
+  void admin_can_filter_incomes_by_source_organization() throws Exception {
+    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
+    IncomeApi api = new IncomeApi(adminClient);
+
+    List<IncomeMoney> incomes =
+        api.getIncomes(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, "Alpha", null, null, null);
+
+    assertEquals(1, incomes.size());
+    assertEquals(INCOME1_ID, incomes.get(0).getId());
+  }
+
+  @Test
+  void admin_can_filter_incomes_by_invoice_reference() throws Exception {
+    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
+    IncomeApi api = new IncomeApi(adminClient);
+
+    List<IncomeMoney> incomes =
+        api.getIncomes(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, "INV-2024-002", null, null);
+
+    assertEquals(1, incomes.size());
+    assertEquals(INCOME2_ID, incomes.get(0).getId());
+  }
+
+  @Test
+  void admin_can_filter_incomes_by_description() throws Exception {
+    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
+    IncomeApi api = new IncomeApi(adminClient);
+
+    List<IncomeMoney> incomes =
+        api.getIncomes(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, null, "chantier A", null);
+
+    assertEquals(1, incomes.size());
+    assertEquals(INCOME1_ID, incomes.get(0).getId());
+  }
+
+  @Test
+  void admin_can_filter_incomes_by_amount() throws Exception {
+    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
+    IncomeApi api = new IncomeApi(adminClient);
+
+    List<IncomeMoney> incomes =
+        api.getIncomes(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, null, null, 275000);
+
+    assertEquals(1, incomes.size());
+    assertEquals(INCOME2_ID, incomes.get(0).getId());
   }
 
   @Test

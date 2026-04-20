@@ -10,8 +10,8 @@ import com.example.demo.client.model.BankFee;
 import com.example.demo.client.model.CrupdateBankFee;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
+import com.example.demo.integration.conf.TestDataSqlLoader;
 import com.example.demo.integration.conf.TestUtils;
-import java.sql.Connection;
 import java.util.List;
 import javax.sql.DataSource;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,8 +19,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.jdbc.datasource.init.ScriptUtils;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
@@ -46,9 +44,7 @@ class BankFeeIT {
   void setUp() throws Exception {
     TestUtils.setUpJwtService(jwtServiceMock);
     TestUtils.setUpAuthenticationManager(authenticationManagerMock);
-    try (Connection conn = dataSource.getConnection()) {
-      ScriptUtils.executeSqlScript(conn, new ClassPathResource("db/testdata/V99_1__testdata.sql"));
-    }
+    TestDataSqlLoader.executeAllSqlScripts(dataSource);
   }
 
   @Test
@@ -74,11 +70,46 @@ class BankFeeIT {
     BankFeeApi api = new BankFeeApi(anApiClient(ADMIN_TOKEN));
 
     List<BankFee> bankFees =
-        api.getBankFees(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, 1, 100);
+        api.getBankFees(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, 1, 100, null, null, null);
 
     assertEquals(2, bankFees.size());
     assertTrue(bankFees.stream().anyMatch(bankFee -> BANK_FEE1_ID.equals(bankFee.getId())));
     assertTrue(bankFees.stream().anyMatch(bankFee -> BANK_FEE2_ID.equals(bankFee.getId())));
+  }
+
+  @Test
+  void admin_can_filter_bank_fees_by_expense_id() throws Exception {
+    BankFeeApi api = new BankFeeApi(anApiClient(ADMIN_TOKEN));
+
+    List<BankFee> bankFees =
+        api.getBankFees(
+            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, 1, 100, EXPENSE2_ID, null, null);
+
+    assertEquals(1, bankFees.size());
+    assertEquals(BANK_FEE2_ID, bankFees.get(0).getId());
+  }
+
+  @Test
+  void admin_can_filter_bank_fees_by_bank_name() throws Exception {
+    BankFeeApi api = new BankFeeApi(anApiClient(ADMIN_TOKEN));
+
+    List<BankFee> bankFees =
+        api.getBankFees(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, 1, 100, null, "BNI", null);
+
+    assertEquals(1, bankFees.size());
+    assertEquals(BANK_FEE1_ID, bankFees.get(0).getId());
+  }
+
+  @Test
+  void admin_can_filter_bank_fees_by_description() throws Exception {
+    BankFeeApi api = new BankFeeApi(anApiClient(ADMIN_TOKEN));
+
+    List<BankFee> bankFees =
+        api.getBankFees(
+            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, 1, 100, null, null, "sous-traitant");
+
+    assertEquals(1, bankFees.size());
+    assertEquals(BANK_FEE2_ID, bankFees.get(0).getId());
   }
 
   @Test

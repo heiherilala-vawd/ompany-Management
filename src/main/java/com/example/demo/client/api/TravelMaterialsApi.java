@@ -50,7 +50,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-20T07:38:02.725832860+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-20T11:19:32.360037432+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class TravelMaterialsApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -322,11 +322,14 @@ public class TravelMaterialsApi {
    * @param page  (optional)
    * @param pageSize  (optional)
    * @param travelId  (optional)
+   * @param materialId  (optional)
+   * @param quantity  (optional)
+   * @param quantityReceived  (optional)
    * @return List&lt;TravelMaterials&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<TravelMaterials> getTravelMaterials(String compId, String jobId, String userId, String expensesId, String travelExpensesId, Integer page, Integer pageSize, String travelId) throws ApiException {
-    ApiResponse<List<TravelMaterials>> localVarResponse = getTravelMaterialsWithHttpInfo(compId, jobId, userId, expensesId, travelExpensesId, page, pageSize, travelId);
+  public List<TravelMaterials> getTravelMaterials(String compId, String jobId, String userId, String expensesId, String travelExpensesId, Integer page, Integer pageSize, String travelId, String materialId, Integer quantity, Integer quantityReceived) throws ApiException {
+    ApiResponse<List<TravelMaterials>> localVarResponse = getTravelMaterialsWithHttpInfo(compId, jobId, userId, expensesId, travelExpensesId, page, pageSize, travelId, materialId, quantity, quantityReceived);
     return localVarResponse.getData();
   }
 
@@ -341,11 +344,14 @@ public class TravelMaterialsApi {
    * @param page  (optional)
    * @param pageSize  (optional)
    * @param travelId  (optional)
+   * @param materialId  (optional)
+   * @param quantity  (optional)
+   * @param quantityReceived  (optional)
    * @return ApiResponse&lt;List&lt;TravelMaterials&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<TravelMaterials>> getTravelMaterialsWithHttpInfo(String compId, String jobId, String userId, String expensesId, String travelExpensesId, Integer page, Integer pageSize, String travelId) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getTravelMaterialsRequestBuilder(compId, jobId, userId, expensesId, travelExpensesId, page, pageSize, travelId);
+  public ApiResponse<List<TravelMaterials>> getTravelMaterialsWithHttpInfo(String compId, String jobId, String userId, String expensesId, String travelExpensesId, Integer page, Integer pageSize, String travelId, String materialId, Integer quantity, Integer quantityReceived) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getTravelMaterialsRequestBuilder(compId, jobId, userId, expensesId, travelExpensesId, page, pageSize, travelId, materialId, quantity, quantityReceived);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -373,7 +379,7 @@ public class TravelMaterialsApi {
     }
   }
 
-  private HttpRequest.Builder getTravelMaterialsRequestBuilder(String compId, String jobId, String userId, String expensesId, String travelExpensesId, Integer page, Integer pageSize, String travelId) throws ApiException {
+  private HttpRequest.Builder getTravelMaterialsRequestBuilder(String compId, String jobId, String userId, String expensesId, String travelExpensesId, Integer page, Integer pageSize, String travelId, String materialId, Integer quantity, Integer quantityReceived) throws ApiException {
     // verify the required parameter 'compId' is set
     if (compId == null) {
       throw new ApiException(400, "Missing the required parameter 'compId' when calling getTravelMaterials");
@@ -413,6 +419,12 @@ public class TravelMaterialsApi {
     localVarQueryParams.addAll(ApiClient.parameterToPairs("page_size", pageSize));
     localVarQueryParameterBaseName = "travel_id";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("travel_id", travelId));
+    localVarQueryParameterBaseName = "material_id";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("material_id", materialId));
+    localVarQueryParameterBaseName = "quantity";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("quantity", quantity));
+    localVarQueryParameterBaseName = "quantity_received";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("quantity_received", quantityReceived));
 
     if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
       StringJoiner queryJoiner = new StringJoiner("&");

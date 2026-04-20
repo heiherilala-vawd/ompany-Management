@@ -50,7 +50,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-20T07:38:02.725832860+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-20T11:19:32.360037432+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class BankFeeApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -407,11 +407,14 @@ public class BankFeeApi {
    * @param expensesId  (required)
    * @param page  (optional)
    * @param pageSize  (optional)
+   * @param expenseId  (optional)
+   * @param bankName Filter bank fees by bank name, case is ignored (optional)
+   * @param description Filter bank fees by description, case is ignored (optional)
    * @return List&lt;BankFee&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<BankFee> getBankFees(String compId, String jobId, String userId, String expensesId, Integer page, Integer pageSize) throws ApiException {
-    ApiResponse<List<BankFee>> localVarResponse = getBankFeesWithHttpInfo(compId, jobId, userId, expensesId, page, pageSize);
+  public List<BankFee> getBankFees(String compId, String jobId, String userId, String expensesId, Integer page, Integer pageSize, String expenseId, String bankName, String description) throws ApiException {
+    ApiResponse<List<BankFee>> localVarResponse = getBankFeesWithHttpInfo(compId, jobId, userId, expensesId, page, pageSize, expenseId, bankName, description);
     return localVarResponse.getData();
   }
 
@@ -424,11 +427,14 @@ public class BankFeeApi {
    * @param expensesId  (required)
    * @param page  (optional)
    * @param pageSize  (optional)
+   * @param expenseId  (optional)
+   * @param bankName Filter bank fees by bank name, case is ignored (optional)
+   * @param description Filter bank fees by description, case is ignored (optional)
    * @return ApiResponse&lt;List&lt;BankFee&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<BankFee>> getBankFeesWithHttpInfo(String compId, String jobId, String userId, String expensesId, Integer page, Integer pageSize) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getBankFeesRequestBuilder(compId, jobId, userId, expensesId, page, pageSize);
+  public ApiResponse<List<BankFee>> getBankFeesWithHttpInfo(String compId, String jobId, String userId, String expensesId, Integer page, Integer pageSize, String expenseId, String bankName, String description) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getBankFeesRequestBuilder(compId, jobId, userId, expensesId, page, pageSize, expenseId, bankName, description);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -456,7 +462,7 @@ public class BankFeeApi {
     }
   }
 
-  private HttpRequest.Builder getBankFeesRequestBuilder(String compId, String jobId, String userId, String expensesId, Integer page, Integer pageSize) throws ApiException {
+  private HttpRequest.Builder getBankFeesRequestBuilder(String compId, String jobId, String userId, String expensesId, Integer page, Integer pageSize, String expenseId, String bankName, String description) throws ApiException {
     // verify the required parameter 'compId' is set
     if (compId == null) {
       throw new ApiException(400, "Missing the required parameter 'compId' when calling getBankFees");
@@ -489,6 +495,12 @@ public class BankFeeApi {
     localVarQueryParams.addAll(ApiClient.parameterToPairs("page", page));
     localVarQueryParameterBaseName = "page_size";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("page_size", pageSize));
+    localVarQueryParameterBaseName = "expense_id";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("expense_id", expenseId));
+    localVarQueryParameterBaseName = "bank_name";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("bank_name", bankName));
+    localVarQueryParameterBaseName = "description";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("description", description));
 
     if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
       StringJoiner queryJoiner = new StringJoiner("&");

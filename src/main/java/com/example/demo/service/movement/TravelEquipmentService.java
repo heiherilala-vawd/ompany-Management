@@ -1,7 +1,10 @@
 package com.example.demo.service.movement;
 
+import static com.example.demo.repository.specification.SpecificationUtils.equal;
+
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
+import com.example.demo.model.criteria.TravelEquipmentCriteria;
 import com.example.demo.model.movement.TravelEquipment;
 import com.example.demo.repository.movement.TravelEquipmentRepository;
 import com.example.demo.service.utils.PageUtils;
@@ -10,6 +13,7 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,14 +29,9 @@ public class TravelEquipmentService {
   }
 
   public Page<TravelEquipment> findAll(
-      PageFromOne page, BoundedPageSize pageSize, String travelId) {
+      PageFromOne page, BoundedPageSize pageSize, TravelEquipmentCriteria criteria) {
     Pageable pageable = PageUtils.createPageable(page, pageSize);
-
-    if (travelId != null) {
-      return travelEquipmentRepository.findByTravelId(travelId, pageable);
-    }
-
-    return travelEquipmentRepository.findAll(pageable);
+    return travelEquipmentRepository.findAll(toSpecification(criteria), pageable);
   }
 
   public List<TravelEquipment> findByTravelId(String travelId) {
@@ -68,5 +67,12 @@ public class TravelEquipmentService {
   @Transactional
   public void deleteByTravelId(String travelId) {
     travelEquipmentRepository.deleteByTravelId(travelId);
+  }
+
+  private Specification<TravelEquipment> toSpecification(TravelEquipmentCriteria criteria) {
+    return Specification.<TravelEquipment>where(equal(criteria.getTravelId(), "travel", "id"))
+        .and(equal(criteria.getEquipmentId(), "equipment", "id"))
+        .and(equal(criteria.getQuantity(), "quantity"))
+        .and(equal(criteria.getStatus(), "status"));
   }
 }
