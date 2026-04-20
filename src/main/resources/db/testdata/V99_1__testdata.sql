@@ -4,6 +4,9 @@
 -- Mots de passe hashés avec BCrypt (password = "admin123" pour tous)
 -- Pour générer: BCryptPasswordEncoder().encode("admin123")
 
+DELETE FROM "travel_equipment";
+DELETE FROM "travel_materials";
+DELETE FROM "travel_people";
 DELETE FROM "travel_expense";
 DELETE FROM "other_expense";
 DELETE FROM "bank_fee";
@@ -132,6 +135,24 @@ INSERT INTO "travel_expense" (
 VALUES
 ('travel_expense1_id', 'expense1_id', 'Antananarivo', 'Toamasina', '2024-03-01T06:00:00Z', '2024-03-01T12:00:00Z'),
 ('travel_expense2_id', 'expense2_id', 'Fianarantsoa', 'Antsirabe', '2024-03-05T07:30:00Z', '2024-03-05T15:00:00Z');
+
+-- =========================
+-- TEST DATA TRAVEL PEOPLE / MATERIALS / EQUIPMENT
+-- =========================
+INSERT INTO "travel_people" (id, travel_id, person_name)
+VALUES
+('travel_people1_id', 'travel_expense1_id', 'Alice Martin'),
+('travel_people2_id', 'travel_expense1_id', 'Bob Dupont');
+
+INSERT INTO "travel_materials" (id, travel_id, material, quantity, quantity_received)
+VALUES
+('travel_materials1_id', 'travel_expense1_id', 'material1_id', 10, 5),
+('travel_materials2_id', 'travel_expense2_id', 'material2_id', 20, NULL);
+
+INSERT INTO "travel_equipment" (id, travel_id, equipment, quantity, status)
+VALUES
+('travel_equipment1_id', 'travel_expense1_id', 'equipment1_id', 2, 'IN_PROGRESS'),
+('travel_equipment2_id', 'travel_expense2_id', 'equipment2_id', 1, 'ARRIVED');
 
 -- =========================
 -- TEST DATA PURCHASES
