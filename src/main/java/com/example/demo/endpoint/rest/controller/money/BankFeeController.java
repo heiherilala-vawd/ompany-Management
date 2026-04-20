@@ -64,7 +64,7 @@ public class BankFeeController {
 
   @DeleteMapping(
       "/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/bank_fees/{id}")
-  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
+  @PreAuthorize("hasAnyRole('ADMIN')")
   public void deleteBankFeeById(
       @PathVariable String comp_id,
       @PathVariable String job_id,

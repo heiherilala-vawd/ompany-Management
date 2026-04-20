@@ -42,7 +42,7 @@ public class WarehouseController {
   }
 
   @PutMapping("/companies/{comp_id}/warehouses")
-  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
+  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public List<Warehouse> crupdateWarehouses(
       @PathVariable String comp_id, @RequestBody List<CrupdateWarehouse> toWrite) {
     var saved =
@@ -52,7 +52,7 @@ public class WarehouseController {
   }
 
   @DeleteMapping("/companies/{comp_id}/warehouses/{id}")
-  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
+  @PreAuthorize("hasAnyRole('ADMIN')")
   public void deleteWarehouseById(@PathVariable String comp_id, @PathVariable String id) {
     warehouseService.deleteById(id);
   }

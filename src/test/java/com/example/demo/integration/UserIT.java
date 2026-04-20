@@ -82,9 +82,8 @@ class UserIT {
     assertEquals(employee1(), ownUser);
 
     // Employee ne peut pas voir les autres utilisateurs
-    // todo : make toh forbiden exeption
-    assertThrowsApiException(INTERNAL_SERVER_ERROR, () -> api.getUserById(ADMIN_ID));
-    assertThrowsApiException(INTERNAL_SERVER_ERROR, () -> api.getUserById(WAREHOUSE_ID));
+    assertThrowsForbiddenException(() -> api.getUserById(ADMIN_ID));
+    assertThrowsForbiddenException(() -> api.getUserById(WAREHOUSE_ID));
   }
 
   @Test
@@ -92,7 +91,7 @@ class UserIT {
     ApiClient badClient = anApiClient(BAD_TOKEN);
     UsersApi api = new UsersApi(badClient);
 
-    assertThrowsForbiddenException(() -> api.getUserById(ADMIN_ID));
+    assertThrowsNotAuthorizedException(() -> api.getUserById(ADMIN_ID));
   }
 
   @Test

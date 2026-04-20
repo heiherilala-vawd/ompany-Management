@@ -2,13 +2,14 @@ package com.example.demo.endpoint.rest;
 
 import com.example.demo.model.exception.*;
 import jakarta.persistence.OptimisticLockException;
-import java.nio.file.AccessDeniedException;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.exception.LockAcquisitionException;
 import org.springframework.dao.CannotAcquireLockException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -62,6 +63,7 @@ public class InternalToRestExceptionHandler {
   @ExceptionHandler(
       value = {
         AccessDeniedException.class,
+        AuthorizationDeniedException.class,
         BadCredentialsException.class,
         ForbiddenException.class
       })

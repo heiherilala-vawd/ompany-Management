@@ -28,12 +28,13 @@ public class UserController {
   }
 
   @GetMapping("/users/{userId}")
-  @PreAuthorize("hasRole('ADMIN') or #userId == authentication.principal.id")
+  @PreAuthorize("hasAnyRole('ADMIN') or #userId == authentication.principal.id")
   public User getUserById(@PathVariable String userId) {
     return userMapper.toRestUser(userService.getById(userId));
   }
 
   @GetMapping("/users")
+  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public List<User> getUsers(
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
@@ -56,7 +57,7 @@ public class UserController {
   }
 
   @DeleteMapping("/users/{id}")
-  @PreAuthorize("hasRole('ADMIN')")
+  @PreAuthorize("hasAnyRole('ADMIN')")
   public void deleteUserById(@PathVariable String id) {
     userService.deleteById(id);
   }
