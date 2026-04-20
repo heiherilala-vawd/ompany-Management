@@ -8,7 +8,13 @@ import static org.mockito.Mockito.when;
 
 import com.example.demo.client.invoker.ApiClient;
 import com.example.demo.client.invoker.ApiException;
+import com.example.demo.client.model.Company;
+import com.example.demo.client.model.CompanyType;
+import com.example.demo.client.model.CrupdateCompany;
+import com.example.demo.client.model.CrupdateJob;
 import com.example.demo.client.model.CrupdateUser;
+import com.example.demo.client.model.Job;
+import com.example.demo.client.model.JobStatus;
 import com.example.demo.client.model.Role;
 import com.example.demo.client.model.Sex;
 import com.example.demo.client.model.User;
@@ -36,6 +42,10 @@ public class TestUtils {
   public static final String USER1_ID = "user1_id";
   public static final String USER2_ID = "user2_id";
   public static final String USER3_ID = "user3_id";
+  public static final String COMPANY1_ID = "company1_id";
+  public static final String COMPANY2_ID = "company2_id";
+  public static final String JOB1_ID = "job1_id";
+  public static final String JOB2_ID = "job2_id";
 
   // Emails de test
   public static final String ADMIN_EMAIL = "admin@hei.school";
@@ -279,6 +289,94 @@ public class TestUtils {
     return crupdateUser;
   }
   ;
+
+  public static Company company1() {
+    Company company = new Company();
+    company.setId(COMPANY1_ID);
+    company.setName("BTP Construction SARL");
+    company.setRib("FR7612345678901234567890123");
+    company.setDescription("Entreprise de construction");
+    company.setCompanyType(CompanyType.BTP);
+    return company;
+  }
+
+  public static Company company2() {
+    Company company = new Company();
+    company.setId(COMPANY2_ID);
+    company.setName("Hotel Palace");
+    company.setRib("FR7698765432109876543210987");
+    company.setDescription("Hotel de luxe");
+    company.setCompanyType(CompanyType.HOTEL);
+    return company;
+  }
+
+  public static CrupdateCompany companyToCrupdateCompany(Company company) {
+    CrupdateCompany crupdateCompany = new CrupdateCompany();
+    crupdateCompany.setId(company.getId());
+    crupdateCompany.setName(company.getName());
+    crupdateCompany.setRib(company.getRib());
+    crupdateCompany.setDescription(company.getDescription());
+    crupdateCompany.setCompanyType(company.getCompanyType());
+    crupdateCompany.setComment(company.getComment());
+    return crupdateCompany;
+  }
+
+  public static CrupdateCompany someCreatableCompany() {
+    CrupdateCompany company = new CrupdateCompany();
+    company.setName("New Company");
+    company.setRib("FR0012345678901234567890123");
+    company.setDescription("Nouvelle entreprise");
+    company.setCompanyType(CompanyType.BTP);
+    return company;
+  }
+
+  public static Job job1() {
+    Job job = new Job();
+    job.setId(JOB1_ID);
+    job.setCompanyId(COMPANY1_ID);
+    job.setDescription("Construction du bâtiment A");
+    job.setContractSignatureDate(java.time.LocalDate.parse("2024-01-15"));
+    job.setStartDate(java.time.LocalDate.parse("2024-02-01"));
+    job.setEndDate(java.time.LocalDate.parse("2024-12-31"));
+    job.setStatus(JobStatus.IN_PROGRESS);
+    return job;
+  }
+
+  public static Job job2() {
+    Job job = new Job();
+    job.setId(JOB2_ID);
+    job.setCompanyId(COMPANY2_ID);
+    job.setDescription("Rénovation des chambres");
+    job.setContractSignatureDate(java.time.LocalDate.parse("2024-01-20"));
+    job.setStartDate(java.time.LocalDate.parse("2024-03-01"));
+    job.setEndDate(java.time.LocalDate.parse("2024-06-30"));
+    job.setStatus(JobStatus.PENDING_SIGNATURE);
+    return job;
+  }
+
+  public static CrupdateJob jobToCrupdateJob(Job job) {
+    CrupdateJob crupdateJob = new CrupdateJob();
+    crupdateJob.setId(job.getId());
+    crupdateJob.setCompanyId(job.getCompanyId());
+    crupdateJob.setDescription(job.getDescription());
+    crupdateJob.setContractSignatureDate(job.getContractSignatureDate());
+    crupdateJob.setStartDate(job.getStartDate());
+    crupdateJob.setEndDate(job.getEndDate());
+    crupdateJob.setStatus(job.getStatus());
+    crupdateJob.setComment(job.getComment());
+    return crupdateJob;
+  }
+
+  public static CrupdateJob someCreatableJob() {
+    CrupdateJob job = new CrupdateJob();
+    job.setCompanyId(COMPANY1_ID);
+    job.setDescription("Nouveau chantier");
+    job.setContractSignatureDate(java.time.LocalDate.parse("2024-04-01"));
+    job.setStartDate(java.time.LocalDate.parse("2024-04-15"));
+    job.setEndDate(java.time.LocalDate.parse("2024-12-15"));
+    job.setStatus(JobStatus.IN_PROGRESS);
+    return job;
+  }
 
   public static int anAvailableRandomPort() {
     try {
