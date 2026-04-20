@@ -33,15 +33,23 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  */
 @JsonPropertyOrder({
   CrupdateExpenseMoney.JSON_PROPERTY_ID,
-  CrupdateExpenseMoney.JSON_PROPERTY_MONETARY_ID
+  CrupdateExpenseMoney.JSON_PROPERTY_AMOUNT,
+  CrupdateExpenseMoney.JSON_PROPERTY_DESCRIPTION,
+  CrupdateExpenseMoney.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-18T05:40:17.233941351+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-20T07:38:02.725832860+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdateExpenseMoney {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
 
-  public static final String JSON_PROPERTY_MONETARY_ID = "monetary_id";
-  private String monetaryId;
+  public static final String JSON_PROPERTY_AMOUNT = "amount";
+  private Integer amount;
+
+  public static final String JSON_PROPERTY_DESCRIPTION = "description";
+  private String description;
+
+  public static final String JSON_PROPERTY_COMMENT = "comment";
+  private String comment;
 
   public CrupdateExpenseMoney() { 
   }
@@ -71,28 +79,78 @@ public class CrupdateExpenseMoney {
   }
 
 
-  public CrupdateExpenseMoney monetaryId(String monetaryId) {
-    this.monetaryId = monetaryId;
+  public CrupdateExpenseMoney amount(Integer amount) {
+    this.amount = amount;
     return this;
   }
 
    /**
-   * Get monetaryId
-   * @return monetaryId
+   * Get amount
+   * @return amount
   **/
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_MONETARY_ID)
+  @JsonProperty(JSON_PROPERTY_AMOUNT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getMonetaryId() {
-    return monetaryId;
+  public Integer getAmount() {
+    return amount;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_MONETARY_ID)
+  @JsonProperty(JSON_PROPERTY_AMOUNT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setMonetaryId(String monetaryId) {
-    this.monetaryId = monetaryId;
+  public void setAmount(Integer amount) {
+    this.amount = amount;
+  }
+
+
+  public CrupdateExpenseMoney description(String description) {
+    this.description = description;
+    return this;
+  }
+
+   /**
+   * Get description
+   * @return description
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_DESCRIPTION)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getDescription() {
+    return description;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_DESCRIPTION)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
+
+  public CrupdateExpenseMoney comment(String comment) {
+    this.comment = comment;
+    return this;
+  }
+
+   /**
+   * Get comment
+   * @return comment
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_COMMENT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getComment() {
+    return comment;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_COMMENT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setComment(String comment) {
+    this.comment = comment;
   }
 
 
@@ -109,12 +167,14 @@ public class CrupdateExpenseMoney {
     }
     CrupdateExpenseMoney crupdateExpenseMoney = (CrupdateExpenseMoney) o;
     return Objects.equals(this.id, crupdateExpenseMoney.id) &&
-        Objects.equals(this.monetaryId, crupdateExpenseMoney.monetaryId);
+        Objects.equals(this.amount, crupdateExpenseMoney.amount) &&
+        Objects.equals(this.description, crupdateExpenseMoney.description) &&
+        Objects.equals(this.comment, crupdateExpenseMoney.comment);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, monetaryId);
+    return Objects.hash(id, amount, description, comment);
   }
 
   @Override
@@ -122,7 +182,9 @@ public class CrupdateExpenseMoney {
     StringBuilder sb = new StringBuilder();
     sb.append("class CrupdateExpenseMoney {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    monetaryId: ").append(toIndentedString(monetaryId)).append("\n");
+    sb.append("    amount: ").append(toIndentedString(amount)).append("\n");
+    sb.append("    description: ").append(toIndentedString(description)).append("\n");
+    sb.append("    comment: ").append(toIndentedString(comment)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -170,14 +232,19 @@ public class CrupdateExpenseMoney {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `id` to the URL query string
-    if (getId() != null) {
-      joiner.add(String.format("%sid%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    // add `amount` to the URL query string
+    if (getAmount() != null) {
+      joiner.add(String.format("%samount%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getAmount()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `monetary_id` to the URL query string
-    if (getMonetaryId() != null) {
-      joiner.add(String.format("%smonetary_id%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getMonetaryId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    // add `description` to the URL query string
+    if (getDescription() != null) {
+      joiner.add(String.format("%sdescription%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getDescription()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `comment` to the URL query string
+    if (getComment() != null) {
+      joiner.add(String.format("%scomment%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getComment()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

@@ -37,9 +37,10 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   CrupdateCompany.JSON_PROPERTY_NAME,
   CrupdateCompany.JSON_PROPERTY_RIB,
   CrupdateCompany.JSON_PROPERTY_DESCRIPTION,
-  CrupdateCompany.JSON_PROPERTY_COMPANY_TYPE
+  CrupdateCompany.JSON_PROPERTY_COMPANY_TYPE,
+  CrupdateCompany.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-18T05:40:17.233941351+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-20T07:38:02.725832860+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdateCompany {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -55,6 +56,9 @@ public class CrupdateCompany {
 
   public static final String JSON_PROPERTY_COMPANY_TYPE = "company_type";
   private CompanyType companyType;
+
+  public static final String JSON_PROPERTY_COMMENT = "comment";
+  private String comment;
 
   public CrupdateCompany() { 
   }
@@ -184,6 +188,31 @@ public class CrupdateCompany {
   }
 
 
+  public CrupdateCompany comment(String comment) {
+    this.comment = comment;
+    return this;
+  }
+
+   /**
+   * Get comment
+   * @return comment
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_COMMENT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getComment() {
+    return comment;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_COMMENT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setComment(String comment) {
+    this.comment = comment;
+  }
+
+
   /**
    * Return true if this CrupdateCompany object is equal to o.
    */
@@ -200,12 +229,13 @@ public class CrupdateCompany {
         Objects.equals(this.name, crupdateCompany.name) &&
         Objects.equals(this.rib, crupdateCompany.rib) &&
         Objects.equals(this.description, crupdateCompany.description) &&
-        Objects.equals(this.companyType, crupdateCompany.companyType);
+        Objects.equals(this.companyType, crupdateCompany.companyType) &&
+        Objects.equals(this.comment, crupdateCompany.comment);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, rib, description, companyType);
+    return Objects.hash(id, name, rib, description, companyType, comment);
   }
 
   @Override
@@ -217,6 +247,7 @@ public class CrupdateCompany {
     sb.append("    rib: ").append(toIndentedString(rib)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("    companyType: ").append(toIndentedString(companyType)).append("\n");
+    sb.append("    comment: ").append(toIndentedString(comment)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -264,29 +295,9 @@ public class CrupdateCompany {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `id` to the URL query string
-    if (getId() != null) {
-      joiner.add(String.format("%sid%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-    }
-
-    // add `name` to the URL query string
-    if (getName() != null) {
-      joiner.add(String.format("%sname%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-    }
-
-    // add `rib` to the URL query string
-    if (getRib() != null) {
-      joiner.add(String.format("%srib%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getRib()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-    }
-
-    // add `description` to the URL query string
-    if (getDescription() != null) {
-      joiner.add(String.format("%sdescription%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getDescription()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-    }
-
-    // add `company_type` to the URL query string
-    if (getCompanyType() != null) {
-      joiner.add(String.format("%scompany_type%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getCompanyType()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    // add `comment` to the URL query string
+    if (getComment() != null) {
+      joiner.add(String.format("%scomment%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getComment()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

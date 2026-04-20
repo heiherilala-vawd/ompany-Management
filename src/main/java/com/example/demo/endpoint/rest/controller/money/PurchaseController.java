@@ -21,7 +21,7 @@ public class PurchaseController {
 
   @GetMapping(
       "/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/purchases/{id}")
-  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
+  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public Purchase getPurchaseById(
       @PathVariable String comp_id,
       @PathVariable String job_id,
@@ -35,7 +35,7 @@ public class PurchaseController {
   }
 
   @GetMapping("/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/purchases")
-  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
+  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public List<Purchase> getPurchases(
       @PathVariable String comp_id,
       @PathVariable String job_id,
@@ -50,7 +50,7 @@ public class PurchaseController {
   }
 
   @PutMapping("/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/purchases")
-  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
+  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public List<Purchase> crupdatePurchases(
       @PathVariable String comp_id,
       @PathVariable String job_id,
@@ -64,7 +64,7 @@ public class PurchaseController {
 
   @DeleteMapping(
       "/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/purchases/{id}")
-  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
+  @PreAuthorize("hasAnyRole('ADMIN')")
   public void deletePurchaseById(
       @PathVariable String comp_id,
       @PathVariable String job_id,

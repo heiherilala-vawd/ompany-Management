@@ -30,10 +30,6 @@ public class ExpenseMoneyService {
     return expenseMoneyRepository.findAll(pageable);
   }
 
-  public Optional<ExpenseMoney> findByMonetaryMovementId(String monetaryMovementId) {
-    return expenseMoneyRepository.findByMonetaryMovementId(monetaryMovementId);
-  }
-
   @Transactional
   public ExpenseMoney create(ExpenseMoney expenseMoney) {
     return expenseMoneyRepository.save(expenseMoney);

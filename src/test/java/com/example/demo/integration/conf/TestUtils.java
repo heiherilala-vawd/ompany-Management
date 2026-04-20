@@ -8,10 +8,44 @@ import static org.mockito.Mockito.when;
 
 import com.example.demo.client.invoker.ApiClient;
 import com.example.demo.client.invoker.ApiException;
+import com.example.demo.client.model.BankFee;
+import com.example.demo.client.model.Company;
+import com.example.demo.client.model.CompanyType;
+import com.example.demo.client.model.CrupdateBankFee;
+import com.example.demo.client.model.CrupdateCompany;
+import com.example.demo.client.model.CrupdateEmployeePayment;
+import com.example.demo.client.model.CrupdateEquipment;
+import com.example.demo.client.model.CrupdateExpenseMoney;
+import com.example.demo.client.model.CrupdateIncomeMoney;
+import com.example.demo.client.model.CrupdateJob;
+import com.example.demo.client.model.CrupdateMaterial;
+import com.example.demo.client.model.CrupdateOtherExpense;
+import com.example.demo.client.model.CrupdatePurchase;
+import com.example.demo.client.model.CrupdateTravelEquipment;
+import com.example.demo.client.model.CrupdateTravelExpense;
+import com.example.demo.client.model.CrupdateTravelMaterials;
+import com.example.demo.client.model.CrupdateTravelPeople;
 import com.example.demo.client.model.CrupdateUser;
+import com.example.demo.client.model.CrupdateWarehouse;
+import com.example.demo.client.model.EmployeePayment;
+import com.example.demo.client.model.Equipment;
+import com.example.demo.client.model.ExpenseMoney;
+import com.example.demo.client.model.IncomeMoney;
+import com.example.demo.client.model.Job;
+import com.example.demo.client.model.JobStatus;
+import com.example.demo.client.model.Material;
+import com.example.demo.client.model.OtherExpense;
+import com.example.demo.client.model.PaymentType;
+import com.example.demo.client.model.Purchase;
 import com.example.demo.client.model.Role;
 import com.example.demo.client.model.Sex;
+import com.example.demo.client.model.TransportStatus;
+import com.example.demo.client.model.TravelEquipment;
+import com.example.demo.client.model.TravelExpense;
+import com.example.demo.client.model.TravelMaterials;
+import com.example.demo.client.model.TravelPeople;
 import com.example.demo.client.model.User;
+import com.example.demo.client.model.Warehouse;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -36,6 +70,38 @@ public class TestUtils {
   public static final String USER1_ID = "user1_id";
   public static final String USER2_ID = "user2_id";
   public static final String USER3_ID = "user3_id";
+  public static final String COMPANY1_ID = "company1_id";
+  public static final String COMPANY2_ID = "company2_id";
+  public static final String JOB1_ID = "job1_id";
+  public static final String JOB2_ID = "job2_id";
+  public static final String WAREHOUSE1_ID = "warehouse1_id";
+  public static final String WAREHOUSE2_ID = "warehouse2_id";
+  public static final String EQUIPMENT1_ID = "equipment1_id";
+  public static final String EQUIPMENT2_ID = "equipment2_id";
+  public static final String EQUIPMENT3_ID = "equipment3_id";
+  public static final String MATERIAL1_ID = "material1_id";
+  public static final String MATERIAL2_ID = "material2_id";
+  public static final String MATERIAL3_ID = "material3_id";
+  public static final String INCOME1_ID = "income1_id";
+  public static final String INCOME2_ID = "income2_id";
+  public static final String EXPENSE1_ID = "expense1_id";
+  public static final String EXPENSE2_ID = "expense2_id";
+  public static final String BANK_FEE1_ID = "bank_fee1_id";
+  public static final String BANK_FEE2_ID = "bank_fee2_id";
+  public static final String EMPLOYEE_PAYMENT1_ID = "employee_payment1_id";
+  public static final String EMPLOYEE_PAYMENT2_ID = "employee_payment2_id";
+  public static final String OTHER_EXPENSE1_ID = "other_expense1_id";
+  public static final String OTHER_EXPENSE2_ID = "other_expense2_id";
+  public static final String PURCHASE1_ID = "purchase1_id";
+  public static final String PURCHASE2_ID = "purchase2_id";
+  public static final String TRAVEL_EXPENSE1_ID = "travel_expense1_id";
+  public static final String TRAVEL_EXPENSE2_ID = "travel_expense2_id";
+  public static final String TRAVEL_PEOPLE1_ID = "travel_people1_id";
+  public static final String TRAVEL_PEOPLE2_ID = "travel_people2_id";
+  public static final String TRAVEL_MATERIALS1_ID = "travel_materials1_id";
+  public static final String TRAVEL_MATERIALS2_ID = "travel_materials2_id";
+  public static final String TRAVEL_EQUIPMENT1_ID = "travel_equipment1_id";
+  public static final String TRAVEL_EQUIPMENT2_ID = "travel_equipment2_id";
 
   // Emails de test
   public static final String ADMIN_EMAIL = "admin@hei.school";
@@ -66,8 +132,11 @@ public class TestUtils {
   public static final String USER2_TOKEN = "user2_token";
   public static final String RANDOM_TOKEN = "random2_token";
 
-  public static final String INTERNAL_SERVER_ERROR =
-      "{\"type\":\"500 INTERNAL_SERVER_ERROR\",\"message\":\"Access Denied\"}";
+  public static final String FORBIDDEN_ERROR =
+      "{\"type\":\"403 FORBIDDEN\",\"message\":\"Access Denied\"}";
+
+  public static final String NOT_AUTHORIZED_ERROR =
+      "{\"type\":\"Full authentication is required to access this resource\",\"message\":\"NotAuthorizedException\"}";
 
   private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -277,6 +346,623 @@ public class TestUtils {
   }
   ;
 
+  public static Company company1() {
+    Company company = new Company();
+    company.setId(COMPANY1_ID);
+    company.setName("BTP Construction SARL");
+    company.setRib("FR7612345678901234567890123");
+    company.setDescription("Entreprise de construction");
+    company.setCompanyType(CompanyType.BTP);
+    return company;
+  }
+
+  public static Company company2() {
+    Company company = new Company();
+    company.setId(COMPANY2_ID);
+    company.setName("Hotel Palace");
+    company.setRib("FR7698765432109876543210987");
+    company.setDescription("Hotel de luxe");
+    company.setCompanyType(CompanyType.HOTEL);
+    return company;
+  }
+
+  public static CrupdateCompany companyToCrupdateCompany(Company company) {
+    CrupdateCompany crupdateCompany = new CrupdateCompany();
+    crupdateCompany.setId(company.getId());
+    crupdateCompany.setName(company.getName());
+    crupdateCompany.setRib(company.getRib());
+    crupdateCompany.setDescription(company.getDescription());
+    crupdateCompany.setCompanyType(company.getCompanyType());
+    crupdateCompany.setComment(company.getComment());
+    return crupdateCompany;
+  }
+
+  public static CrupdateCompany someCreatableCompany() {
+    CrupdateCompany company = new CrupdateCompany();
+    company.setName("New Company");
+    company.setRib("FR0012345678901234567890123");
+    company.setDescription("Nouvelle entreprise");
+    company.setCompanyType(CompanyType.BTP);
+    return company;
+  }
+
+  public static Job job1() {
+    Job job = new Job();
+    job.setId(JOB1_ID);
+    job.setCompanyId(COMPANY1_ID);
+    job.setDescription("Construction du bâtiment A");
+    job.setContractSignatureDate(java.time.LocalDate.parse("2024-01-15"));
+    job.setStartDate(java.time.LocalDate.parse("2024-02-01"));
+    job.setEndDate(java.time.LocalDate.parse("2024-12-31"));
+    job.setStatus(JobStatus.IN_PROGRESS);
+    return job;
+  }
+
+  public static Job job2() {
+    Job job = new Job();
+    job.setId(JOB2_ID);
+    job.setCompanyId(COMPANY2_ID);
+    job.setDescription("Rénovation des chambres");
+    job.setContractSignatureDate(java.time.LocalDate.parse("2024-01-20"));
+    job.setStartDate(java.time.LocalDate.parse("2024-03-01"));
+    job.setEndDate(java.time.LocalDate.parse("2024-06-30"));
+    job.setStatus(JobStatus.PENDING_SIGNATURE);
+    return job;
+  }
+
+  public static CrupdateJob jobToCrupdateJob(Job job) {
+    CrupdateJob crupdateJob = new CrupdateJob();
+    crupdateJob.setId(job.getId());
+    crupdateJob.setCompanyId(job.getCompanyId());
+    crupdateJob.setDescription(job.getDescription());
+    crupdateJob.setContractSignatureDate(job.getContractSignatureDate());
+    crupdateJob.setStartDate(job.getStartDate());
+    crupdateJob.setEndDate(job.getEndDate());
+    crupdateJob.setStatus(job.getStatus());
+    crupdateJob.setComment(job.getComment());
+    return crupdateJob;
+  }
+
+  public static CrupdateJob someCreatableJob() {
+    CrupdateJob job = new CrupdateJob();
+    job.setCompanyId(COMPANY1_ID);
+    job.setDescription("Nouveau chantier");
+    job.setContractSignatureDate(java.time.LocalDate.parse("2024-04-01"));
+    job.setStartDate(java.time.LocalDate.parse("2024-04-15"));
+    job.setEndDate(java.time.LocalDate.parse("2024-12-15"));
+    job.setStatus(JobStatus.IN_PROGRESS);
+    return job;
+  }
+
+  public static Warehouse warehouse1() {
+    Warehouse warehouse = new Warehouse();
+    warehouse.setId(WAREHOUSE1_ID);
+    warehouse.setName("Entrepôt Nord");
+    warehouse.setDescription("Stockage matériaux lourds");
+    warehouse.setJobId(JOB1_ID);
+    return warehouse;
+  }
+
+  public static Warehouse warehouse2() {
+    Warehouse warehouse = new Warehouse();
+    warehouse.setId(WAREHOUSE2_ID);
+    warehouse.setName("Entrepôt Sud");
+    warehouse.setDescription("Stockage équipements");
+    warehouse.setJobId(JOB2_ID);
+    return warehouse;
+  }
+
+  public static CrupdateWarehouse warehouseToCrupdateWarehouse(Warehouse warehouse) {
+    CrupdateWarehouse crupdateWarehouse = new CrupdateWarehouse();
+    crupdateWarehouse.setId(warehouse.getId());
+    crupdateWarehouse.setName(warehouse.getName());
+    crupdateWarehouse.setDescription(warehouse.getDescription());
+    crupdateWarehouse.setJobId(warehouse.getJobId());
+    crupdateWarehouse.setComment(warehouse.getComment());
+    return crupdateWarehouse;
+  }
+
+  public static CrupdateWarehouse someCreatableWarehouse() {
+    CrupdateWarehouse warehouse = new CrupdateWarehouse();
+    warehouse.setName("Entrepôt Est");
+    warehouse.setDescription("Stockage temporaire");
+    warehouse.setJobId(JOB1_ID);
+    return warehouse;
+  }
+
+  public static Equipment equipment1() {
+    Equipment equipment = new Equipment();
+    equipment.setId(EQUIPMENT1_ID);
+    equipment.setName("Pelle mécanique");
+    equipment.setDescription("Pelle Caterpillar 320");
+    equipment.setWarehouseId(WAREHOUSE1_ID);
+    equipment.setFloorNumber(1);
+    equipment.setStorageNumber(10);
+    return equipment;
+  }
+
+  public static Equipment equipment2() {
+    Equipment equipment = new Equipment();
+    equipment.setId(EQUIPMENT2_ID);
+    equipment.setName("Bétonnière");
+    equipment.setDescription("Bétonnière électrique");
+    equipment.setWarehouseId(WAREHOUSE1_ID);
+    equipment.setFloorNumber(1);
+    equipment.setStorageNumber(15);
+    return equipment;
+  }
+
+  public static Equipment equipment3() {
+    Equipment equipment = new Equipment();
+    equipment.setId(EQUIPMENT3_ID);
+    equipment.setName("Climatisation");
+    equipment.setDescription("Unité extérieure");
+    equipment.setWarehouseId(WAREHOUSE2_ID);
+    equipment.setFloorNumber(2);
+    equipment.setStorageNumber(5);
+    return equipment;
+  }
+
+  public static CrupdateEquipment equipmentToCrupdateEquipment(Equipment equipment) {
+    CrupdateEquipment crupdateEquipment = new CrupdateEquipment();
+    crupdateEquipment.setId(equipment.getId());
+    crupdateEquipment.setName(equipment.getName());
+    crupdateEquipment.setDescription(equipment.getDescription());
+    crupdateEquipment.setWarehouseId(equipment.getWarehouseId());
+    crupdateEquipment.setFloorNumber(equipment.getFloorNumber());
+    crupdateEquipment.setStorageNumber(equipment.getStorageNumber());
+    crupdateEquipment.setComment(equipment.getComment());
+    return crupdateEquipment;
+  }
+
+  public static CrupdateEquipment someCreatableEquipment() {
+    CrupdateEquipment equipment = new CrupdateEquipment();
+    equipment.setName("Marteau-piqueur");
+    equipment.setDescription("Outil de demolition");
+    equipment.setWarehouseId(WAREHOUSE1_ID);
+    equipment.setFloorNumber(1);
+    equipment.setStorageNumber(20);
+    return equipment;
+  }
+
+  public static Material material1() {
+    Material material = new Material();
+    material.setId(MATERIAL1_ID);
+    material.setName("Ciment");
+    material.setDescription("Ciment Portland 35kg");
+    material.setWarehouseId(WAREHOUSE1_ID);
+    material.setFloorNumber(1);
+    material.setStorageNumber(100);
+    return material;
+  }
+
+  public static Material material2() {
+    Material material = new Material();
+    material.setId(MATERIAL2_ID);
+    material.setName("Brique");
+    material.setDescription("Brique rouge 20x10x5");
+    material.setWarehouseId(WAREHOUSE1_ID);
+    material.setFloorNumber(1);
+    material.setStorageNumber(500);
+    return material;
+  }
+
+  public static Material material3() {
+    Material material = new Material();
+    material.setId(MATERIAL3_ID);
+    material.setName("Peinture");
+    material.setDescription("Peinture blanche mate");
+    material.setWarehouseId(WAREHOUSE2_ID);
+    material.setFloorNumber(2);
+    material.setStorageNumber(50);
+    return material;
+  }
+
+  public static CrupdateMaterial materialToCrupdateMaterial(Material material) {
+    CrupdateMaterial crupdateMaterial = new CrupdateMaterial();
+    crupdateMaterial.setId(material.getId());
+    crupdateMaterial.setName(material.getName());
+    crupdateMaterial.setDescription(material.getDescription());
+    crupdateMaterial.setWarehouseId(material.getWarehouseId());
+    crupdateMaterial.setFloorNumber(material.getFloorNumber());
+    crupdateMaterial.setStorageNumber(material.getStorageNumber());
+    crupdateMaterial.setComment(material.getComment());
+    return crupdateMaterial;
+  }
+
+  public static CrupdateMaterial someCreatableMaterial() {
+    CrupdateMaterial material = new CrupdateMaterial();
+    material.setName("Sable");
+    material.setDescription("Sable fin");
+    material.setWarehouseId(WAREHOUSE1_ID);
+    material.setFloorNumber(1);
+    material.setStorageNumber(200);
+    return material;
+  }
+
+  public static IncomeMoney income1() {
+    IncomeMoney income = new IncomeMoney();
+    income.setId(INCOME1_ID);
+    income.setSourceOrganization("Client Alpha");
+    income.setInvoiceReference("INV-2024-001");
+    income.setAmount(150000);
+    income.setDescription("Paiement initial chantier A");
+    return income;
+  }
+
+  public static IncomeMoney income2() {
+    IncomeMoney income = new IncomeMoney();
+    income.setId(INCOME2_ID);
+    income.setSourceOrganization("Client Beta");
+    income.setInvoiceReference("INV-2024-002");
+    income.setAmount(275000);
+    income.setDescription("Paiement avance renovation hotel");
+    return income;
+  }
+
+  public static CrupdateIncomeMoney incomeToCrupdateIncome(IncomeMoney income) {
+    CrupdateIncomeMoney crupdateIncome = new CrupdateIncomeMoney();
+    crupdateIncome.setId(income.getId());
+    crupdateIncome.setSourceOrganization(income.getSourceOrganization());
+    crupdateIncome.setInvoiceReference(income.getInvoiceReference());
+    crupdateIncome.setAmount(income.getAmount());
+    crupdateIncome.setDescription(income.getDescription());
+    crupdateIncome.setComment(income.getComment());
+    return crupdateIncome;
+  }
+
+  public static CrupdateIncomeMoney someCreatableIncome() {
+    CrupdateIncomeMoney income = new CrupdateIncomeMoney();
+    income.setSourceOrganization("Client Gamma");
+    income.setInvoiceReference("INV-2024-003");
+    income.setAmount(99000);
+    income.setDescription("Paiement complementaire");
+    return income;
+  }
+
+  public static ExpenseMoney expense1() {
+    ExpenseMoney expense = new ExpenseMoney();
+    expense.setId(EXPENSE1_ID);
+    expense.setAmount(45000);
+    expense.setDescription("Achat materiaux chantier A");
+    return expense;
+  }
+
+  public static ExpenseMoney expense2() {
+    ExpenseMoney expense = new ExpenseMoney();
+    expense.setId(EXPENSE2_ID);
+    expense.setAmount(80000);
+    expense.setDescription("Paiement sous-traitant renovation");
+    return expense;
+  }
+
+  public static CrupdateExpenseMoney expenseToCrupdateExpense(ExpenseMoney expense) {
+    CrupdateExpenseMoney crupdateExpense = new CrupdateExpenseMoney();
+    crupdateExpense.setId(expense.getId());
+    crupdateExpense.setAmount(expense.getAmount());
+    crupdateExpense.setDescription(expense.getDescription());
+    crupdateExpense.setComment(expense.getComment());
+    return crupdateExpense;
+  }
+
+  public static CrupdateExpenseMoney someCreatableExpense() {
+    CrupdateExpenseMoney expense = new CrupdateExpenseMoney();
+    expense.setAmount(32000);
+    expense.setDescription("Frais logistiques");
+    return expense;
+  }
+
+  public static BankFee bankFee1() {
+    BankFee bankFee = new BankFee();
+    bankFee.setId(BANK_FEE1_ID);
+    bankFee.setExpenseId(EXPENSE1_ID);
+    bankFee.setBankName("BNI Madagascar");
+    bankFee.setDescription("Frais virement fournisseur");
+    return bankFee;
+  }
+
+  public static BankFee bankFee2() {
+    BankFee bankFee = new BankFee();
+    bankFee.setId(BANK_FEE2_ID);
+    bankFee.setExpenseId(EXPENSE2_ID);
+    bankFee.setBankName("BOA Madagascar");
+    bankFee.setDescription("Commission paiement sous-traitant");
+    return bankFee;
+  }
+
+  public static CrupdateBankFee bankFeeToCrupdateBankFee(BankFee bankFee) {
+    CrupdateBankFee crupdateBankFee = new CrupdateBankFee();
+    crupdateBankFee.setId(bankFee.getId());
+    crupdateBankFee.setExpenseId(bankFee.getExpenseId());
+    crupdateBankFee.setBankName(bankFee.getBankName());
+    crupdateBankFee.setDescription(bankFee.getDescription());
+    return crupdateBankFee;
+  }
+
+  public static CrupdateBankFee someCreatableBankFee() {
+    CrupdateBankFee bankFee = new CrupdateBankFee();
+    bankFee.setExpenseId(EXPENSE1_ID);
+    bankFee.setBankName("MCB Madagascar");
+    bankFee.setDescription("Frais tenue compte");
+    return bankFee;
+  }
+
+  public static EmployeePayment employeePayment1() {
+    EmployeePayment employeePayment = new EmployeePayment();
+    employeePayment.setId(EMPLOYEE_PAYMENT1_ID);
+    employeePayment.setExpenseId(EXPENSE1_ID);
+    employeePayment.setEmployeeId(EMPLOYEE_ID);
+    employeePayment.setPaymentDescription("Avance salaire chantier A");
+    employeePayment.setPaymentType(PaymentType.ADVANCE);
+    return employeePayment;
+  }
+
+  public static EmployeePayment employeePayment2() {
+    EmployeePayment employeePayment = new EmployeePayment();
+    employeePayment.setId(EMPLOYEE_PAYMENT2_ID);
+    employeePayment.setExpenseId(EXPENSE2_ID);
+    employeePayment.setEmployeeId(USER1_ID);
+    employeePayment.setPaymentDescription("Paiement mensuel renovation");
+    employeePayment.setPaymentType(PaymentType.MONTHLY);
+    return employeePayment;
+  }
+
+  public static CrupdateEmployeePayment employeePaymentToCrupdateEmployeePayment(
+      EmployeePayment employeePayment) {
+    CrupdateEmployeePayment crupdateEmployeePayment = new CrupdateEmployeePayment();
+    crupdateEmployeePayment.setId(employeePayment.getId());
+    crupdateEmployeePayment.setExpenseId(employeePayment.getExpenseId());
+    crupdateEmployeePayment.setEmployeeId(employeePayment.getEmployeeId());
+    crupdateEmployeePayment.setPaymentDescription(employeePayment.getPaymentDescription());
+    crupdateEmployeePayment.setPaymentType(employeePayment.getPaymentType());
+    return crupdateEmployeePayment;
+  }
+
+  public static CrupdateEmployeePayment someCreatableEmployeePayment() {
+    CrupdateEmployeePayment employeePayment = new CrupdateEmployeePayment();
+    employeePayment.setExpenseId(EXPENSE1_ID);
+    employeePayment.setEmployeeId(EMPLOYEE_ID);
+    employeePayment.setPaymentDescription("Prime exceptionnelle");
+    employeePayment.setPaymentType(PaymentType.OTHER);
+    return employeePayment;
+  }
+
+  public static OtherExpense otherExpense1() {
+    OtherExpense otherExpense = new OtherExpense();
+    otherExpense.setId(OTHER_EXPENSE1_ID);
+    otherExpense.setExpenseId(EXPENSE1_ID);
+    otherExpense.setDescription("Frais administratifs chantier A");
+    return otherExpense;
+  }
+
+  public static OtherExpense otherExpense2() {
+    OtherExpense otherExpense = new OtherExpense();
+    otherExpense.setId(OTHER_EXPENSE2_ID);
+    otherExpense.setExpenseId(EXPENSE2_ID);
+    otherExpense.setDescription("Imprevus renovation hotel");
+    return otherExpense;
+  }
+
+  public static CrupdateOtherExpense otherExpenseToCrupdateOtherExpense(OtherExpense otherExpense) {
+    CrupdateOtherExpense crupdateOtherExpense = new CrupdateOtherExpense();
+    crupdateOtherExpense.setId(otherExpense.getId());
+    crupdateOtherExpense.setExpenseId(otherExpense.getExpenseId());
+    crupdateOtherExpense.setDescription(otherExpense.getDescription());
+    return crupdateOtherExpense;
+  }
+
+  public static CrupdateOtherExpense someCreatableOtherExpense() {
+    CrupdateOtherExpense otherExpense = new CrupdateOtherExpense();
+    otherExpense.setExpenseId(EXPENSE1_ID);
+    otherExpense.setDescription("Frais divers chantier");
+    return otherExpense;
+  }
+
+  public static Purchase purchase1() {
+    Purchase purchase = new Purchase();
+    purchase.setId(PURCHASE1_ID);
+    purchase.setExpenseId(EXPENSE1_ID);
+    purchase.setSupplier("Fournisseur Beton SA");
+    purchase.setEquipment(EQUIPMENT1_ID);
+    purchase.setMaterial(MATERIAL1_ID);
+    purchase.setQuantity(3);
+    purchase.setIsEquipment(true);
+    return purchase;
+  }
+
+  public static Purchase purchase2() {
+    Purchase purchase = new Purchase();
+    purchase.setId(PURCHASE2_ID);
+    purchase.setExpenseId(EXPENSE2_ID);
+    purchase.setSupplier("Materiaux Plus");
+    purchase.setEquipment(EQUIPMENT2_ID);
+    purchase.setMaterial(MATERIAL2_ID);
+    purchase.setQuantity(25);
+    purchase.setIsEquipment(false);
+    return purchase;
+  }
+
+  public static CrupdatePurchase purchaseToCrupdatePurchase(Purchase purchase) {
+    CrupdatePurchase crupdatePurchase = new CrupdatePurchase();
+    crupdatePurchase.setId(purchase.getId());
+    crupdatePurchase.setExpenseId(purchase.getExpenseId());
+    crupdatePurchase.setSupplier(purchase.getSupplier());
+    crupdatePurchase.setEquipment(purchase.getEquipment());
+    crupdatePurchase.setMaterial(purchase.getMaterial());
+    crupdatePurchase.setQuantity(purchase.getQuantity());
+    crupdatePurchase.setIsEquipment(purchase.getIsEquipment());
+    return crupdatePurchase;
+  }
+
+  public static CrupdatePurchase someCreatablePurchase() {
+    CrupdatePurchase purchase = new CrupdatePurchase();
+    purchase.setExpenseId(EXPENSE1_ID);
+    purchase.setSupplier("Quincaillerie Centrale");
+    purchase.setEquipment(EQUIPMENT1_ID);
+    purchase.setMaterial(MATERIAL1_ID);
+    purchase.setQuantity(4);
+    purchase.setIsEquipment(true);
+    return purchase;
+  }
+
+  public static TravelExpense travelExpense1() {
+    TravelExpense travelExpense = new TravelExpense();
+    travelExpense.setId(TRAVEL_EXPENSE1_ID);
+    travelExpense.setExpenseId(EXPENSE1_ID);
+    travelExpense.setDepartureLocation("Antananarivo");
+    travelExpense.setArrivalLocation("Toamasina");
+    travelExpense.setDepartureDate(Instant.parse("2024-03-01T06:00:00Z"));
+    travelExpense.setArrivalDate(Instant.parse("2024-03-01T12:00:00Z"));
+    return travelExpense;
+  }
+
+  public static TravelExpense travelExpense2() {
+    TravelExpense travelExpense = new TravelExpense();
+    travelExpense.setId(TRAVEL_EXPENSE2_ID);
+    travelExpense.setExpenseId(EXPENSE2_ID);
+    travelExpense.setDepartureLocation("Fianarantsoa");
+    travelExpense.setArrivalLocation("Antsirabe");
+    travelExpense.setDepartureDate(Instant.parse("2024-03-05T07:30:00Z"));
+    travelExpense.setArrivalDate(Instant.parse("2024-03-05T15:00:00Z"));
+    return travelExpense;
+  }
+
+  public static CrupdateTravelExpense travelExpenseToCrupdateTravelExpense(
+      TravelExpense travelExpense) {
+    CrupdateTravelExpense crupdateTravelExpense = new CrupdateTravelExpense();
+    crupdateTravelExpense.setId(travelExpense.getId());
+    crupdateTravelExpense.setExpenseId(travelExpense.getExpenseId());
+    crupdateTravelExpense.setDepartureLocation(travelExpense.getDepartureLocation());
+    crupdateTravelExpense.setArrivalLocation(travelExpense.getArrivalLocation());
+    crupdateTravelExpense.setDepartureDate(travelExpense.getDepartureDate());
+    crupdateTravelExpense.setArrivalDate(travelExpense.getArrivalDate());
+    return crupdateTravelExpense;
+  }
+
+  public static CrupdateTravelExpense someCreatableTravelExpense() {
+    CrupdateTravelExpense travelExpense = new CrupdateTravelExpense();
+    travelExpense.setExpenseId(EXPENSE1_ID);
+    travelExpense.setDepartureLocation("Mahajanga");
+    travelExpense.setArrivalLocation("Antananarivo");
+    travelExpense.setDepartureDate(Instant.parse("2024-04-01T08:00:00Z"));
+    travelExpense.setArrivalDate(Instant.parse("2024-04-01T18:00:00Z"));
+    return travelExpense;
+  }
+
+  public static TravelPeople travelPeople1() {
+    TravelPeople tp = new TravelPeople();
+    tp.setId(TRAVEL_PEOPLE1_ID);
+    tp.setTravelId(TRAVEL_EXPENSE1_ID);
+    tp.setPersonName("Alice Martin");
+    return tp;
+  }
+
+  public static TravelPeople travelPeople2() {
+    TravelPeople tp = new TravelPeople();
+    tp.setId(TRAVEL_PEOPLE2_ID);
+    tp.setTravelId(TRAVEL_EXPENSE1_ID);
+    tp.setPersonName("Bob Dupont");
+    return tp;
+  }
+
+  public static CrupdateTravelPeople travelPeopleToCrupdateTravelPeople(TravelPeople travelPeople) {
+    CrupdateTravelPeople c = new CrupdateTravelPeople();
+    c.setId(travelPeople.getId());
+    c.setTravelId(travelPeople.getTravelId());
+    c.setPersonName(travelPeople.getPersonName());
+    c.setComment(travelPeople.getComment());
+    return c;
+  }
+
+  public static CrupdateTravelPeople someCreatableTravelPeople() {
+    CrupdateTravelPeople c = new CrupdateTravelPeople();
+    c.setTravelId(TRAVEL_EXPENSE1_ID);
+    c.setPersonName("Nouveau passager");
+    return c;
+  }
+
+  public static TravelMaterials travelMaterials1() {
+    TravelMaterials tm = new TravelMaterials();
+    tm.setId(TRAVEL_MATERIALS1_ID);
+    tm.setTravelId(TRAVEL_EXPENSE1_ID);
+    tm.setMaterial(MATERIAL1_ID);
+    tm.setQuantity(10);
+    tm.setQuantityReceived(5);
+    return tm;
+  }
+
+  public static TravelMaterials travelMaterials2() {
+    TravelMaterials tm = new TravelMaterials();
+    tm.setId(TRAVEL_MATERIALS2_ID);
+    tm.setTravelId(TRAVEL_EXPENSE2_ID);
+    tm.setMaterial(MATERIAL2_ID);
+    tm.setQuantity(20);
+    tm.setQuantityReceived(null);
+    return tm;
+  }
+
+  public static CrupdateTravelMaterials travelMaterialsToCrupdateTravelMaterials(
+      TravelMaterials travelMaterials) {
+    CrupdateTravelMaterials c = new CrupdateTravelMaterials();
+    c.setId(travelMaterials.getId());
+    c.setTravelId(travelMaterials.getTravelId());
+    c.setMaterial(travelMaterials.getMaterial());
+    c.setQuantity(travelMaterials.getQuantity());
+    c.setQuantityReceived(travelMaterials.getQuantityReceived());
+    c.setComment(travelMaterials.getComment());
+    return c;
+  }
+
+  public static CrupdateTravelMaterials someCreatableTravelMaterials() {
+    CrupdateTravelMaterials c = new CrupdateTravelMaterials();
+    c.setTravelId(TRAVEL_EXPENSE1_ID);
+    c.setMaterial(MATERIAL3_ID);
+    c.setQuantity(3);
+    c.setQuantityReceived(0);
+    return c;
+  }
+
+  public static TravelEquipment travelEquipment1() {
+    TravelEquipment te = new TravelEquipment();
+    te.setId(TRAVEL_EQUIPMENT1_ID);
+    te.setTravelId(TRAVEL_EXPENSE1_ID);
+    te.setEquipment(EQUIPMENT1_ID);
+    te.setQuantity(2);
+    te.setStatus(TransportStatus.IN_PROGRESS);
+    return te;
+  }
+
+  public static TravelEquipment travelEquipment2() {
+    TravelEquipment te = new TravelEquipment();
+    te.setId(TRAVEL_EQUIPMENT2_ID);
+    te.setTravelId(TRAVEL_EXPENSE2_ID);
+    te.setEquipment(EQUIPMENT2_ID);
+    te.setQuantity(1);
+    te.setStatus(TransportStatus.ARRIVED);
+    return te;
+  }
+
+  public static CrupdateTravelEquipment travelEquipmentToCrupdateTravelEquipment(
+      TravelEquipment travelEquipment) {
+    CrupdateTravelEquipment c = new CrupdateTravelEquipment();
+    c.setId(travelEquipment.getId());
+    c.setTravelId(travelEquipment.getTravelId());
+    c.setEquipment(travelEquipment.getEquipment());
+    c.setQuantity(travelEquipment.getQuantity());
+    c.setStatus(travelEquipment.getStatus());
+    c.setComment(travelEquipment.getComment());
+    return c;
+  }
+
+  public static CrupdateTravelEquipment someCreatableTravelEquipment() {
+    CrupdateTravelEquipment c = new CrupdateTravelEquipment();
+    c.setTravelId(TRAVEL_EXPENSE1_ID);
+    c.setEquipment(EQUIPMENT3_ID);
+    c.setQuantity(1);
+    c.setStatus(TransportStatus.LOST);
+    return c;
+  }
+
   public static int anAvailableRandomPort() {
     try {
       return new ServerSocket(0).getLocalPort();
@@ -293,9 +979,12 @@ public class TestUtils {
 
   public static void assertThrowsForbiddenException(Executable executable) {
     ApiException exception = assertThrows(ApiException.class, executable);
-    assertEquals(
-        "{\"type\":\"Full authentication is required to access this resource\",\"message\":\"NotAuthorizedException\"}",
-        exception.getResponseBody());
+    assertEquals(FORBIDDEN_ERROR, exception.getResponseBody());
+  }
+
+  public static void assertThrowsNotAuthorizedException(Executable executable) {
+    ApiException exception = assertThrows(ApiException.class, executable);
+    assertEquals(NOT_AUTHORIZED_ERROR, exception.getResponseBody());
   }
 
   @FunctionalInterface

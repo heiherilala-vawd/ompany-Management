@@ -6,11 +6,11 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.Hibernate;
 
 @Entity
@@ -18,18 +18,14 @@ import org.hibernate.Hibernate;
 @Getter
 @Setter
 @ToString
-@Builder
+@SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
-public class IncomeMoney implements Serializable {
+public class IncomeMoney extends MonetaryMovement implements Serializable {
 
   @Id
   @GeneratedValue(strategy = IDENTITY)
   private String id;
-
-  @OneToOne
-  @JoinColumn(name = "monetary_id")
-  private MonetaryMovement monetaryMovement;
 
   private String sourceOrganization;
 

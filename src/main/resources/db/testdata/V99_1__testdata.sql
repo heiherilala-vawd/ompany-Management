@@ -4,7 +4,16 @@
 -- Mots de passe hashés avec BCrypt (password = "admin123" pour tous)
 -- Pour générer: BCryptPasswordEncoder().encode("admin123")
 
-
+DELETE FROM "travel_equipment";
+DELETE FROM "travel_materials";
+DELETE FROM "travel_people";
+DELETE FROM "travel_expense";
+DELETE FROM "other_expense";
+DELETE FROM "bank_fee";
+DELETE FROM "purchase";
+DELETE FROM "employee_payment";
+DELETE FROM "income_money";
+DELETE FROM "expense_money";
 DELETE FROM "equipment";
 DELETE FROM "material";
 DELETE FROM "warehouse";
@@ -90,3 +99,87 @@ VALUES
 ('material1_id', 'Ciment', 'Ciment Portland 35kg', 'warehouse1_id', 1, 100, NOW(), NOW()),
 ('material2_id', 'Brique', 'Brique rouge 20x10x5', 'warehouse1_id', 1, 500, NOW(), NOW()),
 ('material3_id', 'Peinture', 'Peinture blanche mate', 'warehouse2_id', 2, 50, NOW(), NOW());
+
+-- =========================
+-- TEST DATA INCOMES
+-- =========================
+INSERT INTO "income_money" (id, source_organization, invoice_reference, amount, description, created_at, updated_at)
+VALUES
+('income1_id', 'Client Alpha', 'INV-2024-001', 150000, 'Paiement initial chantier A', NOW(), NOW()),
+('income2_id', 'Client Beta', 'INV-2024-002', 275000, 'Paiement avance renovation hotel', NOW(), NOW());
+
+-- =========================
+-- TEST DATA EXPENSES
+-- =========================
+INSERT INTO "expense_money" (id, amount, description, created_at, updated_at)
+VALUES
+('expense1_id', 45000, 'Achat materiaux chantier A', NOW(), NOW()),
+('expense2_id', 80000, 'Paiement sous-traitant renovation', NOW(), NOW());
+
+-- =========================
+-- TEST DATA EMPLOYEE PAYMENTS
+-- =========================
+INSERT INTO "employee_payment" (
+  id, expense_id, employee_id, payment_description, payment_type
+)
+VALUES
+('employee_payment1_id', 'expense1_id', 'employee1_id', 'Avance salaire chantier A', 'ADVANCE'),
+('employee_payment2_id', 'expense2_id', 'user1_id', 'Paiement mensuel renovation', 'MONTHLY');
+
+-- =========================
+-- TEST DATA TRAVEL EXPENSES
+-- =========================
+INSERT INTO "travel_expense" (
+  id, expense_id, departure_location, arrival_location, departure_date, arrival_date
+)
+VALUES
+('travel_expense1_id', 'expense1_id', 'Antananarivo', 'Toamasina', '2024-03-01T06:00:00Z', '2024-03-01T12:00:00Z'),
+('travel_expense2_id', 'expense2_id', 'Fianarantsoa', 'Antsirabe', '2024-03-05T07:30:00Z', '2024-03-05T15:00:00Z');
+
+-- =========================
+-- TEST DATA TRAVEL PEOPLE / MATERIALS / EQUIPMENT
+-- =========================
+INSERT INTO "travel_people" (id, travel_id, person_name)
+VALUES
+('travel_people1_id', 'travel_expense1_id', 'Alice Martin'),
+('travel_people2_id', 'travel_expense1_id', 'Bob Dupont');
+
+INSERT INTO "travel_materials" (id, travel_id, material, quantity, quantity_received)
+VALUES
+('travel_materials1_id', 'travel_expense1_id', 'material1_id', 10, 5),
+('travel_materials2_id', 'travel_expense2_id', 'material2_id', 20, NULL);
+
+INSERT INTO "travel_equipment" (id, travel_id, equipment, quantity, status)
+VALUES
+('travel_equipment1_id', 'travel_expense1_id', 'equipment1_id', 2, 'IN_PROGRESS'),
+('travel_equipment2_id', 'travel_expense2_id', 'equipment2_id', 1, 'ARRIVED');
+
+-- =========================
+-- TEST DATA PURCHASES
+-- =========================
+INSERT INTO "purchase" (
+  id, expense_id, supplier, equipment, material, quantity, is_equipment
+)
+VALUES
+('purchase1_id', 'expense1_id', 'Fournisseur Beton SA', 'equipment1_id', 'material1_id', 3, true),
+('purchase2_id', 'expense2_id', 'Materiaux Plus', 'equipment2_id', 'material2_id', 25, false);
+
+-- =========================
+-- TEST DATA BANK FEES
+-- =========================
+INSERT INTO "bank_fee" (
+  id, expense_id, bank_name, description
+)
+VALUES
+('bank_fee1_id', 'expense1_id', 'BNI Madagascar', 'Frais virement fournisseur'),
+('bank_fee2_id', 'expense2_id', 'BOA Madagascar', 'Commission paiement sous-traitant');
+
+-- =========================
+-- TEST DATA OTHER EXPENSES
+-- =========================
+INSERT INTO "other_expense" (
+  id, expense_id, description
+)
+VALUES
+('other_expense1_id', 'expense1_id', 'Frais administratifs chantier A'),
+('other_expense2_id', 'expense2_id', 'Imprevus renovation hotel');

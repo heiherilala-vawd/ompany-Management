@@ -37,14 +37,9 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   EmployeePayment.JSON_PROPERTY_EXPENSE_ID,
   EmployeePayment.JSON_PROPERTY_EMPLOYEE_ID,
   EmployeePayment.JSON_PROPERTY_PAYMENT_DESCRIPTION,
-  EmployeePayment.JSON_PROPERTY_PAYMENT_TYPE,
-  EmployeePayment.JSON_PROPERTY_CREATED_AT,
-  EmployeePayment.JSON_PROPERTY_UPDATED_AT,
-  EmployeePayment.JSON_PROPERTY_CREATED_BY,
-  EmployeePayment.JSON_PROPERTY_UPDATED_BY,
-  EmployeePayment.JSON_PROPERTY_COMMENT
+  EmployeePayment.JSON_PROPERTY_PAYMENT_TYPE
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-18T05:40:17.233941351+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-20T07:38:02.725832860+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class EmployeePayment {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -60,21 +55,6 @@ public class EmployeePayment {
 
   public static final String JSON_PROPERTY_PAYMENT_TYPE = "payment_type";
   private PaymentType paymentType;
-
-  public static final String JSON_PROPERTY_CREATED_AT = "created_at";
-  private java.time.Instant createdAt;
-
-  public static final String JSON_PROPERTY_UPDATED_AT = "updated_at";
-  private java.time.Instant updatedAt;
-
-  public static final String JSON_PROPERTY_CREATED_BY = "created_by";
-  private String createdBy;
-
-  public static final String JSON_PROPERTY_UPDATED_BY = "updated_by";
-  private String updatedBy;
-
-  public static final String JSON_PROPERTY_COMMENT = "comment";
-  private String comment;
 
   public EmployeePayment() { 
   }
@@ -204,131 +184,6 @@ public class EmployeePayment {
   }
 
 
-  public EmployeePayment createdAt(java.time.Instant createdAt) {
-    this.createdAt = createdAt;
-    return this;
-  }
-
-   /**
-   * Get createdAt
-   * @return createdAt
-  **/
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_CREATED_AT)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-  public java.time.Instant getCreatedAt() {
-    return createdAt;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_CREATED_AT)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setCreatedAt(java.time.Instant createdAt) {
-    this.createdAt = createdAt;
-  }
-
-
-  public EmployeePayment updatedAt(java.time.Instant updatedAt) {
-    this.updatedAt = updatedAt;
-    return this;
-  }
-
-   /**
-   * Get updatedAt
-   * @return updatedAt
-  **/
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_UPDATED_AT)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-  public java.time.Instant getUpdatedAt() {
-    return updatedAt;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_UPDATED_AT)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setUpdatedAt(java.time.Instant updatedAt) {
-    this.updatedAt = updatedAt;
-  }
-
-
-  public EmployeePayment createdBy(String createdBy) {
-    this.createdBy = createdBy;
-    return this;
-  }
-
-   /**
-   * Get createdBy
-   * @return createdBy
-  **/
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_CREATED_BY)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-  public String getCreatedBy() {
-    return createdBy;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_CREATED_BY)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setCreatedBy(String createdBy) {
-    this.createdBy = createdBy;
-  }
-
-
-  public EmployeePayment updatedBy(String updatedBy) {
-    this.updatedBy = updatedBy;
-    return this;
-  }
-
-   /**
-   * Get updatedBy
-   * @return updatedBy
-  **/
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_UPDATED_BY)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-  public String getUpdatedBy() {
-    return updatedBy;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_UPDATED_BY)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setUpdatedBy(String updatedBy) {
-    this.updatedBy = updatedBy;
-  }
-
-
-  public EmployeePayment comment(String comment) {
-    this.comment = comment;
-    return this;
-  }
-
-   /**
-   * Get comment
-   * @return comment
-  **/
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_COMMENT)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-  public String getComment() {
-    return comment;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_COMMENT)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setComment(String comment) {
-    this.comment = comment;
-  }
-
-
   /**
    * Return true if this EmployeePayment object is equal to o.
    */
@@ -345,17 +200,12 @@ public class EmployeePayment {
         Objects.equals(this.expenseId, employeePayment.expenseId) &&
         Objects.equals(this.employeeId, employeePayment.employeeId) &&
         Objects.equals(this.paymentDescription, employeePayment.paymentDescription) &&
-        Objects.equals(this.paymentType, employeePayment.paymentType) &&
-        Objects.equals(this.createdAt, employeePayment.createdAt) &&
-        Objects.equals(this.updatedAt, employeePayment.updatedAt) &&
-        Objects.equals(this.createdBy, employeePayment.createdBy) &&
-        Objects.equals(this.updatedBy, employeePayment.updatedBy) &&
-        Objects.equals(this.comment, employeePayment.comment);
+        Objects.equals(this.paymentType, employeePayment.paymentType);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, expenseId, employeeId, paymentDescription, paymentType, createdAt, updatedAt, createdBy, updatedBy, comment);
+    return Objects.hash(id, expenseId, employeeId, paymentDescription, paymentType);
   }
 
   @Override
@@ -367,11 +217,6 @@ public class EmployeePayment {
     sb.append("    employeeId: ").append(toIndentedString(employeeId)).append("\n");
     sb.append("    paymentDescription: ").append(toIndentedString(paymentDescription)).append("\n");
     sb.append("    paymentType: ").append(toIndentedString(paymentType)).append("\n");
-    sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
-    sb.append("    updatedAt: ").append(toIndentedString(updatedAt)).append("\n");
-    sb.append("    createdBy: ").append(toIndentedString(createdBy)).append("\n");
-    sb.append("    updatedBy: ").append(toIndentedString(updatedBy)).append("\n");
-    sb.append("    comment: ").append(toIndentedString(comment)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -419,29 +264,29 @@ public class EmployeePayment {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `created_at` to the URL query string
-    if (getCreatedAt() != null) {
-      joiner.add(String.format("%screated_at%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getCreatedAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    // add `id` to the URL query string
+    if (getId() != null) {
+      joiner.add(String.format("%sid%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `updated_at` to the URL query string
-    if (getUpdatedAt() != null) {
-      joiner.add(String.format("%supdated_at%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getUpdatedAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    // add `expense_id` to the URL query string
+    if (getExpenseId() != null) {
+      joiner.add(String.format("%sexpense_id%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getExpenseId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `created_by` to the URL query string
-    if (getCreatedBy() != null) {
-      joiner.add(String.format("%screated_by%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getCreatedBy()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    // add `employee_id` to the URL query string
+    if (getEmployeeId() != null) {
+      joiner.add(String.format("%semployee_id%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getEmployeeId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `updated_by` to the URL query string
-    if (getUpdatedBy() != null) {
-      joiner.add(String.format("%supdated_by%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getUpdatedBy()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    // add `payment_description` to the URL query string
+    if (getPaymentDescription() != null) {
+      joiner.add(String.format("%spayment_description%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getPaymentDescription()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `comment` to the URL query string
-    if (getComment() != null) {
-      joiner.add(String.format("%scomment%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getComment()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    // add `payment_type` to the URL query string
+    if (getPaymentType() != null) {
+      joiner.add(String.format("%spayment_type%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getPaymentType()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

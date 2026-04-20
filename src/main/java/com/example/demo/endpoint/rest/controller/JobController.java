@@ -21,7 +21,7 @@ public class JobController {
   private final JobMapper jobMapper;
 
   @GetMapping("/companies/{comp_id}/jobs/{id}")
-  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
+  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER', 'EMPLOYEE')")
   public Job getJobById(@PathVariable String comp_id, @PathVariable String id) {
     return jobMapper.toRestJob(
         jobService
@@ -55,8 +55,8 @@ public class JobController {
   }
 
   @DeleteMapping("/companies/{comp_id}/jobs/{id}")
-  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
-  public void deleteJobById(@PathVariable String comp_id, @RequestParam String id) {
+  @PreAuthorize("hasAnyRole('ADMIN')")
+  public void deleteJobById(@PathVariable String comp_id, @PathVariable String id) {
     jobService.deleteById(id);
   }
 }

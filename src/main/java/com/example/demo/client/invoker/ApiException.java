@@ -15,7 +15,7 @@ package com.example.demo.client.invoker;
 
 import java.net.http.HttpHeaders;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-18T05:40:17.233941351+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-20T07:38:02.725832860+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class ApiException extends Exception {
     private static final long serialVersionUID = 1L;
 

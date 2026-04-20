@@ -40,9 +40,10 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   CrupdateUser.JSON_PROPERTY_LAST_NAME,
   CrupdateUser.JSON_PROPERTY_SEX,
   CrupdateUser.JSON_PROPERTY_EMAIL,
-  CrupdateUser.JSON_PROPERTY_PASSWORD
+  CrupdateUser.JSON_PROPERTY_PASSWORD,
+  CrupdateUser.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-18T05:40:17.233941351+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-20T07:38:02.725832860+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdateUser {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -64,6 +65,9 @@ public class CrupdateUser {
 
   public static final String JSON_PROPERTY_PASSWORD = "password";
   private String password;
+
+  public static final String JSON_PROPERTY_COMMENT = "comment";
+  private String comment;
 
   public CrupdateUser() { 
   }
@@ -243,6 +247,31 @@ public class CrupdateUser {
   }
 
 
+  public CrupdateUser comment(String comment) {
+    this.comment = comment;
+    return this;
+  }
+
+   /**
+   * Get comment
+   * @return comment
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_COMMENT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getComment() {
+    return comment;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_COMMENT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setComment(String comment) {
+    this.comment = comment;
+  }
+
+
   /**
    * Return true if this CrupdateUser object is equal to o.
    */
@@ -261,12 +290,13 @@ public class CrupdateUser {
         Objects.equals(this.lastName, crupdateUser.lastName) &&
         Objects.equals(this.sex, crupdateUser.sex) &&
         Objects.equals(this.email, crupdateUser.email) &&
-        Objects.equals(this.password, crupdateUser.password);
+        Objects.equals(this.password, crupdateUser.password) &&
+        Objects.equals(this.comment, crupdateUser.comment);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, role, firstName, lastName, sex, email, password);
+    return Objects.hash(id, role, firstName, lastName, sex, email, password, comment);
   }
 
   @Override
@@ -280,6 +310,7 @@ public class CrupdateUser {
     sb.append("    sex: ").append(toIndentedString(sex)).append("\n");
     sb.append("    email: ").append(toIndentedString(email)).append("\n");
     sb.append("    password: ").append(toIndentedString(password)).append("\n");
+    sb.append("    comment: ").append(toIndentedString(comment)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -327,39 +358,9 @@ public class CrupdateUser {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `id` to the URL query string
-    if (getId() != null) {
-      joiner.add(String.format("%sid%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-    }
-
-    // add `role` to the URL query string
-    if (getRole() != null) {
-      joiner.add(String.format("%srole%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getRole()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-    }
-
-    // add `first_name` to the URL query string
-    if (getFirstName() != null) {
-      joiner.add(String.format("%sfirst_name%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getFirstName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-    }
-
-    // add `last_name` to the URL query string
-    if (getLastName() != null) {
-      joiner.add(String.format("%slast_name%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getLastName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-    }
-
-    // add `sex` to the URL query string
-    if (getSex() != null) {
-      joiner.add(String.format("%ssex%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getSex()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-    }
-
-    // add `email` to the URL query string
-    if (getEmail() != null) {
-      joiner.add(String.format("%semail%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getEmail()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-    }
-
-    // add `password` to the URL query string
-    if (getPassword() != null) {
-      joiner.add(String.format("%spassword%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getPassword()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    // add `comment` to the URL query string
+    if (getComment() != null) {
+      joiner.add(String.format("%scomment%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getComment()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

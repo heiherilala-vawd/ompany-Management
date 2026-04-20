@@ -27,10 +27,8 @@ public class JobMapper {
         .contractSignatureDate(restJob.getContractSignatureDate())
         .startDate(restJob.getStartDate())
         .endDate(restJob.getEndDate())
-        .status(
-            restJob.getStatus() != null
-                ? com.example.demo.model.Job.JobStatus.valueOf(restJob.getStatus().name())
-                : null)
+        .comment(restJob.getComment())
+        .status(EnumMapper.mapEnum(restJob.getStatus(), com.example.demo.model.Job.JobStatus.class))
         .build();
   }
 
@@ -47,10 +45,8 @@ public class JobMapper {
         .contractSignatureDate(restJob.getContractSignatureDate())
         .startDate(restJob.getStartDate())
         .endDate(restJob.getEndDate())
-        .status(
-            restJob.getStatus() != null
-                ? com.example.demo.model.Job.JobStatus.valueOf(restJob.getStatus().name())
-                : null)
+        .comment(restJob.getComment())
+        .status(EnumMapper.mapEnum(restJob.getStatus(), com.example.demo.model.Job.JobStatus.class))
         .build();
   }
 
@@ -64,18 +60,14 @@ public class JobMapper {
     restJob.setContractSignatureDate(domainJob.getContractSignatureDate());
     restJob.setStartDate(domainJob.getStartDate());
     restJob.setEndDate(domainJob.getEndDate());
-    restJob.setStatus(
-        domainJob.getStatus() != null ? JobStatus.valueOf(domainJob.getStatus().name()) : null);
-    restJob.setCreatedAt(domainJob.getCreatedAt());
-    restJob.setUpdatedAt(domainJob.getUpdatedAt());
-    restJob.setComment(domainJob.getComment());
-
-    if (domainJob.getCreatedBy() != null) {
-      restJob.setCreatedBy(domainJob.getCreatedBy().getId());
-    }
-    if (domainJob.getUpdatedBy() != null) {
-      restJob.setUpdatedBy(domainJob.getUpdatedBy().getId());
-    }
+    restJob.setStatus(EnumMapper.mapEnum(domainJob.getStatus(), JobStatus.class));
+    RestAuditMapperUtils.mapAuditFields(
+        domainJob,
+        restJob::setCreatedAt,
+        restJob::setUpdatedAt,
+        restJob::setComment,
+        restJob::setCreatedBy,
+        restJob::setUpdatedBy);
 
     return restJob;
   }

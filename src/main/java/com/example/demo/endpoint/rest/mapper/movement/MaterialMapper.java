@@ -2,6 +2,7 @@ package com.example.demo.endpoint.rest.mapper.movement;
 
 import com.example.demo.client.model.CrupdateMaterial;
 import com.example.demo.client.model.Material;
+import com.example.demo.endpoint.rest.mapper.RestAuditMapperUtils;
 import com.example.demo.service.movement.WarehouseService;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -26,6 +27,7 @@ public class MaterialMapper {
                 : null)
         .floorNumber(restMaterial.getFloorNumber())
         .storageNumber(restMaterial.getStorageNumber())
+        .comment(restMaterial.getComment())
         .build();
   }
 
@@ -42,6 +44,7 @@ public class MaterialMapper {
                 : null)
         .floorNumber(restMaterial.getFloorNumber())
         .storageNumber(restMaterial.getStorageNumber())
+        .comment(restMaterial.getComment())
         .build();
   }
 
@@ -56,16 +59,13 @@ public class MaterialMapper {
         domainMaterial.getWarehouse() != null ? domainMaterial.getWarehouse().getId() : null);
     restMaterial.setFloorNumber(domainMaterial.getFloorNumber());
     restMaterial.setStorageNumber(domainMaterial.getStorageNumber());
-    restMaterial.setCreatedAt(domainMaterial.getCreatedAt());
-    restMaterial.setUpdatedAt(domainMaterial.getUpdatedAt());
-    restMaterial.setComment(domainMaterial.getComment());
-
-    if (domainMaterial.getCreatedBy() != null) {
-      restMaterial.setCreatedBy(domainMaterial.getCreatedBy().getId());
-    }
-    if (domainMaterial.getUpdatedBy() != null) {
-      restMaterial.setUpdatedBy(domainMaterial.getUpdatedBy().getId());
-    }
+    RestAuditMapperUtils.mapAuditFields(
+        domainMaterial,
+        restMaterial::setCreatedAt,
+        restMaterial::setUpdatedAt,
+        restMaterial::setComment,
+        restMaterial::setCreatedBy,
+        restMaterial::setUpdatedBy);
 
     return restMaterial;
   }

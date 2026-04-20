@@ -107,7 +107,7 @@ class AuthIT {
   void user_cannot_get_whoami_with_invalid_token() {
     ApiClient client = anApiClientWithToken(BAD_TOKEN);
     AuthApi api = new AuthApi(client);
-    assertThrowsForbiddenException(() -> api.authWhoamiGet());
+    assertThrowsNotAuthorizedException(() -> api.authWhoamiGet());
   }
 
   @Test

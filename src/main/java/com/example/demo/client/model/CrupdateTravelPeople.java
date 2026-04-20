@@ -34,9 +34,10 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
   CrupdateTravelPeople.JSON_PROPERTY_ID,
   CrupdateTravelPeople.JSON_PROPERTY_TRAVEL_ID,
-  CrupdateTravelPeople.JSON_PROPERTY_PERSON_NAME
+  CrupdateTravelPeople.JSON_PROPERTY_PERSON_NAME,
+  CrupdateTravelPeople.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-18T05:40:17.233941351+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-20T07:38:02.725832860+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdateTravelPeople {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -46,6 +47,9 @@ public class CrupdateTravelPeople {
 
   public static final String JSON_PROPERTY_PERSON_NAME = "person_name";
   private String personName;
+
+  public static final String JSON_PROPERTY_COMMENT = "comment";
+  private String comment;
 
   public CrupdateTravelPeople() { 
   }
@@ -125,6 +129,31 @@ public class CrupdateTravelPeople {
   }
 
 
+  public CrupdateTravelPeople comment(String comment) {
+    this.comment = comment;
+    return this;
+  }
+
+   /**
+   * Get comment
+   * @return comment
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_COMMENT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getComment() {
+    return comment;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_COMMENT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setComment(String comment) {
+    this.comment = comment;
+  }
+
+
   /**
    * Return true if this CrupdateTravelPeople object is equal to o.
    */
@@ -139,12 +168,13 @@ public class CrupdateTravelPeople {
     CrupdateTravelPeople crupdateTravelPeople = (CrupdateTravelPeople) o;
     return Objects.equals(this.id, crupdateTravelPeople.id) &&
         Objects.equals(this.travelId, crupdateTravelPeople.travelId) &&
-        Objects.equals(this.personName, crupdateTravelPeople.personName);
+        Objects.equals(this.personName, crupdateTravelPeople.personName) &&
+        Objects.equals(this.comment, crupdateTravelPeople.comment);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, travelId, personName);
+    return Objects.hash(id, travelId, personName, comment);
   }
 
   @Override
@@ -154,6 +184,7 @@ public class CrupdateTravelPeople {
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    travelId: ").append(toIndentedString(travelId)).append("\n");
     sb.append("    personName: ").append(toIndentedString(personName)).append("\n");
+    sb.append("    comment: ").append(toIndentedString(comment)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -201,19 +232,9 @@ public class CrupdateTravelPeople {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `id` to the URL query string
-    if (getId() != null) {
-      joiner.add(String.format("%sid%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-    }
-
-    // add `travel_id` to the URL query string
-    if (getTravelId() != null) {
-      joiner.add(String.format("%stravel_id%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getTravelId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-    }
-
-    // add `person_name` to the URL query string
-    if (getPersonName() != null) {
-      joiner.add(String.format("%sperson_name%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getPersonName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    // add `comment` to the URL query string
+    if (getComment() != null) {
+      joiner.add(String.format("%scomment%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getComment()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

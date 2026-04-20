@@ -2,6 +2,7 @@ package com.example.demo.endpoint.rest.controller;
 
 import com.example.demo.client.model.CrupdateUser;
 import com.example.demo.client.model.User;
+import com.example.demo.endpoint.rest.mapper.EnumMapper;
 import com.example.demo.endpoint.rest.mapper.UserMapper;
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
@@ -21,17 +22,19 @@ public class UserController {
   @PutMapping(value = "/users")
   @PreAuthorize("hasAnyRole(\"ADMIN\", \"ADMINISTRATION\")\n")
   public List<User> crupdateUsers(@RequestBody List<CrupdateUser> toWrite) {
-    var saved = userService.saveAll(toWrite.stream().map(userMapper::toDomain).toList());
+    var saved =
+        userService.updateExistingUsers(toWrite.stream().map(userMapper::toDomain).toList());
     return saved.stream().map(userMapper::toRestUser).toList();
   }
 
   @GetMapping("/users/{userId}")
-  @PreAuthorize("hasRole('ADMIN') or #userId == authentication.principal.id")
+  @PreAuthorize("hasAnyRole('ADMIN') or #userId == authentication.principal.id")
   public User getUserById(@PathVariable String userId) {
     return userMapper.toRestUser(userService.getById(userId));
   }
 
   @GetMapping("/users")
+  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public List<User> getUsers(
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
@@ -40,16 +43,21 @@ public class UserController {
       @RequestParam(name = "email", required = false, defaultValue = "") String email,
       @RequestParam(name = "role", required = false) com.example.demo.model.User.Role role) {
 
-    com.example.demo.model.User.Role domainRole =
-        role != null ? com.example.demo.model.User.Role.valueOf(role.name()) : null;
-
-    return userService.getUsers(page, pageSize, firstName, lastName, email, domainRole).stream()
+    return userService
+        .getUsers(
+            page,
+            pageSize,
+            firstName,
+            lastName,
+            email,
+            EnumMapper.mapEnum(role, com.example.demo.model.User.Role.class))
+        .stream()
         .map(userMapper::toRestUser)
         .collect(Collectors.toList());
   }
 
   @DeleteMapping("/users/{id}")
-  @PreAuthorize("hasRole('ADMIN')")
+  @PreAuthorize("hasAnyRole('ADMIN')")
   public void deleteUserById(@PathVariable String id) {
     userService.deleteById(id);
   }

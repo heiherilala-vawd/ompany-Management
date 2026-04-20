@@ -75,17 +75,6 @@ public class EmployeePaymentMapper {
         domainPayment.getPaymentType() != null
             ? PaymentType.valueOf(domainPayment.getPaymentType().name())
             : null);
-    restPayment.setCreatedAt(domainPayment.getCreatedAt());
-    restPayment.setUpdatedAt(domainPayment.getUpdatedAt());
-    restPayment.setComment(domainPayment.getComment());
-
-    if (domainPayment.getCreatedBy() != null) {
-      restPayment.setCreatedBy(domainPayment.getCreatedBy().getId());
-    }
-    if (domainPayment.getUpdatedBy() != null) {
-      restPayment.setUpdatedBy(domainPayment.getUpdatedBy().getId());
-    }
-
     return restPayment;
   }
 

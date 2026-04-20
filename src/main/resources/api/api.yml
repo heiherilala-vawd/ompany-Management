@@ -970,130 +970,6 @@ paths:
 
 
   # =========================
-  # MONETARY MOVEMENT
-  # =========================
-  '/monetary_movements/{id}':
-    get:
-      tags:
-        - MonetaryMovement
-      summary: Get monetary movement by identifier
-      operationId: getMonetaryMovementById
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: The identified monetary movement
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MonetaryMovement'
-        '400':
-          $ref: '#/components/responses/400'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '429':
-          $ref: '#/components/responses/429'
-        '500':
-          $ref: '#/components/responses/500'
-    delete:
-      tags:
-        - MonetaryMovement
-      summary: Delete monetary movement by identifier
-      operationId: deleteMonetaryMovementById
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '204':
-          description: Monetary movement deleted successfully
-        '400':
-          $ref: '#/components/responses/400'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '429':
-          $ref: '#/components/responses/429'
-        '500':
-          $ref: '#/components/responses/500'
-  /monetary_movements:
-    get:
-      tags:
-        - MonetaryMovement
-      summary: Get all monetary movements
-      operationId: getMonetaryMovements
-      parameters:
-        - name: page
-          in: query
-          schema:
-            $ref: '#/components/schemas/Page'
-        - name: page_size
-          in: query
-          schema:
-            $ref: '#/components/schemas/PageSize'
-      responses:
-        '200':
-          description: List of monetary movements
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/MonetaryMovement'
-        '400':
-          $ref: '#/components/responses/400'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '429':
-          $ref: '#/components/responses/429'
-        '500':
-          $ref: '#/components/responses/500'
-    put:
-      tags:
-        - MonetaryMovement
-      summary: Create new monetary movements or update existing ones
-      operationId: crupdateMonetaryMovements
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: array
-              items:
-                $ref: '#/components/schemas/CrupdateMonetaryMovement'
-      responses:
-        '200':
-          description: The created or updated monetary movements
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/MonetaryMovement'
-        '400':
-          $ref: '#/components/responses/400'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '429':
-          $ref: '#/components/responses/429'
-        '500':
-          $ref: '#/components/responses/500'
-
-
-  # =========================
   # EXPENSE
   # =========================
   '/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{id}':
@@ -3260,7 +3136,13 @@ components:
     # =========================
     # COMMON
     # =========================
+    comment:
+      properties:
+        comment:
+          type: string
     AuditFields:
+      allOf:
+        - $ref: '#/components/schemas/comment'
       properties:
         created_at:
           type: string
@@ -3271,8 +3153,6 @@ components:
         created_by:
           type: string
         updated_by:
-          type: string
-        comment:
           type: string
 
     # =========================
@@ -3295,6 +3175,8 @@ components:
         email:
           type: string
     CrupdateUser:
+      allOf:
+        - $ref: '#/components/schemas/comment'
       properties:
         id:
           type: string
@@ -3329,6 +3211,8 @@ components:
         company_type:
           $ref: '#/components/schemas/CompanyType'
     CrupdateCompany:
+      allOf:
+        - $ref: '#/components/schemas/comment'
       properties:
         id:
           type: string
@@ -3366,6 +3250,8 @@ components:
         status:
           $ref: '#/components/schemas/JobStatus'
     CrupdateJob:
+      allOf:
+        - $ref: '#/components/schemas/comment'
       properties:
         id:
           type: string
@@ -3401,6 +3287,8 @@ components:
         job_id:
           type: string
     CrupdateWarehouse:
+      allOf:
+        - $ref: '#/components/schemas/comment'
       properties:
         id:
           type: string
@@ -3431,6 +3319,8 @@ components:
         storage_number:
           type: integer
     CrupdateEquipment:
+      allOf:
+        - $ref: '#/components/schemas/comment'
       properties:
         id:
           type: string
@@ -3465,6 +3355,8 @@ components:
         storage_number:
           type: integer
     CrupdateMaterial:
+      allOf:
+        - $ref: '#/components/schemas/comment'
       properties:
         id:
           type: string
@@ -3486,16 +3378,14 @@ components:
       allOf:
         - $ref: '#/components/schemas/AuditFields'
       properties:
-        id:
-          type: string
         amount:
           type: integer
         description:
           type: string
     CrupdateMonetaryMovement:
+      allOf:
+        - $ref: '#/components/schemas/comment'
       properties:
-        id:
-          type: string
         amount:
           type: integer
         description:
@@ -3505,20 +3395,20 @@ components:
     # INCOME
     # =========================
     IncomeMoney:
+      allOf:
+        - $ref: '#/components/schemas/MonetaryMovement'
       properties:
         id:
-          type: string
-        monetary_id:
           type: string
         source_organization:
           type: string
         invoice_reference:
           type: string
     CrupdateIncomeMoney:
+      allOf:
+        - $ref: '#/components/schemas/CrupdateMonetaryMovement'
       properties:
         id:
-          type: string
-        monetary_id:
           type: string
         source_organization:
           type: string
@@ -3529,24 +3419,22 @@ components:
     # EXPENSE
     # =========================
     ExpenseMoney:
+      allOf:
+        - $ref: '#/components/schemas/MonetaryMovement'
       properties:
         id:
-          type: string
-        monetary_id:
           type: string
     CrupdateExpenseMoney:
+      allOf:
+        - $ref: '#/components/schemas/CrupdateMonetaryMovement'
       properties:
         id:
-          type: string
-        monetary_id:
           type: string
 
     # =========================
     # EMPLOYEE PAYMENT
     # =========================
     EmployeePayment:
-      allOf:
-        - $ref: '#/components/schemas/AuditFields'
       properties:
         id:
           type: string
@@ -3621,6 +3509,8 @@ components:
         person_name:
           type: string
     CrupdateTravelPeople:
+      allOf:
+        - $ref: '#/components/schemas/comment'
       properties:
         id:
           type: string
@@ -3647,6 +3537,8 @@ components:
         quantity_received:
           type: integer
     CrupdateTravelMaterials:
+      allOf:
+        - $ref: '#/components/schemas/comment'
       properties:
         id:
           type: string
@@ -3677,6 +3569,8 @@ components:
         status:
           $ref: '#/components/schemas/TransportStatus'
     CrupdateTravelEquipment:
+      allOf:
+        - $ref: '#/components/schemas/comment'
       properties:
         id:
           type: string
