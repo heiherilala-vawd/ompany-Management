@@ -29,7 +29,7 @@ public class EquipmentController {
   }
 
   @GetMapping("/companies/{comp_id}/equipment")
-  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER', 'EMPLOYEE'))")
+  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER', 'EMPLOYEE')")
   public List<Equipment> getEquipment(
       @PathVariable String comp_id,
       @RequestParam(name = "page", required = false) PageFromOne page,

@@ -11,13 +11,19 @@ import com.example.demo.client.invoker.ApiException;
 import com.example.demo.client.model.Company;
 import com.example.demo.client.model.CompanyType;
 import com.example.demo.client.model.CrupdateCompany;
+import com.example.demo.client.model.CrupdateEquipment;
 import com.example.demo.client.model.CrupdateJob;
+import com.example.demo.client.model.CrupdateMaterial;
 import com.example.demo.client.model.CrupdateUser;
+import com.example.demo.client.model.CrupdateWarehouse;
+import com.example.demo.client.model.Equipment;
 import com.example.demo.client.model.Job;
 import com.example.demo.client.model.JobStatus;
+import com.example.demo.client.model.Material;
 import com.example.demo.client.model.Role;
 import com.example.demo.client.model.Sex;
 import com.example.demo.client.model.User;
+import com.example.demo.client.model.Warehouse;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -46,6 +52,14 @@ public class TestUtils {
   public static final String COMPANY2_ID = "company2_id";
   public static final String JOB1_ID = "job1_id";
   public static final String JOB2_ID = "job2_id";
+  public static final String WAREHOUSE1_ID = "warehouse1_id";
+  public static final String WAREHOUSE2_ID = "warehouse2_id";
+  public static final String EQUIPMENT1_ID = "equipment1_id";
+  public static final String EQUIPMENT2_ID = "equipment2_id";
+  public static final String EQUIPMENT3_ID = "equipment3_id";
+  public static final String MATERIAL1_ID = "material1_id";
+  public static final String MATERIAL2_ID = "material2_id";
+  public static final String MATERIAL3_ID = "material3_id";
 
   // Emails de test
   public static final String ADMIN_EMAIL = "admin@hei.school";
@@ -376,6 +390,152 @@ public class TestUtils {
     job.setEndDate(java.time.LocalDate.parse("2024-12-15"));
     job.setStatus(JobStatus.IN_PROGRESS);
     return job;
+  }
+
+  public static Warehouse warehouse1() {
+    Warehouse warehouse = new Warehouse();
+    warehouse.setId(WAREHOUSE1_ID);
+    warehouse.setName("Entrepôt Nord");
+    warehouse.setDescription("Stockage matériaux lourds");
+    warehouse.setJobId(JOB1_ID);
+    return warehouse;
+  }
+
+  public static Warehouse warehouse2() {
+    Warehouse warehouse = new Warehouse();
+    warehouse.setId(WAREHOUSE2_ID);
+    warehouse.setName("Entrepôt Sud");
+    warehouse.setDescription("Stockage équipements");
+    warehouse.setJobId(JOB2_ID);
+    return warehouse;
+  }
+
+  public static CrupdateWarehouse warehouseToCrupdateWarehouse(Warehouse warehouse) {
+    CrupdateWarehouse crupdateWarehouse = new CrupdateWarehouse();
+    crupdateWarehouse.setId(warehouse.getId());
+    crupdateWarehouse.setName(warehouse.getName());
+    crupdateWarehouse.setDescription(warehouse.getDescription());
+    crupdateWarehouse.setJobId(warehouse.getJobId());
+    crupdateWarehouse.setComment(warehouse.getComment());
+    return crupdateWarehouse;
+  }
+
+  public static CrupdateWarehouse someCreatableWarehouse() {
+    CrupdateWarehouse warehouse = new CrupdateWarehouse();
+    warehouse.setName("Entrepôt Est");
+    warehouse.setDescription("Stockage temporaire");
+    warehouse.setJobId(JOB1_ID);
+    return warehouse;
+  }
+
+  public static Equipment equipment1() {
+    Equipment equipment = new Equipment();
+    equipment.setId(EQUIPMENT1_ID);
+    equipment.setName("Pelle mécanique");
+    equipment.setDescription("Pelle Caterpillar 320");
+    equipment.setWarehouseId(WAREHOUSE1_ID);
+    equipment.setFloorNumber(1);
+    equipment.setStorageNumber(10);
+    return equipment;
+  }
+
+  public static Equipment equipment2() {
+    Equipment equipment = new Equipment();
+    equipment.setId(EQUIPMENT2_ID);
+    equipment.setName("Bétonnière");
+    equipment.setDescription("Bétonnière électrique");
+    equipment.setWarehouseId(WAREHOUSE1_ID);
+    equipment.setFloorNumber(1);
+    equipment.setStorageNumber(15);
+    return equipment;
+  }
+
+  public static Equipment equipment3() {
+    Equipment equipment = new Equipment();
+    equipment.setId(EQUIPMENT3_ID);
+    equipment.setName("Climatisation");
+    equipment.setDescription("Unité extérieure");
+    equipment.setWarehouseId(WAREHOUSE2_ID);
+    equipment.setFloorNumber(2);
+    equipment.setStorageNumber(5);
+    return equipment;
+  }
+
+  public static CrupdateEquipment equipmentToCrupdateEquipment(Equipment equipment) {
+    CrupdateEquipment crupdateEquipment = new CrupdateEquipment();
+    crupdateEquipment.setId(equipment.getId());
+    crupdateEquipment.setName(equipment.getName());
+    crupdateEquipment.setDescription(equipment.getDescription());
+    crupdateEquipment.setWarehouseId(equipment.getWarehouseId());
+    crupdateEquipment.setFloorNumber(equipment.getFloorNumber());
+    crupdateEquipment.setStorageNumber(equipment.getStorageNumber());
+    crupdateEquipment.setComment(equipment.getComment());
+    return crupdateEquipment;
+  }
+
+  public static CrupdateEquipment someCreatableEquipment() {
+    CrupdateEquipment equipment = new CrupdateEquipment();
+    equipment.setName("Marteau-piqueur");
+    equipment.setDescription("Outil de demolition");
+    equipment.setWarehouseId(WAREHOUSE1_ID);
+    equipment.setFloorNumber(1);
+    equipment.setStorageNumber(20);
+    return equipment;
+  }
+
+  public static Material material1() {
+    Material material = new Material();
+    material.setId(MATERIAL1_ID);
+    material.setName("Ciment");
+    material.setDescription("Ciment Portland 35kg");
+    material.setWarehouseId(WAREHOUSE1_ID);
+    material.setFloorNumber(1);
+    material.setStorageNumber(100);
+    return material;
+  }
+
+  public static Material material2() {
+    Material material = new Material();
+    material.setId(MATERIAL2_ID);
+    material.setName("Brique");
+    material.setDescription("Brique rouge 20x10x5");
+    material.setWarehouseId(WAREHOUSE1_ID);
+    material.setFloorNumber(1);
+    material.setStorageNumber(500);
+    return material;
+  }
+
+  public static Material material3() {
+    Material material = new Material();
+    material.setId(MATERIAL3_ID);
+    material.setName("Peinture");
+    material.setDescription("Peinture blanche mate");
+    material.setWarehouseId(WAREHOUSE2_ID);
+    material.setFloorNumber(2);
+    material.setStorageNumber(50);
+    return material;
+  }
+
+  public static CrupdateMaterial materialToCrupdateMaterial(Material material) {
+    CrupdateMaterial crupdateMaterial = new CrupdateMaterial();
+    crupdateMaterial.setId(material.getId());
+    crupdateMaterial.setName(material.getName());
+    crupdateMaterial.setDescription(material.getDescription());
+    crupdateMaterial.setWarehouseId(material.getWarehouseId());
+    crupdateMaterial.setFloorNumber(material.getFloorNumber());
+    crupdateMaterial.setStorageNumber(material.getStorageNumber());
+    crupdateMaterial.setComment(material.getComment());
+    return crupdateMaterial;
+  }
+
+  public static CrupdateMaterial someCreatableMaterial() {
+    CrupdateMaterial material = new CrupdateMaterial();
+    material.setName("Sable");
+    material.setDescription("Sable fin");
+    material.setWarehouseId(WAREHOUSE1_ID);
+    material.setFloorNumber(1);
+    material.setStorageNumber(200);
+    return material;
   }
 
   public static int anAvailableRandomPort() {
