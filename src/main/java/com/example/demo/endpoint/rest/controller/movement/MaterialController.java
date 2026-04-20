@@ -41,7 +41,7 @@ public class MaterialController {
   }
 
   @PutMapping("/materials")
-  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
+  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public List<Material> crupdateMaterials(@RequestBody List<CrupdateMaterial> toWrite) {
     var saved =
         materialService.createOrUpdateAll(toWrite.stream().map(materialMapper::toDomain).toList());
@@ -49,7 +49,7 @@ public class MaterialController {
   }
 
   @DeleteMapping("/materials/{id}")
-  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
+  @PreAuthorize("hasAnyRole('ADMIN')")
   public void deleteMaterialById(@PathVariable String id) {
     materialService.deleteById(id);
   }

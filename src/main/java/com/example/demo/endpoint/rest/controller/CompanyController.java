@@ -21,7 +21,7 @@ public class CompanyController {
   private final CompanyMapper companyMapper;
 
   @GetMapping("/companies/{id}")
-  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
+  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER', 'EMPLOYEE')")
   public Company getCompanyById(@PathVariable String id) {
     return companyMapper.toRestCompany(
         companyService
@@ -30,7 +30,7 @@ public class CompanyController {
   }
 
   @GetMapping("/companies")
-  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
+  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public List<Company> getCompanies(
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
@@ -48,7 +48,7 @@ public class CompanyController {
   }
 
   @PutMapping("/companies")
-  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
+  @PreAuthorize("hasAnyRole('ADMIN')")
   public List<Company> crupdateCompanies(@RequestBody List<CrupdateCompany> toWrite) {
     var saved =
         companyService.createOrUpdateAll(toWrite.stream().map(companyMapper::toDomain).toList());
@@ -56,7 +56,7 @@ public class CompanyController {
   }
 
   @DeleteMapping("/companies")
-  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
+  @PreAuthorize("hasAnyRole('ADMIN')")
   public void deleteCompanyById(@RequestParam String id) {
     companyService.deleteById(id);
   }

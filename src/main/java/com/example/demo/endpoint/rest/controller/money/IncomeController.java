@@ -60,7 +60,7 @@ public class IncomeController {
   }
 
   @DeleteMapping("/companies/{comp_id}/job/{job_id}/user/{user_id}/incomes/{id}")
-  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
+  @PreAuthorize("hasAnyRole('ADMIN')")
   public void deleteIncomeById(
       @PathVariable String comp_id,
       @PathVariable String job_id,

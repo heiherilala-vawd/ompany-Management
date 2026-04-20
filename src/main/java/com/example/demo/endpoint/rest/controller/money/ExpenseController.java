@@ -60,7 +60,7 @@ public class ExpenseController {
   }
 
   @DeleteMapping("/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{id}")
-  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
+  @PreAuthorize("hasAnyRole('ADMIN')")
   public void deleteExpenseById(
       @PathVariable String comp_id,
       @PathVariable String job_id,

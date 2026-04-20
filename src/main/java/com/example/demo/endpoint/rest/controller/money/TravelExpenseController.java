@@ -21,7 +21,7 @@ public class TravelExpenseController {
 
   @GetMapping(
       "/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/travel_expenses/{id}")
-  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
+  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION') or #userId == authentication.principal.id")
   public TravelExpense getTravelExpenseById(
       @PathVariable String comp_id,
       @PathVariable String job_id,
@@ -37,7 +37,7 @@ public class TravelExpenseController {
 
   @GetMapping(
       "/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/travel_expenses")
-  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
+  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION') or #userId == authentication.principal.id")
   public List<TravelExpense> getTravelExpenses(
       @PathVariable String comp_id,
       @PathVariable String job_id,
@@ -53,7 +53,7 @@ public class TravelExpenseController {
 
   @PutMapping(
       "/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/travel_expenses")
-  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
+  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION') or #userId == authentication.principal.id")
   public List<TravelExpense> crupdateTravelExpenses(
       @PathVariable String comp_id,
       @PathVariable String job_id,
@@ -68,7 +68,7 @@ public class TravelExpenseController {
 
   @DeleteMapping(
       "/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/travel_expenses/{id}")
-  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
+  @PreAuthorize("hasAnyRole('ADMIN', 'WAREHOUSE_WORKER')")
   public void deleteTravelExpenseById(
       @PathVariable String comp_id,
       @PathVariable String job_id,

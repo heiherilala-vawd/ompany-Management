@@ -66,8 +66,11 @@ public class TestUtils {
   public static final String USER2_TOKEN = "user2_token";
   public static final String RANDOM_TOKEN = "random2_token";
 
-  public static final String INTERNAL_SERVER_ERROR =
-      "{\"type\":\"500 INTERNAL_SERVER_ERROR\",\"message\":\"Access Denied\"}";
+  public static final String FORBIDDEN_ERROR =
+      "{\"type\":\"403 FORBIDDEN\",\"message\":\"Access Denied\"}";
+
+  public static final String NOT_AUTHORIZED_ERROR =
+      "{\"type\":\"Full authentication is required to access this resource\",\"message\":\"NotAuthorizedException\"}";
 
   private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -293,9 +296,12 @@ public class TestUtils {
 
   public static void assertThrowsForbiddenException(Executable executable) {
     ApiException exception = assertThrows(ApiException.class, executable);
-    assertEquals(
-        "{\"type\":\"Full authentication is required to access this resource\",\"message\":\"NotAuthorizedException\"}",
-        exception.getResponseBody());
+    assertEquals(FORBIDDEN_ERROR, exception.getResponseBody());
+  }
+
+  public static void assertThrowsNotAuthorizedException(Executable executable) {
+    ApiException exception = assertThrows(ApiException.class, executable);
+    assertEquals(NOT_AUTHORIZED_ERROR, exception.getResponseBody());
   }
 
   @FunctionalInterface

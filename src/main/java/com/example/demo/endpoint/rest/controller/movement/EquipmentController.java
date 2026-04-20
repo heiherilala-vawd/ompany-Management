@@ -20,7 +20,7 @@ public class EquipmentController {
   private final EquipmentMapper equipmentMapper;
 
   @GetMapping("/companies/{comp_id}/equipment/{id}")
-  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
+  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER', 'EMPLOYEE')")
   public Equipment getEquipmentById(@PathVariable String comp_id, @PathVariable String id) {
     return equipmentMapper.toRestEquipment(
         equipmentService
@@ -29,7 +29,7 @@ public class EquipmentController {
   }
 
   @GetMapping("/companies/{comp_id}/equipment")
-  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
+  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER', 'EMPLOYEE'))")
   public List<Equipment> getEquipment(
       @PathVariable String comp_id,
       @RequestParam(name = "page", required = false) PageFromOne page,
@@ -42,7 +42,7 @@ public class EquipmentController {
   }
 
   @PutMapping("/companies/{comp_id}/equipment")
-  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
+  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public List<Equipment> crupdateEquipment(
       @PathVariable String comp_id, @RequestBody List<CrupdateEquipment> toWrite) {
     var saved =
@@ -52,7 +52,7 @@ public class EquipmentController {
   }
 
   @DeleteMapping("/companies/{comp_id}/equipment/{id}")
-  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
+  @PreAuthorize("hasAnyRole('ADMIN')")
   public void deleteEquipmentById(@PathVariable String comp_id, @PathVariable String id) {
     equipmentService.deleteById(id);
   }
