@@ -44,7 +44,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   Equipment.JSON_PROPERTY_UPDATED_BY,
   Equipment.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-20T04:37:11.050676107+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-20T05:06:16.985560548+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class Equipment {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
