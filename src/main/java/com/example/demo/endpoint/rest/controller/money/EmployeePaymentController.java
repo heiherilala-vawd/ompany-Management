@@ -21,7 +21,7 @@ public class EmployeePaymentController {
 
   @GetMapping(
       "/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/employee_payments/{id}")
-  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION') or #userId == authentication.principal.id")
+  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION') or #user_id == authentication.principal.id")
   public EmployeePayment getEmployeePaymentById(
       @PathVariable String comp_id,
       @PathVariable String job_id,
@@ -37,7 +37,7 @@ public class EmployeePaymentController {
 
   @GetMapping(
       "/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/employee_payments")
-  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION') or #userId == authentication.principal.id")
+  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION') or #user_id == authentication.principal.id")
   public List<EmployeePayment> getEmployeePayments(
       @PathVariable String comp_id,
       @PathVariable String job_id,
@@ -54,7 +54,7 @@ public class EmployeePaymentController {
 
   @PutMapping(
       "/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/employee_payments")
-  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION',) or #userId == authentication.principal.id")
+  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION') or #user_id == authentication.principal.id")
   public List<EmployeePayment> crupdateEmployeePayments(
       @PathVariable String comp_id,
       @PathVariable String job_id,
