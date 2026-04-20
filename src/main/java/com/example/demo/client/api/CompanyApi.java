@@ -51,7 +51,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-20T08:35:47.634038256+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-20T11:19:32.360037432+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CompanyApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -248,12 +248,14 @@ public class CompanyApi {
    * @param page  (optional)
    * @param pageSize  (optional)
    * @param name Filter companies by name, case is ignored (optional)
+   * @param rib Filter companies by RIB, case is ignored (optional)
+   * @param description Filter companies by description, case is ignored (optional)
    * @param companyType Filter by company type (optional)
    * @return List&lt;Company&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<Company> getCompanies(Integer page, Integer pageSize, String name, CompanyType companyType) throws ApiException {
-    ApiResponse<List<Company>> localVarResponse = getCompaniesWithHttpInfo(page, pageSize, name, companyType);
+  public List<Company> getCompanies(Integer page, Integer pageSize, String name, String rib, String description, CompanyType companyType) throws ApiException {
+    ApiResponse<List<Company>> localVarResponse = getCompaniesWithHttpInfo(page, pageSize, name, rib, description, companyType);
     return localVarResponse.getData();
   }
 
@@ -263,12 +265,14 @@ public class CompanyApi {
    * @param page  (optional)
    * @param pageSize  (optional)
    * @param name Filter companies by name, case is ignored (optional)
+   * @param rib Filter companies by RIB, case is ignored (optional)
+   * @param description Filter companies by description, case is ignored (optional)
    * @param companyType Filter by company type (optional)
    * @return ApiResponse&lt;List&lt;Company&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<Company>> getCompaniesWithHttpInfo(Integer page, Integer pageSize, String name, CompanyType companyType) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getCompaniesRequestBuilder(page, pageSize, name, companyType);
+  public ApiResponse<List<Company>> getCompaniesWithHttpInfo(Integer page, Integer pageSize, String name, String rib, String description, CompanyType companyType) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getCompaniesRequestBuilder(page, pageSize, name, rib, description, companyType);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -296,7 +300,7 @@ public class CompanyApi {
     }
   }
 
-  private HttpRequest.Builder getCompaniesRequestBuilder(Integer page, Integer pageSize, String name, CompanyType companyType) throws ApiException {
+  private HttpRequest.Builder getCompaniesRequestBuilder(Integer page, Integer pageSize, String name, String rib, String description, CompanyType companyType) throws ApiException {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -311,6 +315,10 @@ public class CompanyApi {
     localVarQueryParams.addAll(ApiClient.parameterToPairs("page_size", pageSize));
     localVarQueryParameterBaseName = "name";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("name", name));
+    localVarQueryParameterBaseName = "rib";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("rib", rib));
+    localVarQueryParameterBaseName = "description";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("description", description));
     localVarQueryParameterBaseName = "company_type";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("company_type", companyType));
 

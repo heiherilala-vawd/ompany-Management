@@ -5,6 +5,7 @@ import com.example.demo.client.model.TravelPeople;
 import com.example.demo.endpoint.rest.mapper.movement.TravelPeopleMapper;
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
+import com.example.demo.model.criteria.TravelPeopleCriteria;
 import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.service.movement.TravelPeopleService;
 import java.util.List;
@@ -46,9 +47,13 @@ public class TravelPeopleController {
       @PathVariable String travel_expenses_id,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
-      @RequestParam(name = "travel_id", required = false) String travelId) {
+      @RequestParam(name = "travel_id", required = false) String travelId,
+      @RequestParam(name = "person_name", required = false) String personName) {
+    TravelPeopleCriteria criteria = new TravelPeopleCriteria();
+    criteria.setTravelId(travelId);
+    criteria.setPersonName(personName);
 
-    return travelPeopleService.findAll(page, pageSize, travelId).stream()
+    return travelPeopleService.findAll(page, pageSize, criteria).stream()
         .map(travelPeopleMapper::toRestTravelPeople)
         .toList();
   }

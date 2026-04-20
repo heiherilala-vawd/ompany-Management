@@ -1,7 +1,11 @@
 package com.example.demo.service.money;
 
+import static com.example.demo.repository.specification.SpecificationUtils.containsIgnoreCase;
+import static com.example.demo.repository.specification.SpecificationUtils.equal;
+
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
+import com.example.demo.model.criteria.IncomeMoneyCriteria;
 import com.example.demo.model.money.IncomeMoney;
 import com.example.demo.repository.money.IncomeMoneyRepository;
 import com.example.demo.service.utils.PageUtils;
@@ -10,6 +14,7 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,10 +29,10 @@ public class IncomeMoneyService {
     return incomeMoneyRepository.findById(id);
   }
 
-  public Page<IncomeMoney> findAll(PageFromOne page, BoundedPageSize pageSize) {
+  public Page<IncomeMoney> findAll(
+      PageFromOne page, BoundedPageSize pageSize, IncomeMoneyCriteria criteria) {
     Pageable pageable = PageUtils.createPageable(page, pageSize);
-
-    return incomeMoneyRepository.findAll(pageable);
+    return incomeMoneyRepository.findAll(toSpecification(criteria), pageable);
   }
 
   public Optional<IncomeMoney> findByInvoiceReference(String invoiceReference) {
@@ -60,5 +65,13 @@ public class IncomeMoneyService {
   @Transactional
   public void deleteById(String id) {
     incomeMoneyRepository.deleteById(id);
+  }
+
+  private Specification<IncomeMoney> toSpecification(IncomeMoneyCriteria criteria) {
+    return Specification.<IncomeMoney>where(
+            containsIgnoreCase(criteria.getSourceOrganization(), "sourceOrganization"))
+        .and(containsIgnoreCase(criteria.getInvoiceReference(), "invoiceReference"))
+        .and(containsIgnoreCase(criteria.getDescription(), "description"))
+        .and(equal(criteria.getAmount(), "amount"));
   }
 }

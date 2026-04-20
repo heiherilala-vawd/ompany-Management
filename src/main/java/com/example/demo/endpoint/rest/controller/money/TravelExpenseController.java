@@ -5,6 +5,7 @@ import com.example.demo.client.model.TravelExpense;
 import com.example.demo.endpoint.rest.mapper.money.TravelExpenseMapper;
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
+import com.example.demo.model.criteria.TravelExpenseCriteria;
 import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.service.money.TravelExpenseService;
 import java.util.List;
@@ -44,9 +45,16 @@ public class TravelExpenseController {
       @PathVariable String user_id,
       @PathVariable String expenses_id,
       @RequestParam(name = "page", required = false) PageFromOne page,
-      @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize) {
+      @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
+      @RequestParam(name = "expense_id", required = false) String expenseId,
+      @RequestParam(name = "departure_location", required = false) String departureLocation,
+      @RequestParam(name = "arrival_location", required = false) String arrivalLocation) {
+    TravelExpenseCriteria criteria = new TravelExpenseCriteria();
+    criteria.setExpenseId(expenseId);
+    criteria.setDepartureLocation(departureLocation);
+    criteria.setArrivalLocation(arrivalLocation);
 
-    return travelExpenseService.findAll(page, pageSize).stream()
+    return travelExpenseService.findAll(page, pageSize, criteria).stream()
         .map(travelExpenseMapper::toRestTravelExpense)
         .toList();
   }

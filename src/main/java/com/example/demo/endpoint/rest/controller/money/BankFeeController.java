@@ -5,6 +5,7 @@ import com.example.demo.client.model.CrupdateBankFee;
 import com.example.demo.endpoint.rest.mapper.money.BankFeeMapper;
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
+import com.example.demo.model.criteria.BankFeeCriteria;
 import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.service.money.BankFeeService;
 import java.util.List;
@@ -42,9 +43,16 @@ public class BankFeeController {
       @PathVariable String user_id,
       @PathVariable String expenses_id,
       @RequestParam(name = "page", required = false) PageFromOne page,
-      @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize) {
+      @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
+      @RequestParam(name = "expense_id", required = false) String expenseId,
+      @RequestParam(name = "bank_name", required = false) String bankName,
+      @RequestParam(name = "description", required = false) String description) {
+    BankFeeCriteria criteria = new BankFeeCriteria();
+    criteria.setExpenseId(expenseId);
+    criteria.setBankName(bankName);
+    criteria.setDescription(description);
 
-    return bankFeeService.findAll(page, pageSize).stream()
+    return bankFeeService.findAll(page, pageSize, criteria).stream()
         .map(bankFeeMapper::toRestBankFee)
         .toList();
   }

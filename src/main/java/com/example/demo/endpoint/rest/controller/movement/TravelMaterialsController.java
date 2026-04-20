@@ -5,6 +5,7 @@ import com.example.demo.client.model.TravelMaterials;
 import com.example.demo.endpoint.rest.mapper.movement.TravelMaterialsMapper;
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
+import com.example.demo.model.criteria.TravelMaterialsCriteria;
 import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.service.movement.TravelMaterialsService;
 import java.util.List;
@@ -47,9 +48,17 @@ public class TravelMaterialsController {
       @PathVariable String travel_expenses_id,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
-      @RequestParam(name = "travel_id", required = false) String travelId) {
+      @RequestParam(name = "travel_id", required = false) String travelId,
+      @RequestParam(name = "material_id", required = false) String materialId,
+      @RequestParam(name = "quantity", required = false) Integer quantity,
+      @RequestParam(name = "quantity_received", required = false) Integer quantityReceived) {
+    TravelMaterialsCriteria criteria = new TravelMaterialsCriteria();
+    criteria.setTravelId(travelId);
+    criteria.setMaterialId(materialId);
+    criteria.setQuantity(quantity);
+    criteria.setQuantityReceived(quantityReceived);
 
-    return travelMaterialsService.findAll(page, pageSize, travelId).stream()
+    return travelMaterialsService.findAll(page, pageSize, criteria).stream()
         .map(travelMaterialsMapper::toRestTravelMaterials)
         .toList();
   }

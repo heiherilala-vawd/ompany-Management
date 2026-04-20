@@ -1,7 +1,11 @@
 package com.example.demo.service.money;
 
+import static com.example.demo.repository.specification.SpecificationUtils.containsIgnoreCase;
+import static com.example.demo.repository.specification.SpecificationUtils.equal;
+
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
+import com.example.demo.model.criteria.BankFeeCriteria;
 import com.example.demo.model.money.BankFee;
 import com.example.demo.repository.money.BankFeeRepository;
 import com.example.demo.service.utils.PageUtils;
@@ -10,6 +14,7 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,10 +29,10 @@ public class BankFeeService {
     return bankFeeRepository.findById(id);
   }
 
-  public Page<BankFee> findAll(PageFromOne page, BoundedPageSize pageSize) {
+  public Page<BankFee> findAll(
+      PageFromOne page, BoundedPageSize pageSize, BankFeeCriteria criteria) {
     Pageable pageable = PageUtils.createPageable(page, pageSize);
-
-    return bankFeeRepository.findAll(pageable);
+    return bankFeeRepository.findAll(toSpecification(criteria), pageable);
   }
 
   public Optional<BankFee> findByExpenseId(String expenseId) {
@@ -58,5 +63,11 @@ public class BankFeeService {
   @Transactional
   public void deleteById(String id) {
     bankFeeRepository.deleteById(id);
+  }
+
+  private Specification<BankFee> toSpecification(BankFeeCriteria criteria) {
+    return Specification.<BankFee>where(equal(criteria.getExpenseId(), "expense", "id"))
+        .and(containsIgnoreCase(criteria.getBankName(), "bankName"))
+        .and(containsIgnoreCase(criteria.getDescription(), "description"));
   }
 }

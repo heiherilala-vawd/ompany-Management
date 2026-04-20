@@ -1,9 +1,12 @@
 package com.example.demo.service;
 
+import static com.example.demo.repository.specification.SpecificationUtils.containsIgnoreCase;
+import static com.example.demo.repository.specification.SpecificationUtils.equal;
+
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.Job;
-import com.example.demo.model.Job.JobStatus;
 import com.example.demo.model.PageFromOne;
+import com.example.demo.model.criteria.JobCriteria;
 import com.example.demo.repository.JobRepository;
 import com.example.demo.service.utils.PageUtils;
 import java.time.LocalDate;
@@ -12,6 +15,7 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,21 +30,9 @@ public class JobService {
     return jobRepository.findById(id);
   }
 
-  public Page<Job> findAll(
-      PageFromOne page, BoundedPageSize pageSize, JobStatus status, String companyId) {
+  public Page<Job> findAll(PageFromOne page, BoundedPageSize pageSize, JobCriteria criteria) {
     Pageable pageable = PageUtils.createPageable(page, pageSize);
-
-    if (status != null && companyId != null) {
-      return jobRepository.findByStatusAndCompanyId(status, companyId, pageable);
-    }
-    if (status != null) {
-      return jobRepository.findByStatus(status, pageable);
-    }
-    if (companyId != null) {
-      return jobRepository.findByCompanyId(companyId, pageable);
-    }
-
-    return jobRepository.findAll(pageable);
+    return jobRepository.findAll(toSpecification(criteria), pageable);
   }
 
   public List<Job> findAll() {
@@ -77,5 +69,11 @@ public class JobService {
 
   public boolean existsById(String id) {
     return jobRepository.existsById(id);
+  }
+
+  private Specification<Job> toSpecification(JobCriteria criteria) {
+    return Specification.<Job>where(equal(criteria.getStatus(), "status"))
+        .and(equal(criteria.getCompanyId(), "company", "id"))
+        .and(containsIgnoreCase(criteria.getDescription(), "description"));
   }
 }

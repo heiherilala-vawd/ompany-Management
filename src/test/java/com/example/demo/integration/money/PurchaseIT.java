@@ -70,11 +70,46 @@ class PurchaseIT {
     PurchaseApi api = new PurchaseApi(anApiClient(ADMIN_TOKEN));
 
     List<Purchase> purchases =
-        api.getPurchases(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, 1, 100);
+        api.getPurchases(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, 1, 100, null, null, null);
 
     assertEquals(2, purchases.size());
     assertTrue(purchases.stream().anyMatch(purchase -> PURCHASE1_ID.equals(purchase.getId())));
     assertTrue(purchases.stream().anyMatch(purchase -> PURCHASE2_ID.equals(purchase.getId())));
+  }
+
+  @Test
+  void admin_can_filter_purchases_by_expense_id() throws Exception {
+    PurchaseApi api = new PurchaseApi(anApiClient(ADMIN_TOKEN));
+
+    List<Purchase> purchases =
+        api.getPurchases(
+            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, 1, 100, EXPENSE2_ID, null, null);
+
+    assertEquals(1, purchases.size());
+    assertEquals(PURCHASE2_ID, purchases.get(0).getId());
+  }
+
+  @Test
+  void admin_can_filter_purchases_by_supplier() throws Exception {
+    PurchaseApi api = new PurchaseApi(anApiClient(ADMIN_TOKEN));
+
+    List<Purchase> purchases =
+        api.getPurchases(
+            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, 1, 100, null, "Beton", null);
+
+    assertEquals(1, purchases.size());
+    assertEquals(PURCHASE1_ID, purchases.get(0).getId());
+  }
+
+  @Test
+  void admin_can_filter_purchases_by_is_equipment() throws Exception {
+    PurchaseApi api = new PurchaseApi(anApiClient(ADMIN_TOKEN));
+
+    List<Purchase> purchases =
+        api.getPurchases(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, 1, 100, null, null, false);
+
+    assertEquals(1, purchases.size());
+    assertEquals(PURCHASE2_ID, purchases.get(0).getId());
   }
 
   @Test

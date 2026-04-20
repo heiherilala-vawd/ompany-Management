@@ -6,6 +6,7 @@ import com.example.demo.client.model.CrupdateCompany;
 import com.example.demo.endpoint.rest.mapper.CompanyMapper;
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
+import com.example.demo.model.criteria.CompanyCriteria;
 import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.service.CompanyService;
 import java.util.List;
@@ -35,14 +36,19 @@ public class CompanyController {
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
       @RequestParam(name = "name", required = false) String name,
+      @RequestParam(name = "rib", required = false) String rib,
+      @RequestParam(name = "description", required = false) String description,
       @RequestParam(name = "company_type", required = false) CompanyType companyType) {
-
-    com.example.demo.model.Company.CompanyType domainType =
+    CompanyCriteria criteria = new CompanyCriteria();
+    criteria.setName(name);
+    criteria.setRib(rib);
+    criteria.setDescription(description);
+    criteria.setCompanyType(
         companyType != null
             ? com.example.demo.model.Company.CompanyType.valueOf(companyType.name())
-            : null;
+            : null);
 
-    return companyService.findAll(page, pageSize, name, domainType).stream()
+    return companyService.findAll(page, pageSize, criteria).stream()
         .map(companyMapper::toRestCompany)
         .toList();
   }

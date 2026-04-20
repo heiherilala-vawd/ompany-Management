@@ -5,6 +5,7 @@ import com.example.demo.client.model.Warehouse;
 import com.example.demo.endpoint.rest.mapper.movement.WarehouseMapper;
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
+import com.example.demo.model.criteria.WarehouseCriteria;
 import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.service.movement.WarehouseService;
 import java.util.List;
@@ -34,9 +35,15 @@ public class WarehouseController {
       @PathVariable String comp_id,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
-      @RequestParam(name = "job_id", required = false) String jobId) {
+      @RequestParam(name = "job_id", required = false) String jobId,
+      @RequestParam(name = "name", required = false) String name,
+      @RequestParam(name = "description", required = false) String description) {
+    WarehouseCriteria criteria = new WarehouseCriteria();
+    criteria.setJobId(jobId);
+    criteria.setName(name);
+    criteria.setDescription(description);
 
-    return warehouseService.findAll(page, pageSize, jobId).stream()
+    return warehouseService.findAll(page, pageSize, criteria).stream()
         .map(warehouseMapper::toRestWarehouse)
         .toList();
   }

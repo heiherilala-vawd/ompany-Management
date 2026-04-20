@@ -86,11 +86,51 @@ class TravelPeopleIT {
 
     List<TravelPeople> list =
         api.getTravelPeople(
-            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, TRAVEL_EXPENSE1_ID, 1, 100, null);
+            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, TRAVEL_EXPENSE1_ID, 1, 100, null, null);
 
     assertEquals(2, list.size());
     assertTrue(list.stream().anyMatch(tp -> TRAVEL_PEOPLE1_ID.equals(tp.getId())));
     assertTrue(list.stream().anyMatch(tp -> TRAVEL_PEOPLE2_ID.equals(tp.getId())));
+  }
+
+  @Test
+  void admin_can_filter_travel_people_by_travel_id() throws Exception {
+    TravelPeopleApi api = new TravelPeopleApi(anApiClient(ADMIN_TOKEN));
+
+    List<TravelPeople> list =
+        api.getTravelPeople(
+            COMPANY1_ID,
+            JOB1_ID,
+            EMPLOYEE_ID,
+            EXPENSE1_ID,
+            TRAVEL_EXPENSE1_ID,
+            1,
+            100,
+            TRAVEL_EXPENSE1_ID,
+            null);
+
+    assertEquals(2, list.size());
+    assertTrue(list.stream().allMatch(tp -> TRAVEL_EXPENSE1_ID.equals(tp.getTravelId())));
+  }
+
+  @Test
+  void admin_can_filter_travel_people_by_person_name() throws Exception {
+    TravelPeopleApi api = new TravelPeopleApi(anApiClient(ADMIN_TOKEN));
+
+    List<TravelPeople> list =
+        api.getTravelPeople(
+            COMPANY1_ID,
+            JOB1_ID,
+            EMPLOYEE_ID,
+            EXPENSE1_ID,
+            TRAVEL_EXPENSE1_ID,
+            1,
+            100,
+            null,
+            "Bob");
+
+    assertEquals(1, list.size());
+    assertEquals(TRAVEL_PEOPLE2_ID, list.get(0).getId());
   }
 
   @Test

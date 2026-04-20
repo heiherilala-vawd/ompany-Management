@@ -1,7 +1,10 @@
 package com.example.demo.service.movement;
 
+import static com.example.demo.repository.specification.SpecificationUtils.equal;
+
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
+import com.example.demo.model.criteria.TravelMaterialsCriteria;
 import com.example.demo.model.movement.TravelMaterials;
 import com.example.demo.repository.movement.TravelMaterialsRepository;
 import com.example.demo.service.utils.PageUtils;
@@ -10,6 +13,7 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,14 +29,9 @@ public class TravelMaterialsService {
   }
 
   public Page<TravelMaterials> findAll(
-      PageFromOne page, BoundedPageSize pageSize, String travelId) {
+      PageFromOne page, BoundedPageSize pageSize, TravelMaterialsCriteria criteria) {
     Pageable pageable = PageUtils.createPageable(page, pageSize);
-
-    if (travelId != null) {
-      return travelMaterialsRepository.findByTravelId(travelId, pageable);
-    }
-
-    return travelMaterialsRepository.findAll(pageable);
+    return travelMaterialsRepository.findAll(toSpecification(criteria), pageable);
   }
 
   public List<TravelMaterials> findByTravelId(String travelId) {
@@ -67,5 +66,12 @@ public class TravelMaterialsService {
   @Transactional
   public void deleteByTravelId(String travelId) {
     travelMaterialsRepository.deleteByTravelId(travelId);
+  }
+
+  private Specification<TravelMaterials> toSpecification(TravelMaterialsCriteria criteria) {
+    return Specification.<TravelMaterials>where(equal(criteria.getTravelId(), "travel", "id"))
+        .and(equal(criteria.getMaterialId(), "material", "id"))
+        .and(equal(criteria.getQuantity(), "quantity"))
+        .and(equal(criteria.getQuantityReceived(), "quantityReceived"));
   }
 }

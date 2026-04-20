@@ -1,11 +1,14 @@
 package com.example.demo.service;
 
+import static com.example.demo.repository.specification.SpecificationUtils.containsIgnoreCase;
+import static com.example.demo.repository.specification.SpecificationUtils.equal;
+
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
 import com.example.demo.model.User;
+import com.example.demo.model.criteria.UserCriteria;
 import com.example.demo.model.exception.ForbiddenException;
 import com.example.demo.model.exception.NotFoundException;
-import com.example.demo.repository.Dao.UserManagerDao;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.utils.ModificationUtils;
 import com.example.demo.service.utils.PageUtils;
@@ -14,13 +17,13 @@ import java.util.List;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
 public class UserService {
   private final UserRepository repository;
-  private final UserManagerDao userManagerDao;
   private final ModificationUtils modificationUtils;
 
   public List<User> updateExistingUsers(List<User> users) {
@@ -53,16 +56,9 @@ public class UserService {
     return repository.findByEmail(email);
   }
 
-  public List<User> getUsers(
-      PageFromOne page,
-      BoundedPageSize pageSize,
-      String firstName,
-      String lastName,
-      String email,
-      User.Role role) {
+  public List<User> getUsers(PageFromOne page, BoundedPageSize pageSize, UserCriteria criteria) {
     Pageable pageable = PageUtils.createPageable(page, pageSize);
-
-    return userManagerDao.findByCriteria(firstName, lastName, email, role, pageable);
+    return repository.findAll(toSpecification(criteria), pageable).getContent();
   }
 
   public void deleteById(String userId) {
@@ -73,5 +69,12 @@ public class UserService {
   public User getByEmailOrThrow(String email) {
     return getByEmail(email)
         .orElseThrow(() -> new NotFoundException("User with email " + email + " not found"));
+  }
+
+  private Specification<User> toSpecification(UserCriteria criteria) {
+    return Specification.<User>where(containsIgnoreCase(criteria.getFirstName(), "firstName"))
+        .and(containsIgnoreCase(criteria.getLastName(), "lastName"))
+        .and(containsIgnoreCase(criteria.getEmail(), "email"))
+        .and(equal(criteria.getRole(), "role"));
   }
 }

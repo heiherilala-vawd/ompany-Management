@@ -2,10 +2,10 @@ package com.example.demo.endpoint.rest.controller;
 
 import com.example.demo.client.model.CrupdateUser;
 import com.example.demo.client.model.User;
-import com.example.demo.endpoint.rest.mapper.EnumMapper;
 import com.example.demo.endpoint.rest.mapper.UserMapper;
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
+import com.example.demo.model.criteria.UserCriteria;
 import com.example.demo.service.UserService;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -42,16 +42,13 @@ public class UserController {
       @RequestParam(name = "last_name", required = false, defaultValue = "") String lastName,
       @RequestParam(name = "email", required = false, defaultValue = "") String email,
       @RequestParam(name = "role", required = false) com.example.demo.model.User.Role role) {
+    UserCriteria criteria = new UserCriteria();
+    criteria.setFirstName(firstName);
+    criteria.setLastName(lastName);
+    criteria.setEmail(email);
+    criteria.setRole(role);
 
-    return userService
-        .getUsers(
-            page,
-            pageSize,
-            firstName,
-            lastName,
-            email,
-            EnumMapper.mapEnum(role, com.example.demo.model.User.Role.class))
-        .stream()
+    return userService.getUsers(page, pageSize, criteria).stream()
         .map(userMapper::toRestUser)
         .collect(Collectors.toList());
   }

@@ -332,6 +332,16 @@ paths:
           description: "Filter companies by name, case is ignored"
           schema:
             type: string
+        - name: rib
+          in: query
+          description: "Filter companies by RIB, case is ignored"
+          schema:
+            type: string
+        - name: description
+          in: query
+          description: "Filter companies by description, case is ignored"
+          schema:
+            type: string
         - name: company_type
           in: query
           description: "Filter by company type"
@@ -484,6 +494,11 @@ paths:
           in: query
           schema:
             type: string
+        - name: description
+          in: query
+          description: "Filter jobs by description, case is ignored"
+          schema:
+            type: string
       responses:
         '200':
           description: List of jobs
@@ -631,6 +646,16 @@ paths:
             $ref: '#/components/schemas/PageSize'
         - name: job_id
           in: query
+          schema:
+            type: string
+        - name: name
+          in: query
+          description: "Filter warehouses by name, case is ignored"
+          schema:
+            type: string
+        - name: description
+          in: query
+          description: "Filter warehouses by description, case is ignored"
           schema:
             type: string
       responses:
@@ -782,6 +807,24 @@ paths:
           in: query
           schema:
             type: string
+        - name: name
+          in: query
+          description: "Filter equipment by name, case is ignored"
+          schema:
+            type: string
+        - name: description
+          in: query
+          description: "Filter equipment by description, case is ignored"
+          schema:
+            type: string
+        - name: floor_number
+          in: query
+          schema:
+            type: integer
+        - name: storage_number
+          in: query
+          schema:
+            type: integer
       responses:
         '200':
           description: List of equipment
@@ -916,6 +959,24 @@ paths:
           in: query
           schema:
             type: string
+        - name: name
+          in: query
+          description: "Filter materials by name, case is ignored"
+          schema:
+            type: string
+        - name: description
+          in: query
+          description: "Filter materials by description, case is ignored"
+          schema:
+            type: string
+        - name: floor_number
+          in: query
+          schema:
+            type: integer
+        - name: storage_number
+          in: query
+          schema:
+            type: integer
       responses:
         '200':
           description: List of materials
@@ -1085,6 +1146,15 @@ paths:
           in: query
           schema:
             $ref: '#/components/schemas/PageSize'
+        - name: description
+          in: query
+          description: "Filter expenses by description, case is ignored"
+          schema:
+            type: string
+        - name: amount
+          in: query
+          schema:
+            type: integer
       responses:
         '200':
           description: List of expenses
@@ -1270,6 +1340,25 @@ paths:
           in: query
           schema:
             $ref: '#/components/schemas/PageSize'
+        - name: source_organization
+          in: query
+          description: "Filter incomes by source organization, case is ignored"
+          schema:
+            type: string
+        - name: invoice_reference
+          in: query
+          description: "Filter incomes by invoice reference, case is ignored"
+          schema:
+            type: string
+        - name: description
+          in: query
+          description: "Filter incomes by description, case is ignored"
+          schema:
+            type: string
+        - name: amount
+          in: query
+          schema:
+            type: integer
       responses:
         '200':
           description: List of incomes
@@ -1470,6 +1559,20 @@ paths:
           in: query
           schema:
             $ref: '#/components/schemas/PageSize'
+        - name: expense_id
+          in: query
+          schema:
+            type: string
+        - name: departure_location
+          in: query
+          description: "Filter travel expenses by departure location, case is ignored"
+          schema:
+            type: string
+        - name: arrival_location
+          in: query
+          description: "Filter travel expenses by arrival location, case is ignored"
+          schema:
+            type: string
       responses:
         '200':
           description: List of travel expenses
@@ -1675,6 +1778,19 @@ paths:
           in: query
           schema:
             $ref: '#/components/schemas/PageSize'
+        - name: expense_id
+          in: query
+          schema:
+            type: string
+        - name: supplier
+          in: query
+          description: "Filter purchases by supplier, case is ignored"
+          schema:
+            type: string
+        - name: is_equipment
+          in: query
+          schema:
+            type: boolean
       responses:
         '200':
           description: List of purchases
@@ -1880,6 +1996,20 @@ paths:
           in: query
           schema:
             $ref: '#/components/schemas/PageSize'
+        - name: expense_id
+          in: query
+          schema:
+            type: string
+        - name: bank_name
+          in: query
+          description: "Filter bank fees by bank name, case is ignored"
+          schema:
+            type: string
+        - name: description
+          in: query
+          description: "Filter bank fees by description, case is ignored"
+          schema:
+            type: string
       responses:
         '200':
           description: List of bank fees
@@ -2085,6 +2215,15 @@ paths:
           in: query
           schema:
             $ref: '#/components/schemas/PageSize'
+        - name: expense_id
+          in: query
+          schema:
+            type: string
+        - name: description
+          in: query
+          description: "Filter other expenses by description, case is ignored"
+          schema:
+            type: string
       responses:
         '200':
           description: List of other expenses
@@ -2294,6 +2433,19 @@ paths:
           in: query
           schema:
             type: string
+        - name: expense_id
+          in: query
+          schema:
+            type: string
+        - name: payment_description
+          in: query
+          description: "Filter employee payments by description, case is ignored"
+          schema:
+            type: string
+        - name: payment_type
+          in: query
+          schema:
+            $ref: '#/components/schemas/PaymentType'
       responses:
         '200':
           description: List of employee payments
@@ -2516,6 +2668,11 @@ paths:
             $ref: '#/components/schemas/PageSize'
         - name: travel_id
           in: query
+          schema:
+            type: string
+        - name: person_name
+          in: query
+          description: "Filter travel people by person name, case is ignored"
           schema:
             type: string
       responses:
@@ -2747,6 +2904,18 @@ paths:
           in: query
           schema:
             type: string
+        - name: material_id
+          in: query
+          schema:
+            type: string
+        - name: quantity
+          in: query
+          schema:
+            type: integer
+        - name: quantity_received
+          in: query
+          schema:
+            type: integer
       responses:
         '200':
           description: List of travel materials
@@ -2976,6 +3145,18 @@ paths:
           in: query
           schema:
             type: string
+        - name: equipment_id
+          in: query
+          schema:
+            type: string
+        - name: quantity
+          in: query
+          schema:
+            type: integer
+        - name: status
+          in: query
+          schema:
+            $ref: '#/components/schemas/TransportStatus'
       responses:
         '200':
           description: List of travel equipment

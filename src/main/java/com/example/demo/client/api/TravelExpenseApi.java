@@ -50,7 +50,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-20T08:35:47.634038256+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-20T11:19:32.360037432+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class TravelExpenseApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -407,11 +407,14 @@ public class TravelExpenseApi {
    * @param expensesId  (required)
    * @param page  (optional)
    * @param pageSize  (optional)
+   * @param expenseId  (optional)
+   * @param departureLocation Filter travel expenses by departure location, case is ignored (optional)
+   * @param arrivalLocation Filter travel expenses by arrival location, case is ignored (optional)
    * @return List&lt;TravelExpense&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<TravelExpense> getTravelExpenses(String compId, String jobId, String userId, String expensesId, Integer page, Integer pageSize) throws ApiException {
-    ApiResponse<List<TravelExpense>> localVarResponse = getTravelExpensesWithHttpInfo(compId, jobId, userId, expensesId, page, pageSize);
+  public List<TravelExpense> getTravelExpenses(String compId, String jobId, String userId, String expensesId, Integer page, Integer pageSize, String expenseId, String departureLocation, String arrivalLocation) throws ApiException {
+    ApiResponse<List<TravelExpense>> localVarResponse = getTravelExpensesWithHttpInfo(compId, jobId, userId, expensesId, page, pageSize, expenseId, departureLocation, arrivalLocation);
     return localVarResponse.getData();
   }
 
@@ -424,11 +427,14 @@ public class TravelExpenseApi {
    * @param expensesId  (required)
    * @param page  (optional)
    * @param pageSize  (optional)
+   * @param expenseId  (optional)
+   * @param departureLocation Filter travel expenses by departure location, case is ignored (optional)
+   * @param arrivalLocation Filter travel expenses by arrival location, case is ignored (optional)
    * @return ApiResponse&lt;List&lt;TravelExpense&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<TravelExpense>> getTravelExpensesWithHttpInfo(String compId, String jobId, String userId, String expensesId, Integer page, Integer pageSize) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getTravelExpensesRequestBuilder(compId, jobId, userId, expensesId, page, pageSize);
+  public ApiResponse<List<TravelExpense>> getTravelExpensesWithHttpInfo(String compId, String jobId, String userId, String expensesId, Integer page, Integer pageSize, String expenseId, String departureLocation, String arrivalLocation) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getTravelExpensesRequestBuilder(compId, jobId, userId, expensesId, page, pageSize, expenseId, departureLocation, arrivalLocation);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -456,7 +462,7 @@ public class TravelExpenseApi {
     }
   }
 
-  private HttpRequest.Builder getTravelExpensesRequestBuilder(String compId, String jobId, String userId, String expensesId, Integer page, Integer pageSize) throws ApiException {
+  private HttpRequest.Builder getTravelExpensesRequestBuilder(String compId, String jobId, String userId, String expensesId, Integer page, Integer pageSize, String expenseId, String departureLocation, String arrivalLocation) throws ApiException {
     // verify the required parameter 'compId' is set
     if (compId == null) {
       throw new ApiException(400, "Missing the required parameter 'compId' when calling getTravelExpenses");
@@ -489,6 +495,12 @@ public class TravelExpenseApi {
     localVarQueryParams.addAll(ApiClient.parameterToPairs("page", page));
     localVarQueryParameterBaseName = "page_size";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("page_size", pageSize));
+    localVarQueryParameterBaseName = "expense_id";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("expense_id", expenseId));
+    localVarQueryParameterBaseName = "departure_location";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("departure_location", departureLocation));
+    localVarQueryParameterBaseName = "arrival_location";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("arrival_location", arrivalLocation));
 
     if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
       StringJoiner queryJoiner = new StringJoiner("&");
