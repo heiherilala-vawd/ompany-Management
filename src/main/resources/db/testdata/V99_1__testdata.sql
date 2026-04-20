@@ -112,3 +112,53 @@ INSERT INTO "expense_money" (id, amount, description, created_at, updated_at)
 VALUES
 ('expense1_id', 45000, 'Achat materiaux chantier A', NOW(), NOW()),
 ('expense2_id', 80000, 'Paiement sous-traitant renovation', NOW(), NOW());
+
+-- =========================
+-- TEST DATA EMPLOYEE PAYMENTS
+-- =========================
+INSERT INTO "employee_payment" (
+  id, expense_id, employee_id, payment_description, payment_type
+)
+VALUES
+('employee_payment1_id', 'expense1_id', 'employee1_id', 'Avance salaire chantier A', 'ADVANCE'),
+('employee_payment2_id', 'expense2_id', 'user1_id', 'Paiement mensuel renovation', 'MONTHLY');
+
+-- =========================
+-- TEST DATA TRAVEL EXPENSES
+-- =========================
+INSERT INTO "travel_expense" (
+  id, expense_id, departure_location, arrival_location, departure_date, arrival_date
+)
+VALUES
+('travel_expense1_id', 'expense1_id', 'Antananarivo', 'Toamasina', '2024-03-01T06:00:00Z', '2024-03-01T12:00:00Z'),
+('travel_expense2_id', 'expense2_id', 'Fianarantsoa', 'Antsirabe', '2024-03-05T07:30:00Z', '2024-03-05T15:00:00Z');
+
+-- =========================
+-- TEST DATA PURCHASES
+-- =========================
+INSERT INTO "purchase" (
+  id, expense_id, supplier, equipment, material, quantity, is_equipment
+)
+VALUES
+('purchase1_id', 'expense1_id', 'Fournisseur Beton SA', 'equipment1_id', 'material1_id', 3, true),
+('purchase2_id', 'expense2_id', 'Materiaux Plus', 'equipment2_id', 'material2_id', 25, false);
+
+-- =========================
+-- TEST DATA BANK FEES
+-- =========================
+INSERT INTO "bank_fee" (
+  id, expense_id, bank_name, description
+)
+VALUES
+('bank_fee1_id', 'expense1_id', 'BNI Madagascar', 'Frais virement fournisseur'),
+('bank_fee2_id', 'expense2_id', 'BOA Madagascar', 'Commission paiement sous-traitant');
+
+-- =========================
+-- TEST DATA OTHER EXPENSES
+-- =========================
+INSERT INTO "other_expense" (
+  id, expense_id, description
+)
+VALUES
+('other_expense1_id', 'expense1_id', 'Frais administratifs chantier A'),
+('other_expense2_id', 'expense2_id', 'Imprevus renovation hotel');

@@ -8,24 +8,35 @@ import static org.mockito.Mockito.when;
 
 import com.example.demo.client.invoker.ApiClient;
 import com.example.demo.client.invoker.ApiException;
+import com.example.demo.client.model.BankFee;
 import com.example.demo.client.model.Company;
 import com.example.demo.client.model.CompanyType;
+import com.example.demo.client.model.CrupdateBankFee;
 import com.example.demo.client.model.CrupdateCompany;
+import com.example.demo.client.model.CrupdateEmployeePayment;
 import com.example.demo.client.model.CrupdateEquipment;
 import com.example.demo.client.model.CrupdateExpenseMoney;
 import com.example.demo.client.model.CrupdateIncomeMoney;
 import com.example.demo.client.model.CrupdateJob;
 import com.example.demo.client.model.CrupdateMaterial;
+import com.example.demo.client.model.CrupdateOtherExpense;
+import com.example.demo.client.model.CrupdatePurchase;
+import com.example.demo.client.model.CrupdateTravelExpense;
 import com.example.demo.client.model.CrupdateUser;
 import com.example.demo.client.model.CrupdateWarehouse;
+import com.example.demo.client.model.EmployeePayment;
 import com.example.demo.client.model.Equipment;
 import com.example.demo.client.model.ExpenseMoney;
 import com.example.demo.client.model.IncomeMoney;
 import com.example.demo.client.model.Job;
 import com.example.demo.client.model.JobStatus;
 import com.example.demo.client.model.Material;
+import com.example.demo.client.model.OtherExpense;
+import com.example.demo.client.model.PaymentType;
+import com.example.demo.client.model.Purchase;
 import com.example.demo.client.model.Role;
 import com.example.demo.client.model.Sex;
+import com.example.demo.client.model.TravelExpense;
 import com.example.demo.client.model.User;
 import com.example.demo.client.model.Warehouse;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
@@ -68,6 +79,16 @@ public class TestUtils {
   public static final String INCOME2_ID = "income2_id";
   public static final String EXPENSE1_ID = "expense1_id";
   public static final String EXPENSE2_ID = "expense2_id";
+  public static final String BANK_FEE1_ID = "bank_fee1_id";
+  public static final String BANK_FEE2_ID = "bank_fee2_id";
+  public static final String EMPLOYEE_PAYMENT1_ID = "employee_payment1_id";
+  public static final String EMPLOYEE_PAYMENT2_ID = "employee_payment2_id";
+  public static final String OTHER_EXPENSE1_ID = "other_expense1_id";
+  public static final String OTHER_EXPENSE2_ID = "other_expense2_id";
+  public static final String PURCHASE1_ID = "purchase1_id";
+  public static final String PURCHASE2_ID = "purchase2_id";
+  public static final String TRAVEL_EXPENSE1_ID = "travel_expense1_id";
+  public static final String TRAVEL_EXPENSE2_ID = "travel_expense2_id";
 
   // Emails de test
   public static final String ADMIN_EMAIL = "admin@hei.school";
@@ -616,6 +637,203 @@ public class TestUtils {
     expense.setAmount(32000);
     expense.setDescription("Frais logistiques");
     return expense;
+  }
+
+  public static BankFee bankFee1() {
+    BankFee bankFee = new BankFee();
+    bankFee.setId(BANK_FEE1_ID);
+    bankFee.setExpenseId(EXPENSE1_ID);
+    bankFee.setBankName("BNI Madagascar");
+    bankFee.setDescription("Frais virement fournisseur");
+    return bankFee;
+  }
+
+  public static BankFee bankFee2() {
+    BankFee bankFee = new BankFee();
+    bankFee.setId(BANK_FEE2_ID);
+    bankFee.setExpenseId(EXPENSE2_ID);
+    bankFee.setBankName("BOA Madagascar");
+    bankFee.setDescription("Commission paiement sous-traitant");
+    return bankFee;
+  }
+
+  public static CrupdateBankFee bankFeeToCrupdateBankFee(BankFee bankFee) {
+    CrupdateBankFee crupdateBankFee = new CrupdateBankFee();
+    crupdateBankFee.setId(bankFee.getId());
+    crupdateBankFee.setExpenseId(bankFee.getExpenseId());
+    crupdateBankFee.setBankName(bankFee.getBankName());
+    crupdateBankFee.setDescription(bankFee.getDescription());
+    return crupdateBankFee;
+  }
+
+  public static CrupdateBankFee someCreatableBankFee() {
+    CrupdateBankFee bankFee = new CrupdateBankFee();
+    bankFee.setExpenseId(EXPENSE1_ID);
+    bankFee.setBankName("MCB Madagascar");
+    bankFee.setDescription("Frais tenue compte");
+    return bankFee;
+  }
+
+  public static EmployeePayment employeePayment1() {
+    EmployeePayment employeePayment = new EmployeePayment();
+    employeePayment.setId(EMPLOYEE_PAYMENT1_ID);
+    employeePayment.setExpenseId(EXPENSE1_ID);
+    employeePayment.setEmployeeId(EMPLOYEE_ID);
+    employeePayment.setPaymentDescription("Avance salaire chantier A");
+    employeePayment.setPaymentType(PaymentType.ADVANCE);
+    return employeePayment;
+  }
+
+  public static EmployeePayment employeePayment2() {
+    EmployeePayment employeePayment = new EmployeePayment();
+    employeePayment.setId(EMPLOYEE_PAYMENT2_ID);
+    employeePayment.setExpenseId(EXPENSE2_ID);
+    employeePayment.setEmployeeId(USER1_ID);
+    employeePayment.setPaymentDescription("Paiement mensuel renovation");
+    employeePayment.setPaymentType(PaymentType.MONTHLY);
+    return employeePayment;
+  }
+
+  public static CrupdateEmployeePayment employeePaymentToCrupdateEmployeePayment(
+      EmployeePayment employeePayment) {
+    CrupdateEmployeePayment crupdateEmployeePayment = new CrupdateEmployeePayment();
+    crupdateEmployeePayment.setId(employeePayment.getId());
+    crupdateEmployeePayment.setExpenseId(employeePayment.getExpenseId());
+    crupdateEmployeePayment.setEmployeeId(employeePayment.getEmployeeId());
+    crupdateEmployeePayment.setPaymentDescription(employeePayment.getPaymentDescription());
+    crupdateEmployeePayment.setPaymentType(employeePayment.getPaymentType());
+    return crupdateEmployeePayment;
+  }
+
+  public static CrupdateEmployeePayment someCreatableEmployeePayment() {
+    CrupdateEmployeePayment employeePayment = new CrupdateEmployeePayment();
+    employeePayment.setExpenseId(EXPENSE1_ID);
+    employeePayment.setEmployeeId(EMPLOYEE_ID);
+    employeePayment.setPaymentDescription("Prime exceptionnelle");
+    employeePayment.setPaymentType(PaymentType.OTHER);
+    return employeePayment;
+  }
+
+  public static OtherExpense otherExpense1() {
+    OtherExpense otherExpense = new OtherExpense();
+    otherExpense.setId(OTHER_EXPENSE1_ID);
+    otherExpense.setExpenseId(EXPENSE1_ID);
+    otherExpense.setDescription("Frais administratifs chantier A");
+    return otherExpense;
+  }
+
+  public static OtherExpense otherExpense2() {
+    OtherExpense otherExpense = new OtherExpense();
+    otherExpense.setId(OTHER_EXPENSE2_ID);
+    otherExpense.setExpenseId(EXPENSE2_ID);
+    otherExpense.setDescription("Imprevus renovation hotel");
+    return otherExpense;
+  }
+
+  public static CrupdateOtherExpense otherExpenseToCrupdateOtherExpense(OtherExpense otherExpense) {
+    CrupdateOtherExpense crupdateOtherExpense = new CrupdateOtherExpense();
+    crupdateOtherExpense.setId(otherExpense.getId());
+    crupdateOtherExpense.setExpenseId(otherExpense.getExpenseId());
+    crupdateOtherExpense.setDescription(otherExpense.getDescription());
+    return crupdateOtherExpense;
+  }
+
+  public static CrupdateOtherExpense someCreatableOtherExpense() {
+    CrupdateOtherExpense otherExpense = new CrupdateOtherExpense();
+    otherExpense.setExpenseId(EXPENSE1_ID);
+    otherExpense.setDescription("Frais divers chantier");
+    return otherExpense;
+  }
+
+  public static Purchase purchase1() {
+    Purchase purchase = new Purchase();
+    purchase.setId(PURCHASE1_ID);
+    purchase.setExpenseId(EXPENSE1_ID);
+    purchase.setSupplier("Fournisseur Beton SA");
+    purchase.setEquipment(EQUIPMENT1_ID);
+    purchase.setMaterial(MATERIAL1_ID);
+    purchase.setQuantity(3);
+    purchase.setIsEquipment(true);
+    return purchase;
+  }
+
+  public static Purchase purchase2() {
+    Purchase purchase = new Purchase();
+    purchase.setId(PURCHASE2_ID);
+    purchase.setExpenseId(EXPENSE2_ID);
+    purchase.setSupplier("Materiaux Plus");
+    purchase.setEquipment(EQUIPMENT2_ID);
+    purchase.setMaterial(MATERIAL2_ID);
+    purchase.setQuantity(25);
+    purchase.setIsEquipment(false);
+    return purchase;
+  }
+
+  public static CrupdatePurchase purchaseToCrupdatePurchase(Purchase purchase) {
+    CrupdatePurchase crupdatePurchase = new CrupdatePurchase();
+    crupdatePurchase.setId(purchase.getId());
+    crupdatePurchase.setExpenseId(purchase.getExpenseId());
+    crupdatePurchase.setSupplier(purchase.getSupplier());
+    crupdatePurchase.setEquipment(purchase.getEquipment());
+    crupdatePurchase.setMaterial(purchase.getMaterial());
+    crupdatePurchase.setQuantity(purchase.getQuantity());
+    crupdatePurchase.setIsEquipment(purchase.getIsEquipment());
+    return crupdatePurchase;
+  }
+
+  public static CrupdatePurchase someCreatablePurchase() {
+    CrupdatePurchase purchase = new CrupdatePurchase();
+    purchase.setExpenseId(EXPENSE1_ID);
+    purchase.setSupplier("Quincaillerie Centrale");
+    purchase.setEquipment(EQUIPMENT1_ID);
+    purchase.setMaterial(MATERIAL1_ID);
+    purchase.setQuantity(4);
+    purchase.setIsEquipment(true);
+    return purchase;
+  }
+
+  public static TravelExpense travelExpense1() {
+    TravelExpense travelExpense = new TravelExpense();
+    travelExpense.setId(TRAVEL_EXPENSE1_ID);
+    travelExpense.setExpenseId(EXPENSE1_ID);
+    travelExpense.setDepartureLocation("Antananarivo");
+    travelExpense.setArrivalLocation("Toamasina");
+    travelExpense.setDepartureDate(Instant.parse("2024-03-01T06:00:00Z"));
+    travelExpense.setArrivalDate(Instant.parse("2024-03-01T12:00:00Z"));
+    return travelExpense;
+  }
+
+  public static TravelExpense travelExpense2() {
+    TravelExpense travelExpense = new TravelExpense();
+    travelExpense.setId(TRAVEL_EXPENSE2_ID);
+    travelExpense.setExpenseId(EXPENSE2_ID);
+    travelExpense.setDepartureLocation("Fianarantsoa");
+    travelExpense.setArrivalLocation("Antsirabe");
+    travelExpense.setDepartureDate(Instant.parse("2024-03-05T07:30:00Z"));
+    travelExpense.setArrivalDate(Instant.parse("2024-03-05T15:00:00Z"));
+    return travelExpense;
+  }
+
+  public static CrupdateTravelExpense travelExpenseToCrupdateTravelExpense(
+      TravelExpense travelExpense) {
+    CrupdateTravelExpense crupdateTravelExpense = new CrupdateTravelExpense();
+    crupdateTravelExpense.setId(travelExpense.getId());
+    crupdateTravelExpense.setExpenseId(travelExpense.getExpenseId());
+    crupdateTravelExpense.setDepartureLocation(travelExpense.getDepartureLocation());
+    crupdateTravelExpense.setArrivalLocation(travelExpense.getArrivalLocation());
+    crupdateTravelExpense.setDepartureDate(travelExpense.getDepartureDate());
+    crupdateTravelExpense.setArrivalDate(travelExpense.getArrivalDate());
+    return crupdateTravelExpense;
+  }
+
+  public static CrupdateTravelExpense someCreatableTravelExpense() {
+    CrupdateTravelExpense travelExpense = new CrupdateTravelExpense();
+    travelExpense.setExpenseId(EXPENSE1_ID);
+    travelExpense.setDepartureLocation("Mahajanga");
+    travelExpense.setArrivalLocation("Antananarivo");
+    travelExpense.setDepartureDate(Instant.parse("2024-04-01T08:00:00Z"));
+    travelExpense.setArrivalDate(Instant.parse("2024-04-01T18:00:00Z"));
+    return travelExpense;
   }
 
   public static int anAvailableRandomPort() {
