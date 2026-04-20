@@ -91,11 +91,109 @@ class TravelMaterialsIT {
 
     List<TravelMaterials> list =
         api.getTravelMaterials(
-            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, TRAVEL_EXPENSE1_ID, 1, 100, null);
+            COMPANY1_ID,
+            JOB1_ID,
+            EMPLOYEE_ID,
+            EXPENSE1_ID,
+            TRAVEL_EXPENSE1_ID,
+            1,
+            100,
+            null,
+            null,
+            null,
+            null);
 
     assertEquals(2, list.size());
     assertTrue(list.stream().anyMatch(tm -> TRAVEL_MATERIALS1_ID.equals(tm.getId())));
     assertTrue(list.stream().anyMatch(tm -> TRAVEL_MATERIALS2_ID.equals(tm.getId())));
+  }
+
+  @Test
+  void admin_can_filter_travel_materials_by_travel_id() throws Exception {
+    TravelMaterialsApi api = new TravelMaterialsApi(anApiClient(ADMIN_TOKEN));
+
+    List<TravelMaterials> list =
+        api.getTravelMaterials(
+            COMPANY1_ID,
+            JOB1_ID,
+            EMPLOYEE_ID,
+            EXPENSE1_ID,
+            TRAVEL_EXPENSE1_ID,
+            1,
+            100,
+            TRAVEL_EXPENSE2_ID,
+            null,
+            null,
+            null);
+
+    assertEquals(1, list.size());
+    assertEquals(TRAVEL_MATERIALS2_ID, list.get(0).getId());
+  }
+
+  @Test
+  void admin_can_filter_travel_materials_by_material_id() throws Exception {
+    TravelMaterialsApi api = new TravelMaterialsApi(anApiClient(ADMIN_TOKEN));
+
+    List<TravelMaterials> list =
+        api.getTravelMaterials(
+            COMPANY1_ID,
+            JOB1_ID,
+            EMPLOYEE_ID,
+            EXPENSE1_ID,
+            TRAVEL_EXPENSE1_ID,
+            1,
+            100,
+            null,
+            MATERIAL1_ID,
+            null,
+            null);
+
+    assertEquals(1, list.size());
+    assertEquals(TRAVEL_MATERIALS1_ID, list.get(0).getId());
+  }
+
+  @Test
+  void admin_can_filter_travel_materials_by_quantity() throws Exception {
+    TravelMaterialsApi api = new TravelMaterialsApi(anApiClient(ADMIN_TOKEN));
+
+    List<TravelMaterials> list =
+        api.getTravelMaterials(
+            COMPANY1_ID,
+            JOB1_ID,
+            EMPLOYEE_ID,
+            EXPENSE1_ID,
+            TRAVEL_EXPENSE1_ID,
+            1,
+            100,
+            null,
+            null,
+            20,
+            null);
+
+    assertEquals(1, list.size());
+    assertEquals(TRAVEL_MATERIALS2_ID, list.get(0).getId());
+  }
+
+  @Test
+  void admin_can_filter_travel_materials_by_quantity_received() throws Exception {
+    TravelMaterialsApi api = new TravelMaterialsApi(anApiClient(ADMIN_TOKEN));
+
+    List<TravelMaterials> list =
+        api.getTravelMaterials(
+            COMPANY1_ID,
+            JOB1_ID,
+            EMPLOYEE_ID,
+            EXPENSE1_ID,
+            TRAVEL_EXPENSE1_ID,
+            1,
+            100,
+            null,
+            null,
+            null,
+            5);
+
+    assertEquals(1, list.size());
+    assertEquals(TRAVEL_MATERIALS1_ID, list.get(0).getId());
   }
 
   @Test

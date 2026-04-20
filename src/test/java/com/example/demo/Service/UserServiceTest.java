@@ -8,8 +8,8 @@ import static org.mockito.Mockito.*;
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
 import com.example.demo.model.User;
+import com.example.demo.model.criteria.UserCriteria;
 import com.example.demo.model.exception.NotFoundException;
-import com.example.demo.repository.Dao.UserManagerDao;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.UserService;
 import java.util.List;
@@ -20,15 +20,15 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {
 
   @Mock private UserRepository repository;
-
-  @Mock private UserManagerDao userManagerDao;
 
   @InjectMocks private UserService userService;
 
@@ -136,18 +136,22 @@ class UserServiceTest {
     Pageable pageable = PageRequest.of(0, 10);
     List<User> expectedUsers = List.of(existingUser);
 
-    when(userManagerDao.findByCriteria(
-            eq(firstName), eq(lastName), eq(email), eq(role), any(Pageable.class)))
-        .thenReturn(expectedUsers);
+    UserCriteria criteria = new UserCriteria();
+    criteria.setFirstName(firstName);
+    criteria.setLastName(lastName);
+    criteria.setEmail(email);
+    criteria.setRole(role);
+
+    when(repository.findAll(any(Specification.class), any(Pageable.class)))
+        .thenReturn(new PageImpl<>(expectedUsers));
 
     // When
-    List<User> result = userService.getUsers(page, pageSize, firstName, lastName, email, role);
+    List<User> result = userService.getUsers(page, pageSize, criteria);
 
     // Then
     assertThat(result).hasSize(1);
     assertThat(result.get(0)).isEqualTo(existingUser);
-    verify(userManagerDao)
-        .findByCriteria(eq(firstName), eq(lastName), eq(email), eq(role), any(Pageable.class));
+    verify(repository).findAll(any(Specification.class), any(Pageable.class));
   }
 
   @Test
@@ -157,16 +161,17 @@ class UserServiceTest {
     BoundedPageSize pageSize = new BoundedPageSize("10");
     List<User> expectedUsers = List.of(existingUser);
 
-    when(userManagerDao.findByCriteria(eq(null), eq(null), eq(null), eq(null), any(Pageable.class)))
-        .thenReturn(expectedUsers);
+    UserCriteria criteria = new UserCriteria();
+
+    when(repository.findAll(any(Specification.class), any(Pageable.class)))
+        .thenReturn(new PageImpl<>(expectedUsers));
 
     // When
-    List<User> result = userService.getUsers(page, pageSize, null, null, null, null);
+    List<User> result = userService.getUsers(page, pageSize, criteria);
 
     // Then
     assertThat(result).hasSize(1);
-    verify(userManagerDao)
-        .findByCriteria(eq(null), eq(null), eq(null), eq(null), any(Pageable.class));
+    verify(repository).findAll(any(Specification.class), any(Pageable.class));
   }
 
   // ==================== TESTS POUR deleteById ====================
@@ -196,7 +201,7 @@ class UserServiceTest {
         .isInstanceOf(NotFoundException.class)
         .hasMessageContaining("User with id " + nonExistentId + " not found");
 
-    verify(repository, never()).delete(any());
+    verify(repository, never()).delete((User) any());
   }
 
   // ==================== TESTS POUR getByEmailOrThrow ====================

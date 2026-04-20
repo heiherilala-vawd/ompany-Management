@@ -198,6 +198,28 @@ class UserIT {
     assertTrue(users.stream().allMatch(u -> u.getRole() == Role.EMPLOYEE));
   }
 
+  @Test
+  void admin_can_filter_users_by_last_name() throws Exception {
+    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
+    UsersApi api = new UsersApi(adminClient);
+
+    List<User> users = api.getUsers(1, 100, null, "Martin", null, null);
+
+    assertEquals(1, users.size());
+    assertEquals(USER1_ID, users.get(0).getId());
+  }
+
+  @Test
+  void admin_can_filter_users_by_email() throws Exception {
+    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
+    UsersApi api = new UsersApi(adminClient);
+
+    List<User> users = api.getUsers(1, 100, null, null, USER1_EMAIL, null);
+
+    assertEquals(1, users.size());
+    assertEquals(USER1_ID, users.get(0).getId());
+  }
+
   // =========================
   // CONTEXT INITIALIZER
   // =========================

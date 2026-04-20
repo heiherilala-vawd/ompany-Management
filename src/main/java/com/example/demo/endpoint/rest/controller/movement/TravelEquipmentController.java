@@ -1,10 +1,12 @@
 package com.example.demo.endpoint.rest.controller.movement;
 
 import com.example.demo.client.model.CrupdateTravelEquipment;
+import com.example.demo.client.model.TransportStatus;
 import com.example.demo.client.model.TravelEquipment;
 import com.example.demo.endpoint.rest.mapper.movement.TravelEquipmentMapper;
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
+import com.example.demo.model.criteria.TravelEquipmentCriteria;
 import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.service.movement.TravelEquipmentService;
 import java.util.List;
@@ -47,9 +49,20 @@ public class TravelEquipmentController {
       @PathVariable String travel_expenses_id,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
-      @RequestParam(name = "travel_id", required = false) String travelId) {
+      @RequestParam(name = "travel_id", required = false) String travelId,
+      @RequestParam(name = "equipment_id", required = false) String equipmentId,
+      @RequestParam(name = "quantity", required = false) Integer quantity,
+      @RequestParam(name = "status", required = false) TransportStatus status) {
+    TravelEquipmentCriteria criteria = new TravelEquipmentCriteria();
+    criteria.setTravelId(travelId);
+    criteria.setEquipmentId(equipmentId);
+    criteria.setQuantity(quantity);
+    criteria.setStatus(
+        status != null
+            ? com.example.demo.model.movement.TravelEquipment.TransportStatus.valueOf(status.name())
+            : null);
 
-    return travelEquipmentService.findAll(page, pageSize, travelId).stream()
+    return travelEquipmentService.findAll(page, pageSize, criteria).stream()
         .map(travelEquipmentMapper::toRestTravelEquipment)
         .toList();
   }

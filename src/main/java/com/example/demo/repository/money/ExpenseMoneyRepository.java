@@ -2,7 +2,9 @@ package com.example.demo.repository.money;
 
 import com.example.demo.model.money.ExpenseMoney;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ExpenseMoneyRepository extends JpaRepository<ExpenseMoney, String> {}
+public interface ExpenseMoneyRepository
+    extends JpaRepository<ExpenseMoney, String>, JpaSpecificationExecutor<ExpenseMoney> {}

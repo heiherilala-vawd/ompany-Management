@@ -1,7 +1,11 @@
 package com.example.demo.service.money;
 
+import static com.example.demo.repository.specification.SpecificationUtils.containsIgnoreCase;
+import static com.example.demo.repository.specification.SpecificationUtils.equal;
+
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
+import com.example.demo.model.criteria.OtherExpenseCriteria;
 import com.example.demo.model.money.OtherExpense;
 import com.example.demo.repository.money.OtherExpenseRepository;
 import com.example.demo.service.utils.PageUtils;
@@ -10,6 +14,7 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,10 +29,10 @@ public class OtherExpenseService {
     return otherExpenseRepository.findById(id);
   }
 
-  public Page<OtherExpense> findAll(PageFromOne page, BoundedPageSize pageSize) {
+  public Page<OtherExpense> findAll(
+      PageFromOne page, BoundedPageSize pageSize, OtherExpenseCriteria criteria) {
     Pageable pageable = PageUtils.createPageable(page, pageSize);
-
-    return otherExpenseRepository.findAll(pageable);
+    return otherExpenseRepository.findAll(toSpecification(criteria), pageable);
   }
 
   public Optional<OtherExpense> findByExpenseId(String expenseId) {
@@ -59,5 +64,10 @@ public class OtherExpenseService {
   @Transactional
   public void deleteById(String id) {
     otherExpenseRepository.deleteById(id);
+  }
+
+  private Specification<OtherExpense> toSpecification(OtherExpenseCriteria criteria) {
+    return Specification.<OtherExpense>where(equal(criteria.getExpenseId(), "expense", "id"))
+        .and(containsIgnoreCase(criteria.getDescription(), "description"));
   }
 }

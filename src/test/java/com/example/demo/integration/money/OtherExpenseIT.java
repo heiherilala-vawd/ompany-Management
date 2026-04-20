@@ -72,7 +72,7 @@ class OtherExpenseIT {
     OtherExpenseApi api = new OtherExpenseApi(anApiClient(ADMIN_TOKEN));
 
     List<OtherExpense> otherExpenses =
-        api.getOtherExpenses(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, 1, 100);
+        api.getOtherExpenses(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, 1, 100, null, null);
 
     assertEquals(2, otherExpenses.size());
     assertTrue(
@@ -81,6 +81,30 @@ class OtherExpenseIT {
     assertTrue(
         otherExpenses.stream()
             .anyMatch(otherExpense -> OTHER_EXPENSE2_ID.equals(otherExpense.getId())));
+  }
+
+  @Test
+  void admin_can_filter_other_expenses_by_expense_id() throws Exception {
+    OtherExpenseApi api = new OtherExpenseApi(anApiClient(ADMIN_TOKEN));
+
+    List<OtherExpense> otherExpenses =
+        api.getOtherExpenses(
+            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, 1, 100, EXPENSE2_ID, null);
+
+    assertEquals(1, otherExpenses.size());
+    assertEquals(OTHER_EXPENSE2_ID, otherExpenses.get(0).getId());
+  }
+
+  @Test
+  void admin_can_filter_other_expenses_by_description() throws Exception {
+    OtherExpenseApi api = new OtherExpenseApi(anApiClient(ADMIN_TOKEN));
+
+    List<OtherExpense> otherExpenses =
+        api.getOtherExpenses(
+            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, 1, 100, null, "administratifs");
+
+    assertEquals(1, otherExpenses.size());
+    assertEquals(OTHER_EXPENSE1_ID, otherExpenses.get(0).getId());
   }
 
   @Test

@@ -6,6 +6,7 @@ import com.example.demo.client.model.JobStatus;
 import com.example.demo.endpoint.rest.mapper.JobMapper;
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
+import com.example.demo.model.criteria.JobCriteria;
 import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.service.JobService;
 import java.util.List;
@@ -36,14 +37,15 @@ public class JobController {
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
       @RequestParam(name = "status", required = false) JobStatus status,
-      @RequestParam(name = "company_id", required = false) String companyId) {
+      @RequestParam(name = "company_id", required = false) String companyId,
+      @RequestParam(name = "description", required = false) String description) {
+    JobCriteria criteria = new JobCriteria();
+    criteria.setStatus(
+        status != null ? com.example.demo.model.Job.JobStatus.valueOf(status.name()) : null);
+    criteria.setCompanyId(companyId);
+    criteria.setDescription(description);
 
-    com.example.demo.model.Job.JobStatus domainStatus =
-        status != null ? com.example.demo.model.Job.JobStatus.valueOf(status.name()) : null;
-
-    return jobService.findAll(page, pageSize, domainStatus, companyId).stream()
-        .map(jobMapper::toRestJob)
-        .toList();
+    return jobService.findAll(page, pageSize, criteria).stream().map(jobMapper::toRestJob).toList();
   }
 
   @PutMapping("/companies/{comp_id}/jobs")

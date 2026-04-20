@@ -76,7 +76,7 @@ class EquipmentIT {
     ApiClient employeeClient = anApiClient(EMPLOYEE_TOKEN);
     EquipmentApi api = new EquipmentApi(employeeClient);
 
-    List<Equipment> equipment = api.getEquipment(COMPANY1_ID, 1, 100, null);
+    List<Equipment> equipment = api.getEquipment(COMPANY1_ID, 1, 100, null, null, null, null, null);
 
     assertEquals(3, equipment.size());
     assertTrue(equipment.stream().anyMatch(item -> EQUIPMENT1_ID.equals(item.getId())));
@@ -89,10 +89,57 @@ class EquipmentIT {
     ApiClient employeeClient = anApiClient(EMPLOYEE_TOKEN);
     EquipmentApi api = new EquipmentApi(employeeClient);
 
-    List<Equipment> equipment = api.getEquipment(COMPANY1_ID, 1, 100, WAREHOUSE2_ID);
+    List<Equipment> equipment =
+        api.getEquipment(COMPANY1_ID, 1, 100, WAREHOUSE2_ID, null, null, null, null);
 
     assertEquals(1, equipment.size());
     assertEquals(EQUIPMENT3_ID, equipment.get(0).getId());
+  }
+
+  @Test
+  void employee_can_filter_equipment_by_name() throws Exception {
+    ApiClient employeeClient = anApiClient(EMPLOYEE_TOKEN);
+    EquipmentApi api = new EquipmentApi(employeeClient);
+
+    List<Equipment> equipment =
+        api.getEquipment(COMPANY1_ID, 1, 100, null, "Bétonnière", null, null, null);
+
+    assertEquals(1, equipment.size());
+    assertEquals(EQUIPMENT2_ID, equipment.get(0).getId());
+  }
+
+  @Test
+  void employee_can_filter_equipment_by_description() throws Exception {
+    ApiClient employeeClient = anApiClient(EMPLOYEE_TOKEN);
+    EquipmentApi api = new EquipmentApi(employeeClient);
+
+    List<Equipment> equipment =
+        api.getEquipment(COMPANY1_ID, 1, 100, null, null, "extérieure", null, null);
+
+    assertEquals(1, equipment.size());
+    assertEquals(EQUIPMENT3_ID, equipment.get(0).getId());
+  }
+
+  @Test
+  void employee_can_filter_equipment_by_floor_number() throws Exception {
+    ApiClient employeeClient = anApiClient(EMPLOYEE_TOKEN);
+    EquipmentApi api = new EquipmentApi(employeeClient);
+
+    List<Equipment> equipment = api.getEquipment(COMPANY1_ID, 1, 100, null, null, null, 2, null);
+
+    assertEquals(1, equipment.size());
+    assertEquals(EQUIPMENT3_ID, equipment.get(0).getId());
+  }
+
+  @Test
+  void employee_can_filter_equipment_by_storage_number() throws Exception {
+    ApiClient employeeClient = anApiClient(EMPLOYEE_TOKEN);
+    EquipmentApi api = new EquipmentApi(employeeClient);
+
+    List<Equipment> equipment = api.getEquipment(COMPANY1_ID, 1, 100, null, null, null, null, 10);
+
+    assertEquals(1, equipment.size());
+    assertEquals(EQUIPMENT1_ID, equipment.get(0).getId());
   }
 
   @Test

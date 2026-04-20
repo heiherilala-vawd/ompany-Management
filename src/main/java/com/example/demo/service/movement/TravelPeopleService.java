@@ -1,7 +1,11 @@
 package com.example.demo.service.movement;
 
+import static com.example.demo.repository.specification.SpecificationUtils.containsIgnoreCase;
+import static com.example.demo.repository.specification.SpecificationUtils.equal;
+
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
+import com.example.demo.model.criteria.TravelPeopleCriteria;
 import com.example.demo.model.movement.TravelPeople;
 import com.example.demo.repository.movement.TravelPeopleRepository;
 import com.example.demo.service.utils.PageUtils;
@@ -10,6 +14,7 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,14 +29,10 @@ public class TravelPeopleService {
     return travelPeopleRepository.findById(id);
   }
 
-  public Page<TravelPeople> findAll(PageFromOne page, BoundedPageSize pageSize, String travelId) {
+  public Page<TravelPeople> findAll(
+      PageFromOne page, BoundedPageSize pageSize, TravelPeopleCriteria criteria) {
     Pageable pageable = PageUtils.createPageable(page, pageSize);
-
-    if (travelId != null) {
-      return travelPeopleRepository.findByTravelId(travelId, pageable);
-    }
-
-    return travelPeopleRepository.findAll(pageable);
+    return travelPeopleRepository.findAll(toSpecification(criteria), pageable);
   }
 
   public List<TravelPeople> findByTravelId(String travelId) {
@@ -61,5 +62,10 @@ public class TravelPeopleService {
   @Transactional
   public void deleteByTravelId(String travelId) {
     travelPeopleRepository.deleteByTravelId(travelId);
+  }
+
+  private Specification<TravelPeople> toSpecification(TravelPeopleCriteria criteria) {
+    return Specification.<TravelPeople>where(equal(criteria.getTravelId(), "travel", "id"))
+        .and(containsIgnoreCase(criteria.getPersonName(), "personName"));
   }
 }

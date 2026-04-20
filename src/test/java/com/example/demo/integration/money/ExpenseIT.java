@@ -77,7 +77,8 @@ class ExpenseIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     ExpenseApi api = new ExpenseApi(adminClient);
 
-    List<ExpenseMoney> expenses = api.getExpenses(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100);
+    List<ExpenseMoney> expenses =
+        api.getExpenses(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, null);
 
     assertEquals(2, expenses.size());
     assertTrue(expenses.stream().anyMatch(expense -> EXPENSE1_ID.equals(expense.getId())));
@@ -90,7 +91,31 @@ class ExpenseIT {
     ExpenseApi api = new ExpenseApi(employeeClient);
 
     assertThrowsForbiddenException(
-        () -> api.getExpenses(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100));
+        () -> api.getExpenses(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, null));
+  }
+
+  @Test
+  void admin_can_filter_expenses_by_description() throws Exception {
+    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
+    ExpenseApi api = new ExpenseApi(adminClient);
+
+    List<ExpenseMoney> expenses =
+        api.getExpenses(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, "sous-traitant", null);
+
+    assertEquals(1, expenses.size());
+    assertEquals(EXPENSE2_ID, expenses.get(0).getId());
+  }
+
+  @Test
+  void admin_can_filter_expenses_by_amount() throws Exception {
+    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
+    ExpenseApi api = new ExpenseApi(adminClient);
+
+    List<ExpenseMoney> expenses =
+        api.getExpenses(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, 45000);
+
+    assertEquals(1, expenses.size());
+    assertEquals(EXPENSE1_ID, expenses.get(0).getId());
   }
 
   @Test

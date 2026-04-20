@@ -2,9 +2,11 @@ package com.example.demo.endpoint.rest.controller.money;
 
 import com.example.demo.client.model.CrupdateEmployeePayment;
 import com.example.demo.client.model.EmployeePayment;
+import com.example.demo.client.model.PaymentType;
 import com.example.demo.endpoint.rest.mapper.money.EmployeePaymentMapper;
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
+import com.example.demo.model.criteria.EmployeePaymentCriteria;
 import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.service.money.EmployeePaymentService;
 import java.util.List;
@@ -45,9 +47,20 @@ public class EmployeePaymentController {
       @PathVariable String expenses_id,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
-      @RequestParam(name = "employee_id", required = false) String employeeId) {
+      @RequestParam(name = "employee_id", required = false) String employeeId,
+      @RequestParam(name = "expense_id", required = false) String expenseId,
+      @RequestParam(name = "payment_description", required = false) String paymentDescription,
+      @RequestParam(name = "payment_type", required = false) PaymentType paymentType) {
+    EmployeePaymentCriteria criteria = new EmployeePaymentCriteria();
+    criteria.setEmployeeId(employeeId);
+    criteria.setExpenseId(expenseId);
+    criteria.setPaymentDescription(paymentDescription);
+    criteria.setPaymentType(
+        paymentType != null
+            ? com.example.demo.model.money.EmployeePayment.PaymentType.valueOf(paymentType.name())
+            : null);
 
-    return employeePaymentService.findAll(page, pageSize, employeeId).stream()
+    return employeePaymentService.findAll(page, pageSize, criteria).stream()
         .map(employeePaymentMapper::toRestPayment)
         .toList();
   }

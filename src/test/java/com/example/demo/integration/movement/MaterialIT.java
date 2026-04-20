@@ -76,7 +76,7 @@ class MaterialIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     MaterialApi api = new MaterialApi(adminClient);
 
-    List<Material> materials = api.getMaterials(1, 100, null);
+    List<Material> materials = api.getMaterials(1, 100, null, null, null, null, null);
 
     assertEquals(3, materials.size());
     assertTrue(materials.stream().anyMatch(material -> MATERIAL1_ID.equals(material.getId())));
@@ -89,7 +89,7 @@ class MaterialIT {
     ApiClient employeeClient = anApiClient(EMPLOYEE_TOKEN);
     MaterialApi api = new MaterialApi(employeeClient);
 
-    assertThrowsForbiddenException(() -> api.getMaterials(1, 100, null));
+    assertThrowsForbiddenException(() -> api.getMaterials(1, 100, null, null, null, null, null));
   }
 
   @Test
@@ -97,10 +97,54 @@ class MaterialIT {
     ApiClient administrationClient = anApiClient(ADMINISTRATION_TOKEN);
     MaterialApi api = new MaterialApi(administrationClient);
 
-    List<Material> materials = api.getMaterials(1, 100, WAREHOUSE2_ID);
+    List<Material> materials = api.getMaterials(1, 100, WAREHOUSE2_ID, null, null, null, null);
 
     assertEquals(1, materials.size());
     assertEquals(MATERIAL3_ID, materials.get(0).getId());
+  }
+
+  @Test
+  void administration_can_filter_materials_by_name() throws Exception {
+    ApiClient administrationClient = anApiClient(ADMINISTRATION_TOKEN);
+    MaterialApi api = new MaterialApi(administrationClient);
+
+    List<Material> materials = api.getMaterials(1, 100, null, "Brique", null, null, null);
+
+    assertEquals(1, materials.size());
+    assertEquals(MATERIAL2_ID, materials.get(0).getId());
+  }
+
+  @Test
+  void administration_can_filter_materials_by_description() throws Exception {
+    ApiClient administrationClient = anApiClient(ADMINISTRATION_TOKEN);
+    MaterialApi api = new MaterialApi(administrationClient);
+
+    List<Material> materials = api.getMaterials(1, 100, null, null, "blanche", null, null);
+
+    assertEquals(1, materials.size());
+    assertEquals(MATERIAL3_ID, materials.get(0).getId());
+  }
+
+  @Test
+  void administration_can_filter_materials_by_floor_number() throws Exception {
+    ApiClient administrationClient = anApiClient(ADMINISTRATION_TOKEN);
+    MaterialApi api = new MaterialApi(administrationClient);
+
+    List<Material> materials = api.getMaterials(1, 100, null, null, null, 2, null);
+
+    assertEquals(1, materials.size());
+    assertEquals(MATERIAL3_ID, materials.get(0).getId());
+  }
+
+  @Test
+  void administration_can_filter_materials_by_storage_number() throws Exception {
+    ApiClient administrationClient = anApiClient(ADMINISTRATION_TOKEN);
+    MaterialApi api = new MaterialApi(administrationClient);
+
+    List<Material> materials = api.getMaterials(1, 100, null, null, null, null, 100);
+
+    assertEquals(1, materials.size());
+    assertEquals(MATERIAL1_ID, materials.get(0).getId());
   }
 
   @Test

@@ -5,6 +5,7 @@ import com.example.demo.client.model.OtherExpense;
 import com.example.demo.endpoint.rest.mapper.money.OtherExpenseMapper;
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
+import com.example.demo.model.criteria.OtherExpenseCriteria;
 import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.service.money.OtherExpenseService;
 import java.util.List;
@@ -43,9 +44,14 @@ public class OtherExpenseController {
       @PathVariable String user_id,
       @PathVariable String expenses_id,
       @RequestParam(name = "page", required = false) PageFromOne page,
-      @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize) {
+      @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
+      @RequestParam(name = "expense_id", required = false) String expenseId,
+      @RequestParam(name = "description", required = false) String description) {
+    OtherExpenseCriteria criteria = new OtherExpenseCriteria();
+    criteria.setExpenseId(expenseId);
+    criteria.setDescription(description);
 
-    return otherExpenseService.findAll(page, pageSize).stream()
+    return otherExpenseService.findAll(page, pageSize, criteria).stream()
         .map(otherExpenseMapper::toRestOtherExpense)
         .toList();
   }

@@ -5,6 +5,7 @@ import com.example.demo.client.model.ExpenseMoney;
 import com.example.demo.endpoint.rest.mapper.money.ExpenseMoneyMapper;
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
+import com.example.demo.model.criteria.ExpenseMoneyCriteria;
 import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.service.money.ExpenseMoneyService;
 import java.util.List;
@@ -39,9 +40,14 @@ public class ExpenseController {
       @PathVariable String job_id,
       @PathVariable String user_id,
       @RequestParam(name = "page", required = false) PageFromOne page,
-      @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize) {
+      @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
+      @RequestParam(name = "description", required = false) String description,
+      @RequestParam(name = "amount", required = false) Integer amount) {
+    ExpenseMoneyCriteria criteria = new ExpenseMoneyCriteria();
+    criteria.setDescription(description);
+    criteria.setAmount(amount);
 
-    return expenseMoneyService.findAll(page, pageSize).stream()
+    return expenseMoneyService.findAll(page, pageSize, criteria).stream()
         .map(expenseMoneyMapper::toRestExpense)
         .toList();
   }

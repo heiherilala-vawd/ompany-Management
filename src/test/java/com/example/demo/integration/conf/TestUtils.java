@@ -2,15 +2,11 @@ package com.example.demo.integration.conf;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
-import com.example.demo.client.invoker.ApiClient;
 import com.example.demo.client.invoker.ApiException;
 import com.example.demo.client.model.BankFee;
 import com.example.demo.client.model.Company;
-import com.example.demo.client.model.CompanyType;
 import com.example.demo.client.model.CrupdateBankFee;
 import com.example.demo.client.model.CrupdateCompany;
 import com.example.demo.client.model.CrupdateEmployeePayment;
@@ -32,14 +28,9 @@ import com.example.demo.client.model.Equipment;
 import com.example.demo.client.model.ExpenseMoney;
 import com.example.demo.client.model.IncomeMoney;
 import com.example.demo.client.model.Job;
-import com.example.demo.client.model.JobStatus;
 import com.example.demo.client.model.Material;
 import com.example.demo.client.model.OtherExpense;
-import com.example.demo.client.model.PaymentType;
 import com.example.demo.client.model.Purchase;
-import com.example.demo.client.model.Role;
-import com.example.demo.client.model.Sex;
-import com.example.demo.client.model.TransportStatus;
 import com.example.demo.client.model.TravelEquipment;
 import com.example.demo.client.model.TravelExpense;
 import com.example.demo.client.model.TravelMaterials;
@@ -49,20 +40,14 @@ import com.example.demo.client.model.Warehouse;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.time.Instant;
 import java.util.UUID;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.function.Executable;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 public class TestUtils {
 
-  // IDs de test
   public static final String ADMIN_ID = "admin1_id";
   public static final String WAREHOUSE_ID = "warehouse1_id";
   public static final String EMPLOYEE_ID = "employee1_id";
@@ -103,7 +88,6 @@ public class TestUtils {
   public static final String TRAVEL_EQUIPMENT1_ID = "travel_equipment1_id";
   public static final String TRAVEL_EQUIPMENT2_ID = "travel_equipment2_id";
 
-  // Emails de test
   public static final String ADMIN_EMAIL = "admin@hei.school";
   public static final String WAREHOUSE_EMAIL = "warehouse@hei.school";
   public static final String EMPLOYEE_EMAIL = "employee@hei.school";
@@ -122,7 +106,6 @@ public class TestUtils {
   public static final Authentication USER2_AUTH = mock(Authentication.class);
   public static final Authentication RANDOM_AUTH = mock(Authentication.class);
 
-  // Tokens de test (ce sont juste des identifiants, pas de vrais JWT)
   public static final String BAD_TOKEN = "bad_token";
   public static final String ADMIN_TOKEN = "admin_token";
   public static final String WAREHOUSE_TOKEN = "warehouse_token";
@@ -138,829 +121,301 @@ public class TestUtils {
   public static final String NOT_AUTHORIZED_ERROR =
       "{\"type\":\"Full authentication is required to access this resource\",\"message\":\"NotAuthorizedException\"}";
 
-  private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
   public static void setUpJwtService(JwtUtils jwtServiceMock) {
-
-    // =========================
-    // TOKEN -> EMAIL
-    // =========================
-    when(jwtServiceMock.getUserEmailFromJwtToken(anyString()))
-        .thenAnswer(
-            invocation -> {
-              String token = invocation.getArgument(0);
-
-              if (ADMIN_TOKEN.equals(token)) return ADMIN_EMAIL;
-              if (WAREHOUSE_TOKEN.equals(token)) return WAREHOUSE_EMAIL;
-              if (EMPLOYEE_TOKEN.equals(token)) return EMPLOYEE_EMAIL;
-              if (ADMINISTRATION_TOKEN.equals(token)) return ADMINISTRATION_EMAIL;
-              if (USER1_TOKEN.equals(token)) return USER1_EMAIL;
-              if (USER2_TOKEN.equals(token)) return USER2_EMAIL;
-              if (RANDOM_TOKEN.equals(token)) return RANDOM_EMAIL;
-
-              if (BAD_TOKEN.equals(token)) return null;
-
-              return null; // token inconnu
-            });
-
-    // =========================
-    // AUTH -> TOKEN
-    // =========================
-    when(jwtServiceMock.generateJwtToken(any()))
-        .thenAnswer(
-            invocation -> {
-              Object auth = invocation.getArgument(0);
-
-              if (ADMIN_AUTH.equals(auth)) return ADMIN_TOKEN;
-              if (WAREHOUSE_AUTH.equals(auth)) return WAREHOUSE_TOKEN;
-              if (EMPLOYEE_AUTH.equals(auth)) return EMPLOYEE_TOKEN;
-              if (ADMINISTRATION_AUTH.equals(auth)) return ADMINISTRATION_TOKEN;
-              if (USER1_AUTH.equals(auth)) return USER1_TOKEN;
-              if (USER2_AUTH.equals(auth)) return USER2_TOKEN;
-              if (RANDOM_AUTH.equals(auth)) return RANDOM_TOKEN;
-
-              return null;
-            });
-
-    // =========================
-    // VALIDATION TOKEN
-    // =========================
-    when(jwtServiceMock.validateJwtToken(anyString()))
-        .thenAnswer(
-            invocation -> {
-              String token = invocation.getArgument(0);
-
-              return ADMIN_TOKEN.equals(token)
-                  || WAREHOUSE_TOKEN.equals(token)
-                  || EMPLOYEE_TOKEN.equals(token)
-                  || ADMINISTRATION_TOKEN.equals(token)
-                  || USER1_TOKEN.equals(token)
-                  || USER2_TOKEN.equals(token)
-                  || RANDOM_TOKEN.equals(token);
-            });
+    TestAuthSupport.setUpJwtService(jwtServiceMock);
   }
 
   public static void setUpAuthenticationManager(AuthenticationManager authenticationManagerMock) {
-
-    when(authenticationManagerMock.authenticate(any()))
-        .thenAnswer(
-            invocation -> {
-              UsernamePasswordAuthenticationToken auth = invocation.getArgument(0);
-
-              String email = auth.getName();
-              String password = (String) auth.getCredentials();
-
-              // =========================
-              // CHECK PASSWORD
-              // =========================
-              if (!PASSWORD.equals(password)) {
-                throw new BadCredentialsException("Les identifications sont erronée");
-              }
-
-              // =========================
-              // EMAIL -> AUTH
-              // =========================
-              if (ADMIN_EMAIL.equals(email)) return ADMIN_AUTH;
-              if (EMPLOYEE_EMAIL.equals(email)) return EMPLOYEE_AUTH;
-              if (ADMINISTRATION_EMAIL.equals(email)) return ADMINISTRATION_AUTH;
-              if (USER1_EMAIL.equals(email)) return USER1_AUTH;
-              if (USER2_EMAIL.equals(email)) return USER2_AUTH;
-              if (WAREHOUSE_EMAIL.equals(email)) return WAREHOUSE_AUTH;
-              if (RANDOM_EMAIL.equals(email)) return RANDOM_AUTH;
-
-              throw new BadCredentialsException("Les identifications sont erronée");
-            });
+    TestAuthSupport.setUpAuthenticationManager(authenticationManagerMock);
   }
 
-  public static ApiClient anApiClient(String token, int serverPort) {
-    ApiClient client = new ApiClient();
-    client.setScheme("http");
-    client.setHost("localhost");
-    client.setPort(serverPort);
-    client.setRequestInterceptor(
-        httpRequestBuilder -> httpRequestBuilder.header("Authorization", "Bearer " + token));
-    return client;
+  public static com.example.demo.client.invoker.ApiClient anApiClient(
+      String token, int serverPort) {
+    return TestAuthSupport.anApiClient(token, serverPort);
   }
 
   public static User admin1() {
-    User user = new User();
-    user.setId(ADMIN_ID);
-    user.setRole(Role.ADMIN);
-    user.setFirstName("Admin");
-    user.setLastName("System");
-    user.setSex(Sex.M);
-    user.setEmail(ADMIN_EMAIL);
-    user.setCreatedAt(Instant.parse("2024-01-01T00:00:00Z"));
-    user.setUpdatedAt(Instant.parse("2024-01-01T00:00:00Z"));
-    return user;
+    return TestUserFixtures.admin1();
   }
 
   public static User warehouseWorker1() {
-    User user = new User();
-    user.setId(WAREHOUSE_ID);
-    user.setRole(Role.WAREHOUSE_WORKER);
-    user.setFirstName("Warehouse");
-    user.setLastName("Worker");
-    user.setSex(Sex.M);
-    user.setEmail(WAREHOUSE_EMAIL);
-    user.setCreatedAt(Instant.parse("2024-01-01T00:00:00Z"));
-    user.setUpdatedAt(Instant.parse("2024-01-01T00:00:00Z"));
-    return user;
+    return TestUserFixtures.warehouseWorker1();
   }
 
   public static User employee1() {
-    User user = new User();
-    user.setId(EMPLOYEE_ID);
-    user.setRole(Role.EMPLOYEE);
-    user.setFirstName("John");
-    user.setLastName("Doe");
-    user.setSex(Sex.M);
-    user.setEmail(EMPLOYEE_EMAIL);
-    user.setCreatedAt(Instant.parse("2024-01-01T00:00:00Z"));
-    user.setUpdatedAt(Instant.parse("2024-01-01T00:00:00Z"));
-    return user;
+    return TestUserFixtures.employee1();
   }
 
   public static User administration1() {
-    User user = new User();
-    user.setId(ADMINISTRATION_ID);
-    user.setRole(Role.ADMINISTRATION);
-    user.setFirstName("Admin");
-    user.setLastName("Staff");
-    user.setSex(Sex.F);
-    user.setEmail(ADMINISTRATION_EMAIL);
-    user.setCreatedAt(Instant.parse("2024-01-01T00:00:00Z"));
-    user.setUpdatedAt(Instant.parse("2024-01-01T00:00:00Z"));
-    return user;
+    return TestUserFixtures.administration1();
   }
 
   public static User user1() {
-    User user = new User();
-    user.setId(USER1_ID);
-    user.setRole(Role.EMPLOYEE);
-    user.setFirstName("Alice");
-    user.setLastName("Martin");
-    user.setSex(Sex.F);
-    user.setEmail("alice@hei.school");
-    user.setCreatedAt(Instant.parse("2024-01-01T00:00:00Z"));
-    user.setUpdatedAt(Instant.parse("2024-01-01T00:00:00Z"));
-    return user;
+    return TestUserFixtures.user1();
   }
 
   public static User user2() {
-    User user = new User();
-    user.setId(USER2_ID);
-    user.setRole(Role.EMPLOYEE);
-    user.setFirstName("Bob");
-    user.setLastName("Bernard");
-    user.setSex(Sex.M);
-    user.setEmail("bob@hei.school");
-    user.setCreatedAt(Instant.parse(""));
-    user.setUpdatedAt(Instant.parse(""));
-    return user;
+    return TestUserFixtures.user2();
   }
 
   public static CrupdateUser someCreatableUser() {
-    double random = Math.random();
-    int number = (int) (random * 1000);
-    String stringRandom = String.format("%03d", number);
-    CrupdateUser user = new CrupdateUser();
-    user.setFirstName("Test");
-    user.setLastName("User");
-    user.setEmail(RANDOM_EMAIL);
-    user.setPassword(PASSWORD);
-    user.setSex(Sex.M);
-    user.setRole(Role.EMPLOYEE);
-    return user;
+    return TestUserFixtures.someCreatableUser();
   }
 
   public static CrupdateUser userToCrupdateUser(User user) {
-    CrupdateUser crupdateUser = new CrupdateUser();
-    crupdateUser.setFirstName(user.getFirstName());
-    crupdateUser.setLastName(user.getLastName());
-    crupdateUser.setEmail(user.getEmail());
-    crupdateUser.setPassword(PASSWORD);
-    crupdateUser.setSex(user.getSex());
-    crupdateUser.setRole(user.getRole());
-    return crupdateUser;
+    return TestUserFixtures.userToCrupdateUser(user);
   }
-  ;
 
   public static Company company1() {
-    Company company = new Company();
-    company.setId(COMPANY1_ID);
-    company.setName("BTP Construction SARL");
-    company.setRib("FR7612345678901234567890123");
-    company.setDescription("Entreprise de construction");
-    company.setCompanyType(CompanyType.BTP);
-    return company;
+    return TestOrganizationFixtures.company1();
   }
 
   public static Company company2() {
-    Company company = new Company();
-    company.setId(COMPANY2_ID);
-    company.setName("Hotel Palace");
-    company.setRib("FR7698765432109876543210987");
-    company.setDescription("Hotel de luxe");
-    company.setCompanyType(CompanyType.HOTEL);
-    return company;
+    return TestOrganizationFixtures.company2();
   }
 
   public static CrupdateCompany companyToCrupdateCompany(Company company) {
-    CrupdateCompany crupdateCompany = new CrupdateCompany();
-    crupdateCompany.setId(company.getId());
-    crupdateCompany.setName(company.getName());
-    crupdateCompany.setRib(company.getRib());
-    crupdateCompany.setDescription(company.getDescription());
-    crupdateCompany.setCompanyType(company.getCompanyType());
-    crupdateCompany.setComment(company.getComment());
-    return crupdateCompany;
+    return TestOrganizationFixtures.companyToCrupdateCompany(company);
   }
 
   public static CrupdateCompany someCreatableCompany() {
-    CrupdateCompany company = new CrupdateCompany();
-    company.setName("New Company");
-    company.setRib("FR0012345678901234567890123");
-    company.setDescription("Nouvelle entreprise");
-    company.setCompanyType(CompanyType.BTP);
-    return company;
+    return TestOrganizationFixtures.someCreatableCompany();
   }
 
   public static Job job1() {
-    Job job = new Job();
-    job.setId(JOB1_ID);
-    job.setCompanyId(COMPANY1_ID);
-    job.setDescription("Construction du bâtiment A");
-    job.setContractSignatureDate(java.time.LocalDate.parse("2024-01-15"));
-    job.setStartDate(java.time.LocalDate.parse("2024-02-01"));
-    job.setEndDate(java.time.LocalDate.parse("2024-12-31"));
-    job.setStatus(JobStatus.IN_PROGRESS);
-    return job;
+    return TestOrganizationFixtures.job1();
   }
 
   public static Job job2() {
-    Job job = new Job();
-    job.setId(JOB2_ID);
-    job.setCompanyId(COMPANY2_ID);
-    job.setDescription("Rénovation des chambres");
-    job.setContractSignatureDate(java.time.LocalDate.parse("2024-01-20"));
-    job.setStartDate(java.time.LocalDate.parse("2024-03-01"));
-    job.setEndDate(java.time.LocalDate.parse("2024-06-30"));
-    job.setStatus(JobStatus.PENDING_SIGNATURE);
-    return job;
+    return TestOrganizationFixtures.job2();
   }
 
   public static CrupdateJob jobToCrupdateJob(Job job) {
-    CrupdateJob crupdateJob = new CrupdateJob();
-    crupdateJob.setId(job.getId());
-    crupdateJob.setCompanyId(job.getCompanyId());
-    crupdateJob.setDescription(job.getDescription());
-    crupdateJob.setContractSignatureDate(job.getContractSignatureDate());
-    crupdateJob.setStartDate(job.getStartDate());
-    crupdateJob.setEndDate(job.getEndDate());
-    crupdateJob.setStatus(job.getStatus());
-    crupdateJob.setComment(job.getComment());
-    return crupdateJob;
+    return TestOrganizationFixtures.jobToCrupdateJob(job);
   }
 
   public static CrupdateJob someCreatableJob() {
-    CrupdateJob job = new CrupdateJob();
-    job.setCompanyId(COMPANY1_ID);
-    job.setDescription("Nouveau chantier");
-    job.setContractSignatureDate(java.time.LocalDate.parse("2024-04-01"));
-    job.setStartDate(java.time.LocalDate.parse("2024-04-15"));
-    job.setEndDate(java.time.LocalDate.parse("2024-12-15"));
-    job.setStatus(JobStatus.IN_PROGRESS);
-    return job;
+    return TestOrganizationFixtures.someCreatableJob();
   }
 
   public static Warehouse warehouse1() {
-    Warehouse warehouse = new Warehouse();
-    warehouse.setId(WAREHOUSE1_ID);
-    warehouse.setName("Entrepôt Nord");
-    warehouse.setDescription("Stockage matériaux lourds");
-    warehouse.setJobId(JOB1_ID);
-    return warehouse;
+    return TestOrganizationFixtures.warehouse1();
   }
 
   public static Warehouse warehouse2() {
-    Warehouse warehouse = new Warehouse();
-    warehouse.setId(WAREHOUSE2_ID);
-    warehouse.setName("Entrepôt Sud");
-    warehouse.setDescription("Stockage équipements");
-    warehouse.setJobId(JOB2_ID);
-    return warehouse;
+    return TestOrganizationFixtures.warehouse2();
   }
 
   public static CrupdateWarehouse warehouseToCrupdateWarehouse(Warehouse warehouse) {
-    CrupdateWarehouse crupdateWarehouse = new CrupdateWarehouse();
-    crupdateWarehouse.setId(warehouse.getId());
-    crupdateWarehouse.setName(warehouse.getName());
-    crupdateWarehouse.setDescription(warehouse.getDescription());
-    crupdateWarehouse.setJobId(warehouse.getJobId());
-    crupdateWarehouse.setComment(warehouse.getComment());
-    return crupdateWarehouse;
+    return TestOrganizationFixtures.warehouseToCrupdateWarehouse(warehouse);
   }
 
   public static CrupdateWarehouse someCreatableWarehouse() {
-    CrupdateWarehouse warehouse = new CrupdateWarehouse();
-    warehouse.setName("Entrepôt Est");
-    warehouse.setDescription("Stockage temporaire");
-    warehouse.setJobId(JOB1_ID);
-    return warehouse;
+    return TestOrganizationFixtures.someCreatableWarehouse();
   }
 
   public static Equipment equipment1() {
-    Equipment equipment = new Equipment();
-    equipment.setId(EQUIPMENT1_ID);
-    equipment.setName("Pelle mécanique");
-    equipment.setDescription("Pelle Caterpillar 320");
-    equipment.setWarehouseId(WAREHOUSE1_ID);
-    equipment.setFloorNumber(1);
-    equipment.setStorageNumber(10);
-    return equipment;
+    return TestOrganizationFixtures.equipment1();
   }
 
   public static Equipment equipment2() {
-    Equipment equipment = new Equipment();
-    equipment.setId(EQUIPMENT2_ID);
-    equipment.setName("Bétonnière");
-    equipment.setDescription("Bétonnière électrique");
-    equipment.setWarehouseId(WAREHOUSE1_ID);
-    equipment.setFloorNumber(1);
-    equipment.setStorageNumber(15);
-    return equipment;
+    return TestOrganizationFixtures.equipment2();
   }
 
   public static Equipment equipment3() {
-    Equipment equipment = new Equipment();
-    equipment.setId(EQUIPMENT3_ID);
-    equipment.setName("Climatisation");
-    equipment.setDescription("Unité extérieure");
-    equipment.setWarehouseId(WAREHOUSE2_ID);
-    equipment.setFloorNumber(2);
-    equipment.setStorageNumber(5);
-    return equipment;
+    return TestOrganizationFixtures.equipment3();
   }
 
   public static CrupdateEquipment equipmentToCrupdateEquipment(Equipment equipment) {
-    CrupdateEquipment crupdateEquipment = new CrupdateEquipment();
-    crupdateEquipment.setId(equipment.getId());
-    crupdateEquipment.setName(equipment.getName());
-    crupdateEquipment.setDescription(equipment.getDescription());
-    crupdateEquipment.setWarehouseId(equipment.getWarehouseId());
-    crupdateEquipment.setFloorNumber(equipment.getFloorNumber());
-    crupdateEquipment.setStorageNumber(equipment.getStorageNumber());
-    crupdateEquipment.setComment(equipment.getComment());
-    return crupdateEquipment;
+    return TestOrganizationFixtures.equipmentToCrupdateEquipment(equipment);
   }
 
   public static CrupdateEquipment someCreatableEquipment() {
-    CrupdateEquipment equipment = new CrupdateEquipment();
-    equipment.setName("Marteau-piqueur");
-    equipment.setDescription("Outil de demolition");
-    equipment.setWarehouseId(WAREHOUSE1_ID);
-    equipment.setFloorNumber(1);
-    equipment.setStorageNumber(20);
-    return equipment;
+    return TestOrganizationFixtures.someCreatableEquipment();
   }
 
   public static Material material1() {
-    Material material = new Material();
-    material.setId(MATERIAL1_ID);
-    material.setName("Ciment");
-    material.setDescription("Ciment Portland 35kg");
-    material.setWarehouseId(WAREHOUSE1_ID);
-    material.setFloorNumber(1);
-    material.setStorageNumber(100);
-    return material;
+    return TestOrganizationFixtures.material1();
   }
 
   public static Material material2() {
-    Material material = new Material();
-    material.setId(MATERIAL2_ID);
-    material.setName("Brique");
-    material.setDescription("Brique rouge 20x10x5");
-    material.setWarehouseId(WAREHOUSE1_ID);
-    material.setFloorNumber(1);
-    material.setStorageNumber(500);
-    return material;
+    return TestOrganizationFixtures.material2();
   }
 
   public static Material material3() {
-    Material material = new Material();
-    material.setId(MATERIAL3_ID);
-    material.setName("Peinture");
-    material.setDescription("Peinture blanche mate");
-    material.setWarehouseId(WAREHOUSE2_ID);
-    material.setFloorNumber(2);
-    material.setStorageNumber(50);
-    return material;
+    return TestOrganizationFixtures.material3();
   }
 
   public static CrupdateMaterial materialToCrupdateMaterial(Material material) {
-    CrupdateMaterial crupdateMaterial = new CrupdateMaterial();
-    crupdateMaterial.setId(material.getId());
-    crupdateMaterial.setName(material.getName());
-    crupdateMaterial.setDescription(material.getDescription());
-    crupdateMaterial.setWarehouseId(material.getWarehouseId());
-    crupdateMaterial.setFloorNumber(material.getFloorNumber());
-    crupdateMaterial.setStorageNumber(material.getStorageNumber());
-    crupdateMaterial.setComment(material.getComment());
-    return crupdateMaterial;
+    return TestOrganizationFixtures.materialToCrupdateMaterial(material);
   }
 
   public static CrupdateMaterial someCreatableMaterial() {
-    CrupdateMaterial material = new CrupdateMaterial();
-    material.setName("Sable");
-    material.setDescription("Sable fin");
-    material.setWarehouseId(WAREHOUSE1_ID);
-    material.setFloorNumber(1);
-    material.setStorageNumber(200);
-    return material;
+    return TestOrganizationFixtures.someCreatableMaterial();
   }
 
   public static IncomeMoney income1() {
-    IncomeMoney income = new IncomeMoney();
-    income.setId(INCOME1_ID);
-    income.setSourceOrganization("Client Alpha");
-    income.setInvoiceReference("INV-2024-001");
-    income.setAmount(150000);
-    income.setDescription("Paiement initial chantier A");
-    return income;
+    return TestMoneyFixtures.income1();
   }
 
   public static IncomeMoney income2() {
-    IncomeMoney income = new IncomeMoney();
-    income.setId(INCOME2_ID);
-    income.setSourceOrganization("Client Beta");
-    income.setInvoiceReference("INV-2024-002");
-    income.setAmount(275000);
-    income.setDescription("Paiement avance renovation hotel");
-    return income;
+    return TestMoneyFixtures.income2();
   }
 
   public static CrupdateIncomeMoney incomeToCrupdateIncome(IncomeMoney income) {
-    CrupdateIncomeMoney crupdateIncome = new CrupdateIncomeMoney();
-    crupdateIncome.setId(income.getId());
-    crupdateIncome.setSourceOrganization(income.getSourceOrganization());
-    crupdateIncome.setInvoiceReference(income.getInvoiceReference());
-    crupdateIncome.setAmount(income.getAmount());
-    crupdateIncome.setDescription(income.getDescription());
-    crupdateIncome.setComment(income.getComment());
-    return crupdateIncome;
+    return TestMoneyFixtures.incomeToCrupdateIncome(income);
   }
 
   public static CrupdateIncomeMoney someCreatableIncome() {
-    CrupdateIncomeMoney income = new CrupdateIncomeMoney();
-    income.setSourceOrganization("Client Gamma");
-    income.setInvoiceReference("INV-2024-003");
-    income.setAmount(99000);
-    income.setDescription("Paiement complementaire");
-    return income;
+    return TestMoneyFixtures.someCreatableIncome();
   }
 
   public static ExpenseMoney expense1() {
-    ExpenseMoney expense = new ExpenseMoney();
-    expense.setId(EXPENSE1_ID);
-    expense.setAmount(45000);
-    expense.setDescription("Achat materiaux chantier A");
-    return expense;
+    return TestMoneyFixtures.expense1();
   }
 
   public static ExpenseMoney expense2() {
-    ExpenseMoney expense = new ExpenseMoney();
-    expense.setId(EXPENSE2_ID);
-    expense.setAmount(80000);
-    expense.setDescription("Paiement sous-traitant renovation");
-    return expense;
+    return TestMoneyFixtures.expense2();
   }
 
   public static CrupdateExpenseMoney expenseToCrupdateExpense(ExpenseMoney expense) {
-    CrupdateExpenseMoney crupdateExpense = new CrupdateExpenseMoney();
-    crupdateExpense.setId(expense.getId());
-    crupdateExpense.setAmount(expense.getAmount());
-    crupdateExpense.setDescription(expense.getDescription());
-    crupdateExpense.setComment(expense.getComment());
-    return crupdateExpense;
+    return TestMoneyFixtures.expenseToCrupdateExpense(expense);
   }
 
   public static CrupdateExpenseMoney someCreatableExpense() {
-    CrupdateExpenseMoney expense = new CrupdateExpenseMoney();
-    expense.setAmount(32000);
-    expense.setDescription("Frais logistiques");
-    return expense;
+    return TestMoneyFixtures.someCreatableExpense();
   }
 
   public static BankFee bankFee1() {
-    BankFee bankFee = new BankFee();
-    bankFee.setId(BANK_FEE1_ID);
-    bankFee.setExpenseId(EXPENSE1_ID);
-    bankFee.setBankName("BNI Madagascar");
-    bankFee.setDescription("Frais virement fournisseur");
-    return bankFee;
+    return TestMoneyFixtures.bankFee1();
   }
 
   public static BankFee bankFee2() {
-    BankFee bankFee = new BankFee();
-    bankFee.setId(BANK_FEE2_ID);
-    bankFee.setExpenseId(EXPENSE2_ID);
-    bankFee.setBankName("BOA Madagascar");
-    bankFee.setDescription("Commission paiement sous-traitant");
-    return bankFee;
+    return TestMoneyFixtures.bankFee2();
   }
 
   public static CrupdateBankFee bankFeeToCrupdateBankFee(BankFee bankFee) {
-    CrupdateBankFee crupdateBankFee = new CrupdateBankFee();
-    crupdateBankFee.setId(bankFee.getId());
-    crupdateBankFee.setExpenseId(bankFee.getExpenseId());
-    crupdateBankFee.setBankName(bankFee.getBankName());
-    crupdateBankFee.setDescription(bankFee.getDescription());
-    return crupdateBankFee;
+    return TestMoneyFixtures.bankFeeToCrupdateBankFee(bankFee);
   }
 
   public static CrupdateBankFee someCreatableBankFee() {
-    CrupdateBankFee bankFee = new CrupdateBankFee();
-    bankFee.setExpenseId(EXPENSE1_ID);
-    bankFee.setBankName("MCB Madagascar");
-    bankFee.setDescription("Frais tenue compte");
-    return bankFee;
+    return TestMoneyFixtures.someCreatableBankFee();
   }
 
   public static EmployeePayment employeePayment1() {
-    EmployeePayment employeePayment = new EmployeePayment();
-    employeePayment.setId(EMPLOYEE_PAYMENT1_ID);
-    employeePayment.setExpenseId(EXPENSE1_ID);
-    employeePayment.setEmployeeId(EMPLOYEE_ID);
-    employeePayment.setPaymentDescription("Avance salaire chantier A");
-    employeePayment.setPaymentType(PaymentType.ADVANCE);
-    return employeePayment;
+    return TestMoneyFixtures.employeePayment1();
   }
 
   public static EmployeePayment employeePayment2() {
-    EmployeePayment employeePayment = new EmployeePayment();
-    employeePayment.setId(EMPLOYEE_PAYMENT2_ID);
-    employeePayment.setExpenseId(EXPENSE2_ID);
-    employeePayment.setEmployeeId(USER1_ID);
-    employeePayment.setPaymentDescription("Paiement mensuel renovation");
-    employeePayment.setPaymentType(PaymentType.MONTHLY);
-    return employeePayment;
+    return TestMoneyFixtures.employeePayment2();
   }
 
   public static CrupdateEmployeePayment employeePaymentToCrupdateEmployeePayment(
       EmployeePayment employeePayment) {
-    CrupdateEmployeePayment crupdateEmployeePayment = new CrupdateEmployeePayment();
-    crupdateEmployeePayment.setId(employeePayment.getId());
-    crupdateEmployeePayment.setExpenseId(employeePayment.getExpenseId());
-    crupdateEmployeePayment.setEmployeeId(employeePayment.getEmployeeId());
-    crupdateEmployeePayment.setPaymentDescription(employeePayment.getPaymentDescription());
-    crupdateEmployeePayment.setPaymentType(employeePayment.getPaymentType());
-    return crupdateEmployeePayment;
+    return TestMoneyFixtures.employeePaymentToCrupdateEmployeePayment(employeePayment);
   }
 
   public static CrupdateEmployeePayment someCreatableEmployeePayment() {
-    CrupdateEmployeePayment employeePayment = new CrupdateEmployeePayment();
-    employeePayment.setExpenseId(EXPENSE1_ID);
-    employeePayment.setEmployeeId(EMPLOYEE_ID);
-    employeePayment.setPaymentDescription("Prime exceptionnelle");
-    employeePayment.setPaymentType(PaymentType.OTHER);
-    return employeePayment;
+    return TestMoneyFixtures.someCreatableEmployeePayment();
   }
 
   public static OtherExpense otherExpense1() {
-    OtherExpense otherExpense = new OtherExpense();
-    otherExpense.setId(OTHER_EXPENSE1_ID);
-    otherExpense.setExpenseId(EXPENSE1_ID);
-    otherExpense.setDescription("Frais administratifs chantier A");
-    return otherExpense;
+    return TestMoneyFixtures.otherExpense1();
   }
 
   public static OtherExpense otherExpense2() {
-    OtherExpense otherExpense = new OtherExpense();
-    otherExpense.setId(OTHER_EXPENSE2_ID);
-    otherExpense.setExpenseId(EXPENSE2_ID);
-    otherExpense.setDescription("Imprevus renovation hotel");
-    return otherExpense;
+    return TestMoneyFixtures.otherExpense2();
   }
 
   public static CrupdateOtherExpense otherExpenseToCrupdateOtherExpense(OtherExpense otherExpense) {
-    CrupdateOtherExpense crupdateOtherExpense = new CrupdateOtherExpense();
-    crupdateOtherExpense.setId(otherExpense.getId());
-    crupdateOtherExpense.setExpenseId(otherExpense.getExpenseId());
-    crupdateOtherExpense.setDescription(otherExpense.getDescription());
-    return crupdateOtherExpense;
+    return TestMoneyFixtures.otherExpenseToCrupdateOtherExpense(otherExpense);
   }
 
   public static CrupdateOtherExpense someCreatableOtherExpense() {
-    CrupdateOtherExpense otherExpense = new CrupdateOtherExpense();
-    otherExpense.setExpenseId(EXPENSE1_ID);
-    otherExpense.setDescription("Frais divers chantier");
-    return otherExpense;
+    return TestMoneyFixtures.someCreatableOtherExpense();
   }
 
   public static Purchase purchase1() {
-    Purchase purchase = new Purchase();
-    purchase.setId(PURCHASE1_ID);
-    purchase.setExpenseId(EXPENSE1_ID);
-    purchase.setSupplier("Fournisseur Beton SA");
-    purchase.setEquipment(EQUIPMENT1_ID);
-    purchase.setMaterial(MATERIAL1_ID);
-    purchase.setQuantity(3);
-    purchase.setIsEquipment(true);
-    return purchase;
+    return TestMoneyFixtures.purchase1();
   }
 
   public static Purchase purchase2() {
-    Purchase purchase = new Purchase();
-    purchase.setId(PURCHASE2_ID);
-    purchase.setExpenseId(EXPENSE2_ID);
-    purchase.setSupplier("Materiaux Plus");
-    purchase.setEquipment(EQUIPMENT2_ID);
-    purchase.setMaterial(MATERIAL2_ID);
-    purchase.setQuantity(25);
-    purchase.setIsEquipment(false);
-    return purchase;
+    return TestMoneyFixtures.purchase2();
   }
 
   public static CrupdatePurchase purchaseToCrupdatePurchase(Purchase purchase) {
-    CrupdatePurchase crupdatePurchase = new CrupdatePurchase();
-    crupdatePurchase.setId(purchase.getId());
-    crupdatePurchase.setExpenseId(purchase.getExpenseId());
-    crupdatePurchase.setSupplier(purchase.getSupplier());
-    crupdatePurchase.setEquipment(purchase.getEquipment());
-    crupdatePurchase.setMaterial(purchase.getMaterial());
-    crupdatePurchase.setQuantity(purchase.getQuantity());
-    crupdatePurchase.setIsEquipment(purchase.getIsEquipment());
-    return crupdatePurchase;
+    return TestMoneyFixtures.purchaseToCrupdatePurchase(purchase);
   }
 
   public static CrupdatePurchase someCreatablePurchase() {
-    CrupdatePurchase purchase = new CrupdatePurchase();
-    purchase.setExpenseId(EXPENSE1_ID);
-    purchase.setSupplier("Quincaillerie Centrale");
-    purchase.setEquipment(EQUIPMENT1_ID);
-    purchase.setMaterial(MATERIAL1_ID);
-    purchase.setQuantity(4);
-    purchase.setIsEquipment(true);
-    return purchase;
+    return TestMoneyFixtures.someCreatablePurchase();
   }
 
   public static TravelExpense travelExpense1() {
-    TravelExpense travelExpense = new TravelExpense();
-    travelExpense.setId(TRAVEL_EXPENSE1_ID);
-    travelExpense.setExpenseId(EXPENSE1_ID);
-    travelExpense.setDepartureLocation("Antananarivo");
-    travelExpense.setArrivalLocation("Toamasina");
-    travelExpense.setDepartureDate(Instant.parse("2024-03-01T06:00:00Z"));
-    travelExpense.setArrivalDate(Instant.parse("2024-03-01T12:00:00Z"));
-    return travelExpense;
+    return TestTravelFixtures.travelExpense1();
   }
 
   public static TravelExpense travelExpense2() {
-    TravelExpense travelExpense = new TravelExpense();
-    travelExpense.setId(TRAVEL_EXPENSE2_ID);
-    travelExpense.setExpenseId(EXPENSE2_ID);
-    travelExpense.setDepartureLocation("Fianarantsoa");
-    travelExpense.setArrivalLocation("Antsirabe");
-    travelExpense.setDepartureDate(Instant.parse("2024-03-05T07:30:00Z"));
-    travelExpense.setArrivalDate(Instant.parse("2024-03-05T15:00:00Z"));
-    return travelExpense;
+    return TestTravelFixtures.travelExpense2();
   }
 
   public static CrupdateTravelExpense travelExpenseToCrupdateTravelExpense(
       TravelExpense travelExpense) {
-    CrupdateTravelExpense crupdateTravelExpense = new CrupdateTravelExpense();
-    crupdateTravelExpense.setId(travelExpense.getId());
-    crupdateTravelExpense.setExpenseId(travelExpense.getExpenseId());
-    crupdateTravelExpense.setDepartureLocation(travelExpense.getDepartureLocation());
-    crupdateTravelExpense.setArrivalLocation(travelExpense.getArrivalLocation());
-    crupdateTravelExpense.setDepartureDate(travelExpense.getDepartureDate());
-    crupdateTravelExpense.setArrivalDate(travelExpense.getArrivalDate());
-    return crupdateTravelExpense;
+    return TestTravelFixtures.travelExpenseToCrupdateTravelExpense(travelExpense);
   }
 
   public static CrupdateTravelExpense someCreatableTravelExpense() {
-    CrupdateTravelExpense travelExpense = new CrupdateTravelExpense();
-    travelExpense.setExpenseId(EXPENSE1_ID);
-    travelExpense.setDepartureLocation("Mahajanga");
-    travelExpense.setArrivalLocation("Antananarivo");
-    travelExpense.setDepartureDate(Instant.parse("2024-04-01T08:00:00Z"));
-    travelExpense.setArrivalDate(Instant.parse("2024-04-01T18:00:00Z"));
-    return travelExpense;
+    return TestTravelFixtures.someCreatableTravelExpense();
   }
 
   public static TravelPeople travelPeople1() {
-    TravelPeople tp = new TravelPeople();
-    tp.setId(TRAVEL_PEOPLE1_ID);
-    tp.setTravelId(TRAVEL_EXPENSE1_ID);
-    tp.setPersonName("Alice Martin");
-    return tp;
+    return TestTravelFixtures.travelPeople1();
   }
 
   public static TravelPeople travelPeople2() {
-    TravelPeople tp = new TravelPeople();
-    tp.setId(TRAVEL_PEOPLE2_ID);
-    tp.setTravelId(TRAVEL_EXPENSE1_ID);
-    tp.setPersonName("Bob Dupont");
-    return tp;
+    return TestTravelFixtures.travelPeople2();
   }
 
   public static CrupdateTravelPeople travelPeopleToCrupdateTravelPeople(TravelPeople travelPeople) {
-    CrupdateTravelPeople c = new CrupdateTravelPeople();
-    c.setId(travelPeople.getId());
-    c.setTravelId(travelPeople.getTravelId());
-    c.setPersonName(travelPeople.getPersonName());
-    c.setComment(travelPeople.getComment());
-    return c;
+    return TestTravelFixtures.travelPeopleToCrupdateTravelPeople(travelPeople);
   }
 
   public static CrupdateTravelPeople someCreatableTravelPeople() {
-    CrupdateTravelPeople c = new CrupdateTravelPeople();
-    c.setTravelId(TRAVEL_EXPENSE1_ID);
-    c.setPersonName("Nouveau passager");
-    return c;
+    return TestTravelFixtures.someCreatableTravelPeople();
   }
 
   public static TravelMaterials travelMaterials1() {
-    TravelMaterials tm = new TravelMaterials();
-    tm.setId(TRAVEL_MATERIALS1_ID);
-    tm.setTravelId(TRAVEL_EXPENSE1_ID);
-    tm.setMaterial(MATERIAL1_ID);
-    tm.setQuantity(10);
-    tm.setQuantityReceived(5);
-    return tm;
+    return TestTravelFixtures.travelMaterials1();
   }
 
   public static TravelMaterials travelMaterials2() {
-    TravelMaterials tm = new TravelMaterials();
-    tm.setId(TRAVEL_MATERIALS2_ID);
-    tm.setTravelId(TRAVEL_EXPENSE2_ID);
-    tm.setMaterial(MATERIAL2_ID);
-    tm.setQuantity(20);
-    tm.setQuantityReceived(null);
-    return tm;
+    return TestTravelFixtures.travelMaterials2();
   }
 
   public static CrupdateTravelMaterials travelMaterialsToCrupdateTravelMaterials(
       TravelMaterials travelMaterials) {
-    CrupdateTravelMaterials c = new CrupdateTravelMaterials();
-    c.setId(travelMaterials.getId());
-    c.setTravelId(travelMaterials.getTravelId());
-    c.setMaterial(travelMaterials.getMaterial());
-    c.setQuantity(travelMaterials.getQuantity());
-    c.setQuantityReceived(travelMaterials.getQuantityReceived());
-    c.setComment(travelMaterials.getComment());
-    return c;
+    return TestTravelFixtures.travelMaterialsToCrupdateTravelMaterials(travelMaterials);
   }
 
   public static CrupdateTravelMaterials someCreatableTravelMaterials() {
-    CrupdateTravelMaterials c = new CrupdateTravelMaterials();
-    c.setTravelId(TRAVEL_EXPENSE1_ID);
-    c.setMaterial(MATERIAL3_ID);
-    c.setQuantity(3);
-    c.setQuantityReceived(0);
-    return c;
+    return TestTravelFixtures.someCreatableTravelMaterials();
   }
 
   public static TravelEquipment travelEquipment1() {
-    TravelEquipment te = new TravelEquipment();
-    te.setId(TRAVEL_EQUIPMENT1_ID);
-    te.setTravelId(TRAVEL_EXPENSE1_ID);
-    te.setEquipment(EQUIPMENT1_ID);
-    te.setQuantity(2);
-    te.setStatus(TransportStatus.IN_PROGRESS);
-    return te;
+    return TestTravelFixtures.travelEquipment1();
   }
 
   public static TravelEquipment travelEquipment2() {
-    TravelEquipment te = new TravelEquipment();
-    te.setId(TRAVEL_EQUIPMENT2_ID);
-    te.setTravelId(TRAVEL_EXPENSE2_ID);
-    te.setEquipment(EQUIPMENT2_ID);
-    te.setQuantity(1);
-    te.setStatus(TransportStatus.ARRIVED);
-    return te;
+    return TestTravelFixtures.travelEquipment2();
   }
 
   public static CrupdateTravelEquipment travelEquipmentToCrupdateTravelEquipment(
       TravelEquipment travelEquipment) {
-    CrupdateTravelEquipment c = new CrupdateTravelEquipment();
-    c.setId(travelEquipment.getId());
-    c.setTravelId(travelEquipment.getTravelId());
-    c.setEquipment(travelEquipment.getEquipment());
-    c.setQuantity(travelEquipment.getQuantity());
-    c.setStatus(travelEquipment.getStatus());
-    c.setComment(travelEquipment.getComment());
-    return c;
+    return TestTravelFixtures.travelEquipmentToCrupdateTravelEquipment(travelEquipment);
   }
 
   public static CrupdateTravelEquipment someCreatableTravelEquipment() {
-    CrupdateTravelEquipment c = new CrupdateTravelEquipment();
-    c.setTravelId(TRAVEL_EXPENSE1_ID);
-    c.setEquipment(EQUIPMENT3_ID);
-    c.setQuantity(1);
-    c.setStatus(TransportStatus.LOST);
-    return c;
+    return TestTravelFixtures.someCreatableTravelEquipment();
   }
 
   public static int anAvailableRandomPort() {

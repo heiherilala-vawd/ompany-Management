@@ -50,7 +50,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-20T08:35:47.634038256+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-20T11:19:32.360037432+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class PurchaseApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -407,11 +407,14 @@ public class PurchaseApi {
    * @param expensesId  (required)
    * @param page  (optional)
    * @param pageSize  (optional)
+   * @param expenseId  (optional)
+   * @param supplier Filter purchases by supplier, case is ignored (optional)
+   * @param isEquipment  (optional)
    * @return List&lt;Purchase&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<Purchase> getPurchases(String compId, String jobId, String userId, String expensesId, Integer page, Integer pageSize) throws ApiException {
-    ApiResponse<List<Purchase>> localVarResponse = getPurchasesWithHttpInfo(compId, jobId, userId, expensesId, page, pageSize);
+  public List<Purchase> getPurchases(String compId, String jobId, String userId, String expensesId, Integer page, Integer pageSize, String expenseId, String supplier, Boolean isEquipment) throws ApiException {
+    ApiResponse<List<Purchase>> localVarResponse = getPurchasesWithHttpInfo(compId, jobId, userId, expensesId, page, pageSize, expenseId, supplier, isEquipment);
     return localVarResponse.getData();
   }
 
@@ -424,11 +427,14 @@ public class PurchaseApi {
    * @param expensesId  (required)
    * @param page  (optional)
    * @param pageSize  (optional)
+   * @param expenseId  (optional)
+   * @param supplier Filter purchases by supplier, case is ignored (optional)
+   * @param isEquipment  (optional)
    * @return ApiResponse&lt;List&lt;Purchase&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<Purchase>> getPurchasesWithHttpInfo(String compId, String jobId, String userId, String expensesId, Integer page, Integer pageSize) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getPurchasesRequestBuilder(compId, jobId, userId, expensesId, page, pageSize);
+  public ApiResponse<List<Purchase>> getPurchasesWithHttpInfo(String compId, String jobId, String userId, String expensesId, Integer page, Integer pageSize, String expenseId, String supplier, Boolean isEquipment) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getPurchasesRequestBuilder(compId, jobId, userId, expensesId, page, pageSize, expenseId, supplier, isEquipment);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -456,7 +462,7 @@ public class PurchaseApi {
     }
   }
 
-  private HttpRequest.Builder getPurchasesRequestBuilder(String compId, String jobId, String userId, String expensesId, Integer page, Integer pageSize) throws ApiException {
+  private HttpRequest.Builder getPurchasesRequestBuilder(String compId, String jobId, String userId, String expensesId, Integer page, Integer pageSize, String expenseId, String supplier, Boolean isEquipment) throws ApiException {
     // verify the required parameter 'compId' is set
     if (compId == null) {
       throw new ApiException(400, "Missing the required parameter 'compId' when calling getPurchases");
@@ -489,6 +495,12 @@ public class PurchaseApi {
     localVarQueryParams.addAll(ApiClient.parameterToPairs("page", page));
     localVarQueryParameterBaseName = "page_size";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("page_size", pageSize));
+    localVarQueryParameterBaseName = "expense_id";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("expense_id", expenseId));
+    localVarQueryParameterBaseName = "supplier";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("supplier", supplier));
+    localVarQueryParameterBaseName = "is_equipment";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("is_equipment", isEquipment));
 
     if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
       StringJoiner queryJoiner = new StringJoiner("&");

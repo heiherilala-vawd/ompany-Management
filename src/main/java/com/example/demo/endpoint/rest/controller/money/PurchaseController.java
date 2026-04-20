@@ -5,6 +5,7 @@ import com.example.demo.client.model.Purchase;
 import com.example.demo.endpoint.rest.mapper.money.PurchaseMapper;
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
+import com.example.demo.model.criteria.PurchaseCriteria;
 import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.service.money.PurchaseService;
 import java.util.List;
@@ -42,9 +43,16 @@ public class PurchaseController {
       @PathVariable String user_id,
       @PathVariable String expenses_id,
       @RequestParam(name = "page", required = false) PageFromOne page,
-      @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize) {
+      @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
+      @RequestParam(name = "expense_id", required = false) String expenseId,
+      @RequestParam(name = "supplier", required = false) String supplier,
+      @RequestParam(name = "is_equipment", required = false) Boolean isEquipment) {
+    PurchaseCriteria criteria = new PurchaseCriteria();
+    criteria.setExpenseId(expenseId);
+    criteria.setSupplier(supplier);
+    criteria.setIsEquipment(isEquipment);
 
-    return purchaseService.findAll(page, pageSize).stream()
+    return purchaseService.findAll(page, pageSize, criteria).stream()
         .map(purchaseMapper::toRestPurchase)
         .toList();
   }

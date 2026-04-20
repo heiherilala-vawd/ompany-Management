@@ -76,7 +76,7 @@ class WarehouseIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     WarehouseApi api = new WarehouseApi(adminClient);
 
-    List<Warehouse> warehouses = api.getWarehouses(COMPANY1_ID, 1, 100, null);
+    List<Warehouse> warehouses = api.getWarehouses(COMPANY1_ID, 1, 100, null, null, null);
 
     assertEquals(2, warehouses.size());
     assertTrue(warehouses.stream().anyMatch(warehouse -> WAREHOUSE1_ID.equals(warehouse.getId())));
@@ -88,7 +88,7 @@ class WarehouseIT {
     ApiClient employeeClient = anApiClient(EMPLOYEE_TOKEN);
     WarehouseApi api = new WarehouseApi(employeeClient);
 
-    assertThrowsForbiddenException(() -> api.getWarehouses(COMPANY1_ID, 1, 100, null));
+    assertThrowsForbiddenException(() -> api.getWarehouses(COMPANY1_ID, 1, 100, null, null, null));
   }
 
   @Test
@@ -96,7 +96,29 @@ class WarehouseIT {
     ApiClient administrationClient = anApiClient(ADMINISTRATION_TOKEN);
     WarehouseApi api = new WarehouseApi(administrationClient);
 
-    List<Warehouse> warehouses = api.getWarehouses(COMPANY1_ID, 1, 100, JOB2_ID);
+    List<Warehouse> warehouses = api.getWarehouses(COMPANY1_ID, 1, 100, JOB2_ID, null, null);
+
+    assertEquals(1, warehouses.size());
+    assertEquals(WAREHOUSE2_ID, warehouses.get(0).getId());
+  }
+
+  @Test
+  void administration_can_filter_warehouses_by_name() throws Exception {
+    ApiClient administrationClient = anApiClient(ADMINISTRATION_TOKEN);
+    WarehouseApi api = new WarehouseApi(administrationClient);
+
+    List<Warehouse> warehouses = api.getWarehouses(COMPANY1_ID, 1, 100, null, "Nord", null);
+
+    assertEquals(1, warehouses.size());
+    assertEquals(WAREHOUSE1_ID, warehouses.get(0).getId());
+  }
+
+  @Test
+  void administration_can_filter_warehouses_by_description() throws Exception {
+    ApiClient administrationClient = anApiClient(ADMINISTRATION_TOKEN);
+    WarehouseApi api = new WarehouseApi(administrationClient);
+
+    List<Warehouse> warehouses = api.getWarehouses(COMPANY1_ID, 1, 100, null, null, "équipements");
 
     assertEquals(1, warehouses.size());
     assertEquals(WAREHOUSE2_ID, warehouses.get(0).getId());

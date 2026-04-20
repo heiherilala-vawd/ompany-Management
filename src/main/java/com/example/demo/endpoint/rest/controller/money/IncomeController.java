@@ -5,6 +5,7 @@ import com.example.demo.client.model.IncomeMoney;
 import com.example.demo.endpoint.rest.mapper.money.IncomeMoneyMapper;
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
+import com.example.demo.model.criteria.IncomeMoneyCriteria;
 import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.service.money.IncomeMoneyService;
 import java.util.List;
@@ -39,9 +40,18 @@ public class IncomeController {
       @PathVariable String job_id,
       @PathVariable String user_id,
       @RequestParam(name = "page", required = false) PageFromOne page,
-      @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize) {
+      @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
+      @RequestParam(name = "source_organization", required = false) String sourceOrganization,
+      @RequestParam(name = "invoice_reference", required = false) String invoiceReference,
+      @RequestParam(name = "description", required = false) String description,
+      @RequestParam(name = "amount", required = false) Integer amount) {
+    IncomeMoneyCriteria criteria = new IncomeMoneyCriteria();
+    criteria.setSourceOrganization(sourceOrganization);
+    criteria.setInvoiceReference(invoiceReference);
+    criteria.setDescription(description);
+    criteria.setAmount(amount);
 
-    return incomeMoneyService.findAll(page, pageSize).stream()
+    return incomeMoneyService.findAll(page, pageSize, criteria).stream()
         .map(incomeMoneyMapper::toRestIncome)
         .toList();
   }

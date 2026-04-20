@@ -77,7 +77,7 @@ class CompanyIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     CompanyApi api = new CompanyApi(adminClient);
 
-    List<Company> companies = api.getCompanies(1, 100, null, null);
+    List<Company> companies = api.getCompanies(1, 100, null, null, null, null);
 
     assertEquals(2, companies.size());
     assertTrue(companies.stream().anyMatch(company -> COMPANY1_ID.equals(company.getId())));
@@ -89,7 +89,7 @@ class CompanyIT {
     ApiClient employeeClient = anApiClient(EMPLOYEE_TOKEN);
     CompanyApi api = new CompanyApi(employeeClient);
 
-    assertThrowsForbiddenException(() -> api.getCompanies(1, 100, null, null));
+    assertThrowsForbiddenException(() -> api.getCompanies(1, 100, null, null, null, null));
   }
 
   @Test
@@ -97,7 +97,7 @@ class CompanyIT {
     ApiClient warehouseClient = anApiClient(WAREHOUSE_TOKEN);
     CompanyApi api = new CompanyApi(warehouseClient);
 
-    List<Company> companies = api.getCompanies(1, 100, "BTP", null);
+    List<Company> companies = api.getCompanies(1, 100, "BTP", null, null, null);
 
     assertEquals(1, companies.size());
     assertEquals(COMPANY1_ID, companies.get(0).getId());
@@ -108,7 +108,30 @@ class CompanyIT {
     ApiClient administrationClient = anApiClient(ADMINISTRATION_TOKEN);
     CompanyApi api = new CompanyApi(administrationClient);
 
-    List<Company> companies = api.getCompanies(1, 100, null, CompanyType.HOTEL);
+    List<Company> companies = api.getCompanies(1, 100, null, null, null, CompanyType.HOTEL);
+
+    assertEquals(1, companies.size());
+    assertEquals(COMPANY2_ID, companies.get(0).getId());
+  }
+
+  @Test
+  void administration_can_filter_companies_by_rib() throws Exception {
+    ApiClient administrationClient = anApiClient(ADMINISTRATION_TOKEN);
+    CompanyApi api = new CompanyApi(administrationClient);
+
+    List<Company> companies =
+        api.getCompanies(1, 100, null, "FR7612345678901234567890123", null, null);
+
+    assertEquals(1, companies.size());
+    assertEquals(COMPANY1_ID, companies.get(0).getId());
+  }
+
+  @Test
+  void administration_can_filter_companies_by_description() throws Exception {
+    ApiClient administrationClient = anApiClient(ADMINISTRATION_TOKEN);
+    CompanyApi api = new CompanyApi(administrationClient);
+
+    List<Company> companies = api.getCompanies(1, 100, null, null, "luxe", null);
 
     assertEquals(1, companies.size());
     assertEquals(COMPANY2_ID, companies.get(0).getId());

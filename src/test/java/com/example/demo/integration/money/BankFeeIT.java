@@ -70,11 +70,46 @@ class BankFeeIT {
     BankFeeApi api = new BankFeeApi(anApiClient(ADMIN_TOKEN));
 
     List<BankFee> bankFees =
-        api.getBankFees(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, 1, 100);
+        api.getBankFees(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, 1, 100, null, null, null);
 
     assertEquals(2, bankFees.size());
     assertTrue(bankFees.stream().anyMatch(bankFee -> BANK_FEE1_ID.equals(bankFee.getId())));
     assertTrue(bankFees.stream().anyMatch(bankFee -> BANK_FEE2_ID.equals(bankFee.getId())));
+  }
+
+  @Test
+  void admin_can_filter_bank_fees_by_expense_id() throws Exception {
+    BankFeeApi api = new BankFeeApi(anApiClient(ADMIN_TOKEN));
+
+    List<BankFee> bankFees =
+        api.getBankFees(
+            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, 1, 100, EXPENSE2_ID, null, null);
+
+    assertEquals(1, bankFees.size());
+    assertEquals(BANK_FEE2_ID, bankFees.get(0).getId());
+  }
+
+  @Test
+  void admin_can_filter_bank_fees_by_bank_name() throws Exception {
+    BankFeeApi api = new BankFeeApi(anApiClient(ADMIN_TOKEN));
+
+    List<BankFee> bankFees =
+        api.getBankFees(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, 1, 100, null, "BNI", null);
+
+    assertEquals(1, bankFees.size());
+    assertEquals(BANK_FEE1_ID, bankFees.get(0).getId());
+  }
+
+  @Test
+  void admin_can_filter_bank_fees_by_description() throws Exception {
+    BankFeeApi api = new BankFeeApi(anApiClient(ADMIN_TOKEN));
+
+    List<BankFee> bankFees =
+        api.getBankFees(
+            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, 1, 100, null, null, "sous-traitant");
+
+    assertEquals(1, bankFees.size());
+    assertEquals(BANK_FEE2_ID, bankFees.get(0).getId());
   }
 
   @Test
