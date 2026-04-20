@@ -12,11 +12,15 @@ import com.example.demo.client.model.Company;
 import com.example.demo.client.model.CompanyType;
 import com.example.demo.client.model.CrupdateCompany;
 import com.example.demo.client.model.CrupdateEquipment;
+import com.example.demo.client.model.CrupdateExpenseMoney;
+import com.example.demo.client.model.CrupdateIncomeMoney;
 import com.example.demo.client.model.CrupdateJob;
 import com.example.demo.client.model.CrupdateMaterial;
 import com.example.demo.client.model.CrupdateUser;
 import com.example.demo.client.model.CrupdateWarehouse;
 import com.example.demo.client.model.Equipment;
+import com.example.demo.client.model.ExpenseMoney;
+import com.example.demo.client.model.IncomeMoney;
 import com.example.demo.client.model.Job;
 import com.example.demo.client.model.JobStatus;
 import com.example.demo.client.model.Material;
@@ -60,6 +64,10 @@ public class TestUtils {
   public static final String MATERIAL1_ID = "material1_id";
   public static final String MATERIAL2_ID = "material2_id";
   public static final String MATERIAL3_ID = "material3_id";
+  public static final String INCOME1_ID = "income1_id";
+  public static final String INCOME2_ID = "income2_id";
+  public static final String EXPENSE1_ID = "expense1_id";
+  public static final String EXPENSE2_ID = "expense2_id";
 
   // Emails de test
   public static final String ADMIN_EMAIL = "admin@hei.school";
@@ -536,6 +544,78 @@ public class TestUtils {
     material.setFloorNumber(1);
     material.setStorageNumber(200);
     return material;
+  }
+
+  public static IncomeMoney income1() {
+    IncomeMoney income = new IncomeMoney();
+    income.setId(INCOME1_ID);
+    income.setSourceOrganization("Client Alpha");
+    income.setInvoiceReference("INV-2024-001");
+    income.setAmount(150000);
+    income.setDescription("Paiement initial chantier A");
+    return income;
+  }
+
+  public static IncomeMoney income2() {
+    IncomeMoney income = new IncomeMoney();
+    income.setId(INCOME2_ID);
+    income.setSourceOrganization("Client Beta");
+    income.setInvoiceReference("INV-2024-002");
+    income.setAmount(275000);
+    income.setDescription("Paiement avance renovation hotel");
+    return income;
+  }
+
+  public static CrupdateIncomeMoney incomeToCrupdateIncome(IncomeMoney income) {
+    CrupdateIncomeMoney crupdateIncome = new CrupdateIncomeMoney();
+    crupdateIncome.setId(income.getId());
+    crupdateIncome.setSourceOrganization(income.getSourceOrganization());
+    crupdateIncome.setInvoiceReference(income.getInvoiceReference());
+    crupdateIncome.setAmount(income.getAmount());
+    crupdateIncome.setDescription(income.getDescription());
+    crupdateIncome.setComment(income.getComment());
+    return crupdateIncome;
+  }
+
+  public static CrupdateIncomeMoney someCreatableIncome() {
+    CrupdateIncomeMoney income = new CrupdateIncomeMoney();
+    income.setSourceOrganization("Client Gamma");
+    income.setInvoiceReference("INV-2024-003");
+    income.setAmount(99000);
+    income.setDescription("Paiement complementaire");
+    return income;
+  }
+
+  public static ExpenseMoney expense1() {
+    ExpenseMoney expense = new ExpenseMoney();
+    expense.setId(EXPENSE1_ID);
+    expense.setAmount(45000);
+    expense.setDescription("Achat materiaux chantier A");
+    return expense;
+  }
+
+  public static ExpenseMoney expense2() {
+    ExpenseMoney expense = new ExpenseMoney();
+    expense.setId(EXPENSE2_ID);
+    expense.setAmount(80000);
+    expense.setDescription("Paiement sous-traitant renovation");
+    return expense;
+  }
+
+  public static CrupdateExpenseMoney expenseToCrupdateExpense(ExpenseMoney expense) {
+    CrupdateExpenseMoney crupdateExpense = new CrupdateExpenseMoney();
+    crupdateExpense.setId(expense.getId());
+    crupdateExpense.setAmount(expense.getAmount());
+    crupdateExpense.setDescription(expense.getDescription());
+    crupdateExpense.setComment(expense.getComment());
+    return crupdateExpense;
+  }
+
+  public static CrupdateExpenseMoney someCreatableExpense() {
+    CrupdateExpenseMoney expense = new CrupdateExpenseMoney();
+    expense.setAmount(32000);
+    expense.setDescription("Frais logistiques");
+    return expense;
   }
 
   public static int anAvailableRandomPort() {

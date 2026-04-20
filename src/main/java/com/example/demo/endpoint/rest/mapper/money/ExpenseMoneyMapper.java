@@ -15,6 +15,8 @@ public class ExpenseMoneyMapper {
 
     return com.example.demo.model.money.ExpenseMoney.builder()
         .id(restExpense.getId())
+        .amount(restExpense.getAmount())
+        .description(restExpense.getDescription())
         .comment(restExpense.getComment())
         .build();
   }
@@ -24,6 +26,8 @@ public class ExpenseMoneyMapper {
 
     return com.example.demo.model.money.ExpenseMoney.builder()
         .id(restExpense.getId())
+        .amount(restExpense.getAmount())
+        .description(restExpense.getDescription())
         .comment(restExpense.getComment())
         .build();
   }
@@ -33,6 +37,8 @@ public class ExpenseMoneyMapper {
 
     ExpenseMoney restExpense = new ExpenseMoney();
     restExpense.setId(domainExpense.getId());
+    restExpense.setAmount(domainExpense.getAmount());
+    restExpense.setDescription(domainExpense.getDescription());
     RestAuditMapperUtils.mapAuditFields(
         domainExpense,
         restExpense::setCreatedAt,

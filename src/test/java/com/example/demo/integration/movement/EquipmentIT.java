@@ -1,4 +1,4 @@
-package com.example.demo.integration;
+package com.example.demo.integration.movement;
 
 import static com.example.demo.integration.conf.TestUtils.*;
 import static org.junit.jupiter.api.Assertions.*;

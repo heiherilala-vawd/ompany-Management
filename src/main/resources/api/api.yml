@@ -3435,8 +3435,6 @@ components:
     # EMPLOYEE PAYMENT
     # =========================
     EmployeePayment:
-      allOf:
-        - $ref: '#/components/schemas/AuditFields'
       properties:
         id:
           type: string

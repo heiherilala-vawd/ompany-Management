@@ -4,7 +4,13 @@
 -- Mots de passe hashés avec BCrypt (password = "admin123" pour tous)
 -- Pour générer: BCryptPasswordEncoder().encode("admin123")
 
-
+DELETE FROM "travel_expense";
+DELETE FROM "other_expense";
+DELETE FROM "bank_fee";
+DELETE FROM "purchase";
+DELETE FROM "employee_payment";
+DELETE FROM "income_money";
+DELETE FROM "expense_money";
 DELETE FROM "equipment";
 DELETE FROM "material";
 DELETE FROM "warehouse";
@@ -90,3 +96,19 @@ VALUES
 ('material1_id', 'Ciment', 'Ciment Portland 35kg', 'warehouse1_id', 1, 100, NOW(), NOW()),
 ('material2_id', 'Brique', 'Brique rouge 20x10x5', 'warehouse1_id', 1, 500, NOW(), NOW()),
 ('material3_id', 'Peinture', 'Peinture blanche mate', 'warehouse2_id', 2, 50, NOW(), NOW());
+
+-- =========================
+-- TEST DATA INCOMES
+-- =========================
+INSERT INTO "income_money" (id, source_organization, invoice_reference, amount, description, created_at, updated_at)
+VALUES
+('income1_id', 'Client Alpha', 'INV-2024-001', 150000, 'Paiement initial chantier A', NOW(), NOW()),
+('income2_id', 'Client Beta', 'INV-2024-002', 275000, 'Paiement avance renovation hotel', NOW(), NOW());
+
+-- =========================
+-- TEST DATA EXPENSES
+-- =========================
+INSERT INTO "expense_money" (id, amount, description, created_at, updated_at)
+VALUES
+('expense1_id', 45000, 'Achat materiaux chantier A', NOW(), NOW()),
+('expense2_id', 80000, 'Paiement sous-traitant renovation', NOW(), NOW());

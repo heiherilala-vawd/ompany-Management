@@ -1,13 +1,13 @@
-package com.example.demo.integration;
+package com.example.demo.integration.movement;
 
 import static com.example.demo.integration.conf.TestUtils.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.example.demo.SentryConf;
-import com.example.demo.client.api.MaterialApi;
+import com.example.demo.client.api.WarehouseApi;
 import com.example.demo.client.invoker.ApiClient;
-import com.example.demo.client.model.CrupdateMaterial;
-import com.example.demo.client.model.Material;
+import com.example.demo.client.model.CrupdateWarehouse;
+import com.example.demo.client.model.Warehouse;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
 import com.example.demo.integration.conf.TestUtils;
@@ -30,8 +30,8 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 @Testcontainers
-@ContextConfiguration(initializers = MaterialIT.ContextInitializer.class)
-class MaterialIT {
+@ContextConfiguration(initializers = WarehouseIT.ContextInitializer.class)
+class WarehouseIT {
   @Autowired private DataSource dataSource;
 
   @MockitoBean private SentryConf sentryConf;
@@ -52,12 +52,12 @@ class MaterialIT {
   }
 
   @Test
-  void warehouse_worker_can_get_material_by_id() throws Exception {
+  void warehouse_worker_can_get_warehouse_by_id() throws Exception {
     ApiClient warehouseClient = anApiClient(WAREHOUSE_TOKEN);
-    MaterialApi api = new MaterialApi(warehouseClient);
+    WarehouseApi api = new WarehouseApi(warehouseClient);
 
-    Material actual = api.getMaterialById(MATERIAL1_ID);
-    Material expected = material1();
+    Warehouse actual = api.getWarehouseById(COMPANY1_ID, WAREHOUSE1_ID);
+    Warehouse expected = warehouse1();
     expected.setCreatedAt(actual.getCreatedAt());
     expected.setUpdatedAt(actual.getUpdatedAt());
     expected.setCreatedBy(actual.getCreatedBy());
@@ -68,77 +68,78 @@ class MaterialIT {
   }
 
   @Test
-  void user_with_bad_token_cannot_get_material_by_id() {
+  void user_with_bad_token_cannot_get_warehouse_by_id() {
     ApiClient badClient = anApiClient(BAD_TOKEN);
-    MaterialApi api = new MaterialApi(badClient);
+    WarehouseApi api = new WarehouseApi(badClient);
 
-    assertThrowsNotAuthorizedException(() -> api.getMaterialById(MATERIAL1_ID));
+    assertThrowsNotAuthorizedException(() -> api.getWarehouseById(COMPANY1_ID, WAREHOUSE1_ID));
   }
 
   @Test
-  void admin_can_get_all_materials() throws Exception {
+  void admin_can_get_all_warehouses() throws Exception {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
-    MaterialApi api = new MaterialApi(adminClient);
+    WarehouseApi api = new WarehouseApi(adminClient);
 
-    List<Material> materials = api.getMaterials(1, 100, null);
+    List<Warehouse> warehouses = api.getWarehouses(COMPANY1_ID, 1, 100, null);
 
-    assertEquals(3, materials.size());
-    assertTrue(materials.stream().anyMatch(material -> MATERIAL1_ID.equals(material.getId())));
-    assertTrue(materials.stream().anyMatch(material -> MATERIAL2_ID.equals(material.getId())));
-    assertTrue(materials.stream().anyMatch(material -> MATERIAL3_ID.equals(material.getId())));
+    assertEquals(2, warehouses.size());
+    assertTrue(warehouses.stream().anyMatch(warehouse -> WAREHOUSE1_ID.equals(warehouse.getId())));
+    assertTrue(warehouses.stream().anyMatch(warehouse -> WAREHOUSE2_ID.equals(warehouse.getId())));
   }
 
   @Test
-  void employee_cannot_get_all_materials() {
+  void employee_cannot_get_all_warehouses() {
     ApiClient employeeClient = anApiClient(EMPLOYEE_TOKEN);
-    MaterialApi api = new MaterialApi(employeeClient);
+    WarehouseApi api = new WarehouseApi(employeeClient);
 
-    assertThrowsForbiddenException(() -> api.getMaterials(1, 100, null));
+    assertThrowsForbiddenException(() -> api.getWarehouses(COMPANY1_ID, 1, 100, null));
   }
 
   @Test
-  void administration_can_filter_materials_by_warehouse_id() throws Exception {
+  void administration_can_filter_warehouses_by_job_id() throws Exception {
     ApiClient administrationClient = anApiClient(ADMINISTRATION_TOKEN);
-    MaterialApi api = new MaterialApi(administrationClient);
+    WarehouseApi api = new WarehouseApi(administrationClient);
 
-    List<Material> materials = api.getMaterials(1, 100, WAREHOUSE2_ID);
+    List<Warehouse> warehouses = api.getWarehouses(COMPANY1_ID, 1, 100, JOB2_ID);
 
-    assertEquals(1, materials.size());
-    assertEquals(MATERIAL3_ID, materials.get(0).getId());
+    assertEquals(1, warehouses.size());
+    assertEquals(WAREHOUSE2_ID, warehouses.get(0).getId());
   }
 
   @Test
   @DirtiesContext
-  void warehouse_worker_can_update_materials() throws Exception {
+  void warehouse_worker_can_update_warehouses() throws Exception {
     ApiClient warehouseClient = anApiClient(WAREHOUSE_TOKEN);
-    MaterialApi api = new MaterialApi(warehouseClient);
+    WarehouseApi api = new WarehouseApi(warehouseClient);
 
-    CrupdateMaterial materialToUpdate = materialToCrupdateMaterial(material1());
-    materialToUpdate.setDescription("Ciment Portland 35kg premium");
+    CrupdateWarehouse warehouseToUpdate = warehouseToCrupdateWarehouse(warehouse1());
+    warehouseToUpdate.setDescription("Stockage materiaux lourds mis a jour");
 
-    List<Material> updatedMaterials = api.crupdateMaterials(List.of(materialToUpdate));
-    Material updated = updatedMaterials.get(0);
+    List<Warehouse> updatedWarehouses =
+        api.crupdateWarehouses(COMPANY1_ID, List.of(warehouseToUpdate));
+    Warehouse updatedWarehouse = updatedWarehouses.get(0);
 
-    assertEquals(1, updatedMaterials.size());
-    assertEquals(MATERIAL1_ID, updated.getId());
-    assertEquals("Ciment Portland 35kg premium", updated.getDescription());
-    assertEquals(material1().getName(), updated.getName());
+    assertEquals(1, updatedWarehouses.size());
+    assertEquals(WAREHOUSE1_ID, updatedWarehouse.getId());
+    assertEquals("Stockage materiaux lourds mis a jour", updatedWarehouse.getDescription());
+    assertEquals(warehouse1().getName(), updatedWarehouse.getName());
   }
 
   @Test
-  void employee_cannot_create_materials() {
+  void employee_cannot_create_warehouses() {
     ApiClient employeeClient = anApiClient(EMPLOYEE_TOKEN);
-    MaterialApi api = new MaterialApi(employeeClient);
+    WarehouseApi api = new WarehouseApi(employeeClient);
 
-    assertThrowsForbiddenException(() -> api.crupdateMaterials(List.of(someCreatableMaterial())));
+    assertThrowsForbiddenException(
+        () -> api.crupdateWarehouses(COMPANY1_ID, List.of(someCreatableWarehouse())));
   }
 
   @Test
-  void administration_cannot_delete_material() {
+  void administration_cannot_delete_warehouse() {
     ApiClient administrationClient = anApiClient(ADMINISTRATION_TOKEN);
-    MaterialApi api = new MaterialApi(administrationClient);
+    WarehouseApi api = new WarehouseApi(administrationClient);
 
-    assertThrowsForbiddenException(() -> api.deleteMaterialById(MATERIAL1_ID));
+    assertThrowsForbiddenException(() -> api.deleteWarehouseById(COMPANY1_ID, WAREHOUSE1_ID));
   }
 
   static class ContextInitializer extends AbstractContextInitializer {
