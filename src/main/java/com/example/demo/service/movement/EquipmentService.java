@@ -8,7 +8,9 @@ import com.example.demo.model.PageFromOne;
 import com.example.demo.model.criteria.EquipmentCriteria;
 import com.example.demo.model.movement.Equipment;
 import com.example.demo.repository.movement.EquipmentRepository;
+import com.example.demo.service.utils.ModificationUtils;
 import com.example.demo.service.utils.PageUtils;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class EquipmentService {
 
   private final EquipmentRepository equipmentRepository;
+  private final ModificationUtils modificationUtils;
 
   public Optional<Equipment> findById(String id) {
     return equipmentRepository.findById(id);
@@ -37,7 +40,14 @@ public class EquipmentService {
 
   @Transactional
   public List<Equipment> createOrUpdateAll(List<Equipment> equipmentList) {
-    return equipmentRepository.saveAll(equipmentList);
+    List<Equipment> processedEquipments = new ArrayList<>();
+    for (Equipment equipment : equipmentList) {
+      Equipment existingEquipment = equipmentRepository.findById(equipment.getId()).orElse(null);
+      modificationUtils.createOrUpdateModel(
+          equipment, existingEquipment, equipment.getId(), modificationUtils.takePrimaryUser());
+      processedEquipments.add(equipment);
+    }
+    return equipmentRepository.saveAll(processedEquipments);
   }
 
   @Transactional

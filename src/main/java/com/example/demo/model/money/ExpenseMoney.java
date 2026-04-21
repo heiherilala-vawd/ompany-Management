@@ -2,10 +2,9 @@ package com.example.demo.model.money;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,21 +28,24 @@ public class ExpenseMoney extends MonetaryMovement implements Serializable {
   @GeneratedValue(strategy = IDENTITY)
   private String id;
 
-  @OneToMany(mappedBy = "expense", cascade = CascadeType.ALL)
-  @ToString.Exclude
-  private List<EmployeePayment> employeePayments = new ArrayList<>();
+  @OneToOne(mappedBy = "expense")
+  @JsonBackReference
+  private EmployeePayment employeePayment;
 
   @OneToOne(mappedBy = "expense")
+  @JsonBackReference
   private TravelExpense travelExpense;
 
-  @OneToMany(mappedBy = "expense", cascade = CascadeType.ALL)
-  @ToString.Exclude
-  private List<Purchase> purchases = new ArrayList<>();
+  @OneToOne(mappedBy = "expense")
+  @JsonBackReference
+  private Purchase purchase;
 
   @OneToOne(mappedBy = "expense")
+  @JsonBackReference
   private BankFee bankFee;
 
   @OneToOne(mappedBy = "expense")
+  @JsonBackReference
   private OtherExpense otherExpense;
 
   @Override
@@ -57,5 +59,24 @@ public class ExpenseMoney extends MonetaryMovement implements Serializable {
   @Override
   public int hashCode() {
     return getClass().hashCode();
+  }
+
+  @Override
+  public String toString() {
+    return "ExpenseMoney{"
+        + "id='"
+        + id
+        + '\''
+        + ", employeePayment="
+        + (employeePayment != null ? employeePayment.getId() : null)
+        + ", travelExpense="
+        + (travelExpense != null ? travelExpense.getId() : null)
+        + ", purchase="
+        + (purchase != null ? purchase.getId() : null)
+        + ", bankFee="
+        + (bankFee != null ? bankFee.getId() : null)
+        + ", otherExpense="
+        + (otherExpense != null ? otherExpense.getId() : null)
+        + '}';
   }
 }

@@ -8,7 +8,9 @@ import com.example.demo.model.PageFromOne;
 import com.example.demo.model.criteria.IncomeMoneyCriteria;
 import com.example.demo.model.money.IncomeMoney;
 import com.example.demo.repository.money.IncomeMoneyRepository;
+import com.example.demo.service.utils.ModificationUtils;
 import com.example.demo.service.utils.PageUtils;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class IncomeMoneyService {
 
   private final IncomeMoneyRepository incomeMoneyRepository;
+  private final ModificationUtils modificationUtils;
 
   public Optional<IncomeMoney> findById(String id) {
     return incomeMoneyRepository.findById(id);
@@ -37,7 +40,18 @@ public class IncomeMoneyService {
 
   @Transactional
   public List<IncomeMoney> createOrUpdateAll(List<IncomeMoney> incomes) {
-    return incomeMoneyRepository.saveAll(incomes);
+    List<IncomeMoney> processedIncomeMoneys = new ArrayList<>();
+    for (IncomeMoney incomeMoney : incomes) {
+      IncomeMoney existingIncomeMoney =
+          incomeMoneyRepository.findById(incomeMoney.getId()).orElse(null);
+      modificationUtils.createOrUpdateModel(
+          incomeMoney,
+          existingIncomeMoney,
+          incomeMoney.getId(),
+          modificationUtils.takePrimaryUser());
+      processedIncomeMoneys.add(incomeMoney);
+    }
+    return incomeMoneyRepository.saveAll(processedIncomeMoneys);
   }
 
   @Transactional

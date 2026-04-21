@@ -5,6 +5,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 import com.example.demo.model.movement.TravelEquipment;
 import com.example.demo.model.movement.TravelMaterials;
 import com.example.demo.model.movement.TravelPeople;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
@@ -35,6 +36,7 @@ public class TravelExpense implements Serializable {
 
   @OneToOne
   @JoinColumn(name = "expense_id")
+  @JsonManagedReference
   private ExpenseMoney expense;
 
   private String departureLocation;
@@ -46,15 +48,15 @@ public class TravelExpense implements Serializable {
   private Instant arrivalDate;
 
   @OneToMany(mappedBy = "travel", cascade = CascadeType.ALL)
-  @ToString.Exclude
+  @JsonManagedReference
   private List<TravelPeople> travelPeople = new ArrayList<>();
 
   @OneToMany(mappedBy = "travel", cascade = CascadeType.ALL)
-  @ToString.Exclude
+  @JsonManagedReference
   private List<TravelMaterials> travelMaterials = new ArrayList<>();
 
   @OneToMany(mappedBy = "travel", cascade = CascadeType.ALL)
-  @ToString.Exclude
+  @JsonManagedReference
   private List<TravelEquipment> travelEquipment = new ArrayList<>();
 
   @Override
@@ -68,5 +70,32 @@ public class TravelExpense implements Serializable {
   @Override
   public int hashCode() {
     return getClass().hashCode();
+  }
+
+  @Override
+  public String toString() {
+    return "TravelExpense{"
+        + "id='"
+        + id
+        + '\''
+        + ", expense="
+        + (expense != null ? expense.getId() : null)
+        + ", departureLocation='"
+        + departureLocation
+        + '\''
+        + ", arrivalLocation='"
+        + arrivalLocation
+        + '\''
+        + ", departureDate="
+        + departureDate
+        + ", arrivalDate="
+        + arrivalDate
+        + ", travelPeople="
+        + (travelPeople != null ? travelPeople.size() + " items" : null)
+        + ", travelMaterials="
+        + (travelMaterials != null ? travelMaterials.size() + " items" : null)
+        + ", travelEquipment="
+        + (travelEquipment != null ? travelEquipment.size() + " items" : null)
+        + '}';
   }
 }

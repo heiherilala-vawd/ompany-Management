@@ -8,7 +8,9 @@ import com.example.demo.model.PageFromOne;
 import com.example.demo.model.criteria.ExpenseMoneyCriteria;
 import com.example.demo.model.money.ExpenseMoney;
 import com.example.demo.repository.money.ExpenseMoneyRepository;
+import com.example.demo.service.utils.ModificationUtils;
 import com.example.demo.service.utils.PageUtils;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ExpenseMoneyService {
 
   private final ExpenseMoneyRepository expenseMoneyRepository;
+  private final ModificationUtils modificationUtils;
 
   public Optional<ExpenseMoney> findById(String id) {
     return expenseMoneyRepository.findById(id);
@@ -37,7 +40,18 @@ public class ExpenseMoneyService {
 
   @Transactional
   public List<ExpenseMoney> createOrUpdateAll(List<ExpenseMoney> expenses) {
-    return expenseMoneyRepository.saveAll(expenses);
+    List<ExpenseMoney> processedExpenseMoneys = new ArrayList<>();
+    for (ExpenseMoney expenseMoney : expenses) {
+      ExpenseMoney existingExpenseMoney =
+          expenseMoneyRepository.findById(expenseMoney.getId()).orElse(null);
+      modificationUtils.createOrUpdateModel(
+          expenseMoney,
+          existingExpenseMoney,
+          expenseMoney.getId(),
+          modificationUtils.takePrimaryUser());
+      processedExpenseMoneys.add(expenseMoney);
+    }
+    return expenseMoneyRepository.saveAll(processedExpenseMoneys);
   }
 
   @Transactional

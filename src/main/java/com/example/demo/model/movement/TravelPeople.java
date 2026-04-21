@@ -4,6 +4,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 
 import com.example.demo.model.CreatAndUpdateEntity;
 import com.example.demo.model.money.TravelExpense;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -31,6 +32,7 @@ public class TravelPeople extends CreatAndUpdateEntity implements Serializable {
 
   @ManyToOne
   @JoinColumn(name = "travel_id")
+  @JsonBackReference
   private TravelExpense travel;
 
   private String personName;

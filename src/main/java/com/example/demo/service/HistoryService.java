@@ -82,12 +82,35 @@ public class HistoryService {
     String newValue = "";
     if (History.EntityType.valueOf(newCreatAndUpdateEntity.getClass().getSimpleName().toUpperCase())
         == History.EntityType.USER) {
-      User odlUser = (User) oldCreatAndUpdate;
+      if (oldCreatAndUpdate != null) {
+        User odlUser = (User) oldCreatAndUpdate;
+        User oldUserWithoutPassword =
+            User.builder()
+                .id(odlUser.getId())
+                .role(odlUser.getRole())
+                .firstName(odlUser.getFirstName())
+                .lastName(odlUser.getLastName())
+                .sex(odlUser.getSex())
+                .email(odlUser.getEmail())
+                .comment(odlUser.getComment())
+                .password("*****")
+                .build();
+        oldValue = oldUserWithoutPassword.toString();
+      }
+
       User newUser = (User) newCreatAndUpdateEntity;
-      odlUser.setPassword("");
-      newUser.setPassword("");
-      oldValue = odlUser.toString();
-      newValue = newUser.toString();
+      User newUserWithoutPassword =
+          User.builder()
+              .id(newUser.getId())
+              .role(newUser.getRole())
+              .firstName(newUser.getFirstName())
+              .lastName(newUser.getLastName())
+              .sex(newUser.getSex())
+              .email(newUser.getEmail())
+              .comment(newUser.getComment())
+              .password("*****")
+              .build();
+      newValue = newUserWithoutPassword.toString();
     } else {
       oldValue = oldCreatAndUpdate == null ? null : oldCreatAndUpdate.toString();
       newValue = newCreatAndUpdateEntity.toString();

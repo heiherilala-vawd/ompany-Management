@@ -7,7 +7,9 @@ import com.example.demo.model.PageFromOne;
 import com.example.demo.model.criteria.TravelMaterialsCriteria;
 import com.example.demo.model.movement.TravelMaterials;
 import com.example.demo.repository.movement.TravelMaterialsRepository;
+import com.example.demo.service.utils.ModificationUtils;
 import com.example.demo.service.utils.PageUtils;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class TravelMaterialsService {
 
   private final TravelMaterialsRepository travelMaterialsRepository;
+  private final ModificationUtils modificationUtils;
 
   public Optional<TravelMaterials> findById(String id) {
     return travelMaterialsRepository.findById(id);
@@ -36,7 +39,18 @@ public class TravelMaterialsService {
 
   @Transactional
   public List<TravelMaterials> createOrUpdateAll(List<TravelMaterials> materialsList) {
-    return travelMaterialsRepository.saveAll(materialsList);
+    List<TravelMaterials> processedTravelMaterials = new ArrayList<>();
+    for (TravelMaterials travelMaterials : materialsList) {
+      TravelMaterials existingTravelMaterials =
+          travelMaterialsRepository.findById(travelMaterials.getId()).orElse(null);
+      modificationUtils.createOrUpdateModel(
+          travelMaterials,
+          existingTravelMaterials,
+          travelMaterials.getId(),
+          modificationUtils.takePrimaryUser());
+      processedTravelMaterials.add(travelMaterials);
+    }
+    return travelMaterialsRepository.saveAll(processedTravelMaterials);
   }
 
   @Transactional

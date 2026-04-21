@@ -3359,13 +3359,13 @@ components:
         - WAREHOUSE
         - EQUIPMENT
         - MATERIAL
-        - INCOME_MONEY
-        - EXPENSE_MONEY
+        - INCOMEMONEY
+        - EXPENSEMONEY
         - EMPLOYEE_PAYMENT
         - TRAVEL_EXPENSE
-        - TRAVEL_PEOPLE
-        - TRAVEL_MATERIALS
-        - TRAVEL_EQUIPMENT
+        - TRAVELPEOPLE
+        - TRAVELMATERIALS
+        - TRAVELEQUIPMENT
         - PURCHASE
         - BANK_FEE
         - OTHER_EXPENSE

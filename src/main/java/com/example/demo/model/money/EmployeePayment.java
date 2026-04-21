@@ -3,6 +3,7 @@ package com.example.demo.model.money;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 import com.example.demo.model.User;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -30,8 +31,9 @@ public class EmployeePayment implements Serializable {
   @GeneratedValue(strategy = IDENTITY)
   private String id;
 
-  @ManyToOne
+  @OneToOne
   @JoinColumn(name = "expense_id")
+  @JsonManagedReference
   private ExpenseMoney expense;
 
   @ManyToOne
@@ -55,6 +57,24 @@ public class EmployeePayment implements Serializable {
   @Override
   public int hashCode() {
     return getClass().hashCode();
+  }
+
+  @Override
+  public String toString() {
+    return "EmployeePayment{"
+        + "id='"
+        + id
+        + '\''
+        + ", expense="
+        + (expense != null ? expense.getId() : null)
+        + ", employee="
+        + (employee != null ? employee.getId() + ":" + employee.getEmail() : null)
+        + ", paymentDescription='"
+        + paymentDescription
+        + '\''
+        + ", paymentType="
+        + paymentType
+        + '}';
   }
 
   public enum PaymentType {

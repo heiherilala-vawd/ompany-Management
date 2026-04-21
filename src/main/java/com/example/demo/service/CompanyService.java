@@ -8,7 +8,9 @@ import com.example.demo.model.Company;
 import com.example.demo.model.PageFromOne;
 import com.example.demo.model.criteria.CompanyCriteria;
 import com.example.demo.repository.CompanyRepository;
+import com.example.demo.service.utils.ModificationUtils;
 import com.example.demo.service.utils.PageUtils;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class CompanyService {
 
   private final CompanyRepository companyRepository;
+  private final ModificationUtils modificationUtils;
 
   public Optional<Company> findById(String id) {
     return companyRepository.findById(id);
@@ -37,7 +40,14 @@ public class CompanyService {
 
   @Transactional
   public List<Company> createOrUpdateAll(List<Company> companies) {
-    return companyRepository.saveAll(companies);
+    List<Company> processedCompanies = new ArrayList<>();
+    for (Company company : companies) {
+      Company existingCompany = companyRepository.findById(company.getId()).orElse(null);
+      modificationUtils.createOrUpdateModel(
+          company, existingCompany, company.getId(), modificationUtils.takePrimaryUser());
+      processedCompanies.add(company);
+    }
+    return companyRepository.saveAll(processedCompanies);
   }
 
   @Transactional

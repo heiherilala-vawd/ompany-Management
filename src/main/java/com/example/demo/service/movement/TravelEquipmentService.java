@@ -7,7 +7,9 @@ import com.example.demo.model.PageFromOne;
 import com.example.demo.model.criteria.TravelEquipmentCriteria;
 import com.example.demo.model.movement.TravelEquipment;
 import com.example.demo.repository.movement.TravelEquipmentRepository;
+import com.example.demo.service.utils.ModificationUtils;
 import com.example.demo.service.utils.PageUtils;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class TravelEquipmentService {
 
   private final TravelEquipmentRepository travelEquipmentRepository;
+  private final ModificationUtils modificationUtils;
 
   public Optional<TravelEquipment> findById(String id) {
     return travelEquipmentRepository.findById(id);
@@ -36,7 +39,18 @@ public class TravelEquipmentService {
 
   @Transactional
   public List<TravelEquipment> createOrUpdateAll(List<TravelEquipment> equipmentList) {
-    return travelEquipmentRepository.saveAll(equipmentList);
+    List<TravelEquipment> processedTravelEquipments = new ArrayList<>();
+    for (TravelEquipment travelEquipment : equipmentList) {
+      TravelEquipment existingTravelEquipment =
+          travelEquipmentRepository.findById(travelEquipment.getId()).orElse(null);
+      modificationUtils.createOrUpdateModel(
+          travelEquipment,
+          existingTravelEquipment,
+          travelEquipment.getId(),
+          modificationUtils.takePrimaryUser());
+      processedTravelEquipments.add(travelEquipment);
+    }
+    return travelEquipmentRepository.saveAll(processedTravelEquipments);
   }
 
   @Transactional
