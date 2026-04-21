@@ -8,7 +8,9 @@ import com.example.demo.model.PageFromOne;
 import com.example.demo.model.criteria.WarehouseCriteria;
 import com.example.demo.model.movement.Warehouse;
 import com.example.demo.repository.movement.WarehouseRepository;
+import com.example.demo.service.utils.ModificationUtils;
 import com.example.demo.service.utils.PageUtils;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class WarehouseService {
 
   private final WarehouseRepository warehouseRepository;
+  private final ModificationUtils modificationUtils;
 
   public Optional<Warehouse> findById(String id) {
     return warehouseRepository.findById(id);
@@ -35,13 +38,16 @@ public class WarehouseService {
     return warehouseRepository.findAll(toSpecification(criteria), pageable);
   }
 
-  public List<Warehouse> findByJobId(String jobId) {
-    return warehouseRepository.findByJobId(jobId);
-  }
-
   @Transactional
   public List<Warehouse> createOrUpdateAll(List<Warehouse> warehouses) {
-    return warehouseRepository.saveAll(warehouses);
+    List<Warehouse> processedWarehouses = new ArrayList<>();
+    for (Warehouse warehouse : warehouses) {
+      Warehouse existingWarehouse = warehouseRepository.findById(warehouse.getId()).orElse(null);
+      modificationUtils.createOrUpdateModel(
+          warehouse, existingWarehouse, warehouse.getId(), modificationUtils.takePrimaryUser());
+      processedWarehouses.add(warehouse);
+    }
+    return warehouseRepository.saveAll(processedWarehouses);
   }
 
   @Transactional

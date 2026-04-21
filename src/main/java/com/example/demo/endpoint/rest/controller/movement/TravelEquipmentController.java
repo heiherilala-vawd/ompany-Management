@@ -77,9 +77,9 @@ public class TravelEquipmentController {
       @PathVariable String expenses_id,
       @PathVariable String travel_expenses_id,
       @RequestBody List<CrupdateTravelEquipment> toWrite) {
-    var saved =
-        travelEquipmentService.createOrUpdateAll(
-            toWrite.stream().map(travelEquipmentMapper::toDomain).toList());
+    List<com.example.demo.model.movement.TravelEquipment> saved =
+        toWrite.stream().map(travelEquipmentMapper::toDomain).toList();
+    travelEquipmentService.createOrUpdateAll(saved);
     return saved.stream().map(travelEquipmentMapper::toRestTravelEquipment).toList();
   }
 

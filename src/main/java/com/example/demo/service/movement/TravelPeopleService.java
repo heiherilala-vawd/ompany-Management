@@ -8,7 +8,9 @@ import com.example.demo.model.PageFromOne;
 import com.example.demo.model.criteria.TravelPeopleCriteria;
 import com.example.demo.model.movement.TravelPeople;
 import com.example.demo.repository.movement.TravelPeopleRepository;
+import com.example.demo.service.utils.ModificationUtils;
 import com.example.demo.service.utils.PageUtils;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class TravelPeopleService {
 
   private final TravelPeopleRepository travelPeopleRepository;
+  private final ModificationUtils modificationUtils;
 
   public Optional<TravelPeople> findById(String id) {
     return travelPeopleRepository.findById(id);
@@ -37,7 +40,18 @@ public class TravelPeopleService {
 
   @Transactional
   public List<TravelPeople> createOrUpdateAll(List<TravelPeople> travelPeopleList) {
-    return travelPeopleRepository.saveAll(travelPeopleList);
+    List<TravelPeople> processedTravelPeoples = new ArrayList<>();
+    for (TravelPeople travelPeople : travelPeopleList) {
+      TravelPeople existingTravelPeople =
+          travelPeopleRepository.findById(travelPeople.getId()).orElse(null);
+      modificationUtils.createOrUpdateModel(
+          travelPeople,
+          existingTravelPeople,
+          travelPeople.getId(),
+          modificationUtils.takePrimaryUser());
+      processedTravelPeoples.add(travelPeople);
+    }
+    return travelPeopleRepository.saveAll(processedTravelPeoples);
   }
 
   @Transactional

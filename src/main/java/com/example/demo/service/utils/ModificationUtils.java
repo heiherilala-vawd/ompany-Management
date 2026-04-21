@@ -30,7 +30,6 @@ public class ModificationUtils {
       creatAndUpdateToChange.setCreatedAt(creatAndUpdateInDB.getCreatedAt());
       creatAndUpdateToChange.setCreatedBy(creatAndUpdateInDB.getCreatedBy());
     }
-    assert creatAndUpdateInDB != null;
     historyService.uploadHistory(creatAndUpdateInDB, creatAndUpdateToChange, entityId, creater);
     creatAndUpdateToChange.setUpdatedAt(Instant.now());
     creatAndUpdateToChange.setUpdatedBy(creater);
