@@ -1,7 +1,5 @@
 package com.example.demo.model.money;
 
-import static jakarta.persistence.GenerationType.IDENTITY;
-
 import com.example.demo.model.User;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -27,9 +25,7 @@ import org.hibernate.type.SqlTypes;
 @NoArgsConstructor
 public class EmployeePayment implements Serializable {
 
-  @Id
-  @GeneratedValue(strategy = IDENTITY)
-  private String id;
+  @Id private String id;
 
   @OneToOne
   @JoinColumn(name = "expense_id")

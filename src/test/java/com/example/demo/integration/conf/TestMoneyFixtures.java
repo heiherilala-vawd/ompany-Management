@@ -13,6 +13,7 @@ import com.example.demo.client.model.IncomeMoney;
 import com.example.demo.client.model.OtherExpense;
 import com.example.demo.client.model.PaymentType;
 import com.example.demo.client.model.Purchase;
+import java.util.UUID;
 
 final class TestMoneyFixtures {
 
@@ -51,6 +52,7 @@ final class TestMoneyFixtures {
 
   static CrupdateIncomeMoney someCreatableIncome() {
     CrupdateIncomeMoney income = new CrupdateIncomeMoney();
+    income.setId(UUID.randomUUID().toString());
     income.setSourceOrganization("Client Gamma");
     income.setInvoiceReference("INV-2024-003");
     income.setAmount(99000);
@@ -85,6 +87,7 @@ final class TestMoneyFixtures {
 
   static CrupdateExpenseMoney someCreatableExpense() {
     CrupdateExpenseMoney expense = new CrupdateExpenseMoney();
+    expense.setId(UUID.randomUUID().toString());
     expense.setAmount(32000);
     expense.setDescription("Frais logistiques");
     return expense;
@@ -119,6 +122,7 @@ final class TestMoneyFixtures {
 
   static CrupdateBankFee someCreatableBankFee() {
     CrupdateBankFee bankFee = new CrupdateBankFee();
+    bankFee.setId(UUID.randomUUID().toString());
     bankFee.setExpenseId(TestUtils.EXPENSE1_ID);
     bankFee.setBankName("MCB Madagascar");
     bankFee.setDescription("Frais tenue compte");
@@ -158,6 +162,7 @@ final class TestMoneyFixtures {
 
   static CrupdateEmployeePayment someCreatableEmployeePayment() {
     CrupdateEmployeePayment employeePayment = new CrupdateEmployeePayment();
+    employeePayment.setId(UUID.randomUUID().toString());
     employeePayment.setExpenseId(TestUtils.EXPENSE1_ID);
     employeePayment.setEmployeeId(TestUtils.EMPLOYEE_ID);
     employeePayment.setPaymentDescription("Prime exceptionnelle");
@@ -191,6 +196,7 @@ final class TestMoneyFixtures {
 
   static CrupdateOtherExpense someCreatableOtherExpense() {
     CrupdateOtherExpense otherExpense = new CrupdateOtherExpense();
+    otherExpense.setId(UUID.randomUUID().toString());
     otherExpense.setExpenseId(TestUtils.EXPENSE1_ID);
     otherExpense.setDescription("Frais divers chantier");
     return otherExpense;
@@ -234,6 +240,7 @@ final class TestMoneyFixtures {
 
   static CrupdatePurchase someCreatablePurchase() {
     CrupdatePurchase purchase = new CrupdatePurchase();
+    purchase.setId(UUID.randomUUID().toString());
     purchase.setExpenseId(TestUtils.EXPENSE1_ID);
     purchase.setSupplier("Quincaillerie Centrale");
     purchase.setEquipment(TestUtils.EQUIPMENT1_ID);
