@@ -35,20 +35,6 @@ public class TravelPeopleService {
     return travelPeopleRepository.findAll(toSpecification(criteria), pageable);
   }
 
-  public List<TravelPeople> findByTravelId(String travelId) {
-    return travelPeopleRepository.findByTravelId(travelId);
-  }
-
-  @Transactional
-  public TravelPeople create(TravelPeople travelPeople) {
-    return travelPeopleRepository.save(travelPeople);
-  }
-
-  @Transactional
-  public TravelPeople update(TravelPeople travelPeople) {
-    return travelPeopleRepository.save(travelPeople);
-  }
-
   @Transactional
   public List<TravelPeople> createOrUpdateAll(List<TravelPeople> travelPeopleList) {
     return travelPeopleRepository.saveAll(travelPeopleList);
@@ -57,11 +43,6 @@ public class TravelPeopleService {
   @Transactional
   public void deleteById(String id) {
     travelPeopleRepository.deleteById(id);
-  }
-
-  @Transactional
-  public void deleteByTravelId(String travelId) {
-    travelPeopleRepository.deleteByTravelId(travelId);
   }
 
   private Specification<TravelPeople> toSpecification(TravelPeopleCriteria criteria) {

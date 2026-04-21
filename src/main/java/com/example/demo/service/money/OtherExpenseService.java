@@ -35,27 +35,6 @@ public class OtherExpenseService {
     return otherExpenseRepository.findAll(toSpecification(criteria), pageable);
   }
 
-  public Optional<OtherExpense> findByExpenseId(String expenseId) {
-    return otherExpenseRepository.findByExpenseId(expenseId);
-  }
-
-  public Page<OtherExpense> findByDescription(
-      String description, PageFromOne page, BoundedPageSize pageSize) {
-    Pageable pageable = PageUtils.createPageable(page, pageSize);
-
-    return otherExpenseRepository.findByDescriptionContainingIgnoreCase(description, pageable);
-  }
-
-  @Transactional
-  public OtherExpense create(OtherExpense otherExpense) {
-    return otherExpenseRepository.save(otherExpense);
-  }
-
-  @Transactional
-  public OtherExpense update(OtherExpense otherExpense) {
-    return otherExpenseRepository.save(otherExpense);
-  }
-
   @Transactional
   public List<OtherExpense> createOrUpdateAll(List<OtherExpense> otherExpenses) {
     return otherExpenseRepository.saveAll(otherExpenses);

@@ -35,24 +35,6 @@ public class EquipmentService {
     return equipmentRepository.findAll(toSpecification(criteria), pageable);
   }
 
-  public List<Equipment> findAll() {
-    return equipmentRepository.findAll();
-  }
-
-  public List<Equipment> findByWarehouseId(String warehouseId) {
-    return equipmentRepository.findByWarehouseId(warehouseId);
-  }
-
-  @Transactional
-  public Equipment create(Equipment equipment) {
-    return equipmentRepository.save(equipment);
-  }
-
-  @Transactional
-  public Equipment update(Equipment equipment) {
-    return equipmentRepository.save(equipment);
-  }
-
   @Transactional
   public List<Equipment> createOrUpdateAll(List<Equipment> equipmentList) {
     return equipmentRepository.saveAll(equipmentList);
@@ -61,10 +43,6 @@ public class EquipmentService {
   @Transactional
   public void deleteById(String id) {
     equipmentRepository.deleteById(id);
-  }
-
-  public boolean existsById(String id) {
-    return equipmentRepository.existsById(id);
   }
 
   private Specification<Equipment> toSpecification(EquipmentCriteria criteria) {

@@ -35,26 +35,6 @@ public class TravelExpenseService {
     return travelExpenseRepository.findAll(toSpecification(criteria), pageable);
   }
 
-  public Optional<TravelExpense> findByExpenseId(String expenseId) {
-    return travelExpenseRepository.findByExpenseId(expenseId);
-  }
-
-  public Page<TravelExpense> findByDepartureLocation(
-      PageFromOne page, BoundedPageSize pageSize, String location) {
-    Pageable pageable = PageUtils.createPageable(page, pageSize);
-    return travelExpenseRepository.findByDepartureLocationContainingIgnoreCase(location, pageable);
-  }
-
-  @Transactional
-  public TravelExpense create(TravelExpense travelExpense) {
-    return travelExpenseRepository.save(travelExpense);
-  }
-
-  @Transactional
-  public TravelExpense update(TravelExpense travelExpense) {
-    return travelExpenseRepository.save(travelExpense);
-  }
-
   @Transactional
   public List<TravelExpense> createOrUpdateAll(List<TravelExpense> travelExpenses) {
     return travelExpenseRepository.saveAll(travelExpenses);

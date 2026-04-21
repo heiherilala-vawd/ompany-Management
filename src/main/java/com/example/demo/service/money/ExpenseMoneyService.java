@@ -36,16 +36,6 @@ public class ExpenseMoneyService {
   }
 
   @Transactional
-  public ExpenseMoney create(ExpenseMoney expenseMoney) {
-    return expenseMoneyRepository.save(expenseMoney);
-  }
-
-  @Transactional
-  public ExpenseMoney update(ExpenseMoney expenseMoney) {
-    return expenseMoneyRepository.save(expenseMoney);
-  }
-
-  @Transactional
   public List<ExpenseMoney> createOrUpdateAll(List<ExpenseMoney> expenses) {
     return expenseMoneyRepository.saveAll(expenses);
   }

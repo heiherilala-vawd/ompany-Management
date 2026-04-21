@@ -2996,6 +2996,73 @@ paths:
 
 
   # =========================
+  # HISTORY
+  # =========================
+  /histories:
+    get:
+      tags:
+        - History
+      summary: Get modification history with filters
+      description: Retrieve the history of modifications with optional filters for user, entity type, entity id, and date range.
+      operationId: getHistories
+      parameters:
+        - name: page
+          in: query
+          schema:
+            $ref: '#/components/schemas/Page'
+        - name: page_size
+          in: query
+          schema:
+            $ref: '#/components/schemas/PageSize'
+        - name: user_id
+          in: query
+          description: "Filter by user who made the modification"
+          schema:
+            type: string
+        - name: entity_type
+          in: query
+          description: "Filter by entity type"
+          schema:
+            $ref: '#/components/schemas/EntityType'
+        - name: entity_id
+          in: query
+          description: "Filter by entity identifier"
+          schema:
+            type: string
+        - name: date_from
+          in: query
+          description: "Filter modifications from this date (inclusive)"
+          schema:
+            type: string
+            format: date-time
+        - name: date_to
+          in: query
+          description: "Filter modifications until this date (inclusive)"
+          schema:
+            type: string
+            format: date-time
+      responses:
+        '200':
+          description: List of history entries
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/History'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+
+
+  # =========================
   # TRAVEL EQUIPMENT
   # =========================
   '/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/travel_expenses/{travel_expenses_id}/travel_equipment/{id}':
@@ -3283,6 +3350,25 @@ components:
       enum:
         - BTP
         - HOTEL
+    EntityType:
+      type: string
+      enum:
+        - USER
+        - COMPANY
+        - JOB
+        - WAREHOUSE
+        - EQUIPMENT
+        - MATERIAL
+        - INCOME_MONEY
+        - EXPENSE_MONEY
+        - EMPLOYEE_PAYMENT
+        - TRAVEL_EXPENSE
+        - TRAVEL_PEOPLE
+        - TRAVEL_MATERIALS
+        - TRAVEL_EQUIPMENT
+        - PURCHASE
+        - BANK_FEE
+        - OTHER_EXPENSE
     JobStatus:
       type: string
       enum:
@@ -3843,6 +3929,33 @@ components:
           type: string
         description:
           type: string
+
+    # =========================
+    # HISTORY
+    # =========================
+    History:
+      type: object
+      properties:
+        id:
+          type: string
+        previous_value:
+          type: string
+          description: "Serialized previous value of the entity"
+        new_value:
+          type: string
+          description: "Serialized new value of the entity"
+        user_id:
+          type: string
+          description: "ID of the user who made the modification"
+        modified_at:
+          type: string
+          format: date-time
+          description: "Date and time of the modification"
+        entity_type:
+          $ref: '#/components/schemas/EntityType'
+        entity_id:
+          type: string
+          description: "ID of the modified entity"
 
     # =========================
     # AuthResponse

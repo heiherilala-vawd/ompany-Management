@@ -35,24 +35,6 @@ public class MaterialService {
     return materialRepository.findAll(toSpecification(criteria), pageable);
   }
 
-  public List<Material> findAll() {
-    return materialRepository.findAll();
-  }
-
-  public List<Material> findByWarehouseId(String warehouseId) {
-    return materialRepository.findByWarehouseId(warehouseId);
-  }
-
-  @Transactional
-  public Material create(Material material) {
-    return materialRepository.save(material);
-  }
-
-  @Transactional
-  public Material update(Material material) {
-    return materialRepository.save(material);
-  }
-
   @Transactional
   public List<Material> createOrUpdateAll(List<Material> materials) {
     return materialRepository.saveAll(materials);
@@ -61,10 +43,6 @@ public class MaterialService {
   @Transactional
   public void deleteById(String id) {
     materialRepository.deleteById(id);
-  }
-
-  public boolean existsById(String id) {
-    return materialRepository.existsById(id);
   }
 
   private Specification<Material> toSpecification(MaterialCriteria criteria) {
