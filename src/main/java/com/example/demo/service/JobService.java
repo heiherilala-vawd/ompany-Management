@@ -8,7 +8,9 @@ import com.example.demo.model.Job;
 import com.example.demo.model.PageFromOne;
 import com.example.demo.model.criteria.JobCriteria;
 import com.example.demo.repository.JobRepository;
+import com.example.demo.service.utils.ModificationUtils;
 import com.example.demo.service.utils.PageUtils;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class JobService {
 
   private final JobRepository jobRepository;
+  private final ModificationUtils modificationUtils;
 
   public Optional<Job> findById(String id) {
     return jobRepository.findById(id);
@@ -36,7 +39,14 @@ public class JobService {
 
   @Transactional
   public List<Job> createOrUpdateAll(List<Job> jobs) {
-    return jobRepository.saveAll(jobs);
+    List<Job> processedJobs = new ArrayList<>();
+    for (Job job : jobs) {
+      Job existingJob = jobRepository.findById(job.getId()).orElse(null);
+      modificationUtils.createOrUpdateModel(
+          job, existingJob, job.getId(), modificationUtils.takePrimaryUser());
+      processedJobs.add(job);
+    }
+    return jobRepository.saveAll(processedJobs);
   }
 
   @Transactional

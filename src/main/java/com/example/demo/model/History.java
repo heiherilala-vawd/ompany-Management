@@ -38,7 +38,6 @@ public class History implements Serializable {
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id")
-  @ToString.Exclude
   private User user;
 
   @Column(name = "modified_at", nullable = false)
@@ -72,13 +71,13 @@ public class History implements Serializable {
     WAREHOUSE,
     EQUIPMENT,
     MATERIAL,
-    INCOME_MONEY,
-    EXPENSE_MONEY,
+    INCOMEMONEY,
+    EXPENSEMONEY,
     EMPLOYEE_PAYMENT,
     TRAVEL_EXPENSE,
-    TRAVEL_PEOPLE,
-    TRAVEL_MATERIALS,
-    TRAVEL_EQUIPMENT,
+    TRAVELPEOPLE,
+    TRAVELMATERIALS,
+    TRAVELEQUIPMENT,
     PURCHASE,
     BANK_FEE,
     OTHER_EXPENSE

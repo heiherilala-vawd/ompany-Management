@@ -2,6 +2,7 @@ package com.example.demo.model.money;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -29,6 +30,7 @@ public class OtherExpense implements Serializable {
 
   @OneToOne
   @JoinColumn(name = "expense_id")
+  @JsonManagedReference
   private ExpenseMoney expense;
 
   private String description;
@@ -44,5 +46,19 @@ public class OtherExpense implements Serializable {
   @Override
   public int hashCode() {
     return getClass().hashCode();
+  }
+
+  @Override
+  public String toString() {
+    return "OtherExpense{"
+        + "id='"
+        + id
+        + '\''
+        + ", expense="
+        + (expense != null ? expense.getId() : null)
+        + ", description='"
+        + description
+        + '\''
+        + '}';
   }
 }

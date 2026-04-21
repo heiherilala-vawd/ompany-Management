@@ -4,6 +4,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 
 import com.example.demo.model.movement.Equipment;
 import com.example.demo.model.movement.Material;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -29,8 +30,9 @@ public class Purchase implements Serializable {
   @GeneratedValue(strategy = IDENTITY)
   private String id;
 
-  @ManyToOne
+  @OneToOne
   @JoinColumn(name = "expense_id")
+  @JsonManagedReference
   private ExpenseMoney expense;
 
   private String supplier;
@@ -58,5 +60,27 @@ public class Purchase implements Serializable {
   @Override
   public int hashCode() {
     return getClass().hashCode();
+  }
+
+  @Override
+  public String toString() {
+    return "Purchase{"
+        + "id='"
+        + id
+        + '\''
+        + ", expense="
+        + (expense != null ? expense.getId() : null)
+        + ", supplier='"
+        + supplier
+        + '\''
+        + ", equipment="
+        + (equipment != null ? equipment.getId() + ":" + equipment.getName() : null)
+        + ", material="
+        + (material != null ? material.getId() + ":" + material.getName() : null)
+        + ", quantity="
+        + quantity
+        + ", isEquipment="
+        + isEquipment
+        + '}';
   }
 }
