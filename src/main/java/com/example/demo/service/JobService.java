@@ -9,7 +9,6 @@ import com.example.demo.model.PageFromOne;
 import com.example.demo.model.criteria.JobCriteria;
 import com.example.demo.repository.JobRepository;
 import com.example.demo.service.utils.PageUtils;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -35,28 +34,6 @@ public class JobService {
     return jobRepository.findAll(toSpecification(criteria), pageable);
   }
 
-  public List<Job> findAll() {
-    return jobRepository.findAll();
-  }
-
-  public List<Job> findByCompanyIdOrderByStartDateDesc(String companyId) {
-    return jobRepository.findByCompanyIdOrderByStartDateDesc(companyId);
-  }
-
-  public List<Job> findByStartDateBetween(LocalDate startDate, LocalDate endDate) {
-    return jobRepository.findByStartDateBetween(startDate, endDate);
-  }
-
-  @Transactional
-  public Job create(Job job) {
-    return jobRepository.save(job);
-  }
-
-  @Transactional
-  public Job update(Job job) {
-    return jobRepository.save(job);
-  }
-
   @Transactional
   public List<Job> createOrUpdateAll(List<Job> jobs) {
     return jobRepository.saveAll(jobs);
@@ -65,10 +42,6 @@ public class JobService {
   @Transactional
   public void deleteById(String id) {
     jobRepository.deleteById(id);
-  }
-
-  public boolean existsById(String id) {
-    return jobRepository.existsById(id);
   }
 
   private Specification<Job> toSpecification(JobCriteria criteria) {

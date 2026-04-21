@@ -59,9 +59,8 @@ public class AuthService {
     }
     user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-    modificationUtils.createOrUpdateModel(user, null, null);
     User savedUser = userRepository.save(user);
-    modificationUtils.createOrUpdateModel(savedUser, null, savedUser);
+    modificationUtils.createOrUpdateModel(savedUser, null, savedUser.getId(), savedUser);
     savedUser = userRepository.save(user);
 
     Authentication authentication =

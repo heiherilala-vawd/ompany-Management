@@ -29,28 +29,10 @@ public class CompanyService {
     return companyRepository.findById(id);
   }
 
-  public Optional<Company> findByName(String name) {
-    return companyRepository.findByName(name);
-  }
-
   public Page<Company> findAll(
       PageFromOne page, BoundedPageSize pageSize, CompanyCriteria criteria) {
     Pageable pageable = PageUtils.createPageable(page, pageSize);
     return companyRepository.findAll(toSpecification(criteria), pageable);
-  }
-
-  public List<Company> findAll() {
-    return companyRepository.findAll();
-  }
-
-  @Transactional
-  public Company create(Company company) {
-    return companyRepository.save(company);
-  }
-
-  @Transactional
-  public Company update(Company company) {
-    return companyRepository.save(company);
   }
 
   @Transactional
@@ -61,10 +43,6 @@ public class CompanyService {
   @Transactional
   public void deleteById(String id) {
     companyRepository.deleteById(id);
-  }
-
-  public boolean existsById(String id) {
-    return companyRepository.existsById(id);
   }
 
   private Specification<Company> toSpecification(CompanyCriteria criteria) {

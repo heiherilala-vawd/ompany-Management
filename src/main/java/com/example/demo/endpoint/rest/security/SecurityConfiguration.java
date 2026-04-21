@@ -274,6 +274,8 @@ public class SecurityConfiguration {
                         DELETE,
                         "/companies/*/job/*/user/*/expenses/*/travel_expenses/*/travel_equipment/*")
                     .hasRole("ADMIN")
+                    .requestMatchers("/histories")
+                    .authenticated()
 
                     // =========================
                     // DEFAULT - Toute autre requête non auizer

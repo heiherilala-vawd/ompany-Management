@@ -35,37 +35,6 @@ public class PurchaseService {
     return purchaseRepository.findAll(toSpecification(criteria), pageable);
   }
 
-  public Page<Purchase> findByExpenseId(
-      String expenseId, PageFromOne page, BoundedPageSize pageSize) {
-    Pageable pageable = PageUtils.createPageable(page, pageSize);
-
-    return purchaseRepository.findByExpenseId(expenseId, pageable);
-  }
-
-  public Page<Purchase> findBySupplier(
-      String supplier, PageFromOne page, BoundedPageSize pageSize) {
-    Pageable pageable = PageUtils.createPageable(page, pageSize);
-
-    return purchaseRepository.findBySupplierContainingIgnoreCase(supplier, pageable);
-  }
-
-  public Page<Purchase> findByIsEquipment(
-      Boolean isEquipment, PageFromOne page, BoundedPageSize pageSize) {
-    Pageable pageable = PageUtils.createPageable(page, pageSize);
-
-    return purchaseRepository.findByIsEquipment(isEquipment, pageable);
-  }
-
-  @Transactional
-  public Purchase create(Purchase purchase) {
-    return purchaseRepository.save(purchase);
-  }
-
-  @Transactional
-  public Purchase update(Purchase purchase) {
-    return purchaseRepository.save(purchase);
-  }
-
   @Transactional
   public List<Purchase> createOrUpdateAll(List<Purchase> purchases) {
     return purchaseRepository.saveAll(purchases);

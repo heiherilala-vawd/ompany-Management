@@ -40,7 +40,7 @@ public class UserService {
         throw new ForbiddenException("That endpoint can not create.");
       }
       modificationUtils.createOrUpdateModel(
-          user, existingUser, modificationUtils.takePrimaryUser());
+          user, existingUser, user.getId(), modificationUtils.takePrimaryUser());
       usersToSave.add(user);
     }
     return repository.saveAll(usersToSave);

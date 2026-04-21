@@ -1,4 +1,5 @@
 -- Nettoyage des données de test (ordre FK inverse)
+DELETE FROM "history";
 DELETE FROM "travel_equipment";
 DELETE FROM "travel_materials";
 DELETE FROM "travel_people";

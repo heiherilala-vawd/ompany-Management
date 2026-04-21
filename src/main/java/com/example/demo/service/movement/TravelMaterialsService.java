@@ -34,25 +34,6 @@ public class TravelMaterialsService {
     return travelMaterialsRepository.findAll(toSpecification(criteria), pageable);
   }
 
-  public List<TravelMaterials> findByTravelId(String travelId) {
-    return travelMaterialsRepository.findByTravelId(travelId);
-  }
-
-  @Transactional
-  public TravelMaterials create(TravelMaterials travelMaterials) {
-    return travelMaterialsRepository.save(travelMaterials);
-  }
-
-  @Transactional
-  public TravelMaterials update(TravelMaterials travelMaterials) {
-    return travelMaterialsRepository.save(travelMaterials);
-  }
-
-  @Transactional
-  public void updateQuantityReceived(String id, Integer quantityReceived) {
-    travelMaterialsRepository.updateQuantityReceived(id, quantityReceived);
-  }
-
   @Transactional
   public List<TravelMaterials> createOrUpdateAll(List<TravelMaterials> materialsList) {
     return travelMaterialsRepository.saveAll(materialsList);
@@ -61,11 +42,6 @@ public class TravelMaterialsService {
   @Transactional
   public void deleteById(String id) {
     travelMaterialsRepository.deleteById(id);
-  }
-
-  @Transactional
-  public void deleteByTravelId(String travelId) {
-    travelMaterialsRepository.deleteByTravelId(travelId);
   }
 
   private Specification<TravelMaterials> toSpecification(TravelMaterialsCriteria criteria) {
