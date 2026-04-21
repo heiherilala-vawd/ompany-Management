@@ -1,7 +1,5 @@
 package com.example.demo.model.money;
 
-import static jakarta.persistence.GenerationType.IDENTITY;
-
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.io.Serializable;
@@ -24,9 +22,7 @@ import org.hibernate.Hibernate;
 @NoArgsConstructor
 public class OtherExpense implements Serializable {
 
-  @Id
-  @GeneratedValue(strategy = IDENTITY)
-  private String id;
+  @Id private String id;
 
   @OneToOne
   @JoinColumn(name = "expense_id")

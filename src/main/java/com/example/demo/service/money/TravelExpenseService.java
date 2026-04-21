@@ -8,6 +8,7 @@ import com.example.demo.model.PageFromOne;
 import com.example.demo.model.criteria.TravelExpenseCriteria;
 import com.example.demo.model.money.TravelExpense;
 import com.example.demo.repository.money.TravelExpenseRepository;
+import com.example.demo.service.utils.ModificationUtils;
 import com.example.demo.service.utils.PageUtils;
 import java.util.List;
 import java.util.Optional;
@@ -24,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class TravelExpenseService {
 
   private final TravelExpenseRepository travelExpenseRepository;
+  private final ModificationUtils modificationUtils;
 
   public Optional<TravelExpense> findById(String id) {
     return travelExpenseRepository.findById(id);

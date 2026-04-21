@@ -9,6 +9,7 @@ import com.example.demo.service.utils.PageUtils;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -118,6 +119,7 @@ public class HistoryService {
 
     History history =
         History.builder()
+            .id(UUID.randomUUID().toString())
             .user(creater)
             .modifiedAt(Instant.now())
             .entityType(

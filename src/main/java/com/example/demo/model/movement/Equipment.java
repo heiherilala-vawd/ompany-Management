@@ -1,7 +1,5 @@
 package com.example.demo.model.movement;
 
-import static jakarta.persistence.GenerationType.IDENTITY;
-
 import com.example.demo.model.CreatAndUpdateEntity;
 import jakarta.persistence.*;
 import java.io.Serializable;
@@ -24,9 +22,7 @@ import org.hibernate.Hibernate;
 @NoArgsConstructor
 public class Equipment extends CreatAndUpdateEntity implements Serializable {
 
-  @Id
-  @GeneratedValue(strategy = IDENTITY)
-  private String id;
+  @Id private String id;
 
   private String name;
 

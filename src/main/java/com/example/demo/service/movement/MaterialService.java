@@ -42,7 +42,10 @@ public class MaterialService {
   public List<Material> createOrUpdateAll(List<Material> materials) {
     List<Material> processedMaterials = new ArrayList<>();
     for (Material material : materials) {
-      Material existingMaterial = materialRepository.findById(material.getId()).orElse(null);
+      Material existingMaterial =
+          material.getId() == null
+              ? null
+              : materialRepository.findById(material.getId()).orElse(null);
       modificationUtils.createOrUpdateModel(
           material, existingMaterial, material.getId(), modificationUtils.takePrimaryUser());
       processedMaterials.add(material);
