@@ -1,7 +1,5 @@
 package com.example.demo.model;
 
-import static jakarta.persistence.GenerationType.IDENTITY;
-
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -26,9 +24,7 @@ import org.hibernate.type.SqlTypes;
 @NoArgsConstructor
 public class Job extends CreatAndUpdateEntity implements Serializable {
 
-  @Id
-  @GeneratedValue(strategy = IDENTITY)
-  private String id;
+  @Id private String id;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "company_id")

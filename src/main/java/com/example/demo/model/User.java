@@ -1,7 +1,5 @@
 package com.example.demo.model;
 
-import static jakarta.persistence.GenerationType.IDENTITY;
-
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -31,9 +29,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @AllArgsConstructor
 @NoArgsConstructor
 public class User extends CreatAndUpdateEntity implements Serializable, UserDetails {
-  @Id
-  @GeneratedValue(strategy = IDENTITY)
-  private String id;
+  @Id private String id;
 
   @Enumerated(EnumType.STRING)
   @JdbcTypeCode(SqlTypes.NAMED_ENUM)

@@ -42,7 +42,9 @@ public class CompanyService {
   public List<Company> createOrUpdateAll(List<Company> companies) {
     List<Company> processedCompanies = new ArrayList<>();
     for (Company company : companies) {
-      Company existingCompany = companyRepository.findById(company.getId()).orElse(null);
+
+      Company existingCompany =
+          company.getId() == null ? null : companyRepository.findById(company.getId()).orElse(null);
       modificationUtils.createOrUpdateModel(
           company, existingCompany, company.getId(), modificationUtils.takePrimaryUser());
       processedCompanies.add(company);

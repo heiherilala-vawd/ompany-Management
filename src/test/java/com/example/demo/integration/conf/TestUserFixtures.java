@@ -5,6 +5,7 @@ import com.example.demo.client.model.Role;
 import com.example.demo.client.model.Sex;
 import com.example.demo.client.model.User;
 import java.time.Instant;
+import java.util.UUID;
 
 final class TestUserFixtures {
 
@@ -90,6 +91,7 @@ final class TestUserFixtures {
 
   static CrupdateUser someCreatableUser() {
     CrupdateUser user = new CrupdateUser();
+    user.setId(UUID.randomUUID().toString());
     user.setFirstName("Test");
     user.setLastName("User");
     user.setEmail(TestUtils.RANDOM_EMAIL);

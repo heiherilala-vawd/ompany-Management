@@ -8,6 +8,7 @@ import com.example.demo.model.PageFromOne;
 import com.example.demo.model.criteria.PurchaseCriteria;
 import com.example.demo.model.money.Purchase;
 import com.example.demo.repository.money.PurchaseRepository;
+import com.example.demo.service.utils.ModificationUtils;
 import com.example.demo.service.utils.PageUtils;
 import java.util.List;
 import java.util.Optional;
@@ -24,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class PurchaseService {
 
   private final PurchaseRepository purchaseRepository;
+  private final ModificationUtils modificationUtils;
 
   public Optional<Purchase> findById(String id) {
     return purchaseRepository.findById(id);

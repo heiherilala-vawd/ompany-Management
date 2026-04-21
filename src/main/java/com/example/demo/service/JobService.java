@@ -41,7 +41,8 @@ public class JobService {
   public List<Job> createOrUpdateAll(List<Job> jobs) {
     List<Job> processedJobs = new ArrayList<>();
     for (Job job : jobs) {
-      Job existingJob = jobRepository.findById(job.getId()).orElse(null);
+      Job existingJob =
+          job.getId() == null ? null : jobRepository.findById(job.getId()).orElse(null);
       modificationUtils.createOrUpdateModel(
           job, existingJob, job.getId(), modificationUtils.takePrimaryUser());
       processedJobs.add(job);

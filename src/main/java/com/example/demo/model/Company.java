@@ -1,7 +1,5 @@
 package com.example.demo.model;
 
-import static jakarta.persistence.GenerationType.IDENTITY;
-
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import java.io.Serializable;
@@ -26,9 +24,7 @@ import org.hibernate.type.SqlTypes;
 @NoArgsConstructor
 public class Company extends CreatAndUpdateEntity implements Serializable {
 
-  @Id
-  @GeneratedValue(strategy = IDENTITY)
-  private String id;
+  @Id private String id;
 
   @NotBlank(message = "Name is mandatory")
   private String name;

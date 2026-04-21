@@ -8,6 +8,7 @@ import com.example.demo.model.PageFromOne;
 import com.example.demo.model.criteria.EmployeePaymentCriteria;
 import com.example.demo.model.money.EmployeePayment;
 import com.example.demo.repository.money.EmployeePaymentRepository;
+import com.example.demo.service.utils.ModificationUtils;
 import com.example.demo.service.utils.PageUtils;
 import java.util.List;
 import java.util.Optional;
@@ -24,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class EmployeePaymentService {
 
   private final EmployeePaymentRepository employeePaymentRepository;
+  private final ModificationUtils modificationUtils;
 
   public Optional<EmployeePayment> findById(String id) {
     return employeePaymentRepository.findById(id);

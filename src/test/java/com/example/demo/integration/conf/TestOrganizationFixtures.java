@@ -13,6 +13,7 @@ import com.example.demo.client.model.JobStatus;
 import com.example.demo.client.model.Material;
 import com.example.demo.client.model.Warehouse;
 import java.time.LocalDate;
+import java.util.UUID;
 
 final class TestOrganizationFixtures {
 
@@ -51,6 +52,7 @@ final class TestOrganizationFixtures {
 
   static CrupdateCompany someCreatableCompany() {
     CrupdateCompany company = new CrupdateCompany();
+    company.setId(UUID.randomUUID().toString());
     company.setName("New Company");
     company.setRib("FR0012345678901234567890123");
     company.setDescription("Nouvelle entreprise");
@@ -97,6 +99,7 @@ final class TestOrganizationFixtures {
 
   static CrupdateJob someCreatableJob() {
     CrupdateJob job = new CrupdateJob();
+    job.setId(UUID.randomUUID().toString());
     job.setCompanyId(TestUtils.COMPANY1_ID);
     job.setDescription("Nouveau chantier");
     job.setContractSignatureDate(LocalDate.parse("2024-04-01"));
@@ -136,6 +139,7 @@ final class TestOrganizationFixtures {
 
   static CrupdateWarehouse someCreatableWarehouse() {
     CrupdateWarehouse warehouse = new CrupdateWarehouse();
+    warehouse.setId(UUID.randomUUID().toString());
     warehouse.setName("Entrepôt Est");
     warehouse.setDescription("Stockage temporaire");
     warehouse.setJobId(TestUtils.JOB1_ID);
@@ -189,6 +193,7 @@ final class TestOrganizationFixtures {
 
   static CrupdateEquipment someCreatableEquipment() {
     CrupdateEquipment equipment = new CrupdateEquipment();
+    equipment.setId(UUID.randomUUID().toString());
     equipment.setName("Marteau-piqueur");
     equipment.setDescription("Outil de demolition");
     equipment.setWarehouseId(TestUtils.WAREHOUSE1_ID);
@@ -244,6 +249,7 @@ final class TestOrganizationFixtures {
 
   static CrupdateMaterial someCreatableMaterial() {
     CrupdateMaterial material = new CrupdateMaterial();
+    material.setId(UUID.randomUUID().toString());
     material.setName("Sable");
     material.setDescription("Sable fin");
     material.setWarehouseId(TestUtils.WAREHOUSE1_ID);

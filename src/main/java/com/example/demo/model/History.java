@@ -1,7 +1,5 @@
 package com.example.demo.model;
 
-import static jakarta.persistence.GenerationType.IDENTITY;
-
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
@@ -26,9 +24,7 @@ import org.hibernate.type.SqlTypes;
 @NoArgsConstructor
 public class History implements Serializable {
 
-  @Id
-  @GeneratedValue(strategy = IDENTITY)
-  private String id;
+  @Id private String id;
 
   @Column(columnDefinition = "TEXT")
   private String previousValue;

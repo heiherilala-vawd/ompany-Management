@@ -10,6 +10,7 @@ import com.example.demo.client.model.TravelExpense;
 import com.example.demo.client.model.TravelMaterials;
 import com.example.demo.client.model.TravelPeople;
 import java.time.Instant;
+import java.util.UUID;
 
 final class TestTravelFixtures {
 
@@ -50,6 +51,7 @@ final class TestTravelFixtures {
 
   static CrupdateTravelExpense someCreatableTravelExpense() {
     CrupdateTravelExpense travelExpense = new CrupdateTravelExpense();
+    travelExpense.setId(UUID.randomUUID().toString());
     travelExpense.setExpenseId(TestUtils.EXPENSE1_ID);
     travelExpense.setDepartureLocation("Mahajanga");
     travelExpense.setArrivalLocation("Antananarivo");
@@ -85,6 +87,7 @@ final class TestTravelFixtures {
 
   static CrupdateTravelPeople someCreatableTravelPeople() {
     CrupdateTravelPeople crupdateTravelPeople = new CrupdateTravelPeople();
+    crupdateTravelPeople.setId(UUID.randomUUID().toString());
     crupdateTravelPeople.setTravelId(TestUtils.TRAVEL_EXPENSE1_ID);
     crupdateTravelPeople.setPersonName("Nouveau passager");
     return crupdateTravelPeople;
@@ -124,6 +127,7 @@ final class TestTravelFixtures {
 
   static CrupdateTravelMaterials someCreatableTravelMaterials() {
     CrupdateTravelMaterials crupdateTravelMaterials = new CrupdateTravelMaterials();
+    crupdateTravelMaterials.setId(UUID.randomUUID().toString());
     crupdateTravelMaterials.setTravelId(TestUtils.TRAVEL_EXPENSE1_ID);
     crupdateTravelMaterials.setMaterial(TestUtils.MATERIAL3_ID);
     crupdateTravelMaterials.setQuantity(3);
@@ -165,6 +169,7 @@ final class TestTravelFixtures {
 
   static CrupdateTravelEquipment someCreatableTravelEquipment() {
     CrupdateTravelEquipment crupdateTravelEquipment = new CrupdateTravelEquipment();
+    crupdateTravelEquipment.setId(UUID.randomUUID().toString());
     crupdateTravelEquipment.setTravelId(TestUtils.TRAVEL_EXPENSE1_ID);
     crupdateTravelEquipment.setEquipment(TestUtils.EQUIPMENT3_ID);
     crupdateTravelEquipment.setQuantity(1);

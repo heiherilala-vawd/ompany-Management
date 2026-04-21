@@ -1,7 +1,5 @@
 package com.example.demo.model.money;
 
-import static jakarta.persistence.GenerationType.IDENTITY;
-
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -23,9 +21,7 @@ import org.hibernate.Hibernate;
 @NoArgsConstructor
 public class IncomeMoney extends MonetaryMovement implements Serializable {
 
-  @Id
-  @GeneratedValue(strategy = IDENTITY)
-  private String id;
+  @Id private String id;
 
   private String sourceOrganization;
 

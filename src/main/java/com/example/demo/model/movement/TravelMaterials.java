@@ -1,7 +1,5 @@
 package com.example.demo.model.movement;
 
-import static jakarta.persistence.GenerationType.IDENTITY;
-
 import com.example.demo.model.CreatAndUpdateEntity;
 import com.example.demo.model.money.TravelExpense;
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -26,9 +24,7 @@ import org.hibernate.Hibernate;
 @NoArgsConstructor
 public class TravelMaterials extends CreatAndUpdateEntity implements Serializable {
 
-  @Id
-  @GeneratedValue(strategy = IDENTITY)
-  private String id;
+  @Id private String id;
 
   @ManyToOne
   @JoinColumn(name = "travel_id")

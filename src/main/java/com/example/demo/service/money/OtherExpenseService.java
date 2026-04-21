@@ -8,6 +8,7 @@ import com.example.demo.model.PageFromOne;
 import com.example.demo.model.criteria.OtherExpenseCriteria;
 import com.example.demo.model.money.OtherExpense;
 import com.example.demo.repository.money.OtherExpenseRepository;
+import com.example.demo.service.utils.ModificationUtils;
 import com.example.demo.service.utils.PageUtils;
 import java.util.List;
 import java.util.Optional;
@@ -24,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class OtherExpenseService {
 
   private final OtherExpenseRepository otherExpenseRepository;
+  private final ModificationUtils modificationUtils;
 
   public Optional<OtherExpense> findById(String id) {
     return otherExpenseRepository.findById(id);
