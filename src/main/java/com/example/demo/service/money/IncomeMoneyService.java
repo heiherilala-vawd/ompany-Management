@@ -35,28 +35,6 @@ public class IncomeMoneyService {
     return incomeMoneyRepository.findAll(toSpecification(criteria), pageable);
   }
 
-  public Optional<IncomeMoney> findByInvoiceReference(String invoiceReference) {
-    return incomeMoneyRepository.findByInvoiceReference(invoiceReference);
-  }
-
-  public Page<IncomeMoney> findBySourceOrganization(
-      PageFromOne page, BoundedPageSize pageSize, String sourceOrganization) {
-    Pageable pageable = PageUtils.createPageable(page, pageSize);
-
-    return incomeMoneyRepository.findBySourceOrganizationContainingIgnoreCase(
-        sourceOrganization, pageable);
-  }
-
-  @Transactional
-  public IncomeMoney create(IncomeMoney incomeMoney) {
-    return incomeMoneyRepository.save(incomeMoney);
-  }
-
-  @Transactional
-  public IncomeMoney update(IncomeMoney incomeMoney) {
-    return incomeMoneyRepository.save(incomeMoney);
-  }
-
   @Transactional
   public List<IncomeMoney> createOrUpdateAll(List<IncomeMoney> incomes) {
     return incomeMoneyRepository.saveAll(incomes);

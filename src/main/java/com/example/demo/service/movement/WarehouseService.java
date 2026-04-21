@@ -35,22 +35,8 @@ public class WarehouseService {
     return warehouseRepository.findAll(toSpecification(criteria), pageable);
   }
 
-  public List<Warehouse> findAll() {
-    return warehouseRepository.findAll();
-  }
-
   public List<Warehouse> findByJobId(String jobId) {
     return warehouseRepository.findByJobId(jobId);
-  }
-
-  @Transactional
-  public Warehouse create(Warehouse warehouse) {
-    return warehouseRepository.save(warehouse);
-  }
-
-  @Transactional
-  public Warehouse update(Warehouse warehouse) {
-    return warehouseRepository.save(warehouse);
   }
 
   @Transactional
@@ -61,10 +47,6 @@ public class WarehouseService {
   @Transactional
   public void deleteById(String id) {
     warehouseRepository.deleteById(id);
-  }
-
-  public boolean existsById(String id) {
-    return warehouseRepository.existsById(id);
   }
 
   private Specification<Warehouse> toSpecification(WarehouseCriteria criteria) {

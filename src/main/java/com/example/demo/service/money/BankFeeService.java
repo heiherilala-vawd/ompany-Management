@@ -35,26 +35,6 @@ public class BankFeeService {
     return bankFeeRepository.findAll(toSpecification(criteria), pageable);
   }
 
-  public Optional<BankFee> findByExpenseId(String expenseId) {
-    return bankFeeRepository.findByExpenseId(expenseId);
-  }
-
-  public Page<BankFee> findByBankName(String bankName, PageFromOne page, BoundedPageSize pageSize) {
-    Pageable pageable = PageUtils.createPageable(page, pageSize);
-
-    return bankFeeRepository.findByBankNameContainingIgnoreCase(bankName, pageable);
-  }
-
-  @Transactional
-  public BankFee create(BankFee bankFee) {
-    return bankFeeRepository.save(bankFee);
-  }
-
-  @Transactional
-  public BankFee update(BankFee bankFee) {
-    return bankFeeRepository.save(bankFee);
-  }
-
   @Transactional
   public List<BankFee> createOrUpdateAll(List<BankFee> bankFees) {
     return bankFeeRepository.saveAll(bankFees);

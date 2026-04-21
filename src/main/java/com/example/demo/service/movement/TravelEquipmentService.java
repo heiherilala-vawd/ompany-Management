@@ -34,26 +34,6 @@ public class TravelEquipmentService {
     return travelEquipmentRepository.findAll(toSpecification(criteria), pageable);
   }
 
-  public List<TravelEquipment> findByTravelId(String travelId) {
-    return travelEquipmentRepository.findByTravelId(travelId);
-  }
-
-  public Page<TravelEquipment> findByStatus(
-      TravelEquipment.TransportStatus status, PageFromOne page, BoundedPageSize pageSize) {
-    Pageable pageable = PageUtils.createPageable(page, pageSize);
-    return travelEquipmentRepository.findByStatus(status, pageable);
-  }
-
-  @Transactional
-  public TravelEquipment create(TravelEquipment travelEquipment) {
-    return travelEquipmentRepository.save(travelEquipment);
-  }
-
-  @Transactional
-  public TravelEquipment update(TravelEquipment travelEquipment) {
-    return travelEquipmentRepository.save(travelEquipment);
-  }
-
   @Transactional
   public List<TravelEquipment> createOrUpdateAll(List<TravelEquipment> equipmentList) {
     return travelEquipmentRepository.saveAll(equipmentList);
@@ -62,11 +42,6 @@ public class TravelEquipmentService {
   @Transactional
   public void deleteById(String id) {
     travelEquipmentRepository.deleteById(id);
-  }
-
-  @Transactional
-  public void deleteByTravelId(String travelId) {
-    travelEquipmentRepository.deleteByTravelId(travelId);
   }
 
   private Specification<TravelEquipment> toSpecification(TravelEquipmentCriteria criteria) {

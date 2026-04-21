@@ -35,34 +35,6 @@ public class EmployeePaymentService {
     return employeePaymentRepository.findAll(toSpecification(criteria), pageable);
   }
 
-  public List<EmployeePayment> findAll() {
-    return employeePaymentRepository.findAll();
-  }
-
-  public Page<EmployeePayment> findByEmployeeId(
-      String employeeId, PageFromOne page, BoundedPageSize pageSize) {
-    Pageable pageable = PageUtils.createPageable(page, pageSize);
-
-    return employeePaymentRepository.findByEmployeeId(employeeId, pageable);
-  }
-
-  public Page<EmployeePayment> findByPaymentType(
-      EmployeePayment.PaymentType paymentType, PageFromOne page, BoundedPageSize pageSize) {
-    Pageable pageable = PageUtils.createPageable(page, pageSize);
-
-    return employeePaymentRepository.findByPaymentType(paymentType, pageable);
-  }
-
-  @Transactional
-  public EmployeePayment create(EmployeePayment employeePayment) {
-    return employeePaymentRepository.save(employeePayment);
-  }
-
-  @Transactional
-  public EmployeePayment update(EmployeePayment employeePayment) {
-    return employeePaymentRepository.save(employeePayment);
-  }
-
   @Transactional
   public List<EmployeePayment> createOrUpdateAll(List<EmployeePayment> payments) {
     return employeePaymentRepository.saveAll(payments);
