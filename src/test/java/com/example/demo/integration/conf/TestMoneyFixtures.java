@@ -22,6 +22,7 @@ final class TestMoneyFixtures {
   static IncomeMoney income1() {
     IncomeMoney income = new IncomeMoney();
     income.setId(TestUtils.INCOME1_ID);
+    income.setJobId(TestUtils.JOB1_ID);
     income.setSourceOrganization("Client Alpha");
     income.setInvoiceReference("INV-2024-001");
     income.setAmount(150000);
@@ -32,6 +33,7 @@ final class TestMoneyFixtures {
   static IncomeMoney income2() {
     IncomeMoney income = new IncomeMoney();
     income.setId(TestUtils.INCOME2_ID);
+    income.setJobId(TestUtils.JOB1_ID);
     income.setSourceOrganization("Client Beta");
     income.setInvoiceReference("INV-2024-002");
     income.setAmount(275000);
@@ -62,6 +64,7 @@ final class TestMoneyFixtures {
 
   static ExpenseMoney expense1() {
     ExpenseMoney expense = new ExpenseMoney();
+    expense.setJobId(TestUtils.JOB1_ID);
     expense.setId(TestUtils.EXPENSE1_ID);
     expense.setAmount(45000);
     expense.setDescription("Achat materiaux chantier A");
@@ -71,6 +74,7 @@ final class TestMoneyFixtures {
   static ExpenseMoney expense2() {
     ExpenseMoney expense = new ExpenseMoney();
     expense.setId(TestUtils.EXPENSE2_ID);
+    expense.setJobId(TestUtils.JOB1_ID);
     expense.setAmount(80000);
     expense.setDescription("Paiement sous-traitant renovation");
     return expense;

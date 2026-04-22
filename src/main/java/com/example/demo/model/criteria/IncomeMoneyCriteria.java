@@ -10,4 +10,5 @@ public class IncomeMoneyCriteria {
   private String invoiceReference;
   private String description;
   private Integer amount;
+  private String jobId;
 }
