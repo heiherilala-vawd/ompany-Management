@@ -62,6 +62,7 @@ public class ExpenseMoneyService {
   private Specification<ExpenseMoney> toSpecification(ExpenseMoneyCriteria criteria) {
     return Specification.<ExpenseMoney>where(
             containsIgnoreCase(criteria.getDescription(), "description"))
-        .and(equal(criteria.getAmount(), "amount"));
+        .and(equal(criteria.getAmount(), "amount"))
+        .and(equal(criteria.getJobId(), "job", "id"));
   }
 }

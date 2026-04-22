@@ -8,4 +8,5 @@ import lombok.Setter;
 public class ExpenseMoneyCriteria {
   private String description;
   private Integer amount;
+  private String jobId;
 }

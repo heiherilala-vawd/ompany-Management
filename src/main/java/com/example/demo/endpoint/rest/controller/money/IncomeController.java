@@ -50,6 +50,7 @@ public class IncomeController {
     criteria.setInvoiceReference(invoiceReference);
     criteria.setDescription(description);
     criteria.setAmount(amount);
+    criteria.setJobId(job_id);
 
     return incomeMoneyService.findAll(page, pageSize, criteria).stream()
         .map(incomeMoneyMapper::toRestIncome)
@@ -63,6 +64,13 @@ public class IncomeController {
       @PathVariable String job_id,
       @PathVariable String user_id,
       @RequestBody List<CrupdateIncomeMoney> toWrite) {
+    // Set job_id from path if not provided
+    toWrite.forEach(
+        income -> {
+          if (income.getJobId() == null) {
+            income.setJobId(job_id);
+          }
+        });
     var saved =
         incomeMoneyService.createOrUpdateAll(
             toWrite.stream().map(incomeMoneyMapper::toDomain).toList());

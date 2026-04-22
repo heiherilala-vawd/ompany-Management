@@ -30,14 +30,13 @@ public class JobController {
             .orElseThrow(() -> new NotFoundException("Job with id " + id + " not found")));
   }
 
-  @GetMapping("/companies/{comp_id}/jobs")
+  @GetMapping("/companies/{companyId}/jobs")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public List<Job> getJobs(
-      @PathVariable String comp_id,
+      @PathVariable String companyId,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
       @RequestParam(name = "status", required = false) JobStatus status,
-      @RequestParam(name = "company_id", required = false) String companyId,
       @RequestParam(name = "description", required = false) String description) {
     JobCriteria criteria = new JobCriteria();
     criteria.setStatus(
