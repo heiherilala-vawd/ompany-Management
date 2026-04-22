@@ -35,11 +35,12 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   CrupdateIncomeMoney.JSON_PROPERTY_ID,
   CrupdateIncomeMoney.JSON_PROPERTY_SOURCE_ORGANIZATION,
   CrupdateIncomeMoney.JSON_PROPERTY_INVOICE_REFERENCE,
+  CrupdateIncomeMoney.JSON_PROPERTY_JOB_ID,
   CrupdateIncomeMoney.JSON_PROPERTY_AMOUNT,
   CrupdateIncomeMoney.JSON_PROPERTY_DESCRIPTION,
   CrupdateIncomeMoney.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-21T21:19:45.632936798+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-22T04:36:53.574595138+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdateIncomeMoney {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -49,6 +50,9 @@ public class CrupdateIncomeMoney {
 
   public static final String JSON_PROPERTY_INVOICE_REFERENCE = "invoice_reference";
   private String invoiceReference;
+
+  public static final String JSON_PROPERTY_JOB_ID = "job_id";
+  private String jobId;
 
   public static final String JSON_PROPERTY_AMOUNT = "amount";
   private Integer amount;
@@ -134,6 +138,31 @@ public class CrupdateIncomeMoney {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setInvoiceReference(String invoiceReference) {
     this.invoiceReference = invoiceReference;
+  }
+
+
+  public CrupdateIncomeMoney jobId(String jobId) {
+    this.jobId = jobId;
+    return this;
+  }
+
+   /**
+   * ID of the job this income is related to
+   * @return jobId
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_JOB_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getJobId() {
+    return jobId;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_JOB_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setJobId(String jobId) {
+    this.jobId = jobId;
   }
 
 
@@ -227,6 +256,7 @@ public class CrupdateIncomeMoney {
     return Objects.equals(this.id, crupdateIncomeMoney.id) &&
         Objects.equals(this.sourceOrganization, crupdateIncomeMoney.sourceOrganization) &&
         Objects.equals(this.invoiceReference, crupdateIncomeMoney.invoiceReference) &&
+        Objects.equals(this.jobId, crupdateIncomeMoney.jobId) &&
         Objects.equals(this.amount, crupdateIncomeMoney.amount) &&
         Objects.equals(this.description, crupdateIncomeMoney.description) &&
         Objects.equals(this.comment, crupdateIncomeMoney.comment);
@@ -234,7 +264,7 @@ public class CrupdateIncomeMoney {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, sourceOrganization, invoiceReference, amount, description, comment);
+    return Objects.hash(id, sourceOrganization, invoiceReference, jobId, amount, description, comment);
   }
 
   @Override
@@ -244,6 +274,7 @@ public class CrupdateIncomeMoney {
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    sourceOrganization: ").append(toIndentedString(sourceOrganization)).append("\n");
     sb.append("    invoiceReference: ").append(toIndentedString(invoiceReference)).append("\n");
+    sb.append("    jobId: ").append(toIndentedString(jobId)).append("\n");
     sb.append("    amount: ").append(toIndentedString(amount)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("    comment: ").append(toIndentedString(comment)).append("\n");

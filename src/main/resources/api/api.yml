@@ -490,10 +490,6 @@ paths:
           in: query
           schema:
             $ref: '#/components/schemas/JobStatus'
-        - name: company_id
-          in: query
-          schema:
-            type: string
         - name: description
           in: query
           description: "Filter jobs by description, case is ignored"
@@ -3671,6 +3667,9 @@ components:
           type: string
         invoice_reference:
           type: string
+        job_id:
+          type: string
+          description: "ID of the job this income is related to"
     CrupdateIncomeMoney:
       allOf:
         - $ref: '#/components/schemas/CrupdateMonetaryMovement'
@@ -3681,6 +3680,9 @@ components:
           type: string
         invoice_reference:
           type: string
+        job_id:
+          type: string
+          description: "ID of the job this income is related to"
 
     # =========================
     # EXPENSE
@@ -3691,12 +3693,18 @@ components:
       properties:
         id:
           type: string
+        job_id:
+          type: string
+          description: "ID of the job this expense is related to"
     CrupdateExpenseMoney:
       allOf:
         - $ref: '#/components/schemas/CrupdateMonetaryMovement'
       properties:
         id:
           type: string
+        job_id:
+          type: string
+          description: "ID of the job this expense is related to"
 
     # =========================
     # EMPLOYEE PAYMENT

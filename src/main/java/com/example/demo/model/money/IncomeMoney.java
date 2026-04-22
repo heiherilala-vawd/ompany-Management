@@ -1,5 +1,6 @@
 package com.example.demo.model.money;
 
+import com.example.demo.model.Job;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -26,6 +27,10 @@ public class IncomeMoney extends MonetaryMovement implements Serializable {
   private String sourceOrganization;
 
   private String invoiceReference;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "job_id")
+  private Job job;
 
   @Override
   public boolean equals(Object o) {

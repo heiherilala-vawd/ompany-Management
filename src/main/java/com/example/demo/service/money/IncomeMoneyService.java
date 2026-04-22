@@ -64,6 +64,7 @@ public class IncomeMoneyService {
             containsIgnoreCase(criteria.getSourceOrganization(), "sourceOrganization"))
         .and(containsIgnoreCase(criteria.getInvoiceReference(), "invoiceReference"))
         .and(containsIgnoreCase(criteria.getDescription(), "description"))
-        .and(equal(criteria.getAmount(), "amount"));
+        .and(equal(criteria.getAmount(), "amount"))
+        .and(equal(criteria.getJobId(), "job", "id"));
   }
 }

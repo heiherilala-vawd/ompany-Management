@@ -3,12 +3,15 @@ package com.example.demo.endpoint.rest.mapper.money;
 import com.example.demo.client.model.CrupdateExpenseMoney;
 import com.example.demo.client.model.ExpenseMoney;
 import com.example.demo.endpoint.rest.mapper.RestAuditMapperUtils;
+import com.example.demo.service.JobService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
 @AllArgsConstructor
 public class ExpenseMoneyMapper {
+
+  private final JobService jobService;
 
   public com.example.demo.model.money.ExpenseMoney toDomain(ExpenseMoney restExpense) {
     if (restExpense == null) return null;
@@ -18,6 +21,10 @@ public class ExpenseMoneyMapper {
         .amount(restExpense.getAmount())
         .description(restExpense.getDescription())
         .comment(restExpense.getComment())
+        .job(
+            restExpense.getJobId() != null
+                ? jobService.findById(restExpense.getJobId()).orElse(null)
+                : null)
         .build();
   }
 
@@ -29,6 +36,10 @@ public class ExpenseMoneyMapper {
         .amount(restExpense.getAmount())
         .description(restExpense.getDescription())
         .comment(restExpense.getComment())
+        .job(
+            restExpense.getJobId() != null
+                ? jobService.findById(restExpense.getJobId()).orElse(null)
+                : null)
         .build();
   }
 
@@ -39,6 +50,7 @@ public class ExpenseMoneyMapper {
     restExpense.setId(domainExpense.getId());
     restExpense.setAmount(domainExpense.getAmount());
     restExpense.setDescription(domainExpense.getDescription());
+    restExpense.setJobId(domainExpense.getJob() != null ? domainExpense.getJob().getId() : null);
     RestAuditMapperUtils.mapAuditFields(
         domainExpense,
         restExpense::setCreatedAt,

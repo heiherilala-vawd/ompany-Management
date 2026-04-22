@@ -33,14 +33,18 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  */
 @JsonPropertyOrder({
   CrupdateExpenseMoney.JSON_PROPERTY_ID,
+  CrupdateExpenseMoney.JSON_PROPERTY_JOB_ID,
   CrupdateExpenseMoney.JSON_PROPERTY_AMOUNT,
   CrupdateExpenseMoney.JSON_PROPERTY_DESCRIPTION,
   CrupdateExpenseMoney.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-21T21:19:45.632936798+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-22T04:36:53.574595138+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdateExpenseMoney {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
+
+  public static final String JSON_PROPERTY_JOB_ID = "job_id";
+  private String jobId;
 
   public static final String JSON_PROPERTY_AMOUNT = "amount";
   private Integer amount;
@@ -76,6 +80,31 @@ public class CrupdateExpenseMoney {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setId(String id) {
     this.id = id;
+  }
+
+
+  public CrupdateExpenseMoney jobId(String jobId) {
+    this.jobId = jobId;
+    return this;
+  }
+
+   /**
+   * ID of the job this expense is related to
+   * @return jobId
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_JOB_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getJobId() {
+    return jobId;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_JOB_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setJobId(String jobId) {
+    this.jobId = jobId;
   }
 
 
@@ -167,6 +196,7 @@ public class CrupdateExpenseMoney {
     }
     CrupdateExpenseMoney crupdateExpenseMoney = (CrupdateExpenseMoney) o;
     return Objects.equals(this.id, crupdateExpenseMoney.id) &&
+        Objects.equals(this.jobId, crupdateExpenseMoney.jobId) &&
         Objects.equals(this.amount, crupdateExpenseMoney.amount) &&
         Objects.equals(this.description, crupdateExpenseMoney.description) &&
         Objects.equals(this.comment, crupdateExpenseMoney.comment);
@@ -174,7 +204,7 @@ public class CrupdateExpenseMoney {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, amount, description, comment);
+    return Objects.hash(id, jobId, amount, description, comment);
   }
 
   @Override
@@ -182,6 +212,7 @@ public class CrupdateExpenseMoney {
     StringBuilder sb = new StringBuilder();
     sb.append("class CrupdateExpenseMoney {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    jobId: ").append(toIndentedString(jobId)).append("\n");
     sb.append("    amount: ").append(toIndentedString(amount)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("    comment: ").append(toIndentedString(comment)).append("\n");

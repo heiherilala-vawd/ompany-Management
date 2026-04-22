@@ -46,6 +46,7 @@ public class ExpenseController {
     ExpenseMoneyCriteria criteria = new ExpenseMoneyCriteria();
     criteria.setDescription(description);
     criteria.setAmount(amount);
+    criteria.setJobId(job_id);
 
     return expenseMoneyService.findAll(page, pageSize, criteria).stream()
         .map(expenseMoneyMapper::toRestExpense)
@@ -59,6 +60,13 @@ public class ExpenseController {
       @PathVariable String job_id,
       @PathVariable String user_id,
       @RequestBody List<CrupdateExpenseMoney> toWrite) {
+    // Set job_id from path if not provided
+    toWrite.forEach(
+        expense -> {
+          if (expense.getJobId() == null) {
+            expense.setJobId(job_id);
+          }
+        });
     var saved =
         expenseMoneyService.createOrUpdateAll(
             toWrite.stream().map(expenseMoneyMapper::toDomain).toList());

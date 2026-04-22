@@ -3,12 +3,15 @@ package com.example.demo.endpoint.rest.mapper.money;
 import com.example.demo.client.model.CrupdateIncomeMoney;
 import com.example.demo.client.model.IncomeMoney;
 import com.example.demo.endpoint.rest.mapper.RestAuditMapperUtils;
+import com.example.demo.service.JobService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
 @AllArgsConstructor
 public class IncomeMoneyMapper {
+
+  private final JobService jobService;
 
   public com.example.demo.model.money.IncomeMoney toDomain(IncomeMoney restIncome) {
     if (restIncome == null) return null;
@@ -20,6 +23,10 @@ public class IncomeMoneyMapper {
         .amount(restIncome.getAmount())
         .description(restIncome.getDescription())
         .comment(restIncome.getComment())
+        .job(
+            restIncome.getJobId() != null
+                ? jobService.findById(restIncome.getJobId()).orElse(null)
+                : null)
         .build();
   }
 
@@ -33,6 +40,10 @@ public class IncomeMoneyMapper {
         .amount(restIncome.getAmount())
         .description(restIncome.getDescription())
         .comment(restIncome.getComment())
+        .job(
+            restIncome.getJobId() != null
+                ? jobService.findById(restIncome.getJobId()).orElse(null)
+                : null)
         .build();
   }
 
@@ -45,6 +56,7 @@ public class IncomeMoneyMapper {
     restIncome.setInvoiceReference(domainIncome.getInvoiceReference());
     restIncome.setAmount(domainIncome.getAmount());
     restIncome.setDescription(domainIncome.getDescription());
+    restIncome.setJobId(domainIncome.getJob() != null ? domainIncome.getJob().getId() : null);
     RestAuditMapperUtils.mapAuditFields(
         domainIncome,
         restIncome::setCreatedAt,

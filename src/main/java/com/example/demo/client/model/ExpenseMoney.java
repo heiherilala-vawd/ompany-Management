@@ -33,6 +33,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  */
 @JsonPropertyOrder({
   ExpenseMoney.JSON_PROPERTY_ID,
+  ExpenseMoney.JSON_PROPERTY_JOB_ID,
   ExpenseMoney.JSON_PROPERTY_AMOUNT,
   ExpenseMoney.JSON_PROPERTY_DESCRIPTION,
   ExpenseMoney.JSON_PROPERTY_CREATED_AT,
@@ -41,10 +42,13 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   ExpenseMoney.JSON_PROPERTY_UPDATED_BY,
   ExpenseMoney.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-21T21:19:45.632936798+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-22T04:36:53.574595138+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class ExpenseMoney {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
+
+  public static final String JSON_PROPERTY_JOB_ID = "job_id";
+  private String jobId;
 
   public static final String JSON_PROPERTY_AMOUNT = "amount";
   private Integer amount;
@@ -92,6 +96,31 @@ public class ExpenseMoney {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setId(String id) {
     this.id = id;
+  }
+
+
+  public ExpenseMoney jobId(String jobId) {
+    this.jobId = jobId;
+    return this;
+  }
+
+   /**
+   * ID of the job this expense is related to
+   * @return jobId
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_JOB_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getJobId() {
+    return jobId;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_JOB_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setJobId(String jobId) {
+    this.jobId = jobId;
   }
 
 
@@ -283,6 +312,7 @@ public class ExpenseMoney {
     }
     ExpenseMoney expenseMoney = (ExpenseMoney) o;
     return Objects.equals(this.id, expenseMoney.id) &&
+        Objects.equals(this.jobId, expenseMoney.jobId) &&
         Objects.equals(this.amount, expenseMoney.amount) &&
         Objects.equals(this.description, expenseMoney.description) &&
         Objects.equals(this.createdAt, expenseMoney.createdAt) &&
@@ -294,7 +324,7 @@ public class ExpenseMoney {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, amount, description, createdAt, updatedAt, createdBy, updatedBy, comment);
+    return Objects.hash(id, jobId, amount, description, createdAt, updatedAt, createdBy, updatedBy, comment);
   }
 
   @Override
@@ -302,6 +332,7 @@ public class ExpenseMoney {
     StringBuilder sb = new StringBuilder();
     sb.append("class ExpenseMoney {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    jobId: ").append(toIndentedString(jobId)).append("\n");
     sb.append("    amount: ").append(toIndentedString(amount)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");

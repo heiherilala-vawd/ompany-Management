@@ -51,7 +51,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-21T21:19:45.632936798+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-22T04:36:53.574595138+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class JobApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -343,13 +343,12 @@ public class JobApi {
    * @param page  (optional)
    * @param pageSize  (optional)
    * @param status  (optional)
-   * @param companyId  (optional)
    * @param description Filter jobs by description, case is ignored (optional)
    * @return List&lt;Job&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<Job> getJobs(String compId, Integer page, Integer pageSize, JobStatus status, String companyId, String description) throws ApiException {
-    ApiResponse<List<Job>> localVarResponse = getJobsWithHttpInfo(compId, page, pageSize, status, companyId, description);
+  public List<Job> getJobs(String compId, Integer page, Integer pageSize, JobStatus status, String description) throws ApiException {
+    ApiResponse<List<Job>> localVarResponse = getJobsWithHttpInfo(compId, page, pageSize, status, description);
     return localVarResponse.getData();
   }
 
@@ -360,13 +359,12 @@ public class JobApi {
    * @param page  (optional)
    * @param pageSize  (optional)
    * @param status  (optional)
-   * @param companyId  (optional)
    * @param description Filter jobs by description, case is ignored (optional)
    * @return ApiResponse&lt;List&lt;Job&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<Job>> getJobsWithHttpInfo(String compId, Integer page, Integer pageSize, JobStatus status, String companyId, String description) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getJobsRequestBuilder(compId, page, pageSize, status, companyId, description);
+  public ApiResponse<List<Job>> getJobsWithHttpInfo(String compId, Integer page, Integer pageSize, JobStatus status, String description) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getJobsRequestBuilder(compId, page, pageSize, status, description);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -394,7 +392,7 @@ public class JobApi {
     }
   }
 
-  private HttpRequest.Builder getJobsRequestBuilder(String compId, Integer page, Integer pageSize, JobStatus status, String companyId, String description) throws ApiException {
+  private HttpRequest.Builder getJobsRequestBuilder(String compId, Integer page, Integer pageSize, JobStatus status, String description) throws ApiException {
     // verify the required parameter 'compId' is set
     if (compId == null) {
       throw new ApiException(400, "Missing the required parameter 'compId' when calling getJobs");
@@ -414,8 +412,6 @@ public class JobApi {
     localVarQueryParams.addAll(ApiClient.parameterToPairs("page_size", pageSize));
     localVarQueryParameterBaseName = "status";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("status", status));
-    localVarQueryParameterBaseName = "company_id";
-    localVarQueryParams.addAll(ApiClient.parameterToPairs("company_id", companyId));
     localVarQueryParameterBaseName = "description";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("description", description));
 
