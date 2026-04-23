@@ -41,7 +41,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   History.JSON_PROPERTY_ENTITY_TYPE,
   History.JSON_PROPERTY_ENTITY_ID
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-22T04:36:53.574595138+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-23T01:11:15.462432384+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class History {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;

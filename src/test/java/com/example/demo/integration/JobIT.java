@@ -9,6 +9,7 @@ import com.example.demo.client.invoker.ApiClient;
 import com.example.demo.client.model.CrupdateJob;
 import com.example.demo.client.model.Job;
 import com.example.demo.client.model.JobStatus;
+import com.example.demo.client.model.User;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
 import com.example.demo.integration.conf.TestDataSqlLoader;
@@ -77,10 +78,10 @@ class JobIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     JobApi api = new JobApi(adminClient);
 
-    List<Job> jobs = api.getJobs(COMPANY2_ID, 1, 100, null, null);
+    List<Job> jobs = api.getJobs(COMPANY1_ID, 1, 100, null, null);
 
     assertEquals(1, jobs.size());
-    assertTrue(jobs.stream().anyMatch(job -> JOB2_ID.equals(job.getId())));
+    assertTrue(jobs.stream().anyMatch(job -> JOB1_ID.equals(job.getId())));
   }
 
   @Test
@@ -104,19 +105,19 @@ class JobIT {
 
   @Test
   void administration_can_filter_jobs_by_company_id() throws Exception {
-    ApiClient administrationClient = anApiClient(ADMINISTRATION_TOKEN);
-    JobApi api = new JobApi(administrationClient);
+    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
+    JobApi api = new JobApi(adminClient);
 
-    List<Job> jobs = api.getJobs(COMPANY1_ID, 1, 100, null, null);
+    List<Job> jobs = api.getJobs(COMPANY2_ID, 1, 100, null, null);
 
     assertEquals(1, jobs.size());
-    assertEquals(JOB1_ID, jobs.get(0).getId());
+    assertEquals(JOB2_ID, jobs.get(0).getId());
   }
 
   @Test
   void administration_can_filter_jobs_by_description() throws Exception {
-    ApiClient administrationClient = anApiClient(ADMINISTRATION_TOKEN);
-    JobApi api = new JobApi(administrationClient);
+    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
+    JobApi api = new JobApi(adminClient);
 
     List<Job> jobs = api.getJobs(COMPANY1_ID, 1, 100, null, "bâtiment A");
 
@@ -127,8 +128,8 @@ class JobIT {
   @Test
   @DirtiesContext
   void administration_can_update_jobs() throws Exception {
-    ApiClient administrationClient = anApiClient(ADMINISTRATION_TOKEN);
-    JobApi api = new JobApi(administrationClient);
+    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
+    JobApi api = new JobApi(adminClient);
 
     CrupdateJob jobToUpdate = jobToCrupdateJob(job1());
     jobToUpdate.setDescription("Construction du batiment A mise a jour");
@@ -152,11 +153,53 @@ class JobIT {
   }
 
   @Test
-  void administration_cannot_delete_job() {
-    ApiClient administrationClient = anApiClient(ADMINISTRATION_TOKEN);
-    JobApi api = new JobApi(administrationClient);
+  void employ_cannot_delete_job() {
+    ApiClient adminClient = anApiClient(EMPLOYEE_TOKEN);
+    JobApi api = new JobApi(adminClient);
 
     assertThrowsForbiddenException(() -> api.deleteJobById(COMPANY1_ID, JOB1_ID));
+  }
+
+  @Test
+  @DirtiesContext
+  void administration_can_assign_user_to_job() throws Exception {
+    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
+    JobApi api = new JobApi(adminClient);
+
+    api.assignUserToJob(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID);
+
+    List<User> users = api.getJobResponsibleUsers(COMPANY1_ID, JOB1_ID);
+    assertEquals(1, users.size());
+    assertEquals(EMPLOYEE_ID, users.get(0).getId());
+  }
+
+  @Test
+  @DirtiesContext
+  void administration_can_unassign_user_from_job() throws Exception {
+    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
+    JobApi api = new JobApi(adminClient);
+
+    api.assignUserToJob(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID);
+    api.unassignUserFromJob(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID);
+
+    List<User> users = api.getJobResponsibleUsers(COMPANY1_ID, JOB1_ID);
+    assertEquals(0, users.size());
+  }
+
+  @Test
+  void employee_cannot_assign_user_to_job() {
+    ApiClient employeeClient = anApiClient(EMPLOYEE_TOKEN);
+    JobApi api = new JobApi(employeeClient);
+
+    assertThrowsForbiddenException(() -> api.assignUserToJob(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID));
+  }
+
+  @Test
+  void warehouse_cannot_assign_user_to_job() {
+    ApiClient warehouseClient = anApiClient(WAREHOUSE_TOKEN);
+    JobApi api = new JobApi(warehouseClient);
+
+    assertThrowsForbiddenException(() -> api.assignUserToJob(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID));
   }
 
   static class ContextInitializer extends AbstractContextInitializer {

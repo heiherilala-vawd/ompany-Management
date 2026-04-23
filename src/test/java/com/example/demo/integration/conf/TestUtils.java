@@ -3,6 +3,7 @@ package com.example.demo.integration.conf;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import com.example.demo.client.invoker.ApiException;
 import com.example.demo.client.model.BankFee;
@@ -40,11 +41,14 @@ import com.example.demo.client.model.Warehouse;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.function.Executable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 public class TestUtils {
 
@@ -105,6 +109,23 @@ public class TestUtils {
   public static final Authentication USER1_AUTH = mock(Authentication.class);
   public static final Authentication USER2_AUTH = mock(Authentication.class);
   public static final Authentication RANDOM_AUTH = mock(Authentication.class);
+
+  static {
+    when(ADMIN_AUTH.getAuthorities())
+        .thenReturn((Collection) List.of(new SimpleGrantedAuthority("ROLE_ADMIN")));
+    when(WAREHOUSE_AUTH.getAuthorities())
+        .thenReturn((Collection) List.of(new SimpleGrantedAuthority("ROLE_WAREHOUSE_WORKER")));
+    when(EMPLOYEE_AUTH.getAuthorities())
+        .thenReturn((Collection) List.of(new SimpleGrantedAuthority("ROLE_EMPLOYEE")));
+    when(ADMINISTRATION_AUTH.getAuthorities())
+        .thenReturn((Collection) List.of(new SimpleGrantedAuthority("ROLE_ADMINISTRATION")));
+    when(USER1_AUTH.getAuthorities())
+        .thenReturn((Collection) List.of(new SimpleGrantedAuthority("ROLE_EMPLOYEE")));
+    when(USER2_AUTH.getAuthorities())
+        .thenReturn((Collection) List.of(new SimpleGrantedAuthority("ROLE_EMPLOYEE")));
+    when(RANDOM_AUTH.getAuthorities())
+        .thenReturn((Collection) List.of(new SimpleGrantedAuthority("ROLE_EMPLOYEE")));
+  }
 
   public static final String BAD_TOKEN = "bad_token";
   public static final String ADMIN_TOKEN = "admin_token";
