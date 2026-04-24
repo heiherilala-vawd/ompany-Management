@@ -19,6 +19,9 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import com.example.demo.client.model.CrupdateEquipment;
+import com.example.demo.client.model.CrupdateExpenseMoney;
+import com.example.demo.client.model.CrupdateMaterial;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -33,29 +36,29 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  */
 @JsonPropertyOrder({
   Purchase.JSON_PROPERTY_ID,
-  Purchase.JSON_PROPERTY_EXPENSE_ID,
+  Purchase.JSON_PROPERTY_EXPENSE,
   Purchase.JSON_PROPERTY_SUPPLIER,
   Purchase.JSON_PROPERTY_EQUIPMENT,
   Purchase.JSON_PROPERTY_MATERIAL,
   Purchase.JSON_PROPERTY_QUANTITY,
   Purchase.JSON_PROPERTY_IS_EQUIPMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-23T01:11:15.462432384+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-24T14:20:12.485117501+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class Purchase {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
 
-  public static final String JSON_PROPERTY_EXPENSE_ID = "expense_id";
-  private String expenseId;
+  public static final String JSON_PROPERTY_EXPENSE = "expense";
+  private CrupdateExpenseMoney expense;
 
   public static final String JSON_PROPERTY_SUPPLIER = "supplier";
   private String supplier;
 
   public static final String JSON_PROPERTY_EQUIPMENT = "equipment";
-  private String equipment;
+  private CrupdateEquipment equipment;
 
   public static final String JSON_PROPERTY_MATERIAL = "material";
-  private String material;
+  private CrupdateMaterial material;
 
   public static final String JSON_PROPERTY_QUANTITY = "quantity";
   private Integer quantity;
@@ -91,28 +94,28 @@ public class Purchase {
   }
 
 
-  public Purchase expenseId(String expenseId) {
-    this.expenseId = expenseId;
+  public Purchase expense(CrupdateExpenseMoney expense) {
+    this.expense = expense;
     return this;
   }
 
    /**
-   * Get expenseId
-   * @return expenseId
+   * Get expense
+   * @return expense
   **/
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_EXPENSE_ID)
+  @JsonProperty(JSON_PROPERTY_EXPENSE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getExpenseId() {
-    return expenseId;
+  public CrupdateExpenseMoney getExpense() {
+    return expense;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_EXPENSE_ID)
+  @JsonProperty(JSON_PROPERTY_EXPENSE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setExpenseId(String expenseId) {
-    this.expenseId = expenseId;
+  public void setExpense(CrupdateExpenseMoney expense) {
+    this.expense = expense;
   }
 
 
@@ -141,7 +144,7 @@ public class Purchase {
   }
 
 
-  public Purchase equipment(String equipment) {
+  public Purchase equipment(CrupdateEquipment equipment) {
     this.equipment = equipment;
     return this;
   }
@@ -154,19 +157,19 @@ public class Purchase {
   @JsonProperty(JSON_PROPERTY_EQUIPMENT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getEquipment() {
+  public CrupdateEquipment getEquipment() {
     return equipment;
   }
 
 
   @JsonProperty(JSON_PROPERTY_EQUIPMENT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setEquipment(String equipment) {
+  public void setEquipment(CrupdateEquipment equipment) {
     this.equipment = equipment;
   }
 
 
-  public Purchase material(String material) {
+  public Purchase material(CrupdateMaterial material) {
     this.material = material;
     return this;
   }
@@ -179,14 +182,14 @@ public class Purchase {
   @JsonProperty(JSON_PROPERTY_MATERIAL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getMaterial() {
+  public CrupdateMaterial getMaterial() {
     return material;
   }
 
 
   @JsonProperty(JSON_PROPERTY_MATERIAL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setMaterial(String material) {
+  public void setMaterial(CrupdateMaterial material) {
     this.material = material;
   }
 
@@ -254,7 +257,7 @@ public class Purchase {
     }
     Purchase purchase = (Purchase) o;
     return Objects.equals(this.id, purchase.id) &&
-        Objects.equals(this.expenseId, purchase.expenseId) &&
+        Objects.equals(this.expense, purchase.expense) &&
         Objects.equals(this.supplier, purchase.supplier) &&
         Objects.equals(this.equipment, purchase.equipment) &&
         Objects.equals(this.material, purchase.material) &&
@@ -264,7 +267,7 @@ public class Purchase {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, expenseId, supplier, equipment, material, quantity, isEquipment);
+    return Objects.hash(id, expense, supplier, equipment, material, quantity, isEquipment);
   }
 
   @Override
@@ -272,7 +275,7 @@ public class Purchase {
     StringBuilder sb = new StringBuilder();
     sb.append("class Purchase {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    expenseId: ").append(toIndentedString(expenseId)).append("\n");
+    sb.append("    expense: ").append(toIndentedString(expense)).append("\n");
     sb.append("    supplier: ").append(toIndentedString(supplier)).append("\n");
     sb.append("    equipment: ").append(toIndentedString(equipment)).append("\n");
     sb.append("    material: ").append(toIndentedString(material)).append("\n");
@@ -330,9 +333,9 @@ public class Purchase {
       joiner.add(String.format("%sid%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `expense_id` to the URL query string
-    if (getExpenseId() != null) {
-      joiner.add(String.format("%sexpense_id%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getExpenseId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    // add `expense` to the URL query string
+    if (getExpense() != null) {
+      joiner.add(getExpense().toUrlQueryString(prefix + "expense" + suffix));
     }
 
     // add `supplier` to the URL query string
@@ -342,12 +345,12 @@ public class Purchase {
 
     // add `equipment` to the URL query string
     if (getEquipment() != null) {
-      joiner.add(String.format("%sequipment%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getEquipment()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(getEquipment().toUrlQueryString(prefix + "equipment" + suffix));
     }
 
     // add `material` to the URL query string
     if (getMaterial() != null) {
-      joiner.add(String.format("%smaterial%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getMaterial()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(getMaterial().toUrlQueryString(prefix + "material" + suffix));
     }
 
     // add `quantity` to the URL query string

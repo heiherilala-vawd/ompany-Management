@@ -19,6 +19,7 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import com.example.demo.client.model.CrupdateJob;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -33,7 +34,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  */
 @JsonPropertyOrder({
   ExpenseMoney.JSON_PROPERTY_ID,
-  ExpenseMoney.JSON_PROPERTY_JOB_ID,
+  ExpenseMoney.JSON_PROPERTY_JOB,
   ExpenseMoney.JSON_PROPERTY_AMOUNT,
   ExpenseMoney.JSON_PROPERTY_DESCRIPTION,
   ExpenseMoney.JSON_PROPERTY_CREATED_AT,
@@ -42,13 +43,13 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   ExpenseMoney.JSON_PROPERTY_UPDATED_BY,
   ExpenseMoney.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-23T01:11:15.462432384+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-24T14:20:12.485117501+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class ExpenseMoney {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
 
-  public static final String JSON_PROPERTY_JOB_ID = "job_id";
-  private String jobId;
+  public static final String JSON_PROPERTY_JOB = "job";
+  private CrupdateJob job;
 
   public static final String JSON_PROPERTY_AMOUNT = "amount";
   private Integer amount;
@@ -99,28 +100,28 @@ public class ExpenseMoney {
   }
 
 
-  public ExpenseMoney jobId(String jobId) {
-    this.jobId = jobId;
+  public ExpenseMoney job(CrupdateJob job) {
+    this.job = job;
     return this;
   }
 
    /**
-   * ID of the job this expense is related to
-   * @return jobId
+   * Job this expense is related to
+   * @return job
   **/
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_JOB_ID)
+  @JsonProperty(JSON_PROPERTY_JOB)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getJobId() {
-    return jobId;
+  public CrupdateJob getJob() {
+    return job;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_JOB_ID)
+  @JsonProperty(JSON_PROPERTY_JOB)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setJobId(String jobId) {
-    this.jobId = jobId;
+  public void setJob(CrupdateJob job) {
+    this.job = job;
   }
 
 
@@ -312,7 +313,7 @@ public class ExpenseMoney {
     }
     ExpenseMoney expenseMoney = (ExpenseMoney) o;
     return Objects.equals(this.id, expenseMoney.id) &&
-        Objects.equals(this.jobId, expenseMoney.jobId) &&
+        Objects.equals(this.job, expenseMoney.job) &&
         Objects.equals(this.amount, expenseMoney.amount) &&
         Objects.equals(this.description, expenseMoney.description) &&
         Objects.equals(this.createdAt, expenseMoney.createdAt) &&
@@ -324,7 +325,7 @@ public class ExpenseMoney {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, jobId, amount, description, createdAt, updatedAt, createdBy, updatedBy, comment);
+    return Objects.hash(id, job, amount, description, createdAt, updatedAt, createdBy, updatedBy, comment);
   }
 
   @Override
@@ -332,7 +333,7 @@ public class ExpenseMoney {
     StringBuilder sb = new StringBuilder();
     sb.append("class ExpenseMoney {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    jobId: ").append(toIndentedString(jobId)).append("\n");
+    sb.append("    job: ").append(toIndentedString(job)).append("\n");
     sb.append("    amount: ").append(toIndentedString(amount)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");

@@ -2,8 +2,8 @@ package com.example.demo.endpoint.rest.mapper.movement;
 
 import com.example.demo.client.model.CrupdateMaterial;
 import com.example.demo.client.model.Material;
+import com.example.demo.endpoint.rest.mapper.EnumMapper;
 import com.example.demo.endpoint.rest.mapper.RestAuditMapperUtils;
-import com.example.demo.service.movement.WarehouseService;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -12,8 +12,6 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 public class MaterialMapper {
 
-  private final WarehouseService warehouseService;
-
   public com.example.demo.model.movement.Material toDomain(Material restMaterial) {
     if (restMaterial == null) return null;
 
@@ -21,12 +19,9 @@ public class MaterialMapper {
         .id(restMaterial.getId())
         .name(restMaterial.getName())
         .description(restMaterial.getDescription())
-        .warehouse(
-            restMaterial.getWarehouseId() != null
-                ? warehouseService.findById(restMaterial.getWarehouseId()).orElse(null)
-                : null)
-        .floorNumber(restMaterial.getFloorNumber())
-        .storageNumber(restMaterial.getStorageNumber())
+        .unit(
+            EnumMapper.mapEnum(
+                restMaterial.getUnit(), com.example.demo.model.movement.Material.Unit.class))
         .comment(restMaterial.getComment())
         .build();
   }
@@ -38,12 +33,9 @@ public class MaterialMapper {
         .id(restMaterial.getId())
         .name(restMaterial.getName())
         .description(restMaterial.getDescription())
-        .warehouse(
-            restMaterial.getWarehouseId() != null
-                ? warehouseService.findById(restMaterial.getWarehouseId()).orElse(null)
-                : null)
-        .floorNumber(restMaterial.getFloorNumber())
-        .storageNumber(restMaterial.getStorageNumber())
+        .unit(
+            EnumMapper.mapEnum(
+                restMaterial.getUnit(), com.example.demo.model.movement.Material.Unit.class))
         .comment(restMaterial.getComment())
         .build();
   }
@@ -55,10 +47,9 @@ public class MaterialMapper {
     restMaterial.setId(domainMaterial.getId());
     restMaterial.setName(domainMaterial.getName());
     restMaterial.setDescription(domainMaterial.getDescription());
-    restMaterial.setWarehouseId(
-        domainMaterial.getWarehouse() != null ? domainMaterial.getWarehouse().getId() : null);
-    restMaterial.setFloorNumber(domainMaterial.getFloorNumber());
-    restMaterial.setStorageNumber(domainMaterial.getStorageNumber());
+    restMaterial.setUnit(
+        EnumMapper.mapEnum(
+            domainMaterial.getUnit(), com.example.demo.client.model.MaterialUnit.class));
     RestAuditMapperUtils.mapAuditFields(
         domainMaterial,
         restMaterial::setCreatedAt,
@@ -68,6 +59,20 @@ public class MaterialMapper {
         restMaterial::setUpdatedBy);
 
     return restMaterial;
+  }
+
+  public CrupdateMaterial toRestCrupdateMaterial(
+      com.example.demo.model.movement.Material domainMaterial) {
+    if (domainMaterial == null) return null;
+
+    return new CrupdateMaterial()
+        .id(domainMaterial.getId())
+        .name(domainMaterial.getName())
+        .description(domainMaterial.getDescription())
+        .unit(
+            EnumMapper.mapEnum(
+                domainMaterial.getUnit(), com.example.demo.client.model.MaterialUnit.class))
+        .comment(domainMaterial.getComment());
   }
 
   public List<Material> toRestMaterials(

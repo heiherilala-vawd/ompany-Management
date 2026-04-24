@@ -19,6 +19,7 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import com.example.demo.client.model.CrupdateCompany;
 import com.example.demo.client.model.JobStatus;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -35,7 +36,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  */
 @JsonPropertyOrder({
   Job.JSON_PROPERTY_ID,
-  Job.JSON_PROPERTY_COMPANY_ID,
+  Job.JSON_PROPERTY_COMPANY,
   Job.JSON_PROPERTY_DESCRIPTION,
   Job.JSON_PROPERTY_CONTRACT_SIGNATURE_DATE,
   Job.JSON_PROPERTY_START_DATE,
@@ -47,13 +48,13 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   Job.JSON_PROPERTY_UPDATED_BY,
   Job.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-23T01:11:15.462432384+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-24T14:20:12.485117501+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class Job {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
 
-  public static final String JSON_PROPERTY_COMPANY_ID = "company_id";
-  private String companyId;
+  public static final String JSON_PROPERTY_COMPANY = "company";
+  private CrupdateCompany company;
 
   public static final String JSON_PROPERTY_DESCRIPTION = "description";
   private String description;
@@ -113,28 +114,28 @@ public class Job {
   }
 
 
-  public Job companyId(String companyId) {
-    this.companyId = companyId;
+  public Job company(CrupdateCompany company) {
+    this.company = company;
     return this;
   }
 
    /**
-   * Get companyId
-   * @return companyId
+   * Get company
+   * @return company
   **/
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_COMPANY_ID)
+  @JsonProperty(JSON_PROPERTY_COMPANY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getCompanyId() {
-    return companyId;
+  public CrupdateCompany getCompany() {
+    return company;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_COMPANY_ID)
+  @JsonProperty(JSON_PROPERTY_COMPANY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setCompanyId(String companyId) {
-    this.companyId = companyId;
+  public void setCompany(CrupdateCompany company) {
+    this.company = company;
   }
 
 
@@ -401,7 +402,7 @@ public class Job {
     }
     Job job = (Job) o;
     return Objects.equals(this.id, job.id) &&
-        Objects.equals(this.companyId, job.companyId) &&
+        Objects.equals(this.company, job.company) &&
         Objects.equals(this.description, job.description) &&
         Objects.equals(this.contractSignatureDate, job.contractSignatureDate) &&
         Objects.equals(this.startDate, job.startDate) &&
@@ -416,7 +417,7 @@ public class Job {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, companyId, description, contractSignatureDate, startDate, endDate, status, createdAt, updatedAt, createdBy, updatedBy, comment);
+    return Objects.hash(id, company, description, contractSignatureDate, startDate, endDate, status, createdAt, updatedAt, createdBy, updatedBy, comment);
   }
 
   @Override
@@ -424,7 +425,7 @@ public class Job {
     StringBuilder sb = new StringBuilder();
     sb.append("class Job {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    companyId: ").append(toIndentedString(companyId)).append("\n");
+    sb.append("    company: ").append(toIndentedString(company)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("    contractSignatureDate: ").append(toIndentedString(contractSignatureDate)).append("\n");
     sb.append("    startDate: ").append(toIndentedString(startDate)).append("\n");

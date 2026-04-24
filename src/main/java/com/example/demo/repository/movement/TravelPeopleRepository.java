@@ -15,7 +15,7 @@ public interface TravelPeopleRepository
 
   List<TravelPeople> findByTravelId(String travelId);
 
-  List<TravelPeople> findByPersonNameContainingIgnoreCase(String personName);
+  List<TravelPeople> findByUserId(String userId);
 
   void deleteByTravelId(String travelId);
 }

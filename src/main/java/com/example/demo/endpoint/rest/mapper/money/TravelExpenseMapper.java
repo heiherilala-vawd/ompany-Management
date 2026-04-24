@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 public class TravelExpenseMapper {
 
   private final ExpenseMoneyService expenseMoneyService;
+  private final ExpenseMoneyMapper expenseMoneyMapper;
 
   public com.example.demo.model.money.TravelExpense toDomain(TravelExpense restTravelExpense) {
     if (restTravelExpense == null) return null;
@@ -18,8 +19,8 @@ public class TravelExpenseMapper {
     return com.example.demo.model.money.TravelExpense.builder()
         .id(restTravelExpense.getId())
         .expense(
-            restTravelExpense.getExpenseId() != null
-                ? expenseMoneyService.findById(restTravelExpense.getExpenseId()).orElse(null)
+            restTravelExpense.getExpense() != null && restTravelExpense.getExpense().getId() != null
+                ? expenseMoneyService.findById(restTravelExpense.getExpense().getId()).orElse(null)
                 : null)
         .departureLocation(restTravelExpense.getDepartureLocation())
         .arrivalLocation(restTravelExpense.getArrivalLocation())
@@ -51,13 +52,29 @@ public class TravelExpenseMapper {
 
     TravelExpense restTravelExpense = new TravelExpense();
     restTravelExpense.setId(domainTravelExpense.getId());
-    restTravelExpense.setExpenseId(
-        domainTravelExpense.getExpense() != null ? domainTravelExpense.getExpense().getId() : null);
+    restTravelExpense.setExpense(
+        expenseMoneyMapper.toRestCrupdateExpense(domainTravelExpense.getExpense()));
     restTravelExpense.setDepartureLocation(domainTravelExpense.getDepartureLocation());
     restTravelExpense.setArrivalLocation(domainTravelExpense.getArrivalLocation());
     restTravelExpense.setDepartureDate(domainTravelExpense.getDepartureDate());
     restTravelExpense.setArrivalDate(domainTravelExpense.getArrivalDate());
 
     return restTravelExpense;
+  }
+
+  public CrupdateTravelExpense toRestCrupdateTravelExpense(
+      com.example.demo.model.money.TravelExpense domainTravelExpense) {
+    if (domainTravelExpense == null) return null;
+
+    return new CrupdateTravelExpense()
+        .id(domainTravelExpense.getId())
+        .expenseId(
+            domainTravelExpense.getExpense() != null
+                ? domainTravelExpense.getExpense().getId()
+                : null)
+        .departureLocation(domainTravelExpense.getDepartureLocation())
+        .arrivalLocation(domainTravelExpense.getArrivalLocation())
+        .departureDate(domainTravelExpense.getDepartureDate())
+        .arrivalDate(domainTravelExpense.getArrivalDate());
   }
 }

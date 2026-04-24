@@ -1057,10 +1057,6 @@ paths:
           in: query
           schema:
             $ref: '#/components/schemas/PageSize'
-        - name: warehouse_id
-          in: query
-          schema:
-            type: string
         - name: name
           in: query
           description: "Filter materials by name, case is ignored"
@@ -1071,14 +1067,10 @@ paths:
           description: "Filter materials by description, case is ignored"
           schema:
             type: string
-        - name: floor_number
+        - name: unit
           in: query
           schema:
-            type: integer
-        - name: storage_number
-          in: query
-          schema:
-            type: integer
+            $ref: '#/components/schemas/MaterialUnit'
       responses:
         '200':
           description: List of materials
@@ -2772,9 +2764,9 @@ paths:
           in: query
           schema:
             type: string
-        - name: person_name
+        - name: user_id
           in: query
-          description: "Filter travel people by person name, case is ignored"
+          description: "Filter travel people by user id"
           schema:
             type: string
       responses:
@@ -3603,8 +3595,8 @@ components:
       properties:
         id:
           type: string
-        company_id:
-          type: string
+        company:
+          $ref: '#/components/schemas/CrupdateCompany'
         description:
           type: string
         contract_signature_date:
@@ -3653,8 +3645,8 @@ components:
           type: string
         description:
           type: string
-        job_id:
-          type: string
+        job:
+          $ref: '#/components/schemas/CrupdateJob'
     CrupdateWarehouse:
       allOf:
         - $ref: '#/components/schemas/comment'
@@ -3681,8 +3673,8 @@ components:
           type: string
         description:
           type: string
-        warehouse_id:
-          type: string
+        warehouse:
+          $ref: '#/components/schemas/CrupdateWarehouse'
         floor_number:
           type: integer
         storage_number:
@@ -3707,6 +3699,23 @@ components:
     # =========================
     # MATERIAL
     # =========================
+    MaterialUnit:
+      type: string
+      enum:
+        - SAC
+        - L
+        - KG
+        - M2
+        - M3
+        - KIT
+        - POT
+        - PNL
+        - FEU
+        - BAR
+        - T
+        - M
+        - FFT
+        - U
     Material:
       allOf:
         - $ref: '#/components/schemas/AuditFields'
@@ -3717,12 +3726,8 @@ components:
           type: string
         description:
           type: string
-        warehouse_id:
-          type: string
-        floor_number:
-          type: integer
-        storage_number:
-          type: integer
+        unit:
+          $ref: '#/components/schemas/MaterialUnit'
     CrupdateMaterial:
       allOf:
         - $ref: '#/components/schemas/comment'
@@ -3733,12 +3738,8 @@ components:
           type: string
         description:
           type: string
-        warehouse_id:
-          type: string
-        floor_number:
-          type: integer
-        storage_number:
-          type: integer
+        unit:
+          $ref: '#/components/schemas/MaterialUnit'
 
     # =========================
     # MONETARY MOVEMENT
@@ -3773,9 +3774,10 @@ components:
           type: string
         invoice_reference:
           type: string
-        job_id:
-          type: string
-          description: "ID of the job this income is related to"
+        job:
+          allOf:
+            - $ref: '#/components/schemas/CrupdateJob'
+          description: "Job this income is related to"
     CrupdateIncomeMoney:
       allOf:
         - $ref: '#/components/schemas/CrupdateMonetaryMovement'
@@ -3799,9 +3801,10 @@ components:
       properties:
         id:
           type: string
-        job_id:
-          type: string
-          description: "ID of the job this expense is related to"
+        job:
+          allOf:
+            - $ref: '#/components/schemas/CrupdateJob'
+          description: "Job this expense is related to"
     CrupdateExpenseMoney:
       allOf:
         - $ref: '#/components/schemas/CrupdateMonetaryMovement'
@@ -3819,10 +3822,10 @@ components:
       properties:
         id:
           type: string
-        expense_id:
-          type: string
-        employee_id:
-          type: string
+        expense:
+          $ref: '#/components/schemas/CrupdateExpenseMoney'
+        employee:
+          $ref: '#/components/schemas/User'
         payment_description:
           type: string
         payment_type:
@@ -3847,8 +3850,8 @@ components:
       properties:
         id:
           type: string
-        expense_id:
-          type: string
+        expense:
+          $ref: '#/components/schemas/CrupdateExpenseMoney'
         departure_location:
           type: string
         arrival_location:
@@ -3885,10 +3888,10 @@ components:
       properties:
         id:
           type: string
-        travel_id:
-          type: string
-        person_name:
-          type: string
+        travel:
+          $ref: '#/components/schemas/CrupdateTravelExpense'
+        user:
+          $ref: '#/components/schemas/User'
     CrupdateTravelPeople:
       allOf:
         - $ref: '#/components/schemas/comment'
@@ -3897,7 +3900,7 @@ components:
           type: string
         travel_id:
           type: string
-        person_name:
+        user_id:
           type: string
 
     # =========================
@@ -3909,10 +3912,10 @@ components:
       properties:
         id:
           type: string
-        travel_id:
-          type: string
+        travel:
+          $ref: '#/components/schemas/CrupdateTravelExpense'
         material:
-          type: string
+          $ref: '#/components/schemas/CrupdateMaterial'
         quantity:
           type: integer
         quantity_received:
@@ -3941,10 +3944,10 @@ components:
       properties:
         id:
           type: string
-        travel_id:
-          type: string
+        travel:
+          $ref: '#/components/schemas/CrupdateTravelExpense'
         equipment:
-          type: string
+          $ref: '#/components/schemas/CrupdateEquipment'
         quantity:
           type: integer
         status:
@@ -3971,14 +3974,14 @@ components:
       properties:
         id:
           type: string
-        expense_id:
-          type: string
+        expense:
+          $ref: '#/components/schemas/CrupdateExpenseMoney'
         supplier:
           type: string
         equipment:
-          type: string
+          $ref: '#/components/schemas/CrupdateEquipment'
         material:
-          type: string
+          $ref: '#/components/schemas/CrupdateMaterial'
         quantity:
           type: integer
         is_equipment:
@@ -4007,8 +4010,8 @@ components:
       properties:
         id:
           type: string
-        expense_id:
-          type: string
+        expense:
+          $ref: '#/components/schemas/CrupdateExpenseMoney'
         bank_name:
           type: string
         description:
@@ -4031,8 +4034,8 @@ components:
       properties:
         id:
           type: string
-        expense_id:
-          type: string
+        expense:
+          $ref: '#/components/schemas/CrupdateExpenseMoney'
         description:
           type: string
     CrupdateOtherExpense:

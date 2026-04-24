@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 public class EquipmentMapper {
 
   private final WarehouseService warehouseService;
+  private final WarehouseMapper warehouseMapper;
 
   public com.example.demo.model.movement.Equipment toDomain(Equipment restEquipment) {
     if (restEquipment == null) return null;
@@ -22,8 +23,8 @@ public class EquipmentMapper {
         .name(restEquipment.getName())
         .description(restEquipment.getDescription())
         .warehouse(
-            restEquipment.getWarehouseId() != null
-                ? warehouseService.findById(restEquipment.getWarehouseId()).orElse(null)
+            restEquipment.getWarehouse() != null && restEquipment.getWarehouse().getId() != null
+                ? warehouseService.findById(restEquipment.getWarehouse().getId()).orElse(null)
                 : null)
         .floorNumber(restEquipment.getFloorNumber())
         .storageNumber(restEquipment.getStorageNumber())
@@ -55,8 +56,8 @@ public class EquipmentMapper {
     restEquipment.setId(domainEquipment.getId());
     restEquipment.setName(domainEquipment.getName());
     restEquipment.setDescription(domainEquipment.getDescription());
-    restEquipment.setWarehouseId(
-        domainEquipment.getWarehouse() != null ? domainEquipment.getWarehouse().getId() : null);
+    restEquipment.setWarehouse(
+        warehouseMapper.toRestCrupdateWarehouse(domainEquipment.getWarehouse()));
     restEquipment.setFloorNumber(domainEquipment.getFloorNumber());
     restEquipment.setStorageNumber(domainEquipment.getStorageNumber());
     RestAuditMapperUtils.mapAuditFields(
@@ -68,6 +69,21 @@ public class EquipmentMapper {
         restEquipment::setUpdatedBy);
 
     return restEquipment;
+  }
+
+  public CrupdateEquipment toRestCrupdateEquipment(
+      com.example.demo.model.movement.Equipment domainEquipment) {
+    if (domainEquipment == null) return null;
+
+    return new CrupdateEquipment()
+        .id(domainEquipment.getId())
+        .name(domainEquipment.getName())
+        .description(domainEquipment.getDescription())
+        .warehouseId(
+            domainEquipment.getWarehouse() != null ? domainEquipment.getWarehouse().getId() : null)
+        .floorNumber(domainEquipment.getFloorNumber())
+        .storageNumber(domainEquipment.getStorageNumber())
+        .comment(domainEquipment.getComment());
   }
 
   public List<Equipment> toRestEquipmentList(

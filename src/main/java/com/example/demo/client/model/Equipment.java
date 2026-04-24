@@ -19,6 +19,7 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import com.example.demo.client.model.CrupdateWarehouse;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -35,7 +36,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   Equipment.JSON_PROPERTY_ID,
   Equipment.JSON_PROPERTY_NAME,
   Equipment.JSON_PROPERTY_DESCRIPTION,
-  Equipment.JSON_PROPERTY_WAREHOUSE_ID,
+  Equipment.JSON_PROPERTY_WAREHOUSE,
   Equipment.JSON_PROPERTY_FLOOR_NUMBER,
   Equipment.JSON_PROPERTY_STORAGE_NUMBER,
   Equipment.JSON_PROPERTY_CREATED_AT,
@@ -44,7 +45,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   Equipment.JSON_PROPERTY_UPDATED_BY,
   Equipment.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-23T01:11:15.462432384+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-24T14:20:12.485117501+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class Equipment {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -55,8 +56,8 @@ public class Equipment {
   public static final String JSON_PROPERTY_DESCRIPTION = "description";
   private String description;
 
-  public static final String JSON_PROPERTY_WAREHOUSE_ID = "warehouse_id";
-  private String warehouseId;
+  public static final String JSON_PROPERTY_WAREHOUSE = "warehouse";
+  private CrupdateWarehouse warehouse;
 
   public static final String JSON_PROPERTY_FLOOR_NUMBER = "floor_number";
   private Integer floorNumber;
@@ -157,28 +158,28 @@ public class Equipment {
   }
 
 
-  public Equipment warehouseId(String warehouseId) {
-    this.warehouseId = warehouseId;
+  public Equipment warehouse(CrupdateWarehouse warehouse) {
+    this.warehouse = warehouse;
     return this;
   }
 
    /**
-   * Get warehouseId
-   * @return warehouseId
+   * Get warehouse
+   * @return warehouse
   **/
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_WAREHOUSE_ID)
+  @JsonProperty(JSON_PROPERTY_WAREHOUSE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getWarehouseId() {
-    return warehouseId;
+  public CrupdateWarehouse getWarehouse() {
+    return warehouse;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_WAREHOUSE_ID)
+  @JsonProperty(JSON_PROPERTY_WAREHOUSE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setWarehouseId(String warehouseId) {
-    this.warehouseId = warehouseId;
+  public void setWarehouse(CrupdateWarehouse warehouse) {
+    this.warehouse = warehouse;
   }
 
 
@@ -372,7 +373,7 @@ public class Equipment {
     return Objects.equals(this.id, equipment.id) &&
         Objects.equals(this.name, equipment.name) &&
         Objects.equals(this.description, equipment.description) &&
-        Objects.equals(this.warehouseId, equipment.warehouseId) &&
+        Objects.equals(this.warehouse, equipment.warehouse) &&
         Objects.equals(this.floorNumber, equipment.floorNumber) &&
         Objects.equals(this.storageNumber, equipment.storageNumber) &&
         Objects.equals(this.createdAt, equipment.createdAt) &&
@@ -384,7 +385,7 @@ public class Equipment {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, description, warehouseId, floorNumber, storageNumber, createdAt, updatedAt, createdBy, updatedBy, comment);
+    return Objects.hash(id, name, description, warehouse, floorNumber, storageNumber, createdAt, updatedAt, createdBy, updatedBy, comment);
   }
 
   @Override
@@ -394,7 +395,7 @@ public class Equipment {
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
-    sb.append("    warehouseId: ").append(toIndentedString(warehouseId)).append("\n");
+    sb.append("    warehouse: ").append(toIndentedString(warehouse)).append("\n");
     sb.append("    floorNumber: ").append(toIndentedString(floorNumber)).append("\n");
     sb.append("    storageNumber: ").append(toIndentedString(storageNumber)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");

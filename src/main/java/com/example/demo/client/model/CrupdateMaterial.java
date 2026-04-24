@@ -19,6 +19,7 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import com.example.demo.client.model.MaterialUnit;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -35,12 +36,10 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   CrupdateMaterial.JSON_PROPERTY_ID,
   CrupdateMaterial.JSON_PROPERTY_NAME,
   CrupdateMaterial.JSON_PROPERTY_DESCRIPTION,
-  CrupdateMaterial.JSON_PROPERTY_WAREHOUSE_ID,
-  CrupdateMaterial.JSON_PROPERTY_FLOOR_NUMBER,
-  CrupdateMaterial.JSON_PROPERTY_STORAGE_NUMBER,
+  CrupdateMaterial.JSON_PROPERTY_UNIT,
   CrupdateMaterial.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-23T01:11:15.462432384+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-24T14:20:12.485117501+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdateMaterial {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -51,14 +50,8 @@ public class CrupdateMaterial {
   public static final String JSON_PROPERTY_DESCRIPTION = "description";
   private String description;
 
-  public static final String JSON_PROPERTY_WAREHOUSE_ID = "warehouse_id";
-  private String warehouseId;
-
-  public static final String JSON_PROPERTY_FLOOR_NUMBER = "floor_number";
-  private Integer floorNumber;
-
-  public static final String JSON_PROPERTY_STORAGE_NUMBER = "storage_number";
-  private Integer storageNumber;
+  public static final String JSON_PROPERTY_UNIT = "unit";
+  private MaterialUnit unit;
 
   public static final String JSON_PROPERTY_COMMENT = "comment";
   private String comment;
@@ -141,78 +134,28 @@ public class CrupdateMaterial {
   }
 
 
-  public CrupdateMaterial warehouseId(String warehouseId) {
-    this.warehouseId = warehouseId;
+  public CrupdateMaterial unit(MaterialUnit unit) {
+    this.unit = unit;
     return this;
   }
 
    /**
-   * Get warehouseId
-   * @return warehouseId
+   * Get unit
+   * @return unit
   **/
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_WAREHOUSE_ID)
+  @JsonProperty(JSON_PROPERTY_UNIT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getWarehouseId() {
-    return warehouseId;
+  public MaterialUnit getUnit() {
+    return unit;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_WAREHOUSE_ID)
+  @JsonProperty(JSON_PROPERTY_UNIT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setWarehouseId(String warehouseId) {
-    this.warehouseId = warehouseId;
-  }
-
-
-  public CrupdateMaterial floorNumber(Integer floorNumber) {
-    this.floorNumber = floorNumber;
-    return this;
-  }
-
-   /**
-   * Get floorNumber
-   * @return floorNumber
-  **/
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_FLOOR_NUMBER)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-  public Integer getFloorNumber() {
-    return floorNumber;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_FLOOR_NUMBER)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setFloorNumber(Integer floorNumber) {
-    this.floorNumber = floorNumber;
-  }
-
-
-  public CrupdateMaterial storageNumber(Integer storageNumber) {
-    this.storageNumber = storageNumber;
-    return this;
-  }
-
-   /**
-   * Get storageNumber
-   * @return storageNumber
-  **/
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_STORAGE_NUMBER)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-  public Integer getStorageNumber() {
-    return storageNumber;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_STORAGE_NUMBER)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setStorageNumber(Integer storageNumber) {
-    this.storageNumber = storageNumber;
+  public void setUnit(MaterialUnit unit) {
+    this.unit = unit;
   }
 
 
@@ -256,15 +199,13 @@ public class CrupdateMaterial {
     return Objects.equals(this.id, crupdateMaterial.id) &&
         Objects.equals(this.name, crupdateMaterial.name) &&
         Objects.equals(this.description, crupdateMaterial.description) &&
-        Objects.equals(this.warehouseId, crupdateMaterial.warehouseId) &&
-        Objects.equals(this.floorNumber, crupdateMaterial.floorNumber) &&
-        Objects.equals(this.storageNumber, crupdateMaterial.storageNumber) &&
+        Objects.equals(this.unit, crupdateMaterial.unit) &&
         Objects.equals(this.comment, crupdateMaterial.comment);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, description, warehouseId, floorNumber, storageNumber, comment);
+    return Objects.hash(id, name, description, unit, comment);
   }
 
   @Override
@@ -274,9 +215,7 @@ public class CrupdateMaterial {
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
-    sb.append("    warehouseId: ").append(toIndentedString(warehouseId)).append("\n");
-    sb.append("    floorNumber: ").append(toIndentedString(floorNumber)).append("\n");
-    sb.append("    storageNumber: ").append(toIndentedString(storageNumber)).append("\n");
+    sb.append("    unit: ").append(toIndentedString(unit)).append("\n");
     sb.append("    comment: ").append(toIndentedString(comment)).append("\n");
     sb.append("}");
     return sb.toString();

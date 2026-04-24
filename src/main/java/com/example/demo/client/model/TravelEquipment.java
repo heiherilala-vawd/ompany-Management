@@ -19,6 +19,8 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import com.example.demo.client.model.CrupdateEquipment;
+import com.example.demo.client.model.CrupdateTravelExpense;
 import com.example.demo.client.model.TransportStatus;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -34,7 +36,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  */
 @JsonPropertyOrder({
   TravelEquipment.JSON_PROPERTY_ID,
-  TravelEquipment.JSON_PROPERTY_TRAVEL_ID,
+  TravelEquipment.JSON_PROPERTY_TRAVEL,
   TravelEquipment.JSON_PROPERTY_EQUIPMENT,
   TravelEquipment.JSON_PROPERTY_QUANTITY,
   TravelEquipment.JSON_PROPERTY_STATUS,
@@ -44,16 +46,16 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   TravelEquipment.JSON_PROPERTY_UPDATED_BY,
   TravelEquipment.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-23T01:11:15.462432384+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-24T14:20:12.485117501+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class TravelEquipment {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
 
-  public static final String JSON_PROPERTY_TRAVEL_ID = "travel_id";
-  private String travelId;
+  public static final String JSON_PROPERTY_TRAVEL = "travel";
+  private CrupdateTravelExpense travel;
 
   public static final String JSON_PROPERTY_EQUIPMENT = "equipment";
-  private String equipment;
+  private CrupdateEquipment equipment;
 
   public static final String JSON_PROPERTY_QUANTITY = "quantity";
   private Integer quantity;
@@ -104,32 +106,32 @@ public class TravelEquipment {
   }
 
 
-  public TravelEquipment travelId(String travelId) {
-    this.travelId = travelId;
+  public TravelEquipment travel(CrupdateTravelExpense travel) {
+    this.travel = travel;
     return this;
   }
 
    /**
-   * Get travelId
-   * @return travelId
+   * Get travel
+   * @return travel
   **/
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_TRAVEL_ID)
+  @JsonProperty(JSON_PROPERTY_TRAVEL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getTravelId() {
-    return travelId;
+  public CrupdateTravelExpense getTravel() {
+    return travel;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_TRAVEL_ID)
+  @JsonProperty(JSON_PROPERTY_TRAVEL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setTravelId(String travelId) {
-    this.travelId = travelId;
+  public void setTravel(CrupdateTravelExpense travel) {
+    this.travel = travel;
   }
 
 
-  public TravelEquipment equipment(String equipment) {
+  public TravelEquipment equipment(CrupdateEquipment equipment) {
     this.equipment = equipment;
     return this;
   }
@@ -142,14 +144,14 @@ public class TravelEquipment {
   @JsonProperty(JSON_PROPERTY_EQUIPMENT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getEquipment() {
+  public CrupdateEquipment getEquipment() {
     return equipment;
   }
 
 
   @JsonProperty(JSON_PROPERTY_EQUIPMENT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setEquipment(String equipment) {
+  public void setEquipment(CrupdateEquipment equipment) {
     this.equipment = equipment;
   }
 
@@ -342,7 +344,7 @@ public class TravelEquipment {
     }
     TravelEquipment travelEquipment = (TravelEquipment) o;
     return Objects.equals(this.id, travelEquipment.id) &&
-        Objects.equals(this.travelId, travelEquipment.travelId) &&
+        Objects.equals(this.travel, travelEquipment.travel) &&
         Objects.equals(this.equipment, travelEquipment.equipment) &&
         Objects.equals(this.quantity, travelEquipment.quantity) &&
         Objects.equals(this.status, travelEquipment.status) &&
@@ -355,7 +357,7 @@ public class TravelEquipment {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, travelId, equipment, quantity, status, createdAt, updatedAt, createdBy, updatedBy, comment);
+    return Objects.hash(id, travel, equipment, quantity, status, createdAt, updatedAt, createdBy, updatedBy, comment);
   }
 
   @Override
@@ -363,7 +365,7 @@ public class TravelEquipment {
     StringBuilder sb = new StringBuilder();
     sb.append("class TravelEquipment {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    travelId: ").append(toIndentedString(travelId)).append("\n");
+    sb.append("    travel: ").append(toIndentedString(travel)).append("\n");
     sb.append("    equipment: ").append(toIndentedString(equipment)).append("\n");
     sb.append("    quantity: ").append(toIndentedString(quantity)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");

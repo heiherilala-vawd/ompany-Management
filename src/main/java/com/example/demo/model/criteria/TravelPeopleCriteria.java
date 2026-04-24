@@ -7,5 +7,5 @@ import lombok.Setter;
 @Setter
 public class TravelPeopleCriteria {
   private String travelId;
-  private String personName;
+  private String userId;
 }

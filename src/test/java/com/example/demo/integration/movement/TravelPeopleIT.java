@@ -110,7 +110,10 @@ class TravelPeopleIT {
             null);
 
     assertEquals(2, list.size());
-    assertTrue(list.stream().allMatch(tp -> TRAVEL_EXPENSE1_ID.equals(tp.getTravelId())));
+    assertTrue(
+        list.stream()
+            .allMatch(
+                tp -> tp.getTravel() != null && TRAVEL_EXPENSE1_ID.equals(tp.getTravel().getId())));
   }
 
   @Test
@@ -127,10 +130,9 @@ class TravelPeopleIT {
             1,
             100,
             null,
-            "Bob");
+            EMPLOYEE_ID);
 
-    assertEquals(1, list.size());
-    assertEquals(TRAVEL_PEOPLE2_ID, list.get(0).getId());
+    assertEquals(2, list.size());
   }
 
   @Test
@@ -139,7 +141,7 @@ class TravelPeopleIT {
     TravelPeopleApi api = new TravelPeopleApi(anApiClient(EMPLOYEE_TOKEN));
 
     CrupdateTravelPeople toUpdate = travelPeopleToCrupdateTravelPeople(travelPeople2());
-    toUpdate.setPersonName("Robert Dupont");
+    toUpdate.setUserId(EMPLOYEE_ID);
 
     List<TravelPeople> updated =
         api.crupdateTravelPeople(
@@ -147,7 +149,7 @@ class TravelPeopleIT {
 
     assertEquals(1, updated.size());
     assertEquals(TRAVEL_PEOPLE2_ID, updated.get(0).getId());
-    assertEquals("Robert Dupont", updated.get(0).getPersonName());
+    assertEquals(EMPLOYEE_ID, updated.get(0).getUser().getId());
   }
 
   @Test

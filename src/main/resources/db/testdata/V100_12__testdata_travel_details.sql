@@ -1,7 +1,7 @@
-INSERT INTO "travel_people" (id, travel_id, person_name)
+INSERT INTO "travel_people" (id, travel_id, user_id)
 VALUES
-('travel_people1_id', 'travel_expense1_id', 'Alice Martin'),
-('travel_people2_id', 'travel_expense1_id', 'Bob Dupont');
+('travel_people1_id', 'travel_expense1_id', 'employee1_id'),
+('travel_people2_id', 'travel_expense1_id', 'employee1_id');
 
 INSERT INTO "travel_materials" (id, travel_id, material, quantity, quantity_received)
 VALUES
