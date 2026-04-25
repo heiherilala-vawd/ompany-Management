@@ -37,13 +37,13 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
   Purchase.JSON_PROPERTY_ID,
   Purchase.JSON_PROPERTY_EXPENSE,
-  Purchase.JSON_PROPERTY_SUPPLIER,
+  Purchase.JSON_PROPERTY_SUPPLIER_ID,
   Purchase.JSON_PROPERTY_EQUIPMENT,
   Purchase.JSON_PROPERTY_MATERIAL,
   Purchase.JSON_PROPERTY_QUANTITY,
   Purchase.JSON_PROPERTY_IS_EQUIPMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-24T14:20:12.485117501+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-25T09:42:59.450059343+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class Purchase {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -51,8 +51,8 @@ public class Purchase {
   public static final String JSON_PROPERTY_EXPENSE = "expense";
   private CrupdateExpenseMoney expense;
 
-  public static final String JSON_PROPERTY_SUPPLIER = "supplier";
-  private String supplier;
+  public static final String JSON_PROPERTY_SUPPLIER_ID = "supplier_id";
+  private String supplierId;
 
   public static final String JSON_PROPERTY_EQUIPMENT = "equipment";
   private CrupdateEquipment equipment;
@@ -119,28 +119,28 @@ public class Purchase {
   }
 
 
-  public Purchase supplier(String supplier) {
-    this.supplier = supplier;
+  public Purchase supplierId(String supplierId) {
+    this.supplierId = supplierId;
     return this;
   }
 
    /**
-   * Get supplier
-   * @return supplier
+   * Get supplierId
+   * @return supplierId
   **/
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SUPPLIER)
+  @JsonProperty(JSON_PROPERTY_SUPPLIER_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getSupplier() {
-    return supplier;
+  public String getSupplierId() {
+    return supplierId;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_SUPPLIER)
+  @JsonProperty(JSON_PROPERTY_SUPPLIER_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setSupplier(String supplier) {
-    this.supplier = supplier;
+  public void setSupplierId(String supplierId) {
+    this.supplierId = supplierId;
   }
 
 
@@ -258,7 +258,7 @@ public class Purchase {
     Purchase purchase = (Purchase) o;
     return Objects.equals(this.id, purchase.id) &&
         Objects.equals(this.expense, purchase.expense) &&
-        Objects.equals(this.supplier, purchase.supplier) &&
+        Objects.equals(this.supplierId, purchase.supplierId) &&
         Objects.equals(this.equipment, purchase.equipment) &&
         Objects.equals(this.material, purchase.material) &&
         Objects.equals(this.quantity, purchase.quantity) &&
@@ -267,7 +267,7 @@ public class Purchase {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, expense, supplier, equipment, material, quantity, isEquipment);
+    return Objects.hash(id, expense, supplierId, equipment, material, quantity, isEquipment);
   }
 
   @Override
@@ -276,7 +276,7 @@ public class Purchase {
     sb.append("class Purchase {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    expense: ").append(toIndentedString(expense)).append("\n");
-    sb.append("    supplier: ").append(toIndentedString(supplier)).append("\n");
+    sb.append("    supplierId: ").append(toIndentedString(supplierId)).append("\n");
     sb.append("    equipment: ").append(toIndentedString(equipment)).append("\n");
     sb.append("    material: ").append(toIndentedString(material)).append("\n");
     sb.append("    quantity: ").append(toIndentedString(quantity)).append("\n");
@@ -338,9 +338,9 @@ public class Purchase {
       joiner.add(getExpense().toUrlQueryString(prefix + "expense" + suffix));
     }
 
-    // add `supplier` to the URL query string
-    if (getSupplier() != null) {
-      joiner.add(String.format("%ssupplier%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getSupplier()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    // add `supplier_id` to the URL query string
+    if (getSupplierId() != null) {
+      joiner.add(String.format("%ssupplier_id%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getSupplierId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `equipment` to the URL query string

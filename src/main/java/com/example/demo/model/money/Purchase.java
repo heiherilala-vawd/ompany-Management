@@ -1,5 +1,6 @@
 package com.example.demo.model.money;
 
+import com.example.demo.model.User;
 import com.example.demo.model.movement.Equipment;
 import com.example.demo.model.movement.Material;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -31,7 +32,9 @@ public class Purchase implements Serializable {
   @JsonManagedReference
   private ExpenseMoney expense;
 
-  private String supplier;
+  @ManyToOne
+  @JoinColumn(name = "supplier_id")
+  private User supplier;
 
   @ManyToOne
   @JoinColumn(name = "equipment")
@@ -66,9 +69,8 @@ public class Purchase implements Serializable {
         + '\''
         + ", expense="
         + (expense != null ? expense.getId() : null)
-        + ", supplier='"
-        + supplier
-        + '\''
+        + ", supplier="
+        + (supplier != null ? supplier.getId() : null)
         + ", equipment="
         + (equipment != null ? equipment.getId() + ":" + equipment.getName() : null)
         + ", material="

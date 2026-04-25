@@ -4,6 +4,7 @@ import com.example.demo.client.model.CrupdatePurchase;
 import com.example.demo.client.model.Purchase;
 import com.example.demo.endpoint.rest.mapper.movement.EquipmentMapper;
 import com.example.demo.endpoint.rest.mapper.movement.MaterialMapper;
+import com.example.demo.service.UserService;
 import com.example.demo.service.money.ExpenseMoneyService;
 import com.example.demo.service.movement.EquipmentService;
 import com.example.demo.service.movement.MaterialService;
@@ -18,6 +19,7 @@ public class PurchaseMapper {
   private final ExpenseMoneyService expenseMoneyService;
   private final EquipmentService equipmentService;
   private final MaterialService materialService;
+  private final UserService userService;
   private final ExpenseMoneyMapper expenseMoneyMapper;
   private final EquipmentMapper equipmentMapper;
   private final MaterialMapper materialMapper;
@@ -31,7 +33,10 @@ public class PurchaseMapper {
             restPurchase.getExpense() != null && restPurchase.getExpense().getId() != null
                 ? expenseMoneyService.findById(restPurchase.getExpense().getId()).orElse(null)
                 : null)
-        .supplier(restPurchase.getSupplier())
+        .supplier(
+            restPurchase.getSupplierId() != null
+                ? userService.getById(restPurchase.getSupplierId())
+                : null)
         .equipment(
             restPurchase.getEquipment() != null
                 ? equipmentService.findById(restPurchase.getEquipment().getId()).orElse(null)
@@ -54,7 +59,10 @@ public class PurchaseMapper {
             restPurchase.getExpenseId() != null
                 ? expenseMoneyService.findById(restPurchase.getExpenseId()).orElse(null)
                 : null)
-        .supplier(restPurchase.getSupplier())
+        .supplier(
+            restPurchase.getSupplierId() != null
+                ? userService.getById(restPurchase.getSupplierId())
+                : null)
         .equipment(
             restPurchase.getEquipment() != null
                 ? equipmentService.findById(restPurchase.getEquipment()).orElse(null)
@@ -74,7 +82,8 @@ public class PurchaseMapper {
     Purchase restPurchase = new Purchase();
     restPurchase.setId(domainPurchase.getId());
     restPurchase.setExpense(expenseMoneyMapper.toRestCrupdateExpense(domainPurchase.getExpense()));
-    restPurchase.setSupplier(domainPurchase.getSupplier());
+    restPurchase.setSupplierId(
+        domainPurchase.getSupplier() != null ? domainPurchase.getSupplier().getId() : null);
     restPurchase.setEquipment(
         equipmentMapper.toRestCrupdateEquipment(domainPurchase.getEquipment()));
     restPurchase.setMaterial(materialMapper.toRestCrupdateMaterial(domainPurchase.getMaterial()));

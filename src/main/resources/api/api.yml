@@ -1876,9 +1876,9 @@ paths:
           in: query
           schema:
             type: string
-        - name: supplier
+        - name: supplier_id
           in: query
-          description: "Filter purchases by supplier, case is ignored"
+          description: "Filter purchases by supplier id"
           schema:
             type: string
         - name: is_equipment
@@ -1947,6 +1947,51 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Purchase'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+
+  # =========================
+  # PURCHASE OPERATION
+  # =========================
+  /companies/{comp_id}/job/{job_id}/user/{user_id}/purchase_operations:
+    post:
+      tags:
+        - PurchaseOperation
+      summary: Register a purchase operation with optional travel
+      operationId: createPurchaseOperation
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PurchaseOperationRequest'
+      responses:
+        '204':
+          description: Purchase operation registered successfully
         '400':
           $ref: '#/components/responses/400'
         '403':
@@ -3501,6 +3546,20 @@ components:
       properties:
         comment:
           type: string
+    AuditUser:
+      properties:
+        id:
+          type: string
+        role:
+          $ref: '#/components/schemas/Role'
+        first_name:
+          type: string
+        last_name:
+          type: string
+        sex:
+          $ref: '#/components/schemas/Sex'
+        email:
+          type: string
     AuditFields:
       allOf:
         - $ref: '#/components/schemas/comment'
@@ -3512,9 +3571,9 @@ components:
           type: string
           format: date-time
         created_by:
-          type: string
+          $ref: '#/components/schemas/AuditUser'
         updated_by:
-          type: string
+          $ref: '#/components/schemas/AuditUser'
 
     # =========================
     # USER
@@ -3976,7 +4035,7 @@ components:
           type: string
         expense:
           $ref: '#/components/schemas/CrupdateExpenseMoney'
-        supplier:
+        supplier_id:
           type: string
         equipment:
           $ref: '#/components/schemas/CrupdateEquipment'
@@ -3992,7 +4051,7 @@ components:
           type: string
         expense_id:
           type: string
-        supplier:
+        supplier_id:
           type: string
         equipment:
           type: string
@@ -4002,6 +4061,54 @@ components:
           type: integer
         is_equipment:
           type: boolean
+
+    # =========================
+    # PURCHASE OPERATION
+    # =========================
+    PurchaseOperationEquipmentLine:
+      properties:
+        equipment_id:
+          type: string
+        unit_price:
+          type: integer
+    PurchaseOperationMaterialLine:
+      properties:
+        material_id:
+          type: string
+        quantity:
+          type: integer
+        unit_price:
+          type: integer
+    PurchaseOperationTravel:
+      properties:
+        departure_location_id:
+          type: string
+        arrival_location_id:
+          type: string
+        departure_date:
+          type: string
+          format: date-time
+        arrival_date:
+          type: string
+          format: date-time
+        fee:
+          type: integer
+    PurchaseOperationRequest:
+      allOf:
+        - $ref: '#/components/schemas/comment'
+      properties:
+        supplier_id:
+          type: string
+        equipment_lines:
+          type: array
+          items:
+            $ref: '#/components/schemas/PurchaseOperationEquipmentLine'
+        material_lines:
+          type: array
+          items:
+            $ref: '#/components/schemas/PurchaseOperationMaterialLine'
+        travel:
+          $ref: '#/components/schemas/PurchaseOperationTravel'
 
     # =========================
     # BANK FEE

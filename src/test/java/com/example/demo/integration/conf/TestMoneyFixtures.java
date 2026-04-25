@@ -215,13 +215,12 @@ final class TestMoneyFixtures {
     Purchase purchase = new Purchase();
     purchase.setId(TestUtils.PURCHASE1_ID);
     purchase.setExpense(expenseToCrupdateExpense(expense1()));
-    purchase.setSupplier("Fournisseur Beton SA");
+    purchase.setSupplierId(TestUtils.USER1_ID);
     purchase.setEquipment(
         TestOrganizationFixtures.equipmentToCrupdateEquipment(
             TestOrganizationFixtures.equipment1()));
-    purchase.setMaterial(
-        TestOrganizationFixtures.materialToCrupdateMaterial(TestOrganizationFixtures.material1()));
-    purchase.setQuantity(3);
+    purchase.setMaterial(null);
+    purchase.setQuantity(1);
     purchase.setIsEquipment(true);
     return purchase;
   }
@@ -230,10 +229,8 @@ final class TestMoneyFixtures {
     Purchase purchase = new Purchase();
     purchase.setId(TestUtils.PURCHASE2_ID);
     purchase.setExpense(expenseToCrupdateExpense(expense2()));
-    purchase.setSupplier("Materiaux Plus");
-    purchase.setEquipment(
-        TestOrganizationFixtures.equipmentToCrupdateEquipment(
-            TestOrganizationFixtures.equipment2()));
+    purchase.setSupplierId(TestUtils.USER2_ID);
+    purchase.setEquipment(null);
     purchase.setMaterial(
         TestOrganizationFixtures.materialToCrupdateMaterial(TestOrganizationFixtures.material2()));
     purchase.setQuantity(25);
@@ -246,7 +243,7 @@ final class TestMoneyFixtures {
     crupdatePurchase.setId(purchase.getId());
     crupdatePurchase.setExpenseId(
         purchase.getExpense() != null ? purchase.getExpense().getId() : null);
-    crupdatePurchase.setSupplier(purchase.getSupplier());
+    crupdatePurchase.setSupplierId(purchase.getSupplierId());
     crupdatePurchase.setEquipment(
         purchase.getEquipment() != null ? purchase.getEquipment().getId() : null);
     crupdatePurchase.setMaterial(
@@ -260,10 +257,10 @@ final class TestMoneyFixtures {
     CrupdatePurchase purchase = new CrupdatePurchase();
     purchase.setId(UUID.randomUUID().toString());
     purchase.setExpenseId(TestUtils.EXPENSE1_ID);
-    purchase.setSupplier("Quincaillerie Centrale");
+    purchase.setSupplierId(TestUtils.USER1_ID);
     purchase.setEquipment(TestUtils.EQUIPMENT1_ID);
-    purchase.setMaterial(TestUtils.MATERIAL1_ID);
-    purchase.setQuantity(4);
+    purchase.setMaterial(null);
+    purchase.setQuantity(1);
     purchase.setIsEquipment(true);
     return purchase;
   }

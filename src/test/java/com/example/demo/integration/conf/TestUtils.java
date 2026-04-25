@@ -65,6 +65,9 @@ public class TestUtils {
   public static final String JOB2_ID = "job2_id";
   public static final String WAREHOUSE1_ID = "warehouse1_id";
   public static final String WAREHOUSE2_ID = "warehouse2_id";
+  public static final String ROUTE_WAREHOUSE_ID = "warehouse_route_id";
+  public static final String AT_SELLER_WAREHOUSE_ID = "warehouse_at_seller_id";
+  public static final String UNFINDABLE_WAREHOUSE_ID = "warehouse_unfindable_id";
   public static final String EQUIPMENT1_ID = "equipment1_id";
   public static final String EQUIPMENT2_ID = "equipment2_id";
   public static final String EQUIPMENT3_ID = "equipment3_id";

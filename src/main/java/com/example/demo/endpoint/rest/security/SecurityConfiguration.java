@@ -180,6 +180,8 @@ public class SecurityConfiguration {
                     .authenticated()
                     .requestMatchers(PUT, "/companies/*/job/*/user/*/expenses/*/purchases")
                     .authenticated()
+                    .requestMatchers(POST, "/companies/*/job/*/user/*/purchase_operations")
+                    .authenticated()
                     // DELETE /purchases - ADMIN uniquement
                     .requestMatchers(DELETE, "/companies/*/job/*/user/*/expenses/*/purchases/*")
                     .hasRole("ADMIN")
