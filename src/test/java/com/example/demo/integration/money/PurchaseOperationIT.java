@@ -12,10 +12,8 @@ import com.example.demo.client.api.PurchaseOperationApi;
 import com.example.demo.client.api.TravelEquipmentApi;
 import com.example.demo.client.api.TravelExpenseApi;
 import com.example.demo.client.api.TravelMaterialsApi;
-import com.example.demo.client.api.TravelPeopleApi;
 import com.example.demo.client.api.WarehouseApi;
 import com.example.demo.client.invoker.ApiClient;
-import com.example.demo.client.invoker.ApiException;
 import com.example.demo.client.model.CrupdateEquipment;
 import com.example.demo.client.model.CrupdateMaterial;
 import com.example.demo.client.model.CrupdateWarehouse;
@@ -31,7 +29,6 @@ import com.example.demo.client.model.TransportStatus;
 import com.example.demo.client.model.TravelEquipment;
 import com.example.demo.client.model.TravelExpense;
 import com.example.demo.client.model.TravelMaterials;
-import com.example.demo.client.model.TravelPeople;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
 import com.example.demo.integration.conf.TestDataSqlLoader;
@@ -82,7 +79,6 @@ class PurchaseOperationIT {
     PurchaseOperationApi api = new PurchaseOperationApi(anApiClient(EMPLOYEE_TOKEN));
 
     PurchaseOperationRequest request = new PurchaseOperationRequest();
-    request.setSupplierId(USER1_ID);
     request.setComment("bulk purchase test");
     request.setEquipmentLines(
         List.of(
@@ -128,8 +124,9 @@ class PurchaseOperationIT {
             1,
             100,
             null,
-            USER1_ID,
+            "warehouse_at_seller_id",
             true);
+
     assertTrue(
         equipmentPurchases.stream()
             .anyMatch(
@@ -149,8 +146,9 @@ class PurchaseOperationIT {
             1,
             100,
             null,
-            USER1_ID,
+            "warehouse_at_seller_id",
             false);
+
     assertEquals(1, materialPurchases.size());
     assertEquals("purchase_operation_material_purchase_1", materialPurchases.get(0).getId());
     assertEquals(MATERIAL1_ID, materialPurchases.get(0).getMaterial().getId());
@@ -189,20 +187,6 @@ class PurchaseOperationIT {
                         && "purchase_operation_travel_expense_1"
                             .equals(travelExpense.getExpense().getId())));
     String createdTravelId = "purchase_operation_travel_1";
-
-    TravelPeopleApi travelPeopleApi = new TravelPeopleApi(anApiClient(ADMIN_TOKEN));
-    List<TravelPeople> createdTravelPeople =
-        travelPeopleApi.getTravelPeople(
-            COMPANY1_ID,
-            JOB1_ID,
-            EMPLOYEE_ID,
-            "purchase_operation_travel_expense_1",
-            createdTravelId,
-            1,
-            100,
-            createdTravelId,
-            EMPLOYEE_ID);
-    assertEquals(1, createdTravelPeople.size());
 
     TravelEquipmentApi travelEquipmentApi = new TravelEquipmentApi(anApiClient(ADMIN_TOKEN));
     List<TravelEquipment> createdTravelEquipment =
@@ -264,7 +248,6 @@ class PurchaseOperationIT {
     PurchaseOperationApi api = new PurchaseOperationApi(anApiClient(EMPLOYEE_TOKEN));
 
     PurchaseOperationRequest request = new PurchaseOperationRequest();
-    request.setSupplierId(USER2_ID);
     request.setMaterialLines(
         List.of(
             new PurchaseOperationMaterialLine()
@@ -297,7 +280,6 @@ class PurchaseOperationIT {
     PurchaseOperationApi api = new PurchaseOperationApi(anApiClient(EMPLOYEE_TOKEN));
 
     PurchaseOperationRequest request = new PurchaseOperationRequest();
-    request.setSupplierId(USER1_ID);
     request.setComment("auto travel test");
     request.setEquipmentLines(
         List.of(
@@ -373,7 +355,6 @@ class PurchaseOperationIT {
     PurchaseOperationApi api = new PurchaseOperationApi(anApiClient(EMPLOYEE_TOKEN));
 
     PurchaseOperationRequest request = new PurchaseOperationRequest();
-    request.setSupplierId(USER1_ID);
     request.setEquipmentLines(
         List.of(
             new PurchaseOperationEquipmentLine()
@@ -421,7 +402,6 @@ class PurchaseOperationIT {
     PurchaseOperationApi api = new PurchaseOperationApi(anApiClient(EMPLOYEE_TOKEN));
 
     PurchaseOperationRequest request = new PurchaseOperationRequest();
-    request.setSupplierId(USER1_ID);
     request.setEquipmentLines(
         List.of(
             new PurchaseOperationEquipmentLine()
@@ -430,11 +410,9 @@ class PurchaseOperationIT {
                 .purchaseId("purchase_operation_equipment_purchase_conflict")
                 .unitPrice(7000)));
 
-    ApiException exception =
-        assertThrows(
-            ApiException.class,
-            () -> api.createPurchaseOperation(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, request));
-    assertTrue(exception.getResponseBody().contains("already has a warehouse assigned"));
+    assertThrowsApiException(
+        "{\"type\":\"400 BAD_REQUEST\",\"message\":\"equipment already has a warehouse assigned\"}",
+        () -> api.createPurchaseOperation(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, request));
   }
 
   @Test
@@ -445,7 +423,6 @@ class PurchaseOperationIT {
     PurchaseOperationApi api = new PurchaseOperationApi(anApiClient(EMPLOYEE_TOKEN));
 
     PurchaseOperationRequest request = new PurchaseOperationRequest();
-    request.setSupplierId(USER1_ID);
     request.setEquipmentLines(
         List.of(
             new PurchaseOperationEquipmentLine()

@@ -6253,8 +6253,9 @@ components:
           example: "purch_001"
         expense:
           $ref: '#/components/schemas/CrupdateExpenseMoney'
-        supplier:
-          $ref: '#/components/schemas/CrupdateWarehouse'
+        supplier_id:
+          type: string
+          example: "supp_001"
         equipment:
           $ref: '#/components/schemas/CrupdateEquipment'
         material:
@@ -6273,8 +6274,9 @@ components:
         expense_id:
           type: string
           example: "exp_001"
-        supplier:
-          $ref: '#/components/schemas/CrupdateWarehouse'
+        supplier_id:
+          type: string
+          example: "supp_001"
         equipment:
           type: string
           example: "eq_001"

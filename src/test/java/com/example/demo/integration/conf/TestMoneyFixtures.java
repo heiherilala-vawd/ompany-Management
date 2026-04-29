@@ -1,5 +1,7 @@
 package com.example.demo.integration.conf;
 
+import static com.example.demo.integration.conf.TestOrganizationFixtures.warehouse1;
+
 import com.example.demo.client.model.BankFee;
 import com.example.demo.client.model.CrupdateBankFee;
 import com.example.demo.client.model.CrupdateEmployeePayment;
@@ -7,6 +9,7 @@ import com.example.demo.client.model.CrupdateExpenseMoney;
 import com.example.demo.client.model.CrupdateIncomeMoney;
 import com.example.demo.client.model.CrupdateOtherExpense;
 import com.example.demo.client.model.CrupdatePurchase;
+import com.example.demo.client.model.CrupdateWarehouse;
 import com.example.demo.client.model.EmployeePayment;
 import com.example.demo.client.model.ExpenseMoney;
 import com.example.demo.client.model.IncomeMoney;
@@ -215,7 +218,13 @@ final class TestMoneyFixtures {
     Purchase purchase = new Purchase();
     purchase.setId(TestUtils.PURCHASE1_ID);
     purchase.setExpense(expenseToCrupdateExpense(expense1()));
-    purchase.setSupplierId(TestUtils.USER1_ID);
+    purchase.setSupplier(
+        new CrupdateWarehouse()
+            .id(TestUtils.WAREHOUSE1_ID)
+            .name(warehouse1().getName())
+            .description(warehouse1().getDescription())
+            .jobId(warehouse1().getJob().getId())
+            .comment(warehouse1().getComment()));
     purchase.setEquipment(
         TestOrganizationFixtures.equipmentToCrupdateEquipment(
             TestOrganizationFixtures.equipment1()));
@@ -229,7 +238,7 @@ final class TestMoneyFixtures {
     Purchase purchase = new Purchase();
     purchase.setId(TestUtils.PURCHASE2_ID);
     purchase.setExpense(expenseToCrupdateExpense(expense2()));
-    purchase.setSupplierId(TestUtils.USER2_ID);
+    purchase.setSupplier(new CrupdateWarehouse().id(TestUtils.WAREHOUSE2_ID));
     purchase.setEquipment(null);
     purchase.setMaterial(
         TestOrganizationFixtures.materialToCrupdateMaterial(TestOrganizationFixtures.material2()));
@@ -243,7 +252,7 @@ final class TestMoneyFixtures {
     crupdatePurchase.setId(purchase.getId());
     crupdatePurchase.setExpenseId(
         purchase.getExpense() != null ? purchase.getExpense().getId() : null);
-    crupdatePurchase.setSupplierId(purchase.getSupplierId());
+    crupdatePurchase.setSupplier(purchase.getSupplier() != null ? purchase.getSupplier() : null);
     crupdatePurchase.setEquipment(
         purchase.getEquipment() != null ? purchase.getEquipment().getId() : null);
     crupdatePurchase.setMaterial(
@@ -257,7 +266,7 @@ final class TestMoneyFixtures {
     CrupdatePurchase purchase = new CrupdatePurchase();
     purchase.setId(UUID.randomUUID().toString());
     purchase.setExpenseId(TestUtils.EXPENSE1_ID);
-    purchase.setSupplierId(TestUtils.USER1_ID);
+    purchase.setSupplier(new CrupdateWarehouse().id(TestUtils.WAREHOUSE1_ID));
     purchase.setEquipment(TestUtils.EQUIPMENT1_ID);
     purchase.setMaterial(null);
     purchase.setQuantity(1);

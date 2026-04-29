@@ -1,8 +1,8 @@
 package com.example.demo.model.money;
 
-import com.example.demo.model.User;
 import com.example.demo.model.movement.Equipment;
 import com.example.demo.model.movement.Material;
+import com.example.demo.model.movement.Warehouse;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.io.Serializable;
@@ -34,7 +34,7 @@ public class Purchase implements Serializable {
 
   @ManyToOne
   @JoinColumn(name = "supplier_id")
-  private User supplier;
+  private Warehouse supplier;
 
   @ManyToOne
   @JoinColumn(name = "equipment")

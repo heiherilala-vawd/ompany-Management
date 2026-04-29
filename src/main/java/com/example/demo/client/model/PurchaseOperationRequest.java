@@ -37,17 +37,13 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  * PurchaseOperationRequest
  */
 @JsonPropertyOrder({
-  PurchaseOperationRequest.JSON_PROPERTY_SUPPLIER_ID,
   PurchaseOperationRequest.JSON_PROPERTY_EQUIPMENT_LINES,
   PurchaseOperationRequest.JSON_PROPERTY_MATERIAL_LINES,
   PurchaseOperationRequest.JSON_PROPERTY_TRAVEL,
   PurchaseOperationRequest.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-28T20:56:47.212042276+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-29T14:25:24.972835022+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class PurchaseOperationRequest {
-  public static final String JSON_PROPERTY_SUPPLIER_ID = "supplier_id";
-  private String supplierId;
-
   public static final String JSON_PROPERTY_EQUIPMENT_LINES = "equipment_lines";
   private List<PurchaseOperationEquipmentLine> equipmentLines = new ArrayList<>();
 
@@ -62,31 +58,6 @@ public class PurchaseOperationRequest {
 
   public PurchaseOperationRequest() { 
   }
-
-  public PurchaseOperationRequest supplierId(String supplierId) {
-    this.supplierId = supplierId;
-    return this;
-  }
-
-   /**
-   * Get supplierId
-   * @return supplierId
-  **/
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SUPPLIER_ID)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-  public String getSupplierId() {
-    return supplierId;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_SUPPLIER_ID)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setSupplierId(String supplierId) {
-    this.supplierId = supplierId;
-  }
-
 
   public PurchaseOperationRequest equipmentLines(List<PurchaseOperationEquipmentLine> equipmentLines) {
     this.equipmentLines = equipmentLines;
@@ -216,8 +187,7 @@ public class PurchaseOperationRequest {
       return false;
     }
     PurchaseOperationRequest purchaseOperationRequest = (PurchaseOperationRequest) o;
-    return Objects.equals(this.supplierId, purchaseOperationRequest.supplierId) &&
-        Objects.equals(this.equipmentLines, purchaseOperationRequest.equipmentLines) &&
+    return Objects.equals(this.equipmentLines, purchaseOperationRequest.equipmentLines) &&
         Objects.equals(this.materialLines, purchaseOperationRequest.materialLines) &&
         Objects.equals(this.travel, purchaseOperationRequest.travel) &&
         Objects.equals(this.comment, purchaseOperationRequest.comment);
@@ -225,14 +195,13 @@ public class PurchaseOperationRequest {
 
   @Override
   public int hashCode() {
-    return Objects.hash(supplierId, equipmentLines, materialLines, travel, comment);
+    return Objects.hash(equipmentLines, materialLines, travel, comment);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class PurchaseOperationRequest {\n");
-    sb.append("    supplierId: ").append(toIndentedString(supplierId)).append("\n");
     sb.append("    equipmentLines: ").append(toIndentedString(equipmentLines)).append("\n");
     sb.append("    materialLines: ").append(toIndentedString(materialLines)).append("\n");
     sb.append("    travel: ").append(toIndentedString(travel)).append("\n");

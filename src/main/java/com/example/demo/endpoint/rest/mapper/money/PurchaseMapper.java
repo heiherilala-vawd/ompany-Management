@@ -4,10 +4,11 @@ import com.example.demo.client.model.CrupdatePurchase;
 import com.example.demo.client.model.Purchase;
 import com.example.demo.endpoint.rest.mapper.movement.EquipmentMapper;
 import com.example.demo.endpoint.rest.mapper.movement.MaterialMapper;
-import com.example.demo.service.UserService;
+import com.example.demo.endpoint.rest.mapper.movement.WarehouseMapper;
 import com.example.demo.service.money.ExpenseMoneyService;
 import com.example.demo.service.movement.EquipmentService;
 import com.example.demo.service.movement.MaterialService;
+import com.example.demo.service.movement.WarehouseService;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -19,7 +20,8 @@ public class PurchaseMapper {
   private final ExpenseMoneyService expenseMoneyService;
   private final EquipmentService equipmentService;
   private final MaterialService materialService;
-  private final UserService userService;
+  private final WarehouseService warehouseService;
+  private final WarehouseMapper warehouseMapper;
   private final ExpenseMoneyMapper expenseMoneyMapper;
   private final EquipmentMapper equipmentMapper;
   private final MaterialMapper materialMapper;
@@ -34,8 +36,8 @@ public class PurchaseMapper {
                 ? expenseMoneyService.findById(restPurchase.getExpense().getId()).orElse(null)
                 : null)
         .supplier(
-            restPurchase.getSupplierId() != null
-                ? userService.getById(restPurchase.getSupplierId())
+            restPurchase.getSupplier() != null
+                ? warehouseService.findById(restPurchase.getSupplier().getId()).orElse(null)
                 : null)
         .equipment(
             restPurchase.getEquipment() != null
@@ -60,8 +62,8 @@ public class PurchaseMapper {
                 ? expenseMoneyService.findById(restPurchase.getExpenseId()).orElse(null)
                 : null)
         .supplier(
-            restPurchase.getSupplierId() != null
-                ? userService.getById(restPurchase.getSupplierId())
+            restPurchase.getSupplier() != null
+                ? warehouseService.findById(restPurchase.getSupplier().getId()).orElse(null)
                 : null)
         .equipment(
             restPurchase.getEquipment() != null
@@ -82,8 +84,7 @@ public class PurchaseMapper {
     Purchase restPurchase = new Purchase();
     restPurchase.setId(domainPurchase.getId());
     restPurchase.setExpense(expenseMoneyMapper.toRestCrupdateExpense(domainPurchase.getExpense()));
-    restPurchase.setSupplierId(
-        domainPurchase.getSupplier() != null ? domainPurchase.getSupplier().getId() : null);
+    restPurchase.setSupplier(warehouseMapper.toRestCrupdateWarehouse(domainPurchase.getSupplier()));
     restPurchase.setEquipment(
         equipmentMapper.toRestCrupdateEquipment(domainPurchase.getEquipment()));
     restPurchase.setMaterial(materialMapper.toRestCrupdateMaterial(domainPurchase.getMaterial()));

@@ -1,6 +1,6 @@
 ALTER TABLE purchase
     DROP COLUMN IF EXISTS supplier,
-    ADD COLUMN IF NOT EXISTS supplier_id VARCHAR(150) REFERENCES "users"(id);
+    ADD COLUMN IF NOT EXISTS supplier_id VARCHAR(150) REFERENCES warehouse(id);
 
 ALTER TABLE purchase
     ALTER COLUMN equipment DROP NOT NULL,

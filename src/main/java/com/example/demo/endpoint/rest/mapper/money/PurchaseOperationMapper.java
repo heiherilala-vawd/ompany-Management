@@ -1,5 +1,7 @@
 package com.example.demo.endpoint.rest.mapper.money;
 
+import static com.example.demo.service.utils.SpecialWarehouseUtils.atSellerWarehouseId;
+
 import com.example.demo.client.model.CrupdateEquipment;
 import com.example.demo.client.model.CrupdateMaterial;
 import com.example.demo.client.model.CrupdateWarehouse;
@@ -7,6 +9,7 @@ import com.example.demo.client.model.PurchaseOperationEquipmentLine;
 import com.example.demo.client.model.PurchaseOperationMaterialLine;
 import com.example.demo.client.model.PurchaseOperationRequest;
 import com.example.demo.client.model.PurchaseOperationTravel;
+import com.example.demo.endpoint.rest.mapper.movement.WarehouseMapper;
 import com.example.demo.model.Job;
 import com.example.demo.model.User;
 import com.example.demo.model.money.ExpenseMoney;
@@ -21,10 +24,13 @@ import com.example.demo.model.movement.Warehouse;
 import com.example.demo.service.money.PurchaseOperationAggregate;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class PurchaseOperationMapper {
+  private final WarehouseMapper warehouseMapper;
 
   public PurchaseOperationAggregate toAggregate(
       String jobId, String userId, PurchaseOperationRequest request) {
@@ -40,11 +46,17 @@ public class PurchaseOperationMapper {
 
     Job job = Job.builder().id(jobId).build();
     User buyer = User.builder().id(userId).build();
-    User supplier =
-        request.getSupplierId() != null ? User.builder().id(request.getSupplierId()).build() : null;
+    Warehouse warehouseInStore = Warehouse.builder().id(atSellerWarehouseId()).build();
+    Warehouse supplier =
+        request.getTravel() != null
+            ? request.getTravel().getDepartureLocation() != null
+                ? warehouseMapper.toDomain(request.getTravel().getDepartureLocation())
+                : warehouseInStore
+            : warehouseInStore;
 
     List<ExpenseMoney> purchaseExpenses = new ArrayList<>();
     List<Purchase> purchases = new ArrayList<>();
+
     List<Equipment> equipmentToUpdate = new ArrayList<>();
     List<Material> materials = new ArrayList<>();
     List<MaterialWarehouse> materialWarehouses = new ArrayList<>();

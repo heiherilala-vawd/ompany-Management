@@ -95,7 +95,7 @@ class PurchaseIT {
 
     List<Purchase> purchases =
         api.getPurchases(
-            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, 1, 100, null, USER1_ID, null);
+            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, 1, 100, null, WAREHOUSE1_ID, null);
 
     assertEquals(1, purchases.size());
     assertEquals(PURCHASE1_ID, purchases.get(0).getId());
