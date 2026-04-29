@@ -6,15 +6,22 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.example.demo.SentryConf;
 import com.example.demo.client.api.EquipmentApi;
 import com.example.demo.client.api.ExpenseApi;
+import com.example.demo.client.api.MaterialApi;
 import com.example.demo.client.api.PurchaseApi;
 import com.example.demo.client.api.PurchaseOperationApi;
 import com.example.demo.client.api.TravelEquipmentApi;
 import com.example.demo.client.api.TravelExpenseApi;
 import com.example.demo.client.api.TravelMaterialsApi;
 import com.example.demo.client.api.TravelPeopleApi;
+import com.example.demo.client.api.WarehouseApi;
 import com.example.demo.client.invoker.ApiClient;
+import com.example.demo.client.invoker.ApiException;
+import com.example.demo.client.model.CrupdateEquipment;
+import com.example.demo.client.model.CrupdateMaterial;
+import com.example.demo.client.model.CrupdateWarehouse;
 import com.example.demo.client.model.Equipment;
 import com.example.demo.client.model.ExpenseMoney;
+import com.example.demo.client.model.Material;
 import com.example.demo.client.model.Purchase;
 import com.example.demo.client.model.PurchaseOperationEquipmentLine;
 import com.example.demo.client.model.PurchaseOperationMaterialLine;
@@ -70,23 +77,41 @@ class PurchaseOperationIT {
   @Test
   @DirtiesContext
   void employee_can_create_purchase_operation_with_mixed_lines() throws Exception {
+    createPurchasableEquipment("purchase_operation_equipment_1", "Perforateur");
+
     PurchaseOperationApi api = new PurchaseOperationApi(anApiClient(EMPLOYEE_TOKEN));
 
     PurchaseOperationRequest request = new PurchaseOperationRequest();
     request.setSupplierId(USER1_ID);
     request.setComment("bulk purchase test");
     request.setEquipmentLines(
-        List.of(new PurchaseOperationEquipmentLine().equipmentId(EQUIPMENT1_ID).unitPrice(7000)));
+        List.of(
+            new PurchaseOperationEquipmentLine()
+                .equipment(equipmentRef("purchase_operation_equipment_1"))
+                .expenseId("purchase_operation_equipment_expense_1")
+                .purchaseId("purchase_operation_equipment_purchase_1")
+                .travelEquipmentId("purchase_operation_travel_equipment_1")
+                .unitPrice(7000)));
     request.setMaterialLines(
         List.of(
             new PurchaseOperationMaterialLine()
-                .materialId(MATERIAL1_ID)
+                .material(materialRef(MATERIAL1_ID))
+                .expenseId("purchase_operation_material_expense_1")
+                .purchaseId("purchase_operation_material_purchase_1")
+                .travelMaterialId("purchase_operation_travel_material_1")
                 .quantity(4)
                 .unitPrice(1200)));
     request.setTravel(
         new PurchaseOperationTravel()
-            .departureLocationId(AT_SELLER_WAREHOUSE_ID)
-            .arrivalLocationId(WAREHOUSE1_ID)
+            .id("purchase_operation_travel_1")
+            .expenseId("purchase_operation_travel_expense_1")
+            .travelPeopleId("purchase_operation_travel_people_1")
+            .departureLocation(
+                new CrupdateWarehouse().id(AT_SELLER_WAREHOUSE_ID).name("At Seller Warehouse"))
+            .arrivalLocation(
+                new CrupdateWarehouse()
+                    .id("purchase_operation_arrival_warehouse_1")
+                    .name("Arrival Warehouse"))
             .departureDate(Instant.parse("2024-04-01T08:00:00Z"))
             .arrivalDate(Instant.parse("2024-04-01T12:00:00Z"))
             .fee(3500));
@@ -94,34 +119,42 @@ class PurchaseOperationIT {
     api.createPurchaseOperation(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, request);
 
     PurchaseApi purchaseApi = new PurchaseApi(anApiClient(ADMIN_TOKEN));
-    List<Purchase> purchases =
+    List<Purchase> equipmentPurchases =
         purchaseApi.getPurchases(
-            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, 1, 100, null, USER1_ID, null);
-    assertEquals(3, purchases.size());
+            COMPANY1_ID,
+            JOB1_ID,
+            EMPLOYEE_ID,
+            "purchase_operation_equipment_expense_1",
+            1,
+            100,
+            null,
+            USER1_ID,
+            true);
     assertTrue(
-        purchases.stream()
+        equipmentPurchases.stream()
             .anyMatch(
                 purchase ->
-                    Boolean.TRUE.equals(purchase.getIsEquipment())
+                    "purchase_operation_equipment_purchase_1".equals(purchase.getId())
                         && purchase.getEquipment() != null
-                        && EQUIPMENT1_ID.equals(purchase.getEquipment().getId())
-                        && purchase.getMaterial() == null
-                        && USER1_ID.equals(purchase.getSupplierId())
-                        && purchase.getQuantity() == 1
+                        && "purchase_operation_equipment_1".equals(purchase.getEquipment().getId())
                         && purchase.getExpense() != null
                         && purchase.getExpense().getAmount() == 7000));
-    assertTrue(
-        purchases.stream()
-            .anyMatch(
-                purchase ->
-                    Boolean.FALSE.equals(purchase.getIsEquipment())
-                        && purchase.getMaterial() != null
-                        && MATERIAL1_ID.equals(purchase.getMaterial().getId())
-                        && purchase.getEquipment() == null
-                        && USER1_ID.equals(purchase.getSupplierId())
-                        && purchase.getQuantity() == 4
-                        && purchase.getExpense() != null
-                        && purchase.getExpense().getAmount() == 4800));
+
+    List<Purchase> materialPurchases =
+        purchaseApi.getPurchases(
+            COMPANY1_ID,
+            JOB1_ID,
+            EMPLOYEE_ID,
+            "purchase_operation_material_expense_1",
+            1,
+            100,
+            null,
+            USER1_ID,
+            false);
+    assertEquals(1, materialPurchases.size());
+    assertEquals("purchase_operation_material_purchase_1", materialPurchases.get(0).getId());
+    assertEquals(MATERIAL1_ID, materialPurchases.get(0).getMaterial().getId());
+    assertEquals(4800, materialPurchases.get(0).getExpense().getAmount());
 
     ExpenseApi expenseApi = new ExpenseApi(anApiClient(ADMIN_TOKEN));
     List<ExpenseMoney> travelExpensesAsMoney =
@@ -134,6 +167,7 @@ class PurchaseOperationIT {
             "Travel expense for purchase operation",
             3500);
     assertEquals(1, travelExpensesAsMoney.size());
+    assertEquals("purchase_operation_travel_expense_1", travelExpensesAsMoney.get(0).getId());
 
     TravelExpenseApi travelExpenseApi = new TravelExpenseApi(anApiClient(ADMIN_TOKEN));
     List<TravelExpense> createdTravelExpenses =
@@ -144,11 +178,17 @@ class PurchaseOperationIT {
             EXPENSE1_ID,
             1,
             100,
-            null,
+            "purchase_operation_travel_expense_1",
             AT_SELLER_WAREHOUSE_ID,
-            WAREHOUSE1_ID);
-    assertEquals(1, createdTravelExpenses.size());
-    String createdTravelId = createdTravelExpenses.get(0).getId();
+            "purchase_operation_arrival_warehouse_1");
+    assertTrue(
+        createdTravelExpenses.stream()
+            .anyMatch(
+                travelExpense ->
+                    "purchase_operation_travel_1".equals(travelExpense.getId())
+                        && "purchase_operation_travel_expense_1"
+                            .equals(travelExpense.getExpense().getId())));
+    String createdTravelId = "purchase_operation_travel_1";
 
     TravelPeopleApi travelPeopleApi = new TravelPeopleApi(anApiClient(ADMIN_TOKEN));
     List<TravelPeople> createdTravelPeople =
@@ -156,7 +196,7 @@ class PurchaseOperationIT {
             COMPANY1_ID,
             JOB1_ID,
             EMPLOYEE_ID,
-            EXPENSE1_ID,
+            "purchase_operation_travel_expense_1",
             createdTravelId,
             1,
             100,
@@ -170,15 +210,16 @@ class PurchaseOperationIT {
             COMPANY1_ID,
             JOB1_ID,
             EMPLOYEE_ID,
-            EXPENSE1_ID,
+            "purchase_operation_travel_expense_1",
             createdTravelId,
             1,
             100,
             createdTravelId,
-            EQUIPMENT1_ID,
+            "purchase_operation_equipment_1",
             1,
             TransportStatus.IN_PROGRESS);
     assertEquals(1, createdTravelEquipment.size());
+    assertEquals("purchase_operation_travel_equipment_1", createdTravelEquipment.get(0).getId());
 
     TravelMaterialsApi travelMaterialsApi = new TravelMaterialsApi(anApiClient(ADMIN_TOKEN));
     List<TravelMaterials> createdTravelMaterials =
@@ -186,7 +227,7 @@ class PurchaseOperationIT {
             COMPANY1_ID,
             JOB1_ID,
             EMPLOYEE_ID,
-            EXPENSE1_ID,
+            "purchase_operation_travel_expense_1",
             createdTravelId,
             1,
             100,
@@ -195,9 +236,11 @@ class PurchaseOperationIT {
             4,
             0);
     assertEquals(1, createdTravelMaterials.size());
+    assertEquals("purchase_operation_travel_material_1", createdTravelMaterials.get(0).getId());
 
     EquipmentApi equipmentApi = new EquipmentApi(anApiClient(EMPLOYEE_TOKEN));
-    Equipment updatedEquipment = equipmentApi.getEquipmentById(COMPANY1_ID, EQUIPMENT1_ID);
+    Equipment updatedEquipment =
+        equipmentApi.getEquipmentById(COMPANY1_ID, "purchase_operation_equipment_1");
     assertNotNull(updatedEquipment.getWarehouse());
     assertEquals(AT_SELLER_WAREHOUSE_ID, updatedEquipment.getWarehouse().getId());
     assertEquals(
@@ -206,6 +249,13 @@ class PurchaseOperationIT {
             .findByMaterial_IdAndWarehouse_Id(MATERIAL1_ID, AT_SELLER_WAREHOUSE_ID)
             .orElseThrow()
             .getQuantity());
+
+    WarehouseApi warehouseApi = new WarehouseApi(anApiClient(ADMIN_TOKEN));
+    assertEquals(
+        "purchase_operation_arrival_warehouse_1",
+        warehouseApi
+            .getWarehouseById(COMPANY1_ID, "purchase_operation_arrival_warehouse_1")
+            .getId());
   }
 
   @Test
@@ -218,35 +268,133 @@ class PurchaseOperationIT {
     request.setMaterialLines(
         List.of(
             new PurchaseOperationMaterialLine()
-                .materialId(MATERIAL2_ID)
+                .material(materialRef("purchase_operation_material_new_1"))
+                .expenseId("purchase_operation_material_expense_2")
+                .purchaseId("purchase_operation_material_purchase_2")
                 .quantity(6)
                 .unitPrice(1100)));
 
     api.createPurchaseOperation(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, request);
 
+    MaterialApi materialApi = new MaterialApi(anApiClient(WAREHOUSE_TOKEN));
+    Material createdMaterial = materialApi.getMaterialById("purchase_operation_material_new_1");
+    assertEquals("purchase_operation_material_new_1", createdMaterial.getId());
+
     assertEquals(
         6,
         materialWarehouseRepository
-            .findByMaterial_IdAndWarehouse_Id(MATERIAL2_ID, AT_SELLER_WAREHOUSE_ID)
+            .findByMaterial_IdAndWarehouse_Id(
+                "purchase_operation_material_new_1", AT_SELLER_WAREHOUSE_ID)
             .orElseThrow()
             .getQuantity());
   }
 
   @Test
   @DirtiesContext
+  void employee_can_create_purchase_operation_with_identifier_only_travel() throws Exception {
+    createPurchasableEquipment("purchase_operation_equipment_2", "Coupe-bordure");
+
+    PurchaseOperationApi api = new PurchaseOperationApi(anApiClient(EMPLOYEE_TOKEN));
+
+    PurchaseOperationRequest request = new PurchaseOperationRequest();
+    request.setSupplierId(USER1_ID);
+    request.setComment("auto travel test");
+    request.setEquipmentLines(
+        List.of(
+            new PurchaseOperationEquipmentLine()
+                .equipment(equipmentRef("purchase_operation_equipment_2"))
+                .expenseId("purchase_operation_equipment_expense_2")
+                .purchaseId("purchase_operation_equipment_purchase_2")
+                .travelEquipmentId("purchase_operation_travel_equipment_2")
+                .unitPrice(7000)));
+    request.setMaterialLines(
+        List.of(
+            new PurchaseOperationMaterialLine()
+                .material(materialRef(MATERIAL1_ID))
+                .expenseId("purchase_operation_material_expense_3")
+                .purchaseId("purchase_operation_material_purchase_3")
+                .travelMaterialId("purchase_operation_travel_material_2")
+                .quantity(4)
+                .unitPrice(1200)));
+    request.setTravel(
+        new PurchaseOperationTravel()
+            .id("purchase_operation_travel_2")
+            .expenseId("purchase_operation_travel_expense_2")
+            .travelPeopleId("purchase_operation_travel_people_2")
+            .departureLocation(
+                new CrupdateWarehouse().id(AT_SELLER_WAREHOUSE_ID).name("At Seller Warehouse"))
+            .arrivalLocation(new CrupdateWarehouse().id(WAREHOUSE1_ID).name("Warehouse 1"))
+            .departureDate(Instant.parse("2024-04-03T08:00:00Z"))
+            .arrivalDate(Instant.parse("2024-04-03T10:00:00Z")));
+
+    api.createPurchaseOperation(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, request);
+
+    TravelEquipmentApi travelEquipmentApi = new TravelEquipmentApi(anApiClient(ADMIN_TOKEN));
+    List<TravelEquipment> createdTravelEquipment =
+        travelEquipmentApi.getTravelEquipment(
+            COMPANY1_ID,
+            JOB1_ID,
+            EMPLOYEE_ID,
+            "purchase_operation_travel_expense_2",
+            "purchase_operation_travel_2",
+            1,
+            100,
+            "purchase_operation_travel_2",
+            "purchase_operation_equipment_2",
+            1,
+            null);
+    assertEquals(1, createdTravelEquipment.size());
+    assertEquals("purchase_operation_travel_equipment_2", createdTravelEquipment.get(0).getId());
+
+    TravelMaterialsApi travelMaterialsApi = new TravelMaterialsApi(anApiClient(ADMIN_TOKEN));
+    List<TravelMaterials> createdTravelMaterials =
+        travelMaterialsApi.getTravelMaterials(
+            COMPANY1_ID,
+            JOB1_ID,
+            EMPLOYEE_ID,
+            "purchase_operation_travel_expense_2",
+            "purchase_operation_travel_2",
+            1,
+            100,
+            "purchase_operation_travel_2",
+            MATERIAL1_ID,
+            4,
+            null);
+    assertEquals(1, createdTravelMaterials.size());
+    assertEquals("purchase_operation_travel_material_2", createdTravelMaterials.get(0).getId());
+  }
+
+  @Test
+  @DirtiesContext
   void employee_can_create_purchase_operation_with_multiple_equipments() throws Exception {
+    createPurchasableEquipment("purchase_operation_equipment_3", "Scie circulaire");
+    createPurchasableEquipment("purchase_operation_equipment_4", "Laser de mesure");
+
     PurchaseOperationApi api = new PurchaseOperationApi(anApiClient(EMPLOYEE_TOKEN));
 
     PurchaseOperationRequest request = new PurchaseOperationRequest();
     request.setSupplierId(USER1_ID);
     request.setEquipmentLines(
         List.of(
-            new PurchaseOperationEquipmentLine().equipmentId(EQUIPMENT1_ID).unitPrice(7000),
-            new PurchaseOperationEquipmentLine().equipmentId(EQUIPMENT2_ID).unitPrice(9000)));
+            new PurchaseOperationEquipmentLine()
+                .equipment(equipmentRef("purchase_operation_equipment_3"))
+                .expenseId("purchase_operation_equipment_expense_3")
+                .purchaseId("purchase_operation_equipment_purchase_3")
+                .travelEquipmentId("purchase_operation_travel_equipment_3")
+                .unitPrice(7000),
+            new PurchaseOperationEquipmentLine()
+                .equipment(equipmentRef("purchase_operation_equipment_4"))
+                .expenseId("purchase_operation_equipment_expense_4")
+                .purchaseId("purchase_operation_equipment_purchase_4")
+                .travelEquipmentId("purchase_operation_travel_equipment_4")
+                .unitPrice(9000)));
     request.setTravel(
         new PurchaseOperationTravel()
-            .departureLocationId(WAREHOUSE1_ID)
-            .arrivalLocationId(WAREHOUSE2_ID)
+            .id("purchase_operation_travel_3")
+            .expenseId("purchase_operation_travel_expense_3")
+            .travelPeopleId("purchase_operation_travel_people_3")
+            .departureLocation(new CrupdateWarehouse().id(WAREHOUSE1_ID).name("Warehouse 1"))
+            .arrivalLocation(new CrupdateWarehouse().id(WAREHOUSE2_ID).name("Warehouse 2"))
             .departureDate(Instant.parse("2024-04-02T08:00:00Z"))
             .arrivalDate(Instant.parse("2024-04-02T18:00:00Z"))
             .fee(2500));
@@ -256,20 +404,55 @@ class PurchaseOperationIT {
     EquipmentApi equipmentApi = new EquipmentApi(anApiClient(EMPLOYEE_TOKEN));
     assertEquals(
         ROUTE_WAREHOUSE_ID,
-        equipmentApi.getEquipmentById(COMPANY1_ID, EQUIPMENT1_ID).getWarehouse().getId());
+        equipmentApi
+            .getEquipmentById(COMPANY1_ID, "purchase_operation_equipment_3")
+            .getWarehouse()
+            .getId());
     assertEquals(
         ROUTE_WAREHOUSE_ID,
-        equipmentApi.getEquipmentById(COMPANY1_ID, EQUIPMENT2_ID).getWarehouse().getId());
+        equipmentApi
+            .getEquipmentById(COMPANY1_ID, "purchase_operation_equipment_4")
+            .getWarehouse()
+            .getId());
   }
 
   @Test
-  void employee_cannot_create_purchase_operation_for_another_user() {
+  void employee_cannot_purchase_equipment_that_is_already_in_stock() {
     PurchaseOperationApi api = new PurchaseOperationApi(anApiClient(EMPLOYEE_TOKEN));
 
     PurchaseOperationRequest request = new PurchaseOperationRequest();
     request.setSupplierId(USER1_ID);
     request.setEquipmentLines(
-        List.of(new PurchaseOperationEquipmentLine().equipmentId(EQUIPMENT1_ID).unitPrice(5000)));
+        List.of(
+            new PurchaseOperationEquipmentLine()
+                .equipment(equipmentRef(EQUIPMENT1_ID))
+                .expenseId("purchase_operation_equipment_expense_conflict")
+                .purchaseId("purchase_operation_equipment_purchase_conflict")
+                .unitPrice(7000)));
+
+    ApiException exception =
+        assertThrows(
+            ApiException.class,
+            () -> api.createPurchaseOperation(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, request));
+    assertTrue(exception.getResponseBody().contains("already has a warehouse assigned"));
+  }
+
+  @Test
+  @DirtiesContext
+  void employee_cannot_create_purchase_operation_for_another_user() throws Exception {
+    createPurchasableEquipment("purchase_operation_equipment_forbidden", "Niveau laser");
+
+    PurchaseOperationApi api = new PurchaseOperationApi(anApiClient(EMPLOYEE_TOKEN));
+
+    PurchaseOperationRequest request = new PurchaseOperationRequest();
+    request.setSupplierId(USER1_ID);
+    request.setEquipmentLines(
+        List.of(
+            new PurchaseOperationEquipmentLine()
+                .equipment(equipmentRef("purchase_operation_equipment_forbidden"))
+                .expenseId("purchase_operation_equipment_expense_forbidden")
+                .purchaseId("purchase_operation_equipment_purchase_forbidden")
+                .unitPrice(5000)));
 
     assertThrowsForbiddenException(
         () -> api.createPurchaseOperation(COMPANY1_ID, JOB1_ID, USER1_ID, request));
@@ -282,5 +465,25 @@ class PurchaseOperationIT {
     public int getServerPort() {
       return SERVER_PORT;
     }
+  }
+
+  private void createPurchasableEquipment(String equipmentId, String name) throws Exception {
+    EquipmentApi equipmentApi = new EquipmentApi(anApiClient(ADMINISTRATION_TOKEN));
+    CrupdateEquipment equipment = new CrupdateEquipment();
+    equipment.setId(equipmentId);
+    equipment.setName(name);
+    equipment.setDescription(name + " a acheter");
+    equipment.setWarehouseId(null);
+    equipment.setFloorNumber(1);
+    equipment.setStorageNumber(1);
+    equipmentApi.crupdateEquipment(COMPANY1_ID, List.of(equipment));
+  }
+
+  private CrupdateEquipment equipmentRef(String equipmentId) {
+    return new CrupdateEquipment().id(equipmentId);
+  }
+
+  private CrupdateMaterial materialRef(String materialId) {
+    return new CrupdateMaterial().id(materialId);
   }
 }

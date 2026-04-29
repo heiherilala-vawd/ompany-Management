@@ -2,7 +2,9 @@ package com.example.demo.endpoint.rest.mapper.money;
 
 import com.example.demo.client.model.CrupdateTravelExpense;
 import com.example.demo.client.model.TravelExpense;
+import com.example.demo.endpoint.rest.mapper.movement.WarehouseMapper;
 import com.example.demo.service.money.ExpenseMoneyService;
+import com.example.demo.service.movement.WarehouseService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -12,6 +14,8 @@ public class TravelExpenseMapper {
 
   private final ExpenseMoneyService expenseMoneyService;
   private final ExpenseMoneyMapper expenseMoneyMapper;
+  private final WarehouseService warehouseService;
+  private final WarehouseMapper warehouseMapper;
 
   public com.example.demo.model.money.TravelExpense toDomain(TravelExpense restTravelExpense) {
     if (restTravelExpense == null) return null;
@@ -22,8 +26,20 @@ public class TravelExpenseMapper {
             restTravelExpense.getExpense() != null && restTravelExpense.getExpense().getId() != null
                 ? expenseMoneyService.findById(restTravelExpense.getExpense().getId()).orElse(null)
                 : null)
-        .departureLocation(restTravelExpense.getDepartureLocation())
-        .arrivalLocation(restTravelExpense.getArrivalLocation())
+        .departureLocation(
+            restTravelExpense.getDepartureLocation() != null
+                    && restTravelExpense.getDepartureLocation().getId() != null
+                ? warehouseService
+                    .findById(restTravelExpense.getDepartureLocation().getId())
+                    .orElse(null)
+                : null)
+        .arrivalLocation(
+            restTravelExpense.getArrivalLocation() != null
+                    && restTravelExpense.getArrivalLocation().getId() != null
+                ? warehouseService
+                    .findById(restTravelExpense.getArrivalLocation().getId())
+                    .orElse(null)
+                : null)
         .departureDate(restTravelExpense.getDepartureDate())
         .arrivalDate(restTravelExpense.getArrivalDate())
         .build();
@@ -39,8 +55,20 @@ public class TravelExpenseMapper {
             restTravelExpense.getExpenseId() != null
                 ? expenseMoneyService.findById(restTravelExpense.getExpenseId()).orElse(null)
                 : null)
-        .departureLocation(restTravelExpense.getDepartureLocation())
-        .arrivalLocation(restTravelExpense.getArrivalLocation())
+        .departureLocation(
+            restTravelExpense.getDepartureLocation() != null
+                    && restTravelExpense.getDepartureLocation().getId() != null
+                ? warehouseService
+                    .findById(restTravelExpense.getDepartureLocation().getId())
+                    .orElse(null)
+                : null)
+        .arrivalLocation(
+            restTravelExpense.getArrivalLocation() != null
+                    && restTravelExpense.getArrivalLocation().getId() != null
+                ? warehouseService
+                    .findById(restTravelExpense.getArrivalLocation().getId())
+                    .orElse(null)
+                : null)
         .departureDate(restTravelExpense.getDepartureDate())
         .arrivalDate(restTravelExpense.getArrivalDate())
         .build();
@@ -54,8 +82,10 @@ public class TravelExpenseMapper {
     restTravelExpense.setId(domainTravelExpense.getId());
     restTravelExpense.setExpense(
         expenseMoneyMapper.toRestCrupdateExpense(domainTravelExpense.getExpense()));
-    restTravelExpense.setDepartureLocation(domainTravelExpense.getDepartureLocation());
-    restTravelExpense.setArrivalLocation(domainTravelExpense.getArrivalLocation());
+    restTravelExpense.setDepartureLocation(
+        warehouseMapper.toRestCrupdateWarehouse(domainTravelExpense.getDepartureLocation()));
+    restTravelExpense.setArrivalLocation(
+        warehouseMapper.toRestCrupdateWarehouse(domainTravelExpense.getArrivalLocation()));
     restTravelExpense.setDepartureDate(domainTravelExpense.getDepartureDate());
     restTravelExpense.setArrivalDate(domainTravelExpense.getArrivalDate());
 
@@ -72,8 +102,10 @@ public class TravelExpenseMapper {
             domainTravelExpense.getExpense() != null
                 ? domainTravelExpense.getExpense().getId()
                 : null)
-        .departureLocation(domainTravelExpense.getDepartureLocation())
-        .arrivalLocation(domainTravelExpense.getArrivalLocation())
+        .departureLocation(
+            warehouseMapper.toRestCrupdateWarehouse(domainTravelExpense.getDepartureLocation()))
+        .arrivalLocation(
+            warehouseMapper.toRestCrupdateWarehouse(domainTravelExpense.getArrivalLocation()))
         .departureDate(domainTravelExpense.getDepartureDate())
         .arrivalDate(domainTravelExpense.getArrivalDate());
   }

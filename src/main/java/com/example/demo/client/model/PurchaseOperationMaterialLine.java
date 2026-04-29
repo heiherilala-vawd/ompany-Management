@@ -19,6 +19,7 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import com.example.demo.client.model.CrupdateMaterial;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -32,14 +33,26 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  * PurchaseOperationMaterialLine
  */
 @JsonPropertyOrder({
-  PurchaseOperationMaterialLine.JSON_PROPERTY_MATERIAL_ID,
+  PurchaseOperationMaterialLine.JSON_PROPERTY_MATERIAL,
+  PurchaseOperationMaterialLine.JSON_PROPERTY_EXPENSE_ID,
+  PurchaseOperationMaterialLine.JSON_PROPERTY_PURCHASE_ID,
+  PurchaseOperationMaterialLine.JSON_PROPERTY_TRAVEL_MATERIAL_ID,
   PurchaseOperationMaterialLine.JSON_PROPERTY_QUANTITY,
   PurchaseOperationMaterialLine.JSON_PROPERTY_UNIT_PRICE
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-25T09:42:59.450059343+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-28T20:56:47.212042276+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class PurchaseOperationMaterialLine {
-  public static final String JSON_PROPERTY_MATERIAL_ID = "material_id";
-  private String materialId;
+  public static final String JSON_PROPERTY_MATERIAL = "material";
+  private CrupdateMaterial material;
+
+  public static final String JSON_PROPERTY_EXPENSE_ID = "expense_id";
+  private String expenseId;
+
+  public static final String JSON_PROPERTY_PURCHASE_ID = "purchase_id";
+  private String purchaseId;
+
+  public static final String JSON_PROPERTY_TRAVEL_MATERIAL_ID = "travel_material_id";
+  private String travelMaterialId;
 
   public static final String JSON_PROPERTY_QUANTITY = "quantity";
   private Integer quantity;
@@ -50,28 +63,103 @@ public class PurchaseOperationMaterialLine {
   public PurchaseOperationMaterialLine() { 
   }
 
-  public PurchaseOperationMaterialLine materialId(String materialId) {
-    this.materialId = materialId;
+  public PurchaseOperationMaterialLine material(CrupdateMaterial material) {
+    this.material = material;
     return this;
   }
 
    /**
-   * Get materialId
-   * @return materialId
+   * Get material
+   * @return material
   **/
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_MATERIAL_ID)
+  @JsonProperty(JSON_PROPERTY_MATERIAL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getMaterialId() {
-    return materialId;
+  public CrupdateMaterial getMaterial() {
+    return material;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_MATERIAL_ID)
+  @JsonProperty(JSON_PROPERTY_MATERIAL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setMaterialId(String materialId) {
-    this.materialId = materialId;
+  public void setMaterial(CrupdateMaterial material) {
+    this.material = material;
+  }
+
+
+  public PurchaseOperationMaterialLine expenseId(String expenseId) {
+    this.expenseId = expenseId;
+    return this;
+  }
+
+   /**
+   * Get expenseId
+   * @return expenseId
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_EXPENSE_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getExpenseId() {
+    return expenseId;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_EXPENSE_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setExpenseId(String expenseId) {
+    this.expenseId = expenseId;
+  }
+
+
+  public PurchaseOperationMaterialLine purchaseId(String purchaseId) {
+    this.purchaseId = purchaseId;
+    return this;
+  }
+
+   /**
+   * Get purchaseId
+   * @return purchaseId
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_PURCHASE_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getPurchaseId() {
+    return purchaseId;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_PURCHASE_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setPurchaseId(String purchaseId) {
+    this.purchaseId = purchaseId;
+  }
+
+
+  public PurchaseOperationMaterialLine travelMaterialId(String travelMaterialId) {
+    this.travelMaterialId = travelMaterialId;
+    return this;
+  }
+
+   /**
+   * Get travelMaterialId
+   * @return travelMaterialId
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_TRAVEL_MATERIAL_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getTravelMaterialId() {
+    return travelMaterialId;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_TRAVEL_MATERIAL_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setTravelMaterialId(String travelMaterialId) {
+    this.travelMaterialId = travelMaterialId;
   }
 
 
@@ -137,21 +225,27 @@ public class PurchaseOperationMaterialLine {
       return false;
     }
     PurchaseOperationMaterialLine purchaseOperationMaterialLine = (PurchaseOperationMaterialLine) o;
-    return Objects.equals(this.materialId, purchaseOperationMaterialLine.materialId) &&
+    return Objects.equals(this.material, purchaseOperationMaterialLine.material) &&
+        Objects.equals(this.expenseId, purchaseOperationMaterialLine.expenseId) &&
+        Objects.equals(this.purchaseId, purchaseOperationMaterialLine.purchaseId) &&
+        Objects.equals(this.travelMaterialId, purchaseOperationMaterialLine.travelMaterialId) &&
         Objects.equals(this.quantity, purchaseOperationMaterialLine.quantity) &&
         Objects.equals(this.unitPrice, purchaseOperationMaterialLine.unitPrice);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(materialId, quantity, unitPrice);
+    return Objects.hash(material, expenseId, purchaseId, travelMaterialId, quantity, unitPrice);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class PurchaseOperationMaterialLine {\n");
-    sb.append("    materialId: ").append(toIndentedString(materialId)).append("\n");
+    sb.append("    material: ").append(toIndentedString(material)).append("\n");
+    sb.append("    expenseId: ").append(toIndentedString(expenseId)).append("\n");
+    sb.append("    purchaseId: ").append(toIndentedString(purchaseId)).append("\n");
+    sb.append("    travelMaterialId: ").append(toIndentedString(travelMaterialId)).append("\n");
     sb.append("    quantity: ").append(toIndentedString(quantity)).append("\n");
     sb.append("    unitPrice: ").append(toIndentedString(unitPrice)).append("\n");
     sb.append("}");
@@ -201,9 +295,24 @@ public class PurchaseOperationMaterialLine {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `material_id` to the URL query string
-    if (getMaterialId() != null) {
-      joiner.add(String.format("%smaterial_id%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getMaterialId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    // add `material` to the URL query string
+    if (getMaterial() != null) {
+      joiner.add(getMaterial().toUrlQueryString(prefix + "material" + suffix));
+    }
+
+    // add `expense_id` to the URL query string
+    if (getExpenseId() != null) {
+      joiner.add(String.format("%sexpense_id%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getExpenseId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `purchase_id` to the URL query string
+    if (getPurchaseId() != null) {
+      joiner.add(String.format("%spurchase_id%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getPurchaseId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `travel_material_id` to the URL query string
+    if (getTravelMaterialId() != null) {
+      joiner.add(String.format("%stravel_material_id%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getTravelMaterialId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `quantity` to the URL query string

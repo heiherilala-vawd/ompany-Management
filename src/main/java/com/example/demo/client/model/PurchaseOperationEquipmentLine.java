@@ -19,6 +19,7 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import com.example.demo.client.model.CrupdateEquipment;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -32,13 +33,25 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  * PurchaseOperationEquipmentLine
  */
 @JsonPropertyOrder({
-  PurchaseOperationEquipmentLine.JSON_PROPERTY_EQUIPMENT_ID,
+  PurchaseOperationEquipmentLine.JSON_PROPERTY_EQUIPMENT,
+  PurchaseOperationEquipmentLine.JSON_PROPERTY_EXPENSE_ID,
+  PurchaseOperationEquipmentLine.JSON_PROPERTY_PURCHASE_ID,
+  PurchaseOperationEquipmentLine.JSON_PROPERTY_TRAVEL_EQUIPMENT_ID,
   PurchaseOperationEquipmentLine.JSON_PROPERTY_UNIT_PRICE
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-25T09:42:59.450059343+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-28T20:56:47.212042276+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class PurchaseOperationEquipmentLine {
-  public static final String JSON_PROPERTY_EQUIPMENT_ID = "equipment_id";
-  private String equipmentId;
+  public static final String JSON_PROPERTY_EQUIPMENT = "equipment";
+  private CrupdateEquipment equipment;
+
+  public static final String JSON_PROPERTY_EXPENSE_ID = "expense_id";
+  private String expenseId;
+
+  public static final String JSON_PROPERTY_PURCHASE_ID = "purchase_id";
+  private String purchaseId;
+
+  public static final String JSON_PROPERTY_TRAVEL_EQUIPMENT_ID = "travel_equipment_id";
+  private String travelEquipmentId;
 
   public static final String JSON_PROPERTY_UNIT_PRICE = "unit_price";
   private Integer unitPrice;
@@ -46,28 +59,103 @@ public class PurchaseOperationEquipmentLine {
   public PurchaseOperationEquipmentLine() { 
   }
 
-  public PurchaseOperationEquipmentLine equipmentId(String equipmentId) {
-    this.equipmentId = equipmentId;
+  public PurchaseOperationEquipmentLine equipment(CrupdateEquipment equipment) {
+    this.equipment = equipment;
     return this;
   }
 
    /**
-   * Get equipmentId
-   * @return equipmentId
+   * Get equipment
+   * @return equipment
   **/
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_EQUIPMENT_ID)
+  @JsonProperty(JSON_PROPERTY_EQUIPMENT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getEquipmentId() {
-    return equipmentId;
+  public CrupdateEquipment getEquipment() {
+    return equipment;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_EQUIPMENT_ID)
+  @JsonProperty(JSON_PROPERTY_EQUIPMENT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setEquipmentId(String equipmentId) {
-    this.equipmentId = equipmentId;
+  public void setEquipment(CrupdateEquipment equipment) {
+    this.equipment = equipment;
+  }
+
+
+  public PurchaseOperationEquipmentLine expenseId(String expenseId) {
+    this.expenseId = expenseId;
+    return this;
+  }
+
+   /**
+   * Get expenseId
+   * @return expenseId
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_EXPENSE_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getExpenseId() {
+    return expenseId;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_EXPENSE_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setExpenseId(String expenseId) {
+    this.expenseId = expenseId;
+  }
+
+
+  public PurchaseOperationEquipmentLine purchaseId(String purchaseId) {
+    this.purchaseId = purchaseId;
+    return this;
+  }
+
+   /**
+   * Get purchaseId
+   * @return purchaseId
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_PURCHASE_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getPurchaseId() {
+    return purchaseId;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_PURCHASE_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setPurchaseId(String purchaseId) {
+    this.purchaseId = purchaseId;
+  }
+
+
+  public PurchaseOperationEquipmentLine travelEquipmentId(String travelEquipmentId) {
+    this.travelEquipmentId = travelEquipmentId;
+    return this;
+  }
+
+   /**
+   * Get travelEquipmentId
+   * @return travelEquipmentId
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_TRAVEL_EQUIPMENT_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getTravelEquipmentId() {
+    return travelEquipmentId;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_TRAVEL_EQUIPMENT_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setTravelEquipmentId(String travelEquipmentId) {
+    this.travelEquipmentId = travelEquipmentId;
   }
 
 
@@ -108,20 +196,26 @@ public class PurchaseOperationEquipmentLine {
       return false;
     }
     PurchaseOperationEquipmentLine purchaseOperationEquipmentLine = (PurchaseOperationEquipmentLine) o;
-    return Objects.equals(this.equipmentId, purchaseOperationEquipmentLine.equipmentId) &&
+    return Objects.equals(this.equipment, purchaseOperationEquipmentLine.equipment) &&
+        Objects.equals(this.expenseId, purchaseOperationEquipmentLine.expenseId) &&
+        Objects.equals(this.purchaseId, purchaseOperationEquipmentLine.purchaseId) &&
+        Objects.equals(this.travelEquipmentId, purchaseOperationEquipmentLine.travelEquipmentId) &&
         Objects.equals(this.unitPrice, purchaseOperationEquipmentLine.unitPrice);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(equipmentId, unitPrice);
+    return Objects.hash(equipment, expenseId, purchaseId, travelEquipmentId, unitPrice);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class PurchaseOperationEquipmentLine {\n");
-    sb.append("    equipmentId: ").append(toIndentedString(equipmentId)).append("\n");
+    sb.append("    equipment: ").append(toIndentedString(equipment)).append("\n");
+    sb.append("    expenseId: ").append(toIndentedString(expenseId)).append("\n");
+    sb.append("    purchaseId: ").append(toIndentedString(purchaseId)).append("\n");
+    sb.append("    travelEquipmentId: ").append(toIndentedString(travelEquipmentId)).append("\n");
     sb.append("    unitPrice: ").append(toIndentedString(unitPrice)).append("\n");
     sb.append("}");
     return sb.toString();
@@ -170,9 +264,24 @@ public class PurchaseOperationEquipmentLine {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `equipment_id` to the URL query string
-    if (getEquipmentId() != null) {
-      joiner.add(String.format("%sequipment_id%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getEquipmentId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    // add `equipment` to the URL query string
+    if (getEquipment() != null) {
+      joiner.add(getEquipment().toUrlQueryString(prefix + "equipment" + suffix));
+    }
+
+    // add `expense_id` to the URL query string
+    if (getExpenseId() != null) {
+      joiner.add(String.format("%sexpense_id%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getExpenseId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `purchase_id` to the URL query string
+    if (getPurchaseId() != null) {
+      joiner.add(String.format("%spurchase_id%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getPurchaseId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `travel_equipment_id` to the URL query string
+    if (getTravelEquipmentId() != null) {
+      joiner.add(String.format("%stravel_equipment_id%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getTravelEquipmentId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `unit_price` to the URL query string

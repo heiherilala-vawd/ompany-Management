@@ -19,6 +19,7 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import com.example.demo.client.model.CrupdateWarehouse;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -39,7 +40,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   CrupdateTravelExpense.JSON_PROPERTY_DEPARTURE_DATE,
   CrupdateTravelExpense.JSON_PROPERTY_ARRIVAL_DATE
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-25T09:42:59.450059343+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-28T20:56:47.212042276+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdateTravelExpense {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -48,10 +49,10 @@ public class CrupdateTravelExpense {
   private String expenseId;
 
   public static final String JSON_PROPERTY_DEPARTURE_LOCATION = "departure_location";
-  private String departureLocation;
+  private CrupdateWarehouse departureLocation;
 
   public static final String JSON_PROPERTY_ARRIVAL_LOCATION = "arrival_location";
-  private String arrivalLocation;
+  private CrupdateWarehouse arrivalLocation;
 
   public static final String JSON_PROPERTY_DEPARTURE_DATE = "departure_date";
   private java.time.Instant departureDate;
@@ -112,7 +113,7 @@ public class CrupdateTravelExpense {
   }
 
 
-  public CrupdateTravelExpense departureLocation(String departureLocation) {
+  public CrupdateTravelExpense departureLocation(CrupdateWarehouse departureLocation) {
     this.departureLocation = departureLocation;
     return this;
   }
@@ -125,19 +126,19 @@ public class CrupdateTravelExpense {
   @JsonProperty(JSON_PROPERTY_DEPARTURE_LOCATION)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getDepartureLocation() {
+  public CrupdateWarehouse getDepartureLocation() {
     return departureLocation;
   }
 
 
   @JsonProperty(JSON_PROPERTY_DEPARTURE_LOCATION)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setDepartureLocation(String departureLocation) {
+  public void setDepartureLocation(CrupdateWarehouse departureLocation) {
     this.departureLocation = departureLocation;
   }
 
 
-  public CrupdateTravelExpense arrivalLocation(String arrivalLocation) {
+  public CrupdateTravelExpense arrivalLocation(CrupdateWarehouse arrivalLocation) {
     this.arrivalLocation = arrivalLocation;
     return this;
   }
@@ -150,14 +151,14 @@ public class CrupdateTravelExpense {
   @JsonProperty(JSON_PROPERTY_ARRIVAL_LOCATION)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getArrivalLocation() {
+  public CrupdateWarehouse getArrivalLocation() {
     return arrivalLocation;
   }
 
 
   @JsonProperty(JSON_PROPERTY_ARRIVAL_LOCATION)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setArrivalLocation(String arrivalLocation) {
+  public void setArrivalLocation(CrupdateWarehouse arrivalLocation) {
     this.arrivalLocation = arrivalLocation;
   }
 
@@ -306,12 +307,12 @@ public class CrupdateTravelExpense {
 
     // add `departure_location` to the URL query string
     if (getDepartureLocation() != null) {
-      joiner.add(String.format("%sdeparture_location%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getDepartureLocation()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(getDepartureLocation().toUrlQueryString(prefix + "departure_location" + suffix));
     }
 
     // add `arrival_location` to the URL query string
     if (getArrivalLocation() != null) {
-      joiner.add(String.format("%sarrival_location%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getArrivalLocation()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(getArrivalLocation().toUrlQueryString(prefix + "arrival_location" + suffix));
     }
 
     // add `departure_date` to the URL query string

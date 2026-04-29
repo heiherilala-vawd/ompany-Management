@@ -22,8 +22,11 @@ final class TestTravelFixtures {
     travelExpense.setId(TestUtils.TRAVEL_EXPENSE1_ID);
     travelExpense.setExpense(
         TestMoneyFixtures.expenseToCrupdateExpense(TestMoneyFixtures.expense1()));
-    travelExpense.setDepartureLocation("Antananarivo");
-    travelExpense.setArrivalLocation("Toamasina");
+    travelExpense.setDepartureLocation(
+        TestOrganizationFixtures.warehouseToCrupdateWarehouse(
+            TestOrganizationFixtures.warehouse1()));
+    travelExpense.setArrivalLocation(
+        TestOrganizationFixtures.warehouseToCrupdateWarehouse(routeWarehouse()));
     travelExpense.setDepartureDate(Instant.parse("2024-03-01T06:00:00Z"));
     travelExpense.setArrivalDate(Instant.parse("2024-03-01T12:00:00Z"));
     return travelExpense;
@@ -34,8 +37,12 @@ final class TestTravelFixtures {
     travelExpense.setId(TestUtils.TRAVEL_EXPENSE2_ID);
     travelExpense.setExpense(
         TestMoneyFixtures.expenseToCrupdateExpense(TestMoneyFixtures.expense2()));
-    travelExpense.setDepartureLocation("Fianarantsoa");
-    travelExpense.setArrivalLocation("Antsirabe");
+    travelExpense.setDepartureLocation(
+        TestOrganizationFixtures.warehouseToCrupdateWarehouse(
+            TestOrganizationFixtures.warehouse2()));
+    travelExpense.setArrivalLocation(
+        TestOrganizationFixtures.warehouseToCrupdateWarehouse(
+            TestOrganizationFixtures.warehouse1()));
     travelExpense.setDepartureDate(Instant.parse("2024-03-05T07:30:00Z"));
     travelExpense.setArrivalDate(Instant.parse("2024-03-05T15:00:00Z"));
     return travelExpense;
@@ -57,11 +64,23 @@ final class TestTravelFixtures {
     CrupdateTravelExpense travelExpense = new CrupdateTravelExpense();
     travelExpense.setId(UUID.randomUUID().toString());
     travelExpense.setExpenseId(TestUtils.EXPENSE1_ID);
-    travelExpense.setDepartureLocation("Mahajanga");
-    travelExpense.setArrivalLocation("Antananarivo");
+    travelExpense.setDepartureLocation(
+        TestOrganizationFixtures.warehouseToCrupdateWarehouse(routeWarehouse()));
+    travelExpense.setArrivalLocation(
+        TestOrganizationFixtures.warehouseToCrupdateWarehouse(
+            TestOrganizationFixtures.warehouse1()));
     travelExpense.setDepartureDate(Instant.parse("2024-04-01T08:00:00Z"));
     travelExpense.setArrivalDate(Instant.parse("2024-04-01T18:00:00Z"));
     return travelExpense;
+  }
+
+  private static com.example.demo.client.model.Warehouse routeWarehouse() {
+    com.example.demo.client.model.Warehouse warehouse =
+        new com.example.demo.client.model.Warehouse();
+    warehouse.setId(TestUtils.ROUTE_WAREHOUSE_ID);
+    warehouse.setName("En route");
+    warehouse.setDescription("Emplacement virtuel pour les équipements en déplacement");
+    return warehouse;
   }
 
   static TravelPeople travelPeople1() {

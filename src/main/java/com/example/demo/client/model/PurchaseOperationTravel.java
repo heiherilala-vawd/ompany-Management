@@ -19,6 +19,7 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import com.example.demo.client.model.CrupdateWarehouse;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -32,19 +33,31 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  * PurchaseOperationTravel
  */
 @JsonPropertyOrder({
-  PurchaseOperationTravel.JSON_PROPERTY_DEPARTURE_LOCATION_ID,
-  PurchaseOperationTravel.JSON_PROPERTY_ARRIVAL_LOCATION_ID,
+  PurchaseOperationTravel.JSON_PROPERTY_ID,
+  PurchaseOperationTravel.JSON_PROPERTY_EXPENSE_ID,
+  PurchaseOperationTravel.JSON_PROPERTY_TRAVEL_PEOPLE_ID,
+  PurchaseOperationTravel.JSON_PROPERTY_DEPARTURE_LOCATION,
+  PurchaseOperationTravel.JSON_PROPERTY_ARRIVAL_LOCATION,
   PurchaseOperationTravel.JSON_PROPERTY_DEPARTURE_DATE,
   PurchaseOperationTravel.JSON_PROPERTY_ARRIVAL_DATE,
   PurchaseOperationTravel.JSON_PROPERTY_FEE
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-25T09:42:59.450059343+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-28T20:56:47.212042276+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class PurchaseOperationTravel {
-  public static final String JSON_PROPERTY_DEPARTURE_LOCATION_ID = "departure_location_id";
-  private String departureLocationId;
+  public static final String JSON_PROPERTY_ID = "id";
+  private String id;
 
-  public static final String JSON_PROPERTY_ARRIVAL_LOCATION_ID = "arrival_location_id";
-  private String arrivalLocationId;
+  public static final String JSON_PROPERTY_EXPENSE_ID = "expense_id";
+  private String expenseId;
+
+  public static final String JSON_PROPERTY_TRAVEL_PEOPLE_ID = "travel_people_id";
+  private String travelPeopleId;
+
+  public static final String JSON_PROPERTY_DEPARTURE_LOCATION = "departure_location";
+  private CrupdateWarehouse departureLocation;
+
+  public static final String JSON_PROPERTY_ARRIVAL_LOCATION = "arrival_location";
+  private CrupdateWarehouse arrivalLocation;
 
   public static final String JSON_PROPERTY_DEPARTURE_DATE = "departure_date";
   private java.time.Instant departureDate;
@@ -58,53 +71,128 @@ public class PurchaseOperationTravel {
   public PurchaseOperationTravel() { 
   }
 
-  public PurchaseOperationTravel departureLocationId(String departureLocationId) {
-    this.departureLocationId = departureLocationId;
+  public PurchaseOperationTravel id(String id) {
+    this.id = id;
     return this;
   }
 
    /**
-   * Get departureLocationId
-   * @return departureLocationId
+   * Get id
+   * @return id
   **/
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_DEPARTURE_LOCATION_ID)
+  @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getDepartureLocationId() {
-    return departureLocationId;
+  public String getId() {
+    return id;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_DEPARTURE_LOCATION_ID)
+  @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setDepartureLocationId(String departureLocationId) {
-    this.departureLocationId = departureLocationId;
+  public void setId(String id) {
+    this.id = id;
   }
 
 
-  public PurchaseOperationTravel arrivalLocationId(String arrivalLocationId) {
-    this.arrivalLocationId = arrivalLocationId;
+  public PurchaseOperationTravel expenseId(String expenseId) {
+    this.expenseId = expenseId;
     return this;
   }
 
    /**
-   * Get arrivalLocationId
-   * @return arrivalLocationId
+   * Get expenseId
+   * @return expenseId
   **/
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ARRIVAL_LOCATION_ID)
+  @JsonProperty(JSON_PROPERTY_EXPENSE_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getArrivalLocationId() {
-    return arrivalLocationId;
+  public String getExpenseId() {
+    return expenseId;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_ARRIVAL_LOCATION_ID)
+  @JsonProperty(JSON_PROPERTY_EXPENSE_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setArrivalLocationId(String arrivalLocationId) {
-    this.arrivalLocationId = arrivalLocationId;
+  public void setExpenseId(String expenseId) {
+    this.expenseId = expenseId;
+  }
+
+
+  public PurchaseOperationTravel travelPeopleId(String travelPeopleId) {
+    this.travelPeopleId = travelPeopleId;
+    return this;
+  }
+
+   /**
+   * Get travelPeopleId
+   * @return travelPeopleId
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_TRAVEL_PEOPLE_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getTravelPeopleId() {
+    return travelPeopleId;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_TRAVEL_PEOPLE_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setTravelPeopleId(String travelPeopleId) {
+    this.travelPeopleId = travelPeopleId;
+  }
+
+
+  public PurchaseOperationTravel departureLocation(CrupdateWarehouse departureLocation) {
+    this.departureLocation = departureLocation;
+    return this;
+  }
+
+   /**
+   * Get departureLocation
+   * @return departureLocation
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_DEPARTURE_LOCATION)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public CrupdateWarehouse getDepartureLocation() {
+    return departureLocation;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_DEPARTURE_LOCATION)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setDepartureLocation(CrupdateWarehouse departureLocation) {
+    this.departureLocation = departureLocation;
+  }
+
+
+  public PurchaseOperationTravel arrivalLocation(CrupdateWarehouse arrivalLocation) {
+    this.arrivalLocation = arrivalLocation;
+    return this;
+  }
+
+   /**
+   * Get arrivalLocation
+   * @return arrivalLocation
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_ARRIVAL_LOCATION)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public CrupdateWarehouse getArrivalLocation() {
+    return arrivalLocation;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_ARRIVAL_LOCATION)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setArrivalLocation(CrupdateWarehouse arrivalLocation) {
+    this.arrivalLocation = arrivalLocation;
   }
 
 
@@ -195,8 +283,11 @@ public class PurchaseOperationTravel {
       return false;
     }
     PurchaseOperationTravel purchaseOperationTravel = (PurchaseOperationTravel) o;
-    return Objects.equals(this.departureLocationId, purchaseOperationTravel.departureLocationId) &&
-        Objects.equals(this.arrivalLocationId, purchaseOperationTravel.arrivalLocationId) &&
+    return Objects.equals(this.id, purchaseOperationTravel.id) &&
+        Objects.equals(this.expenseId, purchaseOperationTravel.expenseId) &&
+        Objects.equals(this.travelPeopleId, purchaseOperationTravel.travelPeopleId) &&
+        Objects.equals(this.departureLocation, purchaseOperationTravel.departureLocation) &&
+        Objects.equals(this.arrivalLocation, purchaseOperationTravel.arrivalLocation) &&
         Objects.equals(this.departureDate, purchaseOperationTravel.departureDate) &&
         Objects.equals(this.arrivalDate, purchaseOperationTravel.arrivalDate) &&
         Objects.equals(this.fee, purchaseOperationTravel.fee);
@@ -204,15 +295,18 @@ public class PurchaseOperationTravel {
 
   @Override
   public int hashCode() {
-    return Objects.hash(departureLocationId, arrivalLocationId, departureDate, arrivalDate, fee);
+    return Objects.hash(id, expenseId, travelPeopleId, departureLocation, arrivalLocation, departureDate, arrivalDate, fee);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class PurchaseOperationTravel {\n");
-    sb.append("    departureLocationId: ").append(toIndentedString(departureLocationId)).append("\n");
-    sb.append("    arrivalLocationId: ").append(toIndentedString(arrivalLocationId)).append("\n");
+    sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    expenseId: ").append(toIndentedString(expenseId)).append("\n");
+    sb.append("    travelPeopleId: ").append(toIndentedString(travelPeopleId)).append("\n");
+    sb.append("    departureLocation: ").append(toIndentedString(departureLocation)).append("\n");
+    sb.append("    arrivalLocation: ").append(toIndentedString(arrivalLocation)).append("\n");
     sb.append("    departureDate: ").append(toIndentedString(departureDate)).append("\n");
     sb.append("    arrivalDate: ").append(toIndentedString(arrivalDate)).append("\n");
     sb.append("    fee: ").append(toIndentedString(fee)).append("\n");
@@ -263,14 +357,29 @@ public class PurchaseOperationTravel {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `departure_location_id` to the URL query string
-    if (getDepartureLocationId() != null) {
-      joiner.add(String.format("%sdeparture_location_id%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getDepartureLocationId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    // add `id` to the URL query string
+    if (getId() != null) {
+      joiner.add(String.format("%sid%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `arrival_location_id` to the URL query string
-    if (getArrivalLocationId() != null) {
-      joiner.add(String.format("%sarrival_location_id%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getArrivalLocationId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    // add `expense_id` to the URL query string
+    if (getExpenseId() != null) {
+      joiner.add(String.format("%sexpense_id%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getExpenseId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `travel_people_id` to the URL query string
+    if (getTravelPeopleId() != null) {
+      joiner.add(String.format("%stravel_people_id%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getTravelPeopleId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `departure_location` to the URL query string
+    if (getDepartureLocation() != null) {
+      joiner.add(getDepartureLocation().toUrlQueryString(prefix + "departure_location" + suffix));
+    }
+
+    // add `arrival_location` to the URL query string
+    if (getArrivalLocation() != null) {
+      joiner.add(getArrivalLocation().toUrlQueryString(prefix + "arrival_location" + suffix));
     }
 
     // add `departure_date` to the URL query string
