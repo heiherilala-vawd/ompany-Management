@@ -1,6 +1,7 @@
 package com.example.demo.model.movement;
 
 import com.example.demo.model.CreatAndUpdateEntity;
+import com.example.demo.model.User;
 import com.example.demo.model.money.TravelExpense;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
@@ -31,7 +32,13 @@ public class TravelPeople extends CreatAndUpdateEntity implements Serializable {
   @JsonBackReference
   private TravelExpense travel;
 
-  private String personName;
+  @ManyToOne
+  @JoinColumn(name = "user_id")
+  private User user;
+
+  public String getPersonName() {
+    return user != null ? user.getFirstName() + " " + user.getLastName() : null;
+  }
 
   @Override
   public boolean equals(Object o) {

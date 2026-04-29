@@ -8,6 +8,7 @@ import com.example.demo.model.Job;
 import com.example.demo.model.PageFromOne;
 import com.example.demo.model.criteria.JobCriteria;
 import com.example.demo.repository.JobRepository;
+import com.example.demo.repository.UserRepository;
 import com.example.demo.service.utils.ModificationUtils;
 import com.example.demo.service.utils.PageUtils;
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class JobService {
 
   private final JobRepository jobRepository;
+  private final UserRepository userRepository;
   private final ModificationUtils modificationUtils;
 
   public Optional<Job> findById(String id) {
@@ -53,6 +55,41 @@ public class JobService {
   @Transactional
   public void deleteById(String id) {
     jobRepository.deleteById(id);
+  }
+
+  @Transactional
+  public void assignUserToJob(String jobId, String userId) {
+    Job job =
+        jobRepository
+            .findById(jobId)
+            .orElseThrow(() -> new IllegalArgumentException("Job not found: " + jobId));
+    com.example.demo.model.User user =
+        userRepository
+            .findById(userId)
+            .orElseThrow(() -> new IllegalArgumentException("User not found: " + userId));
+
+    job.getResponsibleUsers().add(user);
+    jobRepository.save(job);
+  }
+
+  @Transactional
+  public void unassignUserFromJob(String jobId, String userId) {
+    Job job =
+        jobRepository
+            .findById(jobId)
+            .orElseThrow(() -> new IllegalArgumentException("Job not found: " + jobId));
+
+    job.getResponsibleUsers().removeIf(user -> user.getId().equals(userId));
+    jobRepository.save(job);
+  }
+
+  public List<com.example.demo.model.User> getJobResponsibleUsers(String jobId) {
+    Job job =
+        jobRepository
+            .findById(jobId)
+            .orElseThrow(() -> new IllegalArgumentException("Job not found: " + jobId));
+
+    return new ArrayList<>(job.getResponsibleUsers());
   }
 
   private Specification<Job> toSpecification(JobCriteria criteria) {

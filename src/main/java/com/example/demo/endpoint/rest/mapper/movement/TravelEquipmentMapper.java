@@ -5,6 +5,7 @@ import com.example.demo.client.model.TransportStatus;
 import com.example.demo.client.model.TravelEquipment;
 import com.example.demo.endpoint.rest.mapper.EnumMapper;
 import com.example.demo.endpoint.rest.mapper.RestAuditMapperUtils;
+import com.example.demo.endpoint.rest.mapper.money.TravelExpenseMapper;
 import com.example.demo.service.money.TravelExpenseService;
 import com.example.demo.service.movement.EquipmentService;
 import java.util.List;
@@ -17,6 +18,8 @@ public class TravelEquipmentMapper {
 
   private final TravelExpenseService travelExpenseService;
   private final EquipmentService equipmentService;
+  private final TravelExpenseMapper travelExpenseMapper;
+  private final EquipmentMapper equipmentMapper;
 
   public com.example.demo.model.movement.TravelEquipment toDomain(
       TravelEquipment restTravelEquipment) {
@@ -25,12 +28,15 @@ public class TravelEquipmentMapper {
     return com.example.demo.model.movement.TravelEquipment.builder()
         .id(restTravelEquipment.getId())
         .travel(
-            restTravelEquipment.getTravelId() != null
-                ? travelExpenseService.findById(restTravelEquipment.getTravelId()).orElse(null)
+            restTravelEquipment.getTravel() != null
+                    && restTravelEquipment.getTravel().getId() != null
+                ? travelExpenseService
+                    .findById(restTravelEquipment.getTravel().getId())
+                    .orElse(null)
                 : null)
         .equipment(
             restTravelEquipment.getEquipment() != null
-                ? equipmentService.findById(restTravelEquipment.getEquipment()).orElse(null)
+                ? equipmentService.findById(restTravelEquipment.getEquipment().getId()).orElse(null)
                 : null)
         .quantity(restTravelEquipment.getQuantity())
         .comment(restTravelEquipment.getComment())
@@ -70,14 +76,10 @@ public class TravelEquipmentMapper {
 
     TravelEquipment restTravelEquipment = new TravelEquipment();
     restTravelEquipment.setId(domainTravelEquipment.getId());
-    restTravelEquipment.setTravelId(
-        domainTravelEquipment.getTravel() != null
-            ? domainTravelEquipment.getTravel().getId()
-            : null);
+    restTravelEquipment.setTravel(
+        travelExpenseMapper.toRestCrupdateTravelExpense(domainTravelEquipment.getTravel()));
     restTravelEquipment.setEquipment(
-        domainTravelEquipment.getEquipment() != null
-            ? domainTravelEquipment.getEquipment().getId()
-            : null);
+        equipmentMapper.toRestCrupdateEquipment(domainTravelEquipment.getEquipment()));
     restTravelEquipment.setQuantity(domainTravelEquipment.getQuantity());
     restTravelEquipment.setStatus(
         EnumMapper.mapEnum(domainTravelEquipment.getStatus(), TransportStatus.class));

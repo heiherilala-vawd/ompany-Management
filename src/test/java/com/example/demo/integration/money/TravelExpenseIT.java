@@ -103,7 +103,7 @@ class TravelExpenseIT {
 
     List<TravelExpense> travelExpenses =
         api.getTravelExpenses(
-            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, 1, 100, null, "Antananarivo", null);
+            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, 1, 100, null, WAREHOUSE1_ID, null);
 
     assertEquals(1, travelExpenses.size());
     assertEquals(TRAVEL_EXPENSE1_ID, travelExpenses.get(0).getId());
@@ -115,7 +115,7 @@ class TravelExpenseIT {
 
     List<TravelExpense> travelExpenses =
         api.getTravelExpenses(
-            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, 1, 100, null, null, "Antsirabe");
+            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, 1, 100, null, null, WAREHOUSE1_ID);
 
     assertEquals(1, travelExpenses.size());
     assertEquals(TRAVEL_EXPENSE2_ID, travelExpenses.get(0).getId());
@@ -128,7 +128,7 @@ class TravelExpenseIT {
 
     CrupdateTravelExpense travelExpenseToUpdate =
         travelExpenseToCrupdateTravelExpense(travelExpense1());
-    travelExpenseToUpdate.setArrivalLocation("Mahajanga");
+    travelExpenseToUpdate.setArrivalLocation(warehouseToCrupdateWarehouse(warehouse2()));
 
     List<TravelExpense> updatedTravelExpenses =
         api.crupdateTravelExpenses(
@@ -136,7 +136,7 @@ class TravelExpenseIT {
 
     assertEquals(1, updatedTravelExpenses.size());
     assertEquals(TRAVEL_EXPENSE1_ID, updatedTravelExpenses.get(0).getId());
-    assertEquals("Mahajanga", updatedTravelExpenses.get(0).getArrivalLocation());
+    assertEquals(WAREHOUSE2_ID, updatedTravelExpenses.get(0).getArrivalLocation().getId());
   }
 
   @Test

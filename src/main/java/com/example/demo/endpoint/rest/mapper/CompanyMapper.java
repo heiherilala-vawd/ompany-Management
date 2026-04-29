@@ -65,6 +65,18 @@ public class CompanyMapper {
     return restCompany;
   }
 
+  public CrupdateCompany toRestCrupdateCompany(com.example.demo.model.Company domainCompany) {
+    if (domainCompany == null) return null;
+
+    return new CrupdateCompany()
+        .id(domainCompany.getId())
+        .name(domainCompany.getName())
+        .rib(domainCompany.getRib())
+        .description(domainCompany.getDescription())
+        .companyType(EnumMapper.mapEnum(domainCompany.getCompanyType(), CompanyType.class))
+        .comment(domainCompany.getComment());
+  }
+
   public List<Company> toRestCompanies(List<com.example.demo.model.Company> domainCompanies) {
     return domainCompanies.stream().map(this::toRestCompany).toList();
   }

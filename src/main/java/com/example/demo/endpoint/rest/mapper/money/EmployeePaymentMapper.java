@@ -3,6 +3,7 @@ package com.example.demo.endpoint.rest.mapper.money;
 import com.example.demo.client.model.CrupdateEmployeePayment;
 import com.example.demo.client.model.EmployeePayment;
 import com.example.demo.client.model.PaymentType;
+import com.example.demo.endpoint.rest.mapper.UserMapper;
 import com.example.demo.service.UserService;
 import com.example.demo.service.money.ExpenseMoneyService;
 import java.util.List;
@@ -15,6 +16,8 @@ public class EmployeePaymentMapper {
 
   private final ExpenseMoneyService expenseMoneyService;
   private final UserService userService;
+  private final ExpenseMoneyMapper expenseMoneyMapper;
+  private final UserMapper userMapper;
 
   public com.example.demo.model.money.EmployeePayment toDomain(EmployeePayment restPayment) {
     if (restPayment == null) return null;
@@ -22,12 +25,12 @@ public class EmployeePaymentMapper {
     return com.example.demo.model.money.EmployeePayment.builder()
         .id(restPayment.getId())
         .expense(
-            restPayment.getExpenseId() != null
-                ? expenseMoneyService.findById(restPayment.getExpenseId()).orElse(null)
+            restPayment.getExpense() != null && restPayment.getExpense().getId() != null
+                ? expenseMoneyService.findById(restPayment.getExpense().getId()).orElse(null)
                 : null)
         .employee(
-            restPayment.getEmployeeId() != null
-                ? userService.getById(restPayment.getEmployeeId())
+            restPayment.getEmployee() != null && restPayment.getEmployee().getId() != null
+                ? userService.getById(restPayment.getEmployee().getId())
                 : null)
         .paymentDescription(restPayment.getPaymentDescription())
         .paymentType(
@@ -66,10 +69,8 @@ public class EmployeePaymentMapper {
 
     EmployeePayment restPayment = new EmployeePayment();
     restPayment.setId(domainPayment.getId());
-    restPayment.setExpenseId(
-        domainPayment.getExpense() != null ? domainPayment.getExpense().getId() : null);
-    restPayment.setEmployeeId(
-        domainPayment.getEmployee() != null ? domainPayment.getEmployee().getId() : null);
+    restPayment.setExpense(expenseMoneyMapper.toRestCrupdateExpense(domainPayment.getExpense()));
+    restPayment.setEmployee(userMapper.toRestUser(domainPayment.getEmployee()));
     restPayment.setPaymentDescription(domainPayment.getPaymentDescription());
     restPayment.setPaymentType(
         domainPayment.getPaymentType() != null

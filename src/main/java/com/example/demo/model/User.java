@@ -4,9 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,7 +22,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Table(name = "\"users\"")
 @Getter
 @Setter
-@ToString
+@ToString(exclude = "assignedJobs")
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -51,6 +49,9 @@ public class User extends CreatAndUpdateEntity implements Serializable, UserDeta
 
   @NotBlank(message = "Password is mandatory")
   private String password;
+
+  @ManyToMany(mappedBy = "responsibleUsers", fetch = FetchType.LAZY)
+  private List<Job> assignedJobs = new ArrayList<>();
 
   @Override
   public boolean equals(Object o) {

@@ -78,9 +78,17 @@ class WarehouseIT {
 
     List<Warehouse> warehouses = api.getWarehouses(COMPANY1_ID, 1, 100, null, null, null);
 
-    assertEquals(2, warehouses.size());
+    assertEquals(5, warehouses.size());
     assertTrue(warehouses.stream().anyMatch(warehouse -> WAREHOUSE1_ID.equals(warehouse.getId())));
     assertTrue(warehouses.stream().anyMatch(warehouse -> WAREHOUSE2_ID.equals(warehouse.getId())));
+    assertTrue(
+        warehouses.stream().anyMatch(warehouse -> ROUTE_WAREHOUSE_ID.equals(warehouse.getId())));
+    assertTrue(
+        warehouses.stream()
+            .anyMatch(warehouse -> AT_SELLER_WAREHOUSE_ID.equals(warehouse.getId())));
+    assertTrue(
+        warehouses.stream()
+            .anyMatch(warehouse -> UNFINDABLE_WAREHOUSE_ID.equals(warehouse.getId())));
   }
 
   @Test
@@ -120,8 +128,8 @@ class WarehouseIT {
 
     List<Warehouse> warehouses = api.getWarehouses(COMPANY1_ID, 1, 100, null, null, "équipements");
 
-    assertEquals(1, warehouses.size());
-    assertEquals(WAREHOUSE2_ID, warehouses.get(0).getId());
+    assertEquals(4, warehouses.size());
+    assertTrue(warehouses.stream().anyMatch(warehouse -> WAREHOUSE2_ID.equals(warehouse.getId())));
   }
 
   @Test

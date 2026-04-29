@@ -19,6 +19,9 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import com.example.demo.client.model.AuditUser;
+import com.example.demo.client.model.CrupdateTravelExpense;
+import com.example.demo.client.model.User;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -33,24 +36,24 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  */
 @JsonPropertyOrder({
   TravelPeople.JSON_PROPERTY_ID,
-  TravelPeople.JSON_PROPERTY_TRAVEL_ID,
-  TravelPeople.JSON_PROPERTY_PERSON_NAME,
+  TravelPeople.JSON_PROPERTY_TRAVEL,
+  TravelPeople.JSON_PROPERTY_USER,
   TravelPeople.JSON_PROPERTY_CREATED_AT,
   TravelPeople.JSON_PROPERTY_UPDATED_AT,
   TravelPeople.JSON_PROPERTY_CREATED_BY,
   TravelPeople.JSON_PROPERTY_UPDATED_BY,
   TravelPeople.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-22T04:36:53.574595138+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-29T14:25:24.972835022+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class TravelPeople {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
 
-  public static final String JSON_PROPERTY_TRAVEL_ID = "travel_id";
-  private String travelId;
+  public static final String JSON_PROPERTY_TRAVEL = "travel";
+  private CrupdateTravelExpense travel;
 
-  public static final String JSON_PROPERTY_PERSON_NAME = "person_name";
-  private String personName;
+  public static final String JSON_PROPERTY_USER = "user";
+  private User user;
 
   public static final String JSON_PROPERTY_CREATED_AT = "created_at";
   private java.time.Instant createdAt;
@@ -59,10 +62,10 @@ public class TravelPeople {
   private java.time.Instant updatedAt;
 
   public static final String JSON_PROPERTY_CREATED_BY = "created_by";
-  private String createdBy;
+  private AuditUser createdBy;
 
   public static final String JSON_PROPERTY_UPDATED_BY = "updated_by";
-  private String updatedBy;
+  private AuditUser updatedBy;
 
   public static final String JSON_PROPERTY_COMMENT = "comment";
   private String comment;
@@ -95,53 +98,53 @@ public class TravelPeople {
   }
 
 
-  public TravelPeople travelId(String travelId) {
-    this.travelId = travelId;
+  public TravelPeople travel(CrupdateTravelExpense travel) {
+    this.travel = travel;
     return this;
   }
 
    /**
-   * Get travelId
-   * @return travelId
+   * Get travel
+   * @return travel
   **/
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_TRAVEL_ID)
+  @JsonProperty(JSON_PROPERTY_TRAVEL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getTravelId() {
-    return travelId;
+  public CrupdateTravelExpense getTravel() {
+    return travel;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_TRAVEL_ID)
+  @JsonProperty(JSON_PROPERTY_TRAVEL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setTravelId(String travelId) {
-    this.travelId = travelId;
+  public void setTravel(CrupdateTravelExpense travel) {
+    this.travel = travel;
   }
 
 
-  public TravelPeople personName(String personName) {
-    this.personName = personName;
+  public TravelPeople user(User user) {
+    this.user = user;
     return this;
   }
 
    /**
-   * Get personName
-   * @return personName
+   * Get user
+   * @return user
   **/
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_PERSON_NAME)
+  @JsonProperty(JSON_PROPERTY_USER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getPersonName() {
-    return personName;
+  public User getUser() {
+    return user;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_PERSON_NAME)
+  @JsonProperty(JSON_PROPERTY_USER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setPersonName(String personName) {
-    this.personName = personName;
+  public void setUser(User user) {
+    this.user = user;
   }
 
 
@@ -195,7 +198,7 @@ public class TravelPeople {
   }
 
 
-  public TravelPeople createdBy(String createdBy) {
+  public TravelPeople createdBy(AuditUser createdBy) {
     this.createdBy = createdBy;
     return this;
   }
@@ -208,19 +211,19 @@ public class TravelPeople {
   @JsonProperty(JSON_PROPERTY_CREATED_BY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getCreatedBy() {
+  public AuditUser getCreatedBy() {
     return createdBy;
   }
 
 
   @JsonProperty(JSON_PROPERTY_CREATED_BY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setCreatedBy(String createdBy) {
+  public void setCreatedBy(AuditUser createdBy) {
     this.createdBy = createdBy;
   }
 
 
-  public TravelPeople updatedBy(String updatedBy) {
+  public TravelPeople updatedBy(AuditUser updatedBy) {
     this.updatedBy = updatedBy;
     return this;
   }
@@ -233,14 +236,14 @@ public class TravelPeople {
   @JsonProperty(JSON_PROPERTY_UPDATED_BY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getUpdatedBy() {
+  public AuditUser getUpdatedBy() {
     return updatedBy;
   }
 
 
   @JsonProperty(JSON_PROPERTY_UPDATED_BY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setUpdatedBy(String updatedBy) {
+  public void setUpdatedBy(AuditUser updatedBy) {
     this.updatedBy = updatedBy;
   }
 
@@ -283,8 +286,8 @@ public class TravelPeople {
     }
     TravelPeople travelPeople = (TravelPeople) o;
     return Objects.equals(this.id, travelPeople.id) &&
-        Objects.equals(this.travelId, travelPeople.travelId) &&
-        Objects.equals(this.personName, travelPeople.personName) &&
+        Objects.equals(this.travel, travelPeople.travel) &&
+        Objects.equals(this.user, travelPeople.user) &&
         Objects.equals(this.createdAt, travelPeople.createdAt) &&
         Objects.equals(this.updatedAt, travelPeople.updatedAt) &&
         Objects.equals(this.createdBy, travelPeople.createdBy) &&
@@ -294,7 +297,7 @@ public class TravelPeople {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, travelId, personName, createdAt, updatedAt, createdBy, updatedBy, comment);
+    return Objects.hash(id, travel, user, createdAt, updatedAt, createdBy, updatedBy, comment);
   }
 
   @Override
@@ -302,8 +305,8 @@ public class TravelPeople {
     StringBuilder sb = new StringBuilder();
     sb.append("class TravelPeople {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    travelId: ").append(toIndentedString(travelId)).append("\n");
-    sb.append("    personName: ").append(toIndentedString(personName)).append("\n");
+    sb.append("    travel: ").append(toIndentedString(travel)).append("\n");
+    sb.append("    user: ").append(toIndentedString(user)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
     sb.append("    updatedAt: ").append(toIndentedString(updatedAt)).append("\n");
     sb.append("    createdBy: ").append(toIndentedString(createdBy)).append("\n");
@@ -368,12 +371,12 @@ public class TravelPeople {
 
     // add `created_by` to the URL query string
     if (getCreatedBy() != null) {
-      joiner.add(String.format("%screated_by%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getCreatedBy()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(getCreatedBy().toUrlQueryString(prefix + "created_by" + suffix));
     }
 
     // add `updated_by` to the URL query string
     if (getUpdatedBy() != null) {
-      joiner.add(String.format("%supdated_by%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getUpdatedBy()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(getUpdatedBy().toUrlQueryString(prefix + "updated_by" + suffix));
     }
 
     // add `comment` to the URL query string

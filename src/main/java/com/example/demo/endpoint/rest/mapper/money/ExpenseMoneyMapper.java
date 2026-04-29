@@ -2,6 +2,7 @@ package com.example.demo.endpoint.rest.mapper.money;
 
 import com.example.demo.client.model.CrupdateExpenseMoney;
 import com.example.demo.client.model.ExpenseMoney;
+import com.example.demo.endpoint.rest.mapper.JobMapper;
 import com.example.demo.endpoint.rest.mapper.RestAuditMapperUtils;
 import com.example.demo.service.JobService;
 import lombok.AllArgsConstructor;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Component;
 public class ExpenseMoneyMapper {
 
   private final JobService jobService;
+  private final JobMapper jobMapper;
 
   public com.example.demo.model.money.ExpenseMoney toDomain(ExpenseMoney restExpense) {
     if (restExpense == null) return null;
@@ -22,8 +24,8 @@ public class ExpenseMoneyMapper {
         .description(restExpense.getDescription())
         .comment(restExpense.getComment())
         .job(
-            restExpense.getJobId() != null
-                ? jobService.findById(restExpense.getJobId()).orElse(null)
+            restExpense.getJob() != null && restExpense.getJob().getId() != null
+                ? jobService.findById(restExpense.getJob().getId()).orElse(null)
                 : null)
         .build();
   }
@@ -50,7 +52,7 @@ public class ExpenseMoneyMapper {
     restExpense.setId(domainExpense.getId());
     restExpense.setAmount(domainExpense.getAmount());
     restExpense.setDescription(domainExpense.getDescription());
-    restExpense.setJobId(domainExpense.getJob() != null ? domainExpense.getJob().getId() : null);
+    restExpense.setJob(jobMapper.toRestCrupdateJob(domainExpense.getJob()));
     RestAuditMapperUtils.mapAuditFields(
         domainExpense,
         restExpense::setCreatedAt,
@@ -60,5 +62,17 @@ public class ExpenseMoneyMapper {
         restExpense::setUpdatedBy);
 
     return restExpense;
+  }
+
+  public CrupdateExpenseMoney toRestCrupdateExpense(
+      com.example.demo.model.money.ExpenseMoney domainExpense) {
+    if (domainExpense == null) return null;
+
+    return new CrupdateExpenseMoney()
+        .id(domainExpense.getId())
+        .jobId(domainExpense.getJob() != null ? domainExpense.getJob().getId() : null)
+        .amount(domainExpense.getAmount())
+        .description(domainExpense.getDescription())
+        .comment(domainExpense.getComment());
   }
 }

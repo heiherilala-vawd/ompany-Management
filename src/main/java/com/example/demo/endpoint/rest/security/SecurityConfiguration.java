@@ -81,7 +81,13 @@ public class SecurityConfiguration {
                     // =========================
                     .requestMatchers(GET, "/companies/*/jobs", "/companies/*/jobs/*")
                     .authenticated()
+                    .requestMatchers(GET, "/companies/*/jobs/*/users")
+                    .authenticated()
                     .requestMatchers(PUT, "/companies/*/jobs")
+                    .authenticated()
+                    .requestMatchers(PUT, "/companies/*/jobs/*/users/*")
+                    .authenticated()
+                    .requestMatchers(DELETE, "/companies/*/jobs/*/users/*")
                     .authenticated()
                     // DELETE /jobs - ADMIN uniquement
                     .requestMatchers(DELETE, "/companies/*/jobs/*")
@@ -173,6 +179,8 @@ public class SecurityConfiguration {
                         "/companies/*/job/*/user/*/expenses/*/purchases/*")
                     .authenticated()
                     .requestMatchers(PUT, "/companies/*/job/*/user/*/expenses/*/purchases")
+                    .authenticated()
+                    .requestMatchers(POST, "/companies/*/job/*/user/*/purchase_operations")
                     .authenticated()
                     // DELETE /purchases - ADMIN uniquement
                     .requestMatchers(DELETE, "/companies/*/job/*/user/*/expenses/*/purchases/*")

@@ -2,6 +2,7 @@ package com.example.demo.endpoint.rest.mapper.movement;
 
 import com.example.demo.client.model.CrupdateWarehouse;
 import com.example.demo.client.model.Warehouse;
+import com.example.demo.endpoint.rest.mapper.JobMapper;
 import com.example.demo.endpoint.rest.mapper.RestAuditMapperUtils;
 import com.example.demo.service.JobService;
 import java.util.List;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Component;
 public class WarehouseMapper {
 
   private final JobService jobService;
+  private final JobMapper jobMapper;
 
   public com.example.demo.model.movement.Warehouse toDomain(Warehouse restWarehouse) {
     if (restWarehouse == null) return null;
@@ -22,8 +24,8 @@ public class WarehouseMapper {
         .name(restWarehouse.getName())
         .description(restWarehouse.getDescription())
         .job(
-            restWarehouse.getJobId() != null
-                ? jobService.findById(restWarehouse.getJobId()).orElse(null)
+            restWarehouse.getJob() != null && restWarehouse.getJob().getId() != null
+                ? jobService.findById(restWarehouse.getJob().getId()).orElse(null)
                 : null)
         .comment(restWarehouse.getComment())
         .build();
@@ -51,8 +53,7 @@ public class WarehouseMapper {
     restWarehouse.setId(domainWarehouse.getId());
     restWarehouse.setName(domainWarehouse.getName());
     restWarehouse.setDescription(domainWarehouse.getDescription());
-    restWarehouse.setJobId(
-        domainWarehouse.getJob() != null ? domainWarehouse.getJob().getId() : null);
+    restWarehouse.setJob(jobMapper.toRestCrupdateJob(domainWarehouse.getJob()));
     RestAuditMapperUtils.mapAuditFields(
         domainWarehouse,
         restWarehouse::setCreatedAt,
@@ -62,6 +63,18 @@ public class WarehouseMapper {
         restWarehouse::setUpdatedBy);
 
     return restWarehouse;
+  }
+
+  public CrupdateWarehouse toRestCrupdateWarehouse(
+      com.example.demo.model.movement.Warehouse domainWarehouse) {
+    if (domainWarehouse == null) return null;
+
+    return new CrupdateWarehouse()
+        .id(domainWarehouse.getId())
+        .name(domainWarehouse.getName())
+        .description(domainWarehouse.getDescription())
+        .jobId(domainWarehouse.getJob() != null ? domainWarehouse.getJob().getId() : null)
+        .comment(domainWarehouse.getComment());
   }
 
   public List<Warehouse> toRestWarehouses(

@@ -19,6 +19,8 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import com.example.demo.client.model.AuditUser;
+import com.example.demo.client.model.CrupdateCompany;
 import com.example.demo.client.model.JobStatus;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -35,7 +37,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  */
 @JsonPropertyOrder({
   Job.JSON_PROPERTY_ID,
-  Job.JSON_PROPERTY_COMPANY_ID,
+  Job.JSON_PROPERTY_COMPANY,
   Job.JSON_PROPERTY_DESCRIPTION,
   Job.JSON_PROPERTY_CONTRACT_SIGNATURE_DATE,
   Job.JSON_PROPERTY_START_DATE,
@@ -47,13 +49,13 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   Job.JSON_PROPERTY_UPDATED_BY,
   Job.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-22T04:36:53.574595138+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-29T14:25:24.972835022+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class Job {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
 
-  public static final String JSON_PROPERTY_COMPANY_ID = "company_id";
-  private String companyId;
+  public static final String JSON_PROPERTY_COMPANY = "company";
+  private CrupdateCompany company;
 
   public static final String JSON_PROPERTY_DESCRIPTION = "description";
   private String description;
@@ -77,10 +79,10 @@ public class Job {
   private java.time.Instant updatedAt;
 
   public static final String JSON_PROPERTY_CREATED_BY = "created_by";
-  private String createdBy;
+  private AuditUser createdBy;
 
   public static final String JSON_PROPERTY_UPDATED_BY = "updated_by";
-  private String updatedBy;
+  private AuditUser updatedBy;
 
   public static final String JSON_PROPERTY_COMMENT = "comment";
   private String comment;
@@ -113,28 +115,28 @@ public class Job {
   }
 
 
-  public Job companyId(String companyId) {
-    this.companyId = companyId;
+  public Job company(CrupdateCompany company) {
+    this.company = company;
     return this;
   }
 
    /**
-   * Get companyId
-   * @return companyId
+   * Get company
+   * @return company
   **/
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_COMPANY_ID)
+  @JsonProperty(JSON_PROPERTY_COMPANY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getCompanyId() {
-    return companyId;
+  public CrupdateCompany getCompany() {
+    return company;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_COMPANY_ID)
+  @JsonProperty(JSON_PROPERTY_COMPANY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setCompanyId(String companyId) {
-    this.companyId = companyId;
+  public void setCompany(CrupdateCompany company) {
+    this.company = company;
   }
 
 
@@ -313,7 +315,7 @@ public class Job {
   }
 
 
-  public Job createdBy(String createdBy) {
+  public Job createdBy(AuditUser createdBy) {
     this.createdBy = createdBy;
     return this;
   }
@@ -326,19 +328,19 @@ public class Job {
   @JsonProperty(JSON_PROPERTY_CREATED_BY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getCreatedBy() {
+  public AuditUser getCreatedBy() {
     return createdBy;
   }
 
 
   @JsonProperty(JSON_PROPERTY_CREATED_BY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setCreatedBy(String createdBy) {
+  public void setCreatedBy(AuditUser createdBy) {
     this.createdBy = createdBy;
   }
 
 
-  public Job updatedBy(String updatedBy) {
+  public Job updatedBy(AuditUser updatedBy) {
     this.updatedBy = updatedBy;
     return this;
   }
@@ -351,14 +353,14 @@ public class Job {
   @JsonProperty(JSON_PROPERTY_UPDATED_BY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getUpdatedBy() {
+  public AuditUser getUpdatedBy() {
     return updatedBy;
   }
 
 
   @JsonProperty(JSON_PROPERTY_UPDATED_BY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setUpdatedBy(String updatedBy) {
+  public void setUpdatedBy(AuditUser updatedBy) {
     this.updatedBy = updatedBy;
   }
 
@@ -401,7 +403,7 @@ public class Job {
     }
     Job job = (Job) o;
     return Objects.equals(this.id, job.id) &&
-        Objects.equals(this.companyId, job.companyId) &&
+        Objects.equals(this.company, job.company) &&
         Objects.equals(this.description, job.description) &&
         Objects.equals(this.contractSignatureDate, job.contractSignatureDate) &&
         Objects.equals(this.startDate, job.startDate) &&
@@ -416,7 +418,7 @@ public class Job {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, companyId, description, contractSignatureDate, startDate, endDate, status, createdAt, updatedAt, createdBy, updatedBy, comment);
+    return Objects.hash(id, company, description, contractSignatureDate, startDate, endDate, status, createdAt, updatedAt, createdBy, updatedBy, comment);
   }
 
   @Override
@@ -424,7 +426,7 @@ public class Job {
     StringBuilder sb = new StringBuilder();
     sb.append("class Job {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    companyId: ").append(toIndentedString(companyId)).append("\n");
+    sb.append("    company: ").append(toIndentedString(company)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("    contractSignatureDate: ").append(toIndentedString(contractSignatureDate)).append("\n");
     sb.append("    startDate: ").append(toIndentedString(startDate)).append("\n");
@@ -494,12 +496,12 @@ public class Job {
 
     // add `created_by` to the URL query string
     if (getCreatedBy() != null) {
-      joiner.add(String.format("%screated_by%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getCreatedBy()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(getCreatedBy().toUrlQueryString(prefix + "created_by" + suffix));
     }
 
     // add `updated_by` to the URL query string
     if (getUpdatedBy() != null) {
-      joiner.add(String.format("%supdated_by%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getUpdatedBy()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(getUpdatedBy().toUrlQueryString(prefix + "updated_by" + suffix));
     }
 
     // add `comment` to the URL query string

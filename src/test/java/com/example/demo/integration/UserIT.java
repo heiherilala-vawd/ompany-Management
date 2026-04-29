@@ -131,7 +131,7 @@ class UserIT {
     User user =
         created.stream().filter(u -> ADMIN_EMAIL.equals(u.getEmail())).findFirst().orElse(null);
     newAdmin1.setUpdatedAt(user.getUpdatedAt());
-    newAdmin1.setUpdatedBy(admin1().getId());
+    newAdmin1.setUpdatedBy(user.getUpdatedBy());
 
     assertEquals(3, created.size());
     assertNotNull(created.get(0).getId());

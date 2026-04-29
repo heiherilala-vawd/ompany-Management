@@ -6,7 +6,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import com.example.demo.SentryConf;
 import com.example.demo.client.api.HistoryApi;
+import com.example.demo.client.api.UsersApi;
 import com.example.demo.client.invoker.ApiClient;
+import com.example.demo.client.model.CrupdateUser;
 import com.example.demo.client.model.EntityType;
 import com.example.demo.client.model.History;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
@@ -53,10 +55,38 @@ class HistoryIT {
   void admin_can_get_all_histories() throws Exception {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     HistoryApi api = new HistoryApi(adminClient);
+    UsersApi usersApi = new UsersApi(adminClient);
 
     List<History> histories = api.getHistories(1, 100, null, null, null, null, null);
 
     assertEquals(5, histories.size());
+    CrupdateUser newUser1 = userToCrupdateUser(admin1());
+    String newLastName = "new last name";
+    newUser1.setLastName(newLastName);
+
+    usersApi.crupdateUsers(List.of(newUser1));
+    List<History> histories2 = api.getHistories(1, 100, null, null, null, null, null);
+    assertEquals(6, histories2.size());
+  }
+
+  @Test
+  void admin_can_paginate_histories_with_page_size() throws Exception {
+    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
+    HistoryApi api = new HistoryApi(adminClient);
+
+    List<History> histories = api.getHistories(1, 2, null, null, null, null, null);
+
+    assertEquals(2, histories.size());
+  }
+
+  @Test
+  void admin_can_get_second_page_of_histories() throws Exception {
+    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
+    HistoryApi api = new HistoryApi(adminClient);
+
+    List<History> histories = api.getHistories(2, 2, null, null, null, null, null);
+
+    assertEquals(2, histories.size());
   }
 
   @Test
@@ -139,6 +169,17 @@ class HistoryIT {
         api.getHistories(1, 100, null, null, null, dateFrom.toInstant(), dateTo.toInstant());
 
     assertEquals(3, histories.size());
+  }
+
+  @Test
+  void admin_gets_empty_history_list_when_filters_match_nothing() throws Exception {
+    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
+    HistoryApi api = new HistoryApi(adminClient);
+
+    List<History> histories =
+        api.getHistories(1, 100, null, EntityType.BANK_FEE, COMPANY1_ID, null, null);
+
+    assertTrue(histories.isEmpty());
   }
 
   @Test

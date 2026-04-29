@@ -1,6 +1,5 @@
 package com.example.demo.service.money;
 
-import static com.example.demo.repository.specification.SpecificationUtils.containsIgnoreCase;
 import static com.example.demo.repository.specification.SpecificationUtils.equal;
 
 import com.example.demo.model.BoundedPageSize;
@@ -49,7 +48,7 @@ public class TravelExpenseService {
 
   private Specification<TravelExpense> toSpecification(TravelExpenseCriteria criteria) {
     return Specification.<TravelExpense>where(equal(criteria.getExpenseId(), "expense", "id"))
-        .and(containsIgnoreCase(criteria.getDepartureLocation(), "departureLocation"))
-        .and(containsIgnoreCase(criteria.getArrivalLocation(), "arrivalLocation"));
+        .and(equal(criteria.getDepartureLocation(), "departureLocation", "id"))
+        .and(equal(criteria.getArrivalLocation(), "arrivalLocation", "id"));
   }
 }

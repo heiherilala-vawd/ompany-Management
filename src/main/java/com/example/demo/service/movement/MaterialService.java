@@ -59,10 +59,8 @@ public class MaterialService {
   }
 
   private Specification<Material> toSpecification(MaterialCriteria criteria) {
-    return Specification.<Material>where(equal(criteria.getWarehouseId(), "warehouse", "id"))
-        .and(containsIgnoreCase(criteria.getName(), "name"))
+    return Specification.<Material>where(containsIgnoreCase(criteria.getName(), "name"))
         .and(containsIgnoreCase(criteria.getDescription(), "description"))
-        .and(equal(criteria.getFloorNumber(), "floorNumber"))
-        .and(equal(criteria.getStorageNumber(), "storageNumber"));
+        .and(equal(criteria.getUnit(), "unit"));
   }
 }

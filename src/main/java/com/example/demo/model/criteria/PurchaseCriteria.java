@@ -7,6 +7,6 @@ import lombok.Setter;
 @Setter
 public class PurchaseCriteria {
   private String expenseId;
-  private String supplier;
+  private String supplierId;
   private Boolean isEquipment;
 }

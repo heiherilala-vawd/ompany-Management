@@ -1,6 +1,5 @@
 package com.example.demo.service.movement;
 
-import static com.example.demo.repository.specification.SpecificationUtils.containsIgnoreCase;
 import static com.example.demo.repository.specification.SpecificationUtils.equal;
 
 import com.example.demo.model.BoundedPageSize;
@@ -61,6 +60,6 @@ public class TravelPeopleService {
 
   private Specification<TravelPeople> toSpecification(TravelPeopleCriteria criteria) {
     return Specification.<TravelPeople>where(equal(criteria.getTravelId(), "travel", "id"))
-        .and(containsIgnoreCase(criteria.getPersonName(), "personName"));
+        .and(equal(criteria.getUserId(), "user", "id"));
   }
 }

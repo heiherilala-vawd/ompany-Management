@@ -19,6 +19,7 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import com.example.demo.client.model.CrupdateWarehouse;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -40,7 +41,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   CrupdatePurchase.JSON_PROPERTY_QUANTITY,
   CrupdatePurchase.JSON_PROPERTY_IS_EQUIPMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-22T04:36:53.574595138+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-29T14:25:24.972835022+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdatePurchase {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -49,7 +50,7 @@ public class CrupdatePurchase {
   private String expenseId;
 
   public static final String JSON_PROPERTY_SUPPLIER = "supplier";
-  private String supplier;
+  private CrupdateWarehouse supplier;
 
   public static final String JSON_PROPERTY_EQUIPMENT = "equipment";
   private String equipment;
@@ -116,7 +117,7 @@ public class CrupdatePurchase {
   }
 
 
-  public CrupdatePurchase supplier(String supplier) {
+  public CrupdatePurchase supplier(CrupdateWarehouse supplier) {
     this.supplier = supplier;
     return this;
   }
@@ -129,14 +130,14 @@ public class CrupdatePurchase {
   @JsonProperty(JSON_PROPERTY_SUPPLIER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getSupplier() {
+  public CrupdateWarehouse getSupplier() {
     return supplier;
   }
 
 
   @JsonProperty(JSON_PROPERTY_SUPPLIER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setSupplier(String supplier) {
+  public void setSupplier(CrupdateWarehouse supplier) {
     this.supplier = supplier;
   }
 
@@ -337,7 +338,7 @@ public class CrupdatePurchase {
 
     // add `supplier` to the URL query string
     if (getSupplier() != null) {
-      joiner.add(String.format("%ssupplier%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getSupplier()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(getSupplier().toUrlQueryString(prefix + "supplier" + suffix));
     }
 
     // add `equipment` to the URL query string

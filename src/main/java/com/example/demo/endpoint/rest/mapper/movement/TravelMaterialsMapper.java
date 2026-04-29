@@ -3,6 +3,7 @@ package com.example.demo.endpoint.rest.mapper.movement;
 import com.example.demo.client.model.CrupdateTravelMaterials;
 import com.example.demo.client.model.TravelMaterials;
 import com.example.demo.endpoint.rest.mapper.RestAuditMapperUtils;
+import com.example.demo.endpoint.rest.mapper.money.TravelExpenseMapper;
 import com.example.demo.service.money.TravelExpenseService;
 import com.example.demo.service.movement.MaterialService;
 import java.util.List;
@@ -15,6 +16,8 @@ public class TravelMaterialsMapper {
 
   private final TravelExpenseService travelExpenseService;
   private final MaterialService materialService;
+  private final TravelExpenseMapper travelExpenseMapper;
+  private final MaterialMapper materialMapper;
 
   public com.example.demo.model.movement.TravelMaterials toDomain(
       TravelMaterials restTravelMaterials) {
@@ -23,12 +26,15 @@ public class TravelMaterialsMapper {
     return com.example.demo.model.movement.TravelMaterials.builder()
         .id(restTravelMaterials.getId())
         .travel(
-            restTravelMaterials.getTravelId() != null
-                ? travelExpenseService.findById(restTravelMaterials.getTravelId()).orElse(null)
+            restTravelMaterials.getTravel() != null
+                    && restTravelMaterials.getTravel().getId() != null
+                ? travelExpenseService
+                    .findById(restTravelMaterials.getTravel().getId())
+                    .orElse(null)
                 : null)
         .material(
             restTravelMaterials.getMaterial() != null
-                ? materialService.findById(restTravelMaterials.getMaterial()).orElse(null)
+                ? materialService.findById(restTravelMaterials.getMaterial().getId()).orElse(null)
                 : null)
         .quantity(restTravelMaterials.getQuantity())
         .quantityReceived(restTravelMaterials.getQuantityReceived())
@@ -62,14 +68,10 @@ public class TravelMaterialsMapper {
 
     TravelMaterials restTravelMaterials = new TravelMaterials();
     restTravelMaterials.setId(domainTravelMaterials.getId());
-    restTravelMaterials.setTravelId(
-        domainTravelMaterials.getTravel() != null
-            ? domainTravelMaterials.getTravel().getId()
-            : null);
+    restTravelMaterials.setTravel(
+        travelExpenseMapper.toRestCrupdateTravelExpense(domainTravelMaterials.getTravel()));
     restTravelMaterials.setMaterial(
-        domainTravelMaterials.getMaterial() != null
-            ? domainTravelMaterials.getMaterial().getId()
-            : null);
+        materialMapper.toRestCrupdateMaterial(domainTravelMaterials.getMaterial()));
     restTravelMaterials.setQuantity(domainTravelMaterials.getQuantity());
     restTravelMaterials.setQuantityReceived(domainTravelMaterials.getQuantityReceived());
     RestAuditMapperUtils.mapAuditFields(

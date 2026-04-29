@@ -6,9 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class MaterialCriteria {
-  private String warehouseId;
   private String name;
   private String description;
-  private Integer floorNumber;
-  private Integer storageNumber;
+  private com.example.demo.model.movement.Material.Unit unit;
 }

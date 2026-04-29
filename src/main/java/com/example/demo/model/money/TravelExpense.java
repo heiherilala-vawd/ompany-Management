@@ -3,6 +3,7 @@ package com.example.demo.model.money;
 import com.example.demo.model.movement.TravelEquipment;
 import com.example.demo.model.movement.TravelMaterials;
 import com.example.demo.model.movement.TravelPeople;
+import com.example.demo.model.movement.Warehouse;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.io.Serializable;
@@ -35,9 +36,13 @@ public class TravelExpense implements Serializable {
   @JsonManagedReference
   private ExpenseMoney expense;
 
-  private String departureLocation;
+  @ManyToOne
+  @JoinColumn(name = "departure_location")
+  private Warehouse departureLocation;
 
-  private String arrivalLocation;
+  @ManyToOne
+  @JoinColumn(name = "arrival_location")
+  private Warehouse arrivalLocation;
 
   private Instant departureDate;
 
@@ -76,12 +81,10 @@ public class TravelExpense implements Serializable {
         + '\''
         + ", expense="
         + (expense != null ? expense.getId() : null)
-        + ", departureLocation='"
-        + departureLocation
-        + '\''
-        + ", arrivalLocation='"
-        + arrivalLocation
-        + '\''
+        + ", departureLocation="
+        + (departureLocation != null ? departureLocation.getId() : null)
+        + ", arrivalLocation="
+        + (arrivalLocation != null ? arrivalLocation.getId() : null)
         + ", departureDate="
         + departureDate
         + ", arrivalDate="

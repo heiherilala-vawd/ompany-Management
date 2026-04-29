@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 public class BankFeeMapper {
 
   private final ExpenseMoneyService expenseMoneyService;
+  private final ExpenseMoneyMapper expenseMoneyMapper;
 
   public com.example.demo.model.money.BankFee toDomain(BankFee restBankFee) {
     if (restBankFee == null) return null;
@@ -19,8 +20,8 @@ public class BankFeeMapper {
     return com.example.demo.model.money.BankFee.builder()
         .id(restBankFee.getId())
         .expense(
-            restBankFee.getExpenseId() != null
-                ? expenseMoneyService.findById(restBankFee.getExpenseId()).orElse(null)
+            restBankFee.getExpense() != null && restBankFee.getExpense().getId() != null
+                ? expenseMoneyService.findById(restBankFee.getExpense().getId()).orElse(null)
                 : null)
         .bankName(restBankFee.getBankName())
         .description(restBankFee.getDescription())
@@ -46,8 +47,7 @@ public class BankFeeMapper {
 
     BankFee restBankFee = new BankFee();
     restBankFee.setId(domainBankFee.getId());
-    restBankFee.setExpenseId(
-        domainBankFee.getExpense() != null ? domainBankFee.getExpense().getId() : null);
+    restBankFee.setExpense(expenseMoneyMapper.toRestCrupdateExpense(domainBankFee.getExpense()));
     restBankFee.setBankName(domainBankFee.getBankName());
     restBankFee.setDescription(domainBankFee.getDescription());
 

@@ -111,8 +111,16 @@ val generateJavaClient by tasks.registering(GenerateTask::class)  {
 val generateTsClient by tasks.registering(GenerateTask::class) {
 
     generatorName.set("typescript-axios")
-    inputSpec.set("$rootDir/doc/api.yml")
+    inputSpec.set("$projectDir/src/main/resources/api/api.yml")
     outputDir.set("$buildDir/gen-ts")
+
+    additionalProperties.set(
+        mapOf(
+            "modelPackage" to "models",
+            "apiPackage" to "apis",
+            "supportsES6" to "true"
+        )
+    )
 }
 
 

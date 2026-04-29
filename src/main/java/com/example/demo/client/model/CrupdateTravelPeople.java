@@ -34,10 +34,10 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
   CrupdateTravelPeople.JSON_PROPERTY_ID,
   CrupdateTravelPeople.JSON_PROPERTY_TRAVEL_ID,
-  CrupdateTravelPeople.JSON_PROPERTY_PERSON_NAME,
+  CrupdateTravelPeople.JSON_PROPERTY_USER_ID,
   CrupdateTravelPeople.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-22T04:36:53.574595138+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-29T14:25:24.972835022+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdateTravelPeople {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -45,8 +45,8 @@ public class CrupdateTravelPeople {
   public static final String JSON_PROPERTY_TRAVEL_ID = "travel_id";
   private String travelId;
 
-  public static final String JSON_PROPERTY_PERSON_NAME = "person_name";
-  private String personName;
+  public static final String JSON_PROPERTY_USER_ID = "user_id";
+  private String userId;
 
   public static final String JSON_PROPERTY_COMMENT = "comment";
   private String comment;
@@ -104,28 +104,28 @@ public class CrupdateTravelPeople {
   }
 
 
-  public CrupdateTravelPeople personName(String personName) {
-    this.personName = personName;
+  public CrupdateTravelPeople userId(String userId) {
+    this.userId = userId;
     return this;
   }
 
    /**
-   * Get personName
-   * @return personName
+   * Get userId
+   * @return userId
   **/
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_PERSON_NAME)
+  @JsonProperty(JSON_PROPERTY_USER_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getPersonName() {
-    return personName;
+  public String getUserId() {
+    return userId;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_PERSON_NAME)
+  @JsonProperty(JSON_PROPERTY_USER_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setPersonName(String personName) {
-    this.personName = personName;
+  public void setUserId(String userId) {
+    this.userId = userId;
   }
 
 
@@ -168,13 +168,13 @@ public class CrupdateTravelPeople {
     CrupdateTravelPeople crupdateTravelPeople = (CrupdateTravelPeople) o;
     return Objects.equals(this.id, crupdateTravelPeople.id) &&
         Objects.equals(this.travelId, crupdateTravelPeople.travelId) &&
-        Objects.equals(this.personName, crupdateTravelPeople.personName) &&
+        Objects.equals(this.userId, crupdateTravelPeople.userId) &&
         Objects.equals(this.comment, crupdateTravelPeople.comment);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, travelId, personName, comment);
+    return Objects.hash(id, travelId, userId, comment);
   }
 
   @Override
@@ -183,7 +183,7 @@ public class CrupdateTravelPeople {
     sb.append("class CrupdateTravelPeople {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    travelId: ").append(toIndentedString(travelId)).append("\n");
-    sb.append("    personName: ").append(toIndentedString(personName)).append("\n");
+    sb.append("    userId: ").append(toIndentedString(userId)).append("\n");
     sb.append("    comment: ").append(toIndentedString(comment)).append("\n");
     sb.append("}");
     return sb.toString();

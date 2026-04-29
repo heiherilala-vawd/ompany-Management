@@ -63,7 +63,7 @@ final class TestOrganizationFixtures {
   static Job job1() {
     Job job = new Job();
     job.setId(TestUtils.JOB1_ID);
-    job.setCompanyId(TestUtils.COMPANY1_ID);
+    job.setCompany(companyToCrupdateCompany(company1()));
     job.setDescription("Construction du bâtiment A");
     job.setContractSignatureDate(LocalDate.parse("2024-01-15"));
     job.setStartDate(LocalDate.parse("2024-02-01"));
@@ -75,7 +75,7 @@ final class TestOrganizationFixtures {
   static Job job2() {
     Job job = new Job();
     job.setId(TestUtils.JOB2_ID);
-    job.setCompanyId(TestUtils.COMPANY2_ID);
+    job.setCompany(companyToCrupdateCompany(company2()));
     job.setDescription("Rénovation des chambres");
     job.setContractSignatureDate(LocalDate.parse("2024-01-20"));
     job.setStartDate(LocalDate.parse("2024-03-01"));
@@ -87,7 +87,7 @@ final class TestOrganizationFixtures {
   static CrupdateJob jobToCrupdateJob(Job job) {
     CrupdateJob crupdateJob = new CrupdateJob();
     crupdateJob.setId(job.getId());
-    crupdateJob.setCompanyId(job.getCompanyId());
+    crupdateJob.setCompanyId(job.getCompany() != null ? job.getCompany().getId() : null);
     crupdateJob.setDescription(job.getDescription());
     crupdateJob.setContractSignatureDate(job.getContractSignatureDate());
     crupdateJob.setStartDate(job.getStartDate());
@@ -114,7 +114,7 @@ final class TestOrganizationFixtures {
     warehouse.setId(TestUtils.WAREHOUSE1_ID);
     warehouse.setName("Entrepôt Nord");
     warehouse.setDescription("Stockage matériaux lourds");
-    warehouse.setJobId(TestUtils.JOB1_ID);
+    warehouse.setJob(jobToCrupdateJob(job1()));
     return warehouse;
   }
 
@@ -123,7 +123,7 @@ final class TestOrganizationFixtures {
     warehouse.setId(TestUtils.WAREHOUSE2_ID);
     warehouse.setName("Entrepôt Sud");
     warehouse.setDescription("Stockage équipements");
-    warehouse.setJobId(TestUtils.JOB2_ID);
+    warehouse.setJob(jobToCrupdateJob(job2()));
     return warehouse;
   }
 
@@ -132,7 +132,7 @@ final class TestOrganizationFixtures {
     crupdateWarehouse.setId(warehouse.getId());
     crupdateWarehouse.setName(warehouse.getName());
     crupdateWarehouse.setDescription(warehouse.getDescription());
-    crupdateWarehouse.setJobId(warehouse.getJobId());
+    crupdateWarehouse.setJobId(warehouse.getJob() != null ? warehouse.getJob().getId() : null);
     crupdateWarehouse.setComment(warehouse.getComment());
     return crupdateWarehouse;
   }
@@ -151,7 +151,7 @@ final class TestOrganizationFixtures {
     equipment.setId(TestUtils.EQUIPMENT1_ID);
     equipment.setName("Pelle mécanique");
     equipment.setDescription("Pelle Caterpillar 320");
-    equipment.setWarehouseId(TestUtils.WAREHOUSE1_ID);
+    equipment.setWarehouse(warehouseToCrupdateWarehouse(warehouse1()));
     equipment.setFloorNumber(1);
     equipment.setStorageNumber(10);
     return equipment;
@@ -162,7 +162,7 @@ final class TestOrganizationFixtures {
     equipment.setId(TestUtils.EQUIPMENT2_ID);
     equipment.setName("Bétonnière");
     equipment.setDescription("Bétonnière électrique");
-    equipment.setWarehouseId(TestUtils.WAREHOUSE1_ID);
+    equipment.setWarehouse(warehouseToCrupdateWarehouse(warehouse1()));
     equipment.setFloorNumber(1);
     equipment.setStorageNumber(15);
     return equipment;
@@ -173,7 +173,7 @@ final class TestOrganizationFixtures {
     equipment.setId(TestUtils.EQUIPMENT3_ID);
     equipment.setName("Climatisation");
     equipment.setDescription("Unité extérieure");
-    equipment.setWarehouseId(TestUtils.WAREHOUSE2_ID);
+    equipment.setWarehouse(warehouseToCrupdateWarehouse(warehouse2()));
     equipment.setFloorNumber(2);
     equipment.setStorageNumber(5);
     return equipment;
@@ -184,7 +184,8 @@ final class TestOrganizationFixtures {
     crupdateEquipment.setId(equipment.getId());
     crupdateEquipment.setName(equipment.getName());
     crupdateEquipment.setDescription(equipment.getDescription());
-    crupdateEquipment.setWarehouseId(equipment.getWarehouseId());
+    crupdateEquipment.setWarehouseId(
+        equipment.getWarehouse() != null ? equipment.getWarehouse().getId() : null);
     crupdateEquipment.setFloorNumber(equipment.getFloorNumber());
     crupdateEquipment.setStorageNumber(equipment.getStorageNumber());
     crupdateEquipment.setComment(equipment.getComment());
@@ -207,9 +208,7 @@ final class TestOrganizationFixtures {
     material.setId(TestUtils.MATERIAL1_ID);
     material.setName("Ciment");
     material.setDescription("Ciment Portland 35kg");
-    material.setWarehouseId(TestUtils.WAREHOUSE1_ID);
-    material.setFloorNumber(1);
-    material.setStorageNumber(100);
+    material.setUnit(com.example.demo.client.model.MaterialUnit.SAC);
     return material;
   }
 
@@ -218,9 +217,7 @@ final class TestOrganizationFixtures {
     material.setId(TestUtils.MATERIAL2_ID);
     material.setName("Brique");
     material.setDescription("Brique rouge 20x10x5");
-    material.setWarehouseId(TestUtils.WAREHOUSE1_ID);
-    material.setFloorNumber(1);
-    material.setStorageNumber(500);
+    material.setUnit(com.example.demo.client.model.MaterialUnit.U);
     return material;
   }
 
@@ -229,9 +226,7 @@ final class TestOrganizationFixtures {
     material.setId(TestUtils.MATERIAL3_ID);
     material.setName("Peinture");
     material.setDescription("Peinture blanche mate");
-    material.setWarehouseId(TestUtils.WAREHOUSE2_ID);
-    material.setFloorNumber(2);
-    material.setStorageNumber(50);
+    material.setUnit(com.example.demo.client.model.MaterialUnit.L);
     return material;
   }
 
@@ -240,9 +235,7 @@ final class TestOrganizationFixtures {
     crupdateMaterial.setId(material.getId());
     crupdateMaterial.setName(material.getName());
     crupdateMaterial.setDescription(material.getDescription());
-    crupdateMaterial.setWarehouseId(material.getWarehouseId());
-    crupdateMaterial.setFloorNumber(material.getFloorNumber());
-    crupdateMaterial.setStorageNumber(material.getStorageNumber());
+    crupdateMaterial.setUnit(material.getUnit());
     crupdateMaterial.setComment(material.getComment());
     return crupdateMaterial;
   }
@@ -252,9 +245,7 @@ final class TestOrganizationFixtures {
     material.setId(UUID.randomUUID().toString());
     material.setName("Sable");
     material.setDescription("Sable fin");
-    material.setWarehouseId(TestUtils.WAREHOUSE1_ID);
-    material.setFloorNumber(1);
-    material.setStorageNumber(200);
+    material.setUnit(com.example.demo.client.model.MaterialUnit.KG);
     return material;
   }
 }

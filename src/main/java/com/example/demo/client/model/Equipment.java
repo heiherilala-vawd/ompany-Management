@@ -19,6 +19,8 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import com.example.demo.client.model.AuditUser;
+import com.example.demo.client.model.CrupdateWarehouse;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -35,7 +37,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   Equipment.JSON_PROPERTY_ID,
   Equipment.JSON_PROPERTY_NAME,
   Equipment.JSON_PROPERTY_DESCRIPTION,
-  Equipment.JSON_PROPERTY_WAREHOUSE_ID,
+  Equipment.JSON_PROPERTY_WAREHOUSE,
   Equipment.JSON_PROPERTY_FLOOR_NUMBER,
   Equipment.JSON_PROPERTY_STORAGE_NUMBER,
   Equipment.JSON_PROPERTY_CREATED_AT,
@@ -44,7 +46,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   Equipment.JSON_PROPERTY_UPDATED_BY,
   Equipment.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-22T04:36:53.574595138+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-29T14:25:24.972835022+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class Equipment {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -55,8 +57,8 @@ public class Equipment {
   public static final String JSON_PROPERTY_DESCRIPTION = "description";
   private String description;
 
-  public static final String JSON_PROPERTY_WAREHOUSE_ID = "warehouse_id";
-  private String warehouseId;
+  public static final String JSON_PROPERTY_WAREHOUSE = "warehouse";
+  private CrupdateWarehouse warehouse;
 
   public static final String JSON_PROPERTY_FLOOR_NUMBER = "floor_number";
   private Integer floorNumber;
@@ -71,10 +73,10 @@ public class Equipment {
   private java.time.Instant updatedAt;
 
   public static final String JSON_PROPERTY_CREATED_BY = "created_by";
-  private String createdBy;
+  private AuditUser createdBy;
 
   public static final String JSON_PROPERTY_UPDATED_BY = "updated_by";
-  private String updatedBy;
+  private AuditUser updatedBy;
 
   public static final String JSON_PROPERTY_COMMENT = "comment";
   private String comment;
@@ -157,28 +159,28 @@ public class Equipment {
   }
 
 
-  public Equipment warehouseId(String warehouseId) {
-    this.warehouseId = warehouseId;
+  public Equipment warehouse(CrupdateWarehouse warehouse) {
+    this.warehouse = warehouse;
     return this;
   }
 
    /**
-   * Get warehouseId
-   * @return warehouseId
+   * Get warehouse
+   * @return warehouse
   **/
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_WAREHOUSE_ID)
+  @JsonProperty(JSON_PROPERTY_WAREHOUSE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getWarehouseId() {
-    return warehouseId;
+  public CrupdateWarehouse getWarehouse() {
+    return warehouse;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_WAREHOUSE_ID)
+  @JsonProperty(JSON_PROPERTY_WAREHOUSE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setWarehouseId(String warehouseId) {
-    this.warehouseId = warehouseId;
+  public void setWarehouse(CrupdateWarehouse warehouse) {
+    this.warehouse = warehouse;
   }
 
 
@@ -282,7 +284,7 @@ public class Equipment {
   }
 
 
-  public Equipment createdBy(String createdBy) {
+  public Equipment createdBy(AuditUser createdBy) {
     this.createdBy = createdBy;
     return this;
   }
@@ -295,19 +297,19 @@ public class Equipment {
   @JsonProperty(JSON_PROPERTY_CREATED_BY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getCreatedBy() {
+  public AuditUser getCreatedBy() {
     return createdBy;
   }
 
 
   @JsonProperty(JSON_PROPERTY_CREATED_BY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setCreatedBy(String createdBy) {
+  public void setCreatedBy(AuditUser createdBy) {
     this.createdBy = createdBy;
   }
 
 
-  public Equipment updatedBy(String updatedBy) {
+  public Equipment updatedBy(AuditUser updatedBy) {
     this.updatedBy = updatedBy;
     return this;
   }
@@ -320,14 +322,14 @@ public class Equipment {
   @JsonProperty(JSON_PROPERTY_UPDATED_BY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getUpdatedBy() {
+  public AuditUser getUpdatedBy() {
     return updatedBy;
   }
 
 
   @JsonProperty(JSON_PROPERTY_UPDATED_BY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setUpdatedBy(String updatedBy) {
+  public void setUpdatedBy(AuditUser updatedBy) {
     this.updatedBy = updatedBy;
   }
 
@@ -372,7 +374,7 @@ public class Equipment {
     return Objects.equals(this.id, equipment.id) &&
         Objects.equals(this.name, equipment.name) &&
         Objects.equals(this.description, equipment.description) &&
-        Objects.equals(this.warehouseId, equipment.warehouseId) &&
+        Objects.equals(this.warehouse, equipment.warehouse) &&
         Objects.equals(this.floorNumber, equipment.floorNumber) &&
         Objects.equals(this.storageNumber, equipment.storageNumber) &&
         Objects.equals(this.createdAt, equipment.createdAt) &&
@@ -384,7 +386,7 @@ public class Equipment {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, description, warehouseId, floorNumber, storageNumber, createdAt, updatedAt, createdBy, updatedBy, comment);
+    return Objects.hash(id, name, description, warehouse, floorNumber, storageNumber, createdAt, updatedAt, createdBy, updatedBy, comment);
   }
 
   @Override
@@ -394,7 +396,7 @@ public class Equipment {
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
-    sb.append("    warehouseId: ").append(toIndentedString(warehouseId)).append("\n");
+    sb.append("    warehouse: ").append(toIndentedString(warehouse)).append("\n");
     sb.append("    floorNumber: ").append(toIndentedString(floorNumber)).append("\n");
     sb.append("    storageNumber: ").append(toIndentedString(storageNumber)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
@@ -461,12 +463,12 @@ public class Equipment {
 
     // add `created_by` to the URL query string
     if (getCreatedBy() != null) {
-      joiner.add(String.format("%screated_by%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getCreatedBy()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(getCreatedBy().toUrlQueryString(prefix + "created_by" + suffix));
     }
 
     // add `updated_by` to the URL query string
     if (getUpdatedBy() != null) {
-      joiner.add(String.format("%supdated_by%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getUpdatedBy()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(getUpdatedBy().toUrlQueryString(prefix + "updated_by" + suffix));
     }
 
     // add `comment` to the URL query string

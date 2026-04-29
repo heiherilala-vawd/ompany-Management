@@ -48,10 +48,10 @@ public class TravelPeopleController {
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
       @RequestParam(name = "travel_id", required = false) String travelId,
-      @RequestParam(name = "person_name", required = false) String personName) {
+      @RequestParam(name = "user_id", required = false) String userId) {
     TravelPeopleCriteria criteria = new TravelPeopleCriteria();
     criteria.setTravelId(travelId);
-    criteria.setPersonName(personName);
+    criteria.setUserId(userId);
 
     return travelPeopleService.findAll(page, pageSize, criteria).stream()
         .map(travelPeopleMapper::toRestTravelPeople)

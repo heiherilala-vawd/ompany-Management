@@ -1,6 +1,5 @@
 package com.example.demo.service.money;
 
-import static com.example.demo.repository.specification.SpecificationUtils.containsIgnoreCase;
 import static com.example.demo.repository.specification.SpecificationUtils.equal;
 
 import com.example.demo.model.BoundedPageSize;
@@ -49,7 +48,7 @@ public class PurchaseService {
 
   private Specification<Purchase> toSpecification(PurchaseCriteria criteria) {
     return Specification.<Purchase>where(equal(criteria.getExpenseId(), "expense", "id"))
-        .and(containsIgnoreCase(criteria.getSupplier(), "supplier"))
+        .and(equal(criteria.getSupplierId(), "supplier", "id"))
         .and(equal(criteria.getIsEquipment(), "isEquipment"));
   }
 }

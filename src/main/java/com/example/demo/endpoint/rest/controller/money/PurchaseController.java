@@ -45,11 +45,11 @@ public class PurchaseController {
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
       @RequestParam(name = "expense_id", required = false) String expenseId,
-      @RequestParam(name = "supplier", required = false) String supplier,
+      @RequestParam(name = "supplier_id", required = false) String supplierId,
       @RequestParam(name = "is_equipment", required = false) Boolean isEquipment) {
     PurchaseCriteria criteria = new PurchaseCriteria();
     criteria.setExpenseId(expenseId);
-    criteria.setSupplier(supplier);
+    criteria.setSupplierId(supplierId);
     criteria.setIsEquipment(isEquipment);
 
     return purchaseService.findAll(page, pageSize, criteria).stream()
