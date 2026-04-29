@@ -19,6 +19,8 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import com.example.demo.client.model.AuditUser;
+import com.example.demo.client.model.CrupdateJob;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -35,7 +37,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   IncomeMoney.JSON_PROPERTY_ID,
   IncomeMoney.JSON_PROPERTY_SOURCE_ORGANIZATION,
   IncomeMoney.JSON_PROPERTY_INVOICE_REFERENCE,
-  IncomeMoney.JSON_PROPERTY_JOB_ID,
+  IncomeMoney.JSON_PROPERTY_JOB,
   IncomeMoney.JSON_PROPERTY_AMOUNT,
   IncomeMoney.JSON_PROPERTY_DESCRIPTION,
   IncomeMoney.JSON_PROPERTY_CREATED_AT,
@@ -44,7 +46,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   IncomeMoney.JSON_PROPERTY_UPDATED_BY,
   IncomeMoney.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-22T04:36:53.574595138+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-29T14:25:24.972835022+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class IncomeMoney {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -55,8 +57,8 @@ public class IncomeMoney {
   public static final String JSON_PROPERTY_INVOICE_REFERENCE = "invoice_reference";
   private String invoiceReference;
 
-  public static final String JSON_PROPERTY_JOB_ID = "job_id";
-  private String jobId;
+  public static final String JSON_PROPERTY_JOB = "job";
+  private CrupdateJob job;
 
   public static final String JSON_PROPERTY_AMOUNT = "amount";
   private Integer amount;
@@ -71,10 +73,10 @@ public class IncomeMoney {
   private java.time.Instant updatedAt;
 
   public static final String JSON_PROPERTY_CREATED_BY = "created_by";
-  private String createdBy;
+  private AuditUser createdBy;
 
   public static final String JSON_PROPERTY_UPDATED_BY = "updated_by";
-  private String updatedBy;
+  private AuditUser updatedBy;
 
   public static final String JSON_PROPERTY_COMMENT = "comment";
   private String comment;
@@ -157,28 +159,28 @@ public class IncomeMoney {
   }
 
 
-  public IncomeMoney jobId(String jobId) {
-    this.jobId = jobId;
+  public IncomeMoney job(CrupdateJob job) {
+    this.job = job;
     return this;
   }
 
    /**
-   * ID of the job this income is related to
-   * @return jobId
+   * Job this income is related to
+   * @return job
   **/
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_JOB_ID)
+  @JsonProperty(JSON_PROPERTY_JOB)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getJobId() {
-    return jobId;
+  public CrupdateJob getJob() {
+    return job;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_JOB_ID)
+  @JsonProperty(JSON_PROPERTY_JOB)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setJobId(String jobId) {
-    this.jobId = jobId;
+  public void setJob(CrupdateJob job) {
+    this.job = job;
   }
 
 
@@ -282,7 +284,7 @@ public class IncomeMoney {
   }
 
 
-  public IncomeMoney createdBy(String createdBy) {
+  public IncomeMoney createdBy(AuditUser createdBy) {
     this.createdBy = createdBy;
     return this;
   }
@@ -295,19 +297,19 @@ public class IncomeMoney {
   @JsonProperty(JSON_PROPERTY_CREATED_BY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getCreatedBy() {
+  public AuditUser getCreatedBy() {
     return createdBy;
   }
 
 
   @JsonProperty(JSON_PROPERTY_CREATED_BY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setCreatedBy(String createdBy) {
+  public void setCreatedBy(AuditUser createdBy) {
     this.createdBy = createdBy;
   }
 
 
-  public IncomeMoney updatedBy(String updatedBy) {
+  public IncomeMoney updatedBy(AuditUser updatedBy) {
     this.updatedBy = updatedBy;
     return this;
   }
@@ -320,14 +322,14 @@ public class IncomeMoney {
   @JsonProperty(JSON_PROPERTY_UPDATED_BY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getUpdatedBy() {
+  public AuditUser getUpdatedBy() {
     return updatedBy;
   }
 
 
   @JsonProperty(JSON_PROPERTY_UPDATED_BY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setUpdatedBy(String updatedBy) {
+  public void setUpdatedBy(AuditUser updatedBy) {
     this.updatedBy = updatedBy;
   }
 
@@ -372,7 +374,7 @@ public class IncomeMoney {
     return Objects.equals(this.id, incomeMoney.id) &&
         Objects.equals(this.sourceOrganization, incomeMoney.sourceOrganization) &&
         Objects.equals(this.invoiceReference, incomeMoney.invoiceReference) &&
-        Objects.equals(this.jobId, incomeMoney.jobId) &&
+        Objects.equals(this.job, incomeMoney.job) &&
         Objects.equals(this.amount, incomeMoney.amount) &&
         Objects.equals(this.description, incomeMoney.description) &&
         Objects.equals(this.createdAt, incomeMoney.createdAt) &&
@@ -384,7 +386,7 @@ public class IncomeMoney {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, sourceOrganization, invoiceReference, jobId, amount, description, createdAt, updatedAt, createdBy, updatedBy, comment);
+    return Objects.hash(id, sourceOrganization, invoiceReference, job, amount, description, createdAt, updatedAt, createdBy, updatedBy, comment);
   }
 
   @Override
@@ -394,7 +396,7 @@ public class IncomeMoney {
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    sourceOrganization: ").append(toIndentedString(sourceOrganization)).append("\n");
     sb.append("    invoiceReference: ").append(toIndentedString(invoiceReference)).append("\n");
-    sb.append("    jobId: ").append(toIndentedString(jobId)).append("\n");
+    sb.append("    job: ").append(toIndentedString(job)).append("\n");
     sb.append("    amount: ").append(toIndentedString(amount)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
@@ -471,12 +473,12 @@ public class IncomeMoney {
 
     // add `created_by` to the URL query string
     if (getCreatedBy() != null) {
-      joiner.add(String.format("%screated_by%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getCreatedBy()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(getCreatedBy().toUrlQueryString(prefix + "created_by" + suffix));
     }
 
     // add `updated_by` to the URL query string
     if (getUpdatedBy() != null) {
-      joiner.add(String.format("%supdated_by%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getUpdatedBy()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(getUpdatedBy().toUrlQueryString(prefix + "updated_by" + suffix));
     }
 
     // add `comment` to the URL query string

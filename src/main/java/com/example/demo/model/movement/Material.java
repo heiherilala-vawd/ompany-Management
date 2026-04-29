@@ -28,13 +28,9 @@ public class Material extends CreatAndUpdateEntity implements Serializable {
 
   private String description;
 
-  @ManyToOne
-  @JoinColumn(name = "warehouse_id")
-  private Warehouse warehouse;
-
-  private Integer floorNumber;
-
-  private Integer storageNumber;
+  @Enumerated(EnumType.STRING)
+  @org.hibernate.annotations.JdbcTypeCode(org.hibernate.type.SqlTypes.NAMED_ENUM)
+  private Unit unit;
 
   @Override
   public boolean equals(Object o) {
@@ -47,5 +43,22 @@ public class Material extends CreatAndUpdateEntity implements Serializable {
   @Override
   public int hashCode() {
     return getClass().hashCode();
+  }
+
+  public enum Unit {
+    SAC,
+    L,
+    KG,
+    M2,
+    M3,
+    KIT,
+    POT,
+    PNL,
+    FEU,
+    BAR,
+    T,
+    M,
+    FFT,
+    U
   }
 }

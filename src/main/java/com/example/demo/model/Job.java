@@ -3,6 +3,8 @@ package com.example.demo.model;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,7 +20,7 @@ import org.hibernate.type.SqlTypes;
 @Table(name = "job")
 @Getter
 @Setter
-@ToString
+@ToString(exclude = "responsibleUsers")
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -44,6 +46,15 @@ public class Job extends CreatAndUpdateEntity implements Serializable {
   @Enumerated(EnumType.STRING)
   @JdbcTypeCode(SqlTypes.NAMED_ENUM)
   private JobStatus status;
+
+  @ManyToMany(
+      fetch = FetchType.LAZY,
+      cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+  @JoinTable(
+      name = "user_job",
+      joinColumns = @JoinColumn(name = "job_id"),
+      inverseJoinColumns = @JoinColumn(name = "user_id"))
+  private List<User> responsibleUsers = new ArrayList<>();
 
   @Override
   public boolean equals(Object o) {

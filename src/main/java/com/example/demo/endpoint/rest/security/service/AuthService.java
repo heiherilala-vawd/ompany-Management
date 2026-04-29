@@ -7,8 +7,9 @@ import com.example.demo.model.User;
 import com.example.demo.model.exception.BadRequestException;
 import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.repository.UserRepository;
+import com.example.demo.service.HistoryService;
 import com.example.demo.service.UserService;
-import com.example.demo.service.utils.ModificationUtils;
+import java.time.Instant;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -25,7 +26,7 @@ public class AuthService {
   private final UserRepository userRepository;
   private final PasswordEncoder passwordEncoder;
   private final UserService userService;
-  private final ModificationUtils modificationUtils;
+  private final HistoryService historyService;
 
   public AuthResponse authenticateUser(LoginRequest loginRequest) {
 
@@ -55,13 +56,15 @@ public class AuthService {
 
   public AuthResponse registerUser(User user, String noEncodedPassword) {
     if (userRepository.findByEmail(user.getEmail()).isPresent()) {
-      throw new BadRequestException("Email is already in use");
+      throw new BadRequestException("Email is already in user");
     }
+    user.setCreatedAt(Instant.now());
+    user.setCreatedBy(user);
+    user.setUpdatedAt(Instant.now());
+    user.setUpdatedBy(user);
     user.setPassword(passwordEncoder.encode(user.getPassword()));
-
     User savedUser = userRepository.save(user);
-    modificationUtils.createOrUpdateModel(savedUser, null, savedUser.getId(), savedUser);
-    savedUser = userRepository.save(user);
+    historyService.uploadHistory(null, savedUser, savedUser.getId(), savedUser);
 
     Authentication authentication =
         authenticationManager.authenticate(

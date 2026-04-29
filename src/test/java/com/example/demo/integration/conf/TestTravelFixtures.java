@@ -9,6 +9,7 @@ import com.example.demo.client.model.TravelEquipment;
 import com.example.demo.client.model.TravelExpense;
 import com.example.demo.client.model.TravelMaterials;
 import com.example.demo.client.model.TravelPeople;
+import com.example.demo.client.model.User;
 import java.time.Instant;
 import java.util.UUID;
 
@@ -19,9 +20,13 @@ final class TestTravelFixtures {
   static TravelExpense travelExpense1() {
     TravelExpense travelExpense = new TravelExpense();
     travelExpense.setId(TestUtils.TRAVEL_EXPENSE1_ID);
-    travelExpense.setExpenseId(TestUtils.EXPENSE1_ID);
-    travelExpense.setDepartureLocation("Antananarivo");
-    travelExpense.setArrivalLocation("Toamasina");
+    travelExpense.setExpense(
+        TestMoneyFixtures.expenseToCrupdateExpense(TestMoneyFixtures.expense1()));
+    travelExpense.setDepartureLocation(
+        TestOrganizationFixtures.warehouseToCrupdateWarehouse(
+            TestOrganizationFixtures.warehouse1()));
+    travelExpense.setArrivalLocation(
+        TestOrganizationFixtures.warehouseToCrupdateWarehouse(routeWarehouse()));
     travelExpense.setDepartureDate(Instant.parse("2024-03-01T06:00:00Z"));
     travelExpense.setArrivalDate(Instant.parse("2024-03-01T12:00:00Z"));
     return travelExpense;
@@ -30,9 +35,14 @@ final class TestTravelFixtures {
   static TravelExpense travelExpense2() {
     TravelExpense travelExpense = new TravelExpense();
     travelExpense.setId(TestUtils.TRAVEL_EXPENSE2_ID);
-    travelExpense.setExpenseId(TestUtils.EXPENSE2_ID);
-    travelExpense.setDepartureLocation("Fianarantsoa");
-    travelExpense.setArrivalLocation("Antsirabe");
+    travelExpense.setExpense(
+        TestMoneyFixtures.expenseToCrupdateExpense(TestMoneyFixtures.expense2()));
+    travelExpense.setDepartureLocation(
+        TestOrganizationFixtures.warehouseToCrupdateWarehouse(
+            TestOrganizationFixtures.warehouse2()));
+    travelExpense.setArrivalLocation(
+        TestOrganizationFixtures.warehouseToCrupdateWarehouse(
+            TestOrganizationFixtures.warehouse1()));
     travelExpense.setDepartureDate(Instant.parse("2024-03-05T07:30:00Z"));
     travelExpense.setArrivalDate(Instant.parse("2024-03-05T15:00:00Z"));
     return travelExpense;
@@ -41,7 +51,8 @@ final class TestTravelFixtures {
   static CrupdateTravelExpense travelExpenseToCrupdateTravelExpense(TravelExpense travelExpense) {
     CrupdateTravelExpense crupdateTravelExpense = new CrupdateTravelExpense();
     crupdateTravelExpense.setId(travelExpense.getId());
-    crupdateTravelExpense.setExpenseId(travelExpense.getExpenseId());
+    crupdateTravelExpense.setExpenseId(
+        travelExpense.getExpense() != null ? travelExpense.getExpense().getId() : null);
     crupdateTravelExpense.setDepartureLocation(travelExpense.getDepartureLocation());
     crupdateTravelExpense.setArrivalLocation(travelExpense.getArrivalLocation());
     crupdateTravelExpense.setDepartureDate(travelExpense.getDepartureDate());
@@ -53,34 +64,58 @@ final class TestTravelFixtures {
     CrupdateTravelExpense travelExpense = new CrupdateTravelExpense();
     travelExpense.setId(UUID.randomUUID().toString());
     travelExpense.setExpenseId(TestUtils.EXPENSE1_ID);
-    travelExpense.setDepartureLocation("Mahajanga");
-    travelExpense.setArrivalLocation("Antananarivo");
+    travelExpense.setDepartureLocation(
+        TestOrganizationFixtures.warehouseToCrupdateWarehouse(routeWarehouse()));
+    travelExpense.setArrivalLocation(
+        TestOrganizationFixtures.warehouseToCrupdateWarehouse(
+            TestOrganizationFixtures.warehouse1()));
     travelExpense.setDepartureDate(Instant.parse("2024-04-01T08:00:00Z"));
     travelExpense.setArrivalDate(Instant.parse("2024-04-01T18:00:00Z"));
     return travelExpense;
   }
 
+  private static com.example.demo.client.model.Warehouse routeWarehouse() {
+    com.example.demo.client.model.Warehouse warehouse =
+        new com.example.demo.client.model.Warehouse();
+    warehouse.setId(TestUtils.ROUTE_WAREHOUSE_ID);
+    warehouse.setName("En route");
+    warehouse.setDescription("Emplacement virtuel pour les équipements en déplacement");
+    return warehouse;
+  }
+
   static TravelPeople travelPeople1() {
     TravelPeople tp = new TravelPeople();
     tp.setId(TestUtils.TRAVEL_PEOPLE1_ID);
-    tp.setTravelId(TestUtils.TRAVEL_EXPENSE1_ID);
-    tp.setPersonName("Alice Martin");
+    tp.setTravel(travelExpenseToCrupdateTravelExpense(travelExpense1()));
+    User user = new User();
+    user.setId(TestUtils.EMPLOYEE_ID);
+    user.setFirstName("John");
+    user.setLastName("Doe");
+    user.setEmail("employee@hei.school");
+    tp.setUser(user);
     return tp;
   }
 
   static TravelPeople travelPeople2() {
     TravelPeople tp = new TravelPeople();
     tp.setId(TestUtils.TRAVEL_PEOPLE2_ID);
-    tp.setTravelId(TestUtils.TRAVEL_EXPENSE1_ID);
-    tp.setPersonName("Bob Dupont");
+    tp.setTravel(travelExpenseToCrupdateTravelExpense(travelExpense1()));
+    User user = new User();
+    user.setId(TestUtils.EMPLOYEE_ID);
+    user.setFirstName("John");
+    user.setLastName("Doe");
+    user.setEmail("employee@hei.school");
+    tp.setUser(user);
     return tp;
   }
 
   static CrupdateTravelPeople travelPeopleToCrupdateTravelPeople(TravelPeople travelPeople) {
     CrupdateTravelPeople crupdateTravelPeople = new CrupdateTravelPeople();
     crupdateTravelPeople.setId(travelPeople.getId());
-    crupdateTravelPeople.setTravelId(travelPeople.getTravelId());
-    crupdateTravelPeople.setPersonName(travelPeople.getPersonName());
+    crupdateTravelPeople.setTravelId(
+        travelPeople.getTravel() != null ? travelPeople.getTravel().getId() : null);
+    crupdateTravelPeople.setUserId(
+        travelPeople.getUser() != null ? travelPeople.getUser().getId() : null);
     crupdateTravelPeople.setComment(travelPeople.getComment());
     return crupdateTravelPeople;
   }
@@ -89,15 +124,16 @@ final class TestTravelFixtures {
     CrupdateTravelPeople crupdateTravelPeople = new CrupdateTravelPeople();
     crupdateTravelPeople.setId(UUID.randomUUID().toString());
     crupdateTravelPeople.setTravelId(TestUtils.TRAVEL_EXPENSE1_ID);
-    crupdateTravelPeople.setPersonName("Nouveau passager");
+    crupdateTravelPeople.setUserId(TestUtils.EMPLOYEE_ID);
     return crupdateTravelPeople;
   }
 
   static TravelMaterials travelMaterials1() {
     TravelMaterials travelMaterials = new TravelMaterials();
     travelMaterials.setId(TestUtils.TRAVEL_MATERIALS1_ID);
-    travelMaterials.setTravelId(TestUtils.TRAVEL_EXPENSE1_ID);
-    travelMaterials.setMaterial(TestUtils.MATERIAL1_ID);
+    travelMaterials.setTravel(travelExpenseToCrupdateTravelExpense(travelExpense1()));
+    travelMaterials.setMaterial(
+        TestOrganizationFixtures.materialToCrupdateMaterial(TestOrganizationFixtures.material1()));
     travelMaterials.setQuantity(10);
     travelMaterials.setQuantityReceived(5);
     return travelMaterials;
@@ -106,8 +142,9 @@ final class TestTravelFixtures {
   static TravelMaterials travelMaterials2() {
     TravelMaterials travelMaterials = new TravelMaterials();
     travelMaterials.setId(TestUtils.TRAVEL_MATERIALS2_ID);
-    travelMaterials.setTravelId(TestUtils.TRAVEL_EXPENSE2_ID);
-    travelMaterials.setMaterial(TestUtils.MATERIAL2_ID);
+    travelMaterials.setTravel(travelExpenseToCrupdateTravelExpense(travelExpense2()));
+    travelMaterials.setMaterial(
+        TestOrganizationFixtures.materialToCrupdateMaterial(TestOrganizationFixtures.material2()));
     travelMaterials.setQuantity(20);
     travelMaterials.setQuantityReceived(null);
     return travelMaterials;
@@ -117,8 +154,10 @@ final class TestTravelFixtures {
       TravelMaterials travelMaterials) {
     CrupdateTravelMaterials crupdateTravelMaterials = new CrupdateTravelMaterials();
     crupdateTravelMaterials.setId(travelMaterials.getId());
-    crupdateTravelMaterials.setTravelId(travelMaterials.getTravelId());
-    crupdateTravelMaterials.setMaterial(travelMaterials.getMaterial());
+    crupdateTravelMaterials.setTravelId(
+        travelMaterials.getTravel() != null ? travelMaterials.getTravel().getId() : null);
+    crupdateTravelMaterials.setMaterial(
+        travelMaterials.getMaterial() != null ? travelMaterials.getMaterial().getId() : null);
     crupdateTravelMaterials.setQuantity(travelMaterials.getQuantity());
     crupdateTravelMaterials.setQuantityReceived(travelMaterials.getQuantityReceived());
     crupdateTravelMaterials.setComment(travelMaterials.getComment());
@@ -138,8 +177,10 @@ final class TestTravelFixtures {
   static TravelEquipment travelEquipment1() {
     TravelEquipment travelEquipment = new TravelEquipment();
     travelEquipment.setId(TestUtils.TRAVEL_EQUIPMENT1_ID);
-    travelEquipment.setTravelId(TestUtils.TRAVEL_EXPENSE1_ID);
-    travelEquipment.setEquipment(TestUtils.EQUIPMENT1_ID);
+    travelEquipment.setTravel(travelExpenseToCrupdateTravelExpense(travelExpense1()));
+    travelEquipment.setEquipment(
+        TestOrganizationFixtures.equipmentToCrupdateEquipment(
+            TestOrganizationFixtures.equipment1()));
     travelEquipment.setQuantity(2);
     travelEquipment.setStatus(TransportStatus.IN_PROGRESS);
     return travelEquipment;
@@ -148,8 +189,10 @@ final class TestTravelFixtures {
   static TravelEquipment travelEquipment2() {
     TravelEquipment travelEquipment = new TravelEquipment();
     travelEquipment.setId(TestUtils.TRAVEL_EQUIPMENT2_ID);
-    travelEquipment.setTravelId(TestUtils.TRAVEL_EXPENSE2_ID);
-    travelEquipment.setEquipment(TestUtils.EQUIPMENT2_ID);
+    travelEquipment.setTravel(travelExpenseToCrupdateTravelExpense(travelExpense2()));
+    travelEquipment.setEquipment(
+        TestOrganizationFixtures.equipmentToCrupdateEquipment(
+            TestOrganizationFixtures.equipment2()));
     travelEquipment.setQuantity(1);
     travelEquipment.setStatus(TransportStatus.ARRIVED);
     return travelEquipment;
@@ -159,8 +202,10 @@ final class TestTravelFixtures {
       TravelEquipment travelEquipment) {
     CrupdateTravelEquipment crupdateTravelEquipment = new CrupdateTravelEquipment();
     crupdateTravelEquipment.setId(travelEquipment.getId());
-    crupdateTravelEquipment.setTravelId(travelEquipment.getTravelId());
-    crupdateTravelEquipment.setEquipment(travelEquipment.getEquipment());
+    crupdateTravelEquipment.setTravelId(
+        travelEquipment.getTravel() != null ? travelEquipment.getTravel().getId() : null);
+    crupdateTravelEquipment.setEquipment(
+        travelEquipment.getEquipment() != null ? travelEquipment.getEquipment().getId() : null);
     crupdateTravelEquipment.setQuantity(travelEquipment.getQuantity());
     crupdateTravelEquipment.setStatus(travelEquipment.getStatus());
     crupdateTravelEquipment.setComment(travelEquipment.getComment());

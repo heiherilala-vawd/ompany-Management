@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 public class OtherExpenseMapper {
 
   private final ExpenseMoneyService expenseMoneyService;
+  private final ExpenseMoneyMapper expenseMoneyMapper;
 
   public com.example.demo.model.money.OtherExpense toDomain(OtherExpense restOtherExpense) {
     if (restOtherExpense == null) return null;
@@ -19,8 +20,8 @@ public class OtherExpenseMapper {
     return com.example.demo.model.money.OtherExpense.builder()
         .id(restOtherExpense.getId())
         .expense(
-            restOtherExpense.getExpenseId() != null
-                ? expenseMoneyService.findById(restOtherExpense.getExpenseId()).orElse(null)
+            restOtherExpense.getExpense() != null && restOtherExpense.getExpense().getId() != null
+                ? expenseMoneyService.findById(restOtherExpense.getExpense().getId()).orElse(null)
                 : null)
         .description(restOtherExpense.getDescription())
         .build();
@@ -45,8 +46,8 @@ public class OtherExpenseMapper {
 
     OtherExpense restOtherExpense = new OtherExpense();
     restOtherExpense.setId(domainOtherExpense.getId());
-    restOtherExpense.setExpenseId(
-        domainOtherExpense.getExpense() != null ? domainOtherExpense.getExpense().getId() : null);
+    restOtherExpense.setExpense(
+        expenseMoneyMapper.toRestCrupdateExpense(domainOtherExpense.getExpense()));
     restOtherExpense.setDescription(domainOtherExpense.getDescription());
 
     return restOtherExpense;

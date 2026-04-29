@@ -77,10 +77,10 @@ class JobIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     JobApi api = new JobApi(adminClient);
 
-    List<Job> jobs = api.getJobs(COMPANY2_ID, 1, 100, null, null);
+    List<Job> jobs = api.getJobs(COMPANY1_ID, 1, 100, null, null);
 
     assertEquals(1, jobs.size());
-    assertTrue(jobs.stream().anyMatch(job -> JOB2_ID.equals(job.getId())));
+    assertEquals(JOB1_ID, jobs.get(0).getId());
   }
 
   @Test
@@ -107,10 +107,10 @@ class JobIT {
     ApiClient administrationClient = anApiClient(ADMINISTRATION_TOKEN);
     JobApi api = new JobApi(administrationClient);
 
-    List<Job> jobs = api.getJobs(COMPANY1_ID, 1, 100, null, null);
+    List<Job> jobs = api.getJobs(COMPANY2_ID, 1, 100, null, null);
 
     assertEquals(1, jobs.size());
-    assertEquals(JOB1_ID, jobs.get(0).getId());
+    assertEquals(JOB2_ID, jobs.get(0).getId());
   }
 
   @Test

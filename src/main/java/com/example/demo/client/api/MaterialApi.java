@@ -21,6 +21,7 @@ import com.example.demo.client.model.BadRequestException;
 import com.example.demo.client.model.CrupdateMaterial;
 import com.example.demo.client.model.InternalServerException;
 import com.example.demo.client.model.Material;
+import com.example.demo.client.model.MaterialUnit;
 import com.example.demo.client.model.NotAuthorizedException;
 import com.example.demo.client.model.ResourceNotFoundException;
 import com.example.demo.client.model.TooManyRequestsException;
@@ -50,7 +51,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-22T04:36:53.574595138+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-29T14:25:24.972835022+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class MaterialApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -319,16 +320,14 @@ public class MaterialApi {
    * 
    * @param page  (optional)
    * @param pageSize  (optional)
-   * @param warehouseId  (optional)
    * @param name Filter materials by name, case is ignored (optional)
    * @param description Filter materials by description, case is ignored (optional)
-   * @param floorNumber  (optional)
-   * @param storageNumber  (optional)
+   * @param unit  (optional)
    * @return List&lt;Material&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<Material> getMaterials(Integer page, Integer pageSize, String warehouseId, String name, String description, Integer floorNumber, Integer storageNumber) throws ApiException {
-    ApiResponse<List<Material>> localVarResponse = getMaterialsWithHttpInfo(page, pageSize, warehouseId, name, description, floorNumber, storageNumber);
+  public List<Material> getMaterials(Integer page, Integer pageSize, String name, String description, MaterialUnit unit) throws ApiException {
+    ApiResponse<List<Material>> localVarResponse = getMaterialsWithHttpInfo(page, pageSize, name, description, unit);
     return localVarResponse.getData();
   }
 
@@ -337,16 +336,14 @@ public class MaterialApi {
    * 
    * @param page  (optional)
    * @param pageSize  (optional)
-   * @param warehouseId  (optional)
    * @param name Filter materials by name, case is ignored (optional)
    * @param description Filter materials by description, case is ignored (optional)
-   * @param floorNumber  (optional)
-   * @param storageNumber  (optional)
+   * @param unit  (optional)
    * @return ApiResponse&lt;List&lt;Material&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<Material>> getMaterialsWithHttpInfo(Integer page, Integer pageSize, String warehouseId, String name, String description, Integer floorNumber, Integer storageNumber) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getMaterialsRequestBuilder(page, pageSize, warehouseId, name, description, floorNumber, storageNumber);
+  public ApiResponse<List<Material>> getMaterialsWithHttpInfo(Integer page, Integer pageSize, String name, String description, MaterialUnit unit) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getMaterialsRequestBuilder(page, pageSize, name, description, unit);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -374,7 +371,7 @@ public class MaterialApi {
     }
   }
 
-  private HttpRequest.Builder getMaterialsRequestBuilder(Integer page, Integer pageSize, String warehouseId, String name, String description, Integer floorNumber, Integer storageNumber) throws ApiException {
+  private HttpRequest.Builder getMaterialsRequestBuilder(Integer page, Integer pageSize, String name, String description, MaterialUnit unit) throws ApiException {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -387,16 +384,12 @@ public class MaterialApi {
     localVarQueryParams.addAll(ApiClient.parameterToPairs("page", page));
     localVarQueryParameterBaseName = "page_size";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("page_size", pageSize));
-    localVarQueryParameterBaseName = "warehouse_id";
-    localVarQueryParams.addAll(ApiClient.parameterToPairs("warehouse_id", warehouseId));
     localVarQueryParameterBaseName = "name";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("name", name));
     localVarQueryParameterBaseName = "description";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("description", description));
-    localVarQueryParameterBaseName = "floor_number";
-    localVarQueryParams.addAll(ApiClient.parameterToPairs("floor_number", floorNumber));
-    localVarQueryParameterBaseName = "storage_number";
-    localVarQueryParams.addAll(ApiClient.parameterToPairs("storage_number", storageNumber));
+    localVarQueryParameterBaseName = "unit";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("unit", unit));
 
     if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
       StringJoiner queryJoiner = new StringJoiner("&");

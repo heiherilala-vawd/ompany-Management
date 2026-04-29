@@ -3,6 +3,9 @@ package com.example.demo.endpoint.rest.mapper.movement;
 import com.example.demo.client.model.CrupdateTravelPeople;
 import com.example.demo.client.model.TravelPeople;
 import com.example.demo.endpoint.rest.mapper.RestAuditMapperUtils;
+import com.example.demo.endpoint.rest.mapper.money.TravelExpenseMapper;
+import com.example.demo.model.User;
+import com.example.demo.repository.UserRepository;
 import com.example.demo.service.money.TravelExpenseService;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -13,6 +16,8 @@ import org.springframework.stereotype.Component;
 public class TravelPeopleMapper {
 
   private final TravelExpenseService travelExpenseService;
+  private final TravelExpenseMapper travelExpenseMapper;
+  private final UserRepository userRepository;
 
   public com.example.demo.model.movement.TravelPeople toDomain(TravelPeople restTravelPeople) {
     if (restTravelPeople == null) return null;
@@ -20,10 +25,13 @@ public class TravelPeopleMapper {
     return com.example.demo.model.movement.TravelPeople.builder()
         .id(restTravelPeople.getId())
         .travel(
-            restTravelPeople.getTravelId() != null
-                ? travelExpenseService.findById(restTravelPeople.getTravelId()).orElse(null)
+            restTravelPeople.getTravel() != null && restTravelPeople.getTravel().getId() != null
+                ? travelExpenseService.findById(restTravelPeople.getTravel().getId()).orElse(null)
                 : null)
-        .personName(restTravelPeople.getPersonName())
+        .user(
+            restTravelPeople.getUser() != null && restTravelPeople.getUser().getId() != null
+                ? userRepository.findById(restTravelPeople.getUser().getId()).orElse(null)
+                : null)
         .comment(restTravelPeople.getComment())
         .build();
   }
@@ -38,7 +46,10 @@ public class TravelPeopleMapper {
             restTravelPeople.getTravelId() != null
                 ? travelExpenseService.findById(restTravelPeople.getTravelId()).orElse(null)
                 : null)
-        .personName(restTravelPeople.getPersonName())
+        .user(
+            restTravelPeople.getUserId() != null
+                ? userRepository.findById(restTravelPeople.getUserId()).orElse(null)
+                : null)
         .comment(restTravelPeople.getComment())
         .build();
   }
@@ -49,9 +60,10 @@ public class TravelPeopleMapper {
 
     TravelPeople restTravelPeople = new TravelPeople();
     restTravelPeople.setId(domainTravelPeople.getId());
-    restTravelPeople.setTravelId(
-        domainTravelPeople.getTravel() != null ? domainTravelPeople.getTravel().getId() : null);
-    restTravelPeople.setPersonName(domainTravelPeople.getPersonName());
+    restTravelPeople.setTravel(
+        travelExpenseMapper.toRestCrupdateTravelExpense(domainTravelPeople.getTravel()));
+    restTravelPeople.setUser(
+        domainTravelPeople.getUser() != null ? mapUserToRest(domainTravelPeople.getUser()) : null);
     RestAuditMapperUtils.mapAuditFields(
         domainTravelPeople,
         restTravelPeople::setCreatedAt,
@@ -61,6 +73,15 @@ public class TravelPeopleMapper {
         restTravelPeople::setUpdatedBy);
 
     return restTravelPeople;
+  }
+
+  private com.example.demo.client.model.User mapUserToRest(User user) {
+    com.example.demo.client.model.User restUser = new com.example.demo.client.model.User();
+    restUser.setId(user.getId());
+    restUser.setFirstName(user.getFirstName());
+    restUser.setLastName(user.getLastName());
+    restUser.setEmail(user.getEmail());
+    return restUser;
   }
 
   public List<TravelPeople> toRestTravelPeopleList(

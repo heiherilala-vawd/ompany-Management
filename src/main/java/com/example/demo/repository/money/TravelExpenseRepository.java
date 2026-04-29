@@ -15,12 +15,12 @@ public interface TravelExpenseRepository
     extends JpaRepository<TravelExpense, String>, JpaSpecificationExecutor<TravelExpense> {
   Optional<TravelExpense> findByExpenseId(String expenseId);
 
-  Page<TravelExpense> findByDepartureLocationContainingIgnoreCase(
-      String location, Pageable pageable);
+  Page<TravelExpense> findByDepartureLocation_Id(String locationId, Pageable pageable);
 
   List<TravelExpense> findByDepartureDateBetween(Instant startDate, Instant endDate);
 
   List<TravelExpense> findByArrivalDateBetween(Instant startDate, Instant endDate);
 
-  List<TravelExpense> findByDepartureLocationAndArrivalLocation(String departure, String arrival);
+  List<TravelExpense> findByDepartureLocation_IdAndArrivalLocation_Id(
+      String departureId, String arrivalId);
 }

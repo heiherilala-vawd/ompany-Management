@@ -19,6 +19,8 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import com.example.demo.client.model.AuditUser;
+import com.example.demo.client.model.MaterialUnit;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -35,16 +37,14 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   Material.JSON_PROPERTY_ID,
   Material.JSON_PROPERTY_NAME,
   Material.JSON_PROPERTY_DESCRIPTION,
-  Material.JSON_PROPERTY_WAREHOUSE_ID,
-  Material.JSON_PROPERTY_FLOOR_NUMBER,
-  Material.JSON_PROPERTY_STORAGE_NUMBER,
+  Material.JSON_PROPERTY_UNIT,
   Material.JSON_PROPERTY_CREATED_AT,
   Material.JSON_PROPERTY_UPDATED_AT,
   Material.JSON_PROPERTY_CREATED_BY,
   Material.JSON_PROPERTY_UPDATED_BY,
   Material.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-22T04:36:53.574595138+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-29T14:25:24.972835022+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class Material {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -55,14 +55,8 @@ public class Material {
   public static final String JSON_PROPERTY_DESCRIPTION = "description";
   private String description;
 
-  public static final String JSON_PROPERTY_WAREHOUSE_ID = "warehouse_id";
-  private String warehouseId;
-
-  public static final String JSON_PROPERTY_FLOOR_NUMBER = "floor_number";
-  private Integer floorNumber;
-
-  public static final String JSON_PROPERTY_STORAGE_NUMBER = "storage_number";
-  private Integer storageNumber;
+  public static final String JSON_PROPERTY_UNIT = "unit";
+  private MaterialUnit unit;
 
   public static final String JSON_PROPERTY_CREATED_AT = "created_at";
   private java.time.Instant createdAt;
@@ -71,10 +65,10 @@ public class Material {
   private java.time.Instant updatedAt;
 
   public static final String JSON_PROPERTY_CREATED_BY = "created_by";
-  private String createdBy;
+  private AuditUser createdBy;
 
   public static final String JSON_PROPERTY_UPDATED_BY = "updated_by";
-  private String updatedBy;
+  private AuditUser updatedBy;
 
   public static final String JSON_PROPERTY_COMMENT = "comment";
   private String comment;
@@ -157,78 +151,28 @@ public class Material {
   }
 
 
-  public Material warehouseId(String warehouseId) {
-    this.warehouseId = warehouseId;
+  public Material unit(MaterialUnit unit) {
+    this.unit = unit;
     return this;
   }
 
    /**
-   * Get warehouseId
-   * @return warehouseId
+   * Get unit
+   * @return unit
   **/
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_WAREHOUSE_ID)
+  @JsonProperty(JSON_PROPERTY_UNIT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getWarehouseId() {
-    return warehouseId;
+  public MaterialUnit getUnit() {
+    return unit;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_WAREHOUSE_ID)
+  @JsonProperty(JSON_PROPERTY_UNIT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setWarehouseId(String warehouseId) {
-    this.warehouseId = warehouseId;
-  }
-
-
-  public Material floorNumber(Integer floorNumber) {
-    this.floorNumber = floorNumber;
-    return this;
-  }
-
-   /**
-   * Get floorNumber
-   * @return floorNumber
-  **/
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_FLOOR_NUMBER)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-  public Integer getFloorNumber() {
-    return floorNumber;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_FLOOR_NUMBER)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setFloorNumber(Integer floorNumber) {
-    this.floorNumber = floorNumber;
-  }
-
-
-  public Material storageNumber(Integer storageNumber) {
-    this.storageNumber = storageNumber;
-    return this;
-  }
-
-   /**
-   * Get storageNumber
-   * @return storageNumber
-  **/
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_STORAGE_NUMBER)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-  public Integer getStorageNumber() {
-    return storageNumber;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_STORAGE_NUMBER)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setStorageNumber(Integer storageNumber) {
-    this.storageNumber = storageNumber;
+  public void setUnit(MaterialUnit unit) {
+    this.unit = unit;
   }
 
 
@@ -282,7 +226,7 @@ public class Material {
   }
 
 
-  public Material createdBy(String createdBy) {
+  public Material createdBy(AuditUser createdBy) {
     this.createdBy = createdBy;
     return this;
   }
@@ -295,19 +239,19 @@ public class Material {
   @JsonProperty(JSON_PROPERTY_CREATED_BY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getCreatedBy() {
+  public AuditUser getCreatedBy() {
     return createdBy;
   }
 
 
   @JsonProperty(JSON_PROPERTY_CREATED_BY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setCreatedBy(String createdBy) {
+  public void setCreatedBy(AuditUser createdBy) {
     this.createdBy = createdBy;
   }
 
 
-  public Material updatedBy(String updatedBy) {
+  public Material updatedBy(AuditUser updatedBy) {
     this.updatedBy = updatedBy;
     return this;
   }
@@ -320,14 +264,14 @@ public class Material {
   @JsonProperty(JSON_PROPERTY_UPDATED_BY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getUpdatedBy() {
+  public AuditUser getUpdatedBy() {
     return updatedBy;
   }
 
 
   @JsonProperty(JSON_PROPERTY_UPDATED_BY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setUpdatedBy(String updatedBy) {
+  public void setUpdatedBy(AuditUser updatedBy) {
     this.updatedBy = updatedBy;
   }
 
@@ -372,9 +316,7 @@ public class Material {
     return Objects.equals(this.id, material.id) &&
         Objects.equals(this.name, material.name) &&
         Objects.equals(this.description, material.description) &&
-        Objects.equals(this.warehouseId, material.warehouseId) &&
-        Objects.equals(this.floorNumber, material.floorNumber) &&
-        Objects.equals(this.storageNumber, material.storageNumber) &&
+        Objects.equals(this.unit, material.unit) &&
         Objects.equals(this.createdAt, material.createdAt) &&
         Objects.equals(this.updatedAt, material.updatedAt) &&
         Objects.equals(this.createdBy, material.createdBy) &&
@@ -384,7 +326,7 @@ public class Material {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, description, warehouseId, floorNumber, storageNumber, createdAt, updatedAt, createdBy, updatedBy, comment);
+    return Objects.hash(id, name, description, unit, createdAt, updatedAt, createdBy, updatedBy, comment);
   }
 
   @Override
@@ -394,9 +336,7 @@ public class Material {
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
-    sb.append("    warehouseId: ").append(toIndentedString(warehouseId)).append("\n");
-    sb.append("    floorNumber: ").append(toIndentedString(floorNumber)).append("\n");
-    sb.append("    storageNumber: ").append(toIndentedString(storageNumber)).append("\n");
+    sb.append("    unit: ").append(toIndentedString(unit)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
     sb.append("    updatedAt: ").append(toIndentedString(updatedAt)).append("\n");
     sb.append("    createdBy: ").append(toIndentedString(createdBy)).append("\n");
@@ -461,12 +401,12 @@ public class Material {
 
     // add `created_by` to the URL query string
     if (getCreatedBy() != null) {
-      joiner.add(String.format("%screated_by%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getCreatedBy()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(getCreatedBy().toUrlQueryString(prefix + "created_by" + suffix));
     }
 
     // add `updated_by` to the URL query string
     if (getUpdatedBy() != null) {
-      joiner.add(String.format("%supdated_by%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getUpdatedBy()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(getUpdatedBy().toUrlQueryString(prefix + "updated_by" + suffix));
     }
 
     // add `comment` to the URL query string

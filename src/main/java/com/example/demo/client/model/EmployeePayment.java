@@ -19,7 +19,9 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import com.example.demo.client.model.CrupdateExpenseMoney;
 import com.example.demo.client.model.PaymentType;
+import com.example.demo.client.model.User;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -34,21 +36,21 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  */
 @JsonPropertyOrder({
   EmployeePayment.JSON_PROPERTY_ID,
-  EmployeePayment.JSON_PROPERTY_EXPENSE_ID,
-  EmployeePayment.JSON_PROPERTY_EMPLOYEE_ID,
+  EmployeePayment.JSON_PROPERTY_EXPENSE,
+  EmployeePayment.JSON_PROPERTY_EMPLOYEE,
   EmployeePayment.JSON_PROPERTY_PAYMENT_DESCRIPTION,
   EmployeePayment.JSON_PROPERTY_PAYMENT_TYPE
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-22T04:36:53.574595138+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-29T14:25:24.972835022+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class EmployeePayment {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
 
-  public static final String JSON_PROPERTY_EXPENSE_ID = "expense_id";
-  private String expenseId;
+  public static final String JSON_PROPERTY_EXPENSE = "expense";
+  private CrupdateExpenseMoney expense;
 
-  public static final String JSON_PROPERTY_EMPLOYEE_ID = "employee_id";
-  private String employeeId;
+  public static final String JSON_PROPERTY_EMPLOYEE = "employee";
+  private User employee;
 
   public static final String JSON_PROPERTY_PAYMENT_DESCRIPTION = "payment_description";
   private String paymentDescription;
@@ -84,53 +86,53 @@ public class EmployeePayment {
   }
 
 
-  public EmployeePayment expenseId(String expenseId) {
-    this.expenseId = expenseId;
+  public EmployeePayment expense(CrupdateExpenseMoney expense) {
+    this.expense = expense;
     return this;
   }
 
    /**
-   * Get expenseId
-   * @return expenseId
+   * Get expense
+   * @return expense
   **/
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_EXPENSE_ID)
+  @JsonProperty(JSON_PROPERTY_EXPENSE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getExpenseId() {
-    return expenseId;
+  public CrupdateExpenseMoney getExpense() {
+    return expense;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_EXPENSE_ID)
+  @JsonProperty(JSON_PROPERTY_EXPENSE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setExpenseId(String expenseId) {
-    this.expenseId = expenseId;
+  public void setExpense(CrupdateExpenseMoney expense) {
+    this.expense = expense;
   }
 
 
-  public EmployeePayment employeeId(String employeeId) {
-    this.employeeId = employeeId;
+  public EmployeePayment employee(User employee) {
+    this.employee = employee;
     return this;
   }
 
    /**
-   * Get employeeId
-   * @return employeeId
+   * Get employee
+   * @return employee
   **/
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_EMPLOYEE_ID)
+  @JsonProperty(JSON_PROPERTY_EMPLOYEE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getEmployeeId() {
-    return employeeId;
+  public User getEmployee() {
+    return employee;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_EMPLOYEE_ID)
+  @JsonProperty(JSON_PROPERTY_EMPLOYEE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setEmployeeId(String employeeId) {
-    this.employeeId = employeeId;
+  public void setEmployee(User employee) {
+    this.employee = employee;
   }
 
 
@@ -197,15 +199,15 @@ public class EmployeePayment {
     }
     EmployeePayment employeePayment = (EmployeePayment) o;
     return Objects.equals(this.id, employeePayment.id) &&
-        Objects.equals(this.expenseId, employeePayment.expenseId) &&
-        Objects.equals(this.employeeId, employeePayment.employeeId) &&
+        Objects.equals(this.expense, employeePayment.expense) &&
+        Objects.equals(this.employee, employeePayment.employee) &&
         Objects.equals(this.paymentDescription, employeePayment.paymentDescription) &&
         Objects.equals(this.paymentType, employeePayment.paymentType);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, expenseId, employeeId, paymentDescription, paymentType);
+    return Objects.hash(id, expense, employee, paymentDescription, paymentType);
   }
 
   @Override
@@ -213,8 +215,8 @@ public class EmployeePayment {
     StringBuilder sb = new StringBuilder();
     sb.append("class EmployeePayment {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    expenseId: ").append(toIndentedString(expenseId)).append("\n");
-    sb.append("    employeeId: ").append(toIndentedString(employeeId)).append("\n");
+    sb.append("    expense: ").append(toIndentedString(expense)).append("\n");
+    sb.append("    employee: ").append(toIndentedString(employee)).append("\n");
     sb.append("    paymentDescription: ").append(toIndentedString(paymentDescription)).append("\n");
     sb.append("    paymentType: ").append(toIndentedString(paymentType)).append("\n");
     sb.append("}");
@@ -269,14 +271,14 @@ public class EmployeePayment {
       joiner.add(String.format("%sid%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `expense_id` to the URL query string
-    if (getExpenseId() != null) {
-      joiner.add(String.format("%sexpense_id%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getExpenseId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    // add `expense` to the URL query string
+    if (getExpense() != null) {
+      joiner.add(getExpense().toUrlQueryString(prefix + "expense" + suffix));
     }
 
-    // add `employee_id` to the URL query string
-    if (getEmployeeId() != null) {
-      joiner.add(String.format("%semployee_id%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getEmployeeId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    // add `employee` to the URL query string
+    if (getEmployee() != null) {
+      joiner.add(getEmployee().toUrlQueryString(prefix + "employee" + suffix));
     }
 
     // add `payment_description` to the URL query string

@@ -19,6 +19,9 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import com.example.demo.client.model.AuditUser;
+import com.example.demo.client.model.CrupdateMaterial;
+import com.example.demo.client.model.CrupdateTravelExpense;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -33,7 +36,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  */
 @JsonPropertyOrder({
   TravelMaterials.JSON_PROPERTY_ID,
-  TravelMaterials.JSON_PROPERTY_TRAVEL_ID,
+  TravelMaterials.JSON_PROPERTY_TRAVEL,
   TravelMaterials.JSON_PROPERTY_MATERIAL,
   TravelMaterials.JSON_PROPERTY_QUANTITY,
   TravelMaterials.JSON_PROPERTY_QUANTITY_RECEIVED,
@@ -43,16 +46,16 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   TravelMaterials.JSON_PROPERTY_UPDATED_BY,
   TravelMaterials.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-22T04:36:53.574595138+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-29T14:25:24.972835022+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class TravelMaterials {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
 
-  public static final String JSON_PROPERTY_TRAVEL_ID = "travel_id";
-  private String travelId;
+  public static final String JSON_PROPERTY_TRAVEL = "travel";
+  private CrupdateTravelExpense travel;
 
   public static final String JSON_PROPERTY_MATERIAL = "material";
-  private String material;
+  private CrupdateMaterial material;
 
   public static final String JSON_PROPERTY_QUANTITY = "quantity";
   private Integer quantity;
@@ -67,10 +70,10 @@ public class TravelMaterials {
   private java.time.Instant updatedAt;
 
   public static final String JSON_PROPERTY_CREATED_BY = "created_by";
-  private String createdBy;
+  private AuditUser createdBy;
 
   public static final String JSON_PROPERTY_UPDATED_BY = "updated_by";
-  private String updatedBy;
+  private AuditUser updatedBy;
 
   public static final String JSON_PROPERTY_COMMENT = "comment";
   private String comment;
@@ -103,32 +106,32 @@ public class TravelMaterials {
   }
 
 
-  public TravelMaterials travelId(String travelId) {
-    this.travelId = travelId;
+  public TravelMaterials travel(CrupdateTravelExpense travel) {
+    this.travel = travel;
     return this;
   }
 
    /**
-   * Get travelId
-   * @return travelId
+   * Get travel
+   * @return travel
   **/
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_TRAVEL_ID)
+  @JsonProperty(JSON_PROPERTY_TRAVEL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getTravelId() {
-    return travelId;
+  public CrupdateTravelExpense getTravel() {
+    return travel;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_TRAVEL_ID)
+  @JsonProperty(JSON_PROPERTY_TRAVEL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setTravelId(String travelId) {
-    this.travelId = travelId;
+  public void setTravel(CrupdateTravelExpense travel) {
+    this.travel = travel;
   }
 
 
-  public TravelMaterials material(String material) {
+  public TravelMaterials material(CrupdateMaterial material) {
     this.material = material;
     return this;
   }
@@ -141,14 +144,14 @@ public class TravelMaterials {
   @JsonProperty(JSON_PROPERTY_MATERIAL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getMaterial() {
+  public CrupdateMaterial getMaterial() {
     return material;
   }
 
 
   @JsonProperty(JSON_PROPERTY_MATERIAL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setMaterial(String material) {
+  public void setMaterial(CrupdateMaterial material) {
     this.material = material;
   }
 
@@ -253,7 +256,7 @@ public class TravelMaterials {
   }
 
 
-  public TravelMaterials createdBy(String createdBy) {
+  public TravelMaterials createdBy(AuditUser createdBy) {
     this.createdBy = createdBy;
     return this;
   }
@@ -266,19 +269,19 @@ public class TravelMaterials {
   @JsonProperty(JSON_PROPERTY_CREATED_BY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getCreatedBy() {
+  public AuditUser getCreatedBy() {
     return createdBy;
   }
 
 
   @JsonProperty(JSON_PROPERTY_CREATED_BY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setCreatedBy(String createdBy) {
+  public void setCreatedBy(AuditUser createdBy) {
     this.createdBy = createdBy;
   }
 
 
-  public TravelMaterials updatedBy(String updatedBy) {
+  public TravelMaterials updatedBy(AuditUser updatedBy) {
     this.updatedBy = updatedBy;
     return this;
   }
@@ -291,14 +294,14 @@ public class TravelMaterials {
   @JsonProperty(JSON_PROPERTY_UPDATED_BY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getUpdatedBy() {
+  public AuditUser getUpdatedBy() {
     return updatedBy;
   }
 
 
   @JsonProperty(JSON_PROPERTY_UPDATED_BY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setUpdatedBy(String updatedBy) {
+  public void setUpdatedBy(AuditUser updatedBy) {
     this.updatedBy = updatedBy;
   }
 
@@ -341,7 +344,7 @@ public class TravelMaterials {
     }
     TravelMaterials travelMaterials = (TravelMaterials) o;
     return Objects.equals(this.id, travelMaterials.id) &&
-        Objects.equals(this.travelId, travelMaterials.travelId) &&
+        Objects.equals(this.travel, travelMaterials.travel) &&
         Objects.equals(this.material, travelMaterials.material) &&
         Objects.equals(this.quantity, travelMaterials.quantity) &&
         Objects.equals(this.quantityReceived, travelMaterials.quantityReceived) &&
@@ -354,7 +357,7 @@ public class TravelMaterials {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, travelId, material, quantity, quantityReceived, createdAt, updatedAt, createdBy, updatedBy, comment);
+    return Objects.hash(id, travel, material, quantity, quantityReceived, createdAt, updatedAt, createdBy, updatedBy, comment);
   }
 
   @Override
@@ -362,7 +365,7 @@ public class TravelMaterials {
     StringBuilder sb = new StringBuilder();
     sb.append("class TravelMaterials {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    travelId: ").append(toIndentedString(travelId)).append("\n");
+    sb.append("    travel: ").append(toIndentedString(travel)).append("\n");
     sb.append("    material: ").append(toIndentedString(material)).append("\n");
     sb.append("    quantity: ").append(toIndentedString(quantity)).append("\n");
     sb.append("    quantityReceived: ").append(toIndentedString(quantityReceived)).append("\n");
@@ -430,12 +433,12 @@ public class TravelMaterials {
 
     // add `created_by` to the URL query string
     if (getCreatedBy() != null) {
-      joiner.add(String.format("%screated_by%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getCreatedBy()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(getCreatedBy().toUrlQueryString(prefix + "created_by" + suffix));
     }
 
     // add `updated_by` to the URL query string
     if (getUpdatedBy() != null) {
-      joiner.add(String.format("%supdated_by%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getUpdatedBy()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(getUpdatedBy().toUrlQueryString(prefix + "updated_by" + suffix));
     }
 
     // add `comment` to the URL query string

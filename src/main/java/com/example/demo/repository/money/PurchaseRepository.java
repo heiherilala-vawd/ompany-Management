@@ -15,7 +15,7 @@ public interface PurchaseRepository
 
   List<Purchase> findByExpenseId(String expenseId);
 
-  Page<Purchase> findBySupplierContainingIgnoreCase(String supplier, Pageable pageable);
+  Page<Purchase> findBySupplierId(String supplierId, Pageable pageable);
 
   List<Purchase> findByEquipmentId(String equipmentId);
 

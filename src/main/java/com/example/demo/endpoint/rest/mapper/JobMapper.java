@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 public class JobMapper {
 
   private final CompanyService companyService;
+  private final CompanyMapper companyMapper;
 
   public com.example.demo.model.Job toDomain(Job restJob) {
     if (restJob == null) return null;
@@ -20,8 +21,8 @@ public class JobMapper {
     return com.example.demo.model.Job.builder()
         .id(restJob.getId())
         .company(
-            restJob.getCompanyId() != null
-                ? companyService.findById(restJob.getCompanyId()).orElse(null)
+            restJob.getCompany() != null && restJob.getCompany().getId() != null
+                ? companyService.findById(restJob.getCompany().getId()).orElse(null)
                 : null)
         .description(restJob.getDescription())
         .contractSignatureDate(restJob.getContractSignatureDate())
@@ -55,7 +56,7 @@ public class JobMapper {
 
     Job restJob = new Job();
     restJob.setId(domainJob.getId());
-    restJob.setCompanyId(domainJob.getCompany() != null ? domainJob.getCompany().getId() : null);
+    restJob.setCompany(companyMapper.toRestCrupdateCompany(domainJob.getCompany()));
     restJob.setDescription(domainJob.getDescription());
     restJob.setContractSignatureDate(domainJob.getContractSignatureDate());
     restJob.setStartDate(domainJob.getStartDate());
@@ -70,6 +71,20 @@ public class JobMapper {
         restJob::setUpdatedBy);
 
     return restJob;
+  }
+
+  public CrupdateJob toRestCrupdateJob(com.example.demo.model.Job domainJob) {
+    if (domainJob == null) return null;
+
+    return new CrupdateJob()
+        .id(domainJob.getId())
+        .companyId(domainJob.getCompany() != null ? domainJob.getCompany().getId() : null)
+        .description(domainJob.getDescription())
+        .contractSignatureDate(domainJob.getContractSignatureDate())
+        .startDate(domainJob.getStartDate())
+        .endDate(domainJob.getEndDate())
+        .status(EnumMapper.mapEnum(domainJob.getStatus(), JobStatus.class))
+        .comment(domainJob.getComment());
   }
 
   public List<Job> toRestJobs(List<com.example.demo.model.Job> domainJobs) {

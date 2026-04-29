@@ -4,6 +4,7 @@ import com.example.demo.client.model.CrupdateJob;
 import com.example.demo.client.model.Job;
 import com.example.demo.client.model.JobStatus;
 import com.example.demo.endpoint.rest.mapper.JobMapper;
+import com.example.demo.endpoint.rest.mapper.UserMapper;
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
 import com.example.demo.model.criteria.JobCriteria;
@@ -20,6 +21,7 @@ public class JobController {
 
   private final JobService jobService;
   private final JobMapper jobMapper;
+  private final UserMapper userMapper;
 
   @GetMapping("/companies/{comp_id}/jobs/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER', 'EMPLOYEE')")
@@ -59,5 +61,26 @@ public class JobController {
   @PreAuthorize("hasAnyRole('ADMIN')")
   public void deleteJobById(@PathVariable String comp_id, @PathVariable String id) {
     jobService.deleteById(id);
+  }
+
+  @GetMapping("/companies/{comp_id}/jobs/{job_id}/users")
+  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
+  public List<com.example.demo.client.model.User> getJobResponsibleUsers(
+      @PathVariable String comp_id, @PathVariable String job_id) {
+    return jobService.getJobResponsibleUsers(job_id).stream().map(userMapper::toRestUser).toList();
+  }
+
+  @PutMapping("/companies/{comp_id}/jobs/{job_id}/users/{user_id}")
+  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
+  public void assignUserToJob(
+      @PathVariable String comp_id, @PathVariable String job_id, @PathVariable String user_id) {
+    jobService.assignUserToJob(job_id, user_id);
+  }
+
+  @DeleteMapping("/companies/{comp_id}/jobs/{job_id}/users/{user_id}")
+  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
+  public void unassignUserFromJob(
+      @PathVariable String comp_id, @PathVariable String job_id, @PathVariable String user_id) {
+    jobService.unassignUserFromJob(job_id, user_id);
   }
 }

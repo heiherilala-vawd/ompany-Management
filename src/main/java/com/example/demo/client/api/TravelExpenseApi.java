@@ -50,7 +50,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-22T04:36:53.574595138+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-29T14:25:24.972835022+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class TravelExpenseApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -408,8 +408,8 @@ public class TravelExpenseApi {
    * @param page  (optional)
    * @param pageSize  (optional)
    * @param expenseId  (optional)
-   * @param departureLocation Filter travel expenses by departure location, case is ignored (optional)
-   * @param arrivalLocation Filter travel expenses by arrival location, case is ignored (optional)
+   * @param departureLocation Filter travel expenses by departure warehouse id (optional)
+   * @param arrivalLocation Filter travel expenses by arrival warehouse id (optional)
    * @return List&lt;TravelExpense&gt;
    * @throws ApiException if fails to make API call
    */
@@ -428,8 +428,8 @@ public class TravelExpenseApi {
    * @param page  (optional)
    * @param pageSize  (optional)
    * @param expenseId  (optional)
-   * @param departureLocation Filter travel expenses by departure location, case is ignored (optional)
-   * @param arrivalLocation Filter travel expenses by arrival location, case is ignored (optional)
+   * @param departureLocation Filter travel expenses by departure warehouse id (optional)
+   * @param arrivalLocation Filter travel expenses by arrival warehouse id (optional)
    * @return ApiResponse&lt;List&lt;TravelExpense&gt;&gt;
    * @throws ApiException if fails to make API call
    */
