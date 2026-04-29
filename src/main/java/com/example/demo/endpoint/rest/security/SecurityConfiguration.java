@@ -286,6 +286,12 @@ public class SecurityConfiguration {
                     .authenticated()
 
                     // =========================
+                    // OPERATION
+                    // =========================
+                    .requestMatchers(POST, "/companies/*/job/*/user/*/travel_operations")
+                    .authenticated()
+
+                    // =========================
                     // DEFAULT - Toute autre requête non auizer
                     // =========================
                     .anyRequest()

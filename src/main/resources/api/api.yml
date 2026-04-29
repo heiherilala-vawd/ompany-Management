@@ -3484,6 +3484,77 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
+  /companies/{comp_id}/job/{job_id}/user/{user_id}/travel_operations:
+    post:
+      tags:
+        - TravelOperation
+      summary: Register a travel operation for equipment, materials or people
+      operationId: createTravelOperation
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "job_001"
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "usr_123456"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TravelOperationRequest'
+            example:
+              comment: "Déplacement inter-entrepôts"
+              travel:
+                id: "travel_001"
+                expense_id: "exp_010"
+                departure_location:
+                  id: "wh_001"
+                  name: "Entrepôt Nord"
+                arrival_location:
+                  id: "wh_002"
+                  name: "Entrepôt Sud"
+                departure_date: "2024-02-25T09:00:00Z"
+                arrival_date: "2024-02-25T17:00:00Z"
+                fee: 500
+              equipment_lines:
+                - id: "travel_eq_010"
+                  equipment:
+                    id: "eq_003"
+              material_lines:
+                - id: "travel_mat_010"
+                  material:
+                    id: "mat_004"
+                  quantity: 100
+              people_lines:
+                - id: "travel_people_010"
+                  user_id: "usr_999"
+      responses:
+        '204':
+          description: Travel operation registered successfully
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+
 
   # =========================
   # BANK FEE
@@ -6366,6 +6437,78 @@ components:
             $ref: '#/components/schemas/PurchaseOperationMaterialLine'
         travel:
           $ref: '#/components/schemas/PurchaseOperationTravel'
+    TravelOperationTravel:
+      properties:
+        id:
+          type: string
+          example: "travel_001"
+        expense_id:
+          type: string
+          example: "exp_010"
+        departure_location:
+          $ref: '#/components/schemas/CrupdateWarehouse'
+        arrival_location:
+          $ref: '#/components/schemas/CrupdateWarehouse'
+        departure_date:
+          type: string
+          format: date-time
+          example: "2024-02-25T09:00:00Z"
+        arrival_date:
+          type: string
+          format: date-time
+          example: "2024-02-25T17:00:00Z"
+        fee:
+          type: integer
+          example: 500
+    TravelOperationEquipmentLine:
+      allOf:
+        - $ref: '#/components/schemas/comment'
+      properties:
+        id:
+          type: string
+          example: "travel_eq_010"
+        equipment:
+          $ref: '#/components/schemas/CrupdateEquipment'
+    TravelOperationMaterialLine:
+      allOf:
+        - $ref: '#/components/schemas/comment'
+      properties:
+        id:
+          type: string
+          example: "travel_mat_010"
+        material:
+          $ref: '#/components/schemas/CrupdateMaterial'
+        quantity:
+          type: integer
+          example: 100
+    TravelOperationPeopleLine:
+      allOf:
+        - $ref: '#/components/schemas/comment'
+      properties:
+        id:
+          type: string
+          example: "travel_people_010"
+        user_id:
+          type: string
+          example: "usr_999"
+    TravelOperationRequest:
+      allOf:
+        - $ref: '#/components/schemas/comment'
+      properties:
+        travel:
+          $ref: '#/components/schemas/TravelOperationTravel'
+        equipment_lines:
+          type: array
+          items:
+            $ref: '#/components/schemas/TravelOperationEquipmentLine'
+        material_lines:
+          type: array
+          items:
+            $ref: '#/components/schemas/TravelOperationMaterialLine'
+        people_lines:
+          type: array
+          items:
+            $ref: '#/components/schemas/TravelOperationPeopleLine'
 
     # =========================
     # BANK FEE
