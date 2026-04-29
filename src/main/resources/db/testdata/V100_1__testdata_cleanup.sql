@@ -10,6 +10,7 @@ DELETE FROM "purchase";
 DELETE FROM "employee_payment";
 DELETE FROM "income_money";
 DELETE FROM "expense_money";
+DELETE FROM "material_warehouse";
 DELETE FROM "equipment";
 DELETE FROM "material";
 DELETE FROM "warehouse";
