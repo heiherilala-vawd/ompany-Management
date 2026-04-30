@@ -1,48 +1,88 @@
 # AGENTS.md
 
-## Règles générales
-- **Ne jamais lire ni analyser le contenu du dossier `./build`** (y compris `build/gen/`, `build/reports/`, etc.). Ces fichiers sont générés automatiquement et ne doivent jamais être pris en compte. En cas de besoin, s’arrêter et demander confirmation.
-- **Respecter l’architecture en couches** : Controller → Mapper → Service → Repository → Entity.
-- Les mappers (ex: MapStruct) servent exclusivement à la conversion entre DTOs et objets domaine. **Aucune logique métier** ne doit y figurer.
-- Les contrôleurs sont uniquement des points d’entrée REST, ils délèguent immédiatement aux services. **Pas de logique métier dans les contrôleurs.**
-- Toute la logique métier, les validations complexes et les orchestrations sont à implémenter dans les services.
-- Les repositories ne contiennent que les requêtes d’accès aux données (méthodes de recherche). Pas de logique métier.
-
-## Classification des fonctionnalités
-- **Fonctionnalités CRUD standards** : La grande majorité des entités (création, lecture, mise à jour, suppression). Pour celles-ci, appliquer un modèle identique : contrôleur simple, service de CRUD générique si possible, mappeur basique.
-- **Fonctionnalités à part** : `purchaseOperation` et `travelOperation`. Ce sont des processus métier distincts avec une logique spécifique, potentiellement multi-étapes. Elles nécessitent un soin particulier, et peuvent déroger au pattern CRUD standard si nécessaire. Bien vérifier leur implémentation existante avant toute modification.
-
-## Commandes
-- Build : `./gradlew build`
-- Test tous : `./gradlew test`
-- Test unique : `./gradlew test --tests "com.example.demo.integration.money.ExpenseIT"`
-- Formater le code : `./gradlew spotlessApply`
-- Checkstyle : `./gradlew checkstyleMain`
-- Générer le client API : `./gradlew generateJavaClient`
-- Publier le client en local : `./gradlew publishJavaClientToMavenLocal`
+## Commands
+- Build: `./gradlew build`
+- Test all: `./gradlew test`
+- Single test: `./gradlew test --tests "com.example.demo.integration.money.ExpenseIT"`
+- Format code: `./gradlew spotlessApply`
+- Checkstyle: `./gradlew checkstyleMain`
+- Generate API client: `./gradlew generateJavaClient`
+- Publish client locally: `./gradlew publishJavaClientToMavenLocal`
 
 ## Workflow
-- `compileJava` dépend de `publishJavaClientToMavenLocal` (le client API doit être généré avant la compilation).
-- Testcontainers nécessite le socket Docker à `/var/run/docker.sock`.
-- Seuils de couverture JaCoCo : 50% de lignes, 40% de branches (le build échoue si non atteints).
-- Migrations Flyway dans `src/main/resources/db/migration/`, données de test dans `db/testdata/`.
+- `compileJava` depends on `publishJavaClientToMavenLocal` (API client must be generated before compilation)
+- Testcontainers requires Docker socket at `/var/run/docker.sock`
+- JaCoCo coverage thresholds: 50% lines, 40% branches (fails build if not met)
+- Flyway migrations in `src/main/resources/db/migration/`, test data in `db/testdata/`
 
 ## Architecture
-- Spring Boot 4.0.5, Java 21, PostgreSQL avec Flyway.
-- API définie dans `src/main/resources/api/api.yml` (OpenAPI 3.0).
-- Code client généré : `build/gen/` → publié dans le dépôt Maven local → utilisé lors de la compilation.
-- Couches : Controller → Mapper (API↔Domaine) → Service → Repository → Entity.
-- Toutes les entités étendent `CreatAndUpdateEntity` pour les champs d’audit (créé/mis à jour par/à).
-- Sécurité : JWT avec annotations `@PreAuthorize` (rôles ADMIN, ADMINISTRATION, etc.).
+- Spring Boot 4.0.5, Java 21, PostgreSQL with Flyway
+- API defined in `src/main/resources/api/api.yml` (OpenAPI 3.0)
+- Generated client code: `build/gen/` → published to Maven local → used in compilation
+- Layers: Controller → Mapper (API↔Domain) → Service → Repository → Entity
+- All entities extend `CreatAndUpdateEntity` for audit fields (created/updated by/at)
+- Security: JWT with `@PreAuthorize` roles (ADMIN, ADMINISTRATION, etc.)
 
 ## Conventions
-- Tests : `*IT.java` dans `src/test/java/.../integration/` utilisent Testcontainers + PostgreSQL.
-- Exclus de la couverture : `**/client/**`, `**/model/**`, `**/api/**`, `**/invoker/**`, `**/dto/**`, `**/config/**`.
-- Spotless exclut le code client généré (`**/client/**`).
-- Configuration Checkstyle : `config/checkstyle/google_checks_custom.xml`.
+- Tests: `*IT.java` in `src/test/java/.../integration/` use Testcontainers + PostgreSQL
+- Excluded from coverage: `**/client/**`, `**/model/**`, `**/api/**`, `**/invoker/**`, `**/dto/**`, `**/config/**`
+- Spotless excludes generated client code (`**/client/**`)
+- Checkstyle config: `config/checkstyle/google_checks_custom.xml`
 
-## Bonnes pratiques supplémentaires
-- Injection de dépendances par constructeur (pas de `@Autowired` sur les champs).
-- Transactions dans les services, pas dans les contrôleurs.
-- Lancer `spotlessApply` avant chaque commit pour garantir un formatage homogène.
-- Éviter la duplication : si une logique CRUD est répétée, envisager une classe abstraite ou un service générique.
+## File Map - Read these files based on your task
+
+### Task: Add/modify API endpoint
+1. `src/main/resources/api/api.yml` - OpenAPI definition
+2. `src/main/java/com/example/demo/endpoint/rest/controller/{domain}/` - Controller
+3. `src/main/java/com/example/demo/endpoint/rest/mapper/{domain}/` - Mapper
+4. `src/main/java/com/example/demo/client/model/` - Generated DTOs (after build)
+5. `src/test/java/com/example/demo/integration/{domain}/` - Integration tests
+
+### Task: Add new entity/domain
+1. `src/main/resources/api/api.yml` - Add schema and paths
+2. `src/main/java/com/example/demo/model/{domain}/` - Entity class
+3. `src/main/java/com/example/demo/repository/{domain}/` - Repository
+4. `src/main/java/com/example/demo/service/{domain}/` - Service
+5. `src/main/java/com/example/demo/endpoint/rest/controller/{domain}/` - Controller
+6. `src/main/java/com/example/demo/endpoint/rest/mapper/{domain}/` - Mapper
+7. `src/main/resources/db/migration/` - New Flyway migration
+8. `src/main/resources/db/testdata/` - Test data SQL
+9. `src/test/java/com/example/demo/integration/{domain}/` - Integration test
+
+### Task: Fix bug in existing feature
+1. Identify domain from error: `model/{domain}/`, `service/{domain}/`, `controller/{domain}/`
+2. `src/test/java/com/example/demo/integration/{domain}/` - Related tests
+3. `src/main/resources/db/migration/` - Related migrations if data issue
+
+### Task: Understand architecture/flow
+1. `src/main/java/com/example/demo/Demo2Application.java` - Entry point
+2. `src/main/resources/api/api.yml` - API surface
+3. `src/main/java/com/example/demo/endpoint/rest/controller/` - All endpoints
+4. `src/main/java/com/example/demo/service/` - Business logic
+5. `build.gradle.kts` - Dependencies and build config
+
+### Task: Run or debug tests
+1. `src/test/java/com/example/demo/integration/conf/` - Test config (AbstractContextInitializer, TestUtils, TestDataSqlLoader)
+2. `src/main/resources/db/testdata/` - Test data SQL files
+3. `src/main/resources/db/testdata/testcontainers.properties` - Docker config
+4. Specific `*IT.java` file in `src/test/java/com/example/demo/integration/{domain}/`
+
+### Important file references
+- `src/main/java/com/example/demo/model/CreatAndUpdateEntity.java` - Base entity class
+- `src/main/java/com/example/demo/service/utils/ModificationUtils.java` - Audit field handling
+- `src/main/java/com/example/demo/endpoint/rest/security/` - JWT/Security config
+- `src/main/resources/application.properties` - App config (dev profile)
+- `build.gradle.kts` - Build, dependencies, code generation config
+- `config/checkstyle/google_checks_custom.xml` - Checkstyle rules
+
+### Domains in this project
+- **money**: ExpenseMoney, IncomeMoney, EmployeePayment, TravelExpense, Purchase, BankFee, OtherExpense, PurchaseOperation
+- **movement**: Material, Equipment, Warehouse, TravelEquipment, TravelPeople, TravelMaterials, TravelOperation, MaterialWarehouse
+- **core**: Company, Job, User, History
+
+## Maintenance
+Update this File Map when:
+- New domains/features are added (add to Domains list)
+- New file patterns emerge (e.g., new layer, new config)
+- File purposes change (refactoring)
+- New test patterns or config files are introduced
