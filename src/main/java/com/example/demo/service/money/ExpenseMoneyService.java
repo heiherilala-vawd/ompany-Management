@@ -10,6 +10,7 @@ import com.example.demo.model.money.ExpenseMoney;
 import com.example.demo.repository.money.ExpenseMoneyRepository;
 import com.example.demo.service.utils.ModificationUtils;
 import com.example.demo.service.utils.PageUtils;
+import com.example.demo.validator.MoneyValidator;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -27,6 +28,7 @@ public class ExpenseMoneyService {
 
   private final ExpenseMoneyRepository expenseMoneyRepository;
   private final ModificationUtils modificationUtils;
+  private final MoneyValidator moneyValidator;
 
   public Optional<ExpenseMoney> findById(String id) {
     return expenseMoneyRepository.findById(id);
@@ -40,6 +42,7 @@ public class ExpenseMoneyService {
 
   @Transactional
   public List<ExpenseMoney> createOrUpdateAll(List<ExpenseMoney> expenses) {
+    moneyValidator.validateExpenseMonies(expenses);
     List<ExpenseMoney> processedExpenseMoneys = new ArrayList<>();
     for (ExpenseMoney expenseMoney : expenses) {
       ExpenseMoney existingExpenseMoney =

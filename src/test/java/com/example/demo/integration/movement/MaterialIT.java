@@ -171,6 +171,32 @@ class MaterialIT {
     assertThrowsForbiddenException(() -> api.deleteMaterialById(MATERIAL1_ID));
   }
 
+  @Test
+  void admin_cannot_create_material_without_name() {
+    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
+    MaterialApi api = new MaterialApi(adminClient);
+
+    CrupdateMaterial invalidMaterial = someCreatableMaterial();
+    invalidMaterial.setName(null);
+
+    assertThrowsApiException(
+        "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Material name is mandatory\"}",
+        () -> api.crupdateMaterials(List.of(invalidMaterial)));
+  }
+
+  @Test
+  void admin_cannot_create_material_without_unit() {
+    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
+    MaterialApi api = new MaterialApi(adminClient);
+
+    CrupdateMaterial invalidMaterial = someCreatableMaterial();
+    invalidMaterial.setUnit(null);
+
+    assertThrowsApiException(
+        "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Material unit is mandatory\"}",
+        () -> api.crupdateMaterials(List.of(invalidMaterial)));
+  }
+
   static class ContextInitializer extends AbstractContextInitializer {
     public static final int SERVER_PORT = anAvailableRandomPort();
 

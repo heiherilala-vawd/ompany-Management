@@ -1,6 +1,7 @@
 package com.example.demo.endpoint.rest.mapper.money;
 
 import static com.example.demo.service.utils.SpecialWarehouseUtils.atSellerWarehouseId;
+import static com.example.demo.service.utils.SpecialWarehouseUtils.routeWarehouseId;
 
 import com.example.demo.client.model.CrupdateEquipment;
 import com.example.demo.client.model.CrupdateMaterial;
@@ -39,6 +40,10 @@ public class PurchaseOperationMapper {
     List<PurchaseOperationMaterialLine> materialLines =
         request.getMaterialLines() != null ? request.getMaterialLines() : List.of();
 
+    System.out.println("---------------------------------------------------");
+    System.out.println(request);
+    System.out.println("---------------------------------------------------");
+
     if (equipmentLines.isEmpty() && materialLines.isEmpty()) {
       throw new com.example.demo.model.exception.BadRequestException(
           "At least one equipment or material line is required");
@@ -47,12 +52,7 @@ public class PurchaseOperationMapper {
     Job job = Job.builder().id(jobId).build();
     User buyer = User.builder().id(userId).build();
     Warehouse warehouseInStore = Warehouse.builder().id(atSellerWarehouseId()).build();
-    Warehouse supplier =
-        request.getTravel() != null
-            ? request.getTravel().getDepartureLocation() != null
-                ? warehouseMapper.toDomain(request.getTravel().getDepartureLocation())
-                : warehouseInStore
-            : warehouseInStore;
+    Warehouse warehouseInRoute = Warehouse.builder().id(routeWarehouseId()).build();
 
     List<ExpenseMoney> purchaseExpenses = new ArrayList<>();
     List<Purchase> purchases = new ArrayList<>();
@@ -65,8 +65,18 @@ public class PurchaseOperationMapper {
     TravelExpense travelExpense = null;
     List<TravelMaterials> travelMaterials = List.of();
     List<TravelEquipment> travelEquipment = List.of();
-    Warehouse departureWarehouse = null;
-    Warehouse arrivalWarehouse = null;
+    Warehouse departureWarehouse =
+        request.getTravel() != null
+            ? request.getTravel().getDepartureLocation() != null
+                ? warehouseMapper.toDomain(request.getTravel().getDepartureLocation())
+                : warehouseInStore
+            : warehouseInStore;
+    Warehouse arrivalWarehouse =
+        request.getTravel() != null
+            ? request.getTravel().getArrivalLocation() != null
+                ? warehouseMapper.toDomain(request.getTravel().getArrivalLocation())
+                : warehouseInRoute
+            : warehouseInRoute;
 
     for (PurchaseOperationEquipmentLine equipmentLine : equipmentLines) {
       CrupdateEquipment crupdateEquipment = equipmentLine.getEquipment();
@@ -87,7 +97,7 @@ public class PurchaseOperationMapper {
           Purchase.builder()
               .id(equipmentLine.getPurchaseId())
               .expense(expense)
-              .supplier(supplier)
+              .supplier(departureWarehouse)
               .equipment(equipment)
               .material(null)
               .quantity(1)
@@ -117,7 +127,7 @@ public class PurchaseOperationMapper {
           Purchase.builder()
               .id(materialLine.getPurchaseId())
               .expense(expense)
-              .supplier(supplier)
+              .supplier(departureWarehouse)
               .equipment(null)
               .material(material)
               .quantity(quantity)
@@ -135,9 +145,6 @@ public class PurchaseOperationMapper {
 
     if (hasTravel(request.getTravel())) {
       PurchaseOperationTravel travel = request.getTravel();
-      departureWarehouse = toWarehouse(travel.getDepartureLocation());
-      arrivalWarehouse = toWarehouse(travel.getArrivalLocation());
-
       travelExpenseMoney =
           ExpenseMoney.builder()
               .id(travel.getExpenseId())
@@ -227,6 +234,7 @@ public class PurchaseOperationMapper {
         .id(c.getId())
         .name(c.getName())
         .description(c.getDescription())
+        .unit(c.getUnit() != null ? Material.Unit.valueOf(c.getUnit().name()) : null)
         .comment(c.getComment())
         .build();
   }

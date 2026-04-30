@@ -3440,7 +3440,6 @@ paths:
             schema:
               $ref: '#/components/schemas/PurchaseOperationRequest'
             example:
-              supplier_id: "supp_001"
               equipment_lines:
                 - equipment:
                     id: "eq_003"
@@ -3471,8 +3470,26 @@ paths:
                 fee: 500
               comment: "Achat groupé avec transport"
       responses:
-        '204':
-          description: Purchase operation registered successfully
+        '200':
+          description: The created or updated purchases
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Purchase'
+              example:
+                - id: "purch_001"
+                  expense:
+                    id: "exp_001"
+                    amount: 15000
+                    description: "Achat de matériaux pour le chantier"
+                  supplier_id: "supp_001"
+                  material:
+                    id: "mat_001"
+                    name: "Ciment Portland"
+                  quantity: 250
+                  is_equipment: false
         '400':
           $ref: '#/components/responses/400'
         '403':
@@ -3542,8 +3559,27 @@ paths:
                 - id: "travel_people_010"
                   user_id: "usr_999"
       responses:
-        '204':
-          description: Travel operation registered successfully
+        '200':
+          description: The identified travel expense
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TravelExpense'
+              example:
+                id: "travel_001"
+                expense:
+                  id: "exp_003"
+                  amount: 2800
+                  description: "Frais de déplacement"
+                  job_id: "job_001"
+                departure_location:
+                  id: "wh_001"
+                  name: "Entrepôt Nord"
+                arrival_location:
+                  id: "wh_002"
+                  name: "Entrepôt Sud"
+                departure_date: "2024-02-20T08:00:00Z"
+                arrival_date: "2024-02-20T18:00:00Z"
         '400':
           $ref: '#/components/responses/400'
         '403':
@@ -6405,9 +6441,6 @@ components:
         expense_id:
           type: string
           example: "exp_003"
-        travel_people_id:
-          type: string
-          example: "tp_001"
         departure_location:
           $ref: '#/components/schemas/CrupdateWarehouse'
         arrival_location:
@@ -6647,7 +6680,7 @@ components:
       description: Cannot exceed `500`
       example: 20
 
-    Exception:
+    ApiException:
       type: object
       properties:
         type:
@@ -6656,31 +6689,31 @@ components:
           type: string
     BadRequestException:
       allOf:
-        - $ref: '#/components/schemas/Exception'
+        - $ref: '#/components/schemas/ApiException'
       example:
         type: BadRequestException
         message: Bad request
     NotAuthorizedException:
       allOf:
-        - $ref: '#/components/schemas/Exception'
+        - $ref: '#/components/schemas/ApiException'
       example:
         type: NotAuthorizedException
         message: Not authorized
     ResourceNotFoundException:
       allOf:
-        - $ref: '#/components/schemas/Exception'
+        - $ref: '#/components/schemas/ApiException'
       example:
         type: ResourceNotFoundException
         message: Resource of type <T> identified by <I> not found
     TooManyRequestsException:
       allOf:
-        - $ref: '#/components/schemas/Exception'
+        - $ref: '#/components/schemas/ApiException'
       example:
         type: TooManyRequestsException
         message: Too many requests
     InternalServerException:
       allOf:
-        - $ref: '#/components/schemas/Exception'
+        - $ref: '#/components/schemas/ApiException'
       example:
         type: InternalServerException
         message: Unexpected error

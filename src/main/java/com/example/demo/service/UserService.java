@@ -12,6 +12,7 @@ import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.utils.ModificationUtils;
 import com.example.demo.service.utils.PageUtils;
+import com.example.demo.validator.CoreValidator;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -25,8 +26,10 @@ import org.springframework.stereotype.Service;
 public class UserService {
   private final UserRepository repository;
   private final ModificationUtils modificationUtils;
+  private final CoreValidator coreValidator;
 
   public List<User> updateExistingUsers(List<User> users) {
+    coreValidator.validateUsers(users);
 
     List<User> usersToSave = new ArrayList<>();
 

@@ -10,6 +10,7 @@ import com.example.demo.model.criteria.CompanyCriteria;
 import com.example.demo.repository.CompanyRepository;
 import com.example.demo.service.utils.ModificationUtils;
 import com.example.demo.service.utils.PageUtils;
+import com.example.demo.validator.CoreValidator;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -27,6 +28,7 @@ public class CompanyService {
 
   private final CompanyRepository companyRepository;
   private final ModificationUtils modificationUtils;
+  private final CoreValidator coreValidator;
 
   public Optional<Company> findById(String id) {
     return companyRepository.findById(id);
@@ -40,6 +42,7 @@ public class CompanyService {
 
   @Transactional
   public List<Company> createOrUpdateAll(List<Company> companies) {
+    coreValidator.validateCompanies(companies);
     List<Company> processedCompanies = new ArrayList<>();
     for (Company company : companies) {
 

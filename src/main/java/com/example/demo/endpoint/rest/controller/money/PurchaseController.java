@@ -65,7 +65,7 @@ public class PurchaseController {
       @PathVariable String user_id,
       @PathVariable String expenses_id,
       @RequestBody List<CrupdatePurchase> toWrite) {
-    var saved =
+    List<com.example.demo.model.money.Purchase> saved =
         purchaseService.createOrUpdateAll(toWrite.stream().map(purchaseMapper::toDomain).toList());
     return saved.stream().map(purchaseMapper::toRestPurchase).toList();
   }

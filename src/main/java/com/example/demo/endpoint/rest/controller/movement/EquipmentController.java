@@ -56,7 +56,10 @@ public class EquipmentController {
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public List<Equipment> crupdateEquipment(
       @PathVariable String comp_id, @RequestBody List<CrupdateEquipment> toWrite) {
-    var saved =
+    System.out.println("----------------------------------------");
+    System.out.println(toWrite.toString());
+    System.out.println("----------------------------------------");
+    List<com.example.demo.model.movement.Equipment> saved =
         equipmentService.createOrUpdateAll(
             toWrite.stream().map(equipmentMapper::toDomain).toList());
     return saved.stream().map(equipmentMapper::toRestEquipment).toList();

@@ -9,6 +9,7 @@ import com.example.demo.model.money.Purchase;
 import com.example.demo.repository.money.PurchaseRepository;
 import com.example.demo.service.utils.ModificationUtils;
 import com.example.demo.service.utils.PageUtils;
+import com.example.demo.validator.MoneyValidator;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,7 @@ public class PurchaseService {
 
   private final PurchaseRepository purchaseRepository;
   private final ModificationUtils modificationUtils;
+  private final MoneyValidator moneyValidator;
 
   public Optional<Purchase> findById(String id) {
     return purchaseRepository.findById(id);
@@ -38,6 +40,7 @@ public class PurchaseService {
 
   @Transactional
   public List<Purchase> createOrUpdateAll(List<Purchase> purchases) {
+    moneyValidator.validatePurchases(purchases);
     return purchaseRepository.saveAll(purchases);
   }
 

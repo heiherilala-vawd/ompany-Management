@@ -52,7 +52,7 @@ public class MaterialController {
   @PutMapping("/materials")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public List<Material> crupdateMaterials(@RequestBody List<CrupdateMaterial> toWrite) {
-    var saved =
+    List<com.example.demo.model.movement.Material> saved =
         materialService.createOrUpdateAll(toWrite.stream().map(materialMapper::toDomain).toList());
     return saved.stream().map(materialMapper::toRestMaterial).toList();
   }
