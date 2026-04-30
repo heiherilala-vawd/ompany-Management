@@ -74,7 +74,7 @@ public class EmployeePaymentController {
       @PathVariable String user_id,
       @PathVariable String expenses_id,
       @RequestBody List<CrupdateEmployeePayment> toWrite) {
-    var saved =
+    List<com.example.demo.model.money.EmployeePayment> saved =
         employeePaymentService.createOrUpdateAll(
             toWrite.stream().map(employeePaymentMapper::toDomain).toList());
     return saved.stream().map(employeePaymentMapper::toRestPayment).toList();

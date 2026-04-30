@@ -11,6 +11,7 @@ import com.example.demo.repository.JobRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.utils.ModificationUtils;
 import com.example.demo.service.utils.PageUtils;
+import com.example.demo.validator.CoreValidator;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -29,6 +30,7 @@ public class JobService {
   private final JobRepository jobRepository;
   private final UserRepository userRepository;
   private final ModificationUtils modificationUtils;
+  private final CoreValidator coreValidator;
 
   public Optional<Job> findById(String id) {
     return jobRepository.findById(id);
@@ -41,6 +43,7 @@ public class JobService {
 
   @Transactional
   public List<Job> createOrUpdateAll(List<Job> jobs) {
+    coreValidator.validateJobs(jobs);
     List<Job> processedJobs = new ArrayList<>();
     for (Job job : jobs) {
       Job existingJob =

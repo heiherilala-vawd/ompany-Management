@@ -53,7 +53,8 @@ public class JobController {
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<Job> crupdateJobs(
       @PathVariable String comp_id, @RequestBody List<CrupdateJob> toWrite) {
-    var saved = jobService.createOrUpdateAll(toWrite.stream().map(jobMapper::toDomain).toList());
+    List<com.example.demo.model.Job> saved =
+        jobService.createOrUpdateAll(toWrite.stream().map(jobMapper::toDomain).toList());
     return saved.stream().map(jobMapper::toRestJob).toList();
   }
 

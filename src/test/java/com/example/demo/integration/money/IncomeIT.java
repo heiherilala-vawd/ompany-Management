@@ -180,6 +180,32 @@ class IncomeIT {
         () -> api.deleteIncomeById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, INCOME1_ID));
   }
 
+  @Test
+  void admin_cannot_create_income_with_negative_amount() {
+    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
+    IncomeApi api = new IncomeApi(adminClient);
+
+    CrupdateIncomeMoney invalidIncome = someCreatableIncome();
+    invalidIncome.setAmount(-5000);
+
+    assertThrowsApiException(
+        "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Amount must be positive\"}",
+        () -> api.crupdateIncomes(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(invalidIncome)));
+  }
+
+  @Test
+  void admin_cannot_create_income_without_source_organization() {
+    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
+    IncomeApi api = new IncomeApi(adminClient);
+
+    CrupdateIncomeMoney invalidIncome = someCreatableIncome();
+    invalidIncome.setSourceOrganization(null);
+
+    assertThrowsApiException(
+        "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Source organization is mandatory for income\"}",
+        () -> api.crupdateIncomes(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(invalidIncome)));
+  }
+
   static class ContextInitializer extends AbstractContextInitializer {
     public static final int SERVER_PORT = anAvailableRandomPort();
 

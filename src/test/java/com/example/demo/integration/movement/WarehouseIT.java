@@ -168,6 +168,19 @@ class WarehouseIT {
     assertThrowsForbiddenException(() -> api.deleteWarehouseById(COMPANY1_ID, WAREHOUSE1_ID));
   }
 
+  @Test
+  void admin_cannot_create_warehouse_without_name() {
+    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
+    WarehouseApi api = new WarehouseApi(adminClient);
+
+    CrupdateWarehouse invalidWarehouse = someCreatableWarehouse();
+    invalidWarehouse.setName(null);
+
+    assertThrowsApiException(
+        "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Warehouse name is mandatory\"}",
+        () -> api.crupdateWarehouses(COMPANY1_ID, List.of(invalidWarehouse)));
+  }
+
   static class ContextInitializer extends AbstractContextInitializer {
     public static final int SERVER_PORT = anAvailableRandomPort();
 

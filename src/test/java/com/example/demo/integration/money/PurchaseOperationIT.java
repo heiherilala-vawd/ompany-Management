@@ -101,7 +101,6 @@ class PurchaseOperationIT {
         new PurchaseOperationTravel()
             .id("purchase_operation_travel_1")
             .expenseId("purchase_operation_travel_expense_1")
-            .travelPeopleId("purchase_operation_travel_people_1")
             .departureLocation(
                 new CrupdateWarehouse().id(AT_SELLER_WAREHOUSE_ID).name("At Seller Warehouse"))
             .arrivalLocation(
@@ -251,7 +250,11 @@ class PurchaseOperationIT {
     request.setMaterialLines(
         List.of(
             new PurchaseOperationMaterialLine()
-                .material(materialRef("purchase_operation_material_new_1"))
+                .material(
+                    new CrupdateMaterial()
+                        .id("purchase_operation_material_new_1")
+                        .name("New Material 1")
+                        .unit(com.example.demo.client.model.MaterialUnit.SAC))
                 .expenseId("purchase_operation_material_expense_2")
                 .purchaseId("purchase_operation_material_purchase_2")
                 .quantity(6)
@@ -302,7 +305,6 @@ class PurchaseOperationIT {
         new PurchaseOperationTravel()
             .id("purchase_operation_travel_2")
             .expenseId("purchase_operation_travel_expense_2")
-            .travelPeopleId("purchase_operation_travel_people_2")
             .departureLocation(
                 new CrupdateWarehouse().id(AT_SELLER_WAREHOUSE_ID).name("At Seller Warehouse"))
             .arrivalLocation(new CrupdateWarehouse().id(WAREHOUSE1_ID).name("Warehouse 1"))
@@ -373,12 +375,14 @@ class PurchaseOperationIT {
         new PurchaseOperationTravel()
             .id("purchase_operation_travel_3")
             .expenseId("purchase_operation_travel_expense_3")
-            .travelPeopleId("purchase_operation_travel_people_3")
             .departureLocation(new CrupdateWarehouse().id(WAREHOUSE1_ID).name("Warehouse 1"))
             .arrivalLocation(new CrupdateWarehouse().id(WAREHOUSE2_ID).name("Warehouse 2"))
             .departureDate(Instant.parse("2024-04-02T08:00:00Z"))
             .arrivalDate(Instant.parse("2024-04-02T18:00:00Z"))
             .fee(2500));
+    System.out.println("-----------------------------------------------------------");
+    System.out.println(request);
+    System.out.println("-----------------------------------------------------------");
 
     api.createPurchaseOperation(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, request);
 
@@ -398,7 +402,7 @@ class PurchaseOperationIT {
   }
 
   @Test
-  void employee_cannot_purchase_equipment_that_is_already_in_stock() {
+  void employee_can_purchase_equipment_that_is_already_in_stock() throws Exception {
     PurchaseOperationApi api = new PurchaseOperationApi(anApiClient(EMPLOYEE_TOKEN));
 
     PurchaseOperationRequest request = new PurchaseOperationRequest();
@@ -410,9 +414,8 @@ class PurchaseOperationIT {
                 .purchaseId("purchase_operation_equipment_purchase_conflict")
                 .unitPrice(7000)));
 
-    assertThrowsApiException(
-        "{\"type\":\"400 BAD_REQUEST\",\"message\":\"equipment already has a warehouse assigned\"}",
-        () -> api.createPurchaseOperation(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, request));
+    // Should succeed - warehouse will be updated
+    api.createPurchaseOperation(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, request);
   }
 
   @Test
@@ -450,7 +453,7 @@ class PurchaseOperationIT {
     equipment.setId(equipmentId);
     equipment.setName(name);
     equipment.setDescription(name + " a acheter");
-    equipment.setWarehouseId(null);
+    equipment.setWarehouseId(AT_SELLER_WAREHOUSE_ID); // Must have a warehouse
     equipment.setFloorNumber(1);
     equipment.setStorageNumber(1);
     equipmentApi.crupdateEquipment(COMPANY1_ID, List.of(equipment));

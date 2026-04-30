@@ -41,7 +41,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   AuditUser.JSON_PROPERTY_SEX,
   AuditUser.JSON_PROPERTY_EMAIL
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-29T15:42:01.292627554+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-30T23:46:33.577308601+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class AuditUser {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;

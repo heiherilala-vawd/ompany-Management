@@ -147,6 +147,34 @@ class PurchaseIT {
         () -> api.deletePurchaseById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, PURCHASE1_ID));
   }
 
+  @Test
+  void admin_cannot_create_purchase_with_negative_quantity() {
+    PurchaseApi api = new PurchaseApi(anApiClient(ADMIN_TOKEN));
+
+    CrupdatePurchase invalidPurchase = purchaseToCrupdatePurchase(purchase1());
+    invalidPurchase.setQuantity(-5);
+
+    assertThrowsApiException(
+        "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Quantity must be positive\"}",
+        () ->
+            api.crupdatePurchases(
+                COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, List.of(invalidPurchase)));
+  }
+
+  @Test
+  void admin_cannot_create_purchase_without_supplier() {
+    PurchaseApi api = new PurchaseApi(anApiClient(ADMIN_TOKEN));
+
+    CrupdatePurchase invalidPurchase = purchaseToCrupdatePurchase(purchase1());
+    invalidPurchase.setSupplier(null);
+
+    assertThrowsApiException(
+        "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Supplier is mandatory for purchase\"}",
+        () ->
+            api.crupdatePurchases(
+                COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, List.of(invalidPurchase)));
+  }
+
   static class ContextInitializer extends AbstractContextInitializer {
     public static final int SERVER_PORT = anAvailableRandomPort();
 

@@ -10,6 +10,7 @@ import com.example.demo.model.movement.Material;
 import com.example.demo.repository.movement.MaterialRepository;
 import com.example.demo.service.utils.ModificationUtils;
 import com.example.demo.service.utils.PageUtils;
+import com.example.demo.validator.MovementValidator;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -27,6 +28,7 @@ public class MaterialService {
 
   private final MaterialRepository materialRepository;
   private final ModificationUtils modificationUtils;
+  private final MovementValidator movementValidator;
 
   public Optional<Material> findById(String id) {
     return materialRepository.findById(id);
@@ -40,6 +42,7 @@ public class MaterialService {
 
   @Transactional
   public List<Material> createOrUpdateAll(List<Material> materials) {
+    movementValidator.validateMaterials(materials);
     List<Material> processedMaterials = new ArrayList<>();
     for (Material material : materials) {
       Material existingMaterial =

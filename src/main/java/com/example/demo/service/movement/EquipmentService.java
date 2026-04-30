@@ -10,6 +10,7 @@ import com.example.demo.model.movement.Equipment;
 import com.example.demo.repository.movement.EquipmentRepository;
 import com.example.demo.service.utils.ModificationUtils;
 import com.example.demo.service.utils.PageUtils;
+import com.example.demo.validator.MovementValidator;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -27,6 +28,7 @@ public class EquipmentService {
 
   private final EquipmentRepository equipmentRepository;
   private final ModificationUtils modificationUtils;
+  private final MovementValidator movementValidator;
 
   public Optional<Equipment> findById(String id) {
     return equipmentRepository.findById(id);
@@ -40,6 +42,11 @@ public class EquipmentService {
 
   @Transactional
   public List<Equipment> createOrUpdateAll(List<Equipment> equipmentList) {
+    System.out.println("----------------------------------------");
+    System.out.println(equipmentList.toString());
+    System.out.println("----------------------------------------");
+
+    movementValidator.validateEquipments(equipmentList);
     List<Equipment> processedEquipments = new ArrayList<>();
     for (Equipment equipment : equipmentList) {
       Equipment existingEquipment = equipmentRepository.findById(equipment.getId()).orElse(null);

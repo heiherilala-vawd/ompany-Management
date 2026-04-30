@@ -68,7 +68,7 @@ public class TravelPeopleController {
       @PathVariable String expenses_id,
       @PathVariable String travel_expenses_id,
       @RequestBody List<CrupdateTravelPeople> toWrite) {
-    var saved =
+    List<com.example.demo.model.movement.TravelPeople> saved =
         travelPeopleService.createOrUpdateAll(
             toWrite.stream().map(travelPeopleMapper::toDomain).toList());
     return saved.stream().map(travelPeopleMapper::toRestTravelPeople).toList();

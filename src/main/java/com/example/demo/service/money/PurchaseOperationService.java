@@ -1,6 +1,7 @@
 package com.example.demo.service.money;
 
 import com.example.demo.model.exception.BadRequestException;
+import com.example.demo.model.money.Purchase;
 import com.example.demo.model.money.TravelExpense;
 import com.example.demo.model.movement.Equipment;
 import com.example.demo.model.movement.Material;
@@ -37,7 +38,7 @@ public class PurchaseOperationService {
   private final WarehouseService warehouseService;
 
   @Transactional
-  public void create(PurchaseOperationAggregate aggregate) {
+  public List<Purchase> create(PurchaseOperationAggregate aggregate) {
     boolean hasTravel = aggregate.travelExpenseMoney() != null;
     Warehouse targetWarehouse = resolveTargetWarehouse(aggregate, hasTravel);
 
@@ -45,7 +46,7 @@ public class PurchaseOperationService {
     saveNewEquipment(aggregate.equipment(), targetWarehouse);
 
     expenseMoneyService.createOrUpdateAll(aggregate.expenses());
-    purchaseService.createOrUpdateAll(aggregate.purchases());
+    List<Purchase> purchases = purchaseService.createOrUpdateAll(aggregate.purchases());
 
     List<MaterialWarehouse> materialWarehouses = new ArrayList<>();
     for (MaterialWarehouse mw : aggregate.materialWarehouses()) {
@@ -61,7 +62,7 @@ public class PurchaseOperationService {
     }
 
     if (!hasTravel) {
-      return;
+      return purchases;
     }
 
     saveNewWarehouses(aggregate.departureWarehouse(), aggregate.arrivalWarehouse());
@@ -71,6 +72,7 @@ public class PurchaseOperationService {
 
     linkAndSaveTravelEquipment(aggregate.travelEquipment(), aggregate.travelExpense());
     linkAndSaveTravelMaterials(aggregate.travelMaterials(), aggregate.travelExpense());
+    return purchases;
   }
 
   private Warehouse resolveTargetWarehouse(
@@ -127,9 +129,6 @@ public class PurchaseOperationService {
       }
 
       Equipment existingEquipment = existing.get();
-      if (existingEquipment.getWarehouse() != null) {
-        throw new BadRequestException("equipment already has a warehouse assigned");
-      }
 
       toUpdate.add(
           Equipment.builder()

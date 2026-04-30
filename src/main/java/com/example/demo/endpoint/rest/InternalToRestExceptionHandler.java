@@ -20,20 +20,21 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 public class InternalToRestExceptionHandler {
 
   @ExceptionHandler(value = {BadRequestException.class})
-  ResponseEntity<com.example.demo.client.model.Exception> handleBadRequest(BadRequestException e) {
+  ResponseEntity<com.example.demo.client.model.ModelApiException> handleBadRequest(
+      BadRequestException e) {
     log.info("Bad request", e);
     return new ResponseEntity<>(toRest(e, HttpStatus.BAD_REQUEST), HttpStatus.BAD_REQUEST);
   }
 
   @ExceptionHandler(value = {MissingServletRequestParameterException.class})
-  ResponseEntity<com.example.demo.client.model.Exception> handleBadRequest(
+  ResponseEntity<com.example.demo.client.model.ModelApiException> handleBadRequest(
       MissingServletRequestParameterException e) {
     log.info("Missing parameter", e);
     return handleBadRequest(new BadRequestException(e.getMessage()));
   }
 
   @ExceptionHandler(value = {MethodArgumentTypeMismatchException.class})
-  ResponseEntity<com.example.demo.client.model.Exception> handleConversionFailed(
+  ResponseEntity<com.example.demo.client.model.ModelApiException> handleConversionFailed(
       MethodArgumentTypeMismatchException e) {
     log.info("Conversion failed", e);
     String message = e.getCause().getCause().getMessage();
@@ -41,7 +42,7 @@ public class InternalToRestExceptionHandler {
   }
 
   @ExceptionHandler(value = {TooManyRequestsException.class})
-  ResponseEntity<com.example.demo.client.model.Exception> handleTooManyRequests(
+  ResponseEntity<com.example.demo.client.model.ModelApiException> handleTooManyRequests(
       TooManyRequestsException e) {
     log.info("Too many requests", e);
     return new ResponseEntity<>(
@@ -54,7 +55,7 @@ public class InternalToRestExceptionHandler {
         CannotAcquireLockException.class,
         OptimisticLockException.class
       })
-  ResponseEntity<com.example.demo.client.model.Exception> handleLockAcquisitionException(
+  ResponseEntity<com.example.demo.client.model.ModelApiException> handleLockAcquisitionException(
       Exception e) {
     log.warn("Database lock could not be acquired: too many requests assumed", e);
     return handleTooManyRequests(new TooManyRequestsException(e));
@@ -67,40 +68,41 @@ public class InternalToRestExceptionHandler {
         BadCredentialsException.class,
         ForbiddenException.class
       })
-  ResponseEntity<com.example.demo.client.model.Exception> handleForbidden(Exception e) {
+  ResponseEntity<com.example.demo.client.model.ModelApiException> handleForbidden(Exception e) {
     /* rest.model.Exception.Type.FORBIDDEN designates both authentication and authorization errors.
      * Hence do _not_ HttpsStatus.UNAUTHORIZED because, counter-intuitively,
      * it's just for authentication.
      * https://stackoverflow.com/questions/3297048/403-forbidden-vs-401-unauthorized-http-responses */
     log.info("Forbidden", e);
-    var restException = new com.example.demo.client.model.Exception();
+    var restException = new com.example.demo.client.model.ModelApiException();
     restException.setType(HttpStatus.FORBIDDEN.toString());
     restException.setMessage(e.getMessage());
     return new ResponseEntity<>(restException, HttpStatus.FORBIDDEN);
   }
 
   @ExceptionHandler(value = {NotFoundException.class})
-  ResponseEntity<com.example.demo.client.model.Exception> handleNotFound(NotFoundException e) {
+  ResponseEntity<com.example.demo.client.model.ModelApiException> handleNotFound(
+      NotFoundException e) {
     log.info("Not found", e);
     return new ResponseEntity<>(toRest(e, HttpStatus.NOT_FOUND), HttpStatus.NOT_FOUND);
   }
 
   @ExceptionHandler(value = {NotImplementedException.class})
-  ResponseEntity<com.example.demo.client.model.Exception> handleNotImplemented(
+  ResponseEntity<com.example.demo.client.model.ModelApiException> handleNotImplemented(
       NotImplementedException e) {
     log.error("Not implemented", e);
     return new ResponseEntity<>(toRest(e, HttpStatus.NOT_IMPLEMENTED), HttpStatus.NOT_IMPLEMENTED);
   }
 
   @ExceptionHandler(value = {Exception.class})
-  ResponseEntity<com.example.demo.client.model.Exception> handleDefault(Exception e) {
+  ResponseEntity<com.example.demo.client.model.ModelApiException> handleDefault(Exception e) {
     log.error("Internal error", e);
     return new ResponseEntity<>(
         toRest(e, HttpStatus.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
   }
 
-  private com.example.demo.client.model.Exception toRest(Exception e, HttpStatus status) {
-    var restException = new com.example.demo.client.model.Exception();
+  private com.example.demo.client.model.ModelApiException toRest(Exception e, HttpStatus status) {
+    var restException = new com.example.demo.client.model.ModelApiException();
     restException.setType(status.toString());
     restException.setMessage(e.getMessage());
     return restException;

@@ -10,6 +10,7 @@ import com.example.demo.model.money.EmployeePayment;
 import com.example.demo.repository.money.EmployeePaymentRepository;
 import com.example.demo.service.utils.ModificationUtils;
 import com.example.demo.service.utils.PageUtils;
+import com.example.demo.validator.MoneyValidator;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,7 @@ public class EmployeePaymentService {
 
   private final EmployeePaymentRepository employeePaymentRepository;
   private final ModificationUtils modificationUtils;
+  private final MoneyValidator moneyValidator;
 
   public Optional<EmployeePayment> findById(String id) {
     return employeePaymentRepository.findById(id);
@@ -39,6 +41,7 @@ public class EmployeePaymentService {
 
   @Transactional
   public List<EmployeePayment> createOrUpdateAll(List<EmployeePayment> payments) {
+    moneyValidator.validateEmployeePayments(payments);
     return employeePaymentRepository.saveAll(payments);
   }
 

@@ -178,6 +178,32 @@ class EquipmentIT {
     assertThrowsForbiddenException(() -> api.deleteEquipmentById(COMPANY1_ID, EQUIPMENT1_ID));
   }
 
+  @Test
+  void admin_cannot_create_equipment_without_name() {
+    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
+    EquipmentApi api = new EquipmentApi(adminClient);
+
+    CrupdateEquipment invalidEquipment = someCreatableEquipment();
+    invalidEquipment.setName(null);
+
+    assertThrowsApiException(
+        "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Equipment name is mandatory\"}",
+        () -> api.crupdateEquipment(COMPANY1_ID, List.of(invalidEquipment)));
+  }
+
+  @Test
+  void admin_cannot_create_equipment_without_warehouse() {
+    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
+    EquipmentApi api = new EquipmentApi(adminClient);
+
+    CrupdateEquipment invalidEquipment = someCreatableEquipment();
+    invalidEquipment.setWarehouseId(null);
+
+    assertThrowsApiException(
+        "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Equipment must be associated with a warehouse\"}",
+        () -> api.crupdateEquipment(COMPANY1_ID, List.of(invalidEquipment)));
+  }
+
   static class ContextInitializer extends AbstractContextInitializer {
     public static final int SERVER_PORT = anAvailableRandomPort();
 

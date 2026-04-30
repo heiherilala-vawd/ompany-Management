@@ -159,6 +159,33 @@ class JobIT {
     assertThrowsForbiddenException(() -> api.deleteJobById(COMPANY1_ID, JOB1_ID));
   }
 
+  @Test
+  void admin_cannot_create_job_without_company() {
+    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
+    JobApi api = new JobApi(adminClient);
+
+    CrupdateJob invalidJob = someCreatableJob();
+    invalidJob.setCompanyId(null);
+
+    assertThrowsApiException(
+        "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Job must be associated with a company\"}",
+        () -> api.crupdateJobs(COMPANY1_ID, List.of(invalidJob)));
+  }
+
+  @Test
+  void admin_cannot_create_job_with_end_before_start() {
+    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
+    JobApi api = new JobApi(adminClient);
+
+    CrupdateJob invalidJob = someCreatableJob();
+    invalidJob.setStartDate(java.time.LocalDate.now());
+    invalidJob.setEndDate(java.time.LocalDate.now().minusDays(1));
+
+    assertThrowsApiException(
+        "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Job end date cannot be before start date\"}",
+        () -> api.crupdateJobs(COMPANY1_ID, List.of(invalidJob)));
+  }
+
   static class ContextInitializer extends AbstractContextInitializer {
     public static final int SERVER_PORT = anAvailableRandomPort();
 

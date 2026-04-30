@@ -10,6 +10,7 @@ import com.example.demo.model.money.BankFee;
 import com.example.demo.repository.money.BankFeeRepository;
 import com.example.demo.service.utils.ModificationUtils;
 import com.example.demo.service.utils.PageUtils;
+import com.example.demo.validator.MoneyValidator;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,7 @@ public class BankFeeService {
 
   private final BankFeeRepository bankFeeRepository;
   private final ModificationUtils modificationUtils;
+  private final MoneyValidator moneyValidator;
 
   public Optional<BankFee> findById(String id) {
     return bankFeeRepository.findById(id);
@@ -39,6 +41,7 @@ public class BankFeeService {
 
   @Transactional
   public List<BankFee> createOrUpdateAll(List<BankFee> bankFees) {
+    moneyValidator.validateBankFees(bankFees);
     return bankFeeRepository.saveAll(bankFees);
   }
 

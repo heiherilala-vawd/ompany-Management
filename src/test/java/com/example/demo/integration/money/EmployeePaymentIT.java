@@ -186,6 +186,36 @@ class EmployeePaymentIT {
                 COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, EMPLOYEE_PAYMENT1_ID));
   }
 
+  @Test
+  void admin_cannot_create_employee_payment_without_payment_type() {
+    EmployeePaymentApi api = new EmployeePaymentApi(anApiClient(ADMIN_TOKEN));
+
+    CrupdateEmployeePayment invalidPayment =
+        employeePaymentToCrupdateEmployeePayment(employeePayment1());
+    invalidPayment.setPaymentType(null);
+
+    assertThrowsApiException(
+        "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Payment type is mandatory\"}",
+        () ->
+            api.crupdateEmployeePayments(
+                COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, List.of(invalidPayment)));
+  }
+
+  @Test
+  void admin_cannot_create_employee_payment_without_description() {
+    EmployeePaymentApi api = new EmployeePaymentApi(anApiClient(ADMIN_TOKEN));
+
+    CrupdateEmployeePayment invalidPayment =
+        employeePaymentToCrupdateEmployeePayment(employeePayment1());
+    invalidPayment.setPaymentDescription(null);
+
+    assertThrowsApiException(
+        "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Payment description is mandatory\"}",
+        () ->
+            api.crupdateEmployeePayments(
+                COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, List.of(invalidPayment)));
+  }
+
   static class ContextInitializer extends AbstractContextInitializer {
     public static final int SERVER_PORT = anAvailableRandomPort();
 

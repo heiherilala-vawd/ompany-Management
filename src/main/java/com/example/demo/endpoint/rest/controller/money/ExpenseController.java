@@ -67,7 +67,7 @@ public class ExpenseController {
             expense.setJobId(job_id);
           }
         });
-    var saved =
+    List<com.example.demo.model.money.ExpenseMoney> saved =
         expenseMoneyService.createOrUpdateAll(
             toWrite.stream().map(expenseMoneyMapper::toDomain).toList());
     return saved.stream().map(expenseMoneyMapper::toRestExpense).toList();

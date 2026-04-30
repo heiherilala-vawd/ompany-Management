@@ -52,7 +52,7 @@ public class WarehouseController {
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public List<Warehouse> crupdateWarehouses(
       @PathVariable String comp_id, @RequestBody List<CrupdateWarehouse> toWrite) {
-    var saved =
+    List<com.example.demo.model.movement.Warehouse> saved =
         warehouseService.createOrUpdateAll(
             toWrite.stream().map(warehouseMapper::toDomain).toList());
     return saved.stream().map(warehouseMapper::toRestWarehouse).toList();

@@ -9,6 +9,7 @@ import com.example.demo.model.movement.TravelEquipment;
 import com.example.demo.repository.movement.TravelEquipmentRepository;
 import com.example.demo.service.utils.ModificationUtils;
 import com.example.demo.service.utils.PageUtils;
+import com.example.demo.validator.MovementValidator;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -26,6 +27,7 @@ public class TravelEquipmentService {
 
   private final TravelEquipmentRepository travelEquipmentRepository;
   private final ModificationUtils modificationUtils;
+  private final MovementValidator movementValidator;
 
   public Optional<TravelEquipment> findById(String id) {
     return travelEquipmentRepository.findById(id);
@@ -39,6 +41,7 @@ public class TravelEquipmentService {
 
   @Transactional
   public List<TravelEquipment> createOrUpdateAll(List<TravelEquipment> equipmentList) {
+    movementValidator.validateTravelEquipments(equipmentList);
     List<TravelEquipment> processedTravelEquipments = new ArrayList<>();
     for (TravelEquipment travelEquipment : equipmentList) {
       TravelEquipment existingTravelEquipment =

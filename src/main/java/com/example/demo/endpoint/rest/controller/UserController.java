@@ -22,7 +22,7 @@ public class UserController {
   @PutMapping(value = "/users")
   @PreAuthorize("hasAnyRole(\"ADMIN\", \"ADMINISTRATION\")\n")
   public List<User> crupdateUsers(@RequestBody List<CrupdateUser> toWrite) {
-    var saved =
+    List<com.example.demo.model.User> saved =
         userService.updateExistingUsers(toWrite.stream().map(userMapper::toDomain).toList());
     return saved.stream().map(userMapper::toRestUser).toList();
   }

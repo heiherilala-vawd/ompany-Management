@@ -10,6 +10,7 @@ import com.example.demo.model.money.IncomeMoney;
 import com.example.demo.repository.money.IncomeMoneyRepository;
 import com.example.demo.service.utils.ModificationUtils;
 import com.example.demo.service.utils.PageUtils;
+import com.example.demo.validator.MoneyValidator;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -27,6 +28,7 @@ public class IncomeMoneyService {
 
   private final IncomeMoneyRepository incomeMoneyRepository;
   private final ModificationUtils modificationUtils;
+  private final MoneyValidator moneyValidator;
 
   public Optional<IncomeMoney> findById(String id) {
     return incomeMoneyRepository.findById(id);
@@ -40,6 +42,7 @@ public class IncomeMoneyService {
 
   @Transactional
   public List<IncomeMoney> createOrUpdateAll(List<IncomeMoney> incomes) {
+    moneyValidator.validateIncomeMonies(incomes);
     List<IncomeMoney> processedIncomeMoneys = new ArrayList<>();
     for (IncomeMoney incomeMoney : incomes) {
       IncomeMoney existingIncomeMoney =

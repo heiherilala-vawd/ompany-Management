@@ -5,6 +5,7 @@ import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.model.movement.MaterialWarehouse;
 import com.example.demo.model.movement.MaterialWarehouseId;
 import com.example.demo.repository.movement.MaterialWarehouseRepository;
+import com.example.demo.validator.MovementValidator;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class MaterialWarehouseService {
 
   private final MaterialWarehouseRepository materialWarehouseRepository;
+  private final MovementValidator movementValidator;
 
   @Transactional
   public List<MaterialWarehouse> incrementQuantities(List<MaterialWarehouse> materialWarehouses) {
@@ -25,6 +27,7 @@ public class MaterialWarehouseService {
 
   @Transactional
   public MaterialWarehouse incrementQuantity(MaterialWarehouse materialWarehouse) {
+    movementValidator.validateMaterialWarehouse(materialWarehouse);
     String materialId = materialWarehouse.getMaterial().getId();
     String warehouseId = materialWarehouse.getWarehouse().getId();
 
