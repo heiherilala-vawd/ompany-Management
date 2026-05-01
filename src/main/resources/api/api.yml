@@ -5241,14 +5241,14 @@ paths:
           schema:
             type: string
             format: date-time
-          example: "2024-02-01T00:00:00Z"
+          example: 2024-02-01T00:00:00Z
         - name: date_to
           in: query
           description: "Filter modifications until this date (inclusive)"
           schema:
             type: string
             format: date-time
-          example: "2024-02-29T23:59:59Z"
+          example: 2024-02-29T23:59:59Z
       responses:
         '200':
           description: List of history entries
@@ -5791,11 +5791,11 @@ components:
         created_at:
           type: string
           format: date-time
-          example: "2024-01-15T09:30:00Z"
+          example: 2024-01-15T09:30:00Z
         updated_at:
           type: string
           format: date-time
-          example: "2024-02-20T15:45:00Z"
+          example: 2024-02-20T15:45:00Z
         created_by:
           $ref: '#/components/schemas/AuditUser'
         updated_by:
@@ -5906,15 +5906,15 @@ components:
         contract_signature_date:
           type: string
           format: date
-          example: "2024-01-20"
+          example: 2024-01-20
         start_date:
           type: string
           format: date
-          example: "2024-02-01"
+          example: 2024-02-01
         end_date:
           type: string
           format: date
-          example: "2024-08-31"
+          example: 2024-08-31
         status:
           $ref: '#/components/schemas/JobStatus'
     CrupdateJob:
@@ -5933,15 +5933,15 @@ components:
         contract_signature_date:
           type: string
           format: date
-          example: "2024-01-20"
+          example: 2024-01-20
         start_date:
           type: string
           format: date
-          example: "2024-02-01"
+          example: 2024-02-01
         end_date:
           type: string
           format: date
-          example: "2024-08-31"
+          example: 2024-08-31
         status:
           $ref: '#/components/schemas/JobStatus'
 
@@ -6218,11 +6218,11 @@ components:
         departure_date:
           type: string
           format: date-time
-          example: "2024-02-20T08:00:00Z"
+          example: 2024-02-20T08:00:00Z
         arrival_date:
           type: string
           format: date-time
-          example: "2024-02-20T18:00:00Z"
+          example: 2024-02-20T18:00:00Z
     CrupdateTravelExpense:
       properties:
         id:
@@ -6238,11 +6238,11 @@ components:
         departure_date:
           type: string
           format: date-time
-          example: "2024-02-20T08:00:00Z"
+          example: 2024-02-20T08:00:00Z
         arrival_date:
           type: string
           format: date-time
-          example: "2024-02-20T18:00:00Z"
+          example: 2024-02-20T18:00:00Z
 
     # =========================
     # TRAVEL PEOPLE
@@ -6448,11 +6448,11 @@ components:
         departure_date:
           type: string
           format: date-time
-          example: "2024-02-25T09:00:00Z"
+          example: 2024-02-25T09:00:00Z
         arrival_date:
           type: string
           format: date-time
-          example: "2024-02-25T17:00:00Z"
+          example: 2024-02-25T17:00:00Z
         fee:
           type: integer
           example: 500
@@ -6485,11 +6485,11 @@ components:
         departure_date:
           type: string
           format: date-time
-          example: "2024-02-25T09:00:00Z"
+          example: 2024-02-25T09:00:00Z
         arrival_date:
           type: string
           format: date-time
-          example: "2024-02-25T17:00:00Z"
+          example: 2024-02-25T17:00:00Z
         fee:
           type: integer
           example: 500
@@ -6624,7 +6624,7 @@ components:
           type: string
           format: date-time
           description: "Date and time of the modification"
-          example: "2024-02-01T09:00:00Z"
+          example: 2024-02-01T09:00:00Z
         entity_type:
           $ref: '#/components/schemas/EntityType'
         entity_id:
