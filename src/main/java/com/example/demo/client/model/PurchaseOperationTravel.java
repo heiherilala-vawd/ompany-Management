@@ -41,7 +41,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   PurchaseOperationTravel.JSON_PROPERTY_ARRIVAL_DATE,
   PurchaseOperationTravel.JSON_PROPERTY_FEE
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-02T14:33:34.451807204+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-02T18:18:42.847020564+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class PurchaseOperationTravel {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;

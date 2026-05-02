@@ -1,4 +1,4 @@
-CREATE TABLE user_job (
+CREATE TABLE IF NOT EXISTS user_job (
     job_id VARCHAR(150) NOT NULL,
     user_id VARCHAR(150) NOT NULL,
     PRIMARY KEY (job_id, user_id),
@@ -6,5 +6,5 @@ CREATE TABLE user_job (
     CONSTRAINT user_job_user_fk FOREIGN KEY (user_id) REFERENCES "users"(id)
 );
 
-CREATE INDEX idx_user_job_job_id ON user_job(job_id);
-CREATE INDEX idx_user_job_user_id ON user_job(user_id);
+CREATE INDEX IF NOT EXISTS idx_user_job_job_id ON user_job(job_id);
+CREATE INDEX IF NOT EXISTS idx_user_job_user_id ON user_job(user_id);
