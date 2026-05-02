@@ -1,7 +1,5 @@
 package com.example.demo.service.movement;
 
-import static com.example.demo.repository.specification.SpecificationUtils.equal;
-
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
 import com.example.demo.model.criteria.TravelPeopleCriteria;
@@ -62,7 +60,32 @@ public class TravelPeopleService {
   }
 
   private Specification<TravelPeople> toSpecification(TravelPeopleCriteria criteria) {
-    return Specification.<TravelPeople>where(equal(criteria.getTravelId(), "travel", "id"))
-        .and(equal(criteria.getUserId(), "user", "id"));
+    return (root, query, cb) -> {
+      List<jakarta.persistence.criteria.Predicate> predicates = new java.util.ArrayList<>();
+
+      if (criteria.getTravelId() != null) {
+        predicates.add(cb.equal(root.get("travel").get("id"), criteria.getTravelId()));
+      }
+      if (criteria.getUserId() != null) {
+        predicates.add(cb.equal(root.get("user").get("id"), criteria.getUserId()));
+      }
+      if (criteria.getArrivalLocation() != null) {
+        predicates.add(
+            cb.equal(root.get("arrivalLocation").get("id"), criteria.getArrivalLocation()));
+      }
+      if (criteria.getArrivalDateMin() != null) {
+        predicates.add(
+            cb.greaterThanOrEqualTo(root.get("arrivalDate"), criteria.getArrivalDateMin()));
+      }
+      if (criteria.getArrivalDateMax() != null) {
+        predicates.add(cb.lessThanOrEqualTo(root.get("arrivalDate"), criteria.getArrivalDateMax()));
+      }
+      if (criteria.getNotArrived() != null && criteria.getNotArrived()) {
+        predicates.add(
+            cb.or(cb.isNull(root.get("arrivalDate")), cb.isNull(root.get("arrivalLocation"))));
+      }
+
+      return cb.and(predicates.toArray(new jakarta.persistence.criteria.Predicate[0]));
+    };
   }
 }

@@ -50,7 +50,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-01T08:13:28.182361522+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-02T14:33:34.451807204+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class TravelMaterialsApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -325,11 +325,15 @@ public class TravelMaterialsApi {
    * @param materialId  (optional)
    * @param quantity  (optional)
    * @param quantityReceived  (optional)
+   * @param arrivalLocation Filter travel materials by arrival warehouse id (optional)
+   * @param arrivalDateMin Filter travel materials by minimum arrival date (optional)
+   * @param arrivalDateMax Filter travel materials by maximum arrival date (optional)
+   * @param notArrived Filter travel materials that have not arrived yet (no arrival date or location) (optional)
    * @return List&lt;TravelMaterials&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<TravelMaterials> getTravelMaterials(String compId, String jobId, String userId, String expensesId, String travelExpensesId, Integer page, Integer pageSize, String travelId, String materialId, Integer quantity, Integer quantityReceived) throws ApiException {
-    ApiResponse<List<TravelMaterials>> localVarResponse = getTravelMaterialsWithHttpInfo(compId, jobId, userId, expensesId, travelExpensesId, page, pageSize, travelId, materialId, quantity, quantityReceived);
+  public List<TravelMaterials> getTravelMaterials(String compId, String jobId, String userId, String expensesId, String travelExpensesId, Integer page, Integer pageSize, String travelId, String materialId, Integer quantity, Integer quantityReceived, String arrivalLocation, java.time.Instant arrivalDateMin, java.time.Instant arrivalDateMax, Boolean notArrived) throws ApiException {
+    ApiResponse<List<TravelMaterials>> localVarResponse = getTravelMaterialsWithHttpInfo(compId, jobId, userId, expensesId, travelExpensesId, page, pageSize, travelId, materialId, quantity, quantityReceived, arrivalLocation, arrivalDateMin, arrivalDateMax, notArrived);
     return localVarResponse.getData();
   }
 
@@ -347,11 +351,15 @@ public class TravelMaterialsApi {
    * @param materialId  (optional)
    * @param quantity  (optional)
    * @param quantityReceived  (optional)
+   * @param arrivalLocation Filter travel materials by arrival warehouse id (optional)
+   * @param arrivalDateMin Filter travel materials by minimum arrival date (optional)
+   * @param arrivalDateMax Filter travel materials by maximum arrival date (optional)
+   * @param notArrived Filter travel materials that have not arrived yet (no arrival date or location) (optional)
    * @return ApiResponse&lt;List&lt;TravelMaterials&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<TravelMaterials>> getTravelMaterialsWithHttpInfo(String compId, String jobId, String userId, String expensesId, String travelExpensesId, Integer page, Integer pageSize, String travelId, String materialId, Integer quantity, Integer quantityReceived) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getTravelMaterialsRequestBuilder(compId, jobId, userId, expensesId, travelExpensesId, page, pageSize, travelId, materialId, quantity, quantityReceived);
+  public ApiResponse<List<TravelMaterials>> getTravelMaterialsWithHttpInfo(String compId, String jobId, String userId, String expensesId, String travelExpensesId, Integer page, Integer pageSize, String travelId, String materialId, Integer quantity, Integer quantityReceived, String arrivalLocation, java.time.Instant arrivalDateMin, java.time.Instant arrivalDateMax, Boolean notArrived) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getTravelMaterialsRequestBuilder(compId, jobId, userId, expensesId, travelExpensesId, page, pageSize, travelId, materialId, quantity, quantityReceived, arrivalLocation, arrivalDateMin, arrivalDateMax, notArrived);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -379,7 +387,7 @@ public class TravelMaterialsApi {
     }
   }
 
-  private HttpRequest.Builder getTravelMaterialsRequestBuilder(String compId, String jobId, String userId, String expensesId, String travelExpensesId, Integer page, Integer pageSize, String travelId, String materialId, Integer quantity, Integer quantityReceived) throws ApiException {
+  private HttpRequest.Builder getTravelMaterialsRequestBuilder(String compId, String jobId, String userId, String expensesId, String travelExpensesId, Integer page, Integer pageSize, String travelId, String materialId, Integer quantity, Integer quantityReceived, String arrivalLocation, java.time.Instant arrivalDateMin, java.time.Instant arrivalDateMax, Boolean notArrived) throws ApiException {
     // verify the required parameter 'compId' is set
     if (compId == null) {
       throw new ApiException(400, "Missing the required parameter 'compId' when calling getTravelMaterials");
@@ -425,6 +433,14 @@ public class TravelMaterialsApi {
     localVarQueryParams.addAll(ApiClient.parameterToPairs("quantity", quantity));
     localVarQueryParameterBaseName = "quantity_received";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("quantity_received", quantityReceived));
+    localVarQueryParameterBaseName = "arrival_location";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("arrival_location", arrivalLocation));
+    localVarQueryParameterBaseName = "arrival_date_min";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("arrival_date_min", arrivalDateMin));
+    localVarQueryParameterBaseName = "arrival_date_max";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("arrival_date_max", arrivalDateMax));
+    localVarQueryParameterBaseName = "not_arrived";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("not_arrived", notArrived));
 
     if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
       StringJoiner queryJoiner = new StringJoiner("&");

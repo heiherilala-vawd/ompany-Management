@@ -38,9 +38,11 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   CrupdateTravelEquipment.JSON_PROPERTY_EQUIPMENT,
   CrupdateTravelEquipment.JSON_PROPERTY_QUANTITY,
   CrupdateTravelEquipment.JSON_PROPERTY_STATUS,
+  CrupdateTravelEquipment.JSON_PROPERTY_ARRIVAL_DATE,
+  CrupdateTravelEquipment.JSON_PROPERTY_ARRIVAL_LOCATION,
   CrupdateTravelEquipment.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-01T08:13:28.182361522+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-02T14:33:34.451807204+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdateTravelEquipment {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -56,6 +58,12 @@ public class CrupdateTravelEquipment {
 
   public static final String JSON_PROPERTY_STATUS = "status";
   private TransportStatus status;
+
+  public static final String JSON_PROPERTY_ARRIVAL_DATE = "arrival_date";
+  private java.time.Instant arrivalDate;
+
+  public static final String JSON_PROPERTY_ARRIVAL_LOCATION = "arrival_location";
+  private String arrivalLocation;
 
   public static final String JSON_PROPERTY_COMMENT = "comment";
   private String comment;
@@ -188,6 +196,56 @@ public class CrupdateTravelEquipment {
   }
 
 
+  public CrupdateTravelEquipment arrivalDate(java.time.Instant arrivalDate) {
+    this.arrivalDate = arrivalDate;
+    return this;
+  }
+
+   /**
+   * Get arrivalDate
+   * @return arrivalDate
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_ARRIVAL_DATE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public java.time.Instant getArrivalDate() {
+    return arrivalDate;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_ARRIVAL_DATE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setArrivalDate(java.time.Instant arrivalDate) {
+    this.arrivalDate = arrivalDate;
+  }
+
+
+  public CrupdateTravelEquipment arrivalLocation(String arrivalLocation) {
+    this.arrivalLocation = arrivalLocation;
+    return this;
+  }
+
+   /**
+   * Get arrivalLocation
+   * @return arrivalLocation
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_ARRIVAL_LOCATION)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getArrivalLocation() {
+    return arrivalLocation;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_ARRIVAL_LOCATION)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setArrivalLocation(String arrivalLocation) {
+    this.arrivalLocation = arrivalLocation;
+  }
+
+
   public CrupdateTravelEquipment comment(String comment) {
     this.comment = comment;
     return this;
@@ -230,12 +288,14 @@ public class CrupdateTravelEquipment {
         Objects.equals(this.equipment, crupdateTravelEquipment.equipment) &&
         Objects.equals(this.quantity, crupdateTravelEquipment.quantity) &&
         Objects.equals(this.status, crupdateTravelEquipment.status) &&
+        Objects.equals(this.arrivalDate, crupdateTravelEquipment.arrivalDate) &&
+        Objects.equals(this.arrivalLocation, crupdateTravelEquipment.arrivalLocation) &&
         Objects.equals(this.comment, crupdateTravelEquipment.comment);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, travelId, equipment, quantity, status, comment);
+    return Objects.hash(id, travelId, equipment, quantity, status, arrivalDate, arrivalLocation, comment);
   }
 
   @Override
@@ -247,6 +307,8 @@ public class CrupdateTravelEquipment {
     sb.append("    equipment: ").append(toIndentedString(equipment)).append("\n");
     sb.append("    quantity: ").append(toIndentedString(quantity)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
+    sb.append("    arrivalDate: ").append(toIndentedString(arrivalDate)).append("\n");
+    sb.append("    arrivalLocation: ").append(toIndentedString(arrivalLocation)).append("\n");
     sb.append("    comment: ").append(toIndentedString(comment)).append("\n");
     sb.append("}");
     return sb.toString();

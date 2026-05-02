@@ -48,11 +48,13 @@ public class TravelExpenseController {
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
       @RequestParam(name = "expense_id", required = false) String expenseId,
       @RequestParam(name = "departure_location", required = false) String departureLocation,
-      @RequestParam(name = "arrival_location", required = false) String arrivalLocation) {
+      @RequestParam(name = "arrival_location", required = false) String arrivalLocation,
+      @RequestParam(name = "arrival_date", required = false) java.time.Instant arrivalDate) {
     TravelExpenseCriteria criteria = new TravelExpenseCriteria();
     criteria.setExpenseId(expenseId);
     criteria.setDepartureLocation(departureLocation);
     criteria.setArrivalLocation(arrivalLocation);
+    criteria.setArrivalDate(arrivalDate);
 
     return travelExpenseService.findAll(page, pageSize, criteria).stream()
         .map(travelExpenseMapper::toRestTravelExpense)

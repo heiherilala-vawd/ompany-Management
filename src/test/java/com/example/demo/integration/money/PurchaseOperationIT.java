@@ -200,7 +200,11 @@ class PurchaseOperationIT {
             createdTravelId,
             "purchase_operation_equipment_1",
             1,
-            TransportStatus.IN_PROGRESS);
+            TransportStatus.IN_PROGRESS,
+            null,
+            null,
+            null,
+            null);
     assertEquals(1, createdTravelEquipment.size());
     assertEquals("purchase_operation_travel_equipment_1", createdTravelEquipment.get(0).getId());
 
@@ -217,7 +221,11 @@ class PurchaseOperationIT {
             createdTravelId,
             MATERIAL1_ID,
             4,
-            0);
+            0,
+            null,
+            null,
+            null,
+            null);
     assertEquals(1, createdTravelMaterials.size());
     assertEquals("purchase_operation_travel_material_1", createdTravelMaterials.get(0).getId());
 
@@ -326,6 +334,10 @@ class PurchaseOperationIT {
             "purchase_operation_travel_2",
             "purchase_operation_equipment_2",
             1,
+            null,
+            null,
+            null,
+            null,
             null);
     assertEquals(1, createdTravelEquipment.size());
     assertEquals("purchase_operation_travel_equipment_2", createdTravelEquipment.get(0).getId());
@@ -343,6 +355,10 @@ class PurchaseOperationIT {
             "purchase_operation_travel_2",
             MATERIAL1_ID,
             4,
+            null,
+            null,
+            null,
+            null,
             null);
     assertEquals(1, createdTravelMaterials.size());
     assertEquals("purchase_operation_travel_material_2", createdTravelMaterials.get(0).getId());

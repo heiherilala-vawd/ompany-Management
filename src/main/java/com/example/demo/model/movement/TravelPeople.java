@@ -6,6 +6,7 @@ import com.example.demo.model.money.TravelExpense;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.Objects;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -35,6 +36,12 @@ public class TravelPeople extends CreatAndUpdateEntity implements Serializable {
   @ManyToOne
   @JoinColumn(name = "user_id")
   private User user;
+
+  @ManyToOne
+  @JoinColumn(name = "arrival_location")
+  private Warehouse arrivalLocation;
+
+  private Instant arrivalDate;
 
   public String getPersonName() {
     return user != null ? user.getFirstName() + " " + user.getLastName() : null;

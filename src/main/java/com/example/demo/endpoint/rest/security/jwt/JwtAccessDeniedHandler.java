@@ -26,8 +26,8 @@ public class JwtAccessDeniedHandler implements AccessDeniedHandler {
     response.setContentType(MediaType.APPLICATION_JSON_VALUE);
     response.setStatus(HttpServletResponse.SC_FORBIDDEN);
 
-    com.example.demo.client.model.Exception exceptionResponse =
-        new com.example.demo.client.model.Exception();
+    com.example.demo.client.model.ModelApiException exceptionResponse =
+        new com.example.demo.client.model.ModelApiException();
     exceptionResponse.setMessage(accessDeniedException.getMessage());
     exceptionResponse.setType("403 FORBIDDEN");
 

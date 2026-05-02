@@ -48,10 +48,18 @@ public class TravelPeopleController {
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
       @RequestParam(name = "travel_id", required = false) String travelId,
-      @RequestParam(name = "user_id", required = false) String userId) {
+      @RequestParam(name = "user_id", required = false) String userId,
+      @RequestParam(name = "arrival_location", required = false) String arrivalLocation,
+      @RequestParam(name = "arrival_date_min", required = false) java.time.Instant arrivalDateMin,
+      @RequestParam(name = "arrival_date_max", required = false) java.time.Instant arrivalDateMax,
+      @RequestParam(name = "not_arrived", required = false) Boolean notArrived) {
     TravelPeopleCriteria criteria = new TravelPeopleCriteria();
     criteria.setTravelId(travelId);
     criteria.setUserId(userId);
+    criteria.setArrivalLocation(arrivalLocation);
+    criteria.setArrivalDateMin(arrivalDateMin);
+    criteria.setArrivalDateMax(arrivalDateMax);
+    criteria.setNotArrived(notArrived);
 
     return travelPeopleService.findAll(page, pageSize, criteria).stream()
         .map(travelPeopleMapper::toRestTravelPeople)

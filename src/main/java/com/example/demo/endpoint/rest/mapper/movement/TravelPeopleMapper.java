@@ -7,6 +7,7 @@ import com.example.demo.endpoint.rest.mapper.money.TravelExpenseMapper;
 import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.money.TravelExpenseService;
+import com.example.demo.service.movement.WarehouseService;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -18,6 +19,8 @@ public class TravelPeopleMapper {
   private final TravelExpenseService travelExpenseService;
   private final TravelExpenseMapper travelExpenseMapper;
   private final UserRepository userRepository;
+  private final WarehouseService warehouseService;
+  private final WarehouseMapper warehouseMapper;
 
   public com.example.demo.model.movement.TravelPeople toDomain(TravelPeople restTravelPeople) {
     if (restTravelPeople == null) return null;
@@ -33,6 +36,13 @@ public class TravelPeopleMapper {
                 ? userRepository.findById(restTravelPeople.getUser().getId()).orElse(null)
                 : null)
         .comment(restTravelPeople.getComment())
+        .arrivalLocation(
+            restTravelPeople.getArrivalLocation() != null
+                ? warehouseService
+                    .findById(restTravelPeople.getArrivalLocation().getId())
+                    .orElse(null)
+                : null)
+        .arrivalDate(restTravelPeople.getArrivalDate())
         .build();
   }
 
@@ -51,6 +61,11 @@ public class TravelPeopleMapper {
                 ? userRepository.findById(restTravelPeople.getUserId()).orElse(null)
                 : null)
         .comment(restTravelPeople.getComment())
+        .arrivalLocation(
+            restTravelPeople.getArrivalLocation() != null
+                ? warehouseService.findById(restTravelPeople.getArrivalLocation()).orElse(null)
+                : null)
+        .arrivalDate(restTravelPeople.getArrivalDate())
         .build();
   }
 
@@ -64,6 +79,9 @@ public class TravelPeopleMapper {
         travelExpenseMapper.toRestCrupdateTravelExpense(domainTravelPeople.getTravel()));
     restTravelPeople.setUser(
         domainTravelPeople.getUser() != null ? mapUserToRest(domainTravelPeople.getUser()) : null);
+    restTravelPeople.setArrivalDate(domainTravelPeople.getArrivalDate());
+    restTravelPeople.setArrivalLocation(
+        warehouseMapper.toRestCrupdateWarehouse(domainTravelPeople.getArrivalLocation()));
     RestAuditMapperUtils.mapAuditFields(
         domainTravelPeople,
         restTravelPeople::setCreatedAt,
