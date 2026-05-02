@@ -8,6 +8,7 @@ import com.example.demo.endpoint.rest.mapper.RestAuditMapperUtils;
 import com.example.demo.endpoint.rest.mapper.money.TravelExpenseMapper;
 import com.example.demo.service.money.TravelExpenseService;
 import com.example.demo.service.movement.EquipmentService;
+import com.example.demo.service.movement.WarehouseService;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -18,8 +19,10 @@ public class TravelEquipmentMapper {
 
   private final TravelExpenseService travelExpenseService;
   private final EquipmentService equipmentService;
+  private final WarehouseService warehouseService;
   private final TravelExpenseMapper travelExpenseMapper;
   private final EquipmentMapper equipmentMapper;
+  private final WarehouseMapper warehouseMapper;
 
   public com.example.demo.model.movement.TravelEquipment toDomain(
       TravelEquipment restTravelEquipment) {
@@ -44,6 +47,13 @@ public class TravelEquipmentMapper {
             EnumMapper.mapEnum(
                 restTravelEquipment.getStatus(),
                 com.example.demo.model.movement.TravelEquipment.TransportStatus.class))
+        .arrivalLocation(
+            restTravelEquipment.getArrivalLocation() != null
+                ? warehouseService
+                    .findById(restTravelEquipment.getArrivalLocation().getId())
+                    .orElse(null)
+                : null)
+        .arrivalDate(restTravelEquipment.getArrivalDate())
         .build();
   }
 
@@ -67,6 +77,11 @@ public class TravelEquipmentMapper {
             EnumMapper.mapEnum(
                 restTravelEquipment.getStatus(),
                 com.example.demo.model.movement.TravelEquipment.TransportStatus.class))
+        .arrivalLocation(
+            restTravelEquipment.getArrivalLocation() != null
+                ? warehouseService.findById(restTravelEquipment.getArrivalLocation()).orElse(null)
+                : null)
+        .arrivalDate(restTravelEquipment.getArrivalDate())
         .build();
   }
 
@@ -83,6 +98,9 @@ public class TravelEquipmentMapper {
     restTravelEquipment.setQuantity(domainTravelEquipment.getQuantity());
     restTravelEquipment.setStatus(
         EnumMapper.mapEnum(domainTravelEquipment.getStatus(), TransportStatus.class));
+    restTravelEquipment.setArrivalDate(domainTravelEquipment.getArrivalDate());
+    restTravelEquipment.setArrivalLocation(
+        warehouseMapper.toRestCrupdateWarehouse(domainTravelEquipment.getArrivalLocation()));
     RestAuditMapperUtils.mapAuditFields(
         domainTravelEquipment,
         restTravelEquipment::setCreatedAt,

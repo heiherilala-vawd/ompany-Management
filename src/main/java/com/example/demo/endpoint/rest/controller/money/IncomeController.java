@@ -71,7 +71,7 @@ public class IncomeController {
             income.setJobId(job_id);
           }
         });
-    var saved =
+    List<com.example.demo.model.money.IncomeMoney> saved =
         incomeMoneyService.createOrUpdateAll(
             toWrite.stream().map(incomeMoneyMapper::toDomain).toList());
     return saved.stream().map(incomeMoneyMapper::toRestIncome).toList();

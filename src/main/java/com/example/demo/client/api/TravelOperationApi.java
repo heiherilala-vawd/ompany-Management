@@ -22,6 +22,7 @@ import com.example.demo.client.model.InternalServerException;
 import com.example.demo.client.model.NotAuthorizedException;
 import com.example.demo.client.model.ResourceNotFoundException;
 import com.example.demo.client.model.TooManyRequestsException;
+import com.example.demo.client.model.TravelExpense;
 import com.example.demo.client.model.TravelOperationRequest;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -49,7 +50,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-29T15:42:01.292627554+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-02T18:18:42.847020564+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class TravelOperationApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -93,10 +94,12 @@ public class TravelOperationApi {
    * @param jobId  (required)
    * @param userId  (required)
    * @param travelOperationRequest  (required)
+   * @return TravelExpense
    * @throws ApiException if fails to make API call
    */
-  public void createTravelOperation(String compId, String jobId, String userId, TravelOperationRequest travelOperationRequest) throws ApiException {
-    createTravelOperationWithHttpInfo(compId, jobId, userId, travelOperationRequest);
+  public TravelExpense createTravelOperation(String compId, String jobId, String userId, TravelOperationRequest travelOperationRequest) throws ApiException {
+    ApiResponse<TravelExpense> localVarResponse = createTravelOperationWithHttpInfo(compId, jobId, userId, travelOperationRequest);
+    return localVarResponse.getData();
   }
 
   /**
@@ -106,10 +109,10 @@ public class TravelOperationApi {
    * @param jobId  (required)
    * @param userId  (required)
    * @param travelOperationRequest  (required)
-   * @return ApiResponse&lt;Void&gt;
+   * @return ApiResponse&lt;TravelExpense&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Void> createTravelOperationWithHttpInfo(String compId, String jobId, String userId, TravelOperationRequest travelOperationRequest) throws ApiException {
+  public ApiResponse<TravelExpense> createTravelOperationWithHttpInfo(String compId, String jobId, String userId, TravelOperationRequest travelOperationRequest) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = createTravelOperationRequestBuilder(compId, jobId, userId, travelOperationRequest);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -122,17 +125,12 @@ public class TravelOperationApi {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("createTravelOperation", localVarResponse);
         }
-        return new ApiResponse<Void>(
+        return new ApiResponse<TravelExpense>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          null
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<TravelExpense>() {}) // closes the InputStream
         );
       } finally {
-        // Drain the InputStream
-        while (localVarResponse.body().read() != -1) {
-            // Ignore
-        }
-        localVarResponse.body().close();
       }
     } catch (IOException e) {
       throw new ApiException(e);

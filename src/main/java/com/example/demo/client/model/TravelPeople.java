@@ -21,6 +21,7 @@ import java.util.Map;
 import java.util.HashMap;
 import com.example.demo.client.model.AuditUser;
 import com.example.demo.client.model.CrupdateTravelExpense;
+import com.example.demo.client.model.CrupdateWarehouse;
 import com.example.demo.client.model.User;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -38,13 +39,15 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   TravelPeople.JSON_PROPERTY_ID,
   TravelPeople.JSON_PROPERTY_TRAVEL,
   TravelPeople.JSON_PROPERTY_USER,
+  TravelPeople.JSON_PROPERTY_ARRIVAL_DATE,
+  TravelPeople.JSON_PROPERTY_ARRIVAL_LOCATION,
   TravelPeople.JSON_PROPERTY_CREATED_AT,
   TravelPeople.JSON_PROPERTY_UPDATED_AT,
   TravelPeople.JSON_PROPERTY_CREATED_BY,
   TravelPeople.JSON_PROPERTY_UPDATED_BY,
   TravelPeople.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-29T15:42:01.292627554+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-02T18:18:42.847020564+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class TravelPeople {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -54,6 +57,12 @@ public class TravelPeople {
 
   public static final String JSON_PROPERTY_USER = "user";
   private User user;
+
+  public static final String JSON_PROPERTY_ARRIVAL_DATE = "arrival_date";
+  private java.time.Instant arrivalDate;
+
+  public static final String JSON_PROPERTY_ARRIVAL_LOCATION = "arrival_location";
+  private CrupdateWarehouse arrivalLocation;
 
   public static final String JSON_PROPERTY_CREATED_AT = "created_at";
   private java.time.Instant createdAt;
@@ -145,6 +154,56 @@ public class TravelPeople {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setUser(User user) {
     this.user = user;
+  }
+
+
+  public TravelPeople arrivalDate(java.time.Instant arrivalDate) {
+    this.arrivalDate = arrivalDate;
+    return this;
+  }
+
+   /**
+   * Get arrivalDate
+   * @return arrivalDate
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_ARRIVAL_DATE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public java.time.Instant getArrivalDate() {
+    return arrivalDate;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_ARRIVAL_DATE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setArrivalDate(java.time.Instant arrivalDate) {
+    this.arrivalDate = arrivalDate;
+  }
+
+
+  public TravelPeople arrivalLocation(CrupdateWarehouse arrivalLocation) {
+    this.arrivalLocation = arrivalLocation;
+    return this;
+  }
+
+   /**
+   * Get arrivalLocation
+   * @return arrivalLocation
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_ARRIVAL_LOCATION)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public CrupdateWarehouse getArrivalLocation() {
+    return arrivalLocation;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_ARRIVAL_LOCATION)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setArrivalLocation(CrupdateWarehouse arrivalLocation) {
+    this.arrivalLocation = arrivalLocation;
   }
 
 
@@ -288,6 +347,8 @@ public class TravelPeople {
     return Objects.equals(this.id, travelPeople.id) &&
         Objects.equals(this.travel, travelPeople.travel) &&
         Objects.equals(this.user, travelPeople.user) &&
+        Objects.equals(this.arrivalDate, travelPeople.arrivalDate) &&
+        Objects.equals(this.arrivalLocation, travelPeople.arrivalLocation) &&
         Objects.equals(this.createdAt, travelPeople.createdAt) &&
         Objects.equals(this.updatedAt, travelPeople.updatedAt) &&
         Objects.equals(this.createdBy, travelPeople.createdBy) &&
@@ -297,7 +358,7 @@ public class TravelPeople {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, travel, user, createdAt, updatedAt, createdBy, updatedBy, comment);
+    return Objects.hash(id, travel, user, arrivalDate, arrivalLocation, createdAt, updatedAt, createdBy, updatedBy, comment);
   }
 
   @Override
@@ -307,6 +368,8 @@ public class TravelPeople {
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    travel: ").append(toIndentedString(travel)).append("\n");
     sb.append("    user: ").append(toIndentedString(user)).append("\n");
+    sb.append("    arrivalDate: ").append(toIndentedString(arrivalDate)).append("\n");
+    sb.append("    arrivalLocation: ").append(toIndentedString(arrivalLocation)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
     sb.append("    updatedAt: ").append(toIndentedString(updatedAt)).append("\n");
     sb.append("    createdBy: ").append(toIndentedString(createdBy)).append("\n");

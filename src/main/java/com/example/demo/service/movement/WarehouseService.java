@@ -10,6 +10,7 @@ import com.example.demo.model.movement.Warehouse;
 import com.example.demo.repository.movement.WarehouseRepository;
 import com.example.demo.service.utils.ModificationUtils;
 import com.example.demo.service.utils.PageUtils;
+import com.example.demo.validator.MovementValidator;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -27,6 +28,7 @@ public class WarehouseService {
 
   private final WarehouseRepository warehouseRepository;
   private final ModificationUtils modificationUtils;
+  private final MovementValidator movementValidator;
 
   public Optional<Warehouse> findById(String id) {
     return warehouseRepository.findById(id);
@@ -40,6 +42,7 @@ public class WarehouseService {
 
   @Transactional
   public List<Warehouse> createOrUpdateAll(List<Warehouse> warehouses) {
+    movementValidator.validateWarehouses(warehouses);
     List<Warehouse> processedWarehouses = new ArrayList<>();
     for (Warehouse warehouse : warehouses) {
       Warehouse existingWarehouse = warehouseRepository.findById(warehouse.getId()).orElse(null);

@@ -37,7 +37,7 @@ public class TravelOperationService {
   private final UserRepository userRepository;
 
   @Transactional
-  public void create(TravelOperationAggregate aggregate) {
+  public TravelExpense create(TravelOperationAggregate aggregate) {
     if (aggregate.travel() == null) {
       throw new BadRequestException("travel is required");
     }
@@ -66,6 +66,7 @@ public class TravelOperationService {
     moveEquipment(aggregate.travelEquipment(), savedTravel, departure, arrival);
     moveMaterials(aggregate.travelMaterials(), savedTravel, departure, arrival);
     saveTravelPeople(aggregate.travelPeople(), savedTravel);
+    return savedTravel;
   }
 
   private void validateLines(TravelOperationAggregate aggregate) {

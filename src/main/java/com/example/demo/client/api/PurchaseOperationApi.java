@@ -20,6 +20,7 @@ import com.example.demo.client.invoker.Pair;
 import com.example.demo.client.model.BadRequestException;
 import com.example.demo.client.model.InternalServerException;
 import com.example.demo.client.model.NotAuthorizedException;
+import com.example.demo.client.model.Purchase;
 import com.example.demo.client.model.PurchaseOperationRequest;
 import com.example.demo.client.model.ResourceNotFoundException;
 import com.example.demo.client.model.TooManyRequestsException;
@@ -49,7 +50,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-29T15:42:01.292627554+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-02T18:18:42.847020564+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class PurchaseOperationApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -93,10 +94,12 @@ public class PurchaseOperationApi {
    * @param jobId  (required)
    * @param userId  (required)
    * @param purchaseOperationRequest  (required)
+   * @return List&lt;Purchase&gt;
    * @throws ApiException if fails to make API call
    */
-  public void createPurchaseOperation(String compId, String jobId, String userId, PurchaseOperationRequest purchaseOperationRequest) throws ApiException {
-    createPurchaseOperationWithHttpInfo(compId, jobId, userId, purchaseOperationRequest);
+  public List<Purchase> createPurchaseOperation(String compId, String jobId, String userId, PurchaseOperationRequest purchaseOperationRequest) throws ApiException {
+    ApiResponse<List<Purchase>> localVarResponse = createPurchaseOperationWithHttpInfo(compId, jobId, userId, purchaseOperationRequest);
+    return localVarResponse.getData();
   }
 
   /**
@@ -106,10 +109,10 @@ public class PurchaseOperationApi {
    * @param jobId  (required)
    * @param userId  (required)
    * @param purchaseOperationRequest  (required)
-   * @return ApiResponse&lt;Void&gt;
+   * @return ApiResponse&lt;List&lt;Purchase&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Void> createPurchaseOperationWithHttpInfo(String compId, String jobId, String userId, PurchaseOperationRequest purchaseOperationRequest) throws ApiException {
+  public ApiResponse<List<Purchase>> createPurchaseOperationWithHttpInfo(String compId, String jobId, String userId, PurchaseOperationRequest purchaseOperationRequest) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = createPurchaseOperationRequestBuilder(compId, jobId, userId, purchaseOperationRequest);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -122,17 +125,12 @@ public class PurchaseOperationApi {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("createPurchaseOperation", localVarResponse);
         }
-        return new ApiResponse<Void>(
+        return new ApiResponse<List<Purchase>>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          null
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<List<Purchase>>() {}) // closes the InputStream
         );
       } finally {
-        // Drain the InputStream
-        while (localVarResponse.body().read() != -1) {
-            // Ignore
-        }
-        localVarResponse.body().close();
       }
     } catch (IOException e) {
       throw new ApiException(e);

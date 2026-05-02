@@ -51,12 +51,20 @@ public class TravelMaterialsController {
       @RequestParam(name = "travel_id", required = false) String travelId,
       @RequestParam(name = "material_id", required = false) String materialId,
       @RequestParam(name = "quantity", required = false) Integer quantity,
-      @RequestParam(name = "quantity_received", required = false) Integer quantityReceived) {
+      @RequestParam(name = "quantity_received", required = false) Integer quantityReceived,
+      @RequestParam(name = "arrival_location", required = false) String arrivalLocation,
+      @RequestParam(name = "arrival_date_min", required = false) java.time.Instant arrivalDateMin,
+      @RequestParam(name = "arrival_date_max", required = false) java.time.Instant arrivalDateMax,
+      @RequestParam(name = "not_arrived", required = false) Boolean notArrived) {
     TravelMaterialsCriteria criteria = new TravelMaterialsCriteria();
     criteria.setTravelId(travelId);
     criteria.setMaterialId(materialId);
     criteria.setQuantity(quantity);
     criteria.setQuantityReceived(quantityReceived);
+    criteria.setArrivalLocation(arrivalLocation);
+    criteria.setArrivalDateMin(arrivalDateMin);
+    criteria.setArrivalDateMax(arrivalDateMax);
+    criteria.setNotArrived(notArrived);
 
     return travelMaterialsService.findAll(page, pageSize, criteria).stream()
         .map(travelMaterialsMapper::toRestTravelMaterials)
@@ -73,7 +81,7 @@ public class TravelMaterialsController {
       @PathVariable String expenses_id,
       @PathVariable String travel_expenses_id,
       @RequestBody List<CrupdateTravelMaterials> toWrite) {
-    var saved =
+    List<com.example.demo.model.movement.TravelMaterials> saved =
         travelMaterialsService.createOrUpdateAll(
             toWrite.stream().map(travelMaterialsMapper::toDomain).toList());
     return saved.stream().map(travelMaterialsMapper::toRestTravelMaterials).toList();

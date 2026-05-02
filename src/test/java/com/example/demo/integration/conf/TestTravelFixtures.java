@@ -93,6 +93,10 @@ final class TestTravelFixtures {
     user.setLastName("Doe");
     user.setEmail("employee@hei.school");
     tp.setUser(user);
+    tp.setArrivalLocation(
+        TestOrganizationFixtures.warehouseToCrupdateWarehouse(
+            TestOrganizationFixtures.warehouse1()));
+    tp.setArrivalDate(Instant.parse("2024-03-01T12:00:00Z"));
     return tp;
   }
 
@@ -106,6 +110,10 @@ final class TestTravelFixtures {
     user.setLastName("Doe");
     user.setEmail("employee@hei.school");
     tp.setUser(user);
+    tp.setArrivalLocation(
+        TestOrganizationFixtures.warehouseToCrupdateWarehouse(
+            TestOrganizationFixtures.warehouse2()));
+    tp.setArrivalDate(Instant.parse("2024-03-05T15:00:00Z"));
     return tp;
   }
 
@@ -117,6 +125,11 @@ final class TestTravelFixtures {
     crupdateTravelPeople.setUserId(
         travelPeople.getUser() != null ? travelPeople.getUser().getId() : null);
     crupdateTravelPeople.setComment(travelPeople.getComment());
+    crupdateTravelPeople.setArrivalLocation(
+        travelPeople.getArrivalLocation() != null
+            ? travelPeople.getArrivalLocation().getId()
+            : null);
+    crupdateTravelPeople.setArrivalDate(travelPeople.getArrivalDate());
     return crupdateTravelPeople;
   }
 
@@ -125,6 +138,8 @@ final class TestTravelFixtures {
     crupdateTravelPeople.setId(UUID.randomUUID().toString());
     crupdateTravelPeople.setTravelId(TestUtils.TRAVEL_EXPENSE1_ID);
     crupdateTravelPeople.setUserId(TestUtils.EMPLOYEE_ID);
+    crupdateTravelPeople.setArrivalLocation(TestUtils.WAREHOUSE1_ID);
+    crupdateTravelPeople.setArrivalDate(Instant.parse("2024-04-01T18:00:00Z"));
     return crupdateTravelPeople;
   }
 
@@ -136,6 +151,10 @@ final class TestTravelFixtures {
         TestOrganizationFixtures.materialToCrupdateMaterial(TestOrganizationFixtures.material1()));
     travelMaterials.setQuantity(10);
     travelMaterials.setQuantityReceived(5);
+    travelMaterials.setArrivalLocation(
+        TestOrganizationFixtures.warehouseToCrupdateWarehouse(
+            TestOrganizationFixtures.warehouse1()));
+    travelMaterials.setArrivalDate(Instant.parse("2024-03-01T12:00:00Z"));
     return travelMaterials;
   }
 
@@ -147,6 +166,10 @@ final class TestTravelFixtures {
         TestOrganizationFixtures.materialToCrupdateMaterial(TestOrganizationFixtures.material2()));
     travelMaterials.setQuantity(20);
     travelMaterials.setQuantityReceived(null);
+    travelMaterials.setArrivalLocation(
+        TestOrganizationFixtures.warehouseToCrupdateWarehouse(
+            TestOrganizationFixtures.warehouse2()));
+    travelMaterials.setArrivalDate(Instant.parse("2024-03-05T15:00:00Z"));
     return travelMaterials;
   }
 
@@ -161,6 +184,11 @@ final class TestTravelFixtures {
     crupdateTravelMaterials.setQuantity(travelMaterials.getQuantity());
     crupdateTravelMaterials.setQuantityReceived(travelMaterials.getQuantityReceived());
     crupdateTravelMaterials.setComment(travelMaterials.getComment());
+    crupdateTravelMaterials.setArrivalLocation(
+        travelMaterials.getArrivalLocation() != null
+            ? travelMaterials.getArrivalLocation().getId()
+            : null);
+    crupdateTravelMaterials.setArrivalDate(travelMaterials.getArrivalDate());
     return crupdateTravelMaterials;
   }
 
@@ -171,6 +199,8 @@ final class TestTravelFixtures {
     crupdateTravelMaterials.setMaterial(TestUtils.MATERIAL3_ID);
     crupdateTravelMaterials.setQuantity(3);
     crupdateTravelMaterials.setQuantityReceived(0);
+    crupdateTravelMaterials.setArrivalLocation(TestUtils.WAREHOUSE1_ID);
+    crupdateTravelMaterials.setArrivalDate(Instant.parse("2024-04-01T18:00:00Z"));
     return crupdateTravelMaterials;
   }
 
@@ -183,6 +213,10 @@ final class TestTravelFixtures {
             TestOrganizationFixtures.equipment1()));
     travelEquipment.setQuantity(2);
     travelEquipment.setStatus(TransportStatus.IN_PROGRESS);
+    travelEquipment.setArrivalLocation(
+        TestOrganizationFixtures.warehouseToCrupdateWarehouse(
+            TestOrganizationFixtures.warehouse1()));
+    travelEquipment.setArrivalDate(Instant.parse("2024-03-01T12:00:00Z"));
     return travelEquipment;
   }
 
@@ -195,6 +229,10 @@ final class TestTravelFixtures {
             TestOrganizationFixtures.equipment2()));
     travelEquipment.setQuantity(1);
     travelEquipment.setStatus(TransportStatus.ARRIVED);
+    travelEquipment.setArrivalLocation(
+        TestOrganizationFixtures.warehouseToCrupdateWarehouse(
+            TestOrganizationFixtures.warehouse2()));
+    travelEquipment.setArrivalDate(Instant.parse("2024-03-05T15:00:00Z"));
     return travelEquipment;
   }
 
@@ -209,6 +247,11 @@ final class TestTravelFixtures {
     crupdateTravelEquipment.setQuantity(travelEquipment.getQuantity());
     crupdateTravelEquipment.setStatus(travelEquipment.getStatus());
     crupdateTravelEquipment.setComment(travelEquipment.getComment());
+    crupdateTravelEquipment.setArrivalLocation(
+        travelEquipment.getArrivalLocation() != null
+            ? travelEquipment.getArrivalLocation().getId()
+            : null);
+    crupdateTravelEquipment.setArrivalDate(travelEquipment.getArrivalDate());
     return crupdateTravelEquipment;
   }
 
@@ -219,6 +262,8 @@ final class TestTravelFixtures {
     crupdateTravelEquipment.setEquipment(TestUtils.EQUIPMENT3_ID);
     crupdateTravelEquipment.setQuantity(1);
     crupdateTravelEquipment.setStatus(TransportStatus.LOST);
+    crupdateTravelEquipment.setArrivalLocation(TestUtils.WAREHOUSE1_ID);
+    crupdateTravelEquipment.setArrivalDate(Instant.parse("2024-04-01T18:00:00Z"));
     return crupdateTravelEquipment;
   }
 }

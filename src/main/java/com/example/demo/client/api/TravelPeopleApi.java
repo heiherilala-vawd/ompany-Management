@@ -50,7 +50,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-29T15:42:01.292627554+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-02T18:18:42.847020564+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class TravelPeopleApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -323,11 +323,15 @@ public class TravelPeopleApi {
    * @param pageSize  (optional)
    * @param travelId  (optional)
    * @param userId2 Filter travel people by user id (optional)
+   * @param arrivalLocation Filter travel people by arrival warehouse id (optional)
+   * @param arrivalDateMin Filter travel people by minimum arrival date (optional)
+   * @param arrivalDateMax Filter travel people by maximum arrival date (optional)
+   * @param notArrived Filter travel people that have not arrived yet (no arrival date or location) (optional)
    * @return List&lt;TravelPeople&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<TravelPeople> getTravelPeople(String compId, String jobId, String userId, String expensesId, String travelExpensesId, Integer page, Integer pageSize, String travelId, String userId2) throws ApiException {
-    ApiResponse<List<TravelPeople>> localVarResponse = getTravelPeopleWithHttpInfo(compId, jobId, userId, expensesId, travelExpensesId, page, pageSize, travelId, userId2);
+  public List<TravelPeople> getTravelPeople(String compId, String jobId, String userId, String expensesId, String travelExpensesId, Integer page, Integer pageSize, String travelId, String userId2, String arrivalLocation, java.time.Instant arrivalDateMin, java.time.Instant arrivalDateMax, Boolean notArrived) throws ApiException {
+    ApiResponse<List<TravelPeople>> localVarResponse = getTravelPeopleWithHttpInfo(compId, jobId, userId, expensesId, travelExpensesId, page, pageSize, travelId, userId2, arrivalLocation, arrivalDateMin, arrivalDateMax, notArrived);
     return localVarResponse.getData();
   }
 
@@ -343,11 +347,15 @@ public class TravelPeopleApi {
    * @param pageSize  (optional)
    * @param travelId  (optional)
    * @param userId2 Filter travel people by user id (optional)
+   * @param arrivalLocation Filter travel people by arrival warehouse id (optional)
+   * @param arrivalDateMin Filter travel people by minimum arrival date (optional)
+   * @param arrivalDateMax Filter travel people by maximum arrival date (optional)
+   * @param notArrived Filter travel people that have not arrived yet (no arrival date or location) (optional)
    * @return ApiResponse&lt;List&lt;TravelPeople&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<TravelPeople>> getTravelPeopleWithHttpInfo(String compId, String jobId, String userId, String expensesId, String travelExpensesId, Integer page, Integer pageSize, String travelId, String userId2) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getTravelPeopleRequestBuilder(compId, jobId, userId, expensesId, travelExpensesId, page, pageSize, travelId, userId2);
+  public ApiResponse<List<TravelPeople>> getTravelPeopleWithHttpInfo(String compId, String jobId, String userId, String expensesId, String travelExpensesId, Integer page, Integer pageSize, String travelId, String userId2, String arrivalLocation, java.time.Instant arrivalDateMin, java.time.Instant arrivalDateMax, Boolean notArrived) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getTravelPeopleRequestBuilder(compId, jobId, userId, expensesId, travelExpensesId, page, pageSize, travelId, userId2, arrivalLocation, arrivalDateMin, arrivalDateMax, notArrived);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -375,7 +383,7 @@ public class TravelPeopleApi {
     }
   }
 
-  private HttpRequest.Builder getTravelPeopleRequestBuilder(String compId, String jobId, String userId, String expensesId, String travelExpensesId, Integer page, Integer pageSize, String travelId, String userId2) throws ApiException {
+  private HttpRequest.Builder getTravelPeopleRequestBuilder(String compId, String jobId, String userId, String expensesId, String travelExpensesId, Integer page, Integer pageSize, String travelId, String userId2, String arrivalLocation, java.time.Instant arrivalDateMin, java.time.Instant arrivalDateMax, Boolean notArrived) throws ApiException {
     // verify the required parameter 'compId' is set
     if (compId == null) {
       throw new ApiException(400, "Missing the required parameter 'compId' when calling getTravelPeople");
@@ -417,6 +425,14 @@ public class TravelPeopleApi {
     localVarQueryParams.addAll(ApiClient.parameterToPairs("travel_id", travelId));
     localVarQueryParameterBaseName = "user_id";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("user_id", userId2));
+    localVarQueryParameterBaseName = "arrival_location";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("arrival_location", arrivalLocation));
+    localVarQueryParameterBaseName = "arrival_date_min";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("arrival_date_min", arrivalDateMin));
+    localVarQueryParameterBaseName = "arrival_date_max";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("arrival_date_max", arrivalDateMax));
+    localVarQueryParameterBaseName = "not_arrived";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("not_arrived", notArrived));
 
     if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
       StringJoiner queryJoiner = new StringJoiner("&");

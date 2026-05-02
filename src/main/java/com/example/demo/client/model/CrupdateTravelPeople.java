@@ -35,9 +35,11 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   CrupdateTravelPeople.JSON_PROPERTY_ID,
   CrupdateTravelPeople.JSON_PROPERTY_TRAVEL_ID,
   CrupdateTravelPeople.JSON_PROPERTY_USER_ID,
+  CrupdateTravelPeople.JSON_PROPERTY_ARRIVAL_DATE,
+  CrupdateTravelPeople.JSON_PROPERTY_ARRIVAL_LOCATION,
   CrupdateTravelPeople.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-29T15:42:01.292627554+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-02T18:18:42.847020564+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdateTravelPeople {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -47,6 +49,12 @@ public class CrupdateTravelPeople {
 
   public static final String JSON_PROPERTY_USER_ID = "user_id";
   private String userId;
+
+  public static final String JSON_PROPERTY_ARRIVAL_DATE = "arrival_date";
+  private java.time.Instant arrivalDate;
+
+  public static final String JSON_PROPERTY_ARRIVAL_LOCATION = "arrival_location";
+  private String arrivalLocation;
 
   public static final String JSON_PROPERTY_COMMENT = "comment";
   private String comment;
@@ -129,6 +137,56 @@ public class CrupdateTravelPeople {
   }
 
 
+  public CrupdateTravelPeople arrivalDate(java.time.Instant arrivalDate) {
+    this.arrivalDate = arrivalDate;
+    return this;
+  }
+
+   /**
+   * Get arrivalDate
+   * @return arrivalDate
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_ARRIVAL_DATE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public java.time.Instant getArrivalDate() {
+    return arrivalDate;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_ARRIVAL_DATE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setArrivalDate(java.time.Instant arrivalDate) {
+    this.arrivalDate = arrivalDate;
+  }
+
+
+  public CrupdateTravelPeople arrivalLocation(String arrivalLocation) {
+    this.arrivalLocation = arrivalLocation;
+    return this;
+  }
+
+   /**
+   * Get arrivalLocation
+   * @return arrivalLocation
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_ARRIVAL_LOCATION)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getArrivalLocation() {
+    return arrivalLocation;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_ARRIVAL_LOCATION)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setArrivalLocation(String arrivalLocation) {
+    this.arrivalLocation = arrivalLocation;
+  }
+
+
   public CrupdateTravelPeople comment(String comment) {
     this.comment = comment;
     return this;
@@ -169,12 +227,14 @@ public class CrupdateTravelPeople {
     return Objects.equals(this.id, crupdateTravelPeople.id) &&
         Objects.equals(this.travelId, crupdateTravelPeople.travelId) &&
         Objects.equals(this.userId, crupdateTravelPeople.userId) &&
+        Objects.equals(this.arrivalDate, crupdateTravelPeople.arrivalDate) &&
+        Objects.equals(this.arrivalLocation, crupdateTravelPeople.arrivalLocation) &&
         Objects.equals(this.comment, crupdateTravelPeople.comment);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, travelId, userId, comment);
+    return Objects.hash(id, travelId, userId, arrivalDate, arrivalLocation, comment);
   }
 
   @Override
@@ -184,6 +244,8 @@ public class CrupdateTravelPeople {
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    travelId: ").append(toIndentedString(travelId)).append("\n");
     sb.append("    userId: ").append(toIndentedString(userId)).append("\n");
+    sb.append("    arrivalDate: ").append(toIndentedString(arrivalDate)).append("\n");
+    sb.append("    arrivalLocation: ").append(toIndentedString(arrivalLocation)).append("\n");
     sb.append("    comment: ").append(toIndentedString(comment)).append("\n");
     sb.append("}");
     return sb.toString();

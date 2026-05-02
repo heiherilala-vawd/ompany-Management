@@ -157,6 +157,34 @@ class ExpenseIT {
         () -> api.deleteExpenseById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID));
   }
 
+  @Test
+  void admin_cannot_create_expense_with_negative_amount() {
+    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
+    ExpenseApi api = new ExpenseApi(adminClient);
+
+    CrupdateExpenseMoney invalidExpense = someCreatableExpense();
+    invalidExpense.setAmount(-1000);
+
+    assertThrowsApiException(
+        "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Amount must be positive\"}",
+        () -> api.crupdateExpenses(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(invalidExpense)));
+  }
+
+  @Test
+  void admin_can_create_expense_with_job_from_path() throws Exception {
+    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
+    ExpenseApi api = new ExpenseApi(adminClient);
+
+    CrupdateExpenseMoney expense = someCreatableExpense();
+    expense.setJobId(null); // Controller should set job from path
+
+    List<ExpenseMoney> result =
+        api.crupdateExpenses(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(expense));
+    assertNotNull(result);
+    assertEquals(1, result.size());
+    assertNotNull(result.get(0).getJob());
+  }
+
   static class ContextInitializer extends AbstractContextInitializer {
     public static final int SERVER_PORT = anAvailableRandomPort();
 

@@ -29,24 +29,24 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
 /**
- * Exception
+ * ModelApiException
  */
 @JsonPropertyOrder({
-  Exception.JSON_PROPERTY_TYPE,
-  Exception.JSON_PROPERTY_MESSAGE
+  ModelApiException.JSON_PROPERTY_TYPE,
+  ModelApiException.JSON_PROPERTY_MESSAGE
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-29T15:42:01.292627554+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
-public class Exception {
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-02T18:18:42.847020564+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+public class ModelApiException {
   public static final String JSON_PROPERTY_TYPE = "type";
   private String type;
 
   public static final String JSON_PROPERTY_MESSAGE = "message";
   private String message;
 
-  public Exception() { 
+  public ModelApiException() { 
   }
 
-  public Exception type(String type) {
+  public ModelApiException type(String type) {
     this.type = type;
     return this;
   }
@@ -71,7 +71,7 @@ public class Exception {
   }
 
 
-  public Exception message(String message) {
+  public ModelApiException message(String message) {
     this.message = message;
     return this;
   }
@@ -97,7 +97,7 @@ public class Exception {
 
 
   /**
-   * Return true if this Exception object is equal to o.
+   * Return true if this ApiException object is equal to o.
    */
   @Override
   public boolean equals(Object o) {
@@ -107,9 +107,9 @@ public class Exception {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Exception exception = (Exception) o;
-    return Objects.equals(this.type, exception.type) &&
-        Objects.equals(this.message, exception.message);
+    ModelApiException _apiException = (ModelApiException) o;
+    return Objects.equals(this.type, _apiException.type) &&
+        Objects.equals(this.message, _apiException.message);
   }
 
   @Override
@@ -120,7 +120,7 @@ public class Exception {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Exception {\n");
+    sb.append("class ModelApiException {\n");
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
     sb.append("    message: ").append(toIndentedString(message)).append("\n");
     sb.append("}");

@@ -9,6 +9,7 @@ import com.example.demo.model.money.TravelExpense;
 import com.example.demo.repository.money.TravelExpenseRepository;
 import com.example.demo.service.utils.ModificationUtils;
 import com.example.demo.service.utils.PageUtils;
+import com.example.demo.validator.MoneyValidator;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,7 @@ public class TravelExpenseService {
 
   private final TravelExpenseRepository travelExpenseRepository;
   private final ModificationUtils modificationUtils;
+  private final MoneyValidator moneyValidator;
 
   public Optional<TravelExpense> findById(String id) {
     return travelExpenseRepository.findById(id);
@@ -38,6 +40,7 @@ public class TravelExpenseService {
 
   @Transactional
   public List<TravelExpense> createOrUpdateAll(List<TravelExpense> travelExpenses) {
+    moneyValidator.validateTravelExpenses(travelExpenses);
     return travelExpenseRepository.saveAll(travelExpenses);
   }
 
@@ -49,6 +52,7 @@ public class TravelExpenseService {
   private Specification<TravelExpense> toSpecification(TravelExpenseCriteria criteria) {
     return Specification.<TravelExpense>where(equal(criteria.getExpenseId(), "expense", "id"))
         .and(equal(criteria.getDepartureLocation(), "departureLocation", "id"))
-        .and(equal(criteria.getArrivalLocation(), "arrivalLocation", "id"));
+        .and(equal(criteria.getArrivalLocation(), "arrivalLocation", "id"))
+        .and(equal(criteria.getArrivalDate(), "arrivalDate"));
   }
 }

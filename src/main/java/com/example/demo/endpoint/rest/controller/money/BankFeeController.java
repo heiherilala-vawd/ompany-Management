@@ -65,7 +65,7 @@ public class BankFeeController {
       @PathVariable String user_id,
       @PathVariable String expenses_id,
       @RequestBody List<CrupdateBankFee> toWrite) {
-    var saved =
+    List<com.example.demo.model.money.BankFee> saved =
         bankFeeService.createOrUpdateAll(toWrite.stream().map(bankFeeMapper::toDomain).toList());
     return saved.stream().map(bankFeeMapper::toRestBankFee).toList();
   }

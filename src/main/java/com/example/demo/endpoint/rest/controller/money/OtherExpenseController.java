@@ -65,7 +65,7 @@ public class OtherExpenseController {
       @PathVariable String user_id,
       @PathVariable String expenses_id,
       @RequestBody List<CrupdateOtherExpense> toWrite) {
-    var saved =
+    List<com.example.demo.model.money.OtherExpense> saved =
         otherExpenseService.createOrUpdateAll(
             toWrite.stream().map(otherExpenseMapper::toDomain).toList());
     return saved.stream().map(otherExpenseMapper::toRestOtherExpense).toList();

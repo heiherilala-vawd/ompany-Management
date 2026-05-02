@@ -22,6 +22,7 @@ import java.util.HashMap;
 import com.example.demo.client.model.AuditUser;
 import com.example.demo.client.model.CrupdateMaterial;
 import com.example.demo.client.model.CrupdateTravelExpense;
+import com.example.demo.client.model.CrupdateWarehouse;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -40,13 +41,15 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   TravelMaterials.JSON_PROPERTY_MATERIAL,
   TravelMaterials.JSON_PROPERTY_QUANTITY,
   TravelMaterials.JSON_PROPERTY_QUANTITY_RECEIVED,
+  TravelMaterials.JSON_PROPERTY_ARRIVAL_DATE,
+  TravelMaterials.JSON_PROPERTY_ARRIVAL_LOCATION,
   TravelMaterials.JSON_PROPERTY_CREATED_AT,
   TravelMaterials.JSON_PROPERTY_UPDATED_AT,
   TravelMaterials.JSON_PROPERTY_CREATED_BY,
   TravelMaterials.JSON_PROPERTY_UPDATED_BY,
   TravelMaterials.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-29T15:42:01.292627554+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-02T18:18:42.847020564+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class TravelMaterials {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -62,6 +65,12 @@ public class TravelMaterials {
 
   public static final String JSON_PROPERTY_QUANTITY_RECEIVED = "quantity_received";
   private Integer quantityReceived;
+
+  public static final String JSON_PROPERTY_ARRIVAL_DATE = "arrival_date";
+  private java.time.Instant arrivalDate;
+
+  public static final String JSON_PROPERTY_ARRIVAL_LOCATION = "arrival_location";
+  private CrupdateWarehouse arrivalLocation;
 
   public static final String JSON_PROPERTY_CREATED_AT = "created_at";
   private java.time.Instant createdAt;
@@ -203,6 +212,56 @@ public class TravelMaterials {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setQuantityReceived(Integer quantityReceived) {
     this.quantityReceived = quantityReceived;
+  }
+
+
+  public TravelMaterials arrivalDate(java.time.Instant arrivalDate) {
+    this.arrivalDate = arrivalDate;
+    return this;
+  }
+
+   /**
+   * Get arrivalDate
+   * @return arrivalDate
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_ARRIVAL_DATE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public java.time.Instant getArrivalDate() {
+    return arrivalDate;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_ARRIVAL_DATE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setArrivalDate(java.time.Instant arrivalDate) {
+    this.arrivalDate = arrivalDate;
+  }
+
+
+  public TravelMaterials arrivalLocation(CrupdateWarehouse arrivalLocation) {
+    this.arrivalLocation = arrivalLocation;
+    return this;
+  }
+
+   /**
+   * Get arrivalLocation
+   * @return arrivalLocation
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_ARRIVAL_LOCATION)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public CrupdateWarehouse getArrivalLocation() {
+    return arrivalLocation;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_ARRIVAL_LOCATION)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setArrivalLocation(CrupdateWarehouse arrivalLocation) {
+    this.arrivalLocation = arrivalLocation;
   }
 
 
@@ -348,6 +407,8 @@ public class TravelMaterials {
         Objects.equals(this.material, travelMaterials.material) &&
         Objects.equals(this.quantity, travelMaterials.quantity) &&
         Objects.equals(this.quantityReceived, travelMaterials.quantityReceived) &&
+        Objects.equals(this.arrivalDate, travelMaterials.arrivalDate) &&
+        Objects.equals(this.arrivalLocation, travelMaterials.arrivalLocation) &&
         Objects.equals(this.createdAt, travelMaterials.createdAt) &&
         Objects.equals(this.updatedAt, travelMaterials.updatedAt) &&
         Objects.equals(this.createdBy, travelMaterials.createdBy) &&
@@ -357,7 +418,7 @@ public class TravelMaterials {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, travel, material, quantity, quantityReceived, createdAt, updatedAt, createdBy, updatedBy, comment);
+    return Objects.hash(id, travel, material, quantity, quantityReceived, arrivalDate, arrivalLocation, createdAt, updatedAt, createdBy, updatedBy, comment);
   }
 
   @Override
@@ -369,6 +430,8 @@ public class TravelMaterials {
     sb.append("    material: ").append(toIndentedString(material)).append("\n");
     sb.append("    quantity: ").append(toIndentedString(quantity)).append("\n");
     sb.append("    quantityReceived: ").append(toIndentedString(quantityReceived)).append("\n");
+    sb.append("    arrivalDate: ").append(toIndentedString(arrivalDate)).append("\n");
+    sb.append("    arrivalLocation: ").append(toIndentedString(arrivalLocation)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
     sb.append("    updatedAt: ").append(toIndentedString(updatedAt)).append("\n");
     sb.append("    createdBy: ").append(toIndentedString(createdBy)).append("\n");
