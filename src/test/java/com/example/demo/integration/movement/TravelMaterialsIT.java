@@ -12,6 +12,7 @@ import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
 import com.example.demo.integration.conf.TestDataSqlLoader;
 import com.example.demo.integration.conf.TestUtils;
+import java.time.Instant;
 import java.util.List;
 import javax.sql.DataSource;
 import org.junit.jupiter.api.BeforeEach;
@@ -101,6 +102,10 @@ class TravelMaterialsIT {
             null,
             null,
             null,
+            null,
+            null,
+            null,
+            null,
             null);
 
     assertEquals(2, list.size());
@@ -122,6 +127,10 @@ class TravelMaterialsIT {
             1,
             100,
             TRAVEL_EXPENSE2_ID,
+            null,
+            null,
+            null,
+            null,
             null,
             null,
             null);
@@ -146,6 +155,10 @@ class TravelMaterialsIT {
             null,
             MATERIAL1_ID,
             null,
+            null,
+            null,
+            null,
+            null,
             null);
 
     assertEquals(1, list.size());
@@ -168,6 +181,10 @@ class TravelMaterialsIT {
             null,
             null,
             20,
+            null,
+            null,
+            null,
+            null,
             null);
 
     assertEquals(1, list.size());
@@ -190,10 +207,100 @@ class TravelMaterialsIT {
             null,
             null,
             null,
-            5);
+            5,
+            null,
+            null,
+            null,
+            null);
 
     assertEquals(1, list.size());
     assertEquals(TRAVEL_MATERIALS1_ID, list.get(0).getId());
+  }
+
+  @Test
+  void admin_can_filter_travel_materials_by_arrival_location() throws Exception {
+    TravelMaterialsApi api = new TravelMaterialsApi(anApiClient(ADMIN_TOKEN));
+
+    List<TravelMaterials> list =
+        api.getTravelMaterials(
+            COMPANY1_ID,
+            JOB1_ID,
+            EMPLOYEE_ID,
+            EXPENSE1_ID,
+            TRAVEL_EXPENSE1_ID,
+            1,
+            100,
+            null,
+            null,
+            null,
+            null,
+            WAREHOUSE1_ID,
+            null,
+            null,
+            null);
+
+    assertEquals(1, list.size());
+    assertEquals(TRAVEL_MATERIALS1_ID, list.get(0).getId());
+  }
+
+  @Test
+  void admin_can_filter_travel_materials_by_arrival_date_interval() throws Exception {
+    TravelMaterialsApi api = new TravelMaterialsApi(anApiClient(ADMIN_TOKEN));
+
+    List<TravelMaterials> list =
+        api.getTravelMaterials(
+            COMPANY1_ID,
+            JOB1_ID,
+            EMPLOYEE_ID,
+            EXPENSE1_ID,
+            TRAVEL_EXPENSE1_ID,
+            1,
+            100,
+            null,
+            null,
+            null,
+            null,
+            null,
+            Instant.parse("2024-03-01T00:00:00Z"),
+            Instant.parse("2024-03-01T23:59:59Z"),
+            null);
+
+    assertEquals(1, list.size());
+    assertEquals(TRAVEL_MATERIALS1_ID, list.get(0).getId());
+  }
+
+  @Test
+  void admin_can_filter_travel_materials_not_arrived() throws Exception {
+    TravelMaterialsApi api = new TravelMaterialsApi(anApiClient(ADMIN_TOKEN));
+
+    // Update a material to have no arrival info
+    CrupdateTravelMaterials toUpdate = travelMaterialsToCrupdateTravelMaterials(travelMaterials2());
+    toUpdate.setArrivalLocation(null);
+    toUpdate.setArrivalDate(null);
+
+    api.crupdateTravelMaterials(
+        COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, TRAVEL_EXPENSE2_ID, List.of(toUpdate));
+
+    List<TravelMaterials> list =
+        api.getTravelMaterials(
+            COMPANY1_ID,
+            JOB1_ID,
+            EMPLOYEE_ID,
+            EXPENSE1_ID,
+            TRAVEL_EXPENSE2_ID,
+            1,
+            100,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            true);
+
+    assertEquals(1, list.size());
+    assertEquals(TRAVEL_MATERIALS2_ID, list.get(0).getId());
   }
 
   @Test
@@ -203,6 +310,8 @@ class TravelMaterialsIT {
 
     CrupdateTravelMaterials toUpdate = travelMaterialsToCrupdateTravelMaterials(travelMaterials1());
     toUpdate.setQuantityReceived(8);
+    toUpdate.setArrivalLocation(TestUtils.WAREHOUSE2_ID);
+    toUpdate.setArrivalDate(java.time.Instant.parse("2024-03-01T18:00:00Z"));
 
     List<TravelMaterials> updated =
         api.crupdateTravelMaterials(
@@ -212,6 +321,8 @@ class TravelMaterialsIT {
     assertEquals(TRAVEL_MATERIALS1_ID, updated.get(0).getId());
     assertEquals(8, updated.get(0).getQuantityReceived());
     assertEquals(10, updated.get(0).getQuantity());
+    assertEquals(WAREHOUSE2_ID, updated.get(0).getArrivalLocation().getId());
+    assertEquals(Instant.parse("2024-03-01T18:00:00Z"), updated.get(0).getArrivalDate());
   }
 
   @Test

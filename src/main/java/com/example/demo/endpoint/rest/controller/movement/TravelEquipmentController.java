@@ -52,7 +52,11 @@ public class TravelEquipmentController {
       @RequestParam(name = "travel_id", required = false) String travelId,
       @RequestParam(name = "equipment_id", required = false) String equipmentId,
       @RequestParam(name = "quantity", required = false) Integer quantity,
-      @RequestParam(name = "status", required = false) TransportStatus status) {
+      @RequestParam(name = "status", required = false) TransportStatus status,
+      @RequestParam(name = "arrival_location", required = false) String arrivalLocation,
+      @RequestParam(name = "arrival_date_min", required = false) java.time.Instant arrivalDateMin,
+      @RequestParam(name = "arrival_date_max", required = false) java.time.Instant arrivalDateMax,
+      @RequestParam(name = "not_arrived", required = false) Boolean notArrived) {
     TravelEquipmentCriteria criteria = new TravelEquipmentCriteria();
     criteria.setTravelId(travelId);
     criteria.setEquipmentId(equipmentId);
@@ -61,6 +65,10 @@ public class TravelEquipmentController {
         status != null
             ? com.example.demo.model.movement.TravelEquipment.TransportStatus.valueOf(status.name())
             : null);
+    criteria.setArrivalLocation(arrivalLocation);
+    criteria.setArrivalDateMin(arrivalDateMin);
+    criteria.setArrivalDateMax(arrivalDateMax);
+    criteria.setNotArrived(notArrived);
 
     return travelEquipmentService.findAll(page, pageSize, criteria).stream()
         .map(travelEquipmentMapper::toRestTravelEquipment)

@@ -5,6 +5,7 @@ import com.example.demo.model.money.TravelExpense;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.Objects;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -42,6 +43,12 @@ public class TravelEquipment extends CreatAndUpdateEntity implements Serializabl
   @Enumerated(EnumType.STRING)
   @JdbcTypeCode(SqlTypes.NAMED_ENUM)
   private TransportStatus status;
+
+  @ManyToOne
+  @JoinColumn(name = "arrival_location")
+  private Warehouse arrivalLocation;
+
+  private Instant arrivalDate;
 
   @Override
   public boolean equals(Object o) {

@@ -5,6 +5,7 @@ import com.example.demo.model.money.TravelExpense;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.Objects;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -38,6 +39,12 @@ public class TravelMaterials extends CreatAndUpdateEntity implements Serializabl
   private Integer quantity;
 
   private Integer quantityReceived;
+
+  @ManyToOne
+  @JoinColumn(name = "arrival_location")
+  private Warehouse arrivalLocation;
+
+  private Instant arrivalDate;
 
   @Override
   public boolean equals(Object o) {

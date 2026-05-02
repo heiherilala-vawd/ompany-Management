@@ -6,6 +6,7 @@ import com.example.demo.endpoint.rest.mapper.RestAuditMapperUtils;
 import com.example.demo.endpoint.rest.mapper.money.TravelExpenseMapper;
 import com.example.demo.service.money.TravelExpenseService;
 import com.example.demo.service.movement.MaterialService;
+import com.example.demo.service.movement.WarehouseService;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -16,8 +17,10 @@ public class TravelMaterialsMapper {
 
   private final TravelExpenseService travelExpenseService;
   private final MaterialService materialService;
+  private final WarehouseService warehouseService;
   private final TravelExpenseMapper travelExpenseMapper;
   private final MaterialMapper materialMapper;
+  private final WarehouseMapper warehouseMapper;
 
   public com.example.demo.model.movement.TravelMaterials toDomain(
       TravelMaterials restTravelMaterials) {
@@ -39,6 +42,13 @@ public class TravelMaterialsMapper {
         .quantity(restTravelMaterials.getQuantity())
         .quantityReceived(restTravelMaterials.getQuantityReceived())
         .comment(restTravelMaterials.getComment())
+        .arrivalLocation(
+            restTravelMaterials.getArrivalLocation() != null
+                ? warehouseService
+                    .findById(restTravelMaterials.getArrivalLocation().getId())
+                    .orElse(null)
+                : null)
+        .arrivalDate(restTravelMaterials.getArrivalDate())
         .build();
   }
 
@@ -59,6 +69,11 @@ public class TravelMaterialsMapper {
         .quantity(restTravelMaterials.getQuantity())
         .quantityReceived(restTravelMaterials.getQuantityReceived())
         .comment(restTravelMaterials.getComment())
+        .arrivalLocation(
+            restTravelMaterials.getArrivalLocation() != null
+                ? warehouseService.findById(restTravelMaterials.getArrivalLocation()).orElse(null)
+                : null)
+        .arrivalDate(restTravelMaterials.getArrivalDate())
         .build();
   }
 
@@ -74,6 +89,9 @@ public class TravelMaterialsMapper {
         materialMapper.toRestCrupdateMaterial(domainTravelMaterials.getMaterial()));
     restTravelMaterials.setQuantity(domainTravelMaterials.getQuantity());
     restTravelMaterials.setQuantityReceived(domainTravelMaterials.getQuantityReceived());
+    restTravelMaterials.setArrivalDate(domainTravelMaterials.getArrivalDate());
+    restTravelMaterials.setArrivalLocation(
+        warehouseMapper.toRestCrupdateWarehouse(domainTravelMaterials.getArrivalLocation()));
     RestAuditMapperUtils.mapAuditFields(
         domainTravelMaterials,
         restTravelMaterials::setCreatedAt,

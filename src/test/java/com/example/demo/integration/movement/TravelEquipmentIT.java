@@ -13,6 +13,7 @@ import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
 import com.example.demo.integration.conf.TestDataSqlLoader;
 import com.example.demo.integration.conf.TestUtils;
+import java.time.Instant;
 import java.util.List;
 import javax.sql.DataSource;
 import org.junit.jupiter.api.BeforeEach;
@@ -102,6 +103,10 @@ class TravelEquipmentIT {
             null,
             null,
             null,
+            null,
+            null,
+            null,
+            null,
             null);
 
     assertEquals(2, list.size());
@@ -123,6 +128,10 @@ class TravelEquipmentIT {
             1,
             100,
             TRAVEL_EXPENSE2_ID,
+            null,
+            null,
+            null,
+            null,
             null,
             null,
             null);
@@ -147,6 +156,10 @@ class TravelEquipmentIT {
             null,
             EQUIPMENT1_ID,
             null,
+            null,
+            null,
+            null,
+            null,
             null);
 
     assertEquals(1, list.size());
@@ -169,6 +182,10 @@ class TravelEquipmentIT {
             null,
             null,
             1,
+            null,
+            null,
+            null,
+            null,
             null);
 
     assertEquals(1, list.size());
@@ -191,7 +208,97 @@ class TravelEquipmentIT {
             null,
             null,
             null,
-            TransportStatus.ARRIVED);
+            TransportStatus.ARRIVED,
+            null,
+            null,
+            null,
+            null);
+
+    assertEquals(1, list.size());
+    assertEquals(TRAVEL_EQUIPMENT2_ID, list.get(0).getId());
+  }
+
+  @Test
+  void admin_can_filter_travel_equipment_by_arrival_location() throws Exception {
+    TravelEquipmentApi api = new TravelEquipmentApi(anApiClient(ADMIN_TOKEN));
+
+    List<TravelEquipment> list =
+        api.getTravelEquipment(
+            COMPANY1_ID,
+            JOB1_ID,
+            EMPLOYEE_ID,
+            EXPENSE1_ID,
+            TRAVEL_EXPENSE1_ID,
+            1,
+            100,
+            null,
+            null,
+            null,
+            null,
+            WAREHOUSE1_ID,
+            null,
+            null,
+            null);
+
+    assertEquals(1, list.size());
+    assertEquals(TRAVEL_EQUIPMENT1_ID, list.get(0).getId());
+  }
+
+  @Test
+  void admin_can_filter_travel_equipment_by_arrival_date_interval() throws Exception {
+    TravelEquipmentApi api = new TravelEquipmentApi(anApiClient(ADMIN_TOKEN));
+
+    List<TravelEquipment> list =
+        api.getTravelEquipment(
+            COMPANY1_ID,
+            JOB1_ID,
+            EMPLOYEE_ID,
+            EXPENSE1_ID,
+            TRAVEL_EXPENSE1_ID,
+            1,
+            100,
+            null,
+            null,
+            null,
+            null,
+            null,
+            Instant.parse("2024-03-01T00:00:00Z"),
+            Instant.parse("2024-03-01T23:59:59Z"),
+            null);
+
+    assertEquals(1, list.size());
+    assertEquals(TRAVEL_EQUIPMENT1_ID, list.get(0).getId());
+  }
+
+  @Test
+  void admin_can_filter_travel_equipment_not_arrived() throws Exception {
+    TravelEquipmentApi api = new TravelEquipmentApi(anApiClient(ADMIN_TOKEN));
+
+    // First, update an equipment to have no arrival info
+    CrupdateTravelEquipment toUpdate = travelEquipmentToCrupdateTravelEquipment(travelEquipment2());
+    toUpdate.setArrivalLocation(null);
+    toUpdate.setArrivalDate(null);
+
+    api.crupdateTravelEquipment(
+        COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, TRAVEL_EXPENSE2_ID, List.of(toUpdate));
+
+    List<TravelEquipment> list =
+        api.getTravelEquipment(
+            COMPANY1_ID,
+            JOB1_ID,
+            EMPLOYEE_ID,
+            EXPENSE1_ID,
+            TRAVEL_EXPENSE2_ID,
+            1,
+            100,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            true);
 
     assertEquals(1, list.size());
     assertEquals(TRAVEL_EQUIPMENT2_ID, list.get(0).getId());
@@ -205,6 +312,8 @@ class TravelEquipmentIT {
     CrupdateTravelEquipment toUpdate = travelEquipmentToCrupdateTravelEquipment(travelEquipment1());
     toUpdate.setStatus(TransportStatus.ARRIVED);
     toUpdate.setQuantity(3);
+    toUpdate.setArrivalLocation(TestUtils.WAREHOUSE2_ID);
+    toUpdate.setArrivalDate(java.time.Instant.parse("2024-03-01T18:00:00Z"));
 
     List<TravelEquipment> updated =
         api.crupdateTravelEquipment(
@@ -214,6 +323,8 @@ class TravelEquipmentIT {
     assertEquals(TRAVEL_EQUIPMENT1_ID, updated.get(0).getId());
     assertEquals(TransportStatus.ARRIVED, updated.get(0).getStatus());
     assertEquals(3, updated.get(0).getQuantity());
+    assertEquals(WAREHOUSE2_ID, updated.get(0).getArrivalLocation().getId());
+    assertEquals(Instant.parse("2024-03-01T18:00:00Z"), updated.get(0).getArrivalDate());
   }
 
   @Test

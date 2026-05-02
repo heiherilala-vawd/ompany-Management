@@ -52,6 +52,7 @@ public class TravelExpenseService {
   private Specification<TravelExpense> toSpecification(TravelExpenseCriteria criteria) {
     return Specification.<TravelExpense>where(equal(criteria.getExpenseId(), "expense", "id"))
         .and(equal(criteria.getDepartureLocation(), "departureLocation", "id"))
-        .and(equal(criteria.getArrivalLocation(), "arrivalLocation", "id"));
+        .and(equal(criteria.getArrivalLocation(), "arrivalLocation", "id"))
+        .and(equal(criteria.getArrivalDate(), "arrivalDate"));
   }
 }

@@ -143,6 +143,10 @@ class TravelOperationIT {
             travelId,
             EQUIPMENT1_ID,
             1,
+            null,
+            null,
+            null,
+            null,
             null);
     assertEquals(1, createdTravelEquipment.size());
     assertEquals(travelEquipmentId, createdTravelEquipment.get(0).getId());
@@ -162,6 +166,10 @@ class TravelOperationIT {
             travelId,
             MATERIAL1_ID,
             50,
+            null,
+            null,
+            null,
+            null,
             null);
     assertEquals(1, createdTravelMaterials.size());
     assertEquals(travelMaterialId, createdTravelMaterials.get(0).getId());
@@ -179,7 +187,11 @@ class TravelOperationIT {
             1,
             100,
             travelId,
-            USER1_ID);
+            USER1_ID,
+            null,
+            null,
+            null,
+            null);
     assertEquals(1, createdTravelPeople.size());
     assertEquals(travelPeopleId, createdTravelPeople.get(0).getId());
     assertEquals(USER1_ID, createdTravelPeople.get(0).getUser().getId());
@@ -223,7 +235,11 @@ class TravelOperationIT {
             1,
             100,
             travelId,
-            USER2_ID);
+            USER2_ID,
+            null,
+            null,
+            null,
+            null);
     assertEquals(1, createdTravelPeople.size());
     assertEquals(travelPeopleId, createdTravelPeople.get(0).getId());
     assertEquals(USER2_ID, createdTravelPeople.get(0).getUser().getId());
@@ -242,6 +258,10 @@ class TravelOperationIT {
             travelId,
             null,
             null,
+            null,
+            null,
+            null,
+            null,
             null);
     assertTrue(equipmentList.isEmpty());
 
@@ -256,6 +276,10 @@ class TravelOperationIT {
             1,
             100,
             travelId,
+            null,
+            null,
+            null,
+            null,
             null,
             null,
             null);
@@ -304,6 +328,10 @@ class TravelOperationIT {
             travelId,
             EQUIPMENT2_ID,
             1,
+            null,
+            null,
+            null,
+            null,
             null);
     assertEquals(1, equipmentList.size());
     assertEquals(travelEquipmentId, equipmentList.get(0).getId());
@@ -319,7 +347,11 @@ class TravelOperationIT {
             1,
             100,
             travelId,
-            USER1_ID);
+            USER1_ID,
+            null,
+            null,
+            null,
+            null);
     assertEquals(1, peopleList.size());
     assertEquals(travelPeopleId, peopleList.get(0).getId());
   }
