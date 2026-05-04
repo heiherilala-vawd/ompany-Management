@@ -47,10 +47,7 @@ public class EmployeePaymentMapper {
 
     return com.example.demo.model.money.EmployeePayment.builder()
         .id(restPayment.getId())
-        .expense(
-            restPayment.getExpenseId() != null
-                ? expenseMoneyService.findById(restPayment.getExpenseId()).orElse(null)
-                : null)
+        .expense(expenseMoneyMapper.toDomain(restPayment.getExpense()))
         .employee(
             restPayment.getEmployeeId() != null
                 ? userService.getById(restPayment.getEmployeeId())
