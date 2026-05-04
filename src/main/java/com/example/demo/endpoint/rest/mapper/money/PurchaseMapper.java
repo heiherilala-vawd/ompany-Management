@@ -57,10 +57,7 @@ public class PurchaseMapper {
 
     return com.example.demo.model.money.Purchase.builder()
         .id(restPurchase.getId())
-        .expense(
-            restPurchase.getExpenseId() != null
-                ? expenseMoneyService.findById(restPurchase.getExpenseId()).orElse(null)
-                : null)
+        .expense(expenseMoneyMapper.toDomain(restPurchase.getExpense()))
         .supplier(
             restPurchase.getSupplier() != null
                 ? warehouseService.findById(restPurchase.getSupplier().getId()).orElse(null)

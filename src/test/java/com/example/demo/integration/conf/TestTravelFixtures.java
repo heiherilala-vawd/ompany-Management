@@ -1,5 +1,6 @@
 package com.example.demo.integration.conf;
 
+import com.example.demo.client.model.CrupdateExpenseMoney;
 import com.example.demo.client.model.CrupdateTravelEquipment;
 import com.example.demo.client.model.CrupdateTravelExpense;
 import com.example.demo.client.model.CrupdateTravelMaterials;
@@ -51,8 +52,7 @@ final class TestTravelFixtures {
   static CrupdateTravelExpense travelExpenseToCrupdateTravelExpense(TravelExpense travelExpense) {
     CrupdateTravelExpense crupdateTravelExpense = new CrupdateTravelExpense();
     crupdateTravelExpense.setId(travelExpense.getId());
-    crupdateTravelExpense.setExpenseId(
-        travelExpense.getExpense() != null ? travelExpense.getExpense().getId() : null);
+    crupdateTravelExpense.setExpense(travelExpense.getExpense());
     crupdateTravelExpense.setDepartureLocation(travelExpense.getDepartureLocation());
     crupdateTravelExpense.setArrivalLocation(travelExpense.getArrivalLocation());
     crupdateTravelExpense.setDepartureDate(travelExpense.getDepartureDate());
@@ -63,7 +63,12 @@ final class TestTravelFixtures {
   static CrupdateTravelExpense someCreatableTravelExpense() {
     CrupdateTravelExpense travelExpense = new CrupdateTravelExpense();
     travelExpense.setId(UUID.randomUUID().toString());
-    travelExpense.setExpenseId(TestUtils.EXPENSE1_ID);
+    CrupdateExpenseMoney expense = new CrupdateExpenseMoney();
+    expense.setId(TestUtils.EXPENSE1_ID);
+    expense.setAmount(1000);
+    expense.setDescription("Test travel expense");
+    expense.setJobId(TestUtils.JOB1_ID);
+    travelExpense.setExpense(expense);
     travelExpense.setDepartureLocation(
         TestOrganizationFixtures.warehouseToCrupdateWarehouse(routeWarehouse()));
     travelExpense.setArrivalLocation(

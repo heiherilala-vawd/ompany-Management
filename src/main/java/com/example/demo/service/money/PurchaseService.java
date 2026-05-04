@@ -5,6 +5,7 @@ import static com.example.demo.repository.specification.SpecificationUtils.equal
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
 import com.example.demo.model.criteria.PurchaseCriteria;
+import com.example.demo.model.money.ExpenseMoney;
 import com.example.demo.model.money.Purchase;
 import com.example.demo.repository.money.PurchaseRepository;
 import com.example.demo.service.utils.ModificationUtils;
@@ -12,6 +13,7 @@ import com.example.demo.service.utils.PageUtils;
 import com.example.demo.validator.MoneyValidator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class PurchaseService {
 
   private final PurchaseRepository purchaseRepository;
+  private final ExpenseMoneyService expenseMoneyService;
   private final ModificationUtils modificationUtils;
   private final MoneyValidator moneyValidator;
 
@@ -41,6 +44,11 @@ public class PurchaseService {
   @Transactional
   public List<Purchase> createOrUpdateAll(List<Purchase> purchases) {
     moneyValidator.validatePurchases(purchases);
+
+    List<ExpenseMoney> expenses =
+        purchases.stream().map(Purchase::getExpense).collect(Collectors.toList());
+    expenseMoneyService.createOrUpdateAll(expenses);
+
     return purchaseRepository.saveAll(purchases);
   }
 

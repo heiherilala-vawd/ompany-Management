@@ -7,12 +7,14 @@ import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
 import com.example.demo.model.criteria.EmployeePaymentCriteria;
 import com.example.demo.model.money.EmployeePayment;
+import com.example.demo.model.money.ExpenseMoney;
 import com.example.demo.repository.money.EmployeePaymentRepository;
 import com.example.demo.service.utils.ModificationUtils;
 import com.example.demo.service.utils.PageUtils;
 import com.example.demo.validator.MoneyValidator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class EmployeePaymentService {
 
   private final EmployeePaymentRepository employeePaymentRepository;
+  private final ExpenseMoneyService expenseMoneyService;
   private final ModificationUtils modificationUtils;
   private final MoneyValidator moneyValidator;
 
@@ -42,6 +45,11 @@ public class EmployeePaymentService {
   @Transactional
   public List<EmployeePayment> createOrUpdateAll(List<EmployeePayment> payments) {
     moneyValidator.validateEmployeePayments(payments);
+
+    List<ExpenseMoney> expenses =
+        payments.stream().map(EmployeePayment::getExpense).collect(Collectors.toList());
+    expenseMoneyService.createOrUpdateAll(expenses);
+
     return employeePaymentRepository.saveAll(payments);
   }
 

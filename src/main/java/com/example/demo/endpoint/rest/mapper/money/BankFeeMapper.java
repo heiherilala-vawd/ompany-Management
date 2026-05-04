@@ -33,10 +33,7 @@ public class BankFeeMapper {
 
     return com.example.demo.model.money.BankFee.builder()
         .id(restBankFee.getId())
-        .expense(
-            restBankFee.getExpenseId() != null
-                ? expenseMoneyService.findById(restBankFee.getExpenseId()).orElse(null)
-                : null)
+        .expense(expenseMoneyMapper.toDomain(restBankFee.getExpense()))
         .bankName(restBankFee.getBankName())
         .description(restBankFee.getDescription())
         .build();
