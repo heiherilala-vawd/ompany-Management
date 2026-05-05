@@ -292,6 +292,12 @@ public class SecurityConfiguration {
                     .authenticated()
 
                     // =========================
+                    // YEARLY REPORT
+                    // =========================
+                    .requestMatchers(GET, "/companies/*/yearly-report")
+                    .authenticated()
+
+                    // =========================
                     // DEFAULT - Toute autre requête non auizer
                     // =========================
                     .anyRequest()

@@ -34,6 +34,10 @@ public class ExpenseMoneyService {
     return expenseMoneyRepository.findById(id);
   }
 
+  public Integer sumByJobId(String jobId) {
+    return expenseMoneyRepository.sumByJobId(jobId);
+  }
+
   public Page<ExpenseMoney> findAll(
       PageFromOne page, BoundedPageSize pageSize, ExpenseMoneyCriteria criteria) {
     Pageable pageable = PageUtils.createPageable(page, pageSize);
