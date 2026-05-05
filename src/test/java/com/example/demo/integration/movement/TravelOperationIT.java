@@ -112,15 +112,7 @@ class TravelOperationIT {
     TravelExpenseApi travelExpenseApi = new TravelExpenseApi(anApiClient(ADMIN_TOKEN));
     List<TravelExpense> createdTravelExpenses =
         travelExpenseApi.getTravelExpenses(
-            COMPANY1_ID,
-            JOB1_ID,
-            EMPLOYEE_ID,
-            travelExpenseId,
-            1,
-            100,
-            travelExpenseId,
-            departureWarehouseId,
-            arrivalWarehouseId);
+            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, departureWarehouseId, arrivalWarehouseId);
     assertEquals(1, createdTravelExpenses.size());
     TravelExpense createdTravel = createdTravelExpenses.get(0);
     assertEquals(travelId, createdTravel.getId());
@@ -137,7 +129,6 @@ class TravelOperationIT {
             JOB1_ID,
             EMPLOYEE_ID,
             travelExpenseId,
-            travelId,
             1,
             100,
             travelId,
@@ -160,7 +151,6 @@ class TravelOperationIT {
             JOB1_ID,
             EMPLOYEE_ID,
             travelExpenseId,
-            travelId,
             1,
             100,
             travelId,
@@ -183,7 +173,6 @@ class TravelOperationIT {
             JOB1_ID,
             EMPLOYEE_ID,
             travelExpenseId,
-            travelId,
             1,
             100,
             travelId,
@@ -231,7 +220,6 @@ class TravelOperationIT {
             JOB1_ID,
             EMPLOYEE_ID,
             travelExpenseId,
-            travelId,
             1,
             100,
             travelId,
@@ -252,7 +240,6 @@ class TravelOperationIT {
             JOB1_ID,
             EMPLOYEE_ID,
             travelExpenseId,
-            travelId,
             1,
             100,
             travelId,
@@ -272,7 +259,6 @@ class TravelOperationIT {
             JOB1_ID,
             EMPLOYEE_ID,
             travelExpenseId,
-            travelId,
             1,
             100,
             travelId,
@@ -322,7 +308,6 @@ class TravelOperationIT {
             JOB1_ID,
             EMPLOYEE_ID,
             travelExpenseId,
-            travelId,
             1,
             100,
             travelId,
@@ -343,7 +328,6 @@ class TravelOperationIT {
             JOB1_ID,
             EMPLOYEE_ID,
             travelExpenseId,
-            travelId,
             1,
             100,
             travelId,
