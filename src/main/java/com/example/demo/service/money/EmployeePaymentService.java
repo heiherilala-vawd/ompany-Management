@@ -60,7 +60,6 @@ public class EmployeePaymentService {
 
   private Specification<EmployeePayment> toSpecification(EmployeePaymentCriteria criteria) {
     return Specification.<EmployeePayment>where(equal(criteria.getEmployeeId(), "employee", "id"))
-        .and(equal(criteria.getExpenseId(), "expense", "id"))
         .and(containsIgnoreCase(criteria.getPaymentDescription(), "paymentDescription"))
         .and(equal(criteria.getPaymentType(), "paymentType"));
   }

@@ -54,12 +54,7 @@ class TravelMaterialsIT {
 
     TravelMaterials actual =
         api.getTravelMaterialsById(
-            COMPANY1_ID,
-            JOB1_ID,
-            EMPLOYEE_ID,
-            EXPENSE1_ID,
-            TRAVEL_EXPENSE1_ID,
-            TRAVEL_MATERIALS1_ID);
+            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, TRAVEL_EXPENSE1_ID, TRAVEL_MATERIALS1_ID);
 
     TravelMaterials expected = travelMaterials1();
     expected.setCreatedAt(actual.getCreatedAt());
@@ -78,12 +73,7 @@ class TravelMaterialsIT {
     assertThrowsNotAuthorizedException(
         () ->
             api.getTravelMaterialsById(
-                COMPANY1_ID,
-                JOB1_ID,
-                EMPLOYEE_ID,
-                EXPENSE1_ID,
-                TRAVEL_EXPENSE1_ID,
-                TRAVEL_MATERIALS1_ID));
+                COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, TRAVEL_EXPENSE1_ID, TRAVEL_MATERIALS1_ID));
   }
 
   @Test
@@ -95,7 +85,6 @@ class TravelMaterialsIT {
             COMPANY1_ID,
             JOB1_ID,
             EMPLOYEE_ID,
-            EXPENSE1_ID,
             TRAVEL_EXPENSE1_ID,
             1,
             100,
@@ -122,7 +111,6 @@ class TravelMaterialsIT {
             COMPANY1_ID,
             JOB1_ID,
             EMPLOYEE_ID,
-            EXPENSE1_ID,
             TRAVEL_EXPENSE1_ID,
             1,
             100,
@@ -148,7 +136,6 @@ class TravelMaterialsIT {
             COMPANY1_ID,
             JOB1_ID,
             EMPLOYEE_ID,
-            EXPENSE1_ID,
             TRAVEL_EXPENSE1_ID,
             1,
             100,
@@ -174,7 +161,6 @@ class TravelMaterialsIT {
             COMPANY1_ID,
             JOB1_ID,
             EMPLOYEE_ID,
-            EXPENSE1_ID,
             TRAVEL_EXPENSE1_ID,
             1,
             100,
@@ -200,7 +186,6 @@ class TravelMaterialsIT {
             COMPANY1_ID,
             JOB1_ID,
             EMPLOYEE_ID,
-            EXPENSE1_ID,
             TRAVEL_EXPENSE1_ID,
             1,
             100,
@@ -226,7 +211,6 @@ class TravelMaterialsIT {
             COMPANY1_ID,
             JOB1_ID,
             EMPLOYEE_ID,
-            EXPENSE1_ID,
             TRAVEL_EXPENSE1_ID,
             1,
             100,
@@ -252,7 +236,6 @@ class TravelMaterialsIT {
             COMPANY1_ID,
             JOB1_ID,
             EMPLOYEE_ID,
-            EXPENSE1_ID,
             TRAVEL_EXPENSE1_ID,
             1,
             100,
@@ -279,14 +262,13 @@ class TravelMaterialsIT {
     toUpdate.setArrivalDate(null);
 
     api.crupdateTravelMaterials(
-        COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, TRAVEL_EXPENSE2_ID, List.of(toUpdate));
+        COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, TRAVEL_EXPENSE2_ID, List.of(toUpdate));
 
     List<TravelMaterials> list =
         api.getTravelMaterials(
             COMPANY1_ID,
             JOB1_ID,
             EMPLOYEE_ID,
-            EXPENSE1_ID,
             TRAVEL_EXPENSE2_ID,
             1,
             100,
@@ -315,7 +297,7 @@ class TravelMaterialsIT {
 
     List<TravelMaterials> updated =
         api.crupdateTravelMaterials(
-            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, TRAVEL_EXPENSE1_ID, List.of(toUpdate));
+            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, TRAVEL_EXPENSE1_ID, List.of(toUpdate));
 
     assertEquals(1, updated.size());
     assertEquals(TRAVEL_MATERIALS1_ID, updated.get(0).getId());
@@ -335,7 +317,6 @@ class TravelMaterialsIT {
                 COMPANY1_ID,
                 JOB1_ID,
                 EMPLOYEE_ID,
-                EXPENSE1_ID,
                 TRAVEL_EXPENSE1_ID,
                 List.of(someCreatableTravelMaterials())));
   }
@@ -347,12 +328,7 @@ class TravelMaterialsIT {
     assertThrowsForbiddenException(
         () ->
             api.deleteTravelMaterialsById(
-                COMPANY1_ID,
-                JOB1_ID,
-                EMPLOYEE_ID,
-                EXPENSE1_ID,
-                TRAVEL_EXPENSE1_ID,
-                TRAVEL_MATERIALS1_ID));
+                COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, TRAVEL_EXPENSE1_ID, TRAVEL_MATERIALS1_ID));
   }
 
   static class ContextInitializer extends AbstractContextInitializer {

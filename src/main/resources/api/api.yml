@@ -2865,7 +2865,7 @@ paths:
   # =========================
   # TRAVEL EXPENSE
   # =========================
-  '/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/travel_expenses/{id}':
+  '/companies/{comp_id}/job/{job_id}/user/{user_id}/travel_expenses/{id}':
     get:
       tags:
         - TravelExpense
@@ -2890,12 +2890,6 @@ paths:
           schema:
             type: string
           example: "usr_123456"
-        - name: expenses_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "exp_003"
         - name: id
           in: path
           required: true
@@ -2958,12 +2952,6 @@ paths:
           schema:
             type: string
           example: "usr_123456"
-        - name: expenses_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "exp_003"
         - name: id
           in: path
           required: true
@@ -2983,7 +2971,7 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-  /companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/travel_expenses:
+  /companies/{comp_id}/job/{job_id}/user/{user_id}/travel_expenses:
     get:
       tags:
         - TravelExpense
@@ -3008,12 +2996,6 @@ paths:
           schema:
             type: string
           example: "usr_123456"
-        - name: expenses_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "exp_003"
         - name: page
           in: query
           schema:
@@ -3024,11 +3006,6 @@ paths:
           schema:
             $ref: '#/components/schemas/PageSize'
           example: 20
-        - name: expense_id
-          in: query
-          schema:
-            type: string
-          example: "exp_003"
         - name: departure_location
           in: query
           description: "Filter travel expenses by departure warehouse id"
@@ -3098,12 +3075,6 @@ paths:
           schema:
             type: string
           example: "usr_123456"
-        - name: expenses_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "exp_003"
       requestBody:
         required: true
         content:
@@ -3161,7 +3132,7 @@ paths:
   # =========================
   # PURCHASE
   # =========================
-  '/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/purchases/{id}':
+  '/companies/{comp_id}/job/{job_id}/user/{user_id}/purchases/{id}':
     get:
       tags:
         - Purchase
@@ -3186,12 +3157,6 @@ paths:
           schema:
             type: string
           example: "usr_123456"
-        - name: expenses_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "exp_001"
         - name: id
           in: path
           required: true
@@ -3251,12 +3216,6 @@ paths:
           schema:
             type: string
           example: "usr_123456"
-        - name: expenses_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "exp_001"
         - name: id
           in: path
           required: true
@@ -3276,7 +3235,7 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-  /companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/purchases:
+  /companies/{comp_id}/job/{job_id}/user/{user_id}/purchases:
     get:
       tags:
         - Purchase
@@ -3301,12 +3260,6 @@ paths:
           schema:
             type: string
           example: "usr_123456"
-        - name: expenses_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "exp_001"
         - name: page
           in: query
           schema:
@@ -3317,11 +3270,6 @@ paths:
           schema:
             $ref: '#/components/schemas/PageSize'
           example: 20
-        - name: expense_id
-          in: query
-          schema:
-            type: string
-          example: "exp_001"
         - name: supplier_id
           in: query
           description: "Filter purchases by supplier id"
@@ -3399,12 +3347,6 @@ paths:
           schema:
             type: string
           example: "usr_123456"
-        - name: expenses_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "exp_001"
       requestBody:
         required: true
         content:
@@ -3642,7 +3584,7 @@ paths:
   # =========================
   # BANK FEE
   # =========================
-  '/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/bank_fees/{id}':
+  '/companies/{comp_id}/job/{job_id}/user/{user_id}/bank_fees/{id}':
     get:
       tags:
         - BankFee
@@ -3667,12 +3609,6 @@ paths:
           schema:
             type: string
           example: "usr_123456"
-        - name: expenses_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "exp_001"
         - name: id
           in: path
           required: true
@@ -3728,12 +3664,6 @@ paths:
           schema:
             type: string
           example: "usr_123456"
-        - name: expenses_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "exp_001"
         - name: id
           in: path
           required: true
@@ -3753,7 +3683,7 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-  /companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/bank_fees:
+  /companies/{comp_id}/job/{job_id}/user/{user_id}/bank_fees:
     get:
       tags:
         - BankFee
@@ -3778,12 +3708,6 @@ paths:
           schema:
             type: string
           example: "usr_123456"
-        - name: expenses_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "exp_001"
         - name: page
           in: query
           schema:
@@ -3794,11 +3718,6 @@ paths:
           schema:
             $ref: '#/components/schemas/PageSize'
           example: 20
-        - name: expense_id
-          in: query
-          schema:
-            type: string
-          example: "exp_001"
         - name: bank_name
           in: query
           description: "Filter bank fees by bank name, case is ignored"
@@ -3862,12 +3781,6 @@ paths:
           schema:
             type: string
           example: "usr_123456"
-        - name: expenses_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "exp_001"
       requestBody:
         required: true
         content:
@@ -3913,7 +3826,7 @@ paths:
   # =========================
   # OTHER EXPENSE
   # =========================
-  '/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/other_expenses/{id}':
+  '/companies/{comp_id}/job/{job_id}/user/{user_id}/other_expenses/{id}':
     get:
       tags:
         - OtherExpense
@@ -3938,12 +3851,6 @@ paths:
           schema:
             type: string
           example: "usr_123456"
-        - name: expenses_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "exp_002"
         - name: id
           in: path
           required: true
@@ -3998,12 +3905,6 @@ paths:
           schema:
             type: string
           example: "usr_123456"
-        - name: expenses_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "exp_002"
         - name: id
           in: path
           required: true
@@ -4023,7 +3924,7 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-  /companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/other_expenses:
+  /companies/{comp_id}/job/{job_id}/user/{user_id}/other_expenses:
     get:
       tags:
         - OtherExpense
@@ -4048,12 +3949,6 @@ paths:
           schema:
             type: string
           example: "usr_123456"
-        - name: expenses_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "exp_002"
         - name: page
           in: query
           schema:
@@ -4064,11 +3959,6 @@ paths:
           schema:
             $ref: '#/components/schemas/PageSize'
           example: 20
-        - name: expense_id
-          in: query
-          schema:
-            type: string
-          example: "exp_002"
         - name: description
           in: query
           description: "Filter other expenses by description, case is ignored"
@@ -4125,12 +4015,6 @@ paths:
           schema:
             type: string
           example: "usr_123456"
-        - name: expenses_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "exp_002"
       requestBody:
         required: true
         content:
@@ -4174,7 +4058,7 @@ paths:
   # =========================
   # EMPLOYEE PAYMENT
   # =========================
-  '/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/employee_payments/{id}':
+  '/companies/{comp_id}/job/{job_id}/user/{user_id}/employee_payments/{id}':
     get:
       tags:
         - EmployeePayment
@@ -4199,12 +4083,6 @@ paths:
           schema:
             type: string
           example: "usr_123456"
-        - name: expenses_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "exp_004"
         - name: id
           in: path
           required: true
@@ -4266,12 +4144,6 @@ paths:
           schema:
             type: string
           example: "usr_123456"
-        - name: expenses_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "exp_004"
         - name: id
           in: path
           required: true
@@ -4291,7 +4163,7 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-  /companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/employee_payments:
+  /companies/{comp_id}/job/{job_id}/user/{user_id}/employee_payments:
     get:
       tags:
         - EmployeePayment
@@ -4316,12 +4188,6 @@ paths:
           schema:
             type: string
           example: "usr_123456"
-        - name: expenses_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "exp_004"
         - name: page
           in: query
           schema:
@@ -4337,11 +4203,6 @@ paths:
           schema:
             type: string
           example: "usr_123456"
-        - name: expense_id
-          in: query
-          schema:
-            type: string
-          example: "exp_004"
         - name: payment_description
           in: query
           description: "Filter employee payments by description, case is ignored"
@@ -4419,12 +4280,6 @@ paths:
           schema:
             type: string
           example: "usr_123456"
-        - name: expenses_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "exp_004"
       requestBody:
         required: true
         content:
@@ -4475,7 +4330,7 @@ paths:
   # =========================
   # TRAVEL PEOPLE
   # =========================
-  '/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/travel_expenses/{travel_expenses_id}/travel_people/{id}':
+  '/companies/{comp_id}/job/{job_id}/user/{user_id}/travel_expenses/{travel_expenses_id}/travel_people/{id}':
     get:
       tags:
         - TravelPeople
@@ -4500,12 +4355,6 @@ paths:
           schema:
             type: string
           example: "usr_123456"
-        - name: expenses_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "exp_003"
         - name: travel_expenses_id
           in: path
           required: true
@@ -4585,12 +4434,6 @@ paths:
           schema:
             type: string
           example: "usr_123456"
-        - name: expenses_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "exp_003"
         - name: travel_expenses_id
           in: path
           required: true
@@ -4616,7 +4459,7 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-  /companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/travel_expenses/{travel_expenses_id}/travel_people:
+  /companies/{comp_id}/job/{job_id}/user/{user_id}/travel_expenses/{travel_expenses_id}/travel_people:
     get:
       tags:
         - TravelPeople
@@ -4641,12 +4484,6 @@ paths:
           schema:
             type: string
           example: "usr_123456"
-        - name: expenses_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "exp_003"
         - name: travel_expenses_id
           in: path
           required: true
@@ -4792,12 +4629,6 @@ paths:
           schema:
             type: string
           example: "usr_123456"
-        - name: expenses_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "exp_003"
         - name: travel_expenses_id
           in: path
           required: true
@@ -4893,7 +4724,7 @@ paths:
   # =========================
   # TRAVEL MATERIALS
   # =========================
-  '/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/travel_expenses/{travel_expenses_id}/travel_materials/{id}':
+  '/companies/{comp_id}/job/{job_id}/user/{user_id}/travel_expenses/{travel_expenses_id}/travel_materials/{id}':
     get:
       tags:
         - TravelMaterials
@@ -4918,12 +4749,6 @@ paths:
           schema:
             type: string
           example: "usr_123456"
-        - name: expenses_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "exp_003"
         - name: travel_expenses_id
           in: path
           required: true
@@ -5003,12 +4828,6 @@ paths:
           schema:
             type: string
           example: "usr_123456"
-        - name: expenses_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "exp_003"
         - name: travel_expenses_id
           in: path
           required: true
@@ -5034,7 +4853,7 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-  /companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/travel_expenses/{travel_expenses_id}/travel_materials:
+  /companies/{comp_id}/job/{job_id}/user/{user_id}/travel_expenses/{travel_expenses_id}/travel_materials:
     get:
       tags:
         - TravelMaterials
@@ -5059,12 +4878,6 @@ paths:
           schema:
             type: string
           example: "usr_123456"
-        - name: expenses_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "exp_003"
         - name: travel_expenses_id
           in: path
           required: true
@@ -5221,12 +5034,6 @@ paths:
           schema:
             type: string
           example: "usr_123456"
-        - name: expenses_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "exp_003"
         - name: travel_expenses_id
           in: path
           required: true
@@ -5387,7 +5194,7 @@ paths:
   # =========================
   # TRAVEL EQUIPMENT
   # =========================
-  '/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/travel_expenses/{travel_expenses_id}/travel_equipment/{id}':
+  '/companies/{comp_id}/job/{job_id}/user/{user_id}/travel_expenses/{travel_expenses_id}/travel_equipment/{id}':
     get:
       tags:
         - TravelEquipment
@@ -5412,12 +5219,6 @@ paths:
           schema:
             type: string
           example: "usr_123456"
-        - name: expenses_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "exp_003"
         - name: travel_expenses_id
           in: path
           required: true
@@ -5497,12 +5298,6 @@ paths:
           schema:
             type: string
           example: "usr_123456"
-        - name: expenses_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "exp_003"
         - name: travel_expenses_id
           in: path
           required: true
@@ -5528,7 +5323,7 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-  /companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/travel_expenses/{travel_expenses_id}/travel_equipment:
+  /companies/{comp_id}/job/{job_id}/user/{user_id}/travel_expenses/{travel_expenses_id}/travel_equipment:
     get:
       tags:
         - TravelEquipment
@@ -5553,12 +5348,6 @@ paths:
           schema:
             type: string
           example: "usr_123456"
-        - name: expenses_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "exp_003"
         - name: travel_expenses_id
           in: path
           required: true
@@ -5690,12 +5479,6 @@ paths:
           schema:
             type: string
           example: "usr_123456"
-        - name: expenses_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "exp_003"
         - name: travel_expenses_id
           in: path
           required: true

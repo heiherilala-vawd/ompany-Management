@@ -21,13 +21,12 @@ public class TravelPeopleController {
   private final TravelPeopleMapper travelPeopleMapper;
 
   @GetMapping(
-      "/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/travel_expenses/{travel_expenses_id}/travel_people/{id}")
+      "/companies/{comp_id}/job/{job_id}/user/{user_id}/travel_expenses/{travel_expenses_id}/travel_people/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION') or #user_id == authentication.principal.id")
   public TravelPeople getTravelPeopleById(
       @PathVariable String comp_id,
       @PathVariable String job_id,
       @PathVariable String user_id,
-      @PathVariable String expenses_id,
       @PathVariable String travel_expenses_id,
       @PathVariable String id) {
     return travelPeopleMapper.toRestTravelPeople(
@@ -37,13 +36,12 @@ public class TravelPeopleController {
   }
 
   @GetMapping(
-      "/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/travel_expenses/{travel_expenses_id}/travel_people")
+      "/companies/{comp_id}/job/{job_id}/user/{user_id}/travel_expenses/{travel_expenses_id}/travel_people")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION') or #user_id == authentication.principal.id")
   public List<TravelPeople> getTravelPeople(
       @PathVariable String comp_id,
       @PathVariable String job_id,
       @PathVariable String user_id,
-      @PathVariable String expenses_id,
       @PathVariable String travel_expenses_id,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
@@ -67,13 +65,12 @@ public class TravelPeopleController {
   }
 
   @PutMapping(
-      "/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/travel_expenses/{travel_expenses_id}/travel_people")
+      "/companies/{comp_id}/job/{job_id}/user/{user_id}/travel_expenses/{travel_expenses_id}/travel_people")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION') or #user_id == authentication.principal.id")
   public List<TravelPeople> crupdateTravelPeople(
       @PathVariable String comp_id,
       @PathVariable String job_id,
       @PathVariable String user_id,
-      @PathVariable String expenses_id,
       @PathVariable String travel_expenses_id,
       @RequestBody List<CrupdateTravelPeople> toWrite) {
     List<com.example.demo.model.movement.TravelPeople> saved =
@@ -83,13 +80,12 @@ public class TravelPeopleController {
   }
 
   @DeleteMapping(
-      "/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/travel_expenses/{travel_expenses_id}/travel_people/{id}")
+      "/companies/{comp_id}/job/{job_id}/user/{user_id}/travel_expenses/{travel_expenses_id}/travel_people/{id}")
   @PreAuthorize("hasAnyRole('ADMIN')")
   public void deleteTravelPeopleById(
       @PathVariable String comp_id,
       @PathVariable String job_id,
       @PathVariable String user_id,
-      @PathVariable String expenses_id,
       @PathVariable String travel_expenses_id,
       @PathVariable String id) {
     travelPeopleService.deleteById(id);

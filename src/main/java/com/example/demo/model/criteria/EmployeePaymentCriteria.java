@@ -8,7 +8,6 @@ import lombok.Setter;
 @Setter
 public class EmployeePaymentCriteria {
   private String employeeId;
-  private String expenseId;
   private String paymentDescription;
   private EmployeePayment.PaymentType paymentType;
 }

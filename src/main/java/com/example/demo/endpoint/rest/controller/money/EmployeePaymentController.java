@@ -21,14 +21,12 @@ public class EmployeePaymentController {
   private final EmployeePaymentService employeePaymentService;
   private final EmployeePaymentMapper employeePaymentMapper;
 
-  @GetMapping(
-      "/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/employee_payments/{id}")
+  @GetMapping("/companies/{comp_id}/job/{job_id}/user/{user_id}/employee_payments/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION') or #user_id == authentication.principal.id")
   public EmployeePayment getEmployeePaymentById(
       @PathVariable String comp_id,
       @PathVariable String job_id,
       @PathVariable String user_id,
-      @PathVariable String expenses_id,
       @PathVariable String id) {
     return employeePaymentMapper.toRestPayment(
         employeePaymentService
@@ -37,23 +35,19 @@ public class EmployeePaymentController {
                 () -> new NotFoundException("EmployeePayment with id " + id + " not found")));
   }
 
-  @GetMapping(
-      "/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/employee_payments")
+  @GetMapping("/companies/{comp_id}/job/{job_id}/user/{user_id}/employee_payments")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION') or #user_id == authentication.principal.id")
   public List<EmployeePayment> getEmployeePayments(
       @PathVariable String comp_id,
       @PathVariable String job_id,
       @PathVariable String user_id,
-      @PathVariable String expenses_id,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
       @RequestParam(name = "employee_id", required = false) String employeeId,
-      @RequestParam(name = "expense_id", required = false) String expenseId,
       @RequestParam(name = "payment_description", required = false) String paymentDescription,
       @RequestParam(name = "payment_type", required = false) PaymentType paymentType) {
     EmployeePaymentCriteria criteria = new EmployeePaymentCriteria();
     criteria.setEmployeeId(employeeId);
-    criteria.setExpenseId(expenseId);
     criteria.setPaymentDescription(paymentDescription);
     criteria.setPaymentType(
         paymentType != null
@@ -65,14 +59,12 @@ public class EmployeePaymentController {
         .toList();
   }
 
-  @PutMapping(
-      "/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/employee_payments")
+  @PutMapping("/companies/{comp_id}/job/{job_id}/user/{user_id}/employee_payments")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION') or #user_id == authentication.principal.id")
   public List<EmployeePayment> crupdateEmployeePayments(
       @PathVariable String comp_id,
       @PathVariable String job_id,
       @PathVariable String user_id,
-      @PathVariable String expenses_id,
       @RequestBody List<CrupdateEmployeePayment> toWrite) {
     List<com.example.demo.model.money.EmployeePayment> saved =
         employeePaymentService.createOrUpdateAll(
@@ -80,14 +72,12 @@ public class EmployeePaymentController {
     return saved.stream().map(employeePaymentMapper::toRestPayment).toList();
   }
 
-  @DeleteMapping(
-      "/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/employee_payments/{id}")
+  @DeleteMapping("/companies/{comp_id}/job/{job_id}/user/{user_id}/employee_payments/{id}")
   @PreAuthorize("hasAnyRole('ADMIN')")
   public void deleteEmployeePaymentById(
       @PathVariable String comp_id,
       @PathVariable String job_id,
       @PathVariable String user_id,
-      @PathVariable String expenses_id,
       @PathVariable String id) {
     employeePaymentService.deleteById(id);
   }

@@ -6,6 +6,5 @@ import lombok.Setter;
 @Getter
 @Setter
 public class OtherExpenseCriteria {
-  private String expenseId;
   private String description;
 }

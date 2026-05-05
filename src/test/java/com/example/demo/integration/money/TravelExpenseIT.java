@@ -52,8 +52,7 @@ class TravelExpenseIT {
     TravelExpenseApi api = new TravelExpenseApi(anApiClient(EMPLOYEE_TOKEN));
 
     TravelExpense actual =
-        api.getTravelExpenseById(
-            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, TRAVEL_EXPENSE1_ID);
+        api.getTravelExpenseById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, TRAVEL_EXPENSE1_ID);
 
     assertEquals(travelExpense1(), actual);
   }
@@ -63,9 +62,7 @@ class TravelExpenseIT {
     TravelExpenseApi api = new TravelExpenseApi(anApiClient(BAD_TOKEN));
 
     assertThrowsNotAuthorizedException(
-        () ->
-            api.getTravelExpenseById(
-                COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, TRAVEL_EXPENSE1_ID));
+        () -> api.getTravelExpenseById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, TRAVEL_EXPENSE1_ID));
   }
 
   @Test
@@ -73,8 +70,7 @@ class TravelExpenseIT {
     TravelExpenseApi api = new TravelExpenseApi(anApiClient(ADMIN_TOKEN));
 
     List<TravelExpense> travelExpenses =
-        api.getTravelExpenses(
-            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, 1, 100, null, null, null);
+        api.getTravelExpenses(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, null);
 
     assertEquals(2, travelExpenses.size());
     assertTrue(
@@ -86,24 +82,11 @@ class TravelExpenseIT {
   }
 
   @Test
-  void admin_can_filter_travel_expenses_by_expense_id() throws Exception {
-    TravelExpenseApi api = new TravelExpenseApi(anApiClient(ADMIN_TOKEN));
-
-    List<TravelExpense> travelExpenses =
-        api.getTravelExpenses(
-            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, 1, 100, EXPENSE2_ID, null, null);
-
-    assertEquals(1, travelExpenses.size());
-    assertEquals(TRAVEL_EXPENSE2_ID, travelExpenses.get(0).getId());
-  }
-
-  @Test
   void admin_can_filter_travel_expenses_by_departure_location() throws Exception {
     TravelExpenseApi api = new TravelExpenseApi(anApiClient(ADMIN_TOKEN));
 
     List<TravelExpense> travelExpenses =
-        api.getTravelExpenses(
-            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, 1, 100, null, WAREHOUSE1_ID, null);
+        api.getTravelExpenses(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, WAREHOUSE1_ID, null);
 
     assertEquals(1, travelExpenses.size());
     assertEquals(TRAVEL_EXPENSE1_ID, travelExpenses.get(0).getId());
@@ -114,8 +97,7 @@ class TravelExpenseIT {
     TravelExpenseApi api = new TravelExpenseApi(anApiClient(ADMIN_TOKEN));
 
     List<TravelExpense> travelExpenses =
-        api.getTravelExpenses(
-            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, 1, 100, null, null, WAREHOUSE1_ID);
+        api.getTravelExpenses(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, WAREHOUSE1_ID);
 
     assertEquals(1, travelExpenses.size());
     assertEquals(TRAVEL_EXPENSE2_ID, travelExpenses.get(0).getId());
@@ -132,7 +114,7 @@ class TravelExpenseIT {
 
     List<TravelExpense> updatedTravelExpenses =
         api.crupdateTravelExpenses(
-            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, List.of(travelExpenseToUpdate));
+            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(travelExpenseToUpdate));
 
     assertEquals(1, updatedTravelExpenses.size());
     assertEquals(TRAVEL_EXPENSE1_ID, updatedTravelExpenses.get(0).getId());
@@ -146,11 +128,7 @@ class TravelExpenseIT {
     assertThrowsForbiddenException(
         () ->
             api.crupdateTravelExpenses(
-                COMPANY1_ID,
-                JOB1_ID,
-                EMPLOYEE_ID,
-                EXPENSE1_ID,
-                List.of(someCreatableTravelExpense())));
+                COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(someCreatableTravelExpense())));
   }
 
   @Test
@@ -158,9 +136,7 @@ class TravelExpenseIT {
     TravelExpenseApi api = new TravelExpenseApi(anApiClient(ADMINISTRATION_TOKEN));
 
     assertThrowsForbiddenException(
-        () ->
-            api.deleteTravelExpenseById(
-                COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, TRAVEL_EXPENSE1_ID));
+        () -> api.deleteTravelExpenseById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, TRAVEL_EXPENSE1_ID));
   }
 
   static class ContextInitializer extends AbstractContextInitializer {
