@@ -34,6 +34,10 @@ public class IncomeMoneyService {
     return incomeMoneyRepository.findById(id);
   }
 
+  public Integer sumByJobId(String jobId) {
+    return incomeMoneyRepository.sumByJobId(jobId);
+  }
+
   public Page<IncomeMoney> findAll(
       PageFromOne page, BoundedPageSize pageSize, IncomeMoneyCriteria criteria) {
     Pageable pageable = PageUtils.createPageable(page, pageSize);

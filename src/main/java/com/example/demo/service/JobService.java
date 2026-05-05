@@ -96,8 +96,38 @@ public class JobService {
   }
 
   private Specification<Job> toSpecification(JobCriteria criteria) {
-    return Specification.<Job>where(equal(criteria.getStatus(), "status"))
-        .and(equal(criteria.getCompanyId(), "company", "id"))
-        .and(containsIgnoreCase(criteria.getDescription(), "description"));
+    Specification<Job> spec = Specification.where((root, query, cb) -> cb.conjunction());
+    if (criteria.getYear() != null) {
+      Integer year = criteria.getYear();
+      spec =
+          spec.and(
+              (root, query, cb) ->
+                  cb.or(
+                      cb.equal(
+                          cb.function(
+                              "date_part", Double.class, cb.literal("year"), root.get("startDate")),
+                          year.doubleValue()),
+                      cb.equal(
+                          cb.function(
+                              "date_part",
+                              Double.class,
+                              cb.literal("year"),
+                              root.get("contractSignatureDate")),
+                          year.doubleValue()),
+                      cb.equal(
+                          cb.function(
+                              "date_part", Double.class, cb.literal("year"), root.get("endDate")),
+                          year.doubleValue())));
+    }
+    if (criteria.getStatus() != null) {
+      spec = spec.and(equal(criteria.getStatus(), "status"));
+    }
+    if (criteria.getCompanyId() != null) {
+      spec = spec.and(equal(criteria.getCompanyId(), "company", "id"));
+    }
+    if (criteria.getDescription() != null) {
+      spec = spec.and(containsIgnoreCase(criteria.getDescription(), "description"));
+    }
+    return spec;
   }
 }

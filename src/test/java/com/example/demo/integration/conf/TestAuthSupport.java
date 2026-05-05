@@ -10,11 +10,11 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
-final class TestAuthSupport {
+public final class TestAuthSupport {
 
   private TestAuthSupport() {}
 
-  static void setUpJwtService(JwtUtils jwtServiceMock) {
+  public static void setUpJwtService(JwtUtils jwtServiceMock) {
     when(jwtServiceMock.getUserEmailFromJwtToken(anyString()))
         .thenAnswer(
             invocation -> {
@@ -61,7 +61,7 @@ final class TestAuthSupport {
             });
   }
 
-  static void setUpAuthenticationManager(AuthenticationManager authenticationManagerMock) {
+  public static void setUpAuthenticationManager(AuthenticationManager authenticationManagerMock) {
     when(authenticationManagerMock.authenticate(any()))
         .thenAnswer(
             invocation -> {
@@ -86,7 +86,7 @@ final class TestAuthSupport {
             });
   }
 
-  static ApiClient anApiClient(String token, int serverPort) {
+  public static ApiClient anApiClient(String token, int serverPort) {
     ApiClient client = new ApiClient();
     client.setScheme("http");
     client.setHost("localhost");

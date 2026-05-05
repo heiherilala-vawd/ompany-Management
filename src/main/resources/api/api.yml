@@ -16,6 +16,53 @@ security:
 
 paths:
 
+  /companies/{comp_id}/yearly-report:
+    get:
+      tags:
+        - Report
+      summary: Get yearly report with job financials
+      description: Returns all jobs for the specified year with their income/expense details, including ongoing (IN_PROGRESS) jobs
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: year
+          in: query
+          required: true
+          schema:
+            type: integer
+          example: 2024
+        - name: page
+          in: query
+          schema:
+            $ref: '#/components/schemas/Page'
+          example: 1
+        - name: page_size
+          in: query
+          schema:
+            $ref: '#/components/schemas/PageSize'
+          example: 20
+      responses:
+        '200':
+          description: Yearly report
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/YearlyReport'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+
   # =========================
   # USERS
   # =========================
@@ -6710,6 +6757,56 @@ components:
         description:
           type: string
           example: "Frais de carburant pour grues"
+
+    # =========================
+    # YEARLY REPORT
+    # =========================
+    JobWithFinancials:
+      type: object
+      properties:
+        job:
+          $ref: '#/components/schemas/Job'
+        total_income:
+          type: integer
+          description: "Total income amount for this job"
+          example: 500000
+        total_expense:
+          type: integer
+          description: "Total expense amount for this job"
+          example: 350000
+        net_profit:
+          type: integer
+          description: "Net profit (total_income - total_expense)"
+          example: 150000
+
+    YearlyReport:
+      type: object
+      properties:
+        year:
+          type: integer
+          example: 2024
+        jobs_with_financials:
+          type: array
+          items:
+            $ref: '#/components/schemas/JobWithFinancials'
+        summary:
+          type: object
+          properties:
+            total_income:
+              type: integer
+              example: 2000000
+            total_expense:
+              type: integer
+              example: 1500000
+            net_profit:
+              type: integer
+              example: 500000
+            job_count:
+              type: integer
+              example: 15
+            in_progress_job_count:
+              type: integer
+              example: 3
 
     # =========================
     # HISTORY
