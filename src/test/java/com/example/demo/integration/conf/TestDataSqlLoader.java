@@ -8,8 +8,7 @@ import org.springframework.jdbc.datasource.init.ScriptUtils;
 
 /**
  * Réexécute les scripts Flyway de {@code db/testdata} dans l'ordre (reset des données entre tests
- * d'intégration). L'ordre doit correspondre aux versions Flyway (V100_1 &lt; V100_2 &lt; … &lt;
- * V100_15).
+ * d'intégration). L'ordre doit correspondre aux dépendances FK entre jeux de données.
  */
 public final class TestDataSqlLoader {
 
@@ -22,6 +21,7 @@ public final class TestDataSqlLoader {
           "db/testdata/V100_5__testdata_warehouses.sql",
           "db/testdata/V100_6__testdata_equipment.sql",
           "db/testdata/V100_7__testdata_materials.sql",
+          "db/testdata/V100_7_1__testdata_income_types.sql",
           "db/testdata/V100_8__testdata_incomes.sql",
           "db/testdata/V100_9__testdata_expenses.sql",
           "db/testdata/V100_10__testdata_employee_payments.sql",

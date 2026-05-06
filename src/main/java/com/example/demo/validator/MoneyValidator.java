@@ -5,6 +5,7 @@ import com.example.demo.model.money.BankFee;
 import com.example.demo.model.money.EmployeePayment;
 import com.example.demo.model.money.ExpenseMoney;
 import com.example.demo.model.money.IncomeMoney;
+import com.example.demo.model.money.IncomeType;
 import com.example.demo.model.money.MonetaryMovement;
 import com.example.demo.model.money.OtherExpense;
 import com.example.demo.model.money.Purchase;
@@ -51,6 +52,9 @@ public class MoneyValidator {
     if (income.getSourceOrganization() == null || income.getSourceOrganization().isBlank()) {
       throw new BadRequestException("Source organization is mandatory for income");
     }
+    if (income.getIncomeType() == null || income.getIncomeType().getId() == null) {
+      throw new BadRequestException("Income type is mandatory for income");
+    }
   }
 
   public void validateIncomeMonies(List<IncomeMoney> incomes) {
@@ -58,6 +62,25 @@ public class MoneyValidator {
       throw new BadRequestException("Income list cannot be null or empty");
     }
     incomes.forEach(this::validateIncomeMoney);
+  }
+
+  public void validateIncomeType(IncomeType incomeType) {
+    if (incomeType == null) {
+      throw new BadRequestException("Income type cannot be null");
+    }
+    if (incomeType.getName() == null || incomeType.getName().isBlank()) {
+      throw new BadRequestException("Income type name is mandatory");
+    }
+    if (incomeType.getCompany() == null || incomeType.getCompany().getId() == null) {
+      throw new BadRequestException("Income type must be associated with a company");
+    }
+  }
+
+  public void validateIncomeTypes(List<IncomeType> incomeTypes) {
+    if (incomeTypes == null || incomeTypes.isEmpty()) {
+      throw new BadRequestException("Income type list cannot be null or empty");
+    }
+    incomeTypes.forEach(this::validateIncomeType);
   }
 
   public void validateEmployeePayment(EmployeePayment payment) {

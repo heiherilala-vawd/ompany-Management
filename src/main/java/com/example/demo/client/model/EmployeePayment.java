@@ -41,7 +41,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   EmployeePayment.JSON_PROPERTY_PAYMENT_DESCRIPTION,
   EmployeePayment.JSON_PROPERTY_PAYMENT_TYPE
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-05T22:30:06.514867984+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-06T21:17:50.851683362+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class EmployeePayment {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;

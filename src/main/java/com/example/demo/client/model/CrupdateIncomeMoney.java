@@ -25,6 +25,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Arrays;
+import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
@@ -35,12 +36,15 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   CrupdateIncomeMoney.JSON_PROPERTY_ID,
   CrupdateIncomeMoney.JSON_PROPERTY_SOURCE_ORGANIZATION,
   CrupdateIncomeMoney.JSON_PROPERTY_INVOICE_REFERENCE,
+  CrupdateIncomeMoney.JSON_PROPERTY_BILLING_START_DATE,
+  CrupdateIncomeMoney.JSON_PROPERTY_MONEY_ARRIVAL_DATE,
   CrupdateIncomeMoney.JSON_PROPERTY_JOB_ID,
+  CrupdateIncomeMoney.JSON_PROPERTY_INCOME_TYPE_ID,
   CrupdateIncomeMoney.JSON_PROPERTY_AMOUNT,
   CrupdateIncomeMoney.JSON_PROPERTY_DESCRIPTION,
   CrupdateIncomeMoney.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-05T22:30:06.514867984+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-06T21:17:50.851683362+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdateIncomeMoney {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -51,8 +55,17 @@ public class CrupdateIncomeMoney {
   public static final String JSON_PROPERTY_INVOICE_REFERENCE = "invoice_reference";
   private String invoiceReference;
 
+  public static final String JSON_PROPERTY_BILLING_START_DATE = "billing_start_date";
+  private java.time.LocalDate billingStartDate;
+
+  public static final String JSON_PROPERTY_MONEY_ARRIVAL_DATE = "money_arrival_date";
+  private java.time.LocalDate moneyArrivalDate;
+
   public static final String JSON_PROPERTY_JOB_ID = "job_id";
   private String jobId;
+
+  public static final String JSON_PROPERTY_INCOME_TYPE_ID = "income_type_id";
+  private String incomeTypeId;
 
   public static final String JSON_PROPERTY_AMOUNT = "amount";
   private Integer amount;
@@ -141,6 +154,56 @@ public class CrupdateIncomeMoney {
   }
 
 
+  public CrupdateIncomeMoney billingStartDate(java.time.LocalDate billingStartDate) {
+    this.billingStartDate = billingStartDate;
+    return this;
+  }
+
+   /**
+   * Get billingStartDate
+   * @return billingStartDate
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_BILLING_START_DATE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public java.time.LocalDate getBillingStartDate() {
+    return billingStartDate;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_BILLING_START_DATE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setBillingStartDate(java.time.LocalDate billingStartDate) {
+    this.billingStartDate = billingStartDate;
+  }
+
+
+  public CrupdateIncomeMoney moneyArrivalDate(java.time.LocalDate moneyArrivalDate) {
+    this.moneyArrivalDate = moneyArrivalDate;
+    return this;
+  }
+
+   /**
+   * Get moneyArrivalDate
+   * @return moneyArrivalDate
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_MONEY_ARRIVAL_DATE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public java.time.LocalDate getMoneyArrivalDate() {
+    return moneyArrivalDate;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_MONEY_ARRIVAL_DATE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setMoneyArrivalDate(java.time.LocalDate moneyArrivalDate) {
+    this.moneyArrivalDate = moneyArrivalDate;
+  }
+
+
   public CrupdateIncomeMoney jobId(String jobId) {
     this.jobId = jobId;
     return this;
@@ -163,6 +226,31 @@ public class CrupdateIncomeMoney {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setJobId(String jobId) {
     this.jobId = jobId;
+  }
+
+
+  public CrupdateIncomeMoney incomeTypeId(String incomeTypeId) {
+    this.incomeTypeId = incomeTypeId;
+    return this;
+  }
+
+   /**
+   * ID of the income type associated with this income
+   * @return incomeTypeId
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_INCOME_TYPE_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getIncomeTypeId() {
+    return incomeTypeId;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_INCOME_TYPE_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setIncomeTypeId(String incomeTypeId) {
+    this.incomeTypeId = incomeTypeId;
   }
 
 
@@ -256,7 +344,10 @@ public class CrupdateIncomeMoney {
     return Objects.equals(this.id, crupdateIncomeMoney.id) &&
         Objects.equals(this.sourceOrganization, crupdateIncomeMoney.sourceOrganization) &&
         Objects.equals(this.invoiceReference, crupdateIncomeMoney.invoiceReference) &&
+        Objects.equals(this.billingStartDate, crupdateIncomeMoney.billingStartDate) &&
+        Objects.equals(this.moneyArrivalDate, crupdateIncomeMoney.moneyArrivalDate) &&
         Objects.equals(this.jobId, crupdateIncomeMoney.jobId) &&
+        Objects.equals(this.incomeTypeId, crupdateIncomeMoney.incomeTypeId) &&
         Objects.equals(this.amount, crupdateIncomeMoney.amount) &&
         Objects.equals(this.description, crupdateIncomeMoney.description) &&
         Objects.equals(this.comment, crupdateIncomeMoney.comment);
@@ -264,7 +355,7 @@ public class CrupdateIncomeMoney {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, sourceOrganization, invoiceReference, jobId, amount, description, comment);
+    return Objects.hash(id, sourceOrganization, invoiceReference, billingStartDate, moneyArrivalDate, jobId, incomeTypeId, amount, description, comment);
   }
 
   @Override
@@ -274,7 +365,10 @@ public class CrupdateIncomeMoney {
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    sourceOrganization: ").append(toIndentedString(sourceOrganization)).append("\n");
     sb.append("    invoiceReference: ").append(toIndentedString(invoiceReference)).append("\n");
+    sb.append("    billingStartDate: ").append(toIndentedString(billingStartDate)).append("\n");
+    sb.append("    moneyArrivalDate: ").append(toIndentedString(moneyArrivalDate)).append("\n");
     sb.append("    jobId: ").append(toIndentedString(jobId)).append("\n");
+    sb.append("    incomeTypeId: ").append(toIndentedString(incomeTypeId)).append("\n");
     sb.append("    amount: ").append(toIndentedString(amount)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("    comment: ").append(toIndentedString(comment)).append("\n");

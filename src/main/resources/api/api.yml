@@ -2496,6 +2496,132 @@ paths:
 
 
   # =========================
+  # INCOME TYPE
+  # =========================
+  /companies/{comp_id}/income_types:
+    get:
+      tags:
+        - IncomeType
+      summary: Get all income types for a company
+      operationId: getIncomeTypes
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+      responses:
+        '200':
+          description: List of income types
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/IncomeType'
+              example:
+                - id: "income_type_001"
+                  name: "Facturation client"
+                  description: "Revenus issus de la facturation client"
+                  company_id: "comp_btp001"
+                - id: "income_type_002"
+                  name: "Subvention"
+                  description: "Aides et subventions recues"
+                  company_id: "comp_btp001"
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      tags:
+        - IncomeType
+      summary: Create new income types or update existing ones
+      operationId: crupdateIncomeTypes
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/CrupdateIncomeType'
+            example:
+              - id: "income_type_001"
+                name: "Facturation client"
+                description: "Revenus issus de la facturation client"
+                company_id: "comp_btp001"
+                comment: "Type principal"
+              - name: "Don"
+                description: "Dons et apports exceptionnels"
+                company_id: "comp_btp001"
+                comment: "Nouveau type"
+      responses:
+        '200':
+          description: The created or updated income types
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/IncomeType'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /companies/{comp_id}/income_types/{id}:
+    delete:
+      tags:
+        - IncomeType
+      summary: Delete an income type by identifier
+      operationId: deleteIncomeTypeById
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "income_type_001"
+      responses:
+        '204':
+          description: Income type deleted successfully
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+
+  # =========================
   # INCOME
   # =========================
   '/companies/{comp_id}/job/{job_id}/user/{user_id}/incomes/{id}':
@@ -2541,11 +2667,18 @@ paths:
                 amount: 50000
                 source_organization: "Client Principal"
                 invoice_reference: "FACT-2024-001"
+                billing_start_date: "2024-01-15"
+                money_arrival_date: "2024-02-01"
                 description: "Premier acompte pour le chantier"
                 job:
                   id: "job_001"
                   company_id: "comp_btp001"
                   description: "Construction d'un entrepôt logistique"
+                income_type:
+                  id: "income_type_001"
+                  name: "Facturation client"
+                  description: "Revenus issus de la facturation client"
+                  company_id: "comp_btp001"
                 comment: "Acompte 30%"
                 created_at: "2024-02-01T11:00:00Z"
                 updated_at: "2024-02-01T11:00:00Z"
@@ -2688,9 +2821,16 @@ paths:
                   amount: 50000
                   source_organization: "Client Principal"
                   invoice_reference: "FACT-2024-001"
+                  billing_start_date: "2024-01-15"
+                  money_arrival_date: "2024-02-01"
                   description: "Premier acompte pour le chantier"
                   job:
                     id: "job_001"
+                    company_id: "comp_btp001"
+                  income_type:
+                    id: "income_type_001"
+                    name: "Facturation client"
+                    description: "Revenus issus de la facturation client"
                     company_id: "comp_btp001"
                   comment: "Acompte 30%"
                   created_at: "2024-02-01T11:00:00Z"
@@ -2713,9 +2853,16 @@ paths:
                   amount: 50000
                   source_organization: "Client Principal"
                   invoice_reference: "FACT-2024-002"
+                  billing_start_date: "2024-02-10"
+                  money_arrival_date: "2024-02-15"
                   description: "Deuxième acompte"
                   job:
                     id: "job_001"
+                    company_id: "comp_btp001"
+                  income_type:
+                    id: "income_type_001"
+                    name: "Facturation client"
+                    description: "Revenus issus de la facturation client"
                     company_id: "comp_btp001"
                   comment: "Acompte 30% - Phase 2"
                   created_at: "2024-02-15T09:30:00Z"
@@ -2781,12 +2928,18 @@ paths:
                 amount: 55000
                 source_organization: "Client Principal"
                 invoice_reference: "FACT-2024-001"
+                billing_start_date: "2024-01-15"
+                money_arrival_date: "2024-02-01"
+                income_type_id: "income_type_001"
                 description: "Premier acompte pour le chantier (révisé)"
                 job_id: "job_001"
                 comment: "Acompte révisé à 33%"
               - amount: 40000
                 source_organization: "Subvention"
                 invoice_reference: "SUB-2024-01"
+                billing_start_date: "2024-02-20"
+                money_arrival_date: "2024-02-28"
+                income_type_id: "income_type_002"
                 description: "Aide à la construction"
                 job_id: "job_001"
                 comment: "Subvention région"
@@ -2804,9 +2957,16 @@ paths:
                   amount: 55000
                   source_organization: "Client Principal"
                   invoice_reference: "FACT-2024-001"
+                  billing_start_date: "2024-01-15"
+                  money_arrival_date: "2024-02-01"
                   description: "Premier acompte pour le chantier (révisé)"
                   job:
                     id: "job_001"
+                    company_id: "comp_btp001"
+                  income_type:
+                    id: "income_type_001"
+                    name: "Facturation client"
+                    description: "Revenus issus de la facturation client"
                     company_id: "comp_btp001"
                   comment: "Acompte révisé à 33%"
                   created_at: "2024-02-01T11:00:00Z"
@@ -2829,9 +2989,16 @@ paths:
                   amount: 40000
                   source_organization: "Subvention"
                   invoice_reference: "SUB-2024-01"
+                  billing_start_date: "2024-02-20"
+                  money_arrival_date: "2024-02-28"
                   description: "Aide à la construction"
                   job:
                     id: "job_001"
+                    company_id: "comp_btp001"
+                  income_type:
+                    id: "income_type_002"
+                    name: "Subvention"
+                    description: "Aides et subventions recues"
                     company_id: "comp_btp001"
                   comment: "Subvention région"
                   created_at: "2024-02-22T15:00:00Z"
@@ -5620,6 +5787,7 @@ components:
         - EQUIPMENT
         - MATERIAL
         - INCOMEMONEY
+        - INCOMETYPE
         - EXPENSEMONEY
         - EMPLOYEE_PAYMENT
         - TRAVEL_EXPENSE
@@ -6012,6 +6180,44 @@ components:
           example: "Achat de matériaux pour le chantier"
 
     # =========================
+    # INCOME TYPE
+    # =========================
+    IncomeType:
+      allOf:
+        - $ref: '#/components/schemas/AuditFields'
+      properties:
+        id:
+          type: string
+          example: "income_type_001"
+        name:
+          type: string
+          example: "Facturation client"
+        description:
+          type: string
+          example: "Revenus issus de la facturation client"
+        company_id:
+          type: string
+          description: "ID of the company this income type belongs to"
+          example: "comp_btp001"
+    CrupdateIncomeType:
+      allOf:
+        - $ref: '#/components/schemas/comment'
+      properties:
+        id:
+          type: string
+          example: "income_type_001"
+        name:
+          type: string
+          example: "Facturation client"
+        description:
+          type: string
+          example: "Revenus issus de la facturation client"
+        company_id:
+          type: string
+          description: "ID of the company this income type belongs to"
+          example: "comp_btp001"
+
+    # =========================
     # INCOME
     # =========================
     IncomeMoney:
@@ -6027,10 +6233,22 @@ components:
         invoice_reference:
           type: string
           example: "FACT-2024-001"
+        billing_start_date:
+          type: string
+          format: date
+          example: "2024-01-15"
+        money_arrival_date:
+          type: string
+          format: date
+          example: "2024-02-01"
         job:
           allOf:
             - $ref: '#/components/schemas/CrupdateJob'
           description: "Job this income is related to"
+        income_type:
+          allOf:
+            - $ref: '#/components/schemas/IncomeType'
+          description: "Type of income associated with this income"
     CrupdateIncomeMoney:
       allOf:
         - $ref: '#/components/schemas/CrupdateMonetaryMovement'
@@ -6044,10 +6262,22 @@ components:
         invoice_reference:
           type: string
           example: "FACT-2024-001"
+        billing_start_date:
+          type: string
+          format: date
+          example: "2024-01-15"
+        money_arrival_date:
+          type: string
+          format: date
+          example: "2024-02-01"
         job_id:
           type: string
           description: "ID of the job this income is related to"
           example: "job_001"
+        income_type_id:
+          type: string
+          description: "ID of the income type associated with this income"
+          example: "income_type_001"
 
     # =========================
     # EXPENSE
