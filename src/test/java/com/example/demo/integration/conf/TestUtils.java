@@ -14,6 +14,7 @@ import com.example.demo.client.model.CrupdateEmployeePayment;
 import com.example.demo.client.model.CrupdateEquipment;
 import com.example.demo.client.model.CrupdateExpenseMoney;
 import com.example.demo.client.model.CrupdateIncomeMoney;
+import com.example.demo.client.model.CrupdateIncomeType;
 import com.example.demo.client.model.CrupdateJob;
 import com.example.demo.client.model.CrupdateMaterial;
 import com.example.demo.client.model.CrupdateOtherExpense;
@@ -28,6 +29,7 @@ import com.example.demo.client.model.EmployeePayment;
 import com.example.demo.client.model.Equipment;
 import com.example.demo.client.model.ExpenseMoney;
 import com.example.demo.client.model.IncomeMoney;
+import com.example.demo.client.model.IncomeType;
 import com.example.demo.client.model.Job;
 import com.example.demo.client.model.Material;
 import com.example.demo.client.model.OtherExpense;
@@ -76,6 +78,9 @@ public class TestUtils {
   public static final String MATERIAL3_ID = "material3_id";
   public static final String INCOME1_ID = "income1_id";
   public static final String INCOME2_ID = "income2_id";
+  public static final String INCOME_TYPE1_ID = "income_type1_id";
+  public static final String INCOME_TYPE2_ID = "income_type2_id";
+  public static final String INCOME_TYPE3_ID = "income_type3_id";
   public static final String EXPENSE1_ID = "expense1_id";
   public static final String EXPENSE2_ID = "expense2_id";
   public static final String BANK_FEE1_ID = "bank_fee1_id";
@@ -284,6 +289,22 @@ public class TestUtils {
 
   public static IncomeMoney income2() {
     return TestMoneyFixtures.income2();
+  }
+
+  public static IncomeType incomeType1() {
+    return TestMoneyFixtures.incomeType1();
+  }
+
+  public static IncomeType incomeType2() {
+    return TestMoneyFixtures.incomeType2();
+  }
+
+  public static CrupdateIncomeType incomeTypeToCrupdateIncomeType(IncomeType incomeType) {
+    return TestMoneyFixtures.incomeTypeToCrupdateIncomeType(incomeType);
+  }
+
+  public static CrupdateIncomeType someCreatableIncomeType() {
+    return TestMoneyFixtures.someCreatableIncomeType();
   }
 
   public static CrupdateIncomeMoney incomeToCrupdateIncome(IncomeMoney income) {

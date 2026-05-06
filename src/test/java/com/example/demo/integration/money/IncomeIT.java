@@ -59,6 +59,11 @@ class IncomeIT {
     expected.setCreatedBy(actual.getCreatedBy());
     expected.setUpdatedBy(actual.getUpdatedBy());
     expected.setComment(actual.getComment());
+    expected.getIncomeType().setCreatedAt(actual.getIncomeType().getCreatedAt());
+    expected.getIncomeType().setUpdatedAt(actual.getIncomeType().getUpdatedAt());
+    expected.getIncomeType().setCreatedBy(actual.getIncomeType().getCreatedBy());
+    expected.getIncomeType().setUpdatedBy(actual.getIncomeType().getUpdatedBy());
+    expected.getIncomeType().setComment(actual.getIncomeType().getComment());
 
     assertEquals(expected, actual);
   }

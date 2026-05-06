@@ -156,6 +156,16 @@ public class SecurityConfiguration {
                     .hasAnyRole("ADMIN", "WAREHOUSE_WORKER", "EMPLOYEE", "ADMINISTRATION")
 
                     // =========================
+                    // INCOME TYPE
+                    // =========================
+                    .requestMatchers(GET, "/companies/*/income_types")
+                    .authenticated()
+                    .requestMatchers(PUT, "/companies/*/income_types")
+                    .authenticated()
+                    .requestMatchers(DELETE, "/companies/*/income_types/*")
+                    .hasRole("ADMIN")
+
+                    // =========================
                     // TRAVEL EXPENSE
                     // =========================
                     .requestMatchers(

@@ -7,15 +7,18 @@ import com.example.demo.client.model.CrupdateBankFee;
 import com.example.demo.client.model.CrupdateEmployeePayment;
 import com.example.demo.client.model.CrupdateExpenseMoney;
 import com.example.demo.client.model.CrupdateIncomeMoney;
+import com.example.demo.client.model.CrupdateIncomeType;
 import com.example.demo.client.model.CrupdateOtherExpense;
 import com.example.demo.client.model.CrupdatePurchase;
 import com.example.demo.client.model.CrupdateWarehouse;
 import com.example.demo.client.model.EmployeePayment;
 import com.example.demo.client.model.ExpenseMoney;
 import com.example.demo.client.model.IncomeMoney;
+import com.example.demo.client.model.IncomeType;
 import com.example.demo.client.model.OtherExpense;
 import com.example.demo.client.model.PaymentType;
 import com.example.demo.client.model.Purchase;
+import java.time.LocalDate;
 import java.util.UUID;
 
 final class TestMoneyFixtures {
@@ -28,6 +31,9 @@ final class TestMoneyFixtures {
     income.setJob(TestOrganizationFixtures.jobToCrupdateJob(TestOrganizationFixtures.job1()));
     income.setSourceOrganization("Client Alpha");
     income.setInvoiceReference("INV-2024-001");
+    income.setBillingStartDate(LocalDate.of(2024, 1, 15));
+    income.setMoneyArrivalDate(LocalDate.of(2024, 2, 1));
+    income.setIncomeType(incomeType1());
     income.setAmount(150000);
     income.setDescription("Paiement initial chantier A");
     return income;
@@ -39,9 +45,49 @@ final class TestMoneyFixtures {
     income.setJob(TestOrganizationFixtures.jobToCrupdateJob(TestOrganizationFixtures.job1()));
     income.setSourceOrganization("Client Beta");
     income.setInvoiceReference("INV-2024-002");
+    income.setBillingStartDate(LocalDate.of(2024, 2, 10));
+    income.setMoneyArrivalDate(LocalDate.of(2024, 2, 15));
+    income.setIncomeType(incomeType1());
     income.setAmount(275000);
     income.setDescription("Paiement avance renovation hotel");
     return income;
+  }
+
+  static IncomeType incomeType1() {
+    IncomeType incomeType = new IncomeType();
+    incomeType.setId(TestUtils.INCOME_TYPE1_ID);
+    incomeType.setName("Facturation client");
+    incomeType.setDescription("Revenus issus de la facturation client");
+    incomeType.setCompanyId(TestUtils.COMPANY1_ID);
+    return incomeType;
+  }
+
+  static IncomeType incomeType2() {
+    IncomeType incomeType = new IncomeType();
+    incomeType.setId(TestUtils.INCOME_TYPE2_ID);
+    incomeType.setName("Subvention");
+    incomeType.setDescription("Aides et subventions recues");
+    incomeType.setCompanyId(TestUtils.COMPANY1_ID);
+    return incomeType;
+  }
+
+  static CrupdateIncomeType incomeTypeToCrupdateIncomeType(IncomeType incomeType) {
+    CrupdateIncomeType crupdateIncomeType = new CrupdateIncomeType();
+    crupdateIncomeType.setId(incomeType.getId());
+    crupdateIncomeType.setName(incomeType.getName());
+    crupdateIncomeType.setDescription(incomeType.getDescription());
+    crupdateIncomeType.setCompanyId(incomeType.getCompanyId());
+    crupdateIncomeType.setComment(incomeType.getComment());
+    return crupdateIncomeType;
+  }
+
+  static CrupdateIncomeType someCreatableIncomeType() {
+    CrupdateIncomeType incomeType = new CrupdateIncomeType();
+    incomeType.setId(UUID.randomUUID().toString());
+    incomeType.setName("Don");
+    incomeType.setDescription("Dons et apports exceptionnels");
+    incomeType.setCompanyId(TestUtils.COMPANY1_ID);
+    return incomeType;
   }
 
   static CrupdateIncomeMoney incomeToCrupdateIncome(IncomeMoney income) {
@@ -49,6 +95,10 @@ final class TestMoneyFixtures {
     crupdateIncome.setId(income.getId());
     crupdateIncome.setSourceOrganization(income.getSourceOrganization());
     crupdateIncome.setInvoiceReference(income.getInvoiceReference());
+    crupdateIncome.setBillingStartDate(income.getBillingStartDate());
+    crupdateIncome.setMoneyArrivalDate(income.getMoneyArrivalDate());
+    crupdateIncome.setIncomeTypeId(
+        income.getIncomeType() != null ? income.getIncomeType().getId() : null);
     crupdateIncome.setAmount(income.getAmount());
     crupdateIncome.setDescription(income.getDescription());
     crupdateIncome.setComment(income.getComment());
@@ -60,6 +110,9 @@ final class TestMoneyFixtures {
     income.setId(UUID.randomUUID().toString());
     income.setSourceOrganization("Client Gamma");
     income.setInvoiceReference("INV-2024-003");
+    income.setBillingStartDate(LocalDate.of(2024, 3, 1));
+    income.setMoneyArrivalDate(LocalDate.of(2024, 3, 15));
+    income.setIncomeTypeId(TestUtils.INCOME_TYPE2_ID);
     income.setAmount(99000);
     income.setDescription("Paiement complementaire");
     return income;
