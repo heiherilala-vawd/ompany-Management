@@ -38,11 +38,13 @@ public class MaterialController {
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
       @RequestParam(name = "name", required = false) String name,
       @RequestParam(name = "description", required = false) String description,
-      @RequestParam(name = "unit", required = false) MaterialUnit unit) {
+      @RequestParam(name = "unit", required = false) MaterialUnit unit,
+      @RequestParam(name = "not_arrived", required = false) Boolean notArrived) {
     MaterialCriteria criteria = new MaterialCriteria();
     criteria.setName(name);
     criteria.setDescription(description);
     criteria.setUnit(EnumMapper.mapEnum(unit, com.example.demo.model.movement.Material.Unit.class));
+    criteria.setNotArrived(notArrived);
 
     return materialService.findAll(page, pageSize, criteria).stream()
         .map(materialMapper::toRestMaterial)

@@ -50,7 +50,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-06T21:17:50.851683362+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-07T18:02:33.387423763+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class EquipmentApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -266,11 +266,12 @@ public class EquipmentApi {
    * @param description Filter equipment by description, case is ignored (optional)
    * @param floorNumber  (optional)
    * @param storageNumber  (optional)
+   * @param notArrived Filter equipment not yet arrived (in route or at seller warehouse) (optional)
    * @return List&lt;Equipment&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<Equipment> getEquipment(String compId, Integer page, Integer pageSize, String warehouseId, String name, String description, Integer floorNumber, Integer storageNumber) throws ApiException {
-    ApiResponse<List<Equipment>> localVarResponse = getEquipmentWithHttpInfo(compId, page, pageSize, warehouseId, name, description, floorNumber, storageNumber);
+  public List<Equipment> getEquipment(String compId, Integer page, Integer pageSize, String warehouseId, String name, String description, Integer floorNumber, Integer storageNumber, Boolean notArrived) throws ApiException {
+    ApiResponse<List<Equipment>> localVarResponse = getEquipmentWithHttpInfo(compId, page, pageSize, warehouseId, name, description, floorNumber, storageNumber, notArrived);
     return localVarResponse.getData();
   }
 
@@ -285,11 +286,12 @@ public class EquipmentApi {
    * @param description Filter equipment by description, case is ignored (optional)
    * @param floorNumber  (optional)
    * @param storageNumber  (optional)
+   * @param notArrived Filter equipment not yet arrived (in route or at seller warehouse) (optional)
    * @return ApiResponse&lt;List&lt;Equipment&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<Equipment>> getEquipmentWithHttpInfo(String compId, Integer page, Integer pageSize, String warehouseId, String name, String description, Integer floorNumber, Integer storageNumber) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getEquipmentRequestBuilder(compId, page, pageSize, warehouseId, name, description, floorNumber, storageNumber);
+  public ApiResponse<List<Equipment>> getEquipmentWithHttpInfo(String compId, Integer page, Integer pageSize, String warehouseId, String name, String description, Integer floorNumber, Integer storageNumber, Boolean notArrived) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getEquipmentRequestBuilder(compId, page, pageSize, warehouseId, name, description, floorNumber, storageNumber, notArrived);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -317,7 +319,7 @@ public class EquipmentApi {
     }
   }
 
-  private HttpRequest.Builder getEquipmentRequestBuilder(String compId, Integer page, Integer pageSize, String warehouseId, String name, String description, Integer floorNumber, Integer storageNumber) throws ApiException {
+  private HttpRequest.Builder getEquipmentRequestBuilder(String compId, Integer page, Integer pageSize, String warehouseId, String name, String description, Integer floorNumber, Integer storageNumber, Boolean notArrived) throws ApiException {
     // verify the required parameter 'compId' is set
     if (compId == null) {
       throw new ApiException(400, "Missing the required parameter 'compId' when calling getEquipment");
@@ -345,6 +347,8 @@ public class EquipmentApi {
     localVarQueryParams.addAll(ApiClient.parameterToPairs("floor_number", floorNumber));
     localVarQueryParameterBaseName = "storage_number";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("storage_number", storageNumber));
+    localVarQueryParameterBaseName = "not_arrived";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("not_arrived", notArrived));
 
     if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
       StringJoiner queryJoiner = new StringJoiner("&");

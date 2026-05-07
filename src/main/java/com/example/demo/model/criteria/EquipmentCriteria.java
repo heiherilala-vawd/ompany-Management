@@ -11,4 +11,5 @@ public class EquipmentCriteria {
   private String description;
   private Integer floorNumber;
   private Integer storageNumber;
+  private Boolean notArrived;
 }
