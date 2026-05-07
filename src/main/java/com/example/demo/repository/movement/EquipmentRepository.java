@@ -7,6 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -23,4 +25,8 @@ public interface EquipmentRepository
   List<Equipment> findByFloorNumber(Integer floorNumber);
 
   boolean existsByNameAndWarehouseId(String name, String warehouseId);
+
+  @Query("SELECT e FROM Equipment e WHERE e.warehouse.id IN (:routeId, :atSellerId)")
+  Page<Equipment> findNotArrived(
+      @Param("routeId") String routeId, @Param("atSellerId") String atSellerId, Pageable pageable);
 }

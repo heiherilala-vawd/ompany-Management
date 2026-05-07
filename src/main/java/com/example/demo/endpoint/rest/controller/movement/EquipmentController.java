@@ -39,13 +39,15 @@ public class EquipmentController {
       @RequestParam(name = "name", required = false) String name,
       @RequestParam(name = "description", required = false) String description,
       @RequestParam(name = "floor_number", required = false) Integer floorNumber,
-      @RequestParam(name = "storage_number", required = false) Integer storageNumber) {
+      @RequestParam(name = "storage_number", required = false) Integer storageNumber,
+      @RequestParam(name = "not_arrived", required = false) Boolean notArrived) {
     EquipmentCriteria criteria = new EquipmentCriteria();
     criteria.setWarehouseId(warehouseId);
     criteria.setName(name);
     criteria.setDescription(description);
     criteria.setFloorNumber(floorNumber);
     criteria.setStorageNumber(storageNumber);
+    criteria.setNotArrived(notArrived);
 
     return equipmentService.findAll(page, pageSize, criteria).stream()
         .map(equipmentMapper::toRestEquipment)

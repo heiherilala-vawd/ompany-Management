@@ -1694,6 +1694,12 @@ paths:
           schema:
             type: integer
           example: 5
+        - name: not_arrived
+          in: query
+          description: "Filter equipment not yet arrived (in route or at seller warehouse)"
+          schema:
+            type: boolean
+          example: true
       responses:
         '200':
           description: List of equipment
@@ -1984,6 +1990,12 @@ paths:
           schema:
             $ref: '#/components/schemas/MaterialUnit'
           example: "SAC"
+        - name: not_arrived
+          in: query
+          description: "Filter materials not yet arrived (with quantity > 0 in route or at seller warehouse)"
+          schema:
+            type: boolean
+          example: true
       responses:
         '200':
           description: List of materials

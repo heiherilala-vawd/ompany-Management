@@ -76,12 +76,15 @@ class EquipmentIT {
     ApiClient employeeClient = anApiClient(EMPLOYEE_TOKEN);
     EquipmentApi api = new EquipmentApi(employeeClient);
 
-    List<Equipment> equipment = api.getEquipment(COMPANY1_ID, 1, 100, null, null, null, null, null);
+    List<Equipment> equipment =
+        api.getEquipment(COMPANY1_ID, 1, 100, null, null, null, null, null, null);
 
-    assertEquals(3, equipment.size());
+    assertEquals(5, equipment.size());
     assertTrue(equipment.stream().anyMatch(item -> EQUIPMENT1_ID.equals(item.getId())));
     assertTrue(equipment.stream().anyMatch(item -> EQUIPMENT2_ID.equals(item.getId())));
     assertTrue(equipment.stream().anyMatch(item -> EQUIPMENT3_ID.equals(item.getId())));
+    assertTrue(equipment.stream().anyMatch(item -> EQUIPMENT4_ID.equals(item.getId())));
+    assertTrue(equipment.stream().anyMatch(item -> EQUIPMENT5_ID.equals(item.getId())));
   }
 
   @Test
@@ -90,7 +93,7 @@ class EquipmentIT {
     EquipmentApi api = new EquipmentApi(employeeClient);
 
     List<Equipment> equipment =
-        api.getEquipment(COMPANY1_ID, 1, 100, WAREHOUSE2_ID, null, null, null, null);
+        api.getEquipment(COMPANY1_ID, 1, 100, WAREHOUSE2_ID, null, null, null, null, null);
 
     assertEquals(1, equipment.size());
     assertEquals(EQUIPMENT3_ID, equipment.get(0).getId());
@@ -102,7 +105,7 @@ class EquipmentIT {
     EquipmentApi api = new EquipmentApi(employeeClient);
 
     List<Equipment> equipment =
-        api.getEquipment(COMPANY1_ID, 1, 100, null, "Bétonnière", null, null, null);
+        api.getEquipment(COMPANY1_ID, 1, 100, null, "Bétonnière", null, null, null, null);
 
     assertEquals(1, equipment.size());
     assertEquals(EQUIPMENT2_ID, equipment.get(0).getId());
@@ -114,7 +117,7 @@ class EquipmentIT {
     EquipmentApi api = new EquipmentApi(employeeClient);
 
     List<Equipment> equipment =
-        api.getEquipment(COMPANY1_ID, 1, 100, null, null, "extérieure", null, null);
+        api.getEquipment(COMPANY1_ID, 1, 100, null, null, "extérieure", null, null, null);
 
     assertEquals(1, equipment.size());
     assertEquals(EQUIPMENT3_ID, equipment.get(0).getId());
@@ -125,7 +128,8 @@ class EquipmentIT {
     ApiClient employeeClient = anApiClient(EMPLOYEE_TOKEN);
     EquipmentApi api = new EquipmentApi(employeeClient);
 
-    List<Equipment> equipment = api.getEquipment(COMPANY1_ID, 1, 100, null, null, null, 2, null);
+    List<Equipment> equipment =
+        api.getEquipment(COMPANY1_ID, 1, 100, null, null, null, 2, null, null);
 
     assertEquals(1, equipment.size());
     assertEquals(EQUIPMENT3_ID, equipment.get(0).getId());
@@ -136,7 +140,8 @@ class EquipmentIT {
     ApiClient employeeClient = anApiClient(EMPLOYEE_TOKEN);
     EquipmentApi api = new EquipmentApi(employeeClient);
 
-    List<Equipment> equipment = api.getEquipment(COMPANY1_ID, 1, 100, null, null, null, null, 10);
+    List<Equipment> equipment =
+        api.getEquipment(COMPANY1_ID, 1, 100, null, null, null, null, 10, null);
 
     assertEquals(1, equipment.size());
     assertEquals(EQUIPMENT1_ID, equipment.get(0).getId());
@@ -202,6 +207,33 @@ class EquipmentIT {
     assertThrowsApiException(
         "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Equipment must be associated with a warehouse\"}",
         () -> api.crupdateEquipment(COMPANY1_ID, List.of(invalidEquipment)));
+  }
+
+  @Test
+  void admin_can_filter_not_arrived_equipment() throws Exception {
+    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
+    EquipmentApi api = new EquipmentApi(adminClient);
+
+    List<Equipment> notArrivedEquipment =
+        api.getEquipment(COMPANY1_ID, 1, 100, null, null, null, null, null, true);
+
+    assertEquals(2, notArrivedEquipment.size());
+    assertTrue(notArrivedEquipment.stream().anyMatch(e -> EQUIPMENT4_ID.equals(e.getId())));
+    assertTrue(notArrivedEquipment.stream().anyMatch(e -> EQUIPMENT5_ID.equals(e.getId())));
+    assertFalse(notArrivedEquipment.stream().anyMatch(e -> EQUIPMENT1_ID.equals(e.getId())));
+    assertFalse(notArrivedEquipment.stream().anyMatch(e -> EQUIPMENT2_ID.equals(e.getId())));
+    assertFalse(notArrivedEquipment.stream().anyMatch(e -> EQUIPMENT3_ID.equals(e.getId())));
+  }
+
+  @Test
+  void admin_gets_all_equipment_when_not_arrived_is_false() throws Exception {
+    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
+    EquipmentApi api = new EquipmentApi(adminClient);
+
+    List<Equipment> equipment =
+        api.getEquipment(COMPANY1_ID, 1, 100, null, null, null, null, null, false);
+
+    assertEquals(5, equipment.size());
   }
 
   static class ContextInitializer extends AbstractContextInitializer {

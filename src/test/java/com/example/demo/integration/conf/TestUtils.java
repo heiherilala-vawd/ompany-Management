@@ -73,6 +73,8 @@ public class TestUtils {
   public static final String EQUIPMENT1_ID = "equipment1_id";
   public static final String EQUIPMENT2_ID = "equipment2_id";
   public static final String EQUIPMENT3_ID = "equipment3_id";
+  public static final String EQUIPMENT4_ID = "equipment4_id";
+  public static final String EQUIPMENT5_ID = "equipment5_id";
   public static final String MATERIAL1_ID = "material1_id";
   public static final String MATERIAL2_ID = "material2_id";
   public static final String MATERIAL3_ID = "material3_id";

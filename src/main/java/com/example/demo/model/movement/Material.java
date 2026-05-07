@@ -32,6 +32,10 @@ public class Material extends CreatAndUpdateEntity implements Serializable {
   @org.hibernate.annotations.JdbcTypeCode(org.hibernate.type.SqlTypes.NAMED_ENUM)
   private Unit unit;
 
+  @OneToMany(mappedBy = "material", cascade = CascadeType.ALL, orphanRemoval = true)
+  @ToString.Exclude
+  private java.util.List<MaterialWarehouse> materialWarehouses = new java.util.ArrayList<>();
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;

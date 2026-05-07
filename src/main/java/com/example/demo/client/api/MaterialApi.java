@@ -51,7 +51,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-06T21:17:50.851683362+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-07T18:02:33.387423763+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class MaterialApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -323,11 +323,12 @@ public class MaterialApi {
    * @param name Filter materials by name, case is ignored (optional)
    * @param description Filter materials by description, case is ignored (optional)
    * @param unit  (optional)
+   * @param notArrived Filter materials not yet arrived (with quantity &gt; 0 in route or at seller warehouse) (optional)
    * @return List&lt;Material&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<Material> getMaterials(Integer page, Integer pageSize, String name, String description, MaterialUnit unit) throws ApiException {
-    ApiResponse<List<Material>> localVarResponse = getMaterialsWithHttpInfo(page, pageSize, name, description, unit);
+  public List<Material> getMaterials(Integer page, Integer pageSize, String name, String description, MaterialUnit unit, Boolean notArrived) throws ApiException {
+    ApiResponse<List<Material>> localVarResponse = getMaterialsWithHttpInfo(page, pageSize, name, description, unit, notArrived);
     return localVarResponse.getData();
   }
 
@@ -339,11 +340,12 @@ public class MaterialApi {
    * @param name Filter materials by name, case is ignored (optional)
    * @param description Filter materials by description, case is ignored (optional)
    * @param unit  (optional)
+   * @param notArrived Filter materials not yet arrived (with quantity &gt; 0 in route or at seller warehouse) (optional)
    * @return ApiResponse&lt;List&lt;Material&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<Material>> getMaterialsWithHttpInfo(Integer page, Integer pageSize, String name, String description, MaterialUnit unit) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getMaterialsRequestBuilder(page, pageSize, name, description, unit);
+  public ApiResponse<List<Material>> getMaterialsWithHttpInfo(Integer page, Integer pageSize, String name, String description, MaterialUnit unit, Boolean notArrived) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getMaterialsRequestBuilder(page, pageSize, name, description, unit, notArrived);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -371,7 +373,7 @@ public class MaterialApi {
     }
   }
 
-  private HttpRequest.Builder getMaterialsRequestBuilder(Integer page, Integer pageSize, String name, String description, MaterialUnit unit) throws ApiException {
+  private HttpRequest.Builder getMaterialsRequestBuilder(Integer page, Integer pageSize, String name, String description, MaterialUnit unit, Boolean notArrived) throws ApiException {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -390,6 +392,8 @@ public class MaterialApi {
     localVarQueryParams.addAll(ApiClient.parameterToPairs("description", description));
     localVarQueryParameterBaseName = "unit";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("unit", unit));
+    localVarQueryParameterBaseName = "not_arrived";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("not_arrived", notArrived));
 
     if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
       StringJoiner queryJoiner = new StringJoiner("&");
