@@ -114,12 +114,6 @@ public class IncomeController {
       @PathVariable String job_id,
       @PathVariable String user_id,
       @RequestBody List<CrupdateIncomeMoney> toWrite) {
-    toWrite.forEach(
-        income -> {
-          if (income.getJobId() == null) {
-            income.setJobId(job_id);
-          }
-        });
     List<com.example.demo.model.money.IncomeMoney> saved =
         incomeMoneyService.createOrUpdateAll(
             toWrite.stream().map(incomeMoneyMapper::toDomain).toList());
@@ -176,12 +170,6 @@ public class IncomeController {
       @PathVariable String user_id,
       @PathVariable String income_id,
       @RequestBody List<CrupdateIncomeReceipt> toWrite) {
-    toWrite.forEach(
-        receipt -> {
-          if (receipt.getIncomeId() == null) {
-            receipt.setIncomeId(income_id);
-          }
-        });
     List<com.example.demo.model.money.IncomeReceipt> saved =
         incomeReceiptService.createOrUpdateAll(
             toWrite.stream().map(incomeReceiptMapper::toDomain).toList());

@@ -21,14 +21,17 @@ import java.util.Map;
 import java.util.HashMap;
 import com.example.demo.client.model.AuditUser;
 import com.example.demo.client.model.CrupdateJob;
+import com.example.demo.client.model.LoanRepayment;
 import com.example.demo.client.model.LoanStatus;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
@@ -42,6 +45,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   Loan.JSON_PROPERTY_START_DATE,
   Loan.JSON_PROPERTY_STATUS,
   Loan.JSON_PROPERTY_JOB,
+  Loan.JSON_PROPERTY_REPAYMENTS,
+  Loan.JSON_PROPERTY_REMAINING_AMOUNT,
   Loan.JSON_PROPERTY_AMOUNT,
   Loan.JSON_PROPERTY_DESCRIPTION,
   Loan.JSON_PROPERTY_CREATED_AT,
@@ -50,7 +55,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   Loan.JSON_PROPERTY_UPDATED_BY,
   Loan.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-08T17:16:14.896344065+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-09T23:21:50.737140530+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class Loan {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -69,6 +74,12 @@ public class Loan {
 
   public static final String JSON_PROPERTY_JOB = "job";
   private CrupdateJob job;
+
+  public static final String JSON_PROPERTY_REPAYMENTS = "repayments";
+  private List<LoanRepayment> repayments = new ArrayList<>();
+
+  public static final String JSON_PROPERTY_REMAINING_AMOUNT = "remaining_amount";
+  private Integer remainingAmount;
 
   public static final String JSON_PROPERTY_AMOUNT = "amount";
   private Integer amount;
@@ -241,6 +252,64 @@ public class Loan {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setJob(CrupdateJob job) {
     this.job = job;
+  }
+
+
+  public Loan repayments(List<LoanRepayment> repayments) {
+    this.repayments = repayments;
+    return this;
+  }
+
+  public Loan addRepaymentsItem(LoanRepayment repaymentsItem) {
+    if (this.repayments == null) {
+      this.repayments = new ArrayList<>();
+    }
+    this.repayments.add(repaymentsItem);
+    return this;
+  }
+
+   /**
+   * Repayments made for this loan
+   * @return repayments
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_REPAYMENTS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public List<LoanRepayment> getRepayments() {
+    return repayments;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_REPAYMENTS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setRepayments(List<LoanRepayment> repayments) {
+    this.repayments = repayments;
+  }
+
+
+  public Loan remainingAmount(Integer remainingAmount) {
+    this.remainingAmount = remainingAmount;
+    return this;
+  }
+
+   /**
+   * Remaining outstanding amount (amount - sum of repayments)
+   * @return remainingAmount
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_REMAINING_AMOUNT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public Integer getRemainingAmount() {
+    return remainingAmount;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_REMAINING_AMOUNT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setRemainingAmount(Integer remainingAmount) {
+    this.remainingAmount = remainingAmount;
   }
 
 
@@ -437,6 +506,8 @@ public class Loan {
         Objects.equals(this.startDate, loan.startDate) &&
         Objects.equals(this.status, loan.status) &&
         Objects.equals(this.job, loan.job) &&
+        Objects.equals(this.repayments, loan.repayments) &&
+        Objects.equals(this.remainingAmount, loan.remainingAmount) &&
         Objects.equals(this.amount, loan.amount) &&
         Objects.equals(this.description, loan.description) &&
         Objects.equals(this.createdAt, loan.createdAt) &&
@@ -448,7 +519,7 @@ public class Loan {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, lender, interestRate, startDate, status, job, amount, description, createdAt, updatedAt, createdBy, updatedBy, comment);
+    return Objects.hash(id, lender, interestRate, startDate, status, job, repayments, remainingAmount, amount, description, createdAt, updatedAt, createdBy, updatedBy, comment);
   }
 
   @Override
@@ -461,6 +532,8 @@ public class Loan {
     sb.append("    startDate: ").append(toIndentedString(startDate)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("    job: ").append(toIndentedString(job)).append("\n");
+    sb.append("    repayments: ").append(toIndentedString(repayments)).append("\n");
+    sb.append("    remainingAmount: ").append(toIndentedString(remainingAmount)).append("\n");
     sb.append("    amount: ").append(toIndentedString(amount)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");

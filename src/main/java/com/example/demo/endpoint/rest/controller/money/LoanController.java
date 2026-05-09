@@ -34,7 +34,7 @@ public class LoanController {
       @PathVariable String job_id,
       @PathVariable String user_id,
       @PathVariable String id) {
-    return loanMapper.toRestLoan(
+    return loanMapper.toRestLoanWithDetails(
         loanService
             .findById(id)
             .orElseThrow(() -> new NotFoundException("Loan with id " + id + " not found")));
@@ -60,7 +60,7 @@ public class LoanController {
     criteria.setJobId(job_id);
 
     return loanService.findAll(page, pageSize, criteria).stream()
-        .map(loanMapper::toRestLoan)
+        .map(loanMapper::toRestLoanWithDetails)
         .toList();
   }
 
@@ -71,15 +71,9 @@ public class LoanController {
       @PathVariable String job_id,
       @PathVariable String user_id,
       @RequestBody List<CrupdateLoan> toWrite) {
-    toWrite.forEach(
-        loan -> {
-          if (loan.getJobId() == null) {
-            loan.setJobId(job_id);
-          }
-        });
     List<com.example.demo.model.money.Loan> saved =
         loanService.createOrUpdateAll(toWrite.stream().map(loanMapper::toDomain).toList());
-    return saved.stream().map(loanMapper::toRestLoan).toList();
+    return saved.stream().map(loanMapper::toRestLoanWithDetails).toList();
   }
 
   @DeleteMapping("/companies/{comp_id}/job/{job_id}/user/{user_id}/loans/{id}")
@@ -132,12 +126,6 @@ public class LoanController {
       @PathVariable String user_id,
       @PathVariable String loan_id,
       @RequestBody List<CrupdateLoanRepayment> toWrite) {
-    toWrite.forEach(
-        repayment -> {
-          if (repayment.getLoanId() == null) {
-            repayment.setLoanId(loan_id);
-          }
-        });
     List<com.example.demo.model.money.LoanRepayment> saved =
         loanRepaymentService.createOrUpdateAll(
             toWrite.stream().map(loanRepaymentMapper::toDomain).toList());

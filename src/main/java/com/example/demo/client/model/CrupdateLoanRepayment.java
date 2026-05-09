@@ -39,7 +39,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   CrupdateLoanRepayment.JSON_PROPERTY_LOAN_ID,
   CrupdateLoanRepayment.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-08T17:16:14.896344065+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-09T23:21:50.737140530+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdateLoanRepayment {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -263,6 +263,26 @@ public class CrupdateLoanRepayment {
     }
 
     StringJoiner joiner = new StringJoiner("&");
+
+    // add `id` to the URL query string
+    if (getId() != null) {
+      joiner.add(String.format("%sid%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `payment_date` to the URL query string
+    if (getPaymentDate() != null) {
+      joiner.add(String.format("%spayment_date%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getPaymentDate()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `amount` to the URL query string
+    if (getAmount() != null) {
+      joiner.add(String.format("%samount%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getAmount()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `loan_id` to the URL query string
+    if (getLoanId() != null) {
+      joiner.add(String.format("%sloan_id%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getLoanId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
 
     // add `comment` to the URL query string
     if (getComment() != null) {

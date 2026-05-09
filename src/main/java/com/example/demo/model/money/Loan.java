@@ -4,6 +4,7 @@ import com.example.demo.model.Job;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,7 +20,7 @@ import org.hibernate.type.SqlTypes;
 @Table(name = "loan")
 @Getter
 @Setter
-@ToString
+@ToString(exclude = "repayments")
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -40,6 +41,9 @@ public class Loan extends MonetaryMovement implements Serializable {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "job_id")
   private Job job;
+
+  @OneToMany(mappedBy = "loan")
+  private List<LoanRepayment> repayments;
 
   public enum LoanStatus {
     ACTIVE,
