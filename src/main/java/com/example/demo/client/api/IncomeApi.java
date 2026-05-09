@@ -51,7 +51,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-08T17:20:13.395350201+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-09T14:55:21.616445075+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class IncomeApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -391,7 +391,7 @@ public class IncomeApi {
    * @param description Filter incomes by description, case is ignored (optional)
    * @param amount  (optional)
    * @param incomeTypeId Filter incomes by income type (optional)
-   * @param moneyReceived Filter incomes by money received status (money_arrival_date is not null) (optional)
+   * @param moneyReceived Filter incomes by money received status (has at least one receipt) (optional)
    * @return List&lt;IncomeMoney&gt;
    * @throws ApiException if fails to make API call
    */
@@ -413,7 +413,7 @@ public class IncomeApi {
    * @param description Filter incomes by description, case is ignored (optional)
    * @param amount  (optional)
    * @param incomeTypeId Filter incomes by income type (optional)
-   * @param moneyReceived Filter incomes by money received status (money_arrival_date is not null) (optional)
+   * @param moneyReceived Filter incomes by money received status (has at least one receipt) (optional)
    * @return ApiResponse&lt;List&lt;IncomeMoney&gt;&gt;
    * @throws ApiException if fails to make API call
    */

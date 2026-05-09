@@ -128,6 +128,14 @@ public class SecurityConfiguration {
                     .hasRole("ADMIN")
 
                     // =========================
+                    // MATERIAL WAREHOUSE
+                    // =========================
+                    .requestMatchers(GET, "/companies/*/material_warehouse")
+                    .authenticated()
+                    .requestMatchers(PUT, "/companies/*/material_warehouse")
+                    .authenticated()
+
+                    // =========================
                     // EXPENSE
                     // =========================
                     .requestMatchers(

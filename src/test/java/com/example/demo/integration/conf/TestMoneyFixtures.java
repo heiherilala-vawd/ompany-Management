@@ -7,6 +7,7 @@ import com.example.demo.client.model.CrupdateBankFee;
 import com.example.demo.client.model.CrupdateEmployeePayment;
 import com.example.demo.client.model.CrupdateExpenseMoney;
 import com.example.demo.client.model.CrupdateIncomeMoney;
+import com.example.demo.client.model.CrupdateIncomeReceipt;
 import com.example.demo.client.model.CrupdateIncomeType;
 import com.example.demo.client.model.CrupdateLoan;
 import com.example.demo.client.model.CrupdateLoanRepayment;
@@ -16,6 +17,7 @@ import com.example.demo.client.model.CrupdateWarehouse;
 import com.example.demo.client.model.EmployeePayment;
 import com.example.demo.client.model.ExpenseMoney;
 import com.example.demo.client.model.IncomeMoney;
+import com.example.demo.client.model.IncomeReceipt;
 import com.example.demo.client.model.IncomeType;
 import com.example.demo.client.model.Loan;
 import com.example.demo.client.model.LoanRepayment;
@@ -24,6 +26,7 @@ import com.example.demo.client.model.OtherExpense;
 import com.example.demo.client.model.PaymentType;
 import com.example.demo.client.model.Purchase;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 final class TestMoneyFixtures {
@@ -37,10 +40,15 @@ final class TestMoneyFixtures {
     income.setSourceOrganization("Client Alpha");
     income.setInvoiceReference("INV-2024-001");
     income.setBillingStartDate(LocalDate.of(2024, 1, 15));
-    income.setMoneyArrivalDate(LocalDate.of(2024, 2, 1));
     income.setIncomeType(incomeType1());
     income.setAmount(150000);
     income.setDescription("Paiement initial chantier A");
+    IncomeReceipt receipt = new IncomeReceipt();
+    receipt.setId(TestUtils.RECEIPT1_ID);
+    receipt.setPaymentDate(LocalDate.of(2024, 2, 1));
+    receipt.setAmount(150000);
+    income.setReceipts(List.of(receipt));
+    income.setRemainingAmount(0);
     return income;
   }
 
@@ -51,7 +59,6 @@ final class TestMoneyFixtures {
     income.setSourceOrganization("Client Beta");
     income.setInvoiceReference("INV-2024-002");
     income.setBillingStartDate(LocalDate.of(2024, 2, 10));
-    income.setMoneyArrivalDate(LocalDate.of(2024, 2, 15));
     income.setIncomeType(incomeType1());
     income.setAmount(275000);
     income.setDescription("Paiement avance renovation hotel");
@@ -101,7 +108,6 @@ final class TestMoneyFixtures {
     crupdateIncome.setSourceOrganization(income.getSourceOrganization());
     crupdateIncome.setInvoiceReference(income.getInvoiceReference());
     crupdateIncome.setBillingStartDate(income.getBillingStartDate());
-    crupdateIncome.setMoneyArrivalDate(income.getMoneyArrivalDate());
     crupdateIncome.setIncomeTypeId(
         income.getIncomeType() != null ? income.getIncomeType().getId() : null);
     crupdateIncome.setAmount(income.getAmount());
@@ -116,7 +122,6 @@ final class TestMoneyFixtures {
     income.setSourceOrganization("Client Gamma");
     income.setInvoiceReference("INV-2024-003");
     income.setBillingStartDate(LocalDate.of(2024, 3, 1));
-    income.setMoneyArrivalDate(LocalDate.of(2024, 3, 15));
     income.setIncomeTypeId(TestUtils.INCOME_TYPE2_ID);
     income.setAmount(99000);
     income.setDescription("Paiement complementaire");
@@ -429,5 +434,42 @@ final class TestMoneyFixtures {
     repayment.setPaymentDate(LocalDate.of(2024, 5, 1));
     repayment.setAmount(600000);
     return repayment;
+  }
+
+  static IncomeReceipt receipt1() {
+    IncomeReceipt receipt = new IncomeReceipt();
+    receipt.setId(TestUtils.RECEIPT1_ID);
+    receipt.setIncome(income1());
+    receipt.setPaymentDate(LocalDate.of(2024, 2, 1));
+    receipt.setAmount(150000);
+    return receipt;
+  }
+
+  static IncomeReceipt receipt2() {
+    IncomeReceipt receipt = new IncomeReceipt();
+    receipt.setId(TestUtils.RECEIPT2_ID);
+    receipt.setIncome(income2());
+    receipt.setPaymentDate(LocalDate.of(2024, 2, 15));
+    receipt.setAmount(275000);
+    return receipt;
+  }
+
+  static CrupdateIncomeReceipt receiptToCrupdateReceipt(IncomeReceipt receipt) {
+    CrupdateIncomeReceipt crupdate = new CrupdateIncomeReceipt();
+    crupdate.setId(receipt.getId());
+    crupdate.setIncomeId(receipt.getIncome() != null ? receipt.getIncome().getId() : null);
+    crupdate.setPaymentDate(receipt.getPaymentDate());
+    crupdate.setAmount(receipt.getAmount());
+    crupdate.setComment(receipt.getComment());
+    return crupdate;
+  }
+
+  static CrupdateIncomeReceipt someCreatableReceipt() {
+    CrupdateIncomeReceipt receipt = new CrupdateIncomeReceipt();
+    receipt.setId(UUID.randomUUID().toString());
+    receipt.setIncomeId(TestUtils.INCOME1_ID);
+    receipt.setPaymentDate(LocalDate.of(2024, 4, 1));
+    receipt.setAmount(50000);
+    return receipt;
   }
 }

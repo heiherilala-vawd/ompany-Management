@@ -2166,6 +2166,107 @@ paths:
           $ref: '#/components/responses/500'
 
 
+  '/companies/{comp_id}/material_warehouse':
+    get:
+      tags:
+        - MaterialWarehouse
+      summary: Get all material warehouse stock records
+      operationId: getMaterialWarehouses
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: page
+          in: query
+          schema:
+            $ref: '#/components/schemas/Page'
+          example: 1
+        - name: page_size
+          in: query
+          schema:
+            $ref: '#/components/schemas/PageSize'
+          example: 20
+        - name: material_id
+          in: query
+          description: "Filter by material ID"
+          schema:
+            type: string
+          example: "mat_001"
+        - name: warehouse_id
+          in: query
+          description: "Filter by warehouse ID"
+          schema:
+            type: string
+          example: "wh_001"
+        - name: not_arrived
+          in: query
+          description: "Filter records where quantity > 0 in route or at_seller warehouse"
+          schema:
+            type: boolean
+          example: true
+      responses:
+        '200':
+          description: List of material warehouse records
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MaterialWarehouseView'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      tags:
+        - MaterialWarehouse
+      summary: Create or update material warehouse stock
+      operationId: crupdateMaterialWarehouses
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/CrupdateMaterialWarehouse'
+      responses:
+        '200':
+          description: The created or updated material warehouse records
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MaterialWarehouseInfo'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+
+
   # =========================
   # EXPENSE
   # =========================
@@ -2680,7 +2781,6 @@ paths:
                 source_organization: "Client Principal"
                 invoice_reference: "FACT-2024-001"
                 billing_start_date: "2024-01-15"
-                money_arrival_date: "2024-02-01"
                 description: "Premier acompte pour le chantier"
                 job:
                   id: "job_001"
@@ -2827,7 +2927,7 @@ paths:
           example: "income_type_001"
         - name: money_received
           in: query
-          description: "Filter incomes by money received status (money_arrival_date is not null)"
+          description: "Filter incomes by money received status (has at least one receipt)"
           schema:
             type: boolean
           example: true
@@ -2846,7 +2946,6 @@ paths:
                   source_organization: "Client Principal"
                   invoice_reference: "FACT-2024-001"
                   billing_start_date: "2024-01-15"
-                  money_arrival_date: "2024-02-01"
                   description: "Premier acompte pour le chantier"
                   job:
                     id: "job_001"
@@ -2878,7 +2977,6 @@ paths:
                   source_organization: "Client Principal"
                   invoice_reference: "FACT-2024-002"
                   billing_start_date: "2024-02-10"
-                  money_arrival_date: "2024-02-15"
                   description: "Deuxième acompte"
                   job:
                     id: "job_001"
@@ -2953,7 +3051,6 @@ paths:
                 source_organization: "Client Principal"
                 invoice_reference: "FACT-2024-001"
                 billing_start_date: "2024-01-15"
-                money_arrival_date: "2024-02-01"
                 income_type_id: "income_type_001"
                 description: "Premier acompte pour le chantier (révisé)"
                 job_id: "job_001"
@@ -2962,7 +3059,6 @@ paths:
                 source_organization: "Subvention"
                 invoice_reference: "SUB-2024-01"
                 billing_start_date: "2024-02-20"
-                money_arrival_date: "2024-02-28"
                 income_type_id: "income_type_002"
                 description: "Aide à la construction"
                 job_id: "job_001"
@@ -2982,7 +3078,6 @@ paths:
                   source_organization: "Client Principal"
                   invoice_reference: "FACT-2024-001"
                   billing_start_date: "2024-01-15"
-                  money_arrival_date: "2024-02-01"
                   description: "Premier acompte pour le chantier (révisé)"
                   job:
                     id: "job_001"
@@ -3014,7 +3109,6 @@ paths:
                   source_organization: "Subvention"
                   invoice_reference: "SUB-2024-01"
                   billing_start_date: "2024-02-20"
-                  money_arrival_date: "2024-02-28"
                   description: "Aide à la construction"
                   job:
                     id: "job_001"
@@ -3086,6 +3180,228 @@ paths:
               schema:
                 type: string
                 format: binary
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+
+
+  '/companies/{comp_id}/job/{job_id}/user/{user_id}/incomes/{income_id}/receipts/{id}':
+    get:
+      tags:
+        - IncomeReceipt
+      summary: Get income receipt by identifier
+      operationId: getIncomeReceiptById
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "job_001"
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "usr_123456"
+        - name: income_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "inc_001"
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "receipt_001"
+      responses:
+        '200':
+          description: The identified income receipt
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IncomeReceipt'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      tags:
+        - IncomeReceipt
+      summary: Delete income receipt by identifier
+      operationId: deleteIncomeReceiptById
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "job_001"
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "usr_123456"
+        - name: income_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "inc_001"
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "receipt_001"
+      responses:
+        '204':
+          description: Income receipt deleted successfully
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  '/companies/{comp_id}/job/{job_id}/user/{user_id}/incomes/{income_id}/receipts':
+    get:
+      tags:
+        - IncomeReceipt
+      summary: Get all receipts for an income
+      operationId: getIncomeReceipts
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "job_001"
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "usr_123456"
+        - name: income_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "inc_001"
+        - name: page
+          in: query
+          schema:
+            $ref: '#/components/schemas/Page'
+          example: 1
+        - name: page_size
+          in: query
+          schema:
+            $ref: '#/components/schemas/PageSize'
+          example: 20
+      responses:
+        '200':
+          description: List of income receipts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/IncomeReceipt'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      tags:
+        - IncomeReceipt
+      summary: Create new income receipts or update existing ones
+      operationId: crupdateIncomeReceipts
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "job_001"
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "usr_123456"
+        - name: income_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "inc_001"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/CrupdateIncomeReceipt'
+      responses:
+        '200':
+          description: The created or updated income receipts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/IncomeReceipt'
         '400':
           $ref: '#/components/responses/400'
         '403':
@@ -6208,6 +6524,40 @@ components:
           example: "Ciment Portland de qualité supérieure pour béton armé"
         unit:
           $ref: '#/components/schemas/MaterialUnit'
+        material_warehouses:
+          type: array
+          items:
+            $ref: '#/components/schemas/MaterialWarehouseInfo'
+    MaterialWarehouseInfo:
+      type: object
+      properties:
+        warehouse:
+          $ref: '#/components/schemas/Warehouse'
+        quantity:
+          type: integer
+          example: 50
+    MaterialWarehouseView:
+      type: object
+      properties:
+        material:
+          $ref: '#/components/schemas/CrupdateMaterial'
+        warehouse:
+          $ref: '#/components/schemas/Warehouse'
+        quantity:
+          type: integer
+          example: 100
+    CrupdateMaterialWarehouse:
+      type: object
+      properties:
+        material_id:
+          type: string
+          example: "mat_001"
+        warehouse_id:
+          type: string
+          example: "wh_001"
+        quantity:
+          type: integer
+          example: 50
     CrupdateMaterial:
       allOf:
         - $ref: '#/components/schemas/comment'
@@ -6306,10 +6656,6 @@ components:
           type: string
           format: date
           example: "2024-01-15"
-        money_arrival_date:
-          type: string
-          format: date
-          example: "2024-02-01"
         job:
           allOf:
             - $ref: '#/components/schemas/CrupdateJob'
@@ -6318,6 +6664,15 @@ components:
           allOf:
             - $ref: '#/components/schemas/IncomeType'
           description: "Type of income associated with this income"
+        receipts:
+          type: array
+          description: "Payments received for this income"
+          items:
+            $ref: '#/components/schemas/IncomeReceipt'
+        remaining_amount:
+          type: integer
+          description: "Remaining unpaid amount (amount - sum of receipts)"
+          example: 50000
     CrupdateIncomeMoney:
       allOf:
         - $ref: '#/components/schemas/CrupdateMonetaryMovement'
@@ -6335,10 +6690,6 @@ components:
           type: string
           format: date
           example: "2024-01-15"
-        money_arrival_date:
-          type: string
-          format: date
-          example: "2024-02-01"
         job_id:
           type: string
           description: "ID of the job this income is related to"
@@ -6347,6 +6698,48 @@ components:
           type: string
           description: "ID of the income type associated with this income"
           example: "income_type_001"
+
+    # =========================
+    # INCOME RECEIPT
+    # =========================
+    IncomeReceipt:
+      allOf:
+        - $ref: '#/components/schemas/AuditFields'
+      properties:
+        id:
+          type: string
+          example: "receipt_001"
+        payment_date:
+          type: string
+          format: date
+          example: "2024-02-01"
+        amount:
+          type: integer
+          example: 150000
+        income:
+          allOf:
+            - $ref: '#/components/schemas/IncomeMoney'
+          description: "Income this receipt is related to"
+    CrupdateIncomeReceipt:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "receipt_001"
+        payment_date:
+          type: string
+          format: date
+          example: "2024-02-01"
+        amount:
+          type: integer
+          example: 150000
+        income_id:
+          type: string
+          description: "ID of the income this receipt is related to"
+          example: "inc_001"
+        comment:
+          type: string
+          example: "Paiement recu le 1er fevrier"
 
     # =========================
     # EXPENSE

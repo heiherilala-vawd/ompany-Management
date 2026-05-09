@@ -4,6 +4,7 @@ import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
 import com.example.demo.model.criteria.IncomeMoneyCriteria;
 import com.example.demo.model.money.IncomeMoney;
+import com.example.demo.model.money.IncomeReceipt;
 import com.example.demo.repository.money.IncomeMoneyRepository;
 import com.example.demo.service.utils.ModificationUtils;
 import com.example.demo.service.utils.PageUtils;
@@ -99,10 +100,16 @@ public class IncomeMoneyService {
         predicates.add(cb.equal(root.get("incomeType").get("id"), criteria.getIncomeTypeId()));
       }
       if (criteria.getMoneyReceived() != null) {
+        jakarta.persistence.criteria.Subquery<IncomeReceipt> subquery =
+            query.subquery(IncomeReceipt.class);
+        jakarta.persistence.criteria.Root<IncomeReceipt> receiptRoot =
+            subquery.from(IncomeReceipt.class);
+        subquery.select(receiptRoot);
+        subquery.where(cb.equal(receiptRoot.get("income").get("id"), root.get("id")));
         if (criteria.getMoneyReceived()) {
-          predicates.add(cb.isNotNull(root.get("moneyArrivalDate")));
+          predicates.add(cb.exists(subquery));
         } else {
-          predicates.add(cb.isNull(root.get("moneyArrivalDate")));
+          predicates.add(cb.not(cb.exists(subquery)));
         }
       }
 
