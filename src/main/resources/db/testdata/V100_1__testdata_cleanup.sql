@@ -11,6 +11,8 @@ DELETE FROM "employee_payment";
 DELETE FROM "income_money";
 DELETE FROM "income_type";
 DELETE FROM "expense_money";
+DELETE FROM "loan_repayment";
+DELETE FROM "loan";
 DELETE FROM "material_warehouse";
 DELETE FROM "equipment";
 DELETE FROM "material";

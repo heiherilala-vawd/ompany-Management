@@ -283,6 +283,8 @@ dependencies {
 
     implementation("io.sentry:sentry-spring-boot-starter:5.5.3")
     implementation("io.sentry:sentry-logback:5.5.3")
+
+    implementation("org.apache.poi:poi-ooxml:5.3.0")
 }
 
 

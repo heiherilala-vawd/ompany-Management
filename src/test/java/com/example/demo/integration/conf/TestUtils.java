@@ -16,6 +16,8 @@ import com.example.demo.client.model.CrupdateExpenseMoney;
 import com.example.demo.client.model.CrupdateIncomeMoney;
 import com.example.demo.client.model.CrupdateIncomeType;
 import com.example.demo.client.model.CrupdateJob;
+import com.example.demo.client.model.CrupdateLoan;
+import com.example.demo.client.model.CrupdateLoanRepayment;
 import com.example.demo.client.model.CrupdateMaterial;
 import com.example.demo.client.model.CrupdateOtherExpense;
 import com.example.demo.client.model.CrupdatePurchase;
@@ -31,6 +33,8 @@ import com.example.demo.client.model.ExpenseMoney;
 import com.example.demo.client.model.IncomeMoney;
 import com.example.demo.client.model.IncomeType;
 import com.example.demo.client.model.Job;
+import com.example.demo.client.model.Loan;
+import com.example.demo.client.model.LoanRepayment;
 import com.example.demo.client.model.Material;
 import com.example.demo.client.model.OtherExpense;
 import com.example.demo.client.model.Purchase;
@@ -80,6 +84,8 @@ public class TestUtils {
   public static final String MATERIAL3_ID = "material3_id";
   public static final String INCOME1_ID = "income1_id";
   public static final String INCOME2_ID = "income2_id";
+  public static final String INCOME3_ID = "income3_id";
+  public static final String INCOME4_ID = "income4_id";
   public static final String INCOME_TYPE1_ID = "income_type1_id";
   public static final String INCOME_TYPE2_ID = "income_type2_id";
   public static final String INCOME_TYPE3_ID = "income_type3_id";
@@ -101,6 +107,10 @@ public class TestUtils {
   public static final String TRAVEL_MATERIALS2_ID = "travel_materials2_id";
   public static final String TRAVEL_EQUIPMENT1_ID = "travel_equipment1_id";
   public static final String TRAVEL_EQUIPMENT2_ID = "travel_equipment2_id";
+  public static final String LOAN1_ID = "loan1_id";
+  public static final String LOAN2_ID = "loan2_id";
+  public static final String REPAYMENT1_ID = "repayment1_id";
+  public static final String REPAYMENT2_ID = "repayment2_id";
 
   public static final String ADMIN_EMAIL = "admin@hei.school";
   public static final String WAREHOUSE_EMAIL = "warehouse@hei.school";
@@ -380,6 +390,34 @@ public class TestUtils {
 
   public static CrupdateOtherExpense someCreatableOtherExpense() {
     return TestMoneyFixtures.someCreatableOtherExpense();
+  }
+
+  public static Loan loan1() {
+    return TestMoneyFixtures.loan1();
+  }
+
+  public static Loan loan2() {
+    return TestMoneyFixtures.loan2();
+  }
+
+  public static CrupdateLoan loanToCrupdateLoan(Loan loan) {
+    return TestMoneyFixtures.loanToCrupdateLoan(loan);
+  }
+
+  public static CrupdateLoan someCreatableLoan() {
+    return TestMoneyFixtures.someCreatableLoan();
+  }
+
+  public static LoanRepayment repayment1() {
+    return TestMoneyFixtures.repayment1();
+  }
+
+  public static CrupdateLoanRepayment repaymentToCrupdateRepayment(LoanRepayment repayment) {
+    return TestMoneyFixtures.repaymentToCrupdateRepayment(repayment);
+  }
+
+  public static CrupdateLoanRepayment someCreatableRepayment() {
+    return TestMoneyFixtures.someCreatableRepayment();
   }
 
   public static Purchase purchase1() {

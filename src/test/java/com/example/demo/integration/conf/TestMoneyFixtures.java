@@ -8,6 +8,8 @@ import com.example.demo.client.model.CrupdateEmployeePayment;
 import com.example.demo.client.model.CrupdateExpenseMoney;
 import com.example.demo.client.model.CrupdateIncomeMoney;
 import com.example.demo.client.model.CrupdateIncomeType;
+import com.example.demo.client.model.CrupdateLoan;
+import com.example.demo.client.model.CrupdateLoanRepayment;
 import com.example.demo.client.model.CrupdateOtherExpense;
 import com.example.demo.client.model.CrupdatePurchase;
 import com.example.demo.client.model.CrupdateWarehouse;
@@ -15,6 +17,9 @@ import com.example.demo.client.model.EmployeePayment;
 import com.example.demo.client.model.ExpenseMoney;
 import com.example.demo.client.model.IncomeMoney;
 import com.example.demo.client.model.IncomeType;
+import com.example.demo.client.model.Loan;
+import com.example.demo.client.model.LoanRepayment;
+import com.example.demo.client.model.LoanStatus;
 import com.example.demo.client.model.OtherExpense;
 import com.example.demo.client.model.PaymentType;
 import com.example.demo.client.model.Purchase;
@@ -341,5 +346,88 @@ final class TestMoneyFixtures {
     purchase.setQuantity(1);
     purchase.setIsEquipment(true);
     return purchase;
+  }
+
+  static Loan loan1() {
+    Loan loan = new Loan();
+    loan.setId(TestUtils.LOAN1_ID);
+    loan.setJob(TestOrganizationFixtures.jobToCrupdateJob(TestOrganizationFixtures.job1()));
+    loan.setLender("BNI Madagascar");
+    loan.setInterestRate(1200);
+    loan.setStartDate(LocalDate.of(2024, 2, 1));
+    loan.setStatus(LoanStatus.ACTIVE);
+    loan.setAmount(5000000);
+    loan.setDescription("Emprunt construction entrepot");
+    return loan;
+  }
+
+  static Loan loan2() {
+    Loan loan = new Loan();
+    loan.setId(TestUtils.LOAN2_ID);
+    loan.setJob(TestOrganizationFixtures.jobToCrupdateJob(TestOrganizationFixtures.job1()));
+    loan.setLender("BOA Madagascar");
+    loan.setInterestRate(1500);
+    loan.setStartDate(LocalDate.of(2024, 3, 1));
+    loan.setStatus(LoanStatus.ACTIVE);
+    loan.setAmount(3000000);
+    loan.setDescription("Emprunt equipements");
+    return loan;
+  }
+
+  static CrupdateLoan loanToCrupdateLoan(Loan loan) {
+    CrupdateLoan crupdateLoan = new CrupdateLoan();
+    crupdateLoan.setId(loan.getId());
+    crupdateLoan.setJobId(loan.getJob() != null ? loan.getJob().getId() : null);
+    crupdateLoan.setLender(loan.getLender());
+    crupdateLoan.setInterestRate(loan.getInterestRate());
+    crupdateLoan.setStartDate(loan.getStartDate());
+    crupdateLoan.setStatus(loan.getStatus());
+    crupdateLoan.setAmount(loan.getAmount());
+    crupdateLoan.setDescription(loan.getDescription());
+    crupdateLoan.setComment(loan.getComment());
+    return crupdateLoan;
+  }
+
+  static CrupdateLoan someCreatableLoan() {
+    CrupdateLoan loan = new CrupdateLoan();
+    loan.setId(UUID.randomUUID().toString());
+    loan.setJobId(TestUtils.JOB1_ID);
+    loan.setLender("MCB Madagascar");
+    loan.setInterestRate(1000);
+    loan.setStartDate(LocalDate.of(2024, 6, 1));
+    loan.setStatus(LoanStatus.ACTIVE);
+    loan.setAmount(2000000);
+    loan.setDescription("Nouvel emprunt tresorerie");
+    return loan;
+  }
+
+  static LoanRepayment repayment1() {
+    LoanRepayment repayment = new LoanRepayment();
+    repayment.setId(TestUtils.REPAYMENT1_ID);
+    repayment.setLoan(loanToCrupdateLoan(loan1()));
+    repayment.setPaymentDate(LocalDate.of(2024, 3, 1));
+    repayment.setAmount(600000);
+    repayment.setPrincipalPortion(500000);
+    repayment.setInterestPortion(100000);
+    return repayment;
+  }
+
+  static CrupdateLoanRepayment repaymentToCrupdateRepayment(LoanRepayment repayment) {
+    CrupdateLoanRepayment crupdate = new CrupdateLoanRepayment();
+    crupdate.setId(repayment.getId());
+    crupdate.setLoanId(repayment.getLoan() != null ? repayment.getLoan().getId() : null);
+    crupdate.setPaymentDate(repayment.getPaymentDate());
+    crupdate.setAmount(repayment.getAmount());
+    crupdate.setComment(repayment.getComment());
+    return crupdate;
+  }
+
+  static CrupdateLoanRepayment someCreatableRepayment() {
+    CrupdateLoanRepayment repayment = new CrupdateLoanRepayment();
+    repayment.setId(UUID.randomUUID().toString());
+    repayment.setLoanId(TestUtils.LOAN1_ID);
+    repayment.setPaymentDate(LocalDate.of(2024, 5, 1));
+    repayment.setAmount(600000);
+    return repayment;
   }
 }

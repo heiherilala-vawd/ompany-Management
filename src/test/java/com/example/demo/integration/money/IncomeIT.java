@@ -83,11 +83,14 @@ class IncomeIT {
     IncomeApi api = new IncomeApi(adminClient);
 
     List<IncomeMoney> incomes =
-        api.getIncomes(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, null, null, null);
+        api.getIncomes(
+            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, null, null, null, null, null);
 
-    assertEquals(2, incomes.size());
+    assertEquals(4, incomes.size());
     assertTrue(incomes.stream().anyMatch(income -> INCOME1_ID.equals(income.getId())));
     assertTrue(incomes.stream().anyMatch(income -> INCOME2_ID.equals(income.getId())));
+    assertTrue(incomes.stream().anyMatch(income -> INCOME3_ID.equals(income.getId())));
+    assertTrue(incomes.stream().anyMatch(income -> INCOME4_ID.equals(income.getId())));
   }
 
   @Test
@@ -96,7 +99,9 @@ class IncomeIT {
     IncomeApi api = new IncomeApi(employeeClient);
 
     assertThrowsForbiddenException(
-        () -> api.getIncomes(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, null, null, null));
+        () ->
+            api.getIncomes(
+                COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, null, null, null, null, null));
   }
 
   @Test
@@ -105,7 +110,8 @@ class IncomeIT {
     IncomeApi api = new IncomeApi(adminClient);
 
     List<IncomeMoney> incomes =
-        api.getIncomes(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, "Alpha", null, null, null);
+        api.getIncomes(
+            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, "Alpha", null, null, null, null, null);
 
     assertEquals(1, incomes.size());
     assertEquals(INCOME1_ID, incomes.get(0).getId());
@@ -117,7 +123,18 @@ class IncomeIT {
     IncomeApi api = new IncomeApi(adminClient);
 
     List<IncomeMoney> incomes =
-        api.getIncomes(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, "INV-2024-002", null, null);
+        api.getIncomes(
+            COMPANY1_ID,
+            JOB1_ID,
+            EMPLOYEE_ID,
+            1,
+            100,
+            null,
+            "INV-2024-002",
+            null,
+            null,
+            null,
+            null);
 
     assertEquals(1, incomes.size());
     assertEquals(INCOME2_ID, incomes.get(0).getId());
@@ -129,7 +146,8 @@ class IncomeIT {
     IncomeApi api = new IncomeApi(adminClient);
 
     List<IncomeMoney> incomes =
-        api.getIncomes(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, null, "chantier A", null);
+        api.getIncomes(
+            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, null, "chantier A", null, null, null);
 
     assertEquals(1, incomes.size());
     assertEquals(INCOME1_ID, incomes.get(0).getId());
@@ -141,10 +159,63 @@ class IncomeIT {
     IncomeApi api = new IncomeApi(adminClient);
 
     List<IncomeMoney> incomes =
-        api.getIncomes(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, null, null, 275000);
+        api.getIncomes(
+            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, null, null, 275000, null, null);
 
     assertEquals(1, incomes.size());
     assertEquals(INCOME2_ID, incomes.get(0).getId());
+  }
+
+  @Test
+  void admin_can_filter_incomes_by_income_type() throws Exception {
+    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
+    IncomeApi api = new IncomeApi(adminClient);
+
+    List<IncomeMoney> incomes =
+        api.getIncomes(
+            COMPANY1_ID,
+            JOB1_ID,
+            EMPLOYEE_ID,
+            1,
+            100,
+            null,
+            null,
+            null,
+            null,
+            INCOME_TYPE2_ID,
+            null);
+
+    assertEquals(1, incomes.size());
+    assertEquals(INCOME3_ID, incomes.get(0).getId());
+  }
+
+  @Test
+  void admin_can_filter_incomes_not_received() throws Exception {
+    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
+    IncomeApi api = new IncomeApi(adminClient);
+
+    List<IncomeMoney> incomes =
+        api.getIncomes(
+            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, null, null, null, null, false);
+
+    assertEquals(1, incomes.size());
+    assertEquals(INCOME3_ID, incomes.get(0).getId());
+    assertNull(incomes.get(0).getMoneyArrivalDate());
+  }
+
+  @Test
+  void admin_can_filter_incomes_received() throws Exception {
+    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
+    IncomeApi api = new IncomeApi(adminClient);
+
+    List<IncomeMoney> incomes =
+        api.getIncomes(
+            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, null, null, null, null, true);
+
+    assertEquals(3, incomes.size());
+    assertTrue(incomes.stream().anyMatch(i -> INCOME1_ID.equals(i.getId())));
+    assertTrue(incomes.stream().anyMatch(i -> INCOME2_ID.equals(i.getId())));
+    assertTrue(incomes.stream().anyMatch(i -> INCOME4_ID.equals(i.getId())));
   }
 
   @Test
