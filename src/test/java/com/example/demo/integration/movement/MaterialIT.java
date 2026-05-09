@@ -60,6 +60,23 @@ class MaterialIT {
     expected.setCreatedBy(actual.getCreatedBy());
     expected.setUpdatedBy(actual.getUpdatedBy());
     expected.setComment(actual.getComment());
+    if (actual.getMaterialWarehouses() != null && expected.getMaterialWarehouses() != null) {
+      for (int i = 0;
+          i
+              < Math.min(
+                  actual.getMaterialWarehouses().size(), expected.getMaterialWarehouses().size());
+          i++) {
+        var actualW = actual.getMaterialWarehouses().get(i).getWarehouse();
+        var expectedW = expected.getMaterialWarehouses().get(i).getWarehouse();
+        if (actualW != null && expectedW != null) {
+          expectedW.setCreatedAt(actualW.getCreatedAt());
+          expectedW.setUpdatedAt(actualW.getUpdatedAt());
+          expectedW.setCreatedBy(actualW.getCreatedBy());
+          expectedW.setUpdatedBy(actualW.getUpdatedBy());
+          expectedW.setComment(actualW.getComment());
+        }
+      }
+    }
 
     assertEquals(expected, actual);
   }

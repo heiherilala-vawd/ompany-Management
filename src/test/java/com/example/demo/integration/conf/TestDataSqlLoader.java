@@ -23,6 +23,7 @@ public final class TestDataSqlLoader {
           "db/testdata/V100_7__testdata_materials.sql",
           "db/testdata/V100_7_1__testdata_income_types.sql",
           "db/testdata/V100_8__testdata_incomes.sql",
+          "db/testdata/V100_22__testdata_income_receipts.sql",
           "db/testdata/V100_9__testdata_expenses.sql",
           "db/testdata/V100_10__testdata_employee_payments.sql",
           "db/testdata/V100_11__testdata_travel_expenses.sql",

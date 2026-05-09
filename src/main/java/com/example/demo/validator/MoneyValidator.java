@@ -5,6 +5,7 @@ import com.example.demo.model.money.BankFee;
 import com.example.demo.model.money.EmployeePayment;
 import com.example.demo.model.money.ExpenseMoney;
 import com.example.demo.model.money.IncomeMoney;
+import com.example.demo.model.money.IncomeReceipt;
 import com.example.demo.model.money.IncomeType;
 import com.example.demo.model.money.Loan;
 import com.example.demo.model.money.LoanRepayment;
@@ -263,5 +264,27 @@ public class MoneyValidator {
       throw new BadRequestException("Loan repayment list cannot be null or empty");
     }
     repayments.forEach(this::validateLoanRepayment);
+  }
+
+  public void validateIncomeReceipt(IncomeReceipt receipt) {
+    if (receipt == null) {
+      throw new BadRequestException("Income receipt cannot be null");
+    }
+    if (receipt.getIncome() == null || receipt.getIncome().getId() == null) {
+      throw new BadRequestException("Income receipt must be linked to an income");
+    }
+    if (receipt.getPaymentDate() == null) {
+      throw new BadRequestException("Payment date is mandatory for income receipt");
+    }
+    if (receipt.getAmount() == null || receipt.getAmount() <= 0) {
+      throw new BadRequestException("Receipt amount must be positive");
+    }
+  }
+
+  public void validateIncomeReceipts(List<IncomeReceipt> receipts) {
+    if (receipts == null || receipts.isEmpty()) {
+      throw new BadRequestException("Income receipt list cannot be null or empty");
+    }
+    receipts.forEach(this::validateIncomeReceipt);
   }
 }

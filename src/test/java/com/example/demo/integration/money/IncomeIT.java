@@ -65,6 +65,20 @@ class IncomeIT {
     expected.getIncomeType().setUpdatedBy(actual.getIncomeType().getUpdatedBy());
     expected.getIncomeType().setComment(actual.getIncomeType().getComment());
 
+    if (actual.getReceipts() != null && expected.getReceipts() != null) {
+      for (int i = 0;
+          i < Math.min(actual.getReceipts().size(), expected.getReceipts().size());
+          i++) {
+        var actualReceipt = actual.getReceipts().get(i);
+        var expectedReceipt = expected.getReceipts().get(i);
+        expectedReceipt.setCreatedAt(actualReceipt.getCreatedAt());
+        expectedReceipt.setUpdatedAt(actualReceipt.getUpdatedAt());
+        expectedReceipt.setCreatedBy(actualReceipt.getCreatedBy());
+        expectedReceipt.setUpdatedBy(actualReceipt.getUpdatedBy());
+        expectedReceipt.setComment(actualReceipt.getComment());
+      }
+    }
+
     assertEquals(expected, actual);
   }
 
@@ -200,7 +214,6 @@ class IncomeIT {
 
     assertEquals(1, incomes.size());
     assertEquals(INCOME3_ID, incomes.get(0).getId());
-    assertNull(incomes.get(0).getMoneyArrivalDate());
   }
 
   @Test

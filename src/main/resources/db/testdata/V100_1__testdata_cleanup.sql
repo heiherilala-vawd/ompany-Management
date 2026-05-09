@@ -8,6 +8,7 @@ DELETE FROM "other_expense";
 DELETE FROM "bank_fee";
 DELETE FROM "purchase";
 DELETE FROM "employee_payment";
+DELETE FROM "income_receipt";
 DELETE FROM "income_money";
 DELETE FROM "income_type";
 DELETE FROM "expense_money";
