@@ -41,7 +41,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   CrupdateTravelMaterials.JSON_PROPERTY_ARRIVAL_LOCATION,
   CrupdateTravelMaterials.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-07T18:02:33.387423763+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-08T17:20:13.395350201+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdateTravelMaterials {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;

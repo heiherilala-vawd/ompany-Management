@@ -1,8 +1,5 @@
 package com.example.demo.service.money;
 
-import static com.example.demo.repository.specification.SpecificationUtils.containsIgnoreCase;
-import static com.example.demo.repository.specification.SpecificationUtils.equal;
-
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
 import com.example.demo.model.criteria.IncomeMoneyCriteria;
@@ -44,6 +41,10 @@ public class IncomeMoneyService {
     return incomeMoneyRepository.findAll(toSpecification(criteria), pageable);
   }
 
+  public List<IncomeMoney> findAll(IncomeMoneyCriteria criteria) {
+    return incomeMoneyRepository.findAll(toSpecification(criteria));
+  }
+
   @Transactional
   public List<IncomeMoney> createOrUpdateAll(List<IncomeMoney> incomes) {
     moneyValidator.validateIncomeMonies(incomes);
@@ -67,11 +68,45 @@ public class IncomeMoneyService {
   }
 
   private Specification<IncomeMoney> toSpecification(IncomeMoneyCriteria criteria) {
-    return Specification.<IncomeMoney>where(
-            containsIgnoreCase(criteria.getSourceOrganization(), "sourceOrganization"))
-        .and(containsIgnoreCase(criteria.getInvoiceReference(), "invoiceReference"))
-        .and(containsIgnoreCase(criteria.getDescription(), "description"))
-        .and(equal(criteria.getAmount(), "amount"))
-        .and(equal(criteria.getJobId(), "job", "id"));
+    return (root, query, cb) -> {
+      List<jakarta.persistence.criteria.Predicate> predicates = new java.util.ArrayList<>();
+
+      if (criteria.getSourceOrganization() != null && !criteria.getSourceOrganization().isBlank()) {
+        predicates.add(
+            cb.like(
+                cb.lower(root.get("sourceOrganization")),
+                "%" + criteria.getSourceOrganization().toLowerCase() + "%"));
+      }
+      if (criteria.getInvoiceReference() != null && !criteria.getInvoiceReference().isBlank()) {
+        predicates.add(
+            cb.like(
+                cb.lower(root.get("invoiceReference")),
+                "%" + criteria.getInvoiceReference().toLowerCase() + "%"));
+      }
+      if (criteria.getDescription() != null && !criteria.getDescription().isBlank()) {
+        predicates.add(
+            cb.like(
+                cb.lower(root.get("description")),
+                "%" + criteria.getDescription().toLowerCase() + "%"));
+      }
+      if (criteria.getAmount() != null) {
+        predicates.add(cb.equal(root.get("amount"), criteria.getAmount()));
+      }
+      if (criteria.getJobId() != null) {
+        predicates.add(cb.equal(root.get("job").get("id"), criteria.getJobId()));
+      }
+      if (criteria.getIncomeTypeId() != null) {
+        predicates.add(cb.equal(root.get("incomeType").get("id"), criteria.getIncomeTypeId()));
+      }
+      if (criteria.getMoneyReceived() != null) {
+        if (criteria.getMoneyReceived()) {
+          predicates.add(cb.isNotNull(root.get("moneyArrivalDate")));
+        } else {
+          predicates.add(cb.isNull(root.get("moneyArrivalDate")));
+        }
+      }
+
+      return cb.and(predicates.toArray(new jakarta.persistence.criteria.Predicate[0]));
+    };
   }
 }

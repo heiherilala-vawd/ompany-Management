@@ -2819,6 +2819,18 @@ paths:
           schema:
             type: integer
           example: 50000
+        - name: income_type_id
+          in: query
+          description: "Filter incomes by income type"
+          schema:
+            type: string
+          example: "income_type_001"
+        - name: money_received
+          in: query
+          description: "Filter incomes by money received status (money_arrival_date is not null)"
+          schema:
+            type: boolean
+          example: true
       responses:
         '200':
           description: List of incomes
@@ -3029,6 +3041,51 @@ paths:
                     last_name: "Bernard"
                     sex: "F"
                     email: "sophie.bernard@example.com"
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+
+
+  /companies/{comp_id}/job/{job_id}/user/{user_id}/incomes/excel:
+    get:
+      tags:
+        - Income
+      summary: Export incomes to Excel
+      operationId: getIncomesExcel
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "job_001"
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "usr_123456"
+      responses:
+        '200':
+          description: Excel file with incomes data
+          content:
+            application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
+              schema:
+                type: string
+                format: binary
         '400':
           $ref: '#/components/responses/400'
         '403':

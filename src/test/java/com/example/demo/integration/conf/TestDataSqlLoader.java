@@ -31,7 +31,9 @@ public final class TestDataSqlLoader {
           "db/testdata/V100_14__testdata_bank_fees.sql",
           "db/testdata/V100_15__testdata_other_expenses.sql",
           "db/testdata/V100_16__testdata_history.sql",
-          "db/testdata/V100_17__testdata_material_waterhouse.sql");
+          "db/testdata/V100_17__testdata_material_waterhouse.sql",
+          "db/testdata/V100_20__testdata_loans.sql",
+          "db/testdata/V100_21__testdata_loan_repayments.sql");
 
   private TestDataSqlLoader() {}
 

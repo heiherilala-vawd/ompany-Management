@@ -300,6 +300,32 @@ public class SecurityConfiguration {
                     .authenticated()
 
                     // =========================
+                    // LOAN
+                    // =========================
+                    .requestMatchers(
+                        GET, "/companies/*/job/*/user/*/loans", "/companies/*/job/*/user/*/loans/*")
+                    .authenticated()
+                    .requestMatchers(PUT, "/companies/*/job/*/user/*/loans")
+                    .authenticated()
+                    // DELETE /loans - ADMIN uniquement
+                    .requestMatchers(DELETE, "/companies/*/job/*/user/*/loans/*")
+                    .hasRole("ADMIN")
+
+                    // =========================
+                    // LOAN REPAYMENT
+                    // =========================
+                    .requestMatchers(
+                        GET,
+                        "/companies/*/job/*/user/*/loans/*/repayments",
+                        "/companies/*/job/*/user/*/loans/*/repayments/*")
+                    .authenticated()
+                    .requestMatchers(PUT, "/companies/*/job/*/user/*/loans/*/repayments")
+                    .authenticated()
+                    // DELETE /loan_repayments - ADMIN uniquement
+                    .requestMatchers(DELETE, "/companies/*/job/*/user/*/loans/*/repayments/*")
+                    .hasRole("ADMIN")
+
+                    // =========================
                     // DEFAULT - Toute autre requête non auizer
                     // =========================
                     .anyRequest()

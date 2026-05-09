@@ -6,6 +6,8 @@ import com.example.demo.model.money.EmployeePayment;
 import com.example.demo.model.money.ExpenseMoney;
 import com.example.demo.model.money.IncomeMoney;
 import com.example.demo.model.money.IncomeType;
+import com.example.demo.model.money.Loan;
+import com.example.demo.model.money.LoanRepayment;
 import com.example.demo.model.money.MonetaryMovement;
 import com.example.demo.model.money.OtherExpense;
 import com.example.demo.model.money.Purchase;
@@ -211,5 +213,55 @@ public class MoneyValidator {
       throw new BadRequestException("Other expense list cannot be null or empty");
     }
     otherExpenses.forEach(this::validateOtherExpense);
+  }
+
+  public void validateLoan(Loan loan) {
+    if (loan == null) {
+      throw new BadRequestException("Loan cannot be null");
+    }
+    if (loan.getAmount() == null || loan.getAmount() <= 0) {
+      throw new BadRequestException("Loan amount must be positive");
+    }
+    if (loan.getLender() == null || loan.getLender().isBlank()) {
+      throw new BadRequestException("Lender is mandatory for loan");
+    }
+    if (loan.getInterestRate() == null || loan.getInterestRate() < 0) {
+      throw new BadRequestException("Interest rate must be non-negative");
+    }
+    if (loan.getStartDate() == null) {
+      throw new BadRequestException("Start date is mandatory for loan");
+    }
+    if (loan.getJob() == null || loan.getJob().getId() == null) {
+      throw new BadRequestException("Loan must be associated with a job");
+    }
+  }
+
+  public void validateLoans(List<Loan> loans) {
+    if (loans == null || loans.isEmpty()) {
+      throw new BadRequestException("Loan list cannot be null or empty");
+    }
+    loans.forEach(this::validateLoan);
+  }
+
+  public void validateLoanRepayment(LoanRepayment repayment) {
+    if (repayment == null) {
+      throw new BadRequestException("Loan repayment cannot be null");
+    }
+    if (repayment.getLoan() == null || repayment.getLoan().getId() == null) {
+      throw new BadRequestException("Loan repayment must be linked to a loan");
+    }
+    if (repayment.getPaymentDate() == null) {
+      throw new BadRequestException("Payment date is mandatory for loan repayment");
+    }
+    if (repayment.getAmount() == null || repayment.getAmount() <= 0) {
+      throw new BadRequestException("Repayment amount must be positive");
+    }
+  }
+
+  public void validateLoanRepayments(List<LoanRepayment> repayments) {
+    if (repayments == null || repayments.isEmpty()) {
+      throw new BadRequestException("Loan repayment list cannot be null or empty");
+    }
+    repayments.forEach(this::validateLoanRepayment);
   }
 }

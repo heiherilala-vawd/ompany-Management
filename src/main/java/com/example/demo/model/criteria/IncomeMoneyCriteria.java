@@ -11,4 +11,6 @@ public class IncomeMoneyCriteria {
   private String description;
   private Integer amount;
   private String jobId;
+  private String incomeTypeId;
+  private Boolean moneyReceived;
 }
