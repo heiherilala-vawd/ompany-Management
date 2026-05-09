@@ -105,6 +105,7 @@ final class TestMoneyFixtures {
   static CrupdateIncomeMoney incomeToCrupdateIncome(IncomeMoney income) {
     CrupdateIncomeMoney crupdateIncome = new CrupdateIncomeMoney();
     crupdateIncome.setId(income.getId());
+    crupdateIncome.setJobId(income.getJob() != null ? income.getJob().getId() : null);
     crupdateIncome.setSourceOrganization(income.getSourceOrganization());
     crupdateIncome.setInvoiceReference(income.getInvoiceReference());
     crupdateIncome.setBillingStartDate(income.getBillingStartDate());
@@ -119,6 +120,7 @@ final class TestMoneyFixtures {
   static CrupdateIncomeMoney someCreatableIncome() {
     CrupdateIncomeMoney income = new CrupdateIncomeMoney();
     income.setId(UUID.randomUUID().toString());
+    income.setJobId(TestUtils.JOB1_ID);
     income.setSourceOrganization("Client Gamma");
     income.setInvoiceReference("INV-2024-003");
     income.setBillingStartDate(LocalDate.of(2024, 3, 1));
@@ -159,6 +161,7 @@ final class TestMoneyFixtures {
   static CrupdateExpenseMoney someCreatableExpense() {
     CrupdateExpenseMoney expense = new CrupdateExpenseMoney();
     expense.setId(UUID.randomUUID().toString());
+    expense.setJobId(TestUtils.JOB1_ID);
     expense.setAmount(32000);
     expense.setDescription("Frais logistiques");
     return expense;
@@ -363,6 +366,20 @@ final class TestMoneyFixtures {
     loan.setStatus(LoanStatus.ACTIVE);
     loan.setAmount(5000000);
     loan.setDescription("Emprunt construction entrepot");
+    LoanRepayment r1 = new LoanRepayment();
+    r1.setId(TestUtils.REPAYMENT1_ID);
+    r1.setPaymentDate(LocalDate.of(2024, 3, 1));
+    r1.setAmount(600000);
+    r1.setPrincipalPortion(500000);
+    r1.setInterestPortion(100000);
+    LoanRepayment r2 = new LoanRepayment();
+    r2.setId(TestUtils.REPAYMENT2_ID);
+    r2.setPaymentDate(LocalDate.of(2024, 4, 1));
+    r2.setAmount(600000);
+    r2.setPrincipalPortion(510000);
+    r2.setInterestPortion(90000);
+    loan.setRepayments(List.of(r1, r2));
+    loan.setRemainingAmount(3800000);
     return loan;
   }
 

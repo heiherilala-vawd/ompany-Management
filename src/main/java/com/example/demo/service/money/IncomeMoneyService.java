@@ -100,16 +100,16 @@ public class IncomeMoneyService {
         predicates.add(cb.equal(root.get("incomeType").get("id"), criteria.getIncomeTypeId()));
       }
       if (criteria.getMoneyReceived() != null) {
-        jakarta.persistence.criteria.Subquery<IncomeReceipt> subquery =
-            query.subquery(IncomeReceipt.class);
+        jakarta.persistence.criteria.Subquery<Integer> sumReceipts =
+            query.subquery(Integer.class);
         jakarta.persistence.criteria.Root<IncomeReceipt> receiptRoot =
-            subquery.from(IncomeReceipt.class);
-        subquery.select(receiptRoot);
-        subquery.where(cb.equal(receiptRoot.get("income").get("id"), root.get("id")));
+            sumReceipts.from(IncomeReceipt.class);
+        sumReceipts.select(cb.coalesce(cb.sum(receiptRoot.get("amount")), 0));
+        sumReceipts.where(cb.equal(receiptRoot.get("income").get("id"), root.get("id")));
         if (criteria.getMoneyReceived()) {
-          predicates.add(cb.exists(subquery));
+          predicates.add(cb.lessThanOrEqualTo(root.get("amount").as(Integer.class), sumReceipts));
         } else {
-          predicates.add(cb.not(cb.exists(subquery)));
+          predicates.add(cb.greaterThan(root.get("amount").as(Integer.class), sumReceipts));
         }
       }
 

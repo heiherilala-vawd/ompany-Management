@@ -2927,7 +2927,7 @@ paths:
           example: "income_type_001"
         - name: money_received
           in: query
-          description: "Filter incomes by money received status (has at least one receipt)"
+          description: "Filter incomes by money received status (amount minus sum of receipts <= 0)"
           schema:
             type: boolean
           example: true
@@ -3413,6 +3413,452 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
+  # =========================
+  # LOAN
+  # =========================
+  '/companies/{comp_id}/job/{job_id}/user/{user_id}/loans/{id}':
+    get:
+      tags:
+        - Loan
+      summary: Get loan by identifier
+      operationId: getLoanById
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "job_001"
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "usr_123456"
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "loan_001"
+      responses:
+        '200':
+          description: The identified loan
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Loan'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      tags:
+        - Loan
+      summary: Delete loan by identifier
+      operationId: deleteLoanById
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "job_001"
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "usr_123456"
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "loan_001"
+      responses:
+        '204':
+          description: Loan deleted successfully
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  '/companies/{comp_id}/job/{job_id}/user/{user_id}/loans':
+    get:
+      tags:
+        - Loan
+      summary: Get all loans
+      operationId: getLoans
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "job_001"
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "usr_123456"
+        - name: page
+          in: query
+          schema:
+            $ref: '#/components/schemas/Page'
+          example: 1
+        - name: page_size
+          in: query
+          schema:
+            $ref: '#/components/schemas/PageSize'
+          example: 20
+        - name: description
+          in: query
+          description: "Filter loans by description, case is ignored"
+          schema:
+            type: string
+          example: "construction"
+        - name: amount
+          in: query
+          schema:
+            type: integer
+          example: 5000000
+        - name: lender
+          in: query
+          description: "Filter loans by lender, case is ignored"
+          schema:
+            type: string
+          example: "BNI"
+        - name: status
+          in: query
+          description: "Filter loans by status"
+          schema:
+            $ref: '#/components/schemas/LoanStatus'
+          example: "ACTIVE"
+      responses:
+        '200':
+          description: List of loans
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Loan'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      tags:
+        - Loan
+      summary: Create new loans or update existing ones
+      operationId: crupdateLoans
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "job_001"
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "usr_123456"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/CrupdateLoan'
+      responses:
+        '200':
+          description: The created or updated loans
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Loan'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+
+  # =========================
+  # LOAN REPAYMENT
+  # =========================
+  '/companies/{comp_id}/job/{job_id}/user/{user_id}/loans/{loan_id}/repayments/{id}':
+    get:
+      tags:
+        - LoanRepayment
+      summary: Get loan repayment by identifier
+      operationId: getLoanRepaymentById
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "job_001"
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "usr_123456"
+        - name: loan_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "loan_001"
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "repayment_001"
+      responses:
+        '200':
+          description: The identified loan repayment
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoanRepayment'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      tags:
+        - LoanRepayment
+      summary: Delete loan repayment by identifier
+      operationId: deleteLoanRepaymentById
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "job_001"
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "usr_123456"
+        - name: loan_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "loan_001"
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "repayment_001"
+      responses:
+        '204':
+          description: Loan repayment deleted successfully
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  '/companies/{comp_id}/job/{job_id}/user/{user_id}/loans/{loan_id}/repayments':
+    get:
+      tags:
+        - LoanRepayment
+      summary: Get all repayments for a loan
+      operationId: getLoanRepayments
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "job_001"
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "usr_123456"
+        - name: loan_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "loan_001"
+        - name: page
+          in: query
+          schema:
+            $ref: '#/components/schemas/Page'
+          example: 1
+        - name: page_size
+          in: query
+          schema:
+            $ref: '#/components/schemas/PageSize'
+          example: 20
+      responses:
+        '200':
+          description: List of loan repayments
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LoanRepayment'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      tags:
+        - LoanRepayment
+      summary: Create new loan repayments or update existing ones
+      operationId: crupdateLoanRepayments
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "job_001"
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "usr_123456"
+        - name: loan_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "loan_001"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/CrupdateLoanRepayment'
+      responses:
+        '200':
+          description: The created or updated loan repayments
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LoanRepayment'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
 
   # =========================
   # TRAVEL EXPENSE
@@ -6740,6 +7186,125 @@ components:
         comment:
           type: string
           example: "Paiement recu le 1er fevrier"
+
+    # =========================
+    # LOAN
+    # =========================
+    LoanStatus:
+      type: string
+      enum:
+        - ACTIVE
+        - PAID
+        - DEFAULTED
+    Loan:
+      allOf:
+        - $ref: '#/components/schemas/MonetaryMovement'
+      properties:
+        id:
+          type: string
+          example: "loan_001"
+        lender:
+          type: string
+          example: "BNI Madagascar"
+        interest_rate:
+          type: integer
+          description: "Annual interest rate in basis points (e.g., 1200 = 12%)"
+          example: 1200
+        start_date:
+          type: string
+          format: date
+          example: "2024-02-01"
+        status:
+          $ref: '#/components/schemas/LoanStatus'
+        job:
+          allOf:
+            - $ref: '#/components/schemas/CrupdateJob'
+          description: "Job this loan is related to"
+        repayments:
+          type: array
+          description: "Repayments made for this loan"
+          items:
+            $ref: '#/components/schemas/LoanRepayment'
+        remaining_amount:
+          type: integer
+          description: "Remaining outstanding amount (amount - sum of repayments)"
+          example: 3800000
+    CrupdateLoan:
+      allOf:
+        - $ref: '#/components/schemas/CrupdateMonetaryMovement'
+      properties:
+        id:
+          type: string
+          example: "loan_001"
+        lender:
+          type: string
+          example: "BNI Madagascar"
+        interest_rate:
+          type: integer
+          description: "Annual interest rate in basis points (e.g., 1200 = 12%)"
+          example: 1200
+        start_date:
+          type: string
+          format: date
+          example: "2024-02-01"
+        status:
+          $ref: '#/components/schemas/LoanStatus'
+        job_id:
+          type: string
+          description: "ID of the job this loan is related to"
+          example: "job_001"
+
+    # =========================
+    # LOAN REPAYMENT
+    # =========================
+    LoanRepayment:
+      allOf:
+        - $ref: '#/components/schemas/AuditFields'
+      properties:
+        id:
+          type: string
+          example: "repayment_001"
+        payment_date:
+          type: string
+          format: date
+          example: "2024-03-01"
+        amount:
+          type: integer
+          description: "Total repayment amount"
+          example: 600000
+        principal_portion:
+          type: integer
+          description: "Portion of the payment that goes to principal (auto-calculated)"
+          example: 500000
+        interest_portion:
+          type: integer
+          description: "Portion of the payment that goes to interest (auto-calculated)"
+          example: 100000
+        loan:
+          allOf:
+            - $ref: '#/components/schemas/CrupdateLoan'
+          description: "Loan this repayment is related to"
+    CrupdateLoanRepayment:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "repayment_001"
+        payment_date:
+          type: string
+          format: date
+          example: "2024-03-01"
+        amount:
+          type: integer
+          description: "Total repayment amount"
+          example: 600000
+        loan_id:
+          type: string
+          description: "ID of the loan this repayment is related to"
+          example: "loan_001"
+        comment:
+          type: string
+          example: "Remboursement mars 2024"
 
     # =========================
     # EXPENSE

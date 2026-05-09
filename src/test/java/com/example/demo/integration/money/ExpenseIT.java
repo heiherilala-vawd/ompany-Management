@@ -171,18 +171,16 @@ class ExpenseIT {
   }
 
   @Test
-  void admin_can_create_expense_with_job_from_path() throws Exception {
+  void admin_cannot_create_expense_without_job() {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     ExpenseApi api = new ExpenseApi(adminClient);
 
     CrupdateExpenseMoney expense = someCreatableExpense();
-    expense.setJobId(null); // Controller should set job from path
+    expense.setJobId(null);
 
-    List<ExpenseMoney> result =
-        api.crupdateExpenses(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(expense));
-    assertNotNull(result);
-    assertEquals(1, result.size());
-    assertNotNull(result.get(0).getJob());
+    assertThrowsApiException(
+        "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Expense must be associated with a job\"}",
+        () -> api.crupdateExpenses(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(expense)));
   }
 
   static class ContextInitializer extends AbstractContextInitializer {

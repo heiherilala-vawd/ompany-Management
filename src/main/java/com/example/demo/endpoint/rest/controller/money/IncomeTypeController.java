@@ -31,12 +31,6 @@ public class IncomeTypeController {
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<IncomeType> crupdateIncomeTypes(
       @PathVariable String comp_id, @RequestBody List<CrupdateIncomeType> toWrite) {
-    toWrite.forEach(
-        incomeType -> {
-          if (incomeType.getCompanyId() == null) {
-            incomeType.setCompanyId(comp_id);
-          }
-        });
     return incomeTypeMapper.toRestIncomeTypes(
         incomeTypeService.createOrUpdateAll(
             toWrite.stream().map(incomeTypeMapper::toDomain).toList()));

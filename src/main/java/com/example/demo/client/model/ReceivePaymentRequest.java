@@ -19,147 +19,89 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
-import com.example.demo.client.model.MaterialUnit;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Arrays;
+import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
 /**
- * CrupdateMaterial
+ * ReceivePaymentRequest
  */
 @JsonPropertyOrder({
-  CrupdateMaterial.JSON_PROPERTY_ID,
-  CrupdateMaterial.JSON_PROPERTY_NAME,
-  CrupdateMaterial.JSON_PROPERTY_DESCRIPTION,
-  CrupdateMaterial.JSON_PROPERTY_UNIT,
-  CrupdateMaterial.JSON_PROPERTY_COMMENT
+  ReceivePaymentRequest.JSON_PROPERTY_AMOUNT,
+  ReceivePaymentRequest.JSON_PROPERTY_PAYMENT_DATE,
+  ReceivePaymentRequest.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-09T23:21:50.737140530+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
-public class CrupdateMaterial {
-  public static final String JSON_PROPERTY_ID = "id";
-  private String id;
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-09T19:31:09.656453185+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+public class ReceivePaymentRequest {
+  public static final String JSON_PROPERTY_AMOUNT = "amount";
+  private Integer amount;
 
-  public static final String JSON_PROPERTY_NAME = "name";
-  private String name;
-
-  public static final String JSON_PROPERTY_DESCRIPTION = "description";
-  private String description;
-
-  public static final String JSON_PROPERTY_UNIT = "unit";
-  private MaterialUnit unit;
+  public static final String JSON_PROPERTY_PAYMENT_DATE = "payment_date";
+  private java.time.LocalDate paymentDate;
 
   public static final String JSON_PROPERTY_COMMENT = "comment";
   private String comment;
 
-  public CrupdateMaterial() { 
+  public ReceivePaymentRequest() { 
   }
 
-  public CrupdateMaterial id(String id) {
-    this.id = id;
+  public ReceivePaymentRequest amount(Integer amount) {
+    this.amount = amount;
     return this;
   }
 
    /**
-   * Get id
-   * @return id
+   * Get amount
+   * @return amount
   **/
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonProperty(JSON_PROPERTY_AMOUNT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getId() {
-    return id;
+  public Integer getAmount() {
+    return amount;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonProperty(JSON_PROPERTY_AMOUNT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setId(String id) {
-    this.id = id;
+  public void setAmount(Integer amount) {
+    this.amount = amount;
   }
 
 
-  public CrupdateMaterial name(String name) {
-    this.name = name;
+  public ReceivePaymentRequest paymentDate(java.time.LocalDate paymentDate) {
+    this.paymentDate = paymentDate;
     return this;
   }
 
    /**
-   * Get name
-   * @return name
+   * Get paymentDate
+   * @return paymentDate
   **/
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonProperty(JSON_PROPERTY_PAYMENT_DATE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getName() {
-    return name;
+  public java.time.LocalDate getPaymentDate() {
+    return paymentDate;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonProperty(JSON_PROPERTY_PAYMENT_DATE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setName(String name) {
-    this.name = name;
+  public void setPaymentDate(java.time.LocalDate paymentDate) {
+    this.paymentDate = paymentDate;
   }
 
 
-  public CrupdateMaterial description(String description) {
-    this.description = description;
-    return this;
-  }
-
-   /**
-   * Get description
-   * @return description
-  **/
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_DESCRIPTION)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-  public String getDescription() {
-    return description;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_DESCRIPTION)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setDescription(String description) {
-    this.description = description;
-  }
-
-
-  public CrupdateMaterial unit(MaterialUnit unit) {
-    this.unit = unit;
-    return this;
-  }
-
-   /**
-   * Get unit
-   * @return unit
-  **/
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_UNIT)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-  public MaterialUnit getUnit() {
-    return unit;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_UNIT)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setUnit(MaterialUnit unit) {
-    this.unit = unit;
-  }
-
-
-  public CrupdateMaterial comment(String comment) {
+  public ReceivePaymentRequest comment(String comment) {
     this.comment = comment;
     return this;
   }
@@ -185,7 +127,7 @@ public class CrupdateMaterial {
 
 
   /**
-   * Return true if this CrupdateMaterial object is equal to o.
+   * Return true if this ReceivePaymentRequest object is equal to o.
    */
   @Override
   public boolean equals(Object o) {
@@ -195,27 +137,23 @@ public class CrupdateMaterial {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    CrupdateMaterial crupdateMaterial = (CrupdateMaterial) o;
-    return Objects.equals(this.id, crupdateMaterial.id) &&
-        Objects.equals(this.name, crupdateMaterial.name) &&
-        Objects.equals(this.description, crupdateMaterial.description) &&
-        Objects.equals(this.unit, crupdateMaterial.unit) &&
-        Objects.equals(this.comment, crupdateMaterial.comment);
+    ReceivePaymentRequest receivePaymentRequest = (ReceivePaymentRequest) o;
+    return Objects.equals(this.amount, receivePaymentRequest.amount) &&
+        Objects.equals(this.paymentDate, receivePaymentRequest.paymentDate) &&
+        Objects.equals(this.comment, receivePaymentRequest.comment);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, description, unit, comment);
+    return Objects.hash(amount, paymentDate, comment);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class CrupdateMaterial {\n");
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    name: ").append(toIndentedString(name)).append("\n");
-    sb.append("    description: ").append(toIndentedString(description)).append("\n");
-    sb.append("    unit: ").append(toIndentedString(unit)).append("\n");
+    sb.append("class ReceivePaymentRequest {\n");
+    sb.append("    amount: ").append(toIndentedString(amount)).append("\n");
+    sb.append("    paymentDate: ").append(toIndentedString(paymentDate)).append("\n");
     sb.append("    comment: ").append(toIndentedString(comment)).append("\n");
     sb.append("}");
     return sb.toString();
@@ -263,6 +201,16 @@ public class CrupdateMaterial {
     }
 
     StringJoiner joiner = new StringJoiner("&");
+
+    // add `amount` to the URL query string
+    if (getAmount() != null) {
+      joiner.add(String.format("%samount%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getAmount()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `payment_date` to the URL query string
+    if (getPaymentDate() != null) {
+      joiner.add(String.format("%spayment_date%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getPaymentDate()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
 
     // add `comment` to the URL query string
     if (getComment() != null) {

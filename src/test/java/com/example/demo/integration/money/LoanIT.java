@@ -64,6 +64,20 @@ class LoanIT {
     expected.setUpdatedBy(actual.getUpdatedBy());
     expected.setComment(actual.getComment());
 
+    if (actual.getRepayments() != null && expected.getRepayments() != null) {
+      for (int i = 0;
+          i < Math.min(actual.getRepayments().size(), expected.getRepayments().size());
+          i++) {
+        var actualRep = actual.getRepayments().get(i);
+        var expectedRep = expected.getRepayments().get(i);
+        expectedRep.setCreatedAt(actualRep.getCreatedAt());
+        expectedRep.setUpdatedAt(actualRep.getUpdatedAt());
+        expectedRep.setCreatedBy(actualRep.getCreatedBy());
+        expectedRep.setUpdatedBy(actualRep.getUpdatedBy());
+        expectedRep.setComment(actualRep.getComment());
+      }
+    }
+
     assertEquals(expected, actual);
   }
 

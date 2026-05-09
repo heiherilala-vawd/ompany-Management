@@ -164,6 +164,20 @@ public class SecurityConfiguration {
                     .hasAnyRole("ADMIN", "WAREHOUSE_WORKER", "EMPLOYEE", "ADMINISTRATION")
 
                     // =========================
+                    // INCOME RECEIPT
+                    // =========================
+                    .requestMatchers(
+                        GET,
+                        "/companies/*/job/*/user/*/incomes/*/receipts",
+                        "/companies/*/job/*/user/*/incomes/*/receipts/*")
+                    .authenticated()
+                    .requestMatchers(PUT, "/companies/*/job/*/user/*/incomes/*/receipts")
+                    .authenticated()
+                    // DELETE /receipts - ADMIN uniquement
+                    .requestMatchers(DELETE, "/companies/*/job/*/user/*/incomes/*/receipts/*")
+                    .hasRole("ADMIN")
+
+                    // =========================
                     // INCOME TYPE
                     // =========================
                     .requestMatchers(GET, "/companies/*/income_types")
