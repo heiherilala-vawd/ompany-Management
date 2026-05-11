@@ -185,6 +185,9 @@ public class MoneyValidator {
     if (bankFee.getExpense() == null || bankFee.getExpense().getId() == null) {
       throw new BadRequestException("Bank fee must be linked to an expense");
     }
+    if (bankFee.getExpense().getAmount() == null || bankFee.getExpense().getAmount() <= 0) {
+      throw new BadRequestException("Bank fee amount must be positive");
+    }
     if (bankFee.getBankName() == null || bankFee.getBankName().isBlank()) {
       throw new BadRequestException("Bank name is mandatory");
     }

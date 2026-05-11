@@ -3,6 +3,7 @@ package com.example.demo.endpoint.rest.controller.money;
 import com.example.demo.client.model.CrupdateIncomeType;
 import com.example.demo.client.model.IncomeType;
 import com.example.demo.endpoint.rest.mapper.money.IncomeTypeMapper;
+import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.service.money.IncomeTypeService;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -20,6 +21,15 @@ public class IncomeTypeController {
 
   private final IncomeTypeService incomeTypeService;
   private final IncomeTypeMapper incomeTypeMapper;
+
+  @GetMapping("/companies/{comp_id}/income_types/{id}")
+  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
+  public IncomeType getIncomeTypeById(@PathVariable String comp_id, @PathVariable String id) {
+    return incomeTypeMapper.toRestIncomeType(
+        incomeTypeService
+            .findById(id)
+            .orElseThrow(() -> new NotFoundException("IncomeType with id " + id + " not found")));
+  }
 
   @GetMapping("/companies/{comp_id}/income_types")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")

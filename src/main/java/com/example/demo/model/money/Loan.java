@@ -13,8 +13,6 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.Hibernate;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
 
 @Entity
 @Table(name = "loan")
@@ -34,9 +32,7 @@ public class Loan extends MonetaryMovement implements Serializable {
 
   private LocalDate startDate;
 
-  @Enumerated(EnumType.STRING)
-  @JdbcTypeCode(SqlTypes.NAMED_ENUM)
-  private LoanStatus status;
+  private LocalDate dueDate;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "job_id")

@@ -71,9 +71,6 @@ public class LoanService {
         predicates.add(
             cb.like(cb.lower(root.get("lender")), "%" + criteria.getLender().toLowerCase() + "%"));
       }
-      if (criteria.getStatus() != null) {
-        predicates.add(cb.equal(root.get("status"), Loan.LoanStatus.valueOf(criteria.getStatus())));
-      }
       if (criteria.getJobId() != null) {
         predicates.add(cb.equal(root.get("job").get("id"), criteria.getJobId()));
       }

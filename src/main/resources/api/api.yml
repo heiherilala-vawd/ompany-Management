@@ -2702,6 +2702,46 @@ paths:
         '500':
           $ref: '#/components/responses/500'
   /companies/{comp_id}/income_types/{id}:
+    get:
+      tags:
+        - IncomeType
+      summary: Get an income type by identifier
+      operationId: getIncomeTypeById
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "income_type_001"
+      responses:
+        '200':
+          description: Income type found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IncomeType'
+              example:
+                id: "income_type_001"
+                name: "Facturation client"
+                description: "Revenus issus de la facturation client"
+                company_id: "comp_btp001"
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
     delete:
       tags:
         - IncomeType
@@ -3559,12 +3599,6 @@ paths:
           schema:
             type: string
           example: "BNI"
-        - name: status
-          in: query
-          description: "Filter loans by status"
-          schema:
-            $ref: '#/components/schemas/LoanStatus'
-          example: "ACTIVE"
       responses:
         '200':
           description: List of loans
@@ -4083,7 +4117,10 @@ paths:
                 $ref: '#/components/schemas/CrupdateTravelExpense'
             example:
               - id: "travel_001"
-                expense_id: "exp_003"
+                expense:
+                  id: "exp_003"
+                  amount: 10000
+                  job_id: "job_001"
                 departure_location:
                   id: "wh_001"
                   name: "Entrepôt Nord"
@@ -4174,7 +4211,11 @@ paths:
                   id: "exp_001"
                   amount: 15000
                   description: "Achat de matériaux pour le chantier"
-                supplier_id: "supp_001"
+                supplier:
+                  id: "supp_001"
+                  name: "Fournisseur A"
+                  description: "Fournisseur matériaux"
+                  job_id: "job_001"
                 material:
                   id: "mat_001"
                   name: "Ciment Portland"
@@ -4294,7 +4335,11 @@ paths:
                     id: "exp_001"
                     amount: 15000
                     description: "Achat de matériaux pour le chantier"
-                  supplier_id: "supp_001"
+                  supplier:
+                    id: "supp_001"
+                    name: "Fournisseur A"
+                    description: "Fournisseur matériaux"
+                    job_id: "job_001"
                   material:
                     id: "mat_001"
                     name: "Ciment Portland"
@@ -4305,7 +4350,11 @@ paths:
                     id: "exp_001"
                     amount: 15000
                     description: "Achat de matériaux pour le chantier"
-                  supplier_id: "supp_001"
+                  supplier:
+                    id: "supp_001"
+                    name: "Fournisseur A"
+                    description: "Fournisseur matériaux"
+                    job_id: "job_001"
                   material:
                     id: "mat_002"
                     name: "Gravier 10/20"
@@ -4355,8 +4404,15 @@ paths:
                 $ref: '#/components/schemas/CrupdatePurchase'
             example:
               - id: "purch_001"
-                expense_id: "exp_001"
-                supplier_id: "supp_001"
+                expense:
+                  id: "exp_001"
+                  amount: 15000
+                  job_id: "job_001"
+                supplier:
+                  id: "supp_001"
+                  name: "Fournisseur A"
+                  description: "Fournisseur matériaux"
+                  job_id: "job_001"
                 material: "mat_001"
                 quantity: 250
                 is_equipment: false
@@ -4375,7 +4431,11 @@ paths:
                     id: "exp_001"
                     amount: 15000
                     description: "Achat de matériaux pour le chantier"
-                  supplier_id: "supp_001"
+                  supplier:
+                    id: "supp_001"
+                    name: "Fournisseur A"
+                    description: "Fournisseur matériaux"
+                    job_id: "job_001"
                   material:
                     id: "mat_001"
                     name: "Ciment Portland"
@@ -4471,7 +4531,11 @@ paths:
                     id: "exp_001"
                     amount: 15000
                     description: "Achat de matériaux pour le chantier"
-                  supplier_id: "supp_001"
+                  supplier:
+                    id: "supp_001"
+                    name: "Fournisseur A"
+                    description: "Fournisseur matériaux"
+                    job_id: "job_001"
                   material:
                     id: "mat_001"
                     name: "Ciment Portland"
@@ -4789,7 +4853,10 @@ paths:
                 $ref: '#/components/schemas/CrupdateBankFee'
             example:
               - id: "bank_001"
-                expense_id: "exp_001"
+                expense:
+                  id: "exp_001"
+                  amount: 5000
+                  job_id: "job_001"
                 bank_name: "BNP Paribas"
                 description: "Frais de virement international révisés"
       responses:
@@ -5023,7 +5090,10 @@ paths:
                 $ref: '#/components/schemas/CrupdateOtherExpense'
             example:
               - id: "other_001"
-                expense_id: "exp_002"
+                expense:
+                  id: "exp_002"
+                  amount: 5000
+                  job_id: "job_002"
                 description: "Frais de carburant et entretien"
       responses:
         '200':
@@ -5288,7 +5358,10 @@ paths:
                 $ref: '#/components/schemas/CrupdateEmployeePayment'
             example:
               - id: "emp_pay_001"
-                expense_id: "exp_004"
+                expense:
+                  id: "exp_004"
+                  amount: 5000
+                  job_id: "job_004"
                 employee_id: "usr_123456"
                 payment_description: "Salaire février 2024 + prime"
                 payment_type: "MONTHLY"
@@ -7214,6 +7287,11 @@ components:
           type: string
           format: date
           example: "2024-02-01"
+        due_date:
+          type: string
+          format: date
+          example: "2026-12-31"
+          description: "Due date of the loan. If null, the loan has no fixed term."
         status:
           $ref: '#/components/schemas/LoanStatus'
         job:
@@ -7247,8 +7325,11 @@ components:
           type: string
           format: date
           example: "2024-02-01"
-        status:
-          $ref: '#/components/schemas/LoanStatus'
+        due_date:
+          type: string
+          format: date
+          example: "2026-12-31"
+          description: "Due date of the loan. If null, the loan has no fixed term."
         job_id:
           type: string
           description: "ID of the job this loan is related to"

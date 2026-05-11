@@ -73,9 +73,7 @@ class IncomeReceiptIT {
     IncomeReceiptApi api = new IncomeReceiptApi(badClient);
 
     assertThrowsNotAuthorizedException(
-        () ->
-            api.getIncomeReceiptById(
-                COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, INCOME1_ID, RECEIPT1_ID));
+        () -> api.getIncomeReceiptById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, INCOME1_ID, RECEIPT1_ID));
   }
 
   @Test
@@ -96,8 +94,7 @@ class IncomeReceiptIT {
     IncomeReceiptApi api = new IncomeReceiptApi(employeeClient);
 
     assertThrowsForbiddenException(
-        () ->
-            api.getIncomeReceipts(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, INCOME1_ID, 1, 100));
+        () -> api.getIncomeReceipts(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, INCOME1_ID, 1, 100));
   }
 
   @Test
@@ -146,11 +143,7 @@ class IncomeReceiptIT {
     assertThrowsForbiddenException(
         () ->
             api.crupdateIncomeReceipts(
-                COMPANY1_ID,
-                JOB1_ID,
-                EMPLOYEE_ID,
-                INCOME1_ID,
-                List.of(someCreatableReceipt())));
+                COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, INCOME1_ID, List.of(someCreatableReceipt())));
   }
 
   @Test
@@ -170,8 +163,7 @@ class IncomeReceiptIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     IncomeReceiptApi api = new IncomeReceiptApi(adminClient);
 
-    api.deleteIncomeReceiptById(
-        COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, INCOME1_ID, RECEIPT1_ID);
+    api.deleteIncomeReceiptById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, INCOME1_ID, RECEIPT1_ID);
 
     List<IncomeReceipt> receipts =
         api.getIncomeReceipts(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, INCOME1_ID, 1, 100);

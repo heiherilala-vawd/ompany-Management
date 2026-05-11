@@ -43,6 +43,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   Loan.JSON_PROPERTY_LENDER,
   Loan.JSON_PROPERTY_INTEREST_RATE,
   Loan.JSON_PROPERTY_START_DATE,
+  Loan.JSON_PROPERTY_DUE_DATE,
   Loan.JSON_PROPERTY_STATUS,
   Loan.JSON_PROPERTY_JOB,
   Loan.JSON_PROPERTY_REPAYMENTS,
@@ -55,7 +56,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   Loan.JSON_PROPERTY_UPDATED_BY,
   Loan.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-09T23:21:50.737140530+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-10T21:10:08.803342336+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class Loan {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -68,6 +69,9 @@ public class Loan {
 
   public static final String JSON_PROPERTY_START_DATE = "start_date";
   private java.time.LocalDate startDate;
+
+  public static final String JSON_PROPERTY_DUE_DATE = "due_date";
+  private java.time.LocalDate dueDate;
 
   public static final String JSON_PROPERTY_STATUS = "status";
   private LoanStatus status;
@@ -202,6 +206,31 @@ public class Loan {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setStartDate(java.time.LocalDate startDate) {
     this.startDate = startDate;
+  }
+
+
+  public Loan dueDate(java.time.LocalDate dueDate) {
+    this.dueDate = dueDate;
+    return this;
+  }
+
+   /**
+   * Due date of the loan. If null, the loan has no fixed term.
+   * @return dueDate
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_DUE_DATE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public java.time.LocalDate getDueDate() {
+    return dueDate;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_DUE_DATE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setDueDate(java.time.LocalDate dueDate) {
+    this.dueDate = dueDate;
   }
 
 
@@ -504,6 +533,7 @@ public class Loan {
         Objects.equals(this.lender, loan.lender) &&
         Objects.equals(this.interestRate, loan.interestRate) &&
         Objects.equals(this.startDate, loan.startDate) &&
+        Objects.equals(this.dueDate, loan.dueDate) &&
         Objects.equals(this.status, loan.status) &&
         Objects.equals(this.job, loan.job) &&
         Objects.equals(this.repayments, loan.repayments) &&
@@ -519,7 +549,7 @@ public class Loan {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, lender, interestRate, startDate, status, job, repayments, remainingAmount, amount, description, createdAt, updatedAt, createdBy, updatedBy, comment);
+    return Objects.hash(id, lender, interestRate, startDate, dueDate, status, job, repayments, remainingAmount, amount, description, createdAt, updatedAt, createdBy, updatedBy, comment);
   }
 
   @Override
@@ -530,6 +560,7 @@ public class Loan {
     sb.append("    lender: ").append(toIndentedString(lender)).append("\n");
     sb.append("    interestRate: ").append(toIndentedString(interestRate)).append("\n");
     sb.append("    startDate: ").append(toIndentedString(startDate)).append("\n");
+    sb.append("    dueDate: ").append(toIndentedString(dueDate)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("    job: ").append(toIndentedString(job)).append("\n");
     sb.append("    repayments: ").append(toIndentedString(repayments)).append("\n");

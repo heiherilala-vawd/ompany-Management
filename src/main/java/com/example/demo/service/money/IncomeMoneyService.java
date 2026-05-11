@@ -100,8 +100,7 @@ public class IncomeMoneyService {
         predicates.add(cb.equal(root.get("incomeType").get("id"), criteria.getIncomeTypeId()));
       }
       if (criteria.getMoneyReceived() != null) {
-        jakarta.persistence.criteria.Subquery<Integer> sumReceipts =
-            query.subquery(Integer.class);
+        jakarta.persistence.criteria.Subquery<Integer> sumReceipts = query.subquery(Integer.class);
         jakarta.persistence.criteria.Root<IncomeReceipt> receiptRoot =
             sumReceipts.from(IncomeReceipt.class);
         sumReceipts.select(cb.coalesce(cb.sum(receiptRoot.get("amount")), 0));
