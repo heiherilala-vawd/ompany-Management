@@ -21,7 +21,6 @@ import com.example.demo.client.model.BadRequestException;
 import com.example.demo.client.model.CrupdateLoan;
 import com.example.demo.client.model.InternalServerException;
 import com.example.demo.client.model.Loan;
-import com.example.demo.client.model.LoanStatus;
 import com.example.demo.client.model.NotAuthorizedException;
 import com.example.demo.client.model.ResourceNotFoundException;
 import com.example.demo.client.model.TooManyRequestsException;
@@ -51,7 +50,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-09T23:21:50.737140530+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-10T21:10:08.803342336+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class LoanApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -389,12 +388,11 @@ public class LoanApi {
    * @param description Filter loans by description, case is ignored (optional)
    * @param amount  (optional)
    * @param lender Filter loans by lender, case is ignored (optional)
-   * @param status Filter loans by status (optional)
    * @return List&lt;Loan&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<Loan> getLoans(String compId, String jobId, String userId, Integer page, Integer pageSize, String description, Integer amount, String lender, LoanStatus status) throws ApiException {
-    ApiResponse<List<Loan>> localVarResponse = getLoansWithHttpInfo(compId, jobId, userId, page, pageSize, description, amount, lender, status);
+  public List<Loan> getLoans(String compId, String jobId, String userId, Integer page, Integer pageSize, String description, Integer amount, String lender) throws ApiException {
+    ApiResponse<List<Loan>> localVarResponse = getLoansWithHttpInfo(compId, jobId, userId, page, pageSize, description, amount, lender);
     return localVarResponse.getData();
   }
 
@@ -409,12 +407,11 @@ public class LoanApi {
    * @param description Filter loans by description, case is ignored (optional)
    * @param amount  (optional)
    * @param lender Filter loans by lender, case is ignored (optional)
-   * @param status Filter loans by status (optional)
    * @return ApiResponse&lt;List&lt;Loan&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<Loan>> getLoansWithHttpInfo(String compId, String jobId, String userId, Integer page, Integer pageSize, String description, Integer amount, String lender, LoanStatus status) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getLoansRequestBuilder(compId, jobId, userId, page, pageSize, description, amount, lender, status);
+  public ApiResponse<List<Loan>> getLoansWithHttpInfo(String compId, String jobId, String userId, Integer page, Integer pageSize, String description, Integer amount, String lender) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getLoansRequestBuilder(compId, jobId, userId, page, pageSize, description, amount, lender);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -442,7 +439,7 @@ public class LoanApi {
     }
   }
 
-  private HttpRequest.Builder getLoansRequestBuilder(String compId, String jobId, String userId, Integer page, Integer pageSize, String description, Integer amount, String lender, LoanStatus status) throws ApiException {
+  private HttpRequest.Builder getLoansRequestBuilder(String compId, String jobId, String userId, Integer page, Integer pageSize, String description, Integer amount, String lender) throws ApiException {
     // verify the required parameter 'compId' is set
     if (compId == null) {
       throw new ApiException(400, "Missing the required parameter 'compId' when calling getLoans");
@@ -476,8 +473,6 @@ public class LoanApi {
     localVarQueryParams.addAll(ApiClient.parameterToPairs("amount", amount));
     localVarQueryParameterBaseName = "lender";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("lender", lender));
-    localVarQueryParameterBaseName = "status";
-    localVarQueryParams.addAll(ApiClient.parameterToPairs("status", status));
 
     if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
       StringJoiner queryJoiner = new StringJoiner("&");

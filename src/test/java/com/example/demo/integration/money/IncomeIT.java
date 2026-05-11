@@ -100,11 +100,12 @@ class IncomeIT {
         api.getIncomes(
             COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, null, null, null, null, null);
 
-    assertEquals(4, incomes.size());
+    assertEquals(7, incomes.size());
     assertTrue(incomes.stream().anyMatch(income -> INCOME1_ID.equals(income.getId())));
     assertTrue(incomes.stream().anyMatch(income -> INCOME2_ID.equals(income.getId())));
     assertTrue(incomes.stream().anyMatch(income -> INCOME3_ID.equals(income.getId())));
     assertTrue(incomes.stream().anyMatch(income -> INCOME4_ID.equals(income.getId())));
+    assertTrue(incomes.stream().anyMatch(income -> INCOME5_ID.equals(income.getId())));
   }
 
   @Test
@@ -212,8 +213,9 @@ class IncomeIT {
         api.getIncomes(
             COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, null, null, null, null, false);
 
-    assertEquals(1, incomes.size());
-    assertEquals(INCOME3_ID, incomes.get(0).getId());
+    assertEquals(2, incomes.size());
+    assertTrue(incomes.stream().anyMatch(i -> INCOME3_ID.equals(i.getId())));
+    assertTrue(incomes.stream().anyMatch(i -> INCOME5_ID.equals(i.getId())));
   }
 
   @Test
@@ -225,10 +227,12 @@ class IncomeIT {
         api.getIncomes(
             COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, null, null, null, null, true);
 
-    assertEquals(3, incomes.size());
+    assertEquals(5, incomes.size());
     assertTrue(incomes.stream().anyMatch(i -> INCOME1_ID.equals(i.getId())));
     assertTrue(incomes.stream().anyMatch(i -> INCOME2_ID.equals(i.getId())));
     assertTrue(incomes.stream().anyMatch(i -> INCOME4_ID.equals(i.getId())));
+    assertTrue(incomes.stream().anyMatch(i -> INCOME6_ID.equals(i.getId())));
+    assertTrue(incomes.stream().anyMatch(i -> INCOME7_ID.equals(i.getId())));
   }
 
   @Test
@@ -293,6 +297,60 @@ class IncomeIT {
     assertThrowsApiException(
         "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Source organization is mandatory for income\"}",
         () -> api.crupdateIncomes(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(invalidIncome)));
+  }
+
+  @Test
+  void admin_can_filter_incomes_partially_received() throws Exception {
+    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
+    IncomeApi api = new IncomeApi(adminClient);
+
+    List<IncomeMoney> incomes =
+        api.getIncomes(
+            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, null, null, null, null, false);
+
+    assertTrue(incomes.stream().anyMatch(i -> INCOME5_ID.equals(i.getId())));
+    IncomeMoney income =
+        incomes.stream().filter(i -> INCOME5_ID.equals(i.getId())).findFirst().get();
+    assertEquals(100000, income.getAmount());
+    assertEquals(40000, income.getRemainingAmount());
+  }
+
+  @Test
+  void admin_can_get_income_with_multiple_receipts() throws Exception {
+    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
+    IncomeApi api = new IncomeApi(adminClient);
+
+    IncomeMoney actual = api.getIncomeById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, INCOME7_ID);
+    IncomeMoney expected = income7();
+    expected.setCreatedAt(actual.getCreatedAt());
+    expected.setUpdatedAt(actual.getUpdatedAt());
+    expected.setCreatedBy(actual.getCreatedBy());
+    expected.setUpdatedBy(actual.getUpdatedBy());
+    expected.setComment(actual.getComment());
+    expected.getIncomeType().setCreatedAt(actual.getIncomeType().getCreatedAt());
+    expected.getIncomeType().setUpdatedAt(actual.getIncomeType().getUpdatedAt());
+    expected.getIncomeType().setCreatedBy(actual.getIncomeType().getCreatedBy());
+    expected.getIncomeType().setUpdatedBy(actual.getIncomeType().getUpdatedBy());
+    expected.getIncomeType().setComment(actual.getIncomeType().getComment());
+    syncReceiptsTimestamps(actual, expected);
+
+    assertEquals(expected, actual);
+  }
+
+  private void syncReceiptsTimestamps(IncomeMoney actual, IncomeMoney expected) {
+    if (actual.getReceipts() != null && expected.getReceipts() != null) {
+      for (int i = 0;
+          i < Math.min(actual.getReceipts().size(), expected.getReceipts().size());
+          i++) {
+        var actualReceipt = actual.getReceipts().get(i);
+        var expectedReceipt = expected.getReceipts().get(i);
+        expectedReceipt.setCreatedAt(actualReceipt.getCreatedAt());
+        expectedReceipt.setUpdatedAt(actualReceipt.getUpdatedAt());
+        expectedReceipt.setCreatedBy(actualReceipt.getCreatedBy());
+        expectedReceipt.setUpdatedBy(actualReceipt.getUpdatedBy());
+        expectedReceipt.setComment(actualReceipt.getComment());
+      }
+    }
   }
 
   static class ContextInitializer extends AbstractContextInitializer {

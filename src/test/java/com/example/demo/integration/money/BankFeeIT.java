@@ -131,6 +131,18 @@ class BankFeeIT {
         () -> api.deleteBankFeeById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, BANK_FEE1_ID));
   }
 
+  @Test
+  void admin_cannot_create_bank_fee_with_null_amount() {
+    BankFeeApi api = new BankFeeApi(anApiClient(ADMIN_TOKEN));
+
+    CrupdateBankFee invalidBankFee = someCreatableBankFee();
+    invalidBankFee.getExpense().setAmount(null);
+
+    assertThrowsApiException(
+        "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Bank fee amount must be positive\"}",
+        () -> api.crupdateBankFees(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(invalidBankFee)));
+  }
+
   static class ContextInitializer extends AbstractContextInitializer {
     public static final int SERVER_PORT = anAvailableRandomPort();
 

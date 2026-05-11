@@ -49,6 +49,28 @@ class IncomeTypeIT {
   }
 
   @Test
+  void administration_can_get_income_type_by_id() throws Exception {
+    IncomeTypeApi api = new IncomeTypeApi(anApiClient(ADMINISTRATION_TOKEN));
+
+    IncomeType actual = api.getIncomeTypeById(COMPANY1_ID, INCOME_TYPE1_ID);
+    IncomeType expected = incomeType1();
+    expected.setCreatedAt(actual.getCreatedAt());
+    expected.setUpdatedAt(actual.getUpdatedAt());
+    expected.setCreatedBy(actual.getCreatedBy());
+    expected.setUpdatedBy(actual.getUpdatedBy());
+    expected.setComment(actual.getComment());
+
+    assertEquals(expected, actual);
+  }
+
+  @Test
+  void user_with_bad_token_cannot_get_income_type_by_id() {
+    IncomeTypeApi api = new IncomeTypeApi(anApiClient(BAD_TOKEN));
+
+    assertThrowsNotAuthorizedException(() -> api.getIncomeTypeById(COMPANY1_ID, INCOME_TYPE1_ID));
+  }
+
+  @Test
   void administration_can_get_all_income_types() throws Exception {
     IncomeTypeApi api = new IncomeTypeApi(anApiClient(ADMINISTRATION_TOKEN));
 

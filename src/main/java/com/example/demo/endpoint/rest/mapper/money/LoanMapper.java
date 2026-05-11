@@ -25,10 +25,7 @@ public class LoanMapper {
         .lender(restLoan.getLender())
         .interestRate(restLoan.getInterestRate())
         .startDate(restLoan.getStartDate())
-        .status(
-            restLoan.getStatus() != null
-                ? com.example.demo.model.money.Loan.LoanStatus.valueOf(restLoan.getStatus().name())
-                : null)
+        .dueDate(restLoan.getDueDate())
         .amount(restLoan.getAmount())
         .description(restLoan.getDescription())
         .comment(restLoan.getComment())
@@ -47,10 +44,7 @@ public class LoanMapper {
         .lender(restLoan.getLender())
         .interestRate(restLoan.getInterestRate())
         .startDate(restLoan.getStartDate())
-        .status(
-            restLoan.getStatus() != null
-                ? com.example.demo.model.money.Loan.LoanStatus.valueOf(restLoan.getStatus().name())
-                : com.example.demo.model.money.Loan.LoanStatus.ACTIVE)
+        .dueDate(restLoan.getDueDate())
         .amount(restLoan.getAmount())
         .description(restLoan.getDescription())
         .comment(restLoan.getComment())
@@ -69,10 +63,7 @@ public class LoanMapper {
         .lender(domainLoan.getLender())
         .interestRate(domainLoan.getInterestRate())
         .startDate(domainLoan.getStartDate())
-        .status(
-            domainLoan.getStatus() != null
-                ? com.example.demo.client.model.LoanStatus.valueOf(domainLoan.getStatus().name())
-                : null)
+        .dueDate(domainLoan.getDueDate())
         .amount(domainLoan.getAmount())
         .description(domainLoan.getDescription())
         .jobId(domainLoan.getJob() != null ? domainLoan.getJob().getId() : null)
@@ -87,10 +78,7 @@ public class LoanMapper {
     restLoan.setLender(domainLoan.getLender());
     restLoan.setInterestRate(domainLoan.getInterestRate());
     restLoan.setStartDate(domainLoan.getStartDate());
-    restLoan.setStatus(
-        domainLoan.getStatus() != null
-            ? com.example.demo.client.model.LoanStatus.valueOf(domainLoan.getStatus().name())
-            : null);
+    restLoan.setDueDate(domainLoan.getDueDate());
     restLoan.setAmount(domainLoan.getAmount());
     restLoan.setDescription(domainLoan.getDescription());
     restLoan.setJob(jobMapper.toRestCrupdateJob(domainLoan.getJob()));
@@ -124,9 +112,25 @@ public class LoanMapper {
                 .sum()
             : 0;
     Integer amount = domainLoan.getAmount();
+    int remaining = amount != null ? amount - sumRepayments : 0;
     restLoan.setRemainingAmount(amount != null ? amount - sumRepayments : null);
 
+    restLoan.setStatus(calculateStatus(remaining, domainLoan.getDueDate()));
+
     return restLoan;
+  }
+
+  private com.example.demo.client.model.LoanStatus calculateStatus(
+      int remaining, java.time.LocalDate dueDate) {
+    if (remaining <= 0) {
+      return com.example.demo.client.model.LoanStatus.PAID;
+    }
+    if (dueDate == null) {
+      return com.example.demo.client.model.LoanStatus.ACTIVE;
+    }
+    return dueDate.isBefore(java.time.LocalDate.now())
+        ? com.example.demo.client.model.LoanStatus.DEFAULTED
+        : com.example.demo.client.model.LoanStatus.ACTIVE;
   }
 
   private LoanRepayment toRestLoanRepaymentSlim(com.example.demo.model.money.LoanRepayment domain) {

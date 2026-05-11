@@ -180,7 +180,8 @@ public class SecurityConfiguration {
                     // =========================
                     // INCOME TYPE
                     // =========================
-                    .requestMatchers(GET, "/companies/*/income_types")
+                    .requestMatchers(
+                        GET, "/companies/*/income_types", "/companies/*/income_types/*")
                     .authenticated()
                     .requestMatchers(PUT, "/companies/*/income_types")
                     .authenticated()

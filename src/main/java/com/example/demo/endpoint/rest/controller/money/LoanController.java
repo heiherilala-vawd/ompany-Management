@@ -50,13 +50,11 @@ public class LoanController {
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
       @RequestParam(name = "description", required = false) String description,
       @RequestParam(name = "amount", required = false) Integer amount,
-      @RequestParam(name = "lender", required = false) String lender,
-      @RequestParam(name = "status", required = false) String status) {
+      @RequestParam(name = "lender", required = false) String lender) {
     LoanCriteria criteria = new LoanCriteria();
     criteria.setDescription(description);
     criteria.setAmount(amount);
     criteria.setLender(lender);
-    criteria.setStatus(status);
     criteria.setJobId(job_id);
 
     return loanService.findAll(page, pageSize, criteria).stream()

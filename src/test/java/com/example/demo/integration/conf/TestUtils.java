@@ -115,6 +115,20 @@ public class TestUtils {
   public static final String REPAYMENT2_ID = "repayment2_id";
   public static final String RECEIPT1_ID = "receipt1_id";
   public static final String RECEIPT2_ID = "receipt2_id";
+  public static final String RECEIPT3_ID = "receipt3_id";
+  public static final String INCOME5_ID = "income5_id";
+  public static final String INCOME6_ID = "income6_id";
+  public static final String INCOME7_ID = "income7_id";
+  public static final String RECEIPT5_ID = "receipt5_id";
+  public static final String RECEIPT6A_ID = "receipt6a_id";
+  public static final String RECEIPT6B_ID = "receipt6b_id";
+  public static final String RECEIPT7A_ID = "receipt7a_id";
+  public static final String RECEIPT7B_ID = "receipt7b_id";
+  public static final String LOAN3_ID = "loan3_id";
+  public static final String LOAN4_ID = "loan4_id";
+  public static final String LOAN5_ID = "loan5_id";
+  public static final String REPAYMENT3_ID = "repayment3_id";
+  public static final String REPAYMENT5_ID = "repayment5_id";
 
   public static final String ADMIN_EMAIL = "admin@hei.school";
   public static final String WAREHOUSE_EMAIL = "warehouse@hei.school";
@@ -305,6 +319,18 @@ public class TestUtils {
 
   public static IncomeMoney income2() {
     return TestMoneyFixtures.income2();
+  }
+
+  public static IncomeMoney income5() {
+    return TestMoneyFixtures.income5();
+  }
+
+  public static IncomeMoney income6() {
+    return TestMoneyFixtures.income6();
+  }
+
+  public static IncomeMoney income7() {
+    return TestMoneyFixtures.income7();
   }
 
   public static IncomeType incomeType1() {

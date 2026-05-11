@@ -1,0 +1,3 @@
+ALTER TABLE loan ADD COLUMN due_date DATE;
+ALTER TABLE loan DROP COLUMN status;
+DROP TYPE IF EXISTS loan_status;

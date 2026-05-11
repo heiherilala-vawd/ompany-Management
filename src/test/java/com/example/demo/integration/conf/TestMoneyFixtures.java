@@ -363,6 +363,7 @@ final class TestMoneyFixtures {
     loan.setLender("BNI Madagascar");
     loan.setInterestRate(1200);
     loan.setStartDate(LocalDate.of(2024, 2, 1));
+    loan.setDueDate(LocalDate.of(2026, 12, 31));
     loan.setStatus(LoanStatus.ACTIVE);
     loan.setAmount(5000000);
     loan.setDescription("Emprunt construction entrepot");
@@ -403,7 +404,7 @@ final class TestMoneyFixtures {
     crupdateLoan.setLender(loan.getLender());
     crupdateLoan.setInterestRate(loan.getInterestRate());
     crupdateLoan.setStartDate(loan.getStartDate());
-    crupdateLoan.setStatus(loan.getStatus());
+    crupdateLoan.setDueDate(loan.getDueDate());
     crupdateLoan.setAmount(loan.getAmount());
     crupdateLoan.setDescription(loan.getDescription());
     crupdateLoan.setComment(loan.getComment());
@@ -417,7 +418,7 @@ final class TestMoneyFixtures {
     loan.setLender("MCB Madagascar");
     loan.setInterestRate(1000);
     loan.setStartDate(LocalDate.of(2024, 6, 1));
-    loan.setStatus(LoanStatus.ACTIVE);
+    loan.setDueDate(LocalDate.of(2026, 12, 31));
     loan.setAmount(2000000);
     loan.setDescription("Nouvel emprunt tresorerie");
     return loan;
@@ -488,5 +489,128 @@ final class TestMoneyFixtures {
     receipt.setPaymentDate(LocalDate.of(2024, 4, 1));
     receipt.setAmount(50000);
     return receipt;
+  }
+
+  static Loan loan3() {
+    Loan loan = new Loan();
+    loan.setId(TestUtils.LOAN3_ID);
+    loan.setJob(TestOrganizationFixtures.jobToCrupdateJob(TestOrganizationFixtures.job1()));
+    loan.setLender("Microcred");
+    loan.setInterestRate(1000);
+    loan.setStartDate(LocalDate.of(2024, 1, 15));
+    loan.setStatus(LoanStatus.PAID);
+    loan.setAmount(2000000);
+    loan.setDescription("Emprunt rembourse");
+    LoanRepayment r3 = new LoanRepayment();
+    r3.setId(TestUtils.REPAYMENT3_ID);
+    r3.setPaymentDate(LocalDate.of(2024, 6, 1));
+    r3.setAmount(2000000);
+    r3.setPrincipalPortion(1800000);
+    r3.setInterestPortion(200000);
+    loan.setRepayments(List.of(r3));
+    loan.setRemainingAmount(0);
+    return loan;
+  }
+
+  static Loan loan4() {
+    Loan loan = new Loan();
+    loan.setId(TestUtils.LOAN4_ID);
+    loan.setJob(TestOrganizationFixtures.jobToCrupdateJob(TestOrganizationFixtures.job1()));
+    loan.setLender("MBC Madagascar");
+    loan.setInterestRate(1000);
+    loan.setStartDate(LocalDate.of(2024, 3, 1));
+    loan.setDueDate(LocalDate.of(2024, 6, 1));
+    loan.setStatus(LoanStatus.DEFAULTED);
+    loan.setAmount(2000000);
+    loan.setDescription("Emprunt en defaut");
+    loan.setRemainingAmount(2000000);
+    return loan;
+  }
+
+  static Loan loan5() {
+    Loan loan = new Loan();
+    loan.setId(TestUtils.LOAN5_ID);
+    loan.setJob(TestOrganizationFixtures.jobToCrupdateJob(TestOrganizationFixtures.job1()));
+    loan.setLender("SIPEM");
+    loan.setInterestRate(1000);
+    loan.setStartDate(LocalDate.of(2024, 1, 1));
+    loan.setDueDate(LocalDate.of(2024, 6, 1));
+    loan.setStatus(LoanStatus.PAID);
+    loan.setAmount(2000000);
+    loan.setDescription("Emprunt rembourse avant echeance");
+    LoanRepayment r5 = new LoanRepayment();
+    r5.setId(TestUtils.REPAYMENT5_ID);
+    r5.setPaymentDate(LocalDate.of(2024, 5, 1));
+    r5.setAmount(2000000);
+    r5.setPrincipalPortion(1800000);
+    r5.setInterestPortion(200000);
+    loan.setRepayments(List.of(r5));
+    loan.setRemainingAmount(0);
+    return loan;
+  }
+
+  static IncomeMoney income5() {
+    IncomeMoney income = new IncomeMoney();
+    income.setId(TestUtils.INCOME5_ID);
+    income.setJob(TestOrganizationFixtures.jobToCrupdateJob(TestOrganizationFixtures.job1()));
+    income.setSourceOrganization("Client Delta");
+    income.setInvoiceReference("INV-2024-005");
+    income.setBillingStartDate(LocalDate.of(2024, 4, 1));
+    income.setIncomeType(incomeType1());
+    income.setAmount(100000);
+    income.setDescription("Paiement partiel");
+    IncomeReceipt receipt = new IncomeReceipt();
+    receipt.setId(TestUtils.RECEIPT5_ID);
+    receipt.setPaymentDate(LocalDate.of(2024, 4, 10));
+    receipt.setAmount(60000);
+    income.setReceipts(List.of(receipt));
+    income.setRemainingAmount(40000);
+    return income;
+  }
+
+  static IncomeMoney income6() {
+    IncomeMoney income = new IncomeMoney();
+    income.setId(TestUtils.INCOME6_ID);
+    income.setJob(TestOrganizationFixtures.jobToCrupdateJob(TestOrganizationFixtures.job1()));
+    income.setSourceOrganization("Client Epsilon");
+    income.setInvoiceReference("INV-2024-006");
+    income.setBillingStartDate(LocalDate.of(2024, 4, 15));
+    income.setIncomeType(incomeType1());
+    income.setAmount(100000);
+    income.setDescription("Paiement en exces");
+    IncomeReceipt r1 = new IncomeReceipt();
+    r1.setId(TestUtils.RECEIPT6A_ID);
+    r1.setPaymentDate(LocalDate.of(2024, 4, 20));
+    r1.setAmount(60000);
+    IncomeReceipt r2 = new IncomeReceipt();
+    r2.setId(TestUtils.RECEIPT6B_ID);
+    r2.setPaymentDate(LocalDate.of(2024, 4, 25));
+    r2.setAmount(60000);
+    income.setReceipts(List.of(r1, r2));
+    income.setRemainingAmount(-20000);
+    return income;
+  }
+
+  static IncomeMoney income7() {
+    IncomeMoney income = new IncomeMoney();
+    income.setId(TestUtils.INCOME7_ID);
+    income.setJob(TestOrganizationFixtures.jobToCrupdateJob(TestOrganizationFixtures.job1()));
+    income.setSourceOrganization("Client Zeta");
+    income.setInvoiceReference("INV-2024-007");
+    income.setBillingStartDate(LocalDate.of(2024, 5, 1));
+    income.setIncomeType(incomeType1());
+    income.setAmount(100000);
+    income.setDescription("Paiement total multiple recus");
+    IncomeReceipt r1 = new IncomeReceipt();
+    r1.setId(TestUtils.RECEIPT7A_ID);
+    r1.setPaymentDate(LocalDate.of(2024, 5, 10));
+    r1.setAmount(60000);
+    IncomeReceipt r2 = new IncomeReceipt();
+    r2.setId(TestUtils.RECEIPT7B_ID);
+    r2.setPaymentDate(LocalDate.of(2024, 5, 15));
+    r2.setAmount(40000);
+    income.setReceipts(List.of(r1, r2));
+    income.setRemainingAmount(0);
+    return income;
   }
 }

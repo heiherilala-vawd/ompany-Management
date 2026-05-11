@@ -9,6 +9,5 @@ public class LoanCriteria {
   private String description;
   private Integer amount;
   private String lender;
-  private String status;
   private String jobId;
 }

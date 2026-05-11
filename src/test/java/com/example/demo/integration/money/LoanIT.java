@@ -95,12 +95,14 @@ class LoanIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     LoanApi api = new LoanApi(adminClient);
 
-    List<Loan> loans =
-        api.getLoans(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, null, null, null);
+    List<Loan> loans = api.getLoans(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, null, null);
 
-    assertEquals(2, loans.size());
+    assertEquals(5, loans.size());
     assertTrue(loans.stream().anyMatch(loan -> LOAN1_ID.equals(loan.getId())));
     assertTrue(loans.stream().anyMatch(loan -> LOAN2_ID.equals(loan.getId())));
+    assertTrue(loans.stream().anyMatch(loan -> LOAN3_ID.equals(loan.getId())));
+    assertTrue(loans.stream().anyMatch(loan -> LOAN4_ID.equals(loan.getId())));
+    assertTrue(loans.stream().anyMatch(loan -> LOAN5_ID.equals(loan.getId())));
   }
 
   @Test
@@ -109,7 +111,7 @@ class LoanIT {
     LoanApi api = new LoanApi(employeeClient);
 
     assertThrowsForbiddenException(
-        () -> api.getLoans(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, null, null, null));
+        () -> api.getLoans(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, null, null));
   }
 
   @Test
@@ -117,23 +119,10 @@ class LoanIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     LoanApi api = new LoanApi(adminClient);
 
-    List<Loan> loans =
-        api.getLoans(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, null, "BNI", null);
+    List<Loan> loans = api.getLoans(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, null, "BNI");
 
     assertEquals(1, loans.size());
     assertEquals(LOAN1_ID, loans.get(0).getId());
-  }
-
-  @Test
-  void admin_can_filter_loans_by_status() throws Exception {
-    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
-    LoanApi api = new LoanApi(adminClient);
-
-    List<Loan> loans =
-        api.getLoans(
-            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, null, null, LoanStatus.ACTIVE);
-
-    assertEquals(2, loans.size());
   }
 
   @Test
@@ -141,8 +130,7 @@ class LoanIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     LoanApi api = new LoanApi(adminClient);
 
-    List<Loan> loans =
-        api.getLoans(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, 5000000, null, null);
+    List<Loan> loans = api.getLoans(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, 5000000, null);
 
     assertEquals(1, loans.size());
     assertEquals(LOAN1_ID, loans.get(0).getId());
@@ -260,6 +248,36 @@ class LoanIT {
     assertTrue(saved.getInterestPortion() > 0);
     assertEquals(
         saved.getAmount().intValue(), saved.getPrincipalPortion() + saved.getInterestPortion());
+  }
+
+  @Test
+  void admin_can_get_loan_with_status_paid() throws Exception {
+    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
+    LoanApi api = new LoanApi(adminClient);
+
+    Loan actual = api.getLoanById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, LOAN3_ID);
+    assertEquals(0, actual.getRemainingAmount());
+    assertEquals(LoanStatus.PAID, actual.getStatus());
+  }
+
+  @Test
+  void admin_can_get_loan_with_status_defaulted() throws Exception {
+    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
+    LoanApi api = new LoanApi(adminClient);
+
+    Loan actual = api.getLoanById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, LOAN4_ID);
+    assertEquals(2000000, actual.getRemainingAmount());
+    assertEquals(LoanStatus.DEFAULTED, actual.getStatus());
+  }
+
+  @Test
+  void admin_can_get_loan_with_status_paid_before_due_date() throws Exception {
+    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
+    LoanApi api = new LoanApi(adminClient);
+
+    Loan actual = api.getLoanById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, LOAN5_ID);
+    assertEquals(0, actual.getRemainingAmount());
+    assertEquals(LoanStatus.PAID, actual.getStatus());
   }
 
   static class ContextInitializer extends AbstractContextInitializer {
