@@ -1,5 +1,6 @@
 package com.example.demo.model.movement;
 
+import com.example.demo.model.Company;
 import com.example.demo.model.CreatAndUpdateEntity;
 import jakarta.persistence.*;
 import java.io.Serializable;
@@ -23,6 +24,10 @@ import org.hibernate.Hibernate;
 public class Material extends CreatAndUpdateEntity implements Serializable {
 
   @Id private String id;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "company_id")
+  private Company company;
 
   private String name;
 

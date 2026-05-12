@@ -41,6 +41,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   Material.JSON_PROPERTY_NAME,
   Material.JSON_PROPERTY_DESCRIPTION,
   Material.JSON_PROPERTY_UNIT,
+  Material.JSON_PROPERTY_COMPANY_ID,
   Material.JSON_PROPERTY_MATERIAL_WAREHOUSES,
   Material.JSON_PROPERTY_CREATED_AT,
   Material.JSON_PROPERTY_UPDATED_AT,
@@ -48,7 +49,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   Material.JSON_PROPERTY_UPDATED_BY,
   Material.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-10T21:10:08.803342336+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-11T22:45:33.712988788+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class Material {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -61,6 +62,9 @@ public class Material {
 
   public static final String JSON_PROPERTY_UNIT = "unit";
   private MaterialUnit unit;
+
+  public static final String JSON_PROPERTY_COMPANY_ID = "company_id";
+  private String companyId;
 
   public static final String JSON_PROPERTY_MATERIAL_WAREHOUSES = "material_warehouses";
   private List<MaterialWarehouseInfo> materialWarehouses = new ArrayList<>();
@@ -180,6 +184,31 @@ public class Material {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setUnit(MaterialUnit unit) {
     this.unit = unit;
+  }
+
+
+  public Material companyId(String companyId) {
+    this.companyId = companyId;
+    return this;
+  }
+
+   /**
+   * Get companyId
+   * @return companyId
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_COMPANY_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getCompanyId() {
+    return companyId;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_COMPANY_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setCompanyId(String companyId) {
+    this.companyId = companyId;
   }
 
 
@@ -357,6 +386,7 @@ public class Material {
         Objects.equals(this.name, material.name) &&
         Objects.equals(this.description, material.description) &&
         Objects.equals(this.unit, material.unit) &&
+        Objects.equals(this.companyId, material.companyId) &&
         Objects.equals(this.materialWarehouses, material.materialWarehouses) &&
         Objects.equals(this.createdAt, material.createdAt) &&
         Objects.equals(this.updatedAt, material.updatedAt) &&
@@ -367,7 +397,7 @@ public class Material {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, description, unit, materialWarehouses, createdAt, updatedAt, createdBy, updatedBy, comment);
+    return Objects.hash(id, name, description, unit, companyId, materialWarehouses, createdAt, updatedAt, createdBy, updatedBy, comment);
   }
 
   @Override
@@ -378,6 +408,7 @@ public class Material {
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("    unit: ").append(toIndentedString(unit)).append("\n");
+    sb.append("    companyId: ").append(toIndentedString(companyId)).append("\n");
     sb.append("    materialWarehouses: ").append(toIndentedString(materialWarehouses)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
     sb.append("    updatedAt: ").append(toIndentedString(updatedAt)).append("\n");

@@ -19,5 +19,5 @@ DELETE FROM "equipment";
 DELETE FROM "material";
 DELETE FROM "warehouse";
 DELETE FROM "job";
-DELETE FROM "company";
 DELETE FROM "users";
+DELETE FROM "company";

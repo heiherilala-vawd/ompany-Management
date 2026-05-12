@@ -228,6 +228,7 @@ final class TestOrganizationFixtures {
     material.setName("Ciment");
     material.setDescription("Ciment Portland 35kg");
     material.setUnit(com.example.demo.client.model.MaterialUnit.SAC);
+    material.setCompanyId(TestUtils.COMPANY1_ID);
     List<MaterialWarehouseInfo> mws = new ArrayList<>();
     MaterialWarehouseInfo mw1 = new MaterialWarehouseInfo();
     mw1.setWarehouse(warehouse1());
@@ -247,6 +248,7 @@ final class TestOrganizationFixtures {
     material.setName("Brique");
     material.setDescription("Brique rouge 20x10x5");
     material.setUnit(com.example.demo.client.model.MaterialUnit.U);
+    material.setCompanyId(TestUtils.COMPANY1_ID);
     List<MaterialWarehouseInfo> mws = new ArrayList<>();
     MaterialWarehouseInfo mw = new MaterialWarehouseInfo();
     mw.setWarehouse(atSellerWarehouse());
@@ -262,6 +264,7 @@ final class TestOrganizationFixtures {
     material.setName("Peinture");
     material.setDescription("Peinture blanche mate");
     material.setUnit(com.example.demo.client.model.MaterialUnit.L);
+    material.setCompanyId(TestUtils.COMPANY1_ID);
     List<MaterialWarehouseInfo> mws = new ArrayList<>();
     MaterialWarehouseInfo mw = new MaterialWarehouseInfo();
     mw.setWarehouse(routeWarehouse());
