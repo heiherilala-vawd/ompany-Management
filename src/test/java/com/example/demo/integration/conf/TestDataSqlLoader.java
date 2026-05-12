@@ -15,8 +15,8 @@ public final class TestDataSqlLoader {
   private static final List<String> TESTDATA_SCRIPTS_IN_ORDER =
       List.of(
           "db/testdata/V100_1__testdata_cleanup.sql",
-          "db/testdata/V100_2__testdata_users.sql",
-          "db/testdata/V100_3__testdata_companies.sql",
+          "db/testdata/V100_2__testdata_companies.sql",
+          "db/testdata/V100_3__testdata_users.sql",
           "db/testdata/V100_4__testdata_jobs.sql",
           "db/testdata/V100_5__testdata_warehouses.sql",
           "db/testdata/V100_6__testdata_equipment.sql",

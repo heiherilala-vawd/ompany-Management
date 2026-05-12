@@ -21,6 +21,7 @@ final class TestUserFixtures {
     user.setEmail(TestUtils.ADMIN_EMAIL);
     user.setCreatedAt(Instant.parse("2024-01-01T00:00:00Z"));
     user.setUpdatedAt(Instant.parse("2024-01-01T00:00:00Z"));
+    user.setCompanyId(TestUtils.COMPANY1_ID);
     return user;
   }
 
@@ -34,6 +35,7 @@ final class TestUserFixtures {
     user.setEmail(TestUtils.WAREHOUSE_EMAIL);
     user.setCreatedAt(Instant.parse("2024-01-01T00:00:00Z"));
     user.setUpdatedAt(Instant.parse("2024-01-01T00:00:00Z"));
+    user.setCompanyId(TestUtils.COMPANY1_ID);
     return user;
   }
 
@@ -47,6 +49,7 @@ final class TestUserFixtures {
     user.setEmail(TestUtils.EMPLOYEE_EMAIL);
     user.setCreatedAt(Instant.parse("2024-01-01T00:00:00Z"));
     user.setUpdatedAt(Instant.parse("2024-01-01T00:00:00Z"));
+    user.setCompanyId(TestUtils.COMPANY1_ID);
     return user;
   }
 
@@ -60,6 +63,7 @@ final class TestUserFixtures {
     user.setEmail(TestUtils.ADMINISTRATION_EMAIL);
     user.setCreatedAt(Instant.parse("2024-01-01T00:00:00Z"));
     user.setUpdatedAt(Instant.parse("2024-01-01T00:00:00Z"));
+    user.setCompanyId(TestUtils.COMPANY1_ID);
     return user;
   }
 
@@ -73,6 +77,7 @@ final class TestUserFixtures {
     user.setEmail(TestUtils.USER1_EMAIL);
     user.setCreatedAt(Instant.parse("2024-01-01T00:00:00Z"));
     user.setUpdatedAt(Instant.parse("2024-01-01T00:00:00Z"));
+    user.setCompanyId(TestUtils.COMPANY1_ID);
     return user;
   }
 
@@ -86,6 +91,7 @@ final class TestUserFixtures {
     user.setEmail(TestUtils.USER2_EMAIL);
     user.setCreatedAt(Instant.parse(""));
     user.setUpdatedAt(Instant.parse(""));
+    user.setCompanyId(TestUtils.COMPANY1_ID);
     return user;
   }
 

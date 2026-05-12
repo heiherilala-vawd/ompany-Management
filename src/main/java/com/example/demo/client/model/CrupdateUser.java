@@ -41,9 +41,10 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   CrupdateUser.JSON_PROPERTY_SEX,
   CrupdateUser.JSON_PROPERTY_EMAIL,
   CrupdateUser.JSON_PROPERTY_PASSWORD,
+  CrupdateUser.JSON_PROPERTY_COMPANY_ID,
   CrupdateUser.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-10T21:10:08.803342336+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-11T22:45:33.712988788+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdateUser {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -65,6 +66,9 @@ public class CrupdateUser {
 
   public static final String JSON_PROPERTY_PASSWORD = "password";
   private String password;
+
+  public static final String JSON_PROPERTY_COMPANY_ID = "company_id";
+  private String companyId;
 
   public static final String JSON_PROPERTY_COMMENT = "comment";
   private String comment;
@@ -247,6 +251,31 @@ public class CrupdateUser {
   }
 
 
+  public CrupdateUser companyId(String companyId) {
+    this.companyId = companyId;
+    return this;
+  }
+
+   /**
+   * Get companyId
+   * @return companyId
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_COMPANY_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getCompanyId() {
+    return companyId;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_COMPANY_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setCompanyId(String companyId) {
+    this.companyId = companyId;
+  }
+
+
   public CrupdateUser comment(String comment) {
     this.comment = comment;
     return this;
@@ -291,12 +320,13 @@ public class CrupdateUser {
         Objects.equals(this.sex, crupdateUser.sex) &&
         Objects.equals(this.email, crupdateUser.email) &&
         Objects.equals(this.password, crupdateUser.password) &&
+        Objects.equals(this.companyId, crupdateUser.companyId) &&
         Objects.equals(this.comment, crupdateUser.comment);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, role, firstName, lastName, sex, email, password, comment);
+    return Objects.hash(id, role, firstName, lastName, sex, email, password, companyId, comment);
   }
 
   @Override
@@ -310,6 +340,7 @@ public class CrupdateUser {
     sb.append("    sex: ").append(toIndentedString(sex)).append("\n");
     sb.append("    email: ").append(toIndentedString(email)).append("\n");
     sb.append("    password: ").append(toIndentedString(password)).append("\n");
+    sb.append("    companyId: ").append(toIndentedString(companyId)).append("\n");
     sb.append("    comment: ").append(toIndentedString(comment)).append("\n");
     sb.append("}");
     return sb.toString();

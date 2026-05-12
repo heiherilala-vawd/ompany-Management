@@ -75,7 +75,8 @@ public class UserService {
   }
 
   private Specification<User> toSpecification(UserCriteria criteria) {
-    return Specification.<User>where(containsIgnoreCase(criteria.getFirstName(), "firstName"))
+    return Specification.<User>where(equal(criteria.getCompanyId(), "company", "id"))
+        .and(containsIgnoreCase(criteria.getFirstName(), "firstName"))
         .and(containsIgnoreCase(criteria.getLastName(), "lastName"))
         .and(containsIgnoreCase(criteria.getEmail(), "email"))
         .and(equal(criteria.getRole(), "role"));

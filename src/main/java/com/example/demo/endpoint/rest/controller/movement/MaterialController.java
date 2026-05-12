@@ -30,18 +30,19 @@ public class MaterialController {
   private final MaterialWarehouseService materialWarehouseService;
   private final WarehouseService warehouseService;
 
-  @GetMapping("/materials/{id}")
+  @GetMapping("/companies/{comp_id}/materials/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
-  public Material getMaterialById(@PathVariable String id) {
+  public Material getMaterialById(@PathVariable String comp_id, @PathVariable String id) {
     return materialMapper.toRestMaterial(
         materialService
             .findById(id)
             .orElseThrow(() -> new NotFoundException("Material with id " + id + " not found")));
   }
 
-  @GetMapping("/materials")
+  @GetMapping("/companies/{comp_id}/materials")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public List<Material> getMaterials(
+      @PathVariable String comp_id,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
       @RequestParam(name = "name", required = false) String name,
@@ -49,6 +50,7 @@ public class MaterialController {
       @RequestParam(name = "unit", required = false) MaterialUnit unit,
       @RequestParam(name = "not_arrived", required = false) Boolean notArrived) {
     MaterialCriteria criteria = new MaterialCriteria();
+    criteria.setCompanyId(comp_id);
     criteria.setName(name);
     criteria.setDescription(description);
     criteria.setUnit(EnumMapper.mapEnum(unit, com.example.demo.model.movement.Material.Unit.class));
@@ -59,17 +61,19 @@ public class MaterialController {
         .toList();
   }
 
-  @PutMapping("/materials")
+  @PutMapping("/companies/{comp_id}/materials")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
-  public List<Material> crupdateMaterials(@RequestBody List<CrupdateMaterial> toWrite) {
+  public List<Material> crupdateMaterials(
+      @PathVariable String comp_id, @RequestBody List<CrupdateMaterial> toWrite) {
     List<com.example.demo.model.movement.Material> saved =
-        materialService.createOrUpdateAll(toWrite.stream().map(materialMapper::toDomain).toList());
+        materialService.createOrUpdateAll(
+            toWrite.stream().map(m -> materialMapper.toDomain(m, comp_id)).toList());
     return saved.stream().map(materialMapper::toRestMaterial).toList();
   }
 
-  @DeleteMapping("/materials/{id}")
+  @DeleteMapping("/companies/{comp_id}/materials/{id}")
   @PreAuthorize("hasAnyRole('ADMIN')")
-  public void deleteMaterialById(@PathVariable String id) {
+  public void deleteMaterialById(@PathVariable String comp_id, @PathVariable String id) {
     materialService.deleteById(id);
   }
 

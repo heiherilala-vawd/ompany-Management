@@ -64,7 +64,7 @@ class HistoryIT {
     String newLastName = "new last name";
     newUser1.setLastName(newLastName);
 
-    usersApi.crupdateUsers(List.of(newUser1));
+    usersApi.crupdateUsers(COMPANY1_ID, List.of(newUser1));
     List<History> histories2 = api.getHistories(1, 100, null, null, null, null, null);
     assertEquals(6, histories2.size());
   }

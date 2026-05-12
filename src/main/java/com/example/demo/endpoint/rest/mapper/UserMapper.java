@@ -4,6 +4,7 @@ import com.example.demo.client.model.CrupdateUser;
 import com.example.demo.client.model.Role;
 import com.example.demo.client.model.Sex;
 import com.example.demo.client.model.User;
+import com.example.demo.model.Company;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -24,20 +25,24 @@ public class UserMapper {
         .build();
   }
 
-  public com.example.demo.model.User toDomain(CrupdateUser restUser) {
-    return com.example.demo.model.User.builder()
-        .id(restUser.getId())
-        .role(
-            restUser.getRole() != null
-                ? com.example.demo.model.User.Role.valueOf(restUser.getRole().name())
-                : com.example.demo.model.User.Role.EMPLOYEE)
-        .firstName(restUser.getFirstName())
-        .lastName(restUser.getLastName())
-        .sex(EnumMapper.mapEnum(restUser.getSex(), com.example.demo.model.User.Sex.class))
-        .email(restUser.getEmail())
-        .password(restUser.getPassword())
-        .comment(restUser.getComment())
-        .build();
+  public com.example.demo.model.User toDomain(CrupdateUser restUser, String companyId) {
+    var builder =
+        com.example.demo.model.User.builder()
+            .id(restUser.getId())
+            .role(
+                restUser.getRole() != null
+                    ? com.example.demo.model.User.Role.valueOf(restUser.getRole().name())
+                    : com.example.demo.model.User.Role.EMPLOYEE)
+            .firstName(restUser.getFirstName())
+            .lastName(restUser.getLastName())
+            .sex(EnumMapper.mapEnum(restUser.getSex(), com.example.demo.model.User.Sex.class))
+            .email(restUser.getEmail())
+            .password(restUser.getPassword())
+            .comment(restUser.getComment());
+    if (companyId != null) {
+      builder.company(Company.builder().id(companyId).build());
+    }
+    return builder.build();
   }
 
   public User toRestUser(com.example.demo.model.User domainUser) {
@@ -48,6 +53,7 @@ public class UserMapper {
     restUser.setFirstName(domainUser.getFirstName());
     restUser.setSex(EnumMapper.mapEnum(domainUser.getSex(), Sex.class));
     restUser.setEmail(domainUser.getEmail());
+    restUser.setCompanyId(domainUser.getCompany() != null ? domainUser.getCompany().getId() : null);
     RestAuditMapperUtils.mapAuditFields(
         domainUser,
         restUser::setCreatedAt,

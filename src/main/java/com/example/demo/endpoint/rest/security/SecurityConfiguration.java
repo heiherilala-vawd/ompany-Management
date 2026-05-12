@@ -56,13 +56,13 @@ public class SecurityConfiguration {
                     // =========================
                     // USERS
                     // =========================
-                    .requestMatchers(GET, "/users", "/users/*")
+                    .requestMatchers(GET, "/companies/*/users", "/companies/*/users/*")
                     .authenticated()
-                    .requestMatchers(PUT, "/users")
+                    .requestMatchers(PUT, "/companies/*/users")
                     .authenticated()
 
                     // DELETE /users - ADMIN uniquement
-                    .requestMatchers(DELETE, "/users/*")
+                    .requestMatchers(DELETE, "/companies/*/users/*")
                     .hasRole("ADMIN")
 
                     // =========================
@@ -118,13 +118,13 @@ public class SecurityConfiguration {
                     // =========================
                     // MATERIAL
                     // =========================
-                    .requestMatchers(GET, "/materials", "/materials/*")
+                    .requestMatchers(GET, "/companies/*/materials", "/companies/*/materials/*")
                     .authenticated()
                     // PUT /materials - ADMIN, ADMINISTRATION, WAREHOUSE_WORKER
-                    .requestMatchers(PUT, "/materials")
+                    .requestMatchers(PUT, "/companies/*/materials")
                     .authenticated()
                     // DELETE /materials - ADMIN uniquement
-                    .requestMatchers(DELETE, "/materials/*")
+                    .requestMatchers(DELETE, "/companies/*/materials/*")
                     .hasRole("ADMIN")
 
                     // =========================

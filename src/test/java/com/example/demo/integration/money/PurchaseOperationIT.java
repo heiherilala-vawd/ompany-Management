@@ -249,7 +249,8 @@ class PurchaseOperationIT {
     api.createPurchaseOperation(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, request);
 
     MaterialApi materialApi = new MaterialApi(anApiClient(WAREHOUSE_TOKEN));
-    Material createdMaterial = materialApi.getMaterialById("purchase_operation_material_new_1");
+    Material createdMaterial =
+        materialApi.getMaterialById(COMPANY1_ID, "purchase_operation_material_new_1");
     assertEquals("purchase_operation_material_new_1", createdMaterial.getId());
 
     assertEquals(

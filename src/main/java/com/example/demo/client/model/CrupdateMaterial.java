@@ -37,9 +37,10 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   CrupdateMaterial.JSON_PROPERTY_NAME,
   CrupdateMaterial.JSON_PROPERTY_DESCRIPTION,
   CrupdateMaterial.JSON_PROPERTY_UNIT,
+  CrupdateMaterial.JSON_PROPERTY_COMPANY_ID,
   CrupdateMaterial.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-10T21:10:08.803342336+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-11T22:45:33.712988788+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdateMaterial {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -52,6 +53,9 @@ public class CrupdateMaterial {
 
   public static final String JSON_PROPERTY_UNIT = "unit";
   private MaterialUnit unit;
+
+  public static final String JSON_PROPERTY_COMPANY_ID = "company_id";
+  private String companyId;
 
   public static final String JSON_PROPERTY_COMMENT = "comment";
   private String comment;
@@ -159,6 +163,31 @@ public class CrupdateMaterial {
   }
 
 
+  public CrupdateMaterial companyId(String companyId) {
+    this.companyId = companyId;
+    return this;
+  }
+
+   /**
+   * Get companyId
+   * @return companyId
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_COMPANY_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getCompanyId() {
+    return companyId;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_COMPANY_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setCompanyId(String companyId) {
+    this.companyId = companyId;
+  }
+
+
   public CrupdateMaterial comment(String comment) {
     this.comment = comment;
     return this;
@@ -200,12 +229,13 @@ public class CrupdateMaterial {
         Objects.equals(this.name, crupdateMaterial.name) &&
         Objects.equals(this.description, crupdateMaterial.description) &&
         Objects.equals(this.unit, crupdateMaterial.unit) &&
+        Objects.equals(this.companyId, crupdateMaterial.companyId) &&
         Objects.equals(this.comment, crupdateMaterial.comment);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, description, unit, comment);
+    return Objects.hash(id, name, description, unit, companyId, comment);
   }
 
   @Override
@@ -216,6 +246,7 @@ public class CrupdateMaterial {
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("    unit: ").append(toIndentedString(unit)).append("\n");
+    sb.append("    companyId: ").append(toIndentedString(companyId)).append("\n");
     sb.append("    comment: ").append(toIndentedString(comment)).append("\n");
     sb.append("}");
     return sb.toString();

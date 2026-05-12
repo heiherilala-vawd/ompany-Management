@@ -189,13 +189,19 @@ paths:
   # =========================
   # USERS
   # =========================
-  '/users/{id}':
+  '/companies/{comp_id}/users/{id}':
     get:
       tags:
         - Users
       summary: Get user by identifier
       operationId: getUserById
       parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_001"
         - name: id
           in: path
           required: true
@@ -249,6 +255,12 @@ paths:
       summary: Delete a user by identifier
       operationId: deleteUserById
       parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_001"
         - name: id
           in: path
           required: true
@@ -268,13 +280,19 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-  /users:
+  '/companies/{comp_id}/users':
     get:
       tags:
         - Users
       summary: Get all users
       operationId: getUsers
       parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_001"
         - name: page
           in: query
           schema:
@@ -381,6 +399,13 @@ paths:
       summary: Create new users or update existing users
       description: Update users when `id` are provided, create them otherwise.
       operationId: crupdateUsers
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_001"
       requestBody:
         required: true
         content:
@@ -1879,13 +1904,19 @@ paths:
   # =========================
   # MATERIAL
   # =========================
-  '/materials/{id}':
+  '/companies/{comp_id}/materials/{id}':
     get:
       tags:
         - Material
       summary: Get material by identifier
       operationId: getMaterialById
       parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_001"
         - name: id
           in: path
           required: true
@@ -1937,6 +1968,12 @@ paths:
       summary: Delete material by identifier
       operationId: deleteMaterialById
       parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_001"
         - name: id
           in: path
           required: true
@@ -1956,13 +1993,19 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-  /materials:
+  '/companies/{comp_id}/materials':
     get:
       tags:
         - Material
       summary: Get all materials
       operationId: getMaterials
       parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_001"
         - name: page
           in: query
           schema:
@@ -2084,6 +2127,13 @@ paths:
         - Material
       summary: Create new materials or update existing materials
       operationId: crupdateMaterials
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_001"
       requestBody:
         required: true
         content:
@@ -6804,6 +6854,9 @@ components:
         email:
           type: string
           example: "jean.dupont@example.com"
+        company_id:
+          type: string
+          example: "comp_001"
     CrupdateUser:
       allOf:
         - $ref: '#/components/schemas/comment'
@@ -6827,6 +6880,9 @@ components:
         password:
           type: string
           example: "securePassword123"
+        company_id:
+          type: string
+          example: "comp_001"
 
     # =========================
     # COMPANY
@@ -7043,6 +7099,9 @@ components:
           example: "Ciment Portland de qualité supérieure pour béton armé"
         unit:
           $ref: '#/components/schemas/MaterialUnit'
+        company_id:
+          type: string
+          example: "comp_001"
         material_warehouses:
           type: array
           items:
@@ -7092,6 +7151,9 @@ components:
           example: "Ciment Portland de qualité supérieure pour béton armé"
         unit:
           $ref: '#/components/schemas/MaterialUnit'
+        company_id:
+          type: string
+          example: "comp_001"
 
     # =========================
     # MONETARY MOVEMENT
