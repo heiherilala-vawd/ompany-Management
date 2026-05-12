@@ -1,12 +1,10 @@
 package com.example.demo.service.money;
 
-import static com.example.demo.repository.specification.SpecificationUtils.containsIgnoreCase;
-import static com.example.demo.repository.specification.SpecificationUtils.equal;
-
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
 import com.example.demo.model.criteria.IncomeMoneyCriteria;
 import com.example.demo.model.money.IncomeMoney;
+import com.example.demo.model.money.IncomeReceipt;
 import com.example.demo.repository.money.IncomeMoneyRepository;
 import com.example.demo.service.utils.ModificationUtils;
 import com.example.demo.service.utils.PageUtils;
@@ -34,10 +32,18 @@ public class IncomeMoneyService {
     return incomeMoneyRepository.findById(id);
   }
 
+  public Integer sumByJobId(String jobId) {
+    return incomeMoneyRepository.sumByJobId(jobId);
+  }
+
   public Page<IncomeMoney> findAll(
       PageFromOne page, BoundedPageSize pageSize, IncomeMoneyCriteria criteria) {
     Pageable pageable = PageUtils.createPageable(page, pageSize);
     return incomeMoneyRepository.findAll(toSpecification(criteria), pageable);
+  }
+
+  public List<IncomeMoney> findAll(IncomeMoneyCriteria criteria) {
+    return incomeMoneyRepository.findAll(toSpecification(criteria));
   }
 
   @Transactional
@@ -63,11 +69,50 @@ public class IncomeMoneyService {
   }
 
   private Specification<IncomeMoney> toSpecification(IncomeMoneyCriteria criteria) {
-    return Specification.<IncomeMoney>where(
-            containsIgnoreCase(criteria.getSourceOrganization(), "sourceOrganization"))
-        .and(containsIgnoreCase(criteria.getInvoiceReference(), "invoiceReference"))
-        .and(containsIgnoreCase(criteria.getDescription(), "description"))
-        .and(equal(criteria.getAmount(), "amount"))
-        .and(equal(criteria.getJobId(), "job", "id"));
+    return (root, query, cb) -> {
+      List<jakarta.persistence.criteria.Predicate> predicates = new java.util.ArrayList<>();
+
+      if (criteria.getSourceOrganization() != null && !criteria.getSourceOrganization().isBlank()) {
+        predicates.add(
+            cb.like(
+                cb.lower(root.get("sourceOrganization")),
+                "%" + criteria.getSourceOrganization().toLowerCase() + "%"));
+      }
+      if (criteria.getInvoiceReference() != null && !criteria.getInvoiceReference().isBlank()) {
+        predicates.add(
+            cb.like(
+                cb.lower(root.get("invoiceReference")),
+                "%" + criteria.getInvoiceReference().toLowerCase() + "%"));
+      }
+      if (criteria.getDescription() != null && !criteria.getDescription().isBlank()) {
+        predicates.add(
+            cb.like(
+                cb.lower(root.get("description")),
+                "%" + criteria.getDescription().toLowerCase() + "%"));
+      }
+      if (criteria.getAmount() != null) {
+        predicates.add(cb.equal(root.get("amount"), criteria.getAmount()));
+      }
+      if (criteria.getJobId() != null) {
+        predicates.add(cb.equal(root.get("job").get("id"), criteria.getJobId()));
+      }
+      if (criteria.getIncomeTypeId() != null) {
+        predicates.add(cb.equal(root.get("incomeType").get("id"), criteria.getIncomeTypeId()));
+      }
+      if (criteria.getMoneyReceived() != null) {
+        jakarta.persistence.criteria.Subquery<Integer> sumReceipts = query.subquery(Integer.class);
+        jakarta.persistence.criteria.Root<IncomeReceipt> receiptRoot =
+            sumReceipts.from(IncomeReceipt.class);
+        sumReceipts.select(cb.coalesce(cb.sum(receiptRoot.get("amount")), 0));
+        sumReceipts.where(cb.equal(receiptRoot.get("income").get("id"), root.get("id")));
+        if (criteria.getMoneyReceived()) {
+          predicates.add(cb.lessThanOrEqualTo(root.get("amount").as(Integer.class), sumReceipts));
+        } else {
+          predicates.add(cb.greaterThan(root.get("amount").as(Integer.class), sumReceipts));
+        }
+      }
+
+      return cb.and(predicates.toArray(new jakarta.persistence.criteria.Predicate[0]));
+    };
   }
 }

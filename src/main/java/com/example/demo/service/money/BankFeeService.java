@@ -1,18 +1,19 @@
 package com.example.demo.service.money;
 
 import static com.example.demo.repository.specification.SpecificationUtils.containsIgnoreCase;
-import static com.example.demo.repository.specification.SpecificationUtils.equal;
 
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
 import com.example.demo.model.criteria.BankFeeCriteria;
 import com.example.demo.model.money.BankFee;
+import com.example.demo.model.money.ExpenseMoney;
 import com.example.demo.repository.money.BankFeeRepository;
 import com.example.demo.service.utils.ModificationUtils;
 import com.example.demo.service.utils.PageUtils;
 import com.example.demo.validator.MoneyValidator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class BankFeeService {
 
   private final BankFeeRepository bankFeeRepository;
+  private final ExpenseMoneyService expenseMoneyService;
   private final ModificationUtils modificationUtils;
   private final MoneyValidator moneyValidator;
 
@@ -42,6 +44,11 @@ public class BankFeeService {
   @Transactional
   public List<BankFee> createOrUpdateAll(List<BankFee> bankFees) {
     moneyValidator.validateBankFees(bankFees);
+
+    List<ExpenseMoney> expenses =
+        bankFees.stream().map(BankFee::getExpense).collect(Collectors.toList());
+    expenseMoneyService.createOrUpdateAll(expenses);
+
     return bankFeeRepository.saveAll(bankFees);
   }
 
@@ -51,8 +58,7 @@ public class BankFeeService {
   }
 
   private Specification<BankFee> toSpecification(BankFeeCriteria criteria) {
-    return Specification.<BankFee>where(equal(criteria.getExpenseId(), "expense", "id"))
-        .and(containsIgnoreCase(criteria.getBankName(), "bankName"))
+    return Specification.<BankFee>where(containsIgnoreCase(criteria.getBankName(), "bankName"))
         .and(containsIgnoreCase(criteria.getDescription(), "description"));
   }
 }

@@ -7,6 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UserCriteria {
+  private String companyId;
   private String firstName;
   private String lastName;
   private String email;

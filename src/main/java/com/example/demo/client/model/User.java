@@ -41,13 +41,14 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   User.JSON_PROPERTY_LAST_NAME,
   User.JSON_PROPERTY_SEX,
   User.JSON_PROPERTY_EMAIL,
+  User.JSON_PROPERTY_COMPANY_ID,
   User.JSON_PROPERTY_CREATED_AT,
   User.JSON_PROPERTY_UPDATED_AT,
   User.JSON_PROPERTY_CREATED_BY,
   User.JSON_PROPERTY_UPDATED_BY,
   User.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-02T18:18:42.847020564+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-11T22:45:33.712988788+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class User {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -66,6 +67,9 @@ public class User {
 
   public static final String JSON_PROPERTY_EMAIL = "email";
   private String email;
+
+  public static final String JSON_PROPERTY_COMPANY_ID = "company_id";
+  private String companyId;
 
   public static final String JSON_PROPERTY_CREATED_AT = "created_at";
   private java.time.Instant createdAt;
@@ -235,6 +239,31 @@ public class User {
   }
 
 
+  public User companyId(String companyId) {
+    this.companyId = companyId;
+    return this;
+  }
+
+   /**
+   * Get companyId
+   * @return companyId
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_COMPANY_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getCompanyId() {
+    return companyId;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_COMPANY_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setCompanyId(String companyId) {
+    this.companyId = companyId;
+  }
+
+
   public User createdAt(java.time.Instant createdAt) {
     this.createdAt = createdAt;
     return this;
@@ -378,6 +407,7 @@ public class User {
         Objects.equals(this.lastName, user.lastName) &&
         Objects.equals(this.sex, user.sex) &&
         Objects.equals(this.email, user.email) &&
+        Objects.equals(this.companyId, user.companyId) &&
         Objects.equals(this.createdAt, user.createdAt) &&
         Objects.equals(this.updatedAt, user.updatedAt) &&
         Objects.equals(this.createdBy, user.createdBy) &&
@@ -387,7 +417,7 @@ public class User {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, role, firstName, lastName, sex, email, createdAt, updatedAt, createdBy, updatedBy, comment);
+    return Objects.hash(id, role, firstName, lastName, sex, email, companyId, createdAt, updatedAt, createdBy, updatedBy, comment);
   }
 
   @Override
@@ -400,6 +430,7 @@ public class User {
     sb.append("    lastName: ").append(toIndentedString(lastName)).append("\n");
     sb.append("    sex: ").append(toIndentedString(sex)).append("\n");
     sb.append("    email: ").append(toIndentedString(email)).append("\n");
+    sb.append("    companyId: ").append(toIndentedString(companyId)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
     sb.append("    updatedAt: ").append(toIndentedString(updatedAt)).append("\n");
     sb.append("    createdBy: ").append(toIndentedString(createdBy)).append("\n");

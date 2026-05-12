@@ -1,5 +1,6 @@
 package com.example.demo.model.movement;
 
+import com.example.demo.model.Company;
 import com.example.demo.model.CreatAndUpdateEntity;
 import jakarta.persistence.*;
 import java.io.Serializable;
@@ -24,6 +25,10 @@ public class Material extends CreatAndUpdateEntity implements Serializable {
 
   @Id private String id;
 
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "company_id")
+  private Company company;
+
   private String name;
 
   private String description;
@@ -31,6 +36,10 @@ public class Material extends CreatAndUpdateEntity implements Serializable {
   @Enumerated(EnumType.STRING)
   @org.hibernate.annotations.JdbcTypeCode(org.hibernate.type.SqlTypes.NAMED_ENUM)
   private Unit unit;
+
+  @OneToMany(mappedBy = "material", cascade = CascadeType.ALL, orphanRemoval = true)
+  @ToString.Exclude
+  private java.util.List<MaterialWarehouse> materialWarehouses = new java.util.ArrayList<>();
 
   @Override
   public boolean equals(Object o) {

@@ -51,7 +51,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-02T18:18:42.847020564+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-11T22:45:33.712988788+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class UsersApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -91,24 +91,26 @@ public class UsersApi {
   /**
    * Create new users or update existing users
    * Update users when &#x60;id&#x60; are provided, create them otherwise.
+   * @param compId  (required)
    * @param crupdateUser  (required)
    * @return List&lt;User&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<User> crupdateUsers(List<CrupdateUser> crupdateUser) throws ApiException {
-    ApiResponse<List<User>> localVarResponse = crupdateUsersWithHttpInfo(crupdateUser);
+  public List<User> crupdateUsers(String compId, List<CrupdateUser> crupdateUser) throws ApiException {
+    ApiResponse<List<User>> localVarResponse = crupdateUsersWithHttpInfo(compId, crupdateUser);
     return localVarResponse.getData();
   }
 
   /**
    * Create new users or update existing users
    * Update users when &#x60;id&#x60; are provided, create them otherwise.
+   * @param compId  (required)
    * @param crupdateUser  (required)
    * @return ApiResponse&lt;List&lt;User&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<User>> crupdateUsersWithHttpInfo(List<CrupdateUser> crupdateUser) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = crupdateUsersRequestBuilder(crupdateUser);
+  public ApiResponse<List<User>> crupdateUsersWithHttpInfo(String compId, List<CrupdateUser> crupdateUser) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = crupdateUsersRequestBuilder(compId, crupdateUser);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -136,7 +138,11 @@ public class UsersApi {
     }
   }
 
-  private HttpRequest.Builder crupdateUsersRequestBuilder(List<CrupdateUser> crupdateUser) throws ApiException {
+  private HttpRequest.Builder crupdateUsersRequestBuilder(String compId, List<CrupdateUser> crupdateUser) throws ApiException {
+    // verify the required parameter 'compId' is set
+    if (compId == null) {
+      throw new ApiException(400, "Missing the required parameter 'compId' when calling crupdateUsers");
+    }
     // verify the required parameter 'crupdateUser' is set
     if (crupdateUser == null) {
       throw new ApiException(400, "Missing the required parameter 'crupdateUser' when calling crupdateUsers");
@@ -144,7 +150,8 @@ public class UsersApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/users";
+    String localVarPath = "/companies/{comp_id}/users"
+        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
@@ -169,22 +176,24 @@ public class UsersApi {
   /**
    * Delete a user by identifier
    * 
+   * @param compId  (required)
    * @param id  (required)
    * @throws ApiException if fails to make API call
    */
-  public void deleteUserById(String id) throws ApiException {
-    deleteUserByIdWithHttpInfo(id);
+  public void deleteUserById(String compId, String id) throws ApiException {
+    deleteUserByIdWithHttpInfo(compId, id);
   }
 
   /**
    * Delete a user by identifier
    * 
+   * @param compId  (required)
    * @param id  (required)
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Void> deleteUserByIdWithHttpInfo(String id) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = deleteUserByIdRequestBuilder(id);
+  public ApiResponse<Void> deleteUserByIdWithHttpInfo(String compId, String id) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = deleteUserByIdRequestBuilder(compId, id);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -217,7 +226,11 @@ public class UsersApi {
     }
   }
 
-  private HttpRequest.Builder deleteUserByIdRequestBuilder(String id) throws ApiException {
+  private HttpRequest.Builder deleteUserByIdRequestBuilder(String compId, String id) throws ApiException {
+    // verify the required parameter 'compId' is set
+    if (compId == null) {
+      throw new ApiException(400, "Missing the required parameter 'compId' when calling deleteUserById");
+    }
     // verify the required parameter 'id' is set
     if (id == null) {
       throw new ApiException(400, "Missing the required parameter 'id' when calling deleteUserById");
@@ -225,7 +238,8 @@ public class UsersApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/users/{id}"
+    String localVarPath = "/companies/{comp_id}/users/{id}"
+        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()))
         .replace("{id}", ApiClient.urlEncode(id.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
@@ -245,24 +259,26 @@ public class UsersApi {
   /**
    * Get user by identifier
    * 
+   * @param compId  (required)
    * @param id  (required)
    * @return User
    * @throws ApiException if fails to make API call
    */
-  public User getUserById(String id) throws ApiException {
-    ApiResponse<User> localVarResponse = getUserByIdWithHttpInfo(id);
+  public User getUserById(String compId, String id) throws ApiException {
+    ApiResponse<User> localVarResponse = getUserByIdWithHttpInfo(compId, id);
     return localVarResponse.getData();
   }
 
   /**
    * Get user by identifier
    * 
+   * @param compId  (required)
    * @param id  (required)
    * @return ApiResponse&lt;User&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<User> getUserByIdWithHttpInfo(String id) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getUserByIdRequestBuilder(id);
+  public ApiResponse<User> getUserByIdWithHttpInfo(String compId, String id) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getUserByIdRequestBuilder(compId, id);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -290,7 +306,11 @@ public class UsersApi {
     }
   }
 
-  private HttpRequest.Builder getUserByIdRequestBuilder(String id) throws ApiException {
+  private HttpRequest.Builder getUserByIdRequestBuilder(String compId, String id) throws ApiException {
+    // verify the required parameter 'compId' is set
+    if (compId == null) {
+      throw new ApiException(400, "Missing the required parameter 'compId' when calling getUserById");
+    }
     // verify the required parameter 'id' is set
     if (id == null) {
       throw new ApiException(400, "Missing the required parameter 'id' when calling getUserById");
@@ -298,7 +318,8 @@ public class UsersApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/users/{id}"
+    String localVarPath = "/companies/{comp_id}/users/{id}"
+        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()))
         .replace("{id}", ApiClient.urlEncode(id.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
@@ -318,6 +339,7 @@ public class UsersApi {
   /**
    * Get all users
    * 
+   * @param compId  (required)
    * @param page  (optional)
    * @param pageSize  (optional)
    * @param firstName Filter users by first name, case is ignored (optional)
@@ -327,14 +349,15 @@ public class UsersApi {
    * @return List&lt;User&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<User> getUsers(Integer page, Integer pageSize, String firstName, String lastName, String email, Role role) throws ApiException {
-    ApiResponse<List<User>> localVarResponse = getUsersWithHttpInfo(page, pageSize, firstName, lastName, email, role);
+  public List<User> getUsers(String compId, Integer page, Integer pageSize, String firstName, String lastName, String email, Role role) throws ApiException {
+    ApiResponse<List<User>> localVarResponse = getUsersWithHttpInfo(compId, page, pageSize, firstName, lastName, email, role);
     return localVarResponse.getData();
   }
 
   /**
    * Get all users
    * 
+   * @param compId  (required)
    * @param page  (optional)
    * @param pageSize  (optional)
    * @param firstName Filter users by first name, case is ignored (optional)
@@ -344,8 +367,8 @@ public class UsersApi {
    * @return ApiResponse&lt;List&lt;User&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<User>> getUsersWithHttpInfo(Integer page, Integer pageSize, String firstName, String lastName, String email, Role role) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getUsersRequestBuilder(page, pageSize, firstName, lastName, email, role);
+  public ApiResponse<List<User>> getUsersWithHttpInfo(String compId, Integer page, Integer pageSize, String firstName, String lastName, String email, Role role) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getUsersRequestBuilder(compId, page, pageSize, firstName, lastName, email, role);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -373,11 +396,16 @@ public class UsersApi {
     }
   }
 
-  private HttpRequest.Builder getUsersRequestBuilder(Integer page, Integer pageSize, String firstName, String lastName, String email, Role role) throws ApiException {
+  private HttpRequest.Builder getUsersRequestBuilder(String compId, Integer page, Integer pageSize, String firstName, String lastName, String email, Role role) throws ApiException {
+    // verify the required parameter 'compId' is set
+    if (compId == null) {
+      throw new ApiException(400, "Missing the required parameter 'compId' when calling getUsers");
+    }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/users";
+    String localVarPath = "/companies/{comp_id}/users"
+        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()));
 
     List<Pair> localVarQueryParams = new ArrayList<>();
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");

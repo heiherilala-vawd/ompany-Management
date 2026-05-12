@@ -1,17 +1,18 @@
 package com.example.demo.service.money;
 
 import static com.example.demo.repository.specification.SpecificationUtils.containsIgnoreCase;
-import static com.example.demo.repository.specification.SpecificationUtils.equal;
 
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
 import com.example.demo.model.criteria.OtherExpenseCriteria;
+import com.example.demo.model.money.ExpenseMoney;
 import com.example.demo.model.money.OtherExpense;
 import com.example.demo.repository.money.OtherExpenseRepository;
 import com.example.demo.service.utils.ModificationUtils;
 import com.example.demo.service.utils.PageUtils;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class OtherExpenseService {
 
   private final OtherExpenseRepository otherExpenseRepository;
+  private final ExpenseMoneyService expenseMoneyService;
   private final ModificationUtils modificationUtils;
 
   public Optional<OtherExpense> findById(String id) {
@@ -39,6 +41,10 @@ public class OtherExpenseService {
 
   @Transactional
   public List<OtherExpense> createOrUpdateAll(List<OtherExpense> otherExpenses) {
+    List<ExpenseMoney> expenses =
+        otherExpenses.stream().map(OtherExpense::getExpense).collect(Collectors.toList());
+    expenseMoneyService.createOrUpdateAll(expenses);
+
     return otherExpenseRepository.saveAll(otherExpenses);
   }
 
@@ -48,7 +54,7 @@ public class OtherExpenseService {
   }
 
   private Specification<OtherExpense> toSpecification(OtherExpenseCriteria criteria) {
-    return Specification.<OtherExpense>where(equal(criteria.getExpenseId(), "expense", "id"))
-        .and(containsIgnoreCase(criteria.getDescription(), "description"));
+    return Specification.<OtherExpense>where(
+        containsIgnoreCase(criteria.getDescription(), "description"));
   }
 }

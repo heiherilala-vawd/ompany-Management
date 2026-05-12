@@ -20,14 +20,12 @@ public class PurchaseController {
   private final PurchaseService purchaseService;
   private final PurchaseMapper purchaseMapper;
 
-  @GetMapping(
-      "/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/purchases/{id}")
+  @GetMapping("/companies/{comp_id}/job/{job_id}/user/{user_id}/purchases/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public Purchase getPurchaseById(
       @PathVariable String comp_id,
       @PathVariable String job_id,
       @PathVariable String user_id,
-      @PathVariable String expenses_id,
       @PathVariable String id) {
     return purchaseMapper.toRestPurchase(
         purchaseService
@@ -35,20 +33,17 @@ public class PurchaseController {
             .orElseThrow(() -> new NotFoundException("Purchase with id " + id + " not found")));
   }
 
-  @GetMapping("/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/purchases")
+  @GetMapping("/companies/{comp_id}/job/{job_id}/user/{user_id}/purchases")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public List<Purchase> getPurchases(
       @PathVariable String comp_id,
       @PathVariable String job_id,
       @PathVariable String user_id,
-      @PathVariable String expenses_id,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
-      @RequestParam(name = "expense_id", required = false) String expenseId,
       @RequestParam(name = "supplier_id", required = false) String supplierId,
       @RequestParam(name = "is_equipment", required = false) Boolean isEquipment) {
     PurchaseCriteria criteria = new PurchaseCriteria();
-    criteria.setExpenseId(expenseId);
     criteria.setSupplierId(supplierId);
     criteria.setIsEquipment(isEquipment);
 
@@ -57,27 +52,24 @@ public class PurchaseController {
         .toList();
   }
 
-  @PutMapping("/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/purchases")
+  @PutMapping("/companies/{comp_id}/job/{job_id}/user/{user_id}/purchases")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public List<Purchase> crupdatePurchases(
       @PathVariable String comp_id,
       @PathVariable String job_id,
       @PathVariable String user_id,
-      @PathVariable String expenses_id,
       @RequestBody List<CrupdatePurchase> toWrite) {
     List<com.example.demo.model.money.Purchase> saved =
         purchaseService.createOrUpdateAll(toWrite.stream().map(purchaseMapper::toDomain).toList());
     return saved.stream().map(purchaseMapper::toRestPurchase).toList();
   }
 
-  @DeleteMapping(
-      "/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/purchases/{id}")
+  @DeleteMapping("/companies/{comp_id}/job/{job_id}/user/{user_id}/purchases/{id}")
   @PreAuthorize("hasAnyRole('ADMIN')")
   public void deletePurchaseById(
       @PathVariable String comp_id,
       @PathVariable String job_id,
       @PathVariable String user_id,
-      @PathVariable String expenses_id,
       @PathVariable String id) {
     purchaseService.deleteById(id);
   }

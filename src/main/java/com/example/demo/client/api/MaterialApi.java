@@ -51,7 +51,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-02T18:18:42.847020564+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-11T22:45:33.712988788+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class MaterialApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -91,24 +91,26 @@ public class MaterialApi {
   /**
    * Create new materials or update existing materials
    * 
+   * @param compId  (required)
    * @param crupdateMaterial  (required)
    * @return List&lt;Material&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<Material> crupdateMaterials(List<CrupdateMaterial> crupdateMaterial) throws ApiException {
-    ApiResponse<List<Material>> localVarResponse = crupdateMaterialsWithHttpInfo(crupdateMaterial);
+  public List<Material> crupdateMaterials(String compId, List<CrupdateMaterial> crupdateMaterial) throws ApiException {
+    ApiResponse<List<Material>> localVarResponse = crupdateMaterialsWithHttpInfo(compId, crupdateMaterial);
     return localVarResponse.getData();
   }
 
   /**
    * Create new materials or update existing materials
    * 
+   * @param compId  (required)
    * @param crupdateMaterial  (required)
    * @return ApiResponse&lt;List&lt;Material&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<Material>> crupdateMaterialsWithHttpInfo(List<CrupdateMaterial> crupdateMaterial) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = crupdateMaterialsRequestBuilder(crupdateMaterial);
+  public ApiResponse<List<Material>> crupdateMaterialsWithHttpInfo(String compId, List<CrupdateMaterial> crupdateMaterial) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = crupdateMaterialsRequestBuilder(compId, crupdateMaterial);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -136,7 +138,11 @@ public class MaterialApi {
     }
   }
 
-  private HttpRequest.Builder crupdateMaterialsRequestBuilder(List<CrupdateMaterial> crupdateMaterial) throws ApiException {
+  private HttpRequest.Builder crupdateMaterialsRequestBuilder(String compId, List<CrupdateMaterial> crupdateMaterial) throws ApiException {
+    // verify the required parameter 'compId' is set
+    if (compId == null) {
+      throw new ApiException(400, "Missing the required parameter 'compId' when calling crupdateMaterials");
+    }
     // verify the required parameter 'crupdateMaterial' is set
     if (crupdateMaterial == null) {
       throw new ApiException(400, "Missing the required parameter 'crupdateMaterial' when calling crupdateMaterials");
@@ -144,7 +150,8 @@ public class MaterialApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/materials";
+    String localVarPath = "/companies/{comp_id}/materials"
+        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
@@ -169,22 +176,24 @@ public class MaterialApi {
   /**
    * Delete material by identifier
    * 
+   * @param compId  (required)
    * @param id  (required)
    * @throws ApiException if fails to make API call
    */
-  public void deleteMaterialById(String id) throws ApiException {
-    deleteMaterialByIdWithHttpInfo(id);
+  public void deleteMaterialById(String compId, String id) throws ApiException {
+    deleteMaterialByIdWithHttpInfo(compId, id);
   }
 
   /**
    * Delete material by identifier
    * 
+   * @param compId  (required)
    * @param id  (required)
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Void> deleteMaterialByIdWithHttpInfo(String id) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = deleteMaterialByIdRequestBuilder(id);
+  public ApiResponse<Void> deleteMaterialByIdWithHttpInfo(String compId, String id) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = deleteMaterialByIdRequestBuilder(compId, id);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -217,7 +226,11 @@ public class MaterialApi {
     }
   }
 
-  private HttpRequest.Builder deleteMaterialByIdRequestBuilder(String id) throws ApiException {
+  private HttpRequest.Builder deleteMaterialByIdRequestBuilder(String compId, String id) throws ApiException {
+    // verify the required parameter 'compId' is set
+    if (compId == null) {
+      throw new ApiException(400, "Missing the required parameter 'compId' when calling deleteMaterialById");
+    }
     // verify the required parameter 'id' is set
     if (id == null) {
       throw new ApiException(400, "Missing the required parameter 'id' when calling deleteMaterialById");
@@ -225,7 +238,8 @@ public class MaterialApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/materials/{id}"
+    String localVarPath = "/companies/{comp_id}/materials/{id}"
+        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()))
         .replace("{id}", ApiClient.urlEncode(id.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
@@ -245,24 +259,26 @@ public class MaterialApi {
   /**
    * Get material by identifier
    * 
+   * @param compId  (required)
    * @param id  (required)
    * @return Material
    * @throws ApiException if fails to make API call
    */
-  public Material getMaterialById(String id) throws ApiException {
-    ApiResponse<Material> localVarResponse = getMaterialByIdWithHttpInfo(id);
+  public Material getMaterialById(String compId, String id) throws ApiException {
+    ApiResponse<Material> localVarResponse = getMaterialByIdWithHttpInfo(compId, id);
     return localVarResponse.getData();
   }
 
   /**
    * Get material by identifier
    * 
+   * @param compId  (required)
    * @param id  (required)
    * @return ApiResponse&lt;Material&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Material> getMaterialByIdWithHttpInfo(String id) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getMaterialByIdRequestBuilder(id);
+  public ApiResponse<Material> getMaterialByIdWithHttpInfo(String compId, String id) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getMaterialByIdRequestBuilder(compId, id);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -290,7 +306,11 @@ public class MaterialApi {
     }
   }
 
-  private HttpRequest.Builder getMaterialByIdRequestBuilder(String id) throws ApiException {
+  private HttpRequest.Builder getMaterialByIdRequestBuilder(String compId, String id) throws ApiException {
+    // verify the required parameter 'compId' is set
+    if (compId == null) {
+      throw new ApiException(400, "Missing the required parameter 'compId' when calling getMaterialById");
+    }
     // verify the required parameter 'id' is set
     if (id == null) {
       throw new ApiException(400, "Missing the required parameter 'id' when calling getMaterialById");
@@ -298,7 +318,8 @@ public class MaterialApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/materials/{id}"
+    String localVarPath = "/companies/{comp_id}/materials/{id}"
+        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()))
         .replace("{id}", ApiClient.urlEncode(id.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
@@ -318,32 +339,36 @@ public class MaterialApi {
   /**
    * Get all materials
    * 
+   * @param compId  (required)
    * @param page  (optional)
    * @param pageSize  (optional)
    * @param name Filter materials by name, case is ignored (optional)
    * @param description Filter materials by description, case is ignored (optional)
    * @param unit  (optional)
+   * @param notArrived Filter materials not yet arrived (with quantity &gt; 0 in route or at seller warehouse) (optional)
    * @return List&lt;Material&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<Material> getMaterials(Integer page, Integer pageSize, String name, String description, MaterialUnit unit) throws ApiException {
-    ApiResponse<List<Material>> localVarResponse = getMaterialsWithHttpInfo(page, pageSize, name, description, unit);
+  public List<Material> getMaterials(String compId, Integer page, Integer pageSize, String name, String description, MaterialUnit unit, Boolean notArrived) throws ApiException {
+    ApiResponse<List<Material>> localVarResponse = getMaterialsWithHttpInfo(compId, page, pageSize, name, description, unit, notArrived);
     return localVarResponse.getData();
   }
 
   /**
    * Get all materials
    * 
+   * @param compId  (required)
    * @param page  (optional)
    * @param pageSize  (optional)
    * @param name Filter materials by name, case is ignored (optional)
    * @param description Filter materials by description, case is ignored (optional)
    * @param unit  (optional)
+   * @param notArrived Filter materials not yet arrived (with quantity &gt; 0 in route or at seller warehouse) (optional)
    * @return ApiResponse&lt;List&lt;Material&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<Material>> getMaterialsWithHttpInfo(Integer page, Integer pageSize, String name, String description, MaterialUnit unit) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getMaterialsRequestBuilder(page, pageSize, name, description, unit);
+  public ApiResponse<List<Material>> getMaterialsWithHttpInfo(String compId, Integer page, Integer pageSize, String name, String description, MaterialUnit unit, Boolean notArrived) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getMaterialsRequestBuilder(compId, page, pageSize, name, description, unit, notArrived);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -371,11 +396,16 @@ public class MaterialApi {
     }
   }
 
-  private HttpRequest.Builder getMaterialsRequestBuilder(Integer page, Integer pageSize, String name, String description, MaterialUnit unit) throws ApiException {
+  private HttpRequest.Builder getMaterialsRequestBuilder(String compId, Integer page, Integer pageSize, String name, String description, MaterialUnit unit, Boolean notArrived) throws ApiException {
+    // verify the required parameter 'compId' is set
+    if (compId == null) {
+      throw new ApiException(400, "Missing the required parameter 'compId' when calling getMaterials");
+    }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/materials";
+    String localVarPath = "/companies/{comp_id}/materials"
+        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()));
 
     List<Pair> localVarQueryParams = new ArrayList<>();
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
@@ -390,6 +420,8 @@ public class MaterialApi {
     localVarQueryParams.addAll(ApiClient.parameterToPairs("description", description));
     localVarQueryParameterBaseName = "unit";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("unit", unit));
+    localVarQueryParameterBaseName = "not_arrived";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("not_arrived", notArrived));
 
     if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
       StringJoiner queryJoiner = new StringJoiner("&");

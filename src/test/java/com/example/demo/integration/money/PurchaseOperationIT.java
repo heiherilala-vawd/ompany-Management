@@ -115,16 +115,7 @@ class PurchaseOperationIT {
 
     PurchaseApi purchaseApi = new PurchaseApi(anApiClient(ADMIN_TOKEN));
     List<Purchase> equipmentPurchases =
-        purchaseApi.getPurchases(
-            COMPANY1_ID,
-            JOB1_ID,
-            EMPLOYEE_ID,
-            "purchase_operation_equipment_expense_1",
-            1,
-            100,
-            null,
-            "warehouse_at_seller_id",
-            true);
+        purchaseApi.getPurchases(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, true);
 
     assertTrue(
         equipmentPurchases.stream()
@@ -137,21 +128,12 @@ class PurchaseOperationIT {
                         && purchase.getExpense().getAmount() == 7000));
 
     List<Purchase> materialPurchases =
-        purchaseApi.getPurchases(
-            COMPANY1_ID,
-            JOB1_ID,
-            EMPLOYEE_ID,
-            "purchase_operation_material_expense_1",
-            1,
-            100,
-            null,
-            "warehouse_at_seller_id",
-            false);
+        purchaseApi.getPurchases(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, false);
 
-    assertEquals(1, materialPurchases.size());
-    assertEquals("purchase_operation_material_purchase_1", materialPurchases.get(0).getId());
-    assertEquals(MATERIAL1_ID, materialPurchases.get(0).getMaterial().getId());
-    assertEquals(4800, materialPurchases.get(0).getExpense().getAmount());
+    assertEquals(2, materialPurchases.size());
+    assertEquals("purchase_operation_material_purchase_1", materialPurchases.get(1).getId());
+    assertEquals(MATERIAL1_ID, materialPurchases.get(1).getMaterial().getId());
+    assertEquals(4800, materialPurchases.get(1).getExpense().getAmount());
 
     ExpenseApi expenseApi = new ExpenseApi(anApiClient(ADMIN_TOKEN));
     List<ExpenseMoney> travelExpensesAsMoney =
@@ -172,10 +154,8 @@ class PurchaseOperationIT {
             COMPANY1_ID,
             JOB1_ID,
             EMPLOYEE_ID,
-            EXPENSE1_ID,
             1,
             100,
-            "purchase_operation_travel_expense_1",
             AT_SELLER_WAREHOUSE_ID,
             "purchase_operation_arrival_warehouse_1");
     assertTrue(
@@ -194,7 +174,6 @@ class PurchaseOperationIT {
             JOB1_ID,
             EMPLOYEE_ID,
             "purchase_operation_travel_expense_1",
-            createdTravelId,
             1,
             100,
             createdTravelId,
@@ -215,7 +194,6 @@ class PurchaseOperationIT {
             JOB1_ID,
             EMPLOYEE_ID,
             "purchase_operation_travel_expense_1",
-            createdTravelId,
             1,
             100,
             createdTravelId,
@@ -271,7 +249,8 @@ class PurchaseOperationIT {
     api.createPurchaseOperation(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, request);
 
     MaterialApi materialApi = new MaterialApi(anApiClient(WAREHOUSE_TOKEN));
-    Material createdMaterial = materialApi.getMaterialById("purchase_operation_material_new_1");
+    Material createdMaterial =
+        materialApi.getMaterialById(COMPANY1_ID, "purchase_operation_material_new_1");
     assertEquals("purchase_operation_material_new_1", createdMaterial.getId());
 
     assertEquals(
@@ -328,7 +307,6 @@ class PurchaseOperationIT {
             JOB1_ID,
             EMPLOYEE_ID,
             "purchase_operation_travel_expense_2",
-            "purchase_operation_travel_2",
             1,
             100,
             "purchase_operation_travel_2",
@@ -349,7 +327,6 @@ class PurchaseOperationIT {
             JOB1_ID,
             EMPLOYEE_ID,
             "purchase_operation_travel_expense_2",
-            "purchase_operation_travel_2",
             1,
             100,
             "purchase_operation_travel_2",
@@ -396,9 +373,6 @@ class PurchaseOperationIT {
             .departureDate(Instant.parse("2024-04-02T08:00:00Z"))
             .arrivalDate(Instant.parse("2024-04-02T18:00:00Z"))
             .fee(2500));
-    System.out.println("-----------------------------------------------------------");
-    System.out.println(request);
-    System.out.println("-----------------------------------------------------------");
 
     api.createPurchaseOperation(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, request);
 

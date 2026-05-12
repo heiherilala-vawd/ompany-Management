@@ -5,6 +5,7 @@ import static com.example.demo.repository.specification.SpecificationUtils.equal
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
 import com.example.demo.model.criteria.TravelExpenseCriteria;
+import com.example.demo.model.money.ExpenseMoney;
 import com.example.demo.model.money.TravelExpense;
 import com.example.demo.repository.money.TravelExpenseRepository;
 import com.example.demo.service.utils.ModificationUtils;
@@ -12,6 +13,7 @@ import com.example.demo.service.utils.PageUtils;
 import com.example.demo.validator.MoneyValidator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class TravelExpenseService {
 
   private final TravelExpenseRepository travelExpenseRepository;
+  private final ExpenseMoneyService expenseMoneyService;
   private final ModificationUtils modificationUtils;
   private final MoneyValidator moneyValidator;
 
@@ -41,6 +44,11 @@ public class TravelExpenseService {
   @Transactional
   public List<TravelExpense> createOrUpdateAll(List<TravelExpense> travelExpenses) {
     moneyValidator.validateTravelExpenses(travelExpenses);
+
+    List<ExpenseMoney> expenses =
+        travelExpenses.stream().map(TravelExpense::getExpense).collect(Collectors.toList());
+    expenseMoneyService.createOrUpdateAll(expenses);
+
     return travelExpenseRepository.saveAll(travelExpenses);
   }
 
@@ -50,8 +58,8 @@ public class TravelExpenseService {
   }
 
   private Specification<TravelExpense> toSpecification(TravelExpenseCriteria criteria) {
-    return Specification.<TravelExpense>where(equal(criteria.getExpenseId(), "expense", "id"))
-        .and(equal(criteria.getDepartureLocation(), "departureLocation", "id"))
+    return Specification.<TravelExpense>where(
+            equal(criteria.getDepartureLocation(), "departureLocation", "id"))
         .and(equal(criteria.getArrivalLocation(), "arrivalLocation", "id"))
         .and(equal(criteria.getArrivalDate(), "arrivalDate"));
   }

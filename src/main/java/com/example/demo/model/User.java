@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
-import org.hibernate.Hibernate;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 import org.springframework.security.core.GrantedAuthority;
@@ -50,20 +49,23 @@ public class User extends CreatAndUpdateEntity implements Serializable, UserDeta
   @NotBlank(message = "Password is mandatory")
   private String password;
 
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "company_id")
+  private Company company;
+
   @ManyToMany(mappedBy = "responsibleUsers", fetch = FetchType.LAZY)
   private List<Job> assignedJobs = new ArrayList<>();
 
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
-    if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-    User user = (User) o;
-    return id != null && Objects.equals(id, user.id);
+    if (!(o instanceof User user)) return false;
+    return Objects.equals(getId(), user.getId());
   }
 
   @Override
   public int hashCode() {
-    return getClass().hashCode();
+    return Objects.hash(getId());
   }
 
   @Override

@@ -19,6 +19,7 @@ import com.example.demo.client.invoker.Pair;
 
 import com.example.demo.client.model.BadRequestException;
 import com.example.demo.client.model.CrupdateIncomeMoney;
+import java.io.File;
 import com.example.demo.client.model.IncomeMoney;
 import com.example.demo.client.model.InternalServerException;
 import com.example.demo.client.model.NotAuthorizedException;
@@ -50,7 +51,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-02T18:18:42.847020564+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-11T22:45:33.712988788+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class IncomeApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -389,11 +390,13 @@ public class IncomeApi {
    * @param invoiceReference Filter incomes by invoice reference, case is ignored (optional)
    * @param description Filter incomes by description, case is ignored (optional)
    * @param amount  (optional)
+   * @param incomeTypeId Filter incomes by income type (optional)
+   * @param moneyReceived Filter incomes by money received status (amount minus sum of receipts &lt;&#x3D; 0) (optional)
    * @return List&lt;IncomeMoney&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<IncomeMoney> getIncomes(String compId, String jobId, String userId, Integer page, Integer pageSize, String sourceOrganization, String invoiceReference, String description, Integer amount) throws ApiException {
-    ApiResponse<List<IncomeMoney>> localVarResponse = getIncomesWithHttpInfo(compId, jobId, userId, page, pageSize, sourceOrganization, invoiceReference, description, amount);
+  public List<IncomeMoney> getIncomes(String compId, String jobId, String userId, Integer page, Integer pageSize, String sourceOrganization, String invoiceReference, String description, Integer amount, String incomeTypeId, Boolean moneyReceived) throws ApiException {
+    ApiResponse<List<IncomeMoney>> localVarResponse = getIncomesWithHttpInfo(compId, jobId, userId, page, pageSize, sourceOrganization, invoiceReference, description, amount, incomeTypeId, moneyReceived);
     return localVarResponse.getData();
   }
 
@@ -409,11 +412,13 @@ public class IncomeApi {
    * @param invoiceReference Filter incomes by invoice reference, case is ignored (optional)
    * @param description Filter incomes by description, case is ignored (optional)
    * @param amount  (optional)
+   * @param incomeTypeId Filter incomes by income type (optional)
+   * @param moneyReceived Filter incomes by money received status (amount minus sum of receipts &lt;&#x3D; 0) (optional)
    * @return ApiResponse&lt;List&lt;IncomeMoney&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<IncomeMoney>> getIncomesWithHttpInfo(String compId, String jobId, String userId, Integer page, Integer pageSize, String sourceOrganization, String invoiceReference, String description, Integer amount) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getIncomesRequestBuilder(compId, jobId, userId, page, pageSize, sourceOrganization, invoiceReference, description, amount);
+  public ApiResponse<List<IncomeMoney>> getIncomesWithHttpInfo(String compId, String jobId, String userId, Integer page, Integer pageSize, String sourceOrganization, String invoiceReference, String description, Integer amount, String incomeTypeId, Boolean moneyReceived) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getIncomesRequestBuilder(compId, jobId, userId, page, pageSize, sourceOrganization, invoiceReference, description, amount, incomeTypeId, moneyReceived);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -441,7 +446,7 @@ public class IncomeApi {
     }
   }
 
-  private HttpRequest.Builder getIncomesRequestBuilder(String compId, String jobId, String userId, Integer page, Integer pageSize, String sourceOrganization, String invoiceReference, String description, Integer amount) throws ApiException {
+  private HttpRequest.Builder getIncomesRequestBuilder(String compId, String jobId, String userId, Integer page, Integer pageSize, String sourceOrganization, String invoiceReference, String description, Integer amount, String incomeTypeId, Boolean moneyReceived) throws ApiException {
     // verify the required parameter 'compId' is set
     if (compId == null) {
       throw new ApiException(400, "Missing the required parameter 'compId' when calling getIncomes");
@@ -477,6 +482,10 @@ public class IncomeApi {
     localVarQueryParams.addAll(ApiClient.parameterToPairs("description", description));
     localVarQueryParameterBaseName = "amount";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("amount", amount));
+    localVarQueryParameterBaseName = "income_type_id";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("income_type_id", incomeTypeId));
+    localVarQueryParameterBaseName = "money_received";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("money_received", moneyReceived));
 
     if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
       StringJoiner queryJoiner = new StringJoiner("&");
@@ -490,6 +499,93 @@ public class IncomeApi {
     }
 
     localVarRequestBuilder.header("Accept", "application/json");
+
+    localVarRequestBuilder.method("GET", HttpRequest.BodyPublishers.noBody());
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
+    }
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
+    }
+    return localVarRequestBuilder;
+  }
+
+  /**
+   * Export incomes to Excel
+   * 
+   * @param compId  (required)
+   * @param jobId  (required)
+   * @param userId  (required)
+   * @return File
+   * @throws ApiException if fails to make API call
+   */
+  public File getIncomesExcel(String compId, String jobId, String userId) throws ApiException {
+    ApiResponse<File> localVarResponse = getIncomesExcelWithHttpInfo(compId, jobId, userId);
+    return localVarResponse.getData();
+  }
+
+  /**
+   * Export incomes to Excel
+   * 
+   * @param compId  (required)
+   * @param jobId  (required)
+   * @param userId  (required)
+   * @return ApiResponse&lt;File&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<File> getIncomesExcelWithHttpInfo(String compId, String jobId, String userId) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getIncomesExcelRequestBuilder(compId, jobId, userId);
+    try {
+      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("getIncomesExcel", localVarResponse);
+        }
+        return new ApiResponse<File>(
+          localVarResponse.statusCode(),
+          localVarResponse.headers().map(),
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<File>() {}) // closes the InputStream
+        );
+      } finally {
+      }
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new ApiException(e);
+    }
+  }
+
+  private HttpRequest.Builder getIncomesExcelRequestBuilder(String compId, String jobId, String userId) throws ApiException {
+    // verify the required parameter 'compId' is set
+    if (compId == null) {
+      throw new ApiException(400, "Missing the required parameter 'compId' when calling getIncomesExcel");
+    }
+    // verify the required parameter 'jobId' is set
+    if (jobId == null) {
+      throw new ApiException(400, "Missing the required parameter 'jobId' when calling getIncomesExcel");
+    }
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling getIncomesExcel");
+    }
+
+    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
+
+    String localVarPath = "/companies/{comp_id}/job/{job_id}/user/{user_id}/incomes/excel"
+        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()))
+        .replace("{job_id}", ApiClient.urlEncode(jobId.toString()))
+        .replace("{user_id}", ApiClient.urlEncode(userId.toString()));
+
+    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+
+    localVarRequestBuilder.header("Accept", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/json");
 
     localVarRequestBuilder.method("GET", HttpRequest.BodyPublishers.noBody());
     if (memberVarReadTimeout != null) {

@@ -11,8 +11,11 @@ import com.example.demo.client.model.Equipment;
 import com.example.demo.client.model.Job;
 import com.example.demo.client.model.JobStatus;
 import com.example.demo.client.model.Material;
+import com.example.demo.client.model.MaterialWarehouseInfo;
 import com.example.demo.client.model.Warehouse;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 final class TestOrganizationFixtures {
@@ -203,12 +206,39 @@ final class TestOrganizationFixtures {
     return equipment;
   }
 
+  static Warehouse routeWarehouse() {
+    Warehouse warehouse = new Warehouse();
+    warehouse.setId("warehouse_route_id");
+    warehouse.setName("En route");
+    warehouse.setDescription("Emplacement virtuel pour les équipements en déplacement");
+    return warehouse;
+  }
+
+  static Warehouse atSellerWarehouse() {
+    Warehouse warehouse = new Warehouse();
+    warehouse.setId("warehouse_at_seller_id");
+    warehouse.setName("Chez le vendeur");
+    warehouse.setDescription("Emplacement virtuel pour les équipements encore chez le vendeur");
+    return warehouse;
+  }
+
   static Material material1() {
     Material material = new Material();
     material.setId(TestUtils.MATERIAL1_ID);
     material.setName("Ciment");
     material.setDescription("Ciment Portland 35kg");
     material.setUnit(com.example.demo.client.model.MaterialUnit.SAC);
+    material.setCompanyId(TestUtils.COMPANY1_ID);
+    List<MaterialWarehouseInfo> mws = new ArrayList<>();
+    MaterialWarehouseInfo mw1 = new MaterialWarehouseInfo();
+    mw1.setWarehouse(warehouse1());
+    mw1.setQuantity(100);
+    mws.add(mw1);
+    MaterialWarehouseInfo mw2 = new MaterialWarehouseInfo();
+    mw2.setWarehouse(routeWarehouse());
+    mw2.setQuantity(50);
+    mws.add(mw2);
+    material.setMaterialWarehouses(mws);
     return material;
   }
 
@@ -218,6 +248,13 @@ final class TestOrganizationFixtures {
     material.setName("Brique");
     material.setDescription("Brique rouge 20x10x5");
     material.setUnit(com.example.demo.client.model.MaterialUnit.U);
+    material.setCompanyId(TestUtils.COMPANY1_ID);
+    List<MaterialWarehouseInfo> mws = new ArrayList<>();
+    MaterialWarehouseInfo mw = new MaterialWarehouseInfo();
+    mw.setWarehouse(atSellerWarehouse());
+    mw.setQuantity(30);
+    mws.add(mw);
+    material.setMaterialWarehouses(mws);
     return material;
   }
 
@@ -227,6 +264,13 @@ final class TestOrganizationFixtures {
     material.setName("Peinture");
     material.setDescription("Peinture blanche mate");
     material.setUnit(com.example.demo.client.model.MaterialUnit.L);
+    material.setCompanyId(TestUtils.COMPANY1_ID);
+    List<MaterialWarehouseInfo> mws = new ArrayList<>();
+    MaterialWarehouseInfo mw = new MaterialWarehouseInfo();
+    mw.setWarehouse(routeWarehouse());
+    mw.setQuantity(0);
+    mws.add(mw);
+    material.setMaterialWarehouses(mws);
     return material;
   }
 

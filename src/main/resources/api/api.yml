@@ -16,6 +16,53 @@ security:
 
 paths:
 
+  /companies/{comp_id}/yearly-report:
+    get:
+      tags:
+        - Report
+      summary: Get yearly report with job financials
+      description: Returns all jobs for the specified year with their income/expense details, including ongoing (IN_PROGRESS) jobs
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: year
+          in: query
+          required: true
+          schema:
+            type: integer
+          example: 2024
+        - name: page
+          in: query
+          schema:
+            $ref: '#/components/schemas/Page'
+          example: 1
+        - name: page_size
+          in: query
+          schema:
+            $ref: '#/components/schemas/PageSize'
+          example: 20
+      responses:
+        '200':
+          description: Yearly report
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/YearlyReport'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+
   # =========================
   # USERS
   # =========================
@@ -142,13 +189,19 @@ paths:
   # =========================
   # USERS
   # =========================
-  '/users/{id}':
+  '/companies/{comp_id}/users/{id}':
     get:
       tags:
         - Users
       summary: Get user by identifier
       operationId: getUserById
       parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_001"
         - name: id
           in: path
           required: true
@@ -202,6 +255,12 @@ paths:
       summary: Delete a user by identifier
       operationId: deleteUserById
       parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_001"
         - name: id
           in: path
           required: true
@@ -221,13 +280,19 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-  /users:
+  '/companies/{comp_id}/users':
     get:
       tags:
         - Users
       summary: Get all users
       operationId: getUsers
       parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_001"
         - name: page
           in: query
           schema:
@@ -334,6 +399,13 @@ paths:
       summary: Create new users or update existing users
       description: Update users when `id` are provided, create them otherwise.
       operationId: crupdateUsers
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_001"
       requestBody:
         required: true
         content:
@@ -1647,6 +1719,12 @@ paths:
           schema:
             type: integer
           example: 5
+        - name: not_arrived
+          in: query
+          description: "Filter equipment not yet arrived (in route or at seller warehouse)"
+          schema:
+            type: boolean
+          example: true
       responses:
         '200':
           description: List of equipment
@@ -1826,13 +1904,19 @@ paths:
   # =========================
   # MATERIAL
   # =========================
-  '/materials/{id}':
+  '/companies/{comp_id}/materials/{id}':
     get:
       tags:
         - Material
       summary: Get material by identifier
       operationId: getMaterialById
       parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_001"
         - name: id
           in: path
           required: true
@@ -1884,6 +1968,12 @@ paths:
       summary: Delete material by identifier
       operationId: deleteMaterialById
       parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_001"
         - name: id
           in: path
           required: true
@@ -1903,13 +1993,19 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-  /materials:
+  '/companies/{comp_id}/materials':
     get:
       tags:
         - Material
       summary: Get all materials
       operationId: getMaterials
       parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_001"
         - name: page
           in: query
           schema:
@@ -1937,6 +2033,12 @@ paths:
           schema:
             $ref: '#/components/schemas/MaterialUnit'
           example: "SAC"
+        - name: not_arrived
+          in: query
+          description: "Filter materials not yet arrived (with quantity > 0 in route or at seller warehouse)"
+          schema:
+            type: boolean
+          example: true
       responses:
         '200':
           description: List of materials
@@ -2025,6 +2127,13 @@ paths:
         - Material
       summary: Create new materials or update existing materials
       operationId: crupdateMaterials
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_001"
       requestBody:
         required: true
         content:
@@ -2095,6 +2204,107 @@ paths:
                     last_name: "System"
                     sex: "F"
                     email: "admin@company.com"
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+
+
+  '/companies/{comp_id}/material_warehouse':
+    get:
+      tags:
+        - MaterialWarehouse
+      summary: Get all material warehouse stock records
+      operationId: getMaterialWarehouses
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: page
+          in: query
+          schema:
+            $ref: '#/components/schemas/Page'
+          example: 1
+        - name: page_size
+          in: query
+          schema:
+            $ref: '#/components/schemas/PageSize'
+          example: 20
+        - name: material_id
+          in: query
+          description: "Filter by material ID"
+          schema:
+            type: string
+          example: "mat_001"
+        - name: warehouse_id
+          in: query
+          description: "Filter by warehouse ID"
+          schema:
+            type: string
+          example: "wh_001"
+        - name: not_arrived
+          in: query
+          description: "Filter records where quantity > 0 in route or at_seller warehouse"
+          schema:
+            type: boolean
+          example: true
+      responses:
+        '200':
+          description: List of material warehouse records
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MaterialWarehouseView'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      tags:
+        - MaterialWarehouse
+      summary: Create or update material warehouse stock
+      operationId: crupdateMaterialWarehouses
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/CrupdateMaterialWarehouse'
+      responses:
+        '200':
+          description: The created or updated material warehouse records
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MaterialWarehouseInfo'
         '400':
           $ref: '#/components/responses/400'
         '403':
@@ -2449,6 +2659,172 @@ paths:
 
 
   # =========================
+  # INCOME TYPE
+  # =========================
+  /companies/{comp_id}/income_types:
+    get:
+      tags:
+        - IncomeType
+      summary: Get all income types for a company
+      operationId: getIncomeTypes
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+      responses:
+        '200':
+          description: List of income types
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/IncomeType'
+              example:
+                - id: "income_type_001"
+                  name: "Facturation client"
+                  description: "Revenus issus de la facturation client"
+                  company_id: "comp_btp001"
+                - id: "income_type_002"
+                  name: "Subvention"
+                  description: "Aides et subventions recues"
+                  company_id: "comp_btp001"
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      tags:
+        - IncomeType
+      summary: Create new income types or update existing ones
+      operationId: crupdateIncomeTypes
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/CrupdateIncomeType'
+            example:
+              - id: "income_type_001"
+                name: "Facturation client"
+                description: "Revenus issus de la facturation client"
+                company_id: "comp_btp001"
+                comment: "Type principal"
+              - name: "Don"
+                description: "Dons et apports exceptionnels"
+                company_id: "comp_btp001"
+                comment: "Nouveau type"
+      responses:
+        '200':
+          description: The created or updated income types
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/IncomeType'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /companies/{comp_id}/income_types/{id}:
+    get:
+      tags:
+        - IncomeType
+      summary: Get an income type by identifier
+      operationId: getIncomeTypeById
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "income_type_001"
+      responses:
+        '200':
+          description: Income type found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IncomeType'
+              example:
+                id: "income_type_001"
+                name: "Facturation client"
+                description: "Revenus issus de la facturation client"
+                company_id: "comp_btp001"
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      tags:
+        - IncomeType
+      summary: Delete an income type by identifier
+      operationId: deleteIncomeTypeById
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "income_type_001"
+      responses:
+        '204':
+          description: Income type deleted successfully
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+
+  # =========================
   # INCOME
   # =========================
   '/companies/{comp_id}/job/{job_id}/user/{user_id}/incomes/{id}':
@@ -2494,11 +2870,17 @@ paths:
                 amount: 50000
                 source_organization: "Client Principal"
                 invoice_reference: "FACT-2024-001"
+                billing_start_date: "2024-01-15"
                 description: "Premier acompte pour le chantier"
                 job:
                   id: "job_001"
                   company_id: "comp_btp001"
                   description: "Construction d'un entrepôt logistique"
+                income_type:
+                  id: "income_type_001"
+                  name: "Facturation client"
+                  description: "Revenus issus de la facturation client"
+                  company_id: "comp_btp001"
                 comment: "Acompte 30%"
                 created_at: "2024-02-01T11:00:00Z"
                 updated_at: "2024-02-01T11:00:00Z"
@@ -2627,6 +3009,18 @@ paths:
           schema:
             type: integer
           example: 50000
+        - name: income_type_id
+          in: query
+          description: "Filter incomes by income type"
+          schema:
+            type: string
+          example: "income_type_001"
+        - name: money_received
+          in: query
+          description: "Filter incomes by money received status (amount minus sum of receipts <= 0)"
+          schema:
+            type: boolean
+          example: true
       responses:
         '200':
           description: List of incomes
@@ -2641,9 +3035,15 @@ paths:
                   amount: 50000
                   source_organization: "Client Principal"
                   invoice_reference: "FACT-2024-001"
+                  billing_start_date: "2024-01-15"
                   description: "Premier acompte pour le chantier"
                   job:
                     id: "job_001"
+                    company_id: "comp_btp001"
+                  income_type:
+                    id: "income_type_001"
+                    name: "Facturation client"
+                    description: "Revenus issus de la facturation client"
                     company_id: "comp_btp001"
                   comment: "Acompte 30%"
                   created_at: "2024-02-01T11:00:00Z"
@@ -2666,9 +3066,15 @@ paths:
                   amount: 50000
                   source_organization: "Client Principal"
                   invoice_reference: "FACT-2024-002"
+                  billing_start_date: "2024-02-10"
                   description: "Deuxième acompte"
                   job:
                     id: "job_001"
+                    company_id: "comp_btp001"
+                  income_type:
+                    id: "income_type_001"
+                    name: "Facturation client"
+                    description: "Revenus issus de la facturation client"
                     company_id: "comp_btp001"
                   comment: "Acompte 30% - Phase 2"
                   created_at: "2024-02-15T09:30:00Z"
@@ -2734,12 +3140,16 @@ paths:
                 amount: 55000
                 source_organization: "Client Principal"
                 invoice_reference: "FACT-2024-001"
+                billing_start_date: "2024-01-15"
+                income_type_id: "income_type_001"
                 description: "Premier acompte pour le chantier (révisé)"
                 job_id: "job_001"
                 comment: "Acompte révisé à 33%"
               - amount: 40000
                 source_organization: "Subvention"
                 invoice_reference: "SUB-2024-01"
+                billing_start_date: "2024-02-20"
+                income_type_id: "income_type_002"
                 description: "Aide à la construction"
                 job_id: "job_001"
                 comment: "Subvention région"
@@ -2757,9 +3167,15 @@ paths:
                   amount: 55000
                   source_organization: "Client Principal"
                   invoice_reference: "FACT-2024-001"
+                  billing_start_date: "2024-01-15"
                   description: "Premier acompte pour le chantier (révisé)"
                   job:
                     id: "job_001"
+                    company_id: "comp_btp001"
+                  income_type:
+                    id: "income_type_001"
+                    name: "Facturation client"
+                    description: "Revenus issus de la facturation client"
                     company_id: "comp_btp001"
                   comment: "Acompte révisé à 33%"
                   created_at: "2024-02-01T11:00:00Z"
@@ -2782,9 +3198,15 @@ paths:
                   amount: 40000
                   source_organization: "Subvention"
                   invoice_reference: "SUB-2024-01"
+                  billing_start_date: "2024-02-20"
                   description: "Aide à la construction"
                   job:
                     id: "job_001"
+                    company_id: "comp_btp001"
+                  income_type:
+                    id: "income_type_002"
+                    name: "Subvention"
+                    description: "Aides et subventions recues"
                     company_id: "comp_btp001"
                   comment: "Subvention région"
                   created_at: "2024-02-22T15:00:00Z"
@@ -2815,10 +3237,717 @@ paths:
           $ref: '#/components/responses/500'
 
 
+  /companies/{comp_id}/job/{job_id}/user/{user_id}/incomes/excel:
+    get:
+      tags:
+        - Income
+      summary: Export incomes to Excel
+      operationId: getIncomesExcel
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "job_001"
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "usr_123456"
+      responses:
+        '200':
+          description: Excel file with incomes data
+          content:
+            application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
+              schema:
+                type: string
+                format: binary
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+
+
+  '/companies/{comp_id}/job/{job_id}/user/{user_id}/incomes/{income_id}/receipts/{id}':
+    get:
+      tags:
+        - IncomeReceipt
+      summary: Get income receipt by identifier
+      operationId: getIncomeReceiptById
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "job_001"
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "usr_123456"
+        - name: income_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "inc_001"
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "receipt_001"
+      responses:
+        '200':
+          description: The identified income receipt
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IncomeReceipt'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      tags:
+        - IncomeReceipt
+      summary: Delete income receipt by identifier
+      operationId: deleteIncomeReceiptById
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "job_001"
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "usr_123456"
+        - name: income_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "inc_001"
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "receipt_001"
+      responses:
+        '204':
+          description: Income receipt deleted successfully
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  '/companies/{comp_id}/job/{job_id}/user/{user_id}/incomes/{income_id}/receipts':
+    get:
+      tags:
+        - IncomeReceipt
+      summary: Get all receipts for an income
+      operationId: getIncomeReceipts
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "job_001"
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "usr_123456"
+        - name: income_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "inc_001"
+        - name: page
+          in: query
+          schema:
+            $ref: '#/components/schemas/Page'
+          example: 1
+        - name: page_size
+          in: query
+          schema:
+            $ref: '#/components/schemas/PageSize'
+          example: 20
+      responses:
+        '200':
+          description: List of income receipts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/IncomeReceipt'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      tags:
+        - IncomeReceipt
+      summary: Create new income receipts or update existing ones
+      operationId: crupdateIncomeReceipts
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "job_001"
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "usr_123456"
+        - name: income_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "inc_001"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/CrupdateIncomeReceipt'
+      responses:
+        '200':
+          description: The created or updated income receipts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/IncomeReceipt'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+
+  # =========================
+  # LOAN
+  # =========================
+  '/companies/{comp_id}/job/{job_id}/user/{user_id}/loans/{id}':
+    get:
+      tags:
+        - Loan
+      summary: Get loan by identifier
+      operationId: getLoanById
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "job_001"
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "usr_123456"
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "loan_001"
+      responses:
+        '200':
+          description: The identified loan
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Loan'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      tags:
+        - Loan
+      summary: Delete loan by identifier
+      operationId: deleteLoanById
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "job_001"
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "usr_123456"
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "loan_001"
+      responses:
+        '204':
+          description: Loan deleted successfully
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  '/companies/{comp_id}/job/{job_id}/user/{user_id}/loans':
+    get:
+      tags:
+        - Loan
+      summary: Get all loans
+      operationId: getLoans
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "job_001"
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "usr_123456"
+        - name: page
+          in: query
+          schema:
+            $ref: '#/components/schemas/Page'
+          example: 1
+        - name: page_size
+          in: query
+          schema:
+            $ref: '#/components/schemas/PageSize'
+          example: 20
+        - name: description
+          in: query
+          description: "Filter loans by description, case is ignored"
+          schema:
+            type: string
+          example: "construction"
+        - name: amount
+          in: query
+          schema:
+            type: integer
+          example: 5000000
+        - name: lender
+          in: query
+          description: "Filter loans by lender, case is ignored"
+          schema:
+            type: string
+          example: "BNI"
+      responses:
+        '200':
+          description: List of loans
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Loan'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      tags:
+        - Loan
+      summary: Create new loans or update existing ones
+      operationId: crupdateLoans
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "job_001"
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "usr_123456"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/CrupdateLoan'
+      responses:
+        '200':
+          description: The created or updated loans
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Loan'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+
+  # =========================
+  # LOAN REPAYMENT
+  # =========================
+  '/companies/{comp_id}/job/{job_id}/user/{user_id}/loans/{loan_id}/repayments/{id}':
+    get:
+      tags:
+        - LoanRepayment
+      summary: Get loan repayment by identifier
+      operationId: getLoanRepaymentById
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "job_001"
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "usr_123456"
+        - name: loan_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "loan_001"
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "repayment_001"
+      responses:
+        '200':
+          description: The identified loan repayment
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoanRepayment'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      tags:
+        - LoanRepayment
+      summary: Delete loan repayment by identifier
+      operationId: deleteLoanRepaymentById
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "job_001"
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "usr_123456"
+        - name: loan_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "loan_001"
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "repayment_001"
+      responses:
+        '204':
+          description: Loan repayment deleted successfully
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  '/companies/{comp_id}/job/{job_id}/user/{user_id}/loans/{loan_id}/repayments':
+    get:
+      tags:
+        - LoanRepayment
+      summary: Get all repayments for a loan
+      operationId: getLoanRepayments
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "job_001"
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "usr_123456"
+        - name: loan_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "loan_001"
+        - name: page
+          in: query
+          schema:
+            $ref: '#/components/schemas/Page'
+          example: 1
+        - name: page_size
+          in: query
+          schema:
+            $ref: '#/components/schemas/PageSize'
+          example: 20
+      responses:
+        '200':
+          description: List of loan repayments
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LoanRepayment'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      tags:
+        - LoanRepayment
+      summary: Create new loan repayments or update existing ones
+      operationId: crupdateLoanRepayments
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "job_001"
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "usr_123456"
+        - name: loan_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "loan_001"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/CrupdateLoanRepayment'
+      responses:
+        '200':
+          description: The created or updated loan repayments
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LoanRepayment'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+
   # =========================
   # TRAVEL EXPENSE
   # =========================
-  '/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/travel_expenses/{id}':
+  '/companies/{comp_id}/job/{job_id}/user/{user_id}/travel_expenses/{id}':
     get:
       tags:
         - TravelExpense
@@ -2843,12 +3972,6 @@ paths:
           schema:
             type: string
           example: "usr_123456"
-        - name: expenses_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "exp_003"
         - name: id
           in: path
           required: true
@@ -2911,12 +4034,6 @@ paths:
           schema:
             type: string
           example: "usr_123456"
-        - name: expenses_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "exp_003"
         - name: id
           in: path
           required: true
@@ -2936,7 +4053,7 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-  /companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/travel_expenses:
+  /companies/{comp_id}/job/{job_id}/user/{user_id}/travel_expenses:
     get:
       tags:
         - TravelExpense
@@ -2961,12 +4078,6 @@ paths:
           schema:
             type: string
           example: "usr_123456"
-        - name: expenses_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "exp_003"
         - name: page
           in: query
           schema:
@@ -2977,11 +4088,6 @@ paths:
           schema:
             $ref: '#/components/schemas/PageSize'
           example: 20
-        - name: expense_id
-          in: query
-          schema:
-            type: string
-          example: "exp_003"
         - name: departure_location
           in: query
           description: "Filter travel expenses by departure warehouse id"
@@ -3051,12 +4157,6 @@ paths:
           schema:
             type: string
           example: "usr_123456"
-        - name: expenses_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "exp_003"
       requestBody:
         required: true
         content:
@@ -3067,7 +4167,10 @@ paths:
                 $ref: '#/components/schemas/CrupdateTravelExpense'
             example:
               - id: "travel_001"
-                expense_id: "exp_003"
+                expense:
+                  id: "exp_003"
+                  amount: 10000
+                  job_id: "job_001"
                 departure_location:
                   id: "wh_001"
                   name: "Entrepôt Nord"
@@ -3114,7 +4217,7 @@ paths:
   # =========================
   # PURCHASE
   # =========================
-  '/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/purchases/{id}':
+  '/companies/{comp_id}/job/{job_id}/user/{user_id}/purchases/{id}':
     get:
       tags:
         - Purchase
@@ -3139,12 +4242,6 @@ paths:
           schema:
             type: string
           example: "usr_123456"
-        - name: expenses_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "exp_001"
         - name: id
           in: path
           required: true
@@ -3164,7 +4261,11 @@ paths:
                   id: "exp_001"
                   amount: 15000
                   description: "Achat de matériaux pour le chantier"
-                supplier_id: "supp_001"
+                supplier:
+                  id: "supp_001"
+                  name: "Fournisseur A"
+                  description: "Fournisseur matériaux"
+                  job_id: "job_001"
                 material:
                   id: "mat_001"
                   name: "Ciment Portland"
@@ -3204,12 +4305,6 @@ paths:
           schema:
             type: string
           example: "usr_123456"
-        - name: expenses_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "exp_001"
         - name: id
           in: path
           required: true
@@ -3229,7 +4324,7 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-  /companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/purchases:
+  /companies/{comp_id}/job/{job_id}/user/{user_id}/purchases:
     get:
       tags:
         - Purchase
@@ -3254,12 +4349,6 @@ paths:
           schema:
             type: string
           example: "usr_123456"
-        - name: expenses_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "exp_001"
         - name: page
           in: query
           schema:
@@ -3270,11 +4359,6 @@ paths:
           schema:
             $ref: '#/components/schemas/PageSize'
           example: 20
-        - name: expense_id
-          in: query
-          schema:
-            type: string
-          example: "exp_001"
         - name: supplier_id
           in: query
           description: "Filter purchases by supplier id"
@@ -3301,7 +4385,11 @@ paths:
                     id: "exp_001"
                     amount: 15000
                     description: "Achat de matériaux pour le chantier"
-                  supplier_id: "supp_001"
+                  supplier:
+                    id: "supp_001"
+                    name: "Fournisseur A"
+                    description: "Fournisseur matériaux"
+                    job_id: "job_001"
                   material:
                     id: "mat_001"
                     name: "Ciment Portland"
@@ -3312,7 +4400,11 @@ paths:
                     id: "exp_001"
                     amount: 15000
                     description: "Achat de matériaux pour le chantier"
-                  supplier_id: "supp_001"
+                  supplier:
+                    id: "supp_001"
+                    name: "Fournisseur A"
+                    description: "Fournisseur matériaux"
+                    job_id: "job_001"
                   material:
                     id: "mat_002"
                     name: "Gravier 10/20"
@@ -3352,12 +4444,6 @@ paths:
           schema:
             type: string
           example: "usr_123456"
-        - name: expenses_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "exp_001"
       requestBody:
         required: true
         content:
@@ -3368,8 +4454,15 @@ paths:
                 $ref: '#/components/schemas/CrupdatePurchase'
             example:
               - id: "purch_001"
-                expense_id: "exp_001"
-                supplier_id: "supp_001"
+                expense:
+                  id: "exp_001"
+                  amount: 15000
+                  job_id: "job_001"
+                supplier:
+                  id: "supp_001"
+                  name: "Fournisseur A"
+                  description: "Fournisseur matériaux"
+                  job_id: "job_001"
                 material: "mat_001"
                 quantity: 250
                 is_equipment: false
@@ -3388,7 +4481,11 @@ paths:
                     id: "exp_001"
                     amount: 15000
                     description: "Achat de matériaux pour le chantier"
-                  supplier_id: "supp_001"
+                  supplier:
+                    id: "supp_001"
+                    name: "Fournisseur A"
+                    description: "Fournisseur matériaux"
+                    job_id: "job_001"
                   material:
                     id: "mat_001"
                     name: "Ciment Portland"
@@ -3484,7 +4581,11 @@ paths:
                     id: "exp_001"
                     amount: 15000
                     description: "Achat de matériaux pour le chantier"
-                  supplier_id: "supp_001"
+                  supplier:
+                    id: "supp_001"
+                    name: "Fournisseur A"
+                    description: "Fournisseur matériaux"
+                    job_id: "job_001"
                   material:
                     id: "mat_001"
                     name: "Ciment Portland"
@@ -3595,7 +4696,7 @@ paths:
   # =========================
   # BANK FEE
   # =========================
-  '/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/bank_fees/{id}':
+  '/companies/{comp_id}/job/{job_id}/user/{user_id}/bank_fees/{id}':
     get:
       tags:
         - BankFee
@@ -3620,12 +4721,6 @@ paths:
           schema:
             type: string
           example: "usr_123456"
-        - name: expenses_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "exp_001"
         - name: id
           in: path
           required: true
@@ -3681,12 +4776,6 @@ paths:
           schema:
             type: string
           example: "usr_123456"
-        - name: expenses_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "exp_001"
         - name: id
           in: path
           required: true
@@ -3706,7 +4795,7 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-  /companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/bank_fees:
+  /companies/{comp_id}/job/{job_id}/user/{user_id}/bank_fees:
     get:
       tags:
         - BankFee
@@ -3731,12 +4820,6 @@ paths:
           schema:
             type: string
           example: "usr_123456"
-        - name: expenses_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "exp_001"
         - name: page
           in: query
           schema:
@@ -3747,11 +4830,6 @@ paths:
           schema:
             $ref: '#/components/schemas/PageSize'
           example: 20
-        - name: expense_id
-          in: query
-          schema:
-            type: string
-          example: "exp_001"
         - name: bank_name
           in: query
           description: "Filter bank fees by bank name, case is ignored"
@@ -3815,12 +4893,6 @@ paths:
           schema:
             type: string
           example: "usr_123456"
-        - name: expenses_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "exp_001"
       requestBody:
         required: true
         content:
@@ -3831,7 +4903,10 @@ paths:
                 $ref: '#/components/schemas/CrupdateBankFee'
             example:
               - id: "bank_001"
-                expense_id: "exp_001"
+                expense:
+                  id: "exp_001"
+                  amount: 5000
+                  job_id: "job_001"
                 bank_name: "BNP Paribas"
                 description: "Frais de virement international révisés"
       responses:
@@ -3866,7 +4941,7 @@ paths:
   # =========================
   # OTHER EXPENSE
   # =========================
-  '/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/other_expenses/{id}':
+  '/companies/{comp_id}/job/{job_id}/user/{user_id}/other_expenses/{id}':
     get:
       tags:
         - OtherExpense
@@ -3891,12 +4966,6 @@ paths:
           schema:
             type: string
           example: "usr_123456"
-        - name: expenses_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "exp_002"
         - name: id
           in: path
           required: true
@@ -3951,12 +5020,6 @@ paths:
           schema:
             type: string
           example: "usr_123456"
-        - name: expenses_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "exp_002"
         - name: id
           in: path
           required: true
@@ -3976,7 +5039,7 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-  /companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/other_expenses:
+  /companies/{comp_id}/job/{job_id}/user/{user_id}/other_expenses:
     get:
       tags:
         - OtherExpense
@@ -4001,12 +5064,6 @@ paths:
           schema:
             type: string
           example: "usr_123456"
-        - name: expenses_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "exp_002"
         - name: page
           in: query
           schema:
@@ -4017,11 +5074,6 @@ paths:
           schema:
             $ref: '#/components/schemas/PageSize'
           example: 20
-        - name: expense_id
-          in: query
-          schema:
-            type: string
-          example: "exp_002"
         - name: description
           in: query
           description: "Filter other expenses by description, case is ignored"
@@ -4078,12 +5130,6 @@ paths:
           schema:
             type: string
           example: "usr_123456"
-        - name: expenses_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "exp_002"
       requestBody:
         required: true
         content:
@@ -4094,7 +5140,10 @@ paths:
                 $ref: '#/components/schemas/CrupdateOtherExpense'
             example:
               - id: "other_001"
-                expense_id: "exp_002"
+                expense:
+                  id: "exp_002"
+                  amount: 5000
+                  job_id: "job_002"
                 description: "Frais de carburant et entretien"
       responses:
         '200':
@@ -4127,7 +5176,7 @@ paths:
   # =========================
   # EMPLOYEE PAYMENT
   # =========================
-  '/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/employee_payments/{id}':
+  '/companies/{comp_id}/job/{job_id}/user/{user_id}/employee_payments/{id}':
     get:
       tags:
         - EmployeePayment
@@ -4152,12 +5201,6 @@ paths:
           schema:
             type: string
           example: "usr_123456"
-        - name: expenses_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "exp_004"
         - name: id
           in: path
           required: true
@@ -4219,12 +5262,6 @@ paths:
           schema:
             type: string
           example: "usr_123456"
-        - name: expenses_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "exp_004"
         - name: id
           in: path
           required: true
@@ -4244,7 +5281,7 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-  /companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/employee_payments:
+  /companies/{comp_id}/job/{job_id}/user/{user_id}/employee_payments:
     get:
       tags:
         - EmployeePayment
@@ -4269,12 +5306,6 @@ paths:
           schema:
             type: string
           example: "usr_123456"
-        - name: expenses_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "exp_004"
         - name: page
           in: query
           schema:
@@ -4290,11 +5321,6 @@ paths:
           schema:
             type: string
           example: "usr_123456"
-        - name: expense_id
-          in: query
-          schema:
-            type: string
-          example: "exp_004"
         - name: payment_description
           in: query
           description: "Filter employee payments by description, case is ignored"
@@ -4372,12 +5398,6 @@ paths:
           schema:
             type: string
           example: "usr_123456"
-        - name: expenses_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "exp_004"
       requestBody:
         required: true
         content:
@@ -4388,7 +5408,10 @@ paths:
                 $ref: '#/components/schemas/CrupdateEmployeePayment'
             example:
               - id: "emp_pay_001"
-                expense_id: "exp_004"
+                expense:
+                  id: "exp_004"
+                  amount: 5000
+                  job_id: "job_004"
                 employee_id: "usr_123456"
                 payment_description: "Salaire février 2024 + prime"
                 payment_type: "MONTHLY"
@@ -4428,7 +5451,7 @@ paths:
   # =========================
   # TRAVEL PEOPLE
   # =========================
-  '/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/travel_expenses/{travel_expenses_id}/travel_people/{id}':
+  '/companies/{comp_id}/job/{job_id}/user/{user_id}/travel_expenses/{travel_expenses_id}/travel_people/{id}':
     get:
       tags:
         - TravelPeople
@@ -4453,12 +5476,6 @@ paths:
           schema:
             type: string
           example: "usr_123456"
-        - name: expenses_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "exp_003"
         - name: travel_expenses_id
           in: path
           required: true
@@ -4538,12 +5555,6 @@ paths:
           schema:
             type: string
           example: "usr_123456"
-        - name: expenses_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "exp_003"
         - name: travel_expenses_id
           in: path
           required: true
@@ -4569,7 +5580,7 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-  /companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/travel_expenses/{travel_expenses_id}/travel_people:
+  /companies/{comp_id}/job/{job_id}/user/{user_id}/travel_expenses/{travel_expenses_id}/travel_people:
     get:
       tags:
         - TravelPeople
@@ -4594,12 +5605,6 @@ paths:
           schema:
             type: string
           example: "usr_123456"
-        - name: expenses_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "exp_003"
         - name: travel_expenses_id
           in: path
           required: true
@@ -4745,12 +5750,6 @@ paths:
           schema:
             type: string
           example: "usr_123456"
-        - name: expenses_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "exp_003"
         - name: travel_expenses_id
           in: path
           required: true
@@ -4846,7 +5845,7 @@ paths:
   # =========================
   # TRAVEL MATERIALS
   # =========================
-  '/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/travel_expenses/{travel_expenses_id}/travel_materials/{id}':
+  '/companies/{comp_id}/job/{job_id}/user/{user_id}/travel_expenses/{travel_expenses_id}/travel_materials/{id}':
     get:
       tags:
         - TravelMaterials
@@ -4871,12 +5870,6 @@ paths:
           schema:
             type: string
           example: "usr_123456"
-        - name: expenses_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "exp_003"
         - name: travel_expenses_id
           in: path
           required: true
@@ -4956,12 +5949,6 @@ paths:
           schema:
             type: string
           example: "usr_123456"
-        - name: expenses_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "exp_003"
         - name: travel_expenses_id
           in: path
           required: true
@@ -4987,7 +5974,7 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-  /companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/travel_expenses/{travel_expenses_id}/travel_materials:
+  /companies/{comp_id}/job/{job_id}/user/{user_id}/travel_expenses/{travel_expenses_id}/travel_materials:
     get:
       tags:
         - TravelMaterials
@@ -5012,12 +5999,6 @@ paths:
           schema:
             type: string
           example: "usr_123456"
-        - name: expenses_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "exp_003"
         - name: travel_expenses_id
           in: path
           required: true
@@ -5174,12 +6155,6 @@ paths:
           schema:
             type: string
           example: "usr_123456"
-        - name: expenses_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "exp_003"
         - name: travel_expenses_id
           in: path
           required: true
@@ -5293,14 +6268,14 @@ paths:
           schema:
             type: string
             format: date-time
-          example: 2024-02-01T00:00:00Z
+          example: "2024-02-01T00:00:00Z"
         - name: date_to
           in: query
           description: "Filter modifications until this date (inclusive)"
           schema:
             type: string
             format: date-time
-          example: 2024-02-29T23:59:59Z
+          example: "2024-02-29T23:59:59Z"
       responses:
         '200':
           description: List of history entries
@@ -5340,7 +6315,7 @@ paths:
   # =========================
   # TRAVEL EQUIPMENT
   # =========================
-  '/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/travel_expenses/{travel_expenses_id}/travel_equipment/{id}':
+  '/companies/{comp_id}/job/{job_id}/user/{user_id}/travel_expenses/{travel_expenses_id}/travel_equipment/{id}':
     get:
       tags:
         - TravelEquipment
@@ -5365,12 +6340,6 @@ paths:
           schema:
             type: string
           example: "usr_123456"
-        - name: expenses_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "exp_003"
         - name: travel_expenses_id
           in: path
           required: true
@@ -5450,12 +6419,6 @@ paths:
           schema:
             type: string
           example: "usr_123456"
-        - name: expenses_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "exp_003"
         - name: travel_expenses_id
           in: path
           required: true
@@ -5481,7 +6444,7 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-  /companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{expenses_id}/travel_expenses/{travel_expenses_id}/travel_equipment:
+  /companies/{comp_id}/job/{job_id}/user/{user_id}/travel_expenses/{travel_expenses_id}/travel_equipment:
     get:
       tags:
         - TravelEquipment
@@ -5506,12 +6469,6 @@ paths:
           schema:
             type: string
           example: "usr_123456"
-        - name: expenses_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "exp_003"
         - name: travel_expenses_id
           in: path
           required: true
@@ -5643,12 +6600,6 @@ paths:
           schema:
             type: string
           example: "usr_123456"
-        - name: expenses_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "exp_003"
         - name: travel_expenses_id
           in: path
           required: true
@@ -5790,6 +6741,7 @@ components:
         - EQUIPMENT
         - MATERIAL
         - INCOMEMONEY
+        - INCOMETYPE
         - EXPENSEMONEY
         - EMPLOYEE_PAYMENT
         - TRAVEL_EXPENSE
@@ -5869,11 +6821,11 @@ components:
         created_at:
           type: string
           format: date-time
-          example: 2024-01-15T09:30:00Z
+          example: "2024-01-15T09:30:00Z"
         updated_at:
           type: string
           format: date-time
-          example: 2024-02-20T15:45:00Z
+          example: "2024-02-20T15:45:00Z"
         created_by:
           $ref: '#/components/schemas/AuditUser'
         updated_by:
@@ -5902,6 +6854,9 @@ components:
         email:
           type: string
           example: "jean.dupont@example.com"
+        company_id:
+          type: string
+          example: "comp_001"
     CrupdateUser:
       allOf:
         - $ref: '#/components/schemas/comment'
@@ -5925,6 +6880,9 @@ components:
         password:
           type: string
           example: "securePassword123"
+        company_id:
+          type: string
+          example: "comp_001"
 
     # =========================
     # COMPANY
@@ -5984,15 +6942,15 @@ components:
         contract_signature_date:
           type: string
           format: date
-          example: 2024-01-20
+          example: "2024-01-20"
         start_date:
           type: string
           format: date
-          example: 2024-02-01
+          example: "2024-02-01"
         end_date:
           type: string
           format: date
-          example: 2024-08-31
+          example: "2024-08-31"
         status:
           $ref: '#/components/schemas/JobStatus'
     CrupdateJob:
@@ -6011,15 +6969,15 @@ components:
         contract_signature_date:
           type: string
           format: date
-          example: 2024-01-20
+          example: "2024-01-20"
         start_date:
           type: string
           format: date
-          example: 2024-02-01
+          example: "2024-02-01"
         end_date:
           type: string
           format: date
-          example: 2024-08-31
+          example: "2024-08-31"
         status:
           $ref: '#/components/schemas/JobStatus'
 
@@ -6141,6 +7099,43 @@ components:
           example: "Ciment Portland de qualité supérieure pour béton armé"
         unit:
           $ref: '#/components/schemas/MaterialUnit'
+        company_id:
+          type: string
+          example: "comp_001"
+        material_warehouses:
+          type: array
+          items:
+            $ref: '#/components/schemas/MaterialWarehouseInfo'
+    MaterialWarehouseInfo:
+      type: object
+      properties:
+        warehouse:
+          $ref: '#/components/schemas/Warehouse'
+        quantity:
+          type: integer
+          example: 50
+    MaterialWarehouseView:
+      type: object
+      properties:
+        material:
+          $ref: '#/components/schemas/CrupdateMaterial'
+        warehouse:
+          $ref: '#/components/schemas/Warehouse'
+        quantity:
+          type: integer
+          example: 100
+    CrupdateMaterialWarehouse:
+      type: object
+      properties:
+        material_id:
+          type: string
+          example: "mat_001"
+        warehouse_id:
+          type: string
+          example: "wh_001"
+        quantity:
+          type: integer
+          example: 50
     CrupdateMaterial:
       allOf:
         - $ref: '#/components/schemas/comment'
@@ -6156,6 +7151,9 @@ components:
           example: "Ciment Portland de qualité supérieure pour béton armé"
         unit:
           $ref: '#/components/schemas/MaterialUnit'
+        company_id:
+          type: string
+          example: "comp_001"
 
     # =========================
     # MONETARY MOVEMENT
@@ -6182,6 +7180,44 @@ components:
           example: "Achat de matériaux pour le chantier"
 
     # =========================
+    # INCOME TYPE
+    # =========================
+    IncomeType:
+      allOf:
+        - $ref: '#/components/schemas/AuditFields'
+      properties:
+        id:
+          type: string
+          example: "income_type_001"
+        name:
+          type: string
+          example: "Facturation client"
+        description:
+          type: string
+          example: "Revenus issus de la facturation client"
+        company_id:
+          type: string
+          description: "ID of the company this income type belongs to"
+          example: "comp_btp001"
+    CrupdateIncomeType:
+      allOf:
+        - $ref: '#/components/schemas/comment'
+      properties:
+        id:
+          type: string
+          example: "income_type_001"
+        name:
+          type: string
+          example: "Facturation client"
+        description:
+          type: string
+          example: "Revenus issus de la facturation client"
+        company_id:
+          type: string
+          description: "ID of the company this income type belongs to"
+          example: "comp_btp001"
+
+    # =========================
     # INCOME
     # =========================
     IncomeMoney:
@@ -6197,10 +7233,27 @@ components:
         invoice_reference:
           type: string
           example: "FACT-2024-001"
+        billing_start_date:
+          type: string
+          format: date
+          example: "2024-01-15"
         job:
           allOf:
             - $ref: '#/components/schemas/CrupdateJob'
           description: "Job this income is related to"
+        income_type:
+          allOf:
+            - $ref: '#/components/schemas/IncomeType'
+          description: "Type of income associated with this income"
+        receipts:
+          type: array
+          description: "Payments received for this income"
+          items:
+            $ref: '#/components/schemas/IncomeReceipt'
+        remaining_amount:
+          type: integer
+          description: "Remaining unpaid amount (amount - sum of receipts)"
+          example: 50000
     CrupdateIncomeMoney:
       allOf:
         - $ref: '#/components/schemas/CrupdateMonetaryMovement'
@@ -6214,10 +7267,187 @@ components:
         invoice_reference:
           type: string
           example: "FACT-2024-001"
+        billing_start_date:
+          type: string
+          format: date
+          example: "2024-01-15"
         job_id:
           type: string
           description: "ID of the job this income is related to"
           example: "job_001"
+        income_type_id:
+          type: string
+          description: "ID of the income type associated with this income"
+          example: "income_type_001"
+
+    # =========================
+    # INCOME RECEIPT
+    # =========================
+    IncomeReceipt:
+      allOf:
+        - $ref: '#/components/schemas/AuditFields'
+      properties:
+        id:
+          type: string
+          example: "receipt_001"
+        payment_date:
+          type: string
+          format: date
+          example: "2024-02-01"
+        amount:
+          type: integer
+          example: 150000
+        income:
+          allOf:
+            - $ref: '#/components/schemas/IncomeMoney'
+          description: "Income this receipt is related to"
+    CrupdateIncomeReceipt:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "receipt_001"
+        payment_date:
+          type: string
+          format: date
+          example: "2024-02-01"
+        amount:
+          type: integer
+          example: 150000
+        income_id:
+          type: string
+          description: "ID of the income this receipt is related to"
+          example: "inc_001"
+        comment:
+          type: string
+          example: "Paiement recu le 1er fevrier"
+
+    # =========================
+    # LOAN
+    # =========================
+    LoanStatus:
+      type: string
+      enum:
+        - ACTIVE
+        - PAID
+        - DEFAULTED
+    Loan:
+      allOf:
+        - $ref: '#/components/schemas/MonetaryMovement'
+      properties:
+        id:
+          type: string
+          example: "loan_001"
+        lender:
+          type: string
+          example: "BNI Madagascar"
+        interest_rate:
+          type: integer
+          description: "Annual interest rate in basis points (e.g., 1200 = 12%)"
+          example: 1200
+        start_date:
+          type: string
+          format: date
+          example: "2024-02-01"
+        due_date:
+          type: string
+          format: date
+          example: "2026-12-31"
+          description: "Due date of the loan. If null, the loan has no fixed term."
+        status:
+          $ref: '#/components/schemas/LoanStatus'
+        job:
+          allOf:
+            - $ref: '#/components/schemas/CrupdateJob'
+          description: "Job this loan is related to"
+        repayments:
+          type: array
+          description: "Repayments made for this loan"
+          items:
+            $ref: '#/components/schemas/LoanRepayment'
+        remaining_amount:
+          type: integer
+          description: "Remaining outstanding amount (amount - sum of repayments)"
+          example: 3800000
+    CrupdateLoan:
+      allOf:
+        - $ref: '#/components/schemas/CrupdateMonetaryMovement'
+      properties:
+        id:
+          type: string
+          example: "loan_001"
+        lender:
+          type: string
+          example: "BNI Madagascar"
+        interest_rate:
+          type: integer
+          description: "Annual interest rate in basis points (e.g., 1200 = 12%)"
+          example: 1200
+        start_date:
+          type: string
+          format: date
+          example: "2024-02-01"
+        due_date:
+          type: string
+          format: date
+          example: "2026-12-31"
+          description: "Due date of the loan. If null, the loan has no fixed term."
+        job_id:
+          type: string
+          description: "ID of the job this loan is related to"
+          example: "job_001"
+
+    # =========================
+    # LOAN REPAYMENT
+    # =========================
+    LoanRepayment:
+      allOf:
+        - $ref: '#/components/schemas/AuditFields'
+      properties:
+        id:
+          type: string
+          example: "repayment_001"
+        payment_date:
+          type: string
+          format: date
+          example: "2024-03-01"
+        amount:
+          type: integer
+          description: "Total repayment amount"
+          example: 600000
+        principal_portion:
+          type: integer
+          description: "Portion of the payment that goes to principal (auto-calculated)"
+          example: 500000
+        interest_portion:
+          type: integer
+          description: "Portion of the payment that goes to interest (auto-calculated)"
+          example: 100000
+        loan:
+          allOf:
+            - $ref: '#/components/schemas/CrupdateLoan'
+          description: "Loan this repayment is related to"
+    CrupdateLoanRepayment:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "repayment_001"
+        payment_date:
+          type: string
+          format: date
+          example: "2024-03-01"
+        amount:
+          type: integer
+          description: "Total repayment amount"
+          example: 600000
+        loan_id:
+          type: string
+          description: "ID of the loan this repayment is related to"
+          example: "loan_001"
+        comment:
+          type: string
+          example: "Remboursement mars 2024"
 
     # =========================
     # EXPENSE
@@ -6267,9 +7497,8 @@ components:
         id:
           type: string
           example: "emp_pay_001"
-        expense_id:
-          type: string
-          example: "exp_004"
+        expense:
+          $ref: '#/components/schemas/CrupdateExpenseMoney'
         employee_id:
           type: string
           example: "usr_123456"
@@ -6296,19 +7525,18 @@ components:
         departure_date:
           type: string
           format: date-time
-          example: 2024-02-20T08:00:00Z
+          example: "2024-02-20T08:00:00Z"
         arrival_date:
           type: string
           format: date-time
-          example: 2024-02-20T18:00:00Z
+          example: "2024-02-20T18:00:00Z"
     CrupdateTravelExpense:
       properties:
         id:
           type: string
           example: "travel_001"
-        expense_id:
-          type: string
-          example: "exp_003"
+        expense:
+          $ref: '#/components/schemas/CrupdateExpenseMoney'
         departure_location:
           $ref: '#/components/schemas/CrupdateWarehouse'
         arrival_location:
@@ -6316,11 +7544,11 @@ components:
         departure_date:
           type: string
           format: date-time
-          example: 2024-02-20T08:00:00Z
+          example: "2024-02-20T08:00:00Z"
         arrival_date:
           type: string
           format: date-time
-          example: 2024-02-20T18:00:00Z
+          example: "2024-02-20T18:00:00Z"
 
     # =========================
     # TRAVEL PEOPLE
@@ -6339,7 +7567,7 @@ components:
         arrival_date:
           type: string
           format: date-time
-          example: 2024-02-20T18:00:00Z
+          example: "2024-02-20T18:00:00Z"
         arrival_location:
           $ref: '#/components/schemas/CrupdateWarehouse'
     CrupdateTravelPeople:
@@ -6358,7 +7586,7 @@ components:
         arrival_date:
           type: string
           format: date-time
-          example: 2024-02-20T18:00:00Z
+          example: "2024-02-20T18:00:00Z"
         arrival_location:
           type: string
           example: "wh_001"
@@ -6386,7 +7614,7 @@ components:
         arrival_date:
           type: string
           format: date-time
-          example: 2024-02-20T18:00:00Z
+          example: "2024-02-20T18:00:00Z"
         arrival_location:
           $ref: '#/components/schemas/CrupdateWarehouse'
     CrupdateTravelMaterials:
@@ -6411,7 +7639,7 @@ components:
         arrival_date:
           type: string
           format: date-time
-          example: 2024-02-20T18:00:00Z
+          example: "2024-02-20T18:00:00Z"
         arrival_location:
           type: string
           example: "wh_001"
@@ -6438,7 +7666,7 @@ components:
         arrival_date:
           type: string
           format: date-time
-          example: 2024-02-20T18:00:00Z
+          example: "2024-02-20T18:00:00Z"
         arrival_location:
           $ref: '#/components/schemas/CrupdateWarehouse'
     CrupdateTravelEquipment:
@@ -6462,7 +7690,7 @@ components:
         arrival_date:
           type: string
           format: date-time
-          example: 2024-02-20T18:00:00Z
+          example: "2024-02-20T18:00:00Z"
         arrival_location:
           type: string
           example: "wh_001"
@@ -6494,9 +7722,8 @@ components:
         id:
           type: string
           example: "purch_001"
-        expense_id:
-          type: string
-          example: "exp_001"
+        expense:
+          $ref: '#/components/schemas/CrupdateExpenseMoney'
         supplier:
           $ref: '#/components/schemas/CrupdateWarehouse'
         equipment:
@@ -6565,11 +7792,11 @@ components:
         departure_date:
           type: string
           format: date-time
-          example: 2024-02-25T09:00:00Z
+          example: "2024-02-25T09:00:00Z"
         arrival_date:
           type: string
           format: date-time
-          example: 2024-02-25T17:00:00Z
+          example: "2024-02-25T17:00:00Z"
         fee:
           type: integer
           example: 500
@@ -6602,11 +7829,11 @@ components:
         departure_date:
           type: string
           format: date-time
-          example: 2024-02-25T09:00:00Z
+          example: "2024-02-25T09:00:00Z"
         arrival_date:
           type: string
           format: date-time
-          example: 2024-02-25T17:00:00Z
+          example: "2024-02-25T17:00:00Z"
         fee:
           type: integer
           example: 500
@@ -6681,9 +7908,8 @@ components:
         id:
           type: string
           example: "bank_001"
-        expense_id:
-          type: string
-          example: "exp_001"
+        expense:
+          $ref: '#/components/schemas/CrupdateExpenseMoney'
         bank_name:
           type: string
           example: "BNP Paribas"
@@ -6709,12 +7935,61 @@ components:
         id:
           type: string
           example: "other_001"
-        expense_id:
-          type: string
-          example: "exp_002"
+        expense:
+          $ref: '#/components/schemas/CrupdateExpenseMoney'
         description:
           type: string
           example: "Frais de carburant pour grues"
+
+    # =========================
+    # YEARLY REPORT
+    # =========================
+    JobWithFinancials:
+      type: object
+      properties:
+        job:
+          $ref: '#/components/schemas/Job'
+        total_income:
+          type: integer
+          description: "Total income amount for this job"
+          example: 500000
+        total_expense:
+          type: integer
+          description: "Total expense amount for this job"
+          example: 350000
+        net_profit:
+          type: integer
+          description: "Net profit (total_income - total_expense)"
+          example: 150000
+
+    YearlyReport:
+      type: object
+      properties:
+        year:
+          type: integer
+          example: 2024
+        jobs_with_financials:
+          type: array
+          items:
+            $ref: '#/components/schemas/JobWithFinancials'
+        summary:
+          type: object
+          properties:
+            total_income:
+              type: integer
+              example: 2000000
+            total_expense:
+              type: integer
+              example: 1500000
+            net_profit:
+              type: integer
+              example: 500000
+            job_count:
+              type: integer
+              example: 15
+            in_progress_job_count:
+              type: integer
+              example: 3
 
     # =========================
     # HISTORY
@@ -6741,7 +8016,7 @@ components:
           type: string
           format: date-time
           description: "Date and time of the modification"
-          example: 2024-02-01T09:00:00Z
+          example: "2024-02-01T09:00:00Z"
         entity_type:
           $ref: '#/components/schemas/EntityType'
         entity_id:

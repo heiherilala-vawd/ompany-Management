@@ -10,6 +10,7 @@ import com.example.demo.model.movement.Equipment;
 import com.example.demo.repository.movement.EquipmentRepository;
 import com.example.demo.service.utils.ModificationUtils;
 import com.example.demo.service.utils.PageUtils;
+import com.example.demo.service.utils.SpecialWarehouseUtils;
 import com.example.demo.validator.MovementValidator;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +38,12 @@ public class EquipmentService {
   public Page<Equipment> findAll(
       PageFromOne page, BoundedPageSize pageSize, EquipmentCriteria criteria) {
     Pageable pageable = PageUtils.createPageable(page, pageSize);
+    if (Boolean.TRUE.equals(criteria.getNotArrived())) {
+      return equipmentRepository.findNotArrived(
+          SpecialWarehouseUtils.routeWarehouseId(),
+          SpecialWarehouseUtils.atSellerWarehouseId(),
+          pageable);
+    }
     return equipmentRepository.findAll(toSpecification(criteria), pageable);
   }
 

@@ -51,8 +51,7 @@ class BankFeeIT {
   void administration_can_get_bank_fee_by_id() throws Exception {
     BankFeeApi api = new BankFeeApi(anApiClient(ADMINISTRATION_TOKEN));
 
-    BankFee actual =
-        api.getBankFeeById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, BANK_FEE1_ID);
+    BankFee actual = api.getBankFeeById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, BANK_FEE1_ID);
 
     assertEquals(bankFee1(), actual);
   }
@@ -62,15 +61,14 @@ class BankFeeIT {
     BankFeeApi api = new BankFeeApi(anApiClient(BAD_TOKEN));
 
     assertThrowsNotAuthorizedException(
-        () -> api.getBankFeeById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, BANK_FEE1_ID));
+        () -> api.getBankFeeById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, BANK_FEE1_ID));
   }
 
   @Test
   void admin_can_get_all_bank_fees() throws Exception {
     BankFeeApi api = new BankFeeApi(anApiClient(ADMIN_TOKEN));
 
-    List<BankFee> bankFees =
-        api.getBankFees(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, 1, 100, null, null, null);
+    List<BankFee> bankFees = api.getBankFees(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, null);
 
     assertEquals(2, bankFees.size());
     assertTrue(bankFees.stream().anyMatch(bankFee -> BANK_FEE1_ID.equals(bankFee.getId())));
@@ -78,23 +76,11 @@ class BankFeeIT {
   }
 
   @Test
-  void admin_can_filter_bank_fees_by_expense_id() throws Exception {
-    BankFeeApi api = new BankFeeApi(anApiClient(ADMIN_TOKEN));
-
-    List<BankFee> bankFees =
-        api.getBankFees(
-            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, 1, 100, EXPENSE2_ID, null, null);
-
-    assertEquals(1, bankFees.size());
-    assertEquals(BANK_FEE2_ID, bankFees.get(0).getId());
-  }
-
-  @Test
   void admin_can_filter_bank_fees_by_bank_name() throws Exception {
     BankFeeApi api = new BankFeeApi(anApiClient(ADMIN_TOKEN));
 
     List<BankFee> bankFees =
-        api.getBankFees(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, 1, 100, null, "BNI", null);
+        api.getBankFees(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, "BNI", null);
 
     assertEquals(1, bankFees.size());
     assertEquals(BANK_FEE1_ID, bankFees.get(0).getId());
@@ -105,8 +91,7 @@ class BankFeeIT {
     BankFeeApi api = new BankFeeApi(anApiClient(ADMIN_TOKEN));
 
     List<BankFee> bankFees =
-        api.getBankFees(
-            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, 1, 100, null, null, "sous-traitant");
+        api.getBankFees(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, "sous-traitant");
 
     assertEquals(1, bankFees.size());
     assertEquals(BANK_FEE2_ID, bankFees.get(0).getId());
@@ -121,8 +106,7 @@ class BankFeeIT {
     bankFeeToUpdate.setDescription("Frais virement fournisseur ajustes");
 
     List<BankFee> updatedBankFees =
-        api.crupdateBankFees(
-            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, List.of(bankFeeToUpdate));
+        api.crupdateBankFees(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(bankFeeToUpdate));
 
     assertEquals(1, updatedBankFees.size());
     assertEquals(BANK_FEE1_ID, updatedBankFees.get(0).getId());
@@ -136,7 +120,7 @@ class BankFeeIT {
     assertThrowsForbiddenException(
         () ->
             api.crupdateBankFees(
-                COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, List.of(someCreatableBankFee())));
+                COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(someCreatableBankFee())));
   }
 
   @Test
@@ -144,7 +128,19 @@ class BankFeeIT {
     BankFeeApi api = new BankFeeApi(anApiClient(ADMINISTRATION_TOKEN));
 
     assertThrowsForbiddenException(
-        () -> api.deleteBankFeeById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID, BANK_FEE1_ID));
+        () -> api.deleteBankFeeById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, BANK_FEE1_ID));
+  }
+
+  @Test
+  void admin_cannot_create_bank_fee_with_null_amount() {
+    BankFeeApi api = new BankFeeApi(anApiClient(ADMIN_TOKEN));
+
+    CrupdateBankFee invalidBankFee = someCreatableBankFee();
+    invalidBankFee.getExpense().setAmount(null);
+
+    assertThrowsApiException(
+        "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Bank fee amount must be positive\"}",
+        () -> api.crupdateBankFees(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(invalidBankFee)));
   }
 
   static class ContextInitializer extends AbstractContextInitializer {

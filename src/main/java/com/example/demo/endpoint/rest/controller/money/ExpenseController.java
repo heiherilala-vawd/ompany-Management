@@ -60,13 +60,6 @@ public class ExpenseController {
       @PathVariable String job_id,
       @PathVariable String user_id,
       @RequestBody List<CrupdateExpenseMoney> toWrite) {
-    // Set job_id from path if not provided
-    toWrite.forEach(
-        expense -> {
-          if (expense.getJobId() == null) {
-            expense.setJobId(job_id);
-          }
-        });
     List<com.example.demo.model.money.ExpenseMoney> saved =
         expenseMoneyService.createOrUpdateAll(
             toWrite.stream().map(expenseMoneyMapper::toDomain).toList());

@@ -19,6 +19,7 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import com.example.demo.client.model.CrupdateExpenseMoney;
 import com.example.demo.client.model.PaymentType;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -34,18 +35,18 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  */
 @JsonPropertyOrder({
   CrupdateEmployeePayment.JSON_PROPERTY_ID,
-  CrupdateEmployeePayment.JSON_PROPERTY_EXPENSE_ID,
+  CrupdateEmployeePayment.JSON_PROPERTY_EXPENSE,
   CrupdateEmployeePayment.JSON_PROPERTY_EMPLOYEE_ID,
   CrupdateEmployeePayment.JSON_PROPERTY_PAYMENT_DESCRIPTION,
   CrupdateEmployeePayment.JSON_PROPERTY_PAYMENT_TYPE
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-02T18:18:42.847020564+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-11T22:45:33.712988788+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdateEmployeePayment {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
 
-  public static final String JSON_PROPERTY_EXPENSE_ID = "expense_id";
-  private String expenseId;
+  public static final String JSON_PROPERTY_EXPENSE = "expense";
+  private CrupdateExpenseMoney expense;
 
   public static final String JSON_PROPERTY_EMPLOYEE_ID = "employee_id";
   private String employeeId;
@@ -84,28 +85,28 @@ public class CrupdateEmployeePayment {
   }
 
 
-  public CrupdateEmployeePayment expenseId(String expenseId) {
-    this.expenseId = expenseId;
+  public CrupdateEmployeePayment expense(CrupdateExpenseMoney expense) {
+    this.expense = expense;
     return this;
   }
 
    /**
-   * Get expenseId
-   * @return expenseId
+   * Get expense
+   * @return expense
   **/
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_EXPENSE_ID)
+  @JsonProperty(JSON_PROPERTY_EXPENSE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getExpenseId() {
-    return expenseId;
+  public CrupdateExpenseMoney getExpense() {
+    return expense;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_EXPENSE_ID)
+  @JsonProperty(JSON_PROPERTY_EXPENSE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setExpenseId(String expenseId) {
-    this.expenseId = expenseId;
+  public void setExpense(CrupdateExpenseMoney expense) {
+    this.expense = expense;
   }
 
 
@@ -197,7 +198,7 @@ public class CrupdateEmployeePayment {
     }
     CrupdateEmployeePayment crupdateEmployeePayment = (CrupdateEmployeePayment) o;
     return Objects.equals(this.id, crupdateEmployeePayment.id) &&
-        Objects.equals(this.expenseId, crupdateEmployeePayment.expenseId) &&
+        Objects.equals(this.expense, crupdateEmployeePayment.expense) &&
         Objects.equals(this.employeeId, crupdateEmployeePayment.employeeId) &&
         Objects.equals(this.paymentDescription, crupdateEmployeePayment.paymentDescription) &&
         Objects.equals(this.paymentType, crupdateEmployeePayment.paymentType);
@@ -205,7 +206,7 @@ public class CrupdateEmployeePayment {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, expenseId, employeeId, paymentDescription, paymentType);
+    return Objects.hash(id, expense, employeeId, paymentDescription, paymentType);
   }
 
   @Override
@@ -213,7 +214,7 @@ public class CrupdateEmployeePayment {
     StringBuilder sb = new StringBuilder();
     sb.append("class CrupdateEmployeePayment {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    expenseId: ").append(toIndentedString(expenseId)).append("\n");
+    sb.append("    expense: ").append(toIndentedString(expense)).append("\n");
     sb.append("    employeeId: ").append(toIndentedString(employeeId)).append("\n");
     sb.append("    paymentDescription: ").append(toIndentedString(paymentDescription)).append("\n");
     sb.append("    paymentType: ").append(toIndentedString(paymentType)).append("\n");
@@ -269,9 +270,9 @@ public class CrupdateEmployeePayment {
       joiner.add(String.format("%sid%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `expense_id` to the URL query string
-    if (getExpenseId() != null) {
-      joiner.add(String.format("%sexpense_id%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getExpenseId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    // add `expense` to the URL query string
+    if (getExpense() != null) {
+      joiner.add(getExpense().toUrlQueryString(prefix + "expense" + suffix));
     }
 
     // add `employee_id` to the URL query string

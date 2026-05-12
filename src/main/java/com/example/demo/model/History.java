@@ -68,6 +68,7 @@ public class History implements Serializable {
     EQUIPMENT,
     MATERIAL,
     INCOMEMONEY,
+    INCOMETYPE,
     EXPENSEMONEY,
     EMPLOYEE_PAYMENT,
     TRAVEL_EXPENSE,
@@ -76,6 +77,9 @@ public class History implements Serializable {
     TRAVELEQUIPMENT,
     PURCHASE,
     BANK_FEE,
-    OTHER_EXPENSE
+    OTHER_EXPENSE,
+    LOAN,
+    LOANREPAYMENT,
+    INCOMERECEIPT
   }
 }

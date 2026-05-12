@@ -20,6 +20,7 @@
 - API defined in `src/main/resources/api/api.yml` (OpenAPI 3.0)
 - Generated client code: `build/gen/` → published to Maven local → used in compilation
 - Layers: Controller → Mapper (API↔Domain) → Service → Repository → Entity
+- Create and update operations are combined in a single endpoint: if the client-provided ID exists, it updates the entity; otherwise, it creates a new one
 - All entities extend `CreatAndUpdateEntity` for audit fields (created/updated by/at)
 - Security: JWT with `@PreAuthorize` roles (ADMIN, ADMINISTRATION, etc.)
 

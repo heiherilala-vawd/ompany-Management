@@ -14,7 +14,11 @@ import com.example.demo.client.model.CrupdateEmployeePayment;
 import com.example.demo.client.model.CrupdateEquipment;
 import com.example.demo.client.model.CrupdateExpenseMoney;
 import com.example.demo.client.model.CrupdateIncomeMoney;
+import com.example.demo.client.model.CrupdateIncomeReceipt;
+import com.example.demo.client.model.CrupdateIncomeType;
 import com.example.demo.client.model.CrupdateJob;
+import com.example.demo.client.model.CrupdateLoan;
+import com.example.demo.client.model.CrupdateLoanRepayment;
 import com.example.demo.client.model.CrupdateMaterial;
 import com.example.demo.client.model.CrupdateOtherExpense;
 import com.example.demo.client.model.CrupdatePurchase;
@@ -28,7 +32,11 @@ import com.example.demo.client.model.EmployeePayment;
 import com.example.demo.client.model.Equipment;
 import com.example.demo.client.model.ExpenseMoney;
 import com.example.demo.client.model.IncomeMoney;
+import com.example.demo.client.model.IncomeReceipt;
+import com.example.demo.client.model.IncomeType;
 import com.example.demo.client.model.Job;
+import com.example.demo.client.model.Loan;
+import com.example.demo.client.model.LoanRepayment;
 import com.example.demo.client.model.Material;
 import com.example.demo.client.model.OtherExpense;
 import com.example.demo.client.model.Purchase;
@@ -71,11 +79,18 @@ public class TestUtils {
   public static final String EQUIPMENT1_ID = "equipment1_id";
   public static final String EQUIPMENT2_ID = "equipment2_id";
   public static final String EQUIPMENT3_ID = "equipment3_id";
+  public static final String EQUIPMENT4_ID = "equipment4_id";
+  public static final String EQUIPMENT5_ID = "equipment5_id";
   public static final String MATERIAL1_ID = "material1_id";
   public static final String MATERIAL2_ID = "material2_id";
   public static final String MATERIAL3_ID = "material3_id";
   public static final String INCOME1_ID = "income1_id";
   public static final String INCOME2_ID = "income2_id";
+  public static final String INCOME3_ID = "income3_id";
+  public static final String INCOME4_ID = "income4_id";
+  public static final String INCOME_TYPE1_ID = "income_type1_id";
+  public static final String INCOME_TYPE2_ID = "income_type2_id";
+  public static final String INCOME_TYPE3_ID = "income_type3_id";
   public static final String EXPENSE1_ID = "expense1_id";
   public static final String EXPENSE2_ID = "expense2_id";
   public static final String BANK_FEE1_ID = "bank_fee1_id";
@@ -94,6 +109,26 @@ public class TestUtils {
   public static final String TRAVEL_MATERIALS2_ID = "travel_materials2_id";
   public static final String TRAVEL_EQUIPMENT1_ID = "travel_equipment1_id";
   public static final String TRAVEL_EQUIPMENT2_ID = "travel_equipment2_id";
+  public static final String LOAN1_ID = "loan1_id";
+  public static final String LOAN2_ID = "loan2_id";
+  public static final String REPAYMENT1_ID = "repayment1_id";
+  public static final String REPAYMENT2_ID = "repayment2_id";
+  public static final String RECEIPT1_ID = "receipt1_id";
+  public static final String RECEIPT2_ID = "receipt2_id";
+  public static final String RECEIPT3_ID = "receipt3_id";
+  public static final String INCOME5_ID = "income5_id";
+  public static final String INCOME6_ID = "income6_id";
+  public static final String INCOME7_ID = "income7_id";
+  public static final String RECEIPT5_ID = "receipt5_id";
+  public static final String RECEIPT6A_ID = "receipt6a_id";
+  public static final String RECEIPT6B_ID = "receipt6b_id";
+  public static final String RECEIPT7A_ID = "receipt7a_id";
+  public static final String RECEIPT7B_ID = "receipt7b_id";
+  public static final String LOAN3_ID = "loan3_id";
+  public static final String LOAN4_ID = "loan4_id";
+  public static final String LOAN5_ID = "loan5_id";
+  public static final String REPAYMENT3_ID = "repayment3_id";
+  public static final String REPAYMENT5_ID = "repayment5_id";
 
   public static final String ADMIN_EMAIL = "admin@hei.school";
   public static final String WAREHOUSE_EMAIL = "warehouse@hei.school";
@@ -286,6 +321,34 @@ public class TestUtils {
     return TestMoneyFixtures.income2();
   }
 
+  public static IncomeMoney income5() {
+    return TestMoneyFixtures.income5();
+  }
+
+  public static IncomeMoney income6() {
+    return TestMoneyFixtures.income6();
+  }
+
+  public static IncomeMoney income7() {
+    return TestMoneyFixtures.income7();
+  }
+
+  public static IncomeType incomeType1() {
+    return TestMoneyFixtures.incomeType1();
+  }
+
+  public static IncomeType incomeType2() {
+    return TestMoneyFixtures.incomeType2();
+  }
+
+  public static CrupdateIncomeType incomeTypeToCrupdateIncomeType(IncomeType incomeType) {
+    return TestMoneyFixtures.incomeTypeToCrupdateIncomeType(incomeType);
+  }
+
+  public static CrupdateIncomeType someCreatableIncomeType() {
+    return TestMoneyFixtures.someCreatableIncomeType();
+  }
+
   public static CrupdateIncomeMoney incomeToCrupdateIncome(IncomeMoney income) {
     return TestMoneyFixtures.incomeToCrupdateIncome(income);
   }
@@ -357,6 +420,50 @@ public class TestUtils {
 
   public static CrupdateOtherExpense someCreatableOtherExpense() {
     return TestMoneyFixtures.someCreatableOtherExpense();
+  }
+
+  public static Loan loan1() {
+    return TestMoneyFixtures.loan1();
+  }
+
+  public static Loan loan2() {
+    return TestMoneyFixtures.loan2();
+  }
+
+  public static CrupdateLoan loanToCrupdateLoan(Loan loan) {
+    return TestMoneyFixtures.loanToCrupdateLoan(loan);
+  }
+
+  public static CrupdateLoan someCreatableLoan() {
+    return TestMoneyFixtures.someCreatableLoan();
+  }
+
+  public static LoanRepayment repayment1() {
+    return TestMoneyFixtures.repayment1();
+  }
+
+  public static CrupdateLoanRepayment repaymentToCrupdateRepayment(LoanRepayment repayment) {
+    return TestMoneyFixtures.repaymentToCrupdateRepayment(repayment);
+  }
+
+  public static CrupdateLoanRepayment someCreatableRepayment() {
+    return TestMoneyFixtures.someCreatableRepayment();
+  }
+
+  public static IncomeReceipt receipt1() {
+    return TestMoneyFixtures.receipt1();
+  }
+
+  public static IncomeReceipt receipt2() {
+    return TestMoneyFixtures.receipt2();
+  }
+
+  public static CrupdateIncomeReceipt receiptToCrupdateReceipt(IncomeReceipt receipt) {
+    return TestMoneyFixtures.receiptToCrupdateReceipt(receipt);
+  }
+
+  public static CrupdateIncomeReceipt someCreatableReceipt() {
+    return TestMoneyFixtures.someCreatableReceipt();
   }
 
   public static Purchase purchase1() {

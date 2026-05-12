@@ -5,6 +5,10 @@ import com.example.demo.model.money.BankFee;
 import com.example.demo.model.money.EmployeePayment;
 import com.example.demo.model.money.ExpenseMoney;
 import com.example.demo.model.money.IncomeMoney;
+import com.example.demo.model.money.IncomeReceipt;
+import com.example.demo.model.money.IncomeType;
+import com.example.demo.model.money.Loan;
+import com.example.demo.model.money.LoanRepayment;
 import com.example.demo.model.money.MonetaryMovement;
 import com.example.demo.model.money.OtherExpense;
 import com.example.demo.model.money.Purchase;
@@ -51,6 +55,9 @@ public class MoneyValidator {
     if (income.getSourceOrganization() == null || income.getSourceOrganization().isBlank()) {
       throw new BadRequestException("Source organization is mandatory for income");
     }
+    if (income.getIncomeType() == null || income.getIncomeType().getId() == null) {
+      throw new BadRequestException("Income type is mandatory for income");
+    }
   }
 
   public void validateIncomeMonies(List<IncomeMoney> incomes) {
@@ -58,6 +65,25 @@ public class MoneyValidator {
       throw new BadRequestException("Income list cannot be null or empty");
     }
     incomes.forEach(this::validateIncomeMoney);
+  }
+
+  public void validateIncomeType(IncomeType incomeType) {
+    if (incomeType == null) {
+      throw new BadRequestException("Income type cannot be null");
+    }
+    if (incomeType.getName() == null || incomeType.getName().isBlank()) {
+      throw new BadRequestException("Income type name is mandatory");
+    }
+    if (incomeType.getCompany() == null || incomeType.getCompany().getId() == null) {
+      throw new BadRequestException("Income type must be associated with a company");
+    }
+  }
+
+  public void validateIncomeTypes(List<IncomeType> incomeTypes) {
+    if (incomeTypes == null || incomeTypes.isEmpty()) {
+      throw new BadRequestException("Income type list cannot be null or empty");
+    }
+    incomeTypes.forEach(this::validateIncomeType);
   }
 
   public void validateEmployeePayment(EmployeePayment payment) {
@@ -159,6 +185,9 @@ public class MoneyValidator {
     if (bankFee.getExpense() == null || bankFee.getExpense().getId() == null) {
       throw new BadRequestException("Bank fee must be linked to an expense");
     }
+    if (bankFee.getExpense().getAmount() == null || bankFee.getExpense().getAmount() <= 0) {
+      throw new BadRequestException("Bank fee amount must be positive");
+    }
     if (bankFee.getBankName() == null || bankFee.getBankName().isBlank()) {
       throw new BadRequestException("Bank name is mandatory");
     }
@@ -188,5 +217,77 @@ public class MoneyValidator {
       throw new BadRequestException("Other expense list cannot be null or empty");
     }
     otherExpenses.forEach(this::validateOtherExpense);
+  }
+
+  public void validateLoan(Loan loan) {
+    if (loan == null) {
+      throw new BadRequestException("Loan cannot be null");
+    }
+    if (loan.getAmount() == null || loan.getAmount() <= 0) {
+      throw new BadRequestException("Loan amount must be positive");
+    }
+    if (loan.getLender() == null || loan.getLender().isBlank()) {
+      throw new BadRequestException("Lender is mandatory for loan");
+    }
+    if (loan.getInterestRate() == null || loan.getInterestRate() < 0) {
+      throw new BadRequestException("Interest rate must be non-negative");
+    }
+    if (loan.getStartDate() == null) {
+      throw new BadRequestException("Start date is mandatory for loan");
+    }
+    if (loan.getJob() == null || loan.getJob().getId() == null) {
+      throw new BadRequestException("Loan must be associated with a job");
+    }
+  }
+
+  public void validateLoans(List<Loan> loans) {
+    if (loans == null || loans.isEmpty()) {
+      throw new BadRequestException("Loan list cannot be null or empty");
+    }
+    loans.forEach(this::validateLoan);
+  }
+
+  public void validateLoanRepayment(LoanRepayment repayment) {
+    if (repayment == null) {
+      throw new BadRequestException("Loan repayment cannot be null");
+    }
+    if (repayment.getLoan() == null || repayment.getLoan().getId() == null) {
+      throw new BadRequestException("Loan repayment must be linked to a loan");
+    }
+    if (repayment.getPaymentDate() == null) {
+      throw new BadRequestException("Payment date is mandatory for loan repayment");
+    }
+    if (repayment.getAmount() == null || repayment.getAmount() <= 0) {
+      throw new BadRequestException("Repayment amount must be positive");
+    }
+  }
+
+  public void validateLoanRepayments(List<LoanRepayment> repayments) {
+    if (repayments == null || repayments.isEmpty()) {
+      throw new BadRequestException("Loan repayment list cannot be null or empty");
+    }
+    repayments.forEach(this::validateLoanRepayment);
+  }
+
+  public void validateIncomeReceipt(IncomeReceipt receipt) {
+    if (receipt == null) {
+      throw new BadRequestException("Income receipt cannot be null");
+    }
+    if (receipt.getIncome() == null || receipt.getIncome().getId() == null) {
+      throw new BadRequestException("Income receipt must be linked to an income");
+    }
+    if (receipt.getPaymentDate() == null) {
+      throw new BadRequestException("Payment date is mandatory for income receipt");
+    }
+    if (receipt.getAmount() == null || receipt.getAmount() <= 0) {
+      throw new BadRequestException("Receipt amount must be positive");
+    }
+  }
+
+  public void validateIncomeReceipts(List<IncomeReceipt> receipts) {
+    if (receipts == null || receipts.isEmpty()) {
+      throw new BadRequestException("Income receipt list cannot be null or empty");
+    }
+    receipts.forEach(this::validateIncomeReceipt);
   }
 }
