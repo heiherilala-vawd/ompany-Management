@@ -307,6 +307,7 @@ tasks.withType<Test> {
         "org.testcontainers.dockerclient.UnixSocketClientProviderStrategy")
 
     systemProperty("docker.host", "unix:///var/run/docker.sock")
+    systemProperty("api.version", "1.44")
 
     // Logs plus détaillés
     testLogging {
