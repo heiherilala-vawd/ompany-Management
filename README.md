@@ -59,6 +59,62 @@ build/
 - Docker (required for Testcontainers to run integration tests)
 - Gradle (or use the included Gradle wrapper `./gradlew`)
 
+### Test Environment Setup
+Integration tests start PostgreSQL with Testcontainers, so every development machine must have a working local Docker daemon.
+
+On Ubuntu/Debian, install the required tools:
+```bash
+sudo apt update
+sudo apt install -y openjdk-21-jdk docker.io
+```
+
+Enable Docker access for the current user:
+```bash
+sudo usermod -aG docker $USER
+```
+
+After running `usermod`, log out completely and log back in. Restart IntelliJ or any terminal that will run the tests.
+
+Verify the environment:
+```bash
+java -version
+id
+docker info
+```
+
+Expected checks:
+- `java -version` must show Java 21
+- `id` must include the `docker` group
+- `docker info` must show the Docker `Server` section without `permission denied`
+
+Set Docker environment variables before running tests from a terminal:
+```bash
+export DOCKER_HOST=unix:///var/run/docker.sock
+export DOCKER_API_VERSION=1.44
+```
+
+Then run:
+```bash
+./gradlew test
+```
+
+For a one-shot command:
+```bash
+DOCKER_HOST=unix:///var/run/docker.sock DOCKER_API_VERSION=1.44 ./gradlew test
+```
+
+When running tests from IntelliJ with Gradle, add these values in `Run > Edit Configurations > Environment variables`:
+```text
+DOCKER_HOST=unix:///var/run/docker.sock;DOCKER_API_VERSION=1.44
+```
+
+When running a JUnit test directly from IntelliJ instead of Gradle, also add this VM option:
+```text
+-Dapi.version=1.44
+```
+
+The Gradle test task already sets `api.version=1.44` for Testcontainers/docker-java, which is required for Docker versions whose minimum supported API version is 1.44.
+
 ## Getting Started
 1. Clone the repository:
    ```bash
