@@ -333,6 +333,23 @@ class TravelEquipmentIT {
                 COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, TRAVEL_EXPENSE1_ID, TRAVEL_EQUIPMENT1_ID));
   }
 
+  @Test
+  @DirtiesContext
+  void admin_can_delete_travel_equipment() throws Exception {
+    TravelEquipmentApi api = new TravelEquipmentApi(anApiClient(ADMIN_TOKEN));
+
+    api.deleteTravelEquipmentById(
+        COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, TRAVEL_EXPENSE2_ID, TRAVEL_EQUIPMENT2_ID);
+
+    assertThrowsApiException(
+        "{\"type\":\"404 NOT_FOUND\",\"message\":\"TravelEquipment with id "
+            + TRAVEL_EQUIPMENT2_ID
+            + " not found\"}",
+        () ->
+            api.getTravelEquipmentById(
+                COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, TRAVEL_EXPENSE2_ID, TRAVEL_EQUIPMENT2_ID));
+  }
+
   static class ContextInitializer extends AbstractContextInitializer {
     public static final int SERVER_PORT = anAvailableRandomPort();
 

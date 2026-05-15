@@ -397,7 +397,9 @@ class LoanIT {
 
     assertThrowsApiException(
         "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Repayment amount must be positive\"}",
-        () -> api.crupdateLoanRepayments(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, LOAN1_ID, List.of(invalid)));
+        () ->
+            api.crupdateLoanRepayments(
+                COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, LOAN1_ID, List.of(invalid)));
   }
 
   @Test
@@ -410,7 +412,9 @@ class LoanIT {
 
     assertThrowsApiException(
         "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Repayment amount must be positive\"}",
-        () -> api.crupdateLoanRepayments(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, LOAN1_ID, List.of(invalid)));
+        () ->
+            api.crupdateLoanRepayments(
+                COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, LOAN1_ID, List.of(invalid)));
   }
 
   @Test
@@ -423,7 +427,9 @@ class LoanIT {
 
     assertThrowsApiException(
         "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Payment date is mandatory for loan repayment\"}",
-        () -> api.crupdateLoanRepayments(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, LOAN1_ID, List.of(invalid)));
+        () ->
+            api.crupdateLoanRepayments(
+                COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, LOAN1_ID, List.of(invalid)));
   }
 
   @Test
@@ -436,7 +442,9 @@ class LoanIT {
 
     assertThrowsApiException(
         "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Loan repayment must be linked to a loan\"}",
-        () -> api.crupdateLoanRepayments(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, LOAN1_ID, List.of(invalid)));
+        () ->
+            api.crupdateLoanRepayments(
+                COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, LOAN1_ID, List.of(invalid)));
   }
 
   @Test
@@ -449,7 +457,9 @@ class LoanIT {
 
     assertThrowsApiException(
         "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Loan repayment must be linked to a loan\"}",
-        () -> api.crupdateLoanRepayments(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, LOAN1_ID, List.of(invalid)));
+        () ->
+            api.crupdateLoanRepayments(
+                COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, LOAN1_ID, List.of(invalid)));
   }
 
   // ========== STATUS ==========
@@ -482,7 +492,8 @@ class LoanIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     LoanApi api = new LoanApi(adminClient);
 
-    List<Loan> loans = api.getLoans(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, "equipement", null, null);
+    List<Loan> loans =
+        api.getLoans(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, "equipement", null, null);
 
     assertEquals(1, loans.size());
     assertEquals(LOAN2_ID, loans.get(0).getId());
@@ -493,7 +504,8 @@ class LoanIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     LoanApi api = new LoanApi(adminClient);
 
-    List<Loan> loans = api.getLoans(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, "CONSTRUCTION", null, null);
+    List<Loan> loans =
+        api.getLoans(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, "CONSTRUCTION", null, null);
 
     assertEquals(1, loans.size());
     assertEquals(LOAN1_ID, loans.get(0).getId());
@@ -515,7 +527,8 @@ class LoanIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     LoanApi api = new LoanApi(adminClient);
 
-    List<Loan> loans = api.getLoans(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, 999999999, null);
+    List<Loan> loans =
+        api.getLoans(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, 999999999, null);
 
     assertTrue(loans.isEmpty());
   }
@@ -525,7 +538,8 @@ class LoanIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     LoanApi api = new LoanApi(adminClient);
 
-    List<Loan> loans = api.getLoans(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, 5000000, "BNI Madagascar");
+    List<Loan> loans =
+        api.getLoans(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, 5000000, "BNI Madagascar");
 
     assertEquals(1, loans.size());
     assertEquals(LOAN1_ID, loans.get(0).getId());
@@ -587,7 +601,9 @@ class LoanIT {
     LoanRepaymentApi api = new LoanRepaymentApi(administrationClient);
 
     assertThrowsForbiddenException(
-        () -> api.deleteLoanRepaymentById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, LOAN1_ID, REPAYMENT1_ID));
+        () ->
+            api.deleteLoanRepaymentById(
+                COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, LOAN1_ID, REPAYMENT1_ID));
   }
 
   @Test
@@ -596,7 +612,9 @@ class LoanIT {
     LoanRepaymentApi api = new LoanRepaymentApi(badClient);
 
     assertThrowsNotAuthorizedException(
-        () -> api.deleteLoanRepaymentById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, LOAN1_ID, REPAYMENT1_ID));
+        () ->
+            api.deleteLoanRepaymentById(
+                COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, LOAN1_ID, REPAYMENT1_ID));
   }
 
   // ========== INTEREST CALCULATION ==========
@@ -675,14 +693,16 @@ class LoanIT {
         loanApi.crupdateLoans(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(zeroInterestLoan));
     String zeroInterestLoanId = createdLoans.get(0).getId();
 
-    CrupdateLoanRepayment repayment = new CrupdateLoanRepayment()
-        .id(UUID.randomUUID().toString())
-        .loanId(zeroInterestLoanId)
-        .paymentDate(LocalDate.of(2025, 1, 1))
-        .amount(100000);
+    CrupdateLoanRepayment repayment =
+        new CrupdateLoanRepayment()
+            .id(UUID.randomUUID().toString())
+            .loanId(zeroInterestLoanId)
+            .paymentDate(LocalDate.of(2025, 1, 1))
+            .amount(100000);
 
     List<LoanRepayment> created =
-        api.crupdateLoanRepayments(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, zeroInterestLoanId, List.of(repayment));
+        api.crupdateLoanRepayments(
+            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, zeroInterestLoanId, List.of(repayment));
 
     assertEquals(1, created.size());
     LoanRepayment saved = created.get(0);
@@ -698,7 +718,8 @@ class LoanIT {
 
     CrupdateLoanRepayment newRepayment = someCreatableRepayment();
     List<LoanRepayment> created =
-        api.crupdateLoanRepayments(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, LOAN1_ID, List.of(newRepayment));
+        api.crupdateLoanRepayments(
+            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, LOAN1_ID, List.of(newRepayment));
 
     String repaymentId = created.get(0).getId();
     int originalPrincipal = created.get(0).getPrincipalPortion();
@@ -707,14 +728,16 @@ class LoanIT {
     assertEquals(newRepayment.getAmount(), created.get(0).getAmount());
     assertEquals(originalPrincipal + originalInterest, created.get(0).getAmount().intValue());
 
-    CrupdateLoanRepayment updatedRepayment = new CrupdateLoanRepayment()
-        .id(repaymentId)
-        .loanId(LOAN1_ID)
-        .paymentDate(LocalDate.of(2024, 5, 1))
-        .amount(1000000);
+    CrupdateLoanRepayment updatedRepayment =
+        new CrupdateLoanRepayment()
+            .id(repaymentId)
+            .loanId(LOAN1_ID)
+            .paymentDate(LocalDate.of(2024, 5, 1))
+            .amount(1000000);
 
     List<LoanRepayment> updated =
-        api.crupdateLoanRepayments(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, LOAN1_ID, List.of(updatedRepayment));
+        api.crupdateLoanRepayments(
+            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, LOAN1_ID, List.of(updatedRepayment));
 
     assertEquals(originalPrincipal, updated.get(0).getPrincipalPortion());
     assertEquals(originalInterest, updated.get(0).getInterestPortion());
@@ -735,14 +758,16 @@ class LoanIT {
         loanApi.crupdateLoans(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(smallLoan));
     String smallLoanId = createdLoans.get(0).getId();
 
-    CrupdateLoanRepayment repayment = new CrupdateLoanRepayment()
-        .id(UUID.randomUUID().toString())
-        .loanId(smallLoanId)
-        .paymentDate(LocalDate.of(2024, 7, 1))
-        .amount(200000); // more than outstanding
+    CrupdateLoanRepayment repayment =
+        new CrupdateLoanRepayment()
+            .id(UUID.randomUUID().toString())
+            .loanId(smallLoanId)
+            .paymentDate(LocalDate.of(2024, 7, 1))
+            .amount(200000); // more than outstanding
 
     List<LoanRepayment> created =
-        api.crupdateLoanRepayments(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, smallLoanId, List.of(repayment));
+        api.crupdateLoanRepayments(
+            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, smallLoanId, List.of(repayment));
 
     assertEquals(1, created.size());
     LoanRepayment saved = created.get(0);
@@ -760,13 +785,15 @@ class LoanIT {
     LoanApi loanApi = new LoanApi(adminClient);
     LoanRepaymentApi repaymentApi = new LoanRepaymentApi(adminClient);
 
-    CrupdateLoanRepayment repayment = new CrupdateLoanRepayment()
-        .id(UUID.randomUUID().toString())
-        .loanId(LOAN2_ID)
-        .paymentDate(LocalDate.of(2024, 7, 1))
-        .amount(5000000); // more than loan2 amount (3,000,000)
+    CrupdateLoanRepayment repayment =
+        new CrupdateLoanRepayment()
+            .id(UUID.randomUUID().toString())
+            .loanId(LOAN2_ID)
+            .paymentDate(LocalDate.of(2024, 7, 1))
+            .amount(5000000); // more than loan2 amount (3,000,000)
 
-    repaymentApi.crupdateLoanRepayments(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, LOAN2_ID, List.of(repayment));
+    repaymentApi.crupdateLoanRepayments(
+        COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, LOAN2_ID, List.of(repayment));
 
     Loan actual = loanApi.getLoanById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, LOAN2_ID);
     assertTrue(actual.getRemainingAmount() <= 0);
@@ -811,7 +838,9 @@ class LoanIT {
 
     assertThrowsApiException(
         "{\"type\":\"404 NOT_FOUND\",\"message\":\"Loan repayment with id nonexistent_repayment not found\"}",
-        () -> api.getLoanRepaymentById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, LOAN1_ID, "nonexistent_repayment"));
+        () ->
+            api.getLoanRepaymentById(
+                COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, LOAN1_ID, "nonexistent_repayment"));
   }
 
   static class ContextInitializer extends AbstractContextInitializer {

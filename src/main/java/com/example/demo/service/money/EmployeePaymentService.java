@@ -55,7 +55,15 @@ public class EmployeePaymentService {
 
   @Transactional
   public void deleteById(String id) {
-    employeePaymentRepository.deleteById(id);
+    employeePaymentRepository
+        .findById(id)
+        .ifPresent(
+            payment -> {
+              if (payment.getExpense() != null) {
+                payment.getExpense().setEmployeePayment(null);
+              }
+              employeePaymentRepository.delete(payment);
+            });
   }
 
   private Specification<EmployeePayment> toSpecification(EmployeePaymentCriteria criteria) {

@@ -183,6 +183,20 @@ class EmployeePaymentIT {
                 COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(invalidPayment)));
   }
 
+  @Test
+  @DirtiesContext
+  void admin_can_delete_employee_payment() throws Exception {
+    EmployeePaymentApi api = new EmployeePaymentApi(anApiClient(ADMIN_TOKEN));
+
+    api.deleteEmployeePaymentById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EMPLOYEE_PAYMENT2_ID);
+
+    assertThrowsApiException(
+        "{\"type\":\"404 NOT_FOUND\",\"message\":\"EmployeePayment with id "
+            + EMPLOYEE_PAYMENT2_ID
+            + " not found\"}",
+        () -> api.getEmployeePaymentById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EMPLOYEE_PAYMENT2_ID));
+  }
+
   static class ContextInitializer extends AbstractContextInitializer {
     public static final int SERVER_PORT = anAvailableRandomPort();
 

@@ -132,6 +132,46 @@ class TravelExpenseIT {
   }
 
   @Test
+  void admin_cannot_create_travel_expense_without_departure_location() {
+    TravelExpenseApi api = new TravelExpenseApi(anApiClient(ADMIN_TOKEN));
+
+    CrupdateTravelExpense invalidTravel = someCreatableTravelExpense();
+    invalidTravel.setDepartureLocation(null);
+
+    assertThrowsApiException(
+        "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Departure location is mandatory\"}",
+        () ->
+            api.crupdateTravelExpenses(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(invalidTravel)));
+  }
+
+  @Test
+  void admin_cannot_create_travel_expense_without_arrival_location() {
+    TravelExpenseApi api = new TravelExpenseApi(anApiClient(ADMIN_TOKEN));
+
+    CrupdateTravelExpense invalidTravel = someCreatableTravelExpense();
+    invalidTravel.setArrivalLocation(null);
+
+    assertThrowsApiException(
+        "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Arrival location is mandatory\"}",
+        () ->
+            api.crupdateTravelExpenses(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(invalidTravel)));
+  }
+
+  @Test
+  void admin_cannot_create_travel_expense_with_departure_after_arrival() {
+    TravelExpenseApi api = new TravelExpenseApi(anApiClient(ADMIN_TOKEN));
+
+    CrupdateTravelExpense invalidTravel = someCreatableTravelExpense();
+    invalidTravel.setDepartureDate(java.time.Instant.now().plus(java.time.Duration.ofDays(2)));
+    invalidTravel.setArrivalDate(java.time.Instant.now().plus(java.time.Duration.ofDays(1)));
+
+    assertThrowsApiException(
+        "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Departure date cannot be after arrival date\"}",
+        () ->
+            api.crupdateTravelExpenses(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(invalidTravel)));
+  }
+
+  @Test
   void administration_cannot_delete_travel_expense() {
     TravelExpenseApi api = new TravelExpenseApi(anApiClient(ADMINISTRATION_TOKEN));
 

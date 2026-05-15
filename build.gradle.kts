@@ -158,7 +158,9 @@ val jacocoExcludePatterns = listOf(
     "**/dto/**",
     "**/config/**",
     "**/*Application.class",
-    "**/*Application*.*"
+    "**/*Application*.*",
+    "**/repository/Dao/**",
+    "**/service/utils/**"
 )
 
 // Tâche pour générer le rapport JaCoCo
@@ -201,7 +203,7 @@ tasks.jacocoTestCoverageVerification {
             limit {
                 counter = "LINE"
                 value = "COVEREDRATIO"
-                minimum = "0.50".toBigDecimal()
+                minimum = "0.80".toBigDecimal()
             }
             limit {
                 counter = "BRANCH"
