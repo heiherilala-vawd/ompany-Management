@@ -54,7 +54,15 @@ public class BankFeeService {
 
   @Transactional
   public void deleteById(String id) {
-    bankFeeRepository.deleteById(id);
+    bankFeeRepository
+        .findById(id)
+        .ifPresent(
+            bankFee -> {
+              if (bankFee.getExpense() != null) {
+                bankFee.getExpense().setBankFee(null);
+              }
+              bankFeeRepository.delete(bankFee);
+            });
   }
 
   private Specification<BankFee> toSpecification(BankFeeCriteria criteria) {

@@ -9,6 +9,7 @@ import com.example.demo.client.invoker.ApiClient;
 import com.example.demo.client.model.CrupdateJob;
 import com.example.demo.client.model.Job;
 import com.example.demo.client.model.JobStatus;
+import com.example.demo.client.model.User;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
 import com.example.demo.integration.conf.TestDataSqlLoader;
@@ -170,6 +171,59 @@ class JobIT {
     assertThrowsApiException(
         "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Job must be associated with a company\"}",
         () -> api.crupdateJobs(COMPANY1_ID, List.of(invalidJob)));
+  }
+
+  @Test
+  @DirtiesContext
+  void admin_can_delete_job() throws Exception {
+    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
+    JobApi api = new JobApi(adminClient);
+
+    CrupdateJob toCreate = someCreatableJob();
+    String newJobId = toCreate.getId();
+    api.crupdateJobs(COMPANY1_ID, List.of(toCreate));
+
+    api.deleteJobById(COMPANY1_ID, newJobId);
+
+    assertThrowsApiException(
+        "{\"type\":\"404 NOT_FOUND\",\"message\":\"Job with id " + newJobId + " not found\"}",
+        () -> api.getJobById(COMPANY1_ID, newJobId));
+  }
+
+  @Test
+  @DirtiesContext
+  void administration_can_assign_user_to_job() throws Exception {
+    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
+    JobApi api = new JobApi(adminClient);
+
+    api.assignUserToJob(COMPANY1_ID, JOB1_ID, USER1_ID);
+
+    List<User> users = api.getJobResponsibleUsers(COMPANY1_ID, JOB1_ID);
+    assertTrue(users.stream().anyMatch(u -> USER1_ID.equals(u.getId())));
+  }
+
+  @Test
+  void administration_can_get_job_responsible_users() throws Exception {
+    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
+    JobApi api = new JobApi(adminClient);
+
+    List<User> users = api.getJobResponsibleUsers(COMPANY1_ID, JOB1_ID);
+    assertNotNull(users);
+  }
+
+  @Test
+  @DirtiesContext
+  void administration_can_unassign_user_from_job() throws Exception {
+    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
+    JobApi api = new JobApi(adminClient);
+
+    api.assignUserToJob(COMPANY1_ID, JOB1_ID, USER1_ID);
+    List<User> usersAfterAssign = api.getJobResponsibleUsers(COMPANY1_ID, JOB1_ID);
+    assertTrue(usersAfterAssign.stream().anyMatch(u -> USER1_ID.equals(u.getId())));
+
+    api.unassignUserFromJob(COMPANY1_ID, JOB1_ID, USER1_ID);
+    List<User> usersAfterUnassign = api.getJobResponsibleUsers(COMPANY1_ID, JOB1_ID);
+    assertTrue(usersAfterUnassign.stream().noneMatch(u -> USER1_ID.equals(u.getId())));
   }
 
   @Test

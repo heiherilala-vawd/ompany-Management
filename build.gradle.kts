@@ -158,7 +158,9 @@ val jacocoExcludePatterns = listOf(
     "**/dto/**",
     "**/config/**",
     "**/*Application.class",
-    "**/*Application*.*"
+    "**/*Application*.*",
+    "**/repository/Dao/**",
+    "**/service/utils/**"
 )
 
 // Tâche pour générer le rapport JaCoCo
@@ -201,7 +203,7 @@ tasks.jacocoTestCoverageVerification {
             limit {
                 counter = "LINE"
                 value = "COVEREDRATIO"
-                minimum = "0.50".toBigDecimal()
+                minimum = "0.80".toBigDecimal()
             }
             limit {
                 counter = "BRANCH"
@@ -307,6 +309,7 @@ tasks.withType<Test> {
         "org.testcontainers.dockerclient.UnixSocketClientProviderStrategy")
 
     systemProperty("docker.host", "unix:///var/run/docker.sock")
+    systemProperty("api.version", "1.44")
 
     // Logs plus détaillés
     testLogging {

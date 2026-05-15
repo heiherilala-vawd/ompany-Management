@@ -132,6 +132,32 @@ class BankFeeIT {
   }
 
   @Test
+  @DirtiesContext
+  void admin_can_delete_bank_fee() throws Exception {
+    BankFeeApi api = new BankFeeApi(anApiClient(ADMIN_TOKEN));
+
+    api.deleteBankFeeById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, BANK_FEE2_ID);
+
+    assertThrowsApiException(
+        "{\"type\":\"404 NOT_FOUND\",\"message\":\"BankFee with id "
+            + BANK_FEE2_ID
+            + " not found\"}",
+        () -> api.getBankFeeById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, BANK_FEE2_ID));
+  }
+
+  @Test
+  void admin_cannot_create_bank_fee_without_bank_name() {
+    BankFeeApi api = new BankFeeApi(anApiClient(ADMIN_TOKEN));
+
+    CrupdateBankFee invalidBankFee = someCreatableBankFee();
+    invalidBankFee.setBankName(null);
+
+    assertThrowsApiException(
+        "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Bank name is mandatory\"}",
+        () -> api.crupdateBankFees(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(invalidBankFee)));
+  }
+
+  @Test
   void admin_cannot_create_bank_fee_with_null_amount() {
     BankFeeApi api = new BankFeeApi(anApiClient(ADMIN_TOKEN));
 
