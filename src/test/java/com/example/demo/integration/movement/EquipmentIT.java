@@ -176,6 +176,21 @@ class EquipmentIT {
   }
 
   @Test
+  @DirtiesContext
+  void admin_can_delete_equipment() throws Exception {
+    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
+    EquipmentApi api = new EquipmentApi(adminClient);
+
+    api.deleteEquipmentById(COMPANY1_ID, EQUIPMENT3_ID);
+
+    assertThrowsApiException(
+        "{\"type\":\"404 NOT_FOUND\",\"message\":\"Equipment with id "
+            + EQUIPMENT3_ID
+            + " not found\"}",
+        () -> api.getEquipmentById(COMPANY1_ID, EQUIPMENT3_ID));
+  }
+
+  @Test
   void warehouse_worker_cannot_delete_equipment() {
     ApiClient warehouseClient = anApiClient(WAREHOUSE_TOKEN);
     EquipmentApi api = new EquipmentApi(warehouseClient);

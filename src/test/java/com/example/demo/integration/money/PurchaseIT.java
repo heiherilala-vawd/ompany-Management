@@ -156,6 +156,20 @@ class PurchaseIT {
         () -> api.crupdatePurchases(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(invalidPurchase)));
   }
 
+  @Test
+  @DirtiesContext
+  void admin_can_delete_purchase() throws Exception {
+    PurchaseApi api = new PurchaseApi(anApiClient(ADMIN_TOKEN));
+
+    api.deletePurchaseById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, PURCHASE2_ID);
+
+    assertThrowsApiException(
+        "{\"type\":\"404 NOT_FOUND\",\"message\":\"Purchase with id "
+            + PURCHASE2_ID
+            + " not found\"}",
+        () -> api.getPurchaseById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, PURCHASE2_ID));
+  }
+
   static class ContextInitializer extends AbstractContextInitializer {
     public static final int SERVER_PORT = anAvailableRandomPort();
 

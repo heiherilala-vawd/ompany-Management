@@ -331,6 +331,23 @@ class TravelMaterialsIT {
                 COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, TRAVEL_EXPENSE1_ID, TRAVEL_MATERIALS1_ID));
   }
 
+  @Test
+  @DirtiesContext
+  void admin_can_delete_travel_materials() throws Exception {
+    TravelMaterialsApi api = new TravelMaterialsApi(anApiClient(ADMIN_TOKEN));
+
+    api.deleteTravelMaterialsById(
+        COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, TRAVEL_EXPENSE2_ID, TRAVEL_MATERIALS2_ID);
+
+    assertThrowsApiException(
+        "{\"type\":\"404 NOT_FOUND\",\"message\":\"TravelMaterials with id "
+            + TRAVEL_MATERIALS2_ID
+            + " not found\"}",
+        () ->
+            api.getTravelMaterialsById(
+                COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, TRAVEL_EXPENSE2_ID, TRAVEL_MATERIALS2_ID));
+  }
+
   static class ContextInitializer extends AbstractContextInitializer {
     public static final int SERVER_PORT = anAvailableRandomPort();
 

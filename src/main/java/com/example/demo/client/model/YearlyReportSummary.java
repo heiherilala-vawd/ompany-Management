@@ -38,7 +38,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   YearlyReportSummary.JSON_PROPERTY_JOB_COUNT,
   YearlyReportSummary.JSON_PROPERTY_IN_PROGRESS_JOB_COUNT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-13T00:50:48.778643455+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-15T05:05:56.905609404+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class YearlyReportSummary {
   public static final String JSON_PROPERTY_TOTAL_INCOME = "total_income";
   private Integer totalIncome;

@@ -185,6 +185,21 @@ class MaterialIT {
   }
 
   @Test
+  @DirtiesContext
+  void admin_can_delete_material() throws Exception {
+    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
+    MaterialApi api = new MaterialApi(adminClient);
+
+    api.deleteMaterialById(COMPANY1_ID, MATERIAL3_ID);
+
+    assertThrowsApiException(
+        "{\"type\":\"404 NOT_FOUND\",\"message\":\"Material with id "
+            + MATERIAL3_ID
+            + " not found\"}",
+        () -> api.getMaterialById(COMPANY1_ID, MATERIAL3_ID));
+  }
+
+  @Test
   void administration_cannot_delete_material() {
     ApiClient administrationClient = anApiClient(ADMINISTRATION_TOKEN);
     MaterialApi api = new MaterialApi(administrationClient);

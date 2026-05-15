@@ -54,7 +54,15 @@ public class PurchaseService {
 
   @Transactional
   public void deleteById(String id) {
-    purchaseRepository.deleteById(id);
+    purchaseRepository
+        .findById(id)
+        .ifPresent(
+            purchase -> {
+              if (purchase.getExpense() != null) {
+                purchase.getExpense().setPurchase(null);
+              }
+              purchaseRepository.delete(purchase);
+            });
   }
 
   private Specification<Purchase> toSpecification(PurchaseCriteria criteria) {

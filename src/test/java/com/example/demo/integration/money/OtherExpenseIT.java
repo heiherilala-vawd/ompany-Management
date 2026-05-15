@@ -127,6 +127,34 @@ class OtherExpenseIT {
         () -> api.deleteOtherExpenseById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, OTHER_EXPENSE1_ID));
   }
 
+  @Test
+  @DirtiesContext
+  void admin_can_delete_other_expense() throws Exception {
+    OtherExpenseApi api = new OtherExpenseApi(anApiClient(ADMIN_TOKEN));
+
+    api.deleteOtherExpenseById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, OTHER_EXPENSE2_ID);
+
+    assertThrowsApiException(
+        "{\"type\":\"404 NOT_FOUND\",\"message\":\"OtherExpense with id "
+            + OTHER_EXPENSE2_ID
+            + " not found\"}",
+        () -> api.getOtherExpenseById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, OTHER_EXPENSE2_ID));
+  }
+
+  @Test
+  void admin_cannot_create_other_expense_without_description() {
+    OtherExpenseApi api = new OtherExpenseApi(anApiClient(ADMIN_TOKEN));
+
+    CrupdateOtherExpense invalidOtherExpense = someCreatableOtherExpense();
+    invalidOtherExpense.setDescription(null);
+
+    assertThrowsApiException(
+        "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Description is mandatory for other expense\"}",
+        () ->
+            api.crupdateOtherExpenses(
+                COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(invalidOtherExpense)));
+  }
+
   static class ContextInitializer extends AbstractContextInitializer {
     public static final int SERVER_PORT = anAvailableRandomPort();
 

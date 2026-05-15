@@ -147,6 +147,21 @@ class IncomeReceiptIT {
   }
 
   @Test
+  void admin_cannot_create_receipt_without_payment_date() {
+    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
+    IncomeReceiptApi api = new IncomeReceiptApi(adminClient);
+
+    CrupdateIncomeReceipt invalidReceipt = someCreatableReceipt();
+    invalidReceipt.setPaymentDate(null);
+
+    assertThrowsApiException(
+        "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Payment date is mandatory for income receipt\"}",
+        () ->
+            api.crupdateIncomeReceipts(
+                COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, INCOME1_ID, List.of(invalidReceipt)));
+  }
+
+  @Test
   void administration_cannot_delete_receipt() {
     ApiClient administrationClient = anApiClient(ADMINISTRATION_TOKEN);
     IncomeReceiptApi api = new IncomeReceiptApi(administrationClient);

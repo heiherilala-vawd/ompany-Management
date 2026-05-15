@@ -316,6 +316,19 @@ class IncomeIT {
   }
 
   @Test
+  @DirtiesContext
+  void admin_can_delete_income() throws Exception {
+    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
+    IncomeApi api = new IncomeApi(adminClient);
+
+    api.deleteIncomeById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, INCOME3_ID);
+
+    assertThrowsApiException(
+        "{\"type\":\"404 NOT_FOUND\",\"message\":\"Income with id " + INCOME3_ID + " not found\"}",
+        () -> api.getIncomeById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, INCOME3_ID));
+  }
+
+  @Test
   void admin_can_get_income_with_multiple_receipts() throws Exception {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     IncomeApi api = new IncomeApi(adminClient);

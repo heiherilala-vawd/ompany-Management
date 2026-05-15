@@ -161,6 +161,21 @@ class WarehouseIT {
   }
 
   @Test
+  @DirtiesContext
+  void admin_can_delete_warehouse() throws Exception {
+    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
+    WarehouseApi api = new WarehouseApi(adminClient);
+
+    api.deleteWarehouseById(COMPANY1_ID, UNFINDABLE_WAREHOUSE_ID);
+
+    assertThrowsApiException(
+        "{\"type\":\"404 NOT_FOUND\",\"message\":\"Warehouse with id "
+            + UNFINDABLE_WAREHOUSE_ID
+            + " not found\"}",
+        () -> api.getWarehouseById(COMPANY1_ID, UNFINDABLE_WAREHOUSE_ID));
+  }
+
+  @Test
   void administration_cannot_delete_warehouse() {
     ApiClient administrationClient = anApiClient(ADMINISTRATION_TOKEN);
     WarehouseApi api = new WarehouseApi(administrationClient);

@@ -10,6 +10,7 @@ import com.example.demo.model.money.OtherExpense;
 import com.example.demo.repository.money.OtherExpenseRepository;
 import com.example.demo.service.utils.ModificationUtils;
 import com.example.demo.service.utils.PageUtils;
+import com.example.demo.validator.MoneyValidator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -28,6 +29,7 @@ public class OtherExpenseService {
   private final OtherExpenseRepository otherExpenseRepository;
   private final ExpenseMoneyService expenseMoneyService;
   private final ModificationUtils modificationUtils;
+  private final MoneyValidator moneyValidator;
 
   public Optional<OtherExpense> findById(String id) {
     return otherExpenseRepository.findById(id);
@@ -41,6 +43,8 @@ public class OtherExpenseService {
 
   @Transactional
   public List<OtherExpense> createOrUpdateAll(List<OtherExpense> otherExpenses) {
+    moneyValidator.validateOtherExpenses(otherExpenses);
+
     List<ExpenseMoney> expenses =
         otherExpenses.stream().map(OtherExpense::getExpense).collect(Collectors.toList());
     expenseMoneyService.createOrUpdateAll(expenses);
@@ -50,7 +54,15 @@ public class OtherExpenseService {
 
   @Transactional
   public void deleteById(String id) {
-    otherExpenseRepository.deleteById(id);
+    otherExpenseRepository
+        .findById(id)
+        .ifPresent(
+            otherExpense -> {
+              if (otherExpense.getExpense() != null) {
+                otherExpense.getExpense().setOtherExpense(null);
+              }
+              otherExpenseRepository.delete(otherExpense);
+            });
   }
 
   private Specification<OtherExpense> toSpecification(OtherExpenseCriteria criteria) {

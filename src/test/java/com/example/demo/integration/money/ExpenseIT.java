@@ -171,6 +171,25 @@ class ExpenseIT {
   }
 
   @Test
+  @DirtiesContext
+  void admin_can_delete_expense() throws Exception {
+    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
+    ExpenseApi api = new ExpenseApi(adminClient);
+
+    CrupdateExpenseMoney toCreate = someCreatableExpense();
+    String newExpenseId = toCreate.getId();
+    api.crupdateExpenses(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(toCreate));
+
+    api.deleteExpenseById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, newExpenseId);
+
+    assertThrowsApiException(
+        "{\"type\":\"404 NOT_FOUND\",\"message\":\"Expense with id "
+            + newExpenseId
+            + " not found\"}",
+        () -> api.getExpenseById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, newExpenseId));
+  }
+
+  @Test
   void admin_cannot_create_expense_without_job() {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     ExpenseApi api = new ExpenseApi(adminClient);
