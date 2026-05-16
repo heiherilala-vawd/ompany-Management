@@ -25,6 +25,7 @@ import com.example.demo.client.model.LoanStatus;
 import com.example.demo.client.model.OtherExpense;
 import com.example.demo.client.model.PaymentType;
 import com.example.demo.client.model.Purchase;
+import com.example.demo.client.model.User;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
@@ -212,7 +213,8 @@ final class TestMoneyFixtures {
     EmployeePayment employeePayment = new EmployeePayment();
     employeePayment.setId(TestUtils.EMPLOYEE_PAYMENT1_ID);
     employeePayment.setExpense(expenseToCrupdateExpense(expense1()));
-    employeePayment.setEmployee(TestUserFixtures.employee1());
+    employeePayment.setUsers(List.of(TestUserFixtures.employee1()));
+    employeePayment.setIsForTeam(false);
     employeePayment.setPaymentDescription("Avance salaire chantier A");
     employeePayment.setPaymentType(PaymentType.ADVANCE);
     return employeePayment;
@@ -222,7 +224,8 @@ final class TestMoneyFixtures {
     EmployeePayment employeePayment = new EmployeePayment();
     employeePayment.setId(TestUtils.EMPLOYEE_PAYMENT2_ID);
     employeePayment.setExpense(expenseToCrupdateExpense(expense2()));
-    employeePayment.setEmployee(TestUserFixtures.user1());
+    employeePayment.setUsers(List.of(TestUserFixtures.user1()));
+    employeePayment.setIsForTeam(false);
     employeePayment.setPaymentDescription("Paiement mensuel renovation");
     employeePayment.setPaymentType(PaymentType.MONTHLY);
     return employeePayment;
@@ -233,8 +236,10 @@ final class TestMoneyFixtures {
     CrupdateEmployeePayment crupdateEmployeePayment = new CrupdateEmployeePayment();
     crupdateEmployeePayment.setId(employeePayment.getId());
     crupdateEmployeePayment.setExpense(employeePayment.getExpense());
-    crupdateEmployeePayment.setEmployeeId(
-        employeePayment.getEmployee() != null ? employeePayment.getEmployee().getId() : null);
+    crupdateEmployeePayment.setUserIds(
+        employeePayment.getUsers() != null
+            ? employeePayment.getUsers().stream().map(User::getId).toList()
+            : null);
     crupdateEmployeePayment.setPaymentDescription(employeePayment.getPaymentDescription());
     crupdateEmployeePayment.setPaymentType(employeePayment.getPaymentType());
     return crupdateEmployeePayment;
@@ -249,7 +254,7 @@ final class TestMoneyFixtures {
     expense.setDescription("Test employee payment expense");
     expense.setJobId(TestUtils.JOB1_ID);
     employeePayment.setExpense(expense);
-    employeePayment.setEmployeeId(TestUtils.EMPLOYEE_ID);
+    employeePayment.setUserIds(List.of(TestUtils.EMPLOYEE_ID));
     employeePayment.setPaymentDescription("Prime exceptionnelle");
     employeePayment.setPaymentType(PaymentType.OTHER);
     return employeePayment;

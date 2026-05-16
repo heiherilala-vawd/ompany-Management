@@ -36,7 +36,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   MaterialWarehouseInfo.JSON_PROPERTY_WAREHOUSE,
   MaterialWarehouseInfo.JSON_PROPERTY_QUANTITY
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-15T05:05:56.905609404+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-16T21:32:49.384124061+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class MaterialWarehouseInfo {
   public static final String JSON_PROPERTY_WAREHOUSE = "warehouse";
   private Warehouse warehouse;

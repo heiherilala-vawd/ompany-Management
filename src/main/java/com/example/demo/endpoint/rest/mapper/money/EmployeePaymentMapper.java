@@ -4,9 +4,12 @@ import com.example.demo.client.model.CrupdateEmployeePayment;
 import com.example.demo.client.model.EmployeePayment;
 import com.example.demo.client.model.PaymentType;
 import com.example.demo.endpoint.rest.mapper.UserMapper;
+import com.example.demo.endpoint.rest.mapper.core.TeamMapper;
 import com.example.demo.service.UserService;
+import com.example.demo.service.core.TeamService;
 import com.example.demo.service.money.ExpenseMoneyService;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -16,11 +19,27 @@ public class EmployeePaymentMapper {
 
   private final ExpenseMoneyService expenseMoneyService;
   private final UserService userService;
+  private final TeamService teamService;
   private final ExpenseMoneyMapper expenseMoneyMapper;
+  private final TeamMapper teamMapper;
   private final UserMapper userMapper;
 
   public com.example.demo.model.money.EmployeePayment toDomain(EmployeePayment restPayment) {
     if (restPayment == null) return null;
+
+    List<com.example.demo.model.User> users = null;
+    if (restPayment.getUsers() != null) {
+      users =
+          restPayment.getUsers().stream()
+              .filter(u -> u.getId() != null)
+              .map(u -> userService.getById(u.getId()))
+              .collect(Collectors.toList());
+    }
+
+    com.example.demo.model.core.Team team = null;
+    if (restPayment.getTeam() != null && restPayment.getTeam().getId() != null) {
+      team = teamService.findById(restPayment.getTeam().getId()).orElse(null);
+    }
 
     return com.example.demo.model.money.EmployeePayment.builder()
         .id(restPayment.getId())
@@ -28,10 +47,9 @@ public class EmployeePaymentMapper {
             restPayment.getExpense() != null && restPayment.getExpense().getId() != null
                 ? expenseMoneyService.findById(restPayment.getExpense().getId()).orElse(null)
                 : null)
-        .employee(
-            restPayment.getEmployee() != null && restPayment.getEmployee().getId() != null
-                ? userService.getById(restPayment.getEmployee().getId())
-                : null)
+        .users(users)
+        .isForTeam(restPayment.getIsForTeam())
+        .team(team)
         .paymentDescription(restPayment.getPaymentDescription())
         .paymentType(
             restPayment.getPaymentType() != null
@@ -45,13 +63,26 @@ public class EmployeePaymentMapper {
       CrupdateEmployeePayment restPayment) {
     if (restPayment == null) return null;
 
+    List<com.example.demo.model.User> users = null;
+    if (restPayment.getUserIds() != null) {
+      users =
+          restPayment.getUserIds().stream()
+              .filter(id -> id != null)
+              .map(userService::getById)
+              .collect(Collectors.toList());
+    }
+
+    com.example.demo.model.core.Team team = null;
+    if (restPayment.getTeamId() != null) {
+      team = teamService.findById(restPayment.getTeamId()).orElse(null);
+    }
+
     return com.example.demo.model.money.EmployeePayment.builder()
         .id(restPayment.getId())
         .expense(expenseMoneyMapper.toDomain(restPayment.getExpense()))
-        .employee(
-            restPayment.getEmployeeId() != null
-                ? userService.getById(restPayment.getEmployeeId())
-                : null)
+        .users(users)
+        .isForTeam(restPayment.getIsForTeam())
+        .team(team)
         .paymentDescription(restPayment.getPaymentDescription())
         .paymentType(
             restPayment.getPaymentType() != null
@@ -67,7 +98,16 @@ public class EmployeePaymentMapper {
     EmployeePayment restPayment = new EmployeePayment();
     restPayment.setId(domainPayment.getId());
     restPayment.setExpense(expenseMoneyMapper.toRestCrupdateExpense(domainPayment.getExpense()));
-    restPayment.setEmployee(userMapper.toRestUser(domainPayment.getEmployee()));
+    restPayment.setIsForTeam(domainPayment.getIsForTeam());
+    if (domainPayment.getTeam() != null) {
+      restPayment.setTeam(teamMapper.toRestTeam(domainPayment.getTeam()));
+    }
+    if (domainPayment.getUsers() != null) {
+      restPayment.setUsers(
+          domainPayment.getUsers().stream()
+              .map(userMapper::toRestUser)
+              .collect(Collectors.toList()));
+    }
     restPayment.setPaymentDescription(domainPayment.getPaymentDescription());
     restPayment.setPaymentType(
         domainPayment.getPaymentType() != null

@@ -5,6 +5,7 @@ import static com.example.demo.repository.specification.SpecificationUtils.equal
 
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
+import com.example.demo.model.User;
 import com.example.demo.model.criteria.EmployeePaymentCriteria;
 import com.example.demo.model.money.EmployeePayment;
 import com.example.demo.model.money.ExpenseMoney;
@@ -12,6 +13,7 @@ import com.example.demo.repository.money.EmployeePaymentRepository;
 import com.example.demo.service.utils.ModificationUtils;
 import com.example.demo.service.utils.PageUtils;
 import com.example.demo.validator.MoneyValidator;
+import jakarta.persistence.criteria.Join;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -67,8 +69,18 @@ public class EmployeePaymentService {
   }
 
   private Specification<EmployeePayment> toSpecification(EmployeePaymentCriteria criteria) {
-    return Specification.<EmployeePayment>where(equal(criteria.getEmployeeId(), "employee", "id"))
+    return Specification.<EmployeePayment>where(userIdsIn(criteria.getUserIDs()))
         .and(containsIgnoreCase(criteria.getPaymentDescription(), "paymentDescription"))
         .and(equal(criteria.getPaymentType(), "paymentType"));
+  }
+
+  private Specification<EmployeePayment> userIdsIn(List<String> userIds) {
+    if (userIds == null || userIds.isEmpty()) {
+      return (root, query, cb) -> cb.conjunction();
+    }
+    return (root, query, cb) -> {
+      Join<EmployeePayment, User> usersJoin = root.join("users");
+      return usersJoin.get("id").in(userIds);
+    };
   }
 }

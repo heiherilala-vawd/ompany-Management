@@ -83,11 +83,12 @@ class EmployeePaymentIT {
   }
 
   @Test
-  void admin_can_filter_employee_payments_by_employee_id() throws Exception {
+  void admin_can_filter_employee_payments_by_user_ids() throws Exception {
     EmployeePaymentApi api = new EmployeePaymentApi(anApiClient(ADMIN_TOKEN));
 
     List<EmployeePayment> employeePayments =
-        api.getEmployeePayments(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, USER1_ID, null, null);
+        api.getEmployeePayments(
+            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, List.of(USER1_ID), null, null);
 
     assertEquals(1, employeePayments.size());
     assertEquals(EMPLOYEE_PAYMENT2_ID, employeePayments.get(0).getId());
