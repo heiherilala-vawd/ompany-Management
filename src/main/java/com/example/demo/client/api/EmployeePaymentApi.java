@@ -51,7 +51,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-15T05:05:56.905609404+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-16T21:32:49.384124061+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class EmployeePaymentApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -386,14 +386,14 @@ public class EmployeePaymentApi {
    * @param userId  (required)
    * @param page  (optional)
    * @param pageSize  (optional)
-   * @param employeeId  (optional)
+   * @param userIds Filter by user IDs (comma-separated) (optional)
    * @param paymentDescription Filter employee payments by description, case is ignored (optional)
    * @param paymentType  (optional)
    * @return List&lt;EmployeePayment&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<EmployeePayment> getEmployeePayments(String compId, String jobId, String userId, Integer page, Integer pageSize, String employeeId, String paymentDescription, PaymentType paymentType) throws ApiException {
-    ApiResponse<List<EmployeePayment>> localVarResponse = getEmployeePaymentsWithHttpInfo(compId, jobId, userId, page, pageSize, employeeId, paymentDescription, paymentType);
+  public List<EmployeePayment> getEmployeePayments(String compId, String jobId, String userId, Integer page, Integer pageSize, List<String> userIds, String paymentDescription, PaymentType paymentType) throws ApiException {
+    ApiResponse<List<EmployeePayment>> localVarResponse = getEmployeePaymentsWithHttpInfo(compId, jobId, userId, page, pageSize, userIds, paymentDescription, paymentType);
     return localVarResponse.getData();
   }
 
@@ -405,14 +405,14 @@ public class EmployeePaymentApi {
    * @param userId  (required)
    * @param page  (optional)
    * @param pageSize  (optional)
-   * @param employeeId  (optional)
+   * @param userIds Filter by user IDs (comma-separated) (optional)
    * @param paymentDescription Filter employee payments by description, case is ignored (optional)
    * @param paymentType  (optional)
    * @return ApiResponse&lt;List&lt;EmployeePayment&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<EmployeePayment>> getEmployeePaymentsWithHttpInfo(String compId, String jobId, String userId, Integer page, Integer pageSize, String employeeId, String paymentDescription, PaymentType paymentType) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getEmployeePaymentsRequestBuilder(compId, jobId, userId, page, pageSize, employeeId, paymentDescription, paymentType);
+  public ApiResponse<List<EmployeePayment>> getEmployeePaymentsWithHttpInfo(String compId, String jobId, String userId, Integer page, Integer pageSize, List<String> userIds, String paymentDescription, PaymentType paymentType) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getEmployeePaymentsRequestBuilder(compId, jobId, userId, page, pageSize, userIds, paymentDescription, paymentType);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -440,7 +440,7 @@ public class EmployeePaymentApi {
     }
   }
 
-  private HttpRequest.Builder getEmployeePaymentsRequestBuilder(String compId, String jobId, String userId, Integer page, Integer pageSize, String employeeId, String paymentDescription, PaymentType paymentType) throws ApiException {
+  private HttpRequest.Builder getEmployeePaymentsRequestBuilder(String compId, String jobId, String userId, Integer page, Integer pageSize, List<String> userIds, String paymentDescription, PaymentType paymentType) throws ApiException {
     // verify the required parameter 'compId' is set
     if (compId == null) {
       throw new ApiException(400, "Missing the required parameter 'compId' when calling getEmployeePayments");
@@ -468,8 +468,8 @@ public class EmployeePaymentApi {
     localVarQueryParams.addAll(ApiClient.parameterToPairs("page", page));
     localVarQueryParameterBaseName = "page_size";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("page_size", pageSize));
-    localVarQueryParameterBaseName = "employee_id";
-    localVarQueryParams.addAll(ApiClient.parameterToPairs("employee_id", employeeId));
+    localVarQueryParameterBaseName = "user_ids";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("multi", "user_ids", userIds));
     localVarQueryParameterBaseName = "payment_description";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("payment_description", paymentDescription));
     localVarQueryParameterBaseName = "payment_type";

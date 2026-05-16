@@ -3,9 +3,8 @@ package com.example.demo.validator;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import com.example.demo.model.Company;
-import com.example.demo.model.Job;
-import com.example.demo.model.User;
+import com.example.demo.model.*;
+import com.example.demo.model.core.Team;
 import com.example.demo.model.exception.BadRequestException;
 import com.example.demo.model.money.*;
 import com.example.demo.model.movement.Equipment;
@@ -491,7 +490,7 @@ class MoneyValidatorTest {
           EmployeePayment.builder()
               .id("ep1")
               .expense(ExpenseMoney.builder().id("exp1").build())
-              .employee(User.builder().id("user1").build())
+              .users(List.of(User.builder().id("user1").build()))
               .paymentType(EmployeePayment.PaymentType.MONTHLY)
               .paymentDescription("Monthly salary")
               .build();
@@ -511,43 +510,13 @@ class MoneyValidatorTest {
           EmployeePayment.builder()
               .id("ep1")
               .expense(null)
-              .employee(User.builder().id("user1").build())
+              .users(List.of(User.builder().id("user1").build()))
               .paymentType(EmployeePayment.PaymentType.MONTHLY)
               .paymentDescription("Monthly salary")
               .build();
       assertThatThrownBy(() -> validator.validateEmployeePayment(p))
           .isInstanceOf(BadRequestException.class)
           .hasMessageContaining("Employee payment must be linked to an expense");
-    }
-
-    @Test
-    void should_throw_when_expense_without_id() {
-      EmployeePayment p =
-          EmployeePayment.builder()
-              .id("ep1")
-              .expense(new ExpenseMoney())
-              .employee(User.builder().id("user1").build())
-              .paymentType(EmployeePayment.PaymentType.MONTHLY)
-              .paymentDescription("Monthly salary")
-              .build();
-      assertThatThrownBy(() -> validator.validateEmployeePayment(p))
-          .isInstanceOf(BadRequestException.class)
-          .hasMessageContaining("Employee payment must be linked to an expense");
-    }
-
-    @Test
-    void should_throw_when_employee_null() {
-      EmployeePayment p =
-          EmployeePayment.builder()
-              .id("ep1")
-              .expense(ExpenseMoney.builder().id("exp1").build())
-              .employee(null)
-              .paymentType(EmployeePayment.PaymentType.MONTHLY)
-              .paymentDescription("Monthly salary")
-              .build();
-      assertThatThrownBy(() -> validator.validateEmployeePayment(p))
-          .isInstanceOf(BadRequestException.class)
-          .hasMessageContaining("Employee payment must be linked to an employee");
     }
 
     @Test
@@ -556,13 +525,13 @@ class MoneyValidatorTest {
           EmployeePayment.builder()
               .id("ep1")
               .expense(ExpenseMoney.builder().id("exp1").build())
-              .employee(new User())
+              .users(List.of(new User()))
               .paymentType(EmployeePayment.PaymentType.MONTHLY)
               .paymentDescription("Monthly salary")
               .build();
       assertThatThrownBy(() -> validator.validateEmployeePayment(p))
           .isInstanceOf(BadRequestException.class)
-          .hasMessageContaining("Employee payment must be linked to an employee");
+          .hasMessageContaining("All users must have a valid ID");
     }
 
     @Test
@@ -571,7 +540,7 @@ class MoneyValidatorTest {
           EmployeePayment.builder()
               .id("ep1")
               .expense(ExpenseMoney.builder().id("exp1").build())
-              .employee(User.builder().id("user1").build())
+              .users(List.of(User.builder().id("user1").build()))
               .paymentType(null)
               .paymentDescription("Monthly salary")
               .build();
@@ -586,7 +555,7 @@ class MoneyValidatorTest {
           EmployeePayment.builder()
               .id("ep1")
               .expense(ExpenseMoney.builder().id("exp1").build())
-              .employee(User.builder().id("user1").build())
+              .users(List.of(User.builder().id("user1").build()))
               .paymentType(EmployeePayment.PaymentType.MONTHLY)
               .paymentDescription(null)
               .build();
@@ -601,7 +570,7 @@ class MoneyValidatorTest {
           EmployeePayment.builder()
               .id("ep1")
               .expense(ExpenseMoney.builder().id("exp1").build())
-              .employee(User.builder().id("user1").build())
+              .users(List.of(User.builder().id("user1").build()))
               .paymentType(EmployeePayment.PaymentType.MONTHLY)
               .paymentDescription("")
               .build();
@@ -616,13 +585,75 @@ class MoneyValidatorTest {
           EmployeePayment.builder()
               .id("ep1")
               .expense(ExpenseMoney.builder().id("exp1").build())
-              .employee(User.builder().id("user1").build())
+              .users(List.of(User.builder().id("user1").build()))
               .paymentType(EmployeePayment.PaymentType.MONTHLY)
               .paymentDescription("   ")
               .build();
       assertThatThrownBy(() -> validator.validateEmployeePayment(p))
           .isInstanceOf(BadRequestException.class)
           .hasMessageContaining("Payment description is mandatory");
+    }
+
+    @Test
+    void should_pass_with_valid_team_payment() {
+      EmployeePayment p =
+          EmployeePayment.builder()
+              .id("ep1")
+              .expense(ExpenseMoney.builder().id("exp1").build())
+              .isForTeam(true)
+              .team(Team.builder().id("team1").build())
+              .paymentType(EmployeePayment.PaymentType.MONTHLY)
+              .paymentDescription("Team payment")
+              .build();
+      assertThatCode(() -> validator.validateEmployeePayment(p)).doesNotThrowAnyException();
+    }
+
+    @Test
+    void should_throw_when_isForTeam_without_team() {
+      EmployeePayment p =
+          EmployeePayment.builder()
+              .id("ep1")
+              .expense(ExpenseMoney.builder().id("exp1").build())
+              .isForTeam(true)
+              .paymentType(EmployeePayment.PaymentType.MONTHLY)
+              .paymentDescription("Team payment")
+              .build();
+      assertThatThrownBy(() -> validator.validateEmployeePayment(p))
+          .isInstanceOf(BadRequestException.class)
+          .hasMessageContaining("Team is required when payment is for a team");
+    }
+
+    @Test
+    void should_throw_when_isForTeam_with_users() {
+      EmployeePayment p =
+          EmployeePayment.builder()
+              .id("ep1")
+              .expense(ExpenseMoney.builder().id("exp1").build())
+              .isForTeam(true)
+              .team(Team.builder().id("team1").build())
+              .users(List.of(User.builder().id("user1").build()))
+              .paymentType(EmployeePayment.PaymentType.MONTHLY)
+              .paymentDescription("Team payment")
+              .build();
+      assertThatThrownBy(() -> validator.validateEmployeePayment(p))
+          .isInstanceOf(BadRequestException.class)
+          .hasMessageContaining("Users list must be empty when payment is for a team");
+    }
+
+    @Test
+    void should_throw_when_not_isForTeam_with_team() {
+      EmployeePayment p =
+          EmployeePayment.builder()
+              .id("ep1")
+              .expense(ExpenseMoney.builder().id("exp1").build())
+              .team(Team.builder().id("team1").build())
+              .users(List.of(User.builder().id("user1").build()))
+              .paymentType(EmployeePayment.PaymentType.MONTHLY)
+              .paymentDescription("Individual payment")
+              .build();
+      assertThatThrownBy(() -> validator.validateEmployeePayment(p))
+          .isInstanceOf(BadRequestException.class)
+          .hasMessageContaining("Team must be null when payment is not for a team");
     }
   }
 

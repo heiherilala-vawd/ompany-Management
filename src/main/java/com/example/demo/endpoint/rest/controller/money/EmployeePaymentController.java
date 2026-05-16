@@ -43,11 +43,11 @@ public class EmployeePaymentController {
       @PathVariable String user_id,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
-      @RequestParam(name = "employee_id", required = false) String employeeId,
+      @RequestParam(name = "user_ids", required = false) List<String> userIds,
       @RequestParam(name = "payment_description", required = false) String paymentDescription,
       @RequestParam(name = "payment_type", required = false) PaymentType paymentType) {
     EmployeePaymentCriteria criteria = new EmployeePaymentCriteria();
-    criteria.setEmployeeId(employeeId);
+    criteria.setUserIDs(userIds);
     criteria.setPaymentDescription(paymentDescription);
     criteria.setPaymentType(
         paymentType != null

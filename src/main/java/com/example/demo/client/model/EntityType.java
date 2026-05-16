@@ -62,7 +62,9 @@ public enum EntityType {
   
   BANK_FEE("BANK_FEE"),
   
-  OTHER_EXPENSE("OTHER_EXPENSE");
+  OTHER_EXPENSE("OTHER_EXPENSE"),
+  
+  TEAM("TEAM");
 
   private String value;
 

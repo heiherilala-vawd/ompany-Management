@@ -26,6 +26,8 @@ public final class TestDataSqlLoader {
           "db/testdata/V100_22__testdata_income_receipts.sql",
           "db/testdata/V100_9__testdata_expenses.sql",
           "db/testdata/V100_10__testdata_employee_payments.sql",
+          "db/testdata/V100_28__testdata_employee_payment_users.sql",
+          "db/testdata/V100_29__testdata_teams.sql",
           "db/testdata/V100_11__testdata_travel_expenses.sql",
           "db/testdata/V100_12__testdata_travel_details.sql",
           "db/testdata/V100_13__testdata_purchases.sql",
@@ -38,7 +40,8 @@ public final class TestDataSqlLoader {
           "db/testdata/V100_23__testdata_loans_edge_cases.sql",
           "db/testdata/V100_24__testdata_loan_repayments_edge_cases.sql",
           "db/testdata/V100_25__testdata_incomes_edge_cases.sql",
-          "db/testdata/V100_26__testdata_income_receipts_edge_cases.sql");
+          "db/testdata/V100_26__testdata_income_receipts_edge_cases.sql",
+          "db/testdata/V100_27__testdata_user_job.sql");
 
   private TestDataSqlLoader() {}
 

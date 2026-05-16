@@ -21,13 +21,16 @@ import java.util.Map;
 import java.util.HashMap;
 import com.example.demo.client.model.CrupdateExpenseMoney;
 import com.example.demo.client.model.PaymentType;
+import com.example.demo.client.model.Team;
 import com.example.demo.client.model.User;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
@@ -37,11 +40,13 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
   EmployeePayment.JSON_PROPERTY_ID,
   EmployeePayment.JSON_PROPERTY_EXPENSE,
-  EmployeePayment.JSON_PROPERTY_EMPLOYEE,
+  EmployeePayment.JSON_PROPERTY_USERS,
+  EmployeePayment.JSON_PROPERTY_IS_FOR_TEAM,
+  EmployeePayment.JSON_PROPERTY_TEAM,
   EmployeePayment.JSON_PROPERTY_PAYMENT_DESCRIPTION,
   EmployeePayment.JSON_PROPERTY_PAYMENT_TYPE
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-15T05:05:56.905609404+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-16T21:32:49.384124061+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class EmployeePayment {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -49,8 +54,14 @@ public class EmployeePayment {
   public static final String JSON_PROPERTY_EXPENSE = "expense";
   private CrupdateExpenseMoney expense;
 
-  public static final String JSON_PROPERTY_EMPLOYEE = "employee";
-  private User employee;
+  public static final String JSON_PROPERTY_USERS = "users";
+  private List<User> users = new ArrayList<>();
+
+  public static final String JSON_PROPERTY_IS_FOR_TEAM = "is_for_team";
+  private Boolean isForTeam;
+
+  public static final String JSON_PROPERTY_TEAM = "team";
+  private Team team;
 
   public static final String JSON_PROPERTY_PAYMENT_DESCRIPTION = "payment_description";
   private String paymentDescription;
@@ -111,28 +122,86 @@ public class EmployeePayment {
   }
 
 
-  public EmployeePayment employee(User employee) {
-    this.employee = employee;
+  public EmployeePayment users(List<User> users) {
+    this.users = users;
+    return this;
+  }
+
+  public EmployeePayment addUsersItem(User usersItem) {
+    if (this.users == null) {
+      this.users = new ArrayList<>();
+    }
+    this.users.add(usersItem);
     return this;
   }
 
    /**
-   * Get employee
-   * @return employee
+   * Get users
+   * @return users
   **/
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_EMPLOYEE)
+  @JsonProperty(JSON_PROPERTY_USERS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public User getEmployee() {
-    return employee;
+  public List<User> getUsers() {
+    return users;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_EMPLOYEE)
+  @JsonProperty(JSON_PROPERTY_USERS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setEmployee(User employee) {
-    this.employee = employee;
+  public void setUsers(List<User> users) {
+    this.users = users;
+  }
+
+
+  public EmployeePayment isForTeam(Boolean isForTeam) {
+    this.isForTeam = isForTeam;
+    return this;
+  }
+
+   /**
+   * Get isForTeam
+   * @return isForTeam
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_IS_FOR_TEAM)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public Boolean getIsForTeam() {
+    return isForTeam;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_IS_FOR_TEAM)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setIsForTeam(Boolean isForTeam) {
+    this.isForTeam = isForTeam;
+  }
+
+
+  public EmployeePayment team(Team team) {
+    this.team = team;
+    return this;
+  }
+
+   /**
+   * Get team
+   * @return team
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_TEAM)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public Team getTeam() {
+    return team;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_TEAM)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setTeam(Team team) {
+    this.team = team;
   }
 
 
@@ -200,14 +269,16 @@ public class EmployeePayment {
     EmployeePayment employeePayment = (EmployeePayment) o;
     return Objects.equals(this.id, employeePayment.id) &&
         Objects.equals(this.expense, employeePayment.expense) &&
-        Objects.equals(this.employee, employeePayment.employee) &&
+        Objects.equals(this.users, employeePayment.users) &&
+        Objects.equals(this.isForTeam, employeePayment.isForTeam) &&
+        Objects.equals(this.team, employeePayment.team) &&
         Objects.equals(this.paymentDescription, employeePayment.paymentDescription) &&
         Objects.equals(this.paymentType, employeePayment.paymentType);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, expense, employee, paymentDescription, paymentType);
+    return Objects.hash(id, expense, users, isForTeam, team, paymentDescription, paymentType);
   }
 
   @Override
@@ -216,7 +287,9 @@ public class EmployeePayment {
     sb.append("class EmployeePayment {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    expense: ").append(toIndentedString(expense)).append("\n");
-    sb.append("    employee: ").append(toIndentedString(employee)).append("\n");
+    sb.append("    users: ").append(toIndentedString(users)).append("\n");
+    sb.append("    isForTeam: ").append(toIndentedString(isForTeam)).append("\n");
+    sb.append("    team: ").append(toIndentedString(team)).append("\n");
     sb.append("    paymentDescription: ").append(toIndentedString(paymentDescription)).append("\n");
     sb.append("    paymentType: ").append(toIndentedString(paymentType)).append("\n");
     sb.append("}");
@@ -276,9 +349,24 @@ public class EmployeePayment {
       joiner.add(getExpense().toUrlQueryString(prefix + "expense" + suffix));
     }
 
-    // add `employee` to the URL query string
-    if (getEmployee() != null) {
-      joiner.add(getEmployee().toUrlQueryString(prefix + "employee" + suffix));
+    // add `users` to the URL query string
+    if (getUsers() != null) {
+      for (int i = 0; i < getUsers().size(); i++) {
+        if (getUsers().get(i) != null) {
+          joiner.add(getUsers().get(i).toUrlQueryString(String.format("%susers%s%s", prefix, suffix,
+          "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
+        }
+      }
+    }
+
+    // add `is_for_team` to the URL query string
+    if (getIsForTeam() != null) {
+      joiner.add(String.format("%sis_for_team%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getIsForTeam()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `team` to the URL query string
+    if (getTeam() != null) {
+      joiner.add(getTeam().toUrlQueryString(prefix + "team" + suffix));
     }
 
     // add `payment_description` to the URL query string
