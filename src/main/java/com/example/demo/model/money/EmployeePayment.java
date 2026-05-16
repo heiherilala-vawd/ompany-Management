@@ -1,9 +1,12 @@
 package com.example.demo.model.money;
 
 import com.example.demo.model.User;
+import com.example.demo.model.core.Team;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,9 +35,22 @@ public class EmployeePayment implements Serializable {
   @JsonManagedReference
   private ExpenseMoney expense;
 
-  @ManyToOne
-  @JoinColumn(name = "employee_id")
-  private User employee;
+  @ManyToMany
+  @JoinTable(
+      name = "employee_payment_users",
+      joinColumns = @JoinColumn(name = "employee_payment_id"),
+      inverseJoinColumns = @JoinColumn(name = "user_id"))
+  @OrderBy("id ASC")
+  @Builder.Default
+  private List<User> users = new ArrayList<>();
+
+  @Column(name = "is_for_team")
+  @Builder.Default
+  private Boolean isForTeam = false;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "team_id")
+  private Team team;
 
   private String paymentDescription;
 
@@ -63,8 +79,12 @@ public class EmployeePayment implements Serializable {
         + '\''
         + ", expense="
         + (expense != null ? expense.getId() : null)
-        + ", employee="
-        + (employee != null ? employee.getId() + ":" + employee.getEmail() : null)
+        + ", isForTeam="
+        + isForTeam
+        + ", team="
+        + (team != null ? team.getId() : null)
+        + ", users="
+        + (users != null ? users.stream().map(u -> u.getId() + ":" + u.getEmail()).toList() : null)
         + ", paymentDescription='"
         + paymentDescription
         + '\''

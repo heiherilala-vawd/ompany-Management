@@ -93,8 +93,23 @@ public class MoneyValidator {
     if (payment.getExpense() == null || payment.getExpense().getId() == null) {
       throw new BadRequestException("Employee payment must be linked to an expense");
     }
-    if (payment.getEmployee() == null || payment.getEmployee().getId() == null) {
-      throw new BadRequestException("Employee payment must be linked to an employee");
+    if (Boolean.TRUE.equals(payment.getIsForTeam())) {
+      if (payment.getTeam() == null || payment.getTeam().getId() == null) {
+        throw new BadRequestException("Team is required when payment is for a team");
+      }
+      if (payment.getUsers() != null && !payment.getUsers().isEmpty()) {
+        throw new BadRequestException("Users list must be empty when payment is for a team");
+      }
+    } else {
+      if (payment.getUsers() == null || payment.getUsers().isEmpty()) {
+        throw new BadRequestException("Employee payment must be linked to at least one user");
+      }
+      if (payment.getUsers().stream().anyMatch(u -> u == null || u.getId() == null)) {
+        throw new BadRequestException("All users must have a valid ID");
+      }
+      if (payment.getTeam() != null) {
+        throw new BadRequestException("Team must be null when payment is not for a team");
+      }
     }
     if (payment.getPaymentType() == null) {
       throw new BadRequestException("Payment type is mandatory");
