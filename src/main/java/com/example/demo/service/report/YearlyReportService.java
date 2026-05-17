@@ -9,6 +9,7 @@ import com.example.demo.model.report.YearlyReport;
 import com.example.demo.service.JobService;
 import com.example.demo.service.money.ExpenseMoneyService;
 import com.example.demo.service.money.IncomeMoneyService;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -65,8 +66,8 @@ public class YearlyReportService {
         jobsForYear.stream()
             .map(
                 job -> {
-                  Integer totalIncome = incomeMoneyService.sumByJobId(job.getId());
-                  Integer totalExpense = expenseMoneyService.sumByJobId(job.getId());
+                  BigDecimal totalIncome = incomeMoneyService.sumByJobId(job.getId());
+                  BigDecimal totalExpense = expenseMoneyService.sumByJobId(job.getId());
                   JobWithFinancials jwf =
                       JobWithFinancials.fromJobAndAmounts(job.getId(), totalIncome, totalExpense);
                   jwf.setJob(job);
@@ -88,8 +89,8 @@ public class YearlyReportService {
     for (Job inProgressJob : inProgressJobs) {
       String jobId = inProgressJob.getId();
       if (jobsWithFinancials.stream().noneMatch(jwf -> jobId.equals(jwf.getJobId()))) {
-        Integer totalIncome = incomeMoneyService.sumByJobId(jobId);
-        Integer totalExpense = expenseMoneyService.sumByJobId(jobId);
+        BigDecimal totalIncome = incomeMoneyService.sumByJobId(jobId);
+        BigDecimal totalExpense = expenseMoneyService.sumByJobId(jobId);
         JobWithFinancials jwf =
             JobWithFinancials.fromJobAndAmounts(jobId, totalIncome, totalExpense);
         jwf.setJob(inProgressJob);
@@ -101,14 +102,14 @@ public class YearlyReportService {
     log.info("Added {} IN_PROGRESS jobs to the report", addedInProgress);
 
     // 5. Build summary
-    int totalIncome =
+    BigDecimal totalIncome =
         jobsWithFinancials.stream()
-            .mapToInt(jwf -> jwf.getTotalIncome() != null ? jwf.getTotalIncome() : 0)
-            .sum();
-    int totalExpense =
+            .map(jwf -> jwf.getTotalIncome() != null ? jwf.getTotalIncome() : BigDecimal.ZERO)
+            .reduce(BigDecimal.ZERO, BigDecimal::add);
+    BigDecimal totalExpense =
         jobsWithFinancials.stream()
-            .mapToInt(jwf -> jwf.getTotalExpense() != null ? jwf.getTotalExpense() : 0)
-            .sum();
+            .map(jwf -> jwf.getTotalExpense() != null ? jwf.getTotalExpense() : BigDecimal.ZERO)
+            .reduce(BigDecimal.ZERO, BigDecimal::add);
 
     YearlyReport.Summary summary =
         YearlyReport.Summary.builder()
@@ -117,7 +118,7 @@ public class YearlyReportService {
             .jobCount(jobsWithFinancials.size())
             .inProgressJobCount(inProgressJobs.size())
             .build();
-    summary.setNetProfit(totalIncome - totalExpense);
+    summary.setNetProfit(totalIncome.subtract(totalExpense));
 
     log.info(
         "Report summary: income={}, expense={}, netProfit={}, jobCount={}",

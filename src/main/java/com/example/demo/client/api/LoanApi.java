@@ -18,6 +18,7 @@ import com.example.demo.client.invoker.ApiResponse;
 import com.example.demo.client.invoker.Pair;
 
 import com.example.demo.client.model.BadRequestException;
+import java.math.BigDecimal;
 import com.example.demo.client.model.CrupdateLoan;
 import com.example.demo.client.model.InternalServerException;
 import com.example.demo.client.model.Loan;
@@ -50,7 +51,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-16T21:32:49.384124061+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-17T01:01:06.180120920+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class LoanApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -391,7 +392,7 @@ public class LoanApi {
    * @return List&lt;Loan&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<Loan> getLoans(String compId, String jobId, String userId, Integer page, Integer pageSize, String description, Integer amount, String lender) throws ApiException {
+  public List<Loan> getLoans(String compId, String jobId, String userId, Integer page, Integer pageSize, String description, BigDecimal amount, String lender) throws ApiException {
     ApiResponse<List<Loan>> localVarResponse = getLoansWithHttpInfo(compId, jobId, userId, page, pageSize, description, amount, lender);
     return localVarResponse.getData();
   }
@@ -410,7 +411,7 @@ public class LoanApi {
    * @return ApiResponse&lt;List&lt;Loan&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<Loan>> getLoansWithHttpInfo(String compId, String jobId, String userId, Integer page, Integer pageSize, String description, Integer amount, String lender) throws ApiException {
+  public ApiResponse<List<Loan>> getLoansWithHttpInfo(String compId, String jobId, String userId, Integer page, Integer pageSize, String description, BigDecimal amount, String lender) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = getLoansRequestBuilder(compId, jobId, userId, page, pageSize, description, amount, lender);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -439,7 +440,7 @@ public class LoanApi {
     }
   }
 
-  private HttpRequest.Builder getLoansRequestBuilder(String compId, String jobId, String userId, Integer page, Integer pageSize, String description, Integer amount, String lender) throws ApiException {
+  private HttpRequest.Builder getLoansRequestBuilder(String compId, String jobId, String userId, Integer page, Integer pageSize, String description, BigDecimal amount, String lender) throws ApiException {
     // verify the required parameter 'compId' is set
     if (compId == null) {
       throw new ApiException(400, "Missing the required parameter 'compId' when calling getLoans");

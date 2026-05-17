@@ -12,6 +12,7 @@ import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
 import com.example.demo.integration.conf.TestDataSqlLoader;
 import com.example.demo.integration.conf.TestUtils;
+import java.math.BigDecimal;
 import java.util.List;
 import javax.sql.DataSource;
 import org.junit.jupiter.api.BeforeEach;
@@ -112,7 +113,7 @@ class ExpenseIT {
     ExpenseApi api = new ExpenseApi(adminClient);
 
     List<ExpenseMoney> expenses =
-        api.getExpenses(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, 45000);
+        api.getExpenses(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, BigDecimal.valueOf(45000));
 
     assertEquals(1, expenses.size());
     assertEquals(EXPENSE1_ID, expenses.get(0).getId());
@@ -163,7 +164,7 @@ class ExpenseIT {
     ExpenseApi api = new ExpenseApi(adminClient);
 
     CrupdateExpenseMoney invalidExpense = someCreatableExpense();
-    invalidExpense.setAmount(-1000);
+    invalidExpense.setAmount(BigDecimal.valueOf(-1000));
 
     assertThrowsApiException(
         "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Amount must be positive\"}",

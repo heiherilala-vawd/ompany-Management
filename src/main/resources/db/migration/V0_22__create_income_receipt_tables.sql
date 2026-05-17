@@ -10,7 +10,7 @@ $$;
 create table if not exists income_receipt (
     id VARCHAR(150) constraint income_receipt_pk primary key,
     payment_date DATE NOT NULL,
-    amount INTEGER NOT NULL,
+    amount NUMERIC(19, 2) NOT NULL,
     income_id VARCHAR(150) NOT NULL constraint income_receipt_income_fk references income_money(id),
     created_at TIMESTAMPTZ,
     updated_at TIMESTAMPTZ,

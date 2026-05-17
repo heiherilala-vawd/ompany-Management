@@ -13,6 +13,7 @@ import com.example.demo.model.criteria.LoanRepaymentCriteria;
 import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.service.money.LoanRepaymentService;
 import com.example.demo.service.money.LoanService;
+import java.math.BigDecimal;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -49,7 +50,7 @@ public class LoanController {
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
       @RequestParam(name = "description", required = false) String description,
-      @RequestParam(name = "amount", required = false) Integer amount,
+      @RequestParam(name = "amount", required = false) BigDecimal amount,
       @RequestParam(name = "lender", required = false) String lender) {
     LoanCriteria criteria = new LoanCriteria();
     criteria.setDescription(description);

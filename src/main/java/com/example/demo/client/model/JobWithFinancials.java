@@ -25,6 +25,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import java.math.BigDecimal;
 import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
@@ -38,19 +39,19 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   JobWithFinancials.JSON_PROPERTY_TOTAL_EXPENSE,
   JobWithFinancials.JSON_PROPERTY_NET_PROFIT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-16T21:32:49.384124061+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-17T01:01:06.180120920+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class JobWithFinancials {
   public static final String JSON_PROPERTY_JOB = "job";
   private Job job;
 
   public static final String JSON_PROPERTY_TOTAL_INCOME = "total_income";
-  private Integer totalIncome;
+  private BigDecimal totalIncome;
 
   public static final String JSON_PROPERTY_TOTAL_EXPENSE = "total_expense";
-  private Integer totalExpense;
+  private BigDecimal totalExpense;
 
   public static final String JSON_PROPERTY_NET_PROFIT = "net_profit";
-  private Integer netProfit;
+  private BigDecimal netProfit;
 
   public JobWithFinancials() { 
   }
@@ -80,7 +81,7 @@ public class JobWithFinancials {
   }
 
 
-  public JobWithFinancials totalIncome(Integer totalIncome) {
+  public JobWithFinancials totalIncome(BigDecimal totalIncome) {
     this.totalIncome = totalIncome;
     return this;
   }
@@ -93,19 +94,19 @@ public class JobWithFinancials {
   @JsonProperty(JSON_PROPERTY_TOTAL_INCOME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public Integer getTotalIncome() {
+  public BigDecimal getTotalIncome() {
     return totalIncome;
   }
 
 
   @JsonProperty(JSON_PROPERTY_TOTAL_INCOME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setTotalIncome(Integer totalIncome) {
+  public void setTotalIncome(BigDecimal totalIncome) {
     this.totalIncome = totalIncome;
   }
 
 
-  public JobWithFinancials totalExpense(Integer totalExpense) {
+  public JobWithFinancials totalExpense(BigDecimal totalExpense) {
     this.totalExpense = totalExpense;
     return this;
   }
@@ -118,19 +119,19 @@ public class JobWithFinancials {
   @JsonProperty(JSON_PROPERTY_TOTAL_EXPENSE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public Integer getTotalExpense() {
+  public BigDecimal getTotalExpense() {
     return totalExpense;
   }
 
 
   @JsonProperty(JSON_PROPERTY_TOTAL_EXPENSE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setTotalExpense(Integer totalExpense) {
+  public void setTotalExpense(BigDecimal totalExpense) {
     this.totalExpense = totalExpense;
   }
 
 
-  public JobWithFinancials netProfit(Integer netProfit) {
+  public JobWithFinancials netProfit(BigDecimal netProfit) {
     this.netProfit = netProfit;
     return this;
   }
@@ -143,14 +144,14 @@ public class JobWithFinancials {
   @JsonProperty(JSON_PROPERTY_NET_PROFIT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public Integer getNetProfit() {
+  public BigDecimal getNetProfit() {
     return netProfit;
   }
 
 
   @JsonProperty(JSON_PROPERTY_NET_PROFIT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setNetProfit(Integer netProfit) {
+  public void setNetProfit(BigDecimal netProfit) {
     this.netProfit = netProfit;
   }
 

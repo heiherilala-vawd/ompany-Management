@@ -1,1 +1,1 @@
-alter table income_money drop column if exists money_arrival_date;
+-- money_arrival_date is not created in the squashed income_money schema.

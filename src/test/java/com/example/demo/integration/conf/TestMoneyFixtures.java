@@ -26,6 +26,7 @@ import com.example.demo.client.model.OtherExpense;
 import com.example.demo.client.model.PaymentType;
 import com.example.demo.client.model.Purchase;
 import com.example.demo.client.model.User;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
@@ -42,14 +43,14 @@ final class TestMoneyFixtures {
     income.setInvoiceReference("INV-2024-001");
     income.setBillingStartDate(LocalDate.of(2024, 1, 15));
     income.setIncomeType(incomeType1());
-    income.setAmount(150000);
+    income.setAmount(new BigDecimal("150000.00"));
     income.setDescription("Paiement initial chantier A");
     IncomeReceipt receipt = new IncomeReceipt();
     receipt.setId(TestUtils.RECEIPT1_ID);
     receipt.setPaymentDate(LocalDate.of(2024, 2, 1));
-    receipt.setAmount(150000);
+    receipt.setAmount(new BigDecimal("150000.00"));
     income.setReceipts(List.of(receipt));
-    income.setRemainingAmount(0);
+    income.setRemainingAmount(new BigDecimal("0.00"));
     return income;
   }
 
@@ -61,7 +62,7 @@ final class TestMoneyFixtures {
     income.setInvoiceReference("INV-2024-002");
     income.setBillingStartDate(LocalDate.of(2024, 2, 10));
     income.setIncomeType(incomeType1());
-    income.setAmount(275000);
+    income.setAmount(new BigDecimal("275000.00"));
     income.setDescription("Paiement avance renovation hotel");
     return income;
   }
@@ -126,7 +127,7 @@ final class TestMoneyFixtures {
     income.setInvoiceReference("INV-2024-003");
     income.setBillingStartDate(LocalDate.of(2024, 3, 1));
     income.setIncomeTypeId(TestUtils.INCOME_TYPE2_ID);
-    income.setAmount(99000);
+    income.setAmount(new BigDecimal("99000.00"));
     income.setDescription("Paiement complementaire");
     return income;
   }
@@ -135,7 +136,7 @@ final class TestMoneyFixtures {
     ExpenseMoney expense = new ExpenseMoney();
     expense.setJob(TestOrganizationFixtures.jobToCrupdateJob(TestOrganizationFixtures.job1()));
     expense.setId(TestUtils.EXPENSE1_ID);
-    expense.setAmount(45000);
+    expense.setAmount(new BigDecimal("45000.00"));
     expense.setDescription("Achat materiaux chantier A");
     return expense;
   }
@@ -144,7 +145,7 @@ final class TestMoneyFixtures {
     ExpenseMoney expense = new ExpenseMoney();
     expense.setId(TestUtils.EXPENSE2_ID);
     expense.setJob(TestOrganizationFixtures.jobToCrupdateJob(TestOrganizationFixtures.job1()));
-    expense.setAmount(80000);
+    expense.setAmount(new BigDecimal("80000.00"));
     expense.setDescription("Paiement sous-traitant renovation");
     return expense;
   }
@@ -163,7 +164,7 @@ final class TestMoneyFixtures {
     CrupdateExpenseMoney expense = new CrupdateExpenseMoney();
     expense.setId(UUID.randomUUID().toString());
     expense.setJobId(TestUtils.JOB1_ID);
-    expense.setAmount(32000);
+    expense.setAmount(new BigDecimal("32000.00"));
     expense.setDescription("Frais logistiques");
     return expense;
   }
@@ -200,7 +201,7 @@ final class TestMoneyFixtures {
     bankFee.setId(UUID.randomUUID().toString());
     CrupdateExpenseMoney expense = new CrupdateExpenseMoney();
     expense.setId(TestUtils.EXPENSE1_ID);
-    expense.setAmount(5000);
+    expense.setAmount(new BigDecimal("5000.00"));
     expense.setDescription("Test bank fee expense");
     expense.setJobId(TestUtils.JOB1_ID);
     bankFee.setExpense(expense);
@@ -250,7 +251,7 @@ final class TestMoneyFixtures {
     employeePayment.setId(UUID.randomUUID().toString());
     CrupdateExpenseMoney expense = new CrupdateExpenseMoney();
     expense.setId(TestUtils.EXPENSE1_ID);
-    expense.setAmount(2000);
+    expense.setAmount(new BigDecimal("2000.00"));
     expense.setDescription("Test employee payment expense");
     expense.setJobId(TestUtils.JOB1_ID);
     employeePayment.setExpense(expense);
@@ -289,7 +290,7 @@ final class TestMoneyFixtures {
     otherExpense.setId(UUID.randomUUID().toString());
     CrupdateExpenseMoney expense = new CrupdateExpenseMoney();
     expense.setId(TestUtils.EXPENSE1_ID);
-    expense.setAmount(1500);
+    expense.setAmount(new BigDecimal("1500.00"));
     expense.setDescription("Test other expense");
     expense.setJobId(TestUtils.JOB1_ID);
     otherExpense.setExpense(expense);
@@ -349,7 +350,7 @@ final class TestMoneyFixtures {
     purchase.setId(UUID.randomUUID().toString());
     CrupdateExpenseMoney expense = new CrupdateExpenseMoney();
     expense.setId(TestUtils.EXPENSE1_ID);
-    expense.setAmount(5000);
+    expense.setAmount(new BigDecimal("5000.00"));
     expense.setDescription("Test purchase expense");
     expense.setJobId(TestUtils.JOB1_ID);
     purchase.setExpense(expense);
@@ -370,22 +371,22 @@ final class TestMoneyFixtures {
     loan.setStartDate(LocalDate.of(2024, 2, 1));
     loan.setDueDate(LocalDate.of(2026, 12, 31));
     loan.setStatus(LoanStatus.ACTIVE);
-    loan.setAmount(5000000);
+    loan.setAmount(new BigDecimal("5000000.00"));
     loan.setDescription("Emprunt construction entrepot");
     LoanRepayment r1 = new LoanRepayment();
     r1.setId(TestUtils.REPAYMENT1_ID);
     r1.setPaymentDate(LocalDate.of(2024, 3, 1));
-    r1.setAmount(600000);
-    r1.setPrincipalPortion(500000);
-    r1.setInterestPortion(100000);
+    r1.setAmount(new BigDecimal("600000.00"));
+    r1.setPrincipalPortion(new BigDecimal("500000.00"));
+    r1.setInterestPortion(new BigDecimal("100000.00"));
     LoanRepayment r2 = new LoanRepayment();
     r2.setId(TestUtils.REPAYMENT2_ID);
     r2.setPaymentDate(LocalDate.of(2024, 4, 1));
-    r2.setAmount(600000);
-    r2.setPrincipalPortion(510000);
-    r2.setInterestPortion(90000);
+    r2.setAmount(new BigDecimal("600000.00"));
+    r2.setPrincipalPortion(new BigDecimal("510000.00"));
+    r2.setInterestPortion(new BigDecimal("90000.00"));
     loan.setRepayments(List.of(r1, r2));
-    loan.setRemainingAmount(3800000);
+    loan.setRemainingAmount(new BigDecimal("3800000.00"));
     return loan;
   }
 
@@ -397,7 +398,7 @@ final class TestMoneyFixtures {
     loan.setInterestRate(1500);
     loan.setStartDate(LocalDate.of(2024, 3, 1));
     loan.setStatus(LoanStatus.ACTIVE);
-    loan.setAmount(3000000);
+    loan.setAmount(new BigDecimal("3000000.00"));
     loan.setDescription("Emprunt equipements");
     return loan;
   }
@@ -424,7 +425,7 @@ final class TestMoneyFixtures {
     loan.setInterestRate(1000);
     loan.setStartDate(LocalDate.of(2024, 6, 1));
     loan.setDueDate(LocalDate.of(2026, 12, 31));
-    loan.setAmount(2000000);
+    loan.setAmount(new BigDecimal("2000000.00"));
     loan.setDescription("Nouvel emprunt tresorerie");
     return loan;
   }
@@ -434,9 +435,9 @@ final class TestMoneyFixtures {
     repayment.setId(TestUtils.REPAYMENT1_ID);
     repayment.setLoan(loanToCrupdateLoan(loan1()));
     repayment.setPaymentDate(LocalDate.of(2024, 3, 1));
-    repayment.setAmount(600000);
-    repayment.setPrincipalPortion(500000);
-    repayment.setInterestPortion(100000);
+    repayment.setAmount(new BigDecimal("600000.00"));
+    repayment.setPrincipalPortion(new BigDecimal("500000.00"));
+    repayment.setInterestPortion(new BigDecimal("100000.00"));
     return repayment;
   }
 
@@ -455,7 +456,7 @@ final class TestMoneyFixtures {
     repayment.setId(UUID.randomUUID().toString());
     repayment.setLoanId(TestUtils.LOAN1_ID);
     repayment.setPaymentDate(LocalDate.of(2024, 5, 1));
-    repayment.setAmount(600000);
+    repayment.setAmount(new BigDecimal("600000.00"));
     return repayment;
   }
 
@@ -464,7 +465,7 @@ final class TestMoneyFixtures {
     receipt.setId(TestUtils.RECEIPT1_ID);
     receipt.setIncome(income1());
     receipt.setPaymentDate(LocalDate.of(2024, 2, 1));
-    receipt.setAmount(150000);
+    receipt.setAmount(new BigDecimal("150000.00"));
     return receipt;
   }
 
@@ -473,7 +474,7 @@ final class TestMoneyFixtures {
     receipt.setId(TestUtils.RECEIPT2_ID);
     receipt.setIncome(income2());
     receipt.setPaymentDate(LocalDate.of(2024, 2, 15));
-    receipt.setAmount(275000);
+    receipt.setAmount(new BigDecimal("275000.00"));
     return receipt;
   }
 
@@ -492,7 +493,7 @@ final class TestMoneyFixtures {
     receipt.setId(UUID.randomUUID().toString());
     receipt.setIncomeId(TestUtils.INCOME1_ID);
     receipt.setPaymentDate(LocalDate.of(2024, 4, 1));
-    receipt.setAmount(50000);
+    receipt.setAmount(new BigDecimal("50000.00"));
     return receipt;
   }
 
@@ -504,16 +505,16 @@ final class TestMoneyFixtures {
     loan.setInterestRate(1000);
     loan.setStartDate(LocalDate.of(2024, 1, 15));
     loan.setStatus(LoanStatus.PAID);
-    loan.setAmount(2000000);
+    loan.setAmount(new BigDecimal("2000000.00"));
     loan.setDescription("Emprunt rembourse");
     LoanRepayment r3 = new LoanRepayment();
     r3.setId(TestUtils.REPAYMENT3_ID);
     r3.setPaymentDate(LocalDate.of(2024, 6, 1));
-    r3.setAmount(2000000);
-    r3.setPrincipalPortion(1800000);
-    r3.setInterestPortion(200000);
+    r3.setAmount(new BigDecimal("2000000.00"));
+    r3.setPrincipalPortion(new BigDecimal("1800000.00"));
+    r3.setInterestPortion(new BigDecimal("200000.00"));
     loan.setRepayments(List.of(r3));
-    loan.setRemainingAmount(0);
+    loan.setRemainingAmount(new BigDecimal("0.00"));
     return loan;
   }
 
@@ -526,9 +527,9 @@ final class TestMoneyFixtures {
     loan.setStartDate(LocalDate.of(2024, 3, 1));
     loan.setDueDate(LocalDate.of(2024, 6, 1));
     loan.setStatus(LoanStatus.DEFAULTED);
-    loan.setAmount(2000000);
+    loan.setAmount(new BigDecimal("2000000.00"));
     loan.setDescription("Emprunt en defaut");
-    loan.setRemainingAmount(2000000);
+    loan.setRemainingAmount(new BigDecimal("2000000.00"));
     return loan;
   }
 
@@ -541,16 +542,16 @@ final class TestMoneyFixtures {
     loan.setStartDate(LocalDate.of(2024, 1, 1));
     loan.setDueDate(LocalDate.of(2024, 6, 1));
     loan.setStatus(LoanStatus.PAID);
-    loan.setAmount(2000000);
+    loan.setAmount(new BigDecimal("2000000.00"));
     loan.setDescription("Emprunt rembourse avant echeance");
     LoanRepayment r5 = new LoanRepayment();
     r5.setId(TestUtils.REPAYMENT5_ID);
     r5.setPaymentDate(LocalDate.of(2024, 5, 1));
-    r5.setAmount(2000000);
-    r5.setPrincipalPortion(1800000);
-    r5.setInterestPortion(200000);
+    r5.setAmount(new BigDecimal("2000000.00"));
+    r5.setPrincipalPortion(new BigDecimal("1800000.00"));
+    r5.setInterestPortion(new BigDecimal("200000.00"));
     loan.setRepayments(List.of(r5));
-    loan.setRemainingAmount(0);
+    loan.setRemainingAmount(new BigDecimal("0.00"));
     return loan;
   }
 
@@ -562,14 +563,14 @@ final class TestMoneyFixtures {
     income.setInvoiceReference("INV-2024-005");
     income.setBillingStartDate(LocalDate.of(2024, 4, 1));
     income.setIncomeType(incomeType1());
-    income.setAmount(100000);
+    income.setAmount(new BigDecimal("100000.00"));
     income.setDescription("Paiement partiel");
     IncomeReceipt receipt = new IncomeReceipt();
     receipt.setId(TestUtils.RECEIPT5_ID);
     receipt.setPaymentDate(LocalDate.of(2024, 4, 10));
-    receipt.setAmount(60000);
+    receipt.setAmount(new BigDecimal("60000.00"));
     income.setReceipts(List.of(receipt));
-    income.setRemainingAmount(40000);
+    income.setRemainingAmount(new BigDecimal("40000.00"));
     return income;
   }
 
@@ -581,18 +582,18 @@ final class TestMoneyFixtures {
     income.setInvoiceReference("INV-2024-006");
     income.setBillingStartDate(LocalDate.of(2024, 4, 15));
     income.setIncomeType(incomeType1());
-    income.setAmount(100000);
+    income.setAmount(new BigDecimal("100000.00"));
     income.setDescription("Paiement en exces");
     IncomeReceipt r1 = new IncomeReceipt();
     r1.setId(TestUtils.RECEIPT6A_ID);
     r1.setPaymentDate(LocalDate.of(2024, 4, 20));
-    r1.setAmount(60000);
+    r1.setAmount(new BigDecimal("60000.00"));
     IncomeReceipt r2 = new IncomeReceipt();
     r2.setId(TestUtils.RECEIPT6B_ID);
     r2.setPaymentDate(LocalDate.of(2024, 4, 25));
-    r2.setAmount(60000);
+    r2.setAmount(new BigDecimal("60000.00"));
     income.setReceipts(List.of(r1, r2));
-    income.setRemainingAmount(-20000);
+    income.setRemainingAmount(new BigDecimal("-20000.00"));
     return income;
   }
 
@@ -604,18 +605,18 @@ final class TestMoneyFixtures {
     income.setInvoiceReference("INV-2024-007");
     income.setBillingStartDate(LocalDate.of(2024, 5, 1));
     income.setIncomeType(incomeType1());
-    income.setAmount(100000);
+    income.setAmount(new BigDecimal("100000.00"));
     income.setDescription("Paiement total multiple recus");
     IncomeReceipt r1 = new IncomeReceipt();
     r1.setId(TestUtils.RECEIPT7A_ID);
     r1.setPaymentDate(LocalDate.of(2024, 5, 10));
-    r1.setAmount(60000);
+    r1.setAmount(new BigDecimal("60000.00"));
     IncomeReceipt r2 = new IncomeReceipt();
     r2.setId(TestUtils.RECEIPT7B_ID);
     r2.setPaymentDate(LocalDate.of(2024, 5, 15));
-    r2.setAmount(40000);
+    r2.setAmount(new BigDecimal("40000.00"));
     income.setReceipts(List.of(r1, r2));
-    income.setRemainingAmount(0);
+    income.setRemainingAmount(new BigDecimal("0.00"));
     return income;
   }
 }

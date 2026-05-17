@@ -18,6 +18,7 @@ import com.example.demo.client.invoker.ApiResponse;
 import com.example.demo.client.invoker.Pair;
 
 import com.example.demo.client.model.BadRequestException;
+import java.math.BigDecimal;
 import com.example.demo.client.model.CrupdateExpenseMoney;
 import com.example.demo.client.model.ExpenseMoney;
 import com.example.demo.client.model.InternalServerException;
@@ -50,7 +51,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-16T21:32:49.384124061+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-17T01:01:06.180120920+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class ExpenseApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -390,7 +391,7 @@ public class ExpenseApi {
    * @return List&lt;ExpenseMoney&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<ExpenseMoney> getExpenses(String compId, String jobId, String userId, Integer page, Integer pageSize, String description, Integer amount) throws ApiException {
+  public List<ExpenseMoney> getExpenses(String compId, String jobId, String userId, Integer page, Integer pageSize, String description, BigDecimal amount) throws ApiException {
     ApiResponse<List<ExpenseMoney>> localVarResponse = getExpensesWithHttpInfo(compId, jobId, userId, page, pageSize, description, amount);
     return localVarResponse.getData();
   }
@@ -408,7 +409,7 @@ public class ExpenseApi {
    * @return ApiResponse&lt;List&lt;ExpenseMoney&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<ExpenseMoney>> getExpensesWithHttpInfo(String compId, String jobId, String userId, Integer page, Integer pageSize, String description, Integer amount) throws ApiException {
+  public ApiResponse<List<ExpenseMoney>> getExpensesWithHttpInfo(String compId, String jobId, String userId, Integer page, Integer pageSize, String description, BigDecimal amount) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = getExpensesRequestBuilder(compId, jobId, userId, page, pageSize, description, amount);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -437,7 +438,7 @@ public class ExpenseApi {
     }
   }
 
-  private HttpRequest.Builder getExpensesRequestBuilder(String compId, String jobId, String userId, Integer page, Integer pageSize, String description, Integer amount) throws ApiException {
+  private HttpRequest.Builder getExpensesRequestBuilder(String compId, String jobId, String userId, Integer page, Integer pageSize, String description, BigDecimal amount) throws ApiException {
     // verify the required parameter 'compId' is set
     if (compId == null) {
       throw new ApiException(400, "Missing the required parameter 'compId' when calling getExpenses");

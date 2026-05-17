@@ -2634,7 +2634,7 @@ paths:
         - name: amount
           in: query
           schema:
-            type: integer
+            type: number
           example: 15000
       responses:
         '200':
@@ -3161,7 +3161,7 @@ paths:
         - name: amount
           in: query
           schema:
-            type: integer
+            type: number
           example: 50000
         - name: income_type_id
           in: query
@@ -3795,7 +3795,7 @@ paths:
         - name: amount
           in: query
           schema:
-            type: integer
+            type: number
           example: 5000000
         - name: lender
           in: query
@@ -7360,7 +7360,7 @@ components:
         - $ref: '#/components/schemas/AuditFields'
       properties:
         amount:
-          type: integer
+          type: number
           example: 15000
         description:
           type: string
@@ -7370,7 +7370,7 @@ components:
         - $ref: '#/components/schemas/comment'
       properties:
         amount:
-          type: integer
+          type: number
           example: 15000
         description:
           type: string
@@ -7448,7 +7448,7 @@ components:
           items:
             $ref: '#/components/schemas/IncomeReceipt'
         remaining_amount:
-          type: integer
+          type: number
           description: "Remaining unpaid amount (amount - sum of receipts)"
           example: 50000
     CrupdateIncomeMoney:
@@ -7492,7 +7492,7 @@ components:
           format: date
           example: "2024-02-01"
         amount:
-          type: integer
+          type: number
           example: 150000
         income:
           allOf:
@@ -7509,7 +7509,7 @@ components:
           format: date
           example: "2024-02-01"
         amount:
-          type: integer
+          type: number
           example: 150000
         income_id:
           type: string
@@ -7563,7 +7563,7 @@ components:
           items:
             $ref: '#/components/schemas/LoanRepayment'
         remaining_amount:
-          type: integer
+          type: number
           description: "Remaining outstanding amount (amount - sum of repayments)"
           example: 3800000
     CrupdateLoan:
@@ -7609,15 +7609,15 @@ components:
           format: date
           example: "2024-03-01"
         amount:
-          type: integer
+          type: number
           description: "Total repayment amount"
           example: 600000
         principal_portion:
-          type: integer
+          type: number
           description: "Portion of the payment that goes to principal (auto-calculated)"
           example: 500000
         interest_portion:
-          type: integer
+          type: number
           description: "Portion of the payment that goes to interest (auto-calculated)"
           example: 100000
         loan:
@@ -7635,7 +7635,7 @@ components:
           format: date
           example: "2024-03-01"
         amount:
-          type: integer
+          type: number
           description: "Total repayment amount"
           example: 600000
         loan_id:
@@ -7968,7 +7968,7 @@ components:
           type: string
           example: "travel_eq_001"
         unit_price:
-          type: integer
+          type: number
           example: 1200
     PurchaseOperationMaterialLine:
       properties:
@@ -7987,7 +7987,7 @@ components:
           type: integer
           example: 100
         unit_price:
-          type: integer
+          type: number
           example: 15
     PurchaseOperationTravel:
       properties:
@@ -8010,7 +8010,7 @@ components:
           format: date-time
           example: "2024-02-25T17:00:00Z"
         fee:
-          type: integer
+          type: number
           example: 500
     PurchaseOperationRequest:
       allOf:
@@ -8047,7 +8047,7 @@ components:
           format: date-time
           example: "2024-02-25T17:00:00Z"
         fee:
-          type: integer
+          type: number
           example: 500
     TravelOperationEquipmentLine:
       allOf:
@@ -8162,15 +8162,15 @@ components:
         job:
           $ref: '#/components/schemas/Job'
         total_income:
-          type: integer
+          type: number
           description: "Total income amount for this job"
           example: 500000
         total_expense:
-          type: integer
+          type: number
           description: "Total expense amount for this job"
           example: 350000
         net_profit:
-          type: integer
+          type: number
           description: "Net profit (total_income - total_expense)"
           example: 150000
 
@@ -8188,13 +8188,13 @@ components:
           type: object
           properties:
             total_income:
-              type: integer
+              type: number
               example: 2000000
             total_expense:
-              type: integer
+              type: number
               example: 1500000
             net_profit:
-              type: integer
+              type: number
               example: 500000
             job_count:
               type: integer

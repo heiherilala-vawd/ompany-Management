@@ -9,6 +9,7 @@ import com.example.demo.repository.money.IncomeMoneyRepository;
 import com.example.demo.service.utils.ModificationUtils;
 import com.example.demo.service.utils.PageUtils;
 import com.example.demo.validator.MoneyValidator;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -32,7 +33,7 @@ public class IncomeMoneyService {
     return incomeMoneyRepository.findById(id);
   }
 
-  public Integer sumByJobId(String jobId) {
+  public BigDecimal sumByJobId(String jobId) {
     return incomeMoneyRepository.sumByJobId(jobId);
   }
 
@@ -100,15 +101,17 @@ public class IncomeMoneyService {
         predicates.add(cb.equal(root.get("incomeType").get("id"), criteria.getIncomeTypeId()));
       }
       if (criteria.getMoneyReceived() != null) {
-        jakarta.persistence.criteria.Subquery<Integer> sumReceipts = query.subquery(Integer.class);
+        jakarta.persistence.criteria.Subquery<BigDecimal> sumReceipts =
+            query.subquery(BigDecimal.class);
         jakarta.persistence.criteria.Root<IncomeReceipt> receiptRoot =
             sumReceipts.from(IncomeReceipt.class);
-        sumReceipts.select(cb.coalesce(cb.sum(receiptRoot.get("amount")), 0));
+        sumReceipts.select(cb.coalesce(cb.sum(receiptRoot.get("amount")), BigDecimal.ZERO));
         sumReceipts.where(cb.equal(receiptRoot.get("income").get("id"), root.get("id")));
         if (criteria.getMoneyReceived()) {
-          predicates.add(cb.lessThanOrEqualTo(root.get("amount").as(Integer.class), sumReceipts));
+          predicates.add(
+              cb.lessThanOrEqualTo(root.get("amount").as(BigDecimal.class), sumReceipts));
         } else {
-          predicates.add(cb.greaterThan(root.get("amount").as(Integer.class), sumReceipts));
+          predicates.add(cb.greaterThan(root.get("amount").as(BigDecimal.class), sumReceipts));
         }
       }
 

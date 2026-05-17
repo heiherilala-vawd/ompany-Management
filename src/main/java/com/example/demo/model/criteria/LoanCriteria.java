@@ -1,5 +1,6 @@
 package com.example.demo.model.criteria;
 
+import java.math.BigDecimal;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -7,7 +8,7 @@ import lombok.Setter;
 @Setter
 public class LoanCriteria {
   private String description;
-  private Integer amount;
+  private BigDecimal amount;
   private String lender;
   private String jobId;
 }

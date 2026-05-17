@@ -6,6 +6,7 @@ import com.example.demo.client.model.LoanRepayment;
 import com.example.demo.endpoint.rest.mapper.JobMapper;
 import com.example.demo.endpoint.rest.mapper.RestAuditMapperUtils;
 import com.example.demo.service.JobService;
+import java.math.BigDecimal;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -104,16 +105,16 @@ public class LoanMapper {
               .collect(Collectors.toList()));
     }
 
-    int sumRepayments =
+    BigDecimal sumRepayments =
         domainLoan.getRepayments() != null
             ? domainLoan.getRepayments().stream()
                 .filter(r -> r.getAmount() != null)
-                .mapToInt(com.example.demo.model.money.LoanRepayment::getAmount)
-                .sum()
-            : 0;
-    Integer amount = domainLoan.getAmount();
-    int remaining = amount != null ? amount - sumRepayments : 0;
-    restLoan.setRemainingAmount(amount != null ? amount - sumRepayments : null);
+                .map(com.example.demo.model.money.LoanRepayment::getAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add)
+            : BigDecimal.ZERO;
+    BigDecimal amount = domainLoan.getAmount();
+    BigDecimal remaining = amount != null ? amount.subtract(sumRepayments) : BigDecimal.ZERO;
+    restLoan.setRemainingAmount(amount != null ? remaining : null);
 
     restLoan.setStatus(calculateStatus(remaining, domainLoan.getDueDate()));
 
@@ -121,8 +122,8 @@ public class LoanMapper {
   }
 
   private com.example.demo.client.model.LoanStatus calculateStatus(
-      int remaining, java.time.LocalDate dueDate) {
-    if (remaining <= 0) {
+      BigDecimal remaining, java.time.LocalDate dueDate) {
+    if (remaining.compareTo(BigDecimal.ZERO) <= 0) {
       return com.example.demo.client.model.LoanStatus.PAID;
     }
     if (dueDate == null) {

@@ -88,17 +88,19 @@ public class LoanRepaymentService {
         loanRepaymentRepository.findByLoanIdOrderByPaymentDateAsc(loan.getId());
 
     LocalDate lastEventDate = loan.getStartDate();
-    int totalPrincipalPaid = 0;
+    BigDecimal totalPrincipalPaid = BigDecimal.ZERO;
 
     for (LoanRepayment prev : previousRepayments) {
-      totalPrincipalPaid += prev.getPrincipalPortion();
+      if (prev.getPrincipalPortion() != null) {
+        totalPrincipalPaid = totalPrincipalPaid.add(prev.getPrincipalPortion());
+      }
       if (prev.getPaymentDate().isBefore(paymentDate)
           || prev.getPaymentDate().isEqual(paymentDate)) {
         lastEventDate = prev.getPaymentDate();
       }
     }
 
-    int outstandingPrincipal = loan.getAmount() - totalPrincipalPaid;
+    BigDecimal outstandingPrincipal = loan.getAmount().subtract(totalPrincipalPaid);
 
     long daysBetween = ChronoUnit.DAYS.between(lastEventDate, paymentDate);
     if (daysBetween < 0) {
@@ -106,23 +108,23 @@ public class LoanRepaymentService {
     }
 
     BigDecimal interest =
-        BigDecimal.valueOf(outstandingPrincipal)
+        outstandingPrincipal
             .multiply(BigDecimal.valueOf(loan.getInterestRate()))
             .multiply(BigDecimal.valueOf(daysBetween))
             .divide(BigDecimal.valueOf(365 * 10000), RoundingMode.HALF_UP);
 
-    int interestPortion = interest.intValue();
-    int repaymentAmount = repayment.getAmount();
+    BigDecimal interestPortion = interest;
+    BigDecimal repaymentAmount = repayment.getAmount();
 
-    int principalPortion;
-    if (repaymentAmount <= interestPortion) {
-      principalPortion = 0;
+    BigDecimal principalPortion;
+    if (repaymentAmount.compareTo(interestPortion) <= 0) {
+      principalPortion = BigDecimal.ZERO;
       interestPortion = repaymentAmount;
     } else {
-      principalPortion = repaymentAmount - interestPortion;
-      if (principalPortion > outstandingPrincipal) {
+      principalPortion = repaymentAmount.subtract(interestPortion);
+      if (principalPortion.compareTo(outstandingPrincipal) > 0) {
         principalPortion = outstandingPrincipal;
-        interestPortion = repaymentAmount - principalPortion;
+        interestPortion = repaymentAmount.subtract(principalPortion);
       }
     }
 
