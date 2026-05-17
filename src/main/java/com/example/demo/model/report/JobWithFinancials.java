@@ -2,6 +2,7 @@ package com.example.demo.model.report;
 
 import com.example.demo.model.Job;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,22 +22,23 @@ public class JobWithFinancials {
   private Job job;
 
   @JsonProperty("total_income")
-  private Integer totalIncome;
+  private BigDecimal totalIncome;
 
   @JsonProperty("total_expense")
-  private Integer totalExpense;
+  private BigDecimal totalExpense;
 
   @JsonProperty("net_profit")
-  private Integer netProfit;
+  private BigDecimal netProfit;
 
   public static JobWithFinancials fromJobAndAmounts(
-      String jobId, Integer totalIncome, Integer totalExpense) {
+      String jobId, BigDecimal totalIncome, BigDecimal totalExpense) {
+    BigDecimal safeIncome = totalIncome != null ? totalIncome : BigDecimal.ZERO;
+    BigDecimal safeExpense = totalExpense != null ? totalExpense : BigDecimal.ZERO;
     return JobWithFinancials.builder()
         .jobId(jobId)
-        .totalIncome(totalIncome != null ? totalIncome : 0)
-        .totalExpense(totalExpense != null ? totalExpense : 0)
-        .netProfit(
-            (totalIncome != null ? totalIncome : 0) - (totalExpense != null ? totalExpense : 0))
+        .totalIncome(safeIncome)
+        .totalExpense(safeExpense)
+        .netProfit(safeIncome.subtract(safeExpense))
         .build();
   }
 }

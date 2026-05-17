@@ -34,6 +34,7 @@ import com.example.demo.integration.conf.AbstractContextInitializer;
 import com.example.demo.integration.conf.TestDataSqlLoader;
 import com.example.demo.integration.conf.TestUtils;
 import com.example.demo.repository.movement.MaterialWarehouseRepository;
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
 import javax.sql.DataSource;
@@ -87,7 +88,7 @@ class PurchaseOperationIT {
                 .expenseId("purchase_operation_equipment_expense_1")
                 .purchaseId("purchase_operation_equipment_purchase_1")
                 .travelEquipmentId("purchase_operation_travel_equipment_1")
-                .unitPrice(7000)));
+                .unitPrice(BigDecimal.valueOf(7000))));
     request.setMaterialLines(
         List.of(
             new PurchaseOperationMaterialLine()
@@ -96,7 +97,7 @@ class PurchaseOperationIT {
                 .purchaseId("purchase_operation_material_purchase_1")
                 .travelMaterialId("purchase_operation_travel_material_1")
                 .quantity(4)
-                .unitPrice(1200)));
+                .unitPrice(BigDecimal.valueOf(1200))));
     request.setTravel(
         new PurchaseOperationTravel()
             .id("purchase_operation_travel_1")
@@ -109,7 +110,7 @@ class PurchaseOperationIT {
                     .name("Arrival Warehouse"))
             .departureDate(Instant.parse("2024-04-01T08:00:00Z"))
             .arrivalDate(Instant.parse("2024-04-01T12:00:00Z"))
-            .fee(3500));
+            .fee(BigDecimal.valueOf(3500)));
 
     api.createPurchaseOperation(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, request);
 
@@ -125,7 +126,8 @@ class PurchaseOperationIT {
                         && purchase.getEquipment() != null
                         && "purchase_operation_equipment_1".equals(purchase.getEquipment().getId())
                         && purchase.getExpense() != null
-                        && purchase.getExpense().getAmount() == 7000));
+                        && BigDecimal.valueOf(7000).compareTo(purchase.getExpense().getAmount())
+                            == 0));
 
     List<Purchase> materialPurchases =
         purchaseApi.getPurchases(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, false);
@@ -133,7 +135,8 @@ class PurchaseOperationIT {
     assertEquals(2, materialPurchases.size());
     assertEquals("purchase_operation_material_purchase_1", materialPurchases.get(1).getId());
     assertEquals(MATERIAL1_ID, materialPurchases.get(1).getMaterial().getId());
-    assertEquals(4800, materialPurchases.get(1).getExpense().getAmount());
+    assertEquals(
+        0, BigDecimal.valueOf(4800).compareTo(materialPurchases.get(1).getExpense().getAmount()));
 
     ExpenseApi expenseApi = new ExpenseApi(anApiClient(ADMIN_TOKEN));
     List<ExpenseMoney> travelExpensesAsMoney =
@@ -144,7 +147,7 @@ class PurchaseOperationIT {
             1,
             100,
             "Travel expense for purchase operation",
-            3500);
+            BigDecimal.valueOf(3500));
     assertEquals(1, travelExpensesAsMoney.size());
     assertEquals("purchase_operation_travel_expense_1", travelExpensesAsMoney.get(0).getId());
 
@@ -244,7 +247,7 @@ class PurchaseOperationIT {
                 .expenseId("purchase_operation_material_expense_2")
                 .purchaseId("purchase_operation_material_purchase_2")
                 .quantity(6)
-                .unitPrice(1100)));
+                .unitPrice(BigDecimal.valueOf(1100))));
 
     api.createPurchaseOperation(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, request);
 
@@ -278,7 +281,7 @@ class PurchaseOperationIT {
                 .expenseId("purchase_operation_equipment_expense_2")
                 .purchaseId("purchase_operation_equipment_purchase_2")
                 .travelEquipmentId("purchase_operation_travel_equipment_2")
-                .unitPrice(7000)));
+                .unitPrice(BigDecimal.valueOf(7000))));
     request.setMaterialLines(
         List.of(
             new PurchaseOperationMaterialLine()
@@ -287,7 +290,7 @@ class PurchaseOperationIT {
                 .purchaseId("purchase_operation_material_purchase_3")
                 .travelMaterialId("purchase_operation_travel_material_2")
                 .quantity(4)
-                .unitPrice(1200)));
+                .unitPrice(BigDecimal.valueOf(1200))));
     request.setTravel(
         new PurchaseOperationTravel()
             .id("purchase_operation_travel_2")
@@ -357,13 +360,13 @@ class PurchaseOperationIT {
                 .expenseId("purchase_operation_equipment_expense_3")
                 .purchaseId("purchase_operation_equipment_purchase_3")
                 .travelEquipmentId("purchase_operation_travel_equipment_3")
-                .unitPrice(7000),
+                .unitPrice(BigDecimal.valueOf(7000)),
             new PurchaseOperationEquipmentLine()
                 .equipment(equipmentRef("purchase_operation_equipment_4"))
                 .expenseId("purchase_operation_equipment_expense_4")
                 .purchaseId("purchase_operation_equipment_purchase_4")
                 .travelEquipmentId("purchase_operation_travel_equipment_4")
-                .unitPrice(9000)));
+                .unitPrice(BigDecimal.valueOf(9000))));
     request.setTravel(
         new PurchaseOperationTravel()
             .id("purchase_operation_travel_3")
@@ -372,7 +375,7 @@ class PurchaseOperationIT {
             .arrivalLocation(new CrupdateWarehouse().id(WAREHOUSE2_ID).name("Warehouse 2"))
             .departureDate(Instant.parse("2024-04-02T08:00:00Z"))
             .arrivalDate(Instant.parse("2024-04-02T18:00:00Z"))
-            .fee(2500));
+            .fee(BigDecimal.valueOf(2500)));
 
     api.createPurchaseOperation(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, request);
 
@@ -402,7 +405,7 @@ class PurchaseOperationIT {
                 .equipment(equipmentRef(EQUIPMENT1_ID))
                 .expenseId("purchase_operation_equipment_expense_conflict")
                 .purchaseId("purchase_operation_equipment_purchase_conflict")
-                .unitPrice(7000)));
+                .unitPrice(BigDecimal.valueOf(7000))));
 
     // Should succeed - warehouse will be updated
     api.createPurchaseOperation(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, request);
@@ -422,7 +425,7 @@ class PurchaseOperationIT {
                 .equipment(equipmentRef("purchase_operation_equipment_forbidden"))
                 .expenseId("purchase_operation_equipment_expense_forbidden")
                 .purchaseId("purchase_operation_equipment_purchase_forbidden")
-                .unitPrice(5000)));
+                .unitPrice(BigDecimal.valueOf(5000))));
 
     assertThrowsForbiddenException(
         () -> api.createPurchaseOperation(COMPANY1_ID, JOB1_ID, USER1_ID, request));

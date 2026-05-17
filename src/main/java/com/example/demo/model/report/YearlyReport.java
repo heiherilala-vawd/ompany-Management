@@ -1,6 +1,7 @@
 package com.example.demo.model.report;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,13 +31,13 @@ public class YearlyReport {
   @NoArgsConstructor
   public static class Summary {
     @JsonProperty("total_income")
-    private Integer totalIncome;
+    private BigDecimal totalIncome;
 
     @JsonProperty("total_expense")
-    private Integer totalExpense;
+    private BigDecimal totalExpense;
 
     @JsonProperty("net_profit")
-    private Integer netProfit;
+    private BigDecimal netProfit;
 
     @JsonProperty("job_count")
     private Integer jobCount;

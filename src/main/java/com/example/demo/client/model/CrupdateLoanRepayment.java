@@ -24,6 +24,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -39,7 +40,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   CrupdateLoanRepayment.JSON_PROPERTY_LOAN_ID,
   CrupdateLoanRepayment.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-16T21:32:49.384124061+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-17T01:01:06.180120920+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdateLoanRepayment {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -48,7 +49,7 @@ public class CrupdateLoanRepayment {
   private java.time.LocalDate paymentDate;
 
   public static final String JSON_PROPERTY_AMOUNT = "amount";
-  private Integer amount;
+  private BigDecimal amount;
 
   public static final String JSON_PROPERTY_LOAN_ID = "loan_id";
   private String loanId;
@@ -109,7 +110,7 @@ public class CrupdateLoanRepayment {
   }
 
 
-  public CrupdateLoanRepayment amount(Integer amount) {
+  public CrupdateLoanRepayment amount(BigDecimal amount) {
     this.amount = amount;
     return this;
   }
@@ -122,14 +123,14 @@ public class CrupdateLoanRepayment {
   @JsonProperty(JSON_PROPERTY_AMOUNT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public Integer getAmount() {
+  public BigDecimal getAmount() {
     return amount;
   }
 
 
   @JsonProperty(JSON_PROPERTY_AMOUNT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setAmount(Integer amount) {
+  public void setAmount(BigDecimal amount) {
     this.amount = amount;
   }
 

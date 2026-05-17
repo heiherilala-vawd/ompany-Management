@@ -25,6 +25,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import java.math.BigDecimal;
 import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
@@ -39,7 +40,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   PurchaseOperationEquipmentLine.JSON_PROPERTY_TRAVEL_EQUIPMENT_ID,
   PurchaseOperationEquipmentLine.JSON_PROPERTY_UNIT_PRICE
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-16T21:32:49.384124061+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-17T01:01:06.180120920+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class PurchaseOperationEquipmentLine {
   public static final String JSON_PROPERTY_EQUIPMENT = "equipment";
   private CrupdateEquipment equipment;
@@ -54,7 +55,7 @@ public class PurchaseOperationEquipmentLine {
   private String travelEquipmentId;
 
   public static final String JSON_PROPERTY_UNIT_PRICE = "unit_price";
-  private Integer unitPrice;
+  private BigDecimal unitPrice;
 
   public PurchaseOperationEquipmentLine() { 
   }
@@ -159,7 +160,7 @@ public class PurchaseOperationEquipmentLine {
   }
 
 
-  public PurchaseOperationEquipmentLine unitPrice(Integer unitPrice) {
+  public PurchaseOperationEquipmentLine unitPrice(BigDecimal unitPrice) {
     this.unitPrice = unitPrice;
     return this;
   }
@@ -172,14 +173,14 @@ public class PurchaseOperationEquipmentLine {
   @JsonProperty(JSON_PROPERTY_UNIT_PRICE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public Integer getUnitPrice() {
+  public BigDecimal getUnitPrice() {
     return unitPrice;
   }
 
 
   @JsonProperty(JSON_PROPERTY_UNIT_PRICE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setUnitPrice(Integer unitPrice) {
+  public void setUnitPrice(BigDecimal unitPrice) {
     this.unitPrice = unitPrice;
   }
 

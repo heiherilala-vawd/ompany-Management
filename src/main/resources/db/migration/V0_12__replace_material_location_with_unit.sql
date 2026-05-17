@@ -6,9 +6,3 @@ BEGIN
     );
   END IF;
 END $$;
-
-ALTER TABLE material DROP CONSTRAINT IF EXISTS material_warehouse_pk;
-ALTER TABLE material DROP COLUMN IF EXISTS warehouse_id;
-ALTER TABLE material DROP COLUMN IF EXISTS floor_number;
-ALTER TABLE material DROP COLUMN IF EXISTS storage_number;
-ALTER TABLE material ADD COLUMN IF NOT EXISTS unit material_unit;

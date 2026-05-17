@@ -28,6 +28,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -56,7 +57,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   Loan.JSON_PROPERTY_UPDATED_BY,
   Loan.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-16T21:32:49.384124061+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-17T01:01:06.180120920+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class Loan {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -83,10 +84,10 @@ public class Loan {
   private List<LoanRepayment> repayments = new ArrayList<>();
 
   public static final String JSON_PROPERTY_REMAINING_AMOUNT = "remaining_amount";
-  private Integer remainingAmount;
+  private BigDecimal remainingAmount;
 
   public static final String JSON_PROPERTY_AMOUNT = "amount";
-  private Integer amount;
+  private BigDecimal amount;
 
   public static final String JSON_PROPERTY_DESCRIPTION = "description";
   private String description;
@@ -317,7 +318,7 @@ public class Loan {
   }
 
 
-  public Loan remainingAmount(Integer remainingAmount) {
+  public Loan remainingAmount(BigDecimal remainingAmount) {
     this.remainingAmount = remainingAmount;
     return this;
   }
@@ -330,19 +331,19 @@ public class Loan {
   @JsonProperty(JSON_PROPERTY_REMAINING_AMOUNT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public Integer getRemainingAmount() {
+  public BigDecimal getRemainingAmount() {
     return remainingAmount;
   }
 
 
   @JsonProperty(JSON_PROPERTY_REMAINING_AMOUNT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setRemainingAmount(Integer remainingAmount) {
+  public void setRemainingAmount(BigDecimal remainingAmount) {
     this.remainingAmount = remainingAmount;
   }
 
 
-  public Loan amount(Integer amount) {
+  public Loan amount(BigDecimal amount) {
     this.amount = amount;
     return this;
   }
@@ -355,14 +356,14 @@ public class Loan {
   @JsonProperty(JSON_PROPERTY_AMOUNT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public Integer getAmount() {
+  public BigDecimal getAmount() {
     return amount;
   }
 
 
   @JsonProperty(JSON_PROPERTY_AMOUNT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setAmount(Integer amount) {
+  public void setAmount(BigDecimal amount) {
     this.amount = amount;
   }
 

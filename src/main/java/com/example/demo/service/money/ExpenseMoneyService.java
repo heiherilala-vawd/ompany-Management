@@ -11,6 +11,7 @@ import com.example.demo.repository.money.ExpenseMoneyRepository;
 import com.example.demo.service.utils.ModificationUtils;
 import com.example.demo.service.utils.PageUtils;
 import com.example.demo.validator.MoneyValidator;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -34,7 +35,7 @@ public class ExpenseMoneyService {
     return expenseMoneyRepository.findById(id);
   }
 
-  public Integer sumByJobId(String jobId) {
+  public BigDecimal sumByJobId(String jobId) {
     return expenseMoneyRepository.sumByJobId(jobId);
   }
 

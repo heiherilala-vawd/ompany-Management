@@ -10,6 +10,7 @@ import com.example.demo.model.money.*;
 import com.example.demo.model.movement.Equipment;
 import com.example.demo.model.movement.Material;
 import com.example.demo.model.movement.Warehouse;
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Collections;
@@ -34,7 +35,7 @@ class MoneyValidatorTest {
 
     @BeforeEach
     void setUp() {
-      validMovement = MonetaryMovement.builder().amount(1000).build();
+      validMovement = MonetaryMovement.builder().amount(BigDecimal.valueOf(1000)).build();
     }
 
     @Test
@@ -60,7 +61,7 @@ class MoneyValidatorTest {
 
     @Test
     void should_throw_when_amount_zero() {
-      MonetaryMovement m = MonetaryMovement.builder().amount(0).build();
+      MonetaryMovement m = MonetaryMovement.builder().amount(BigDecimal.valueOf(0)).build();
       assertThatThrownBy(() -> validator.validateMonetaryMovement(m))
           .isInstanceOf(BadRequestException.class)
           .hasMessageContaining("Amount must be positive");
@@ -68,7 +69,7 @@ class MoneyValidatorTest {
 
     @Test
     void should_throw_when_amount_negative() {
-      MonetaryMovement m = MonetaryMovement.builder().amount(-1).build();
+      MonetaryMovement m = MonetaryMovement.builder().amount(BigDecimal.valueOf(-1)).build();
       assertThatThrownBy(() -> validator.validateMonetaryMovement(m))
           .isInstanceOf(BadRequestException.class)
           .hasMessageContaining("Amount must be positive");
@@ -86,7 +87,7 @@ class MoneyValidatorTest {
           ExpenseMoney.builder()
               .id("exp1")
               .job(Job.builder().id("job1").build())
-              .amount(100)
+              .amount(BigDecimal.valueOf(100))
               .build();
     }
 
@@ -132,7 +133,11 @@ class MoneyValidatorTest {
     @Test
     void should_pass_when_amount_zero() {
       ExpenseMoney e =
-          ExpenseMoney.builder().id("exp1").job(Job.builder().id("job1").build()).amount(0).build();
+          ExpenseMoney.builder()
+              .id("exp1")
+              .job(Job.builder().id("job1").build())
+              .amount(BigDecimal.valueOf(0))
+              .build();
       assertThatCode(() -> validator.validateExpenseMoney(e)).doesNotThrowAnyException();
     }
 
@@ -142,7 +147,7 @@ class MoneyValidatorTest {
           ExpenseMoney.builder()
               .id("exp1")
               .job(Job.builder().id("job1").build())
-              .amount(-1)
+              .amount(BigDecimal.valueOf(-1))
               .build();
       assertThatThrownBy(() -> validator.validateExpenseMoney(e))
           .isInstanceOf(BadRequestException.class)
@@ -190,7 +195,7 @@ class MoneyValidatorTest {
       validIncome =
           IncomeMoney.builder()
               .id("inc1")
-              .amount(2000)
+              .amount(BigDecimal.valueOf(2000))
               .sourceOrganization("Client Corp")
               .job(Job.builder().id("job1").build())
               .incomeType(IncomeType.builder().id("it1").build())
@@ -229,7 +234,7 @@ class MoneyValidatorTest {
       IncomeMoney i =
           IncomeMoney.builder()
               .id("inc1")
-              .amount(0)
+              .amount(BigDecimal.valueOf(0))
               .sourceOrganization("Org")
               .job(Job.builder().id("job1").build())
               .incomeType(IncomeType.builder().id("it1").build())
@@ -244,7 +249,7 @@ class MoneyValidatorTest {
       IncomeMoney i =
           IncomeMoney.builder()
               .id("inc1")
-              .amount(-1)
+              .amount(BigDecimal.valueOf(-1))
               .sourceOrganization("Org")
               .job(Job.builder().id("job1").build())
               .incomeType(IncomeType.builder().id("it1").build())
@@ -259,7 +264,7 @@ class MoneyValidatorTest {
       IncomeMoney i =
           IncomeMoney.builder()
               .id("inc1")
-              .amount(2000)
+              .amount(BigDecimal.valueOf(2000))
               .sourceOrganization("Org")
               .job(null)
               .incomeType(IncomeType.builder().id("it1").build())
@@ -274,7 +279,7 @@ class MoneyValidatorTest {
       IncomeMoney i =
           IncomeMoney.builder()
               .id("inc1")
-              .amount(2000)
+              .amount(BigDecimal.valueOf(2000))
               .sourceOrganization("Org")
               .job(new Job())
               .incomeType(IncomeType.builder().id("it1").build())
@@ -289,7 +294,7 @@ class MoneyValidatorTest {
       IncomeMoney i =
           IncomeMoney.builder()
               .id("inc1")
-              .amount(2000)
+              .amount(BigDecimal.valueOf(2000))
               .sourceOrganization(null)
               .job(Job.builder().id("job1").build())
               .incomeType(IncomeType.builder().id("it1").build())
@@ -304,7 +309,7 @@ class MoneyValidatorTest {
       IncomeMoney i =
           IncomeMoney.builder()
               .id("inc1")
-              .amount(2000)
+              .amount(BigDecimal.valueOf(2000))
               .sourceOrganization("")
               .job(Job.builder().id("job1").build())
               .incomeType(IncomeType.builder().id("it1").build())
@@ -319,7 +324,7 @@ class MoneyValidatorTest {
       IncomeMoney i =
           IncomeMoney.builder()
               .id("inc1")
-              .amount(2000)
+              .amount(BigDecimal.valueOf(2000))
               .sourceOrganization("   ")
               .job(Job.builder().id("job1").build())
               .incomeType(IncomeType.builder().id("it1").build())
@@ -334,7 +339,7 @@ class MoneyValidatorTest {
       IncomeMoney i =
           IncomeMoney.builder()
               .id("inc1")
-              .amount(2000)
+              .amount(BigDecimal.valueOf(2000))
               .sourceOrganization("Org")
               .job(Job.builder().id("job1").build())
               .incomeType(null)
@@ -349,7 +354,7 @@ class MoneyValidatorTest {
       IncomeMoney i =
           IncomeMoney.builder()
               .id("inc1")
-              .amount(2000)
+              .amount(BigDecimal.valueOf(2000))
               .sourceOrganization("Org")
               .job(Job.builder().id("job1").build())
               .incomeType(new IncomeType())
@@ -1146,7 +1151,7 @@ class MoneyValidatorTest {
       BankFee bf =
           BankFee.builder()
               .id("bf1")
-              .expense(ExpenseMoney.builder().id("exp1").amount(500).build())
+              .expense(ExpenseMoney.builder().id("exp1").amount(BigDecimal.valueOf(500)).build())
               .bankName("BNI")
               .build();
       assertThatCode(() -> validator.validateBankFee(bf)).doesNotThrowAnyException();
@@ -1193,7 +1198,7 @@ class MoneyValidatorTest {
       BankFee bf =
           BankFee.builder()
               .id("bf1")
-              .expense(ExpenseMoney.builder().id("exp1").amount(0).build())
+              .expense(ExpenseMoney.builder().id("exp1").amount(BigDecimal.valueOf(0)).build())
               .bankName("BNI")
               .build();
       assertThatThrownBy(() -> validator.validateBankFee(bf))
@@ -1206,7 +1211,7 @@ class MoneyValidatorTest {
       BankFee bf =
           BankFee.builder()
               .id("bf1")
-              .expense(ExpenseMoney.builder().id("exp1").amount(-1).build())
+              .expense(ExpenseMoney.builder().id("exp1").amount(BigDecimal.valueOf(-1)).build())
               .bankName("BNI")
               .build();
       assertThatThrownBy(() -> validator.validateBankFee(bf))
@@ -1219,7 +1224,7 @@ class MoneyValidatorTest {
       BankFee bf =
           BankFee.builder()
               .id("bf1")
-              .expense(ExpenseMoney.builder().id("exp1").amount(500).build())
+              .expense(ExpenseMoney.builder().id("exp1").amount(BigDecimal.valueOf(500)).build())
               .bankName("BNI")
               .build();
       assertThatCode(() -> validator.validateBankFee(bf)).doesNotThrowAnyException();
@@ -1230,7 +1235,7 @@ class MoneyValidatorTest {
       BankFee bf =
           BankFee.builder()
               .id("bf1")
-              .expense(ExpenseMoney.builder().id("exp1").amount(500).build())
+              .expense(ExpenseMoney.builder().id("exp1").amount(BigDecimal.valueOf(500)).build())
               .bankName(null)
               .build();
       assertThatThrownBy(() -> validator.validateBankFee(bf))
@@ -1243,7 +1248,7 @@ class MoneyValidatorTest {
       BankFee bf =
           BankFee.builder()
               .id("bf1")
-              .expense(ExpenseMoney.builder().id("exp1").amount(500).build())
+              .expense(ExpenseMoney.builder().id("exp1").amount(BigDecimal.valueOf(500)).build())
               .bankName("")
               .build();
       assertThatThrownBy(() -> validator.validateBankFee(bf))
@@ -1256,7 +1261,7 @@ class MoneyValidatorTest {
       BankFee bf =
           BankFee.builder()
               .id("bf1")
-              .expense(ExpenseMoney.builder().id("exp1").amount(500).build())
+              .expense(ExpenseMoney.builder().id("exp1").amount(BigDecimal.valueOf(500)).build())
               .bankName("   ")
               .build();
       assertThatThrownBy(() -> validator.validateBankFee(bf))
@@ -1392,7 +1397,7 @@ class MoneyValidatorTest {
       Loan loan =
           Loan.builder()
               .id("l1")
-              .amount(10000)
+              .amount(BigDecimal.valueOf(10000))
               .lender("Bank ABC")
               .interestRate(5)
               .startDate(LocalDate.of(2024, 1, 15))
@@ -1429,7 +1434,7 @@ class MoneyValidatorTest {
       Loan loan =
           Loan.builder()
               .id("l1")
-              .amount(0)
+              .amount(BigDecimal.valueOf(0))
               .lender("Bank ABC")
               .interestRate(5)
               .startDate(LocalDate.of(2024, 1, 15))
@@ -1445,7 +1450,7 @@ class MoneyValidatorTest {
       Loan loan =
           Loan.builder()
               .id("l1")
-              .amount(-1)
+              .amount(BigDecimal.valueOf(-1))
               .lender("Bank ABC")
               .interestRate(5)
               .startDate(LocalDate.of(2024, 1, 15))
@@ -1461,7 +1466,7 @@ class MoneyValidatorTest {
       Loan loan =
           Loan.builder()
               .id("l1")
-              .amount(10000)
+              .amount(BigDecimal.valueOf(10000))
               .lender(null)
               .interestRate(5)
               .startDate(LocalDate.of(2024, 1, 15))
@@ -1477,7 +1482,7 @@ class MoneyValidatorTest {
       Loan loan =
           Loan.builder()
               .id("l1")
-              .amount(10000)
+              .amount(BigDecimal.valueOf(10000))
               .lender("")
               .interestRate(5)
               .startDate(LocalDate.of(2024, 1, 15))
@@ -1493,7 +1498,7 @@ class MoneyValidatorTest {
       Loan loan =
           Loan.builder()
               .id("l1")
-              .amount(10000)
+              .amount(BigDecimal.valueOf(10000))
               .lender("   ")
               .interestRate(5)
               .startDate(LocalDate.of(2024, 1, 15))
@@ -1509,7 +1514,7 @@ class MoneyValidatorTest {
       Loan loan =
           Loan.builder()
               .id("l1")
-              .amount(10000)
+              .amount(BigDecimal.valueOf(10000))
               .lender("Bank ABC")
               .interestRate(null)
               .startDate(LocalDate.of(2024, 1, 15))
@@ -1525,7 +1530,7 @@ class MoneyValidatorTest {
       Loan loan =
           Loan.builder()
               .id("l1")
-              .amount(10000)
+              .amount(BigDecimal.valueOf(10000))
               .lender("Bank ABC")
               .interestRate(-1)
               .startDate(LocalDate.of(2024, 1, 15))
@@ -1541,7 +1546,7 @@ class MoneyValidatorTest {
       Loan loan =
           Loan.builder()
               .id("l1")
-              .amount(10000)
+              .amount(BigDecimal.valueOf(10000))
               .lender("Bank ABC")
               .interestRate(0)
               .startDate(LocalDate.of(2024, 1, 15))
@@ -1555,7 +1560,7 @@ class MoneyValidatorTest {
       Loan loan =
           Loan.builder()
               .id("l1")
-              .amount(10000)
+              .amount(BigDecimal.valueOf(10000))
               .lender("Bank ABC")
               .interestRate(5)
               .startDate(null)
@@ -1571,7 +1576,7 @@ class MoneyValidatorTest {
       Loan loan =
           Loan.builder()
               .id("l1")
-              .amount(10000)
+              .amount(BigDecimal.valueOf(10000))
               .lender("Bank ABC")
               .interestRate(5)
               .startDate(LocalDate.of(2024, 1, 15))
@@ -1587,7 +1592,7 @@ class MoneyValidatorTest {
       Loan loan =
           Loan.builder()
               .id("l1")
-              .amount(10000)
+              .amount(BigDecimal.valueOf(10000))
               .lender("Bank ABC")
               .interestRate(5)
               .startDate(LocalDate.of(2024, 1, 15))
@@ -1627,7 +1632,7 @@ class MoneyValidatorTest {
               .id("r1")
               .loan(Loan.builder().id("l1").build())
               .paymentDate(LocalDate.of(2024, 2, 15))
-              .amount(1000)
+              .amount(BigDecimal.valueOf(1000))
               .build();
       assertThatCode(() -> validator.validateLoanRepayment(r)).doesNotThrowAnyException();
     }
@@ -1646,7 +1651,7 @@ class MoneyValidatorTest {
               .id("r1")
               .loan(null)
               .paymentDate(LocalDate.of(2024, 2, 15))
-              .amount(1000)
+              .amount(BigDecimal.valueOf(1000))
               .build();
       assertThatThrownBy(() -> validator.validateLoanRepayment(r))
           .isInstanceOf(BadRequestException.class)
@@ -1660,7 +1665,7 @@ class MoneyValidatorTest {
               .id("r1")
               .loan(new Loan())
               .paymentDate(LocalDate.of(2024, 2, 15))
-              .amount(1000)
+              .amount(BigDecimal.valueOf(1000))
               .build();
       assertThatThrownBy(() -> validator.validateLoanRepayment(r))
           .isInstanceOf(BadRequestException.class)
@@ -1674,7 +1679,7 @@ class MoneyValidatorTest {
               .id("r1")
               .loan(Loan.builder().id("l1").build())
               .paymentDate(null)
-              .amount(1000)
+              .amount(BigDecimal.valueOf(1000))
               .build();
       assertThatThrownBy(() -> validator.validateLoanRepayment(r))
           .isInstanceOf(BadRequestException.class)
@@ -1702,7 +1707,7 @@ class MoneyValidatorTest {
               .id("r1")
               .loan(Loan.builder().id("l1").build())
               .paymentDate(LocalDate.of(2024, 2, 15))
-              .amount(0)
+              .amount(BigDecimal.valueOf(0))
               .build();
       assertThatThrownBy(() -> validator.validateLoanRepayment(r))
           .isInstanceOf(BadRequestException.class)
@@ -1716,7 +1721,7 @@ class MoneyValidatorTest {
               .id("r1")
               .loan(Loan.builder().id("l1").build())
               .paymentDate(LocalDate.of(2024, 2, 15))
-              .amount(-1)
+              .amount(BigDecimal.valueOf(-1))
               .build();
       assertThatThrownBy(() -> validator.validateLoanRepayment(r))
           .isInstanceOf(BadRequestException.class)
@@ -1752,7 +1757,7 @@ class MoneyValidatorTest {
               .id("ir1")
               .income(IncomeMoney.builder().id("inc1").build())
               .paymentDate(LocalDate.of(2024, 1, 31))
-              .amount(2000)
+              .amount(BigDecimal.valueOf(2000))
               .build();
       assertThatCode(() -> validator.validateIncomeReceipt(r)).doesNotThrowAnyException();
     }
@@ -1771,7 +1776,7 @@ class MoneyValidatorTest {
               .id("ir1")
               .income(null)
               .paymentDate(LocalDate.of(2024, 1, 31))
-              .amount(2000)
+              .amount(BigDecimal.valueOf(2000))
               .build();
       assertThatThrownBy(() -> validator.validateIncomeReceipt(r))
           .isInstanceOf(BadRequestException.class)
@@ -1785,7 +1790,7 @@ class MoneyValidatorTest {
               .id("ir1")
               .income(new IncomeMoney())
               .paymentDate(LocalDate.of(2024, 1, 31))
-              .amount(2000)
+              .amount(BigDecimal.valueOf(2000))
               .build();
       assertThatThrownBy(() -> validator.validateIncomeReceipt(r))
           .isInstanceOf(BadRequestException.class)
@@ -1799,7 +1804,7 @@ class MoneyValidatorTest {
               .id("ir1")
               .income(IncomeMoney.builder().id("inc1").build())
               .paymentDate(null)
-              .amount(2000)
+              .amount(BigDecimal.valueOf(2000))
               .build();
       assertThatThrownBy(() -> validator.validateIncomeReceipt(r))
           .isInstanceOf(BadRequestException.class)
@@ -1827,7 +1832,7 @@ class MoneyValidatorTest {
               .id("ir1")
               .income(IncomeMoney.builder().id("inc1").build())
               .paymentDate(LocalDate.of(2024, 1, 31))
-              .amount(0)
+              .amount(BigDecimal.valueOf(0))
               .build();
       assertThatThrownBy(() -> validator.validateIncomeReceipt(r))
           .isInstanceOf(BadRequestException.class)
@@ -1841,7 +1846,7 @@ class MoneyValidatorTest {
               .id("ir1")
               .income(IncomeMoney.builder().id("inc1").build())
               .paymentDate(LocalDate.of(2024, 1, 31))
-              .amount(-1)
+              .amount(BigDecimal.valueOf(-1))
               .build();
       assertThatThrownBy(() -> validator.validateIncomeReceipt(r))
           .isInstanceOf(BadRequestException.class)

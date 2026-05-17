@@ -12,6 +12,7 @@ import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
 import com.example.demo.integration.conf.TestDataSqlLoader;
 import com.example.demo.integration.conf.TestUtils;
+import java.math.BigDecimal;
 import java.util.List;
 import javax.sql.DataSource;
 import org.junit.jupiter.api.BeforeEach;
@@ -175,7 +176,17 @@ class IncomeIT {
 
     List<IncomeMoney> incomes =
         api.getIncomes(
-            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, null, null, 275000, null, null);
+            COMPANY1_ID,
+            JOB1_ID,
+            EMPLOYEE_ID,
+            1,
+            100,
+            null,
+            null,
+            null,
+            BigDecimal.valueOf(275000),
+            null,
+            null);
 
     assertEquals(1, incomes.size());
     assertEquals(INCOME2_ID, incomes.get(0).getId());
@@ -279,7 +290,7 @@ class IncomeIT {
     IncomeApi api = new IncomeApi(adminClient);
 
     CrupdateIncomeMoney invalidIncome = someCreatableIncome();
-    invalidIncome.setAmount(-5000);
+    invalidIncome.setAmount(BigDecimal.valueOf(-5000));
 
     assertThrowsApiException(
         "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Amount must be positive\"}",
@@ -311,8 +322,8 @@ class IncomeIT {
     assertTrue(incomes.stream().anyMatch(i -> INCOME5_ID.equals(i.getId())));
     IncomeMoney income =
         incomes.stream().filter(i -> INCOME5_ID.equals(i.getId())).findFirst().get();
-    assertEquals(100000, income.getAmount());
-    assertEquals(40000, income.getRemainingAmount());
+    assertEquals(0, BigDecimal.valueOf(100000).compareTo(income.getAmount()));
+    assertEquals(0, BigDecimal.valueOf(40000).compareTo(income.getRemainingAmount()));
   }
 
   @Test

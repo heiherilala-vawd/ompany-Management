@@ -12,6 +12,7 @@ import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
 import com.example.demo.integration.conf.TestDataSqlLoader;
 import com.example.demo.integration.conf.TestUtils;
+import java.math.BigDecimal;
 import java.util.List;
 import javax.sql.DataSource;
 import org.junit.jupiter.api.BeforeEach;
@@ -123,7 +124,7 @@ class IncomeReceiptIT {
     IncomeReceiptApi api = new IncomeReceiptApi(administrationClient);
 
     CrupdateIncomeReceipt receiptToUpdate = receiptToCrupdateReceipt(receipt1());
-    receiptToUpdate.setAmount(200000);
+    receiptToUpdate.setAmount(new BigDecimal("200000.00"));
 
     List<IncomeReceipt> updated =
         api.crupdateIncomeReceipts(
@@ -132,7 +133,7 @@ class IncomeReceiptIT {
     assertEquals(1, updated.size());
     IncomeReceipt saved = updated.get(0);
     assertEquals(RECEIPT1_ID, saved.getId());
-    assertEquals(Integer.valueOf(200000), saved.getAmount());
+    assertEquals(new BigDecimal("200000.00"), saved.getAmount());
   }
 
   @Test

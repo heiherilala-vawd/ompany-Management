@@ -1,9 +1,9 @@
 create table if not exists purchase (
                                         id VARCHAR(150) constraint purchase_pk  primary key default uuid_generate_v4(),
     expense_id VARCHAR(150) constraint purchase_expense_money_pk REFERENCES expense_money(id),
-    supplier VARCHAR(150),
-    equipment varchar not null constraint purchase_equipment_id_fk references "equipment"(id),
-    material varchar not null constraint purchase_material_id_fk references "material"(id),
+    supplier_id VARCHAR(150) REFERENCES warehouse(id),
+    equipment varchar constraint purchase_equipment_id_fk references "equipment"(id),
+    material varchar constraint purchase_material_id_fk references "material"(id),
     quantity integer not null,
     is_equipment BOOLEAN
     );

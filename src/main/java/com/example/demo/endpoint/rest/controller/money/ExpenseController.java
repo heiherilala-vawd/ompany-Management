@@ -8,6 +8,7 @@ import com.example.demo.model.PageFromOne;
 import com.example.demo.model.criteria.ExpenseMoneyCriteria;
 import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.service.money.ExpenseMoneyService;
+import java.math.BigDecimal;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -42,7 +43,7 @@ public class ExpenseController {
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
       @RequestParam(name = "description", required = false) String description,
-      @RequestParam(name = "amount", required = false) Integer amount) {
+      @RequestParam(name = "amount", required = false) BigDecimal amount) {
     ExpenseMoneyCriteria criteria = new ExpenseMoneyCriteria();
     criteria.setDescription(description);
     criteria.setAmount(amount);

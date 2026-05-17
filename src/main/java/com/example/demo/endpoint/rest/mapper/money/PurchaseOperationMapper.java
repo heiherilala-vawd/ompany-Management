@@ -23,6 +23,7 @@ import com.example.demo.model.movement.TravelEquipment;
 import com.example.demo.model.movement.TravelMaterials;
 import com.example.demo.model.movement.Warehouse;
 import com.example.demo.service.money.PurchaseOperationAggregate;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -81,7 +82,7 @@ public class PurchaseOperationMapper {
     for (PurchaseOperationEquipmentLine equipmentLine : equipmentLines) {
       CrupdateEquipment crupdateEquipment = equipmentLine.getEquipment();
       Equipment equipment = toEquipment(crupdateEquipment);
-      int unitPrice = requirePositive(equipmentLine.getUnitPrice(), "equipment unit price");
+      BigDecimal unitPrice = requirePositive(equipmentLine.getUnitPrice(), "equipment unit price");
 
       ExpenseMoney expense =
           ExpenseMoney.builder()
@@ -111,13 +112,13 @@ public class PurchaseOperationMapper {
       CrupdateMaterial crupdateMaterial = materialLine.getMaterial();
       Material material = toMaterial(crupdateMaterial);
       int quantity = requirePositive(materialLine.getQuantity(), "material quantity");
-      int unitPrice = requirePositive(materialLine.getUnitPrice(), "material unit price");
+      BigDecimal unitPrice = requirePositive(materialLine.getUnitPrice(), "material unit price");
 
       ExpenseMoney expense =
           ExpenseMoney.builder()
               .id(materialLine.getExpenseId())
               .job(job)
-              .amount(quantity * unitPrice)
+              .amount(unitPrice.multiply(BigDecimal.valueOf(quantity)))
               .description("Purchase of material " + material.getName())
               .comment(request.getComment())
               .build();
@@ -149,7 +150,7 @@ public class PurchaseOperationMapper {
           ExpenseMoney.builder()
               .id(travel.getExpenseId())
               .job(job)
-              .amount(travel.getFee() != null ? travel.getFee() : 0)
+              .amount(travel.getFee() != null ? travel.getFee() : BigDecimal.ZERO)
               .description("Travel expense for purchase operation")
               .comment(request.getComment())
               .build();
@@ -256,6 +257,14 @@ public class PurchaseOperationMapper {
             || travel.getArrivalLocation() != null
             || travel.getDepartureDate() != null
             || travel.getArrivalDate() != null);
+  }
+
+  private BigDecimal requirePositive(BigDecimal value, String fieldName) {
+    if (value == null || value.compareTo(BigDecimal.ZERO) <= 0) {
+      throw new com.example.demo.model.exception.BadRequestException(
+          fieldName + " must be greater than zero");
+    }
+    return value;
   }
 
   private int requirePositive(Integer value, String fieldName) {
