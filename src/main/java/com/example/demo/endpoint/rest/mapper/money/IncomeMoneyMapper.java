@@ -29,6 +29,7 @@ public class IncomeMoneyMapper {
         .sourceOrganization(restIncome.getSourceOrganization())
         .invoiceReference(restIncome.getInvoiceReference())
         .billingStartDate(restIncome.getBillingStartDate())
+        .facturationDate(restIncome.getFacturationDate())
         .amount(restIncome.getAmount())
         .description(restIncome.getDescription())
         .comment(restIncome.getComment())
@@ -51,6 +52,7 @@ public class IncomeMoneyMapper {
         .sourceOrganization(restIncome.getSourceOrganization())
         .invoiceReference(restIncome.getInvoiceReference())
         .billingStartDate(restIncome.getBillingStartDate())
+        .facturationDate(restIncome.getFacturationDate())
         .amount(restIncome.getAmount())
         .description(restIncome.getDescription())
         .comment(restIncome.getComment())
@@ -73,6 +75,7 @@ public class IncomeMoneyMapper {
     restIncome.setSourceOrganization(domainIncome.getSourceOrganization());
     restIncome.setInvoiceReference(domainIncome.getInvoiceReference());
     restIncome.setBillingStartDate(domainIncome.getBillingStartDate());
+    restIncome.setFacturationDate(domainIncome.getFacturationDate());
     restIncome.setAmount(domainIncome.getAmount());
     restIncome.setDescription(domainIncome.getDescription());
     restIncome.setJob(jobMapper.toRestCrupdateJob(domainIncome.getJob()));

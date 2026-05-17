@@ -11,6 +11,7 @@ import com.example.demo.model.money.Loan;
 import com.example.demo.model.money.LoanRepayment;
 import com.example.demo.model.money.MonetaryMovement;
 import com.example.demo.model.money.OtherExpense;
+import com.example.demo.model.money.OtherExpenseType;
 import com.example.demo.model.money.Purchase;
 import com.example.demo.model.money.TravelExpense;
 import java.math.BigDecimal;
@@ -215,6 +216,25 @@ public class MoneyValidator {
       throw new BadRequestException("Bank fee list cannot be null or empty");
     }
     bankFees.forEach(this::validateBankFee);
+  }
+
+  public void validateOtherExpenseType(OtherExpenseType otherExpenseType) {
+    if (otherExpenseType == null) {
+      throw new BadRequestException("Other expense type cannot be null");
+    }
+    if (otherExpenseType.getName() == null || otherExpenseType.getName().isBlank()) {
+      throw new BadRequestException("Other expense type name is mandatory");
+    }
+    if (otherExpenseType.getCompany() == null || otherExpenseType.getCompany().getId() == null) {
+      throw new BadRequestException("Other expense type must be associated with a company");
+    }
+  }
+
+  public void validateOtherExpenseTypes(List<OtherExpenseType> otherExpenseTypes) {
+    if (otherExpenseTypes == null || otherExpenseTypes.isEmpty()) {
+      throw new BadRequestException("Other expense type list cannot be null or empty");
+    }
+    otherExpenseTypes.forEach(this::validateOtherExpenseType);
   }
 
   public void validateOtherExpense(OtherExpense otherExpense) {

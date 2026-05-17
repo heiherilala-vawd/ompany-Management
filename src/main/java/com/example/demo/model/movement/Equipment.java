@@ -3,8 +3,11 @@ package com.example.demo.model.movement;
 import com.example.demo.model.CreatAndUpdateEntity;
 import jakarta.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -35,6 +38,15 @@ public class Equipment extends CreatAndUpdateEntity implements Serializable {
   private Integer floorNumber;
 
   private Integer storageNumber;
+
+  @Column(name = "est_en_panne")
+  @Builder.Default
+  private Boolean estEnPanne = false;
+
+  @OneToMany(mappedBy = "equipment")
+  @ToString.Exclude
+  @Builder.Default
+  private List<Maintenance> maintenances = new ArrayList<>();
 
   @Override
   public boolean equals(Object o) {

@@ -2054,6 +2054,266 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
+  # =========================
+  # MAINTENANCE
+  # =========================
+  '/companies/{comp_id}/job/{job_id}/user/{user_id}/equipment/{equipment_id}/maintenances/{id}':
+    get:
+      tags:
+        - Maintenance
+      summary: Get maintenance by identifier
+      operationId: getMaintenanceById
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "job_001"
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "usr_123456"
+        - name: equipment_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "eq_001"
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "maint_001"
+      responses:
+        '200':
+          description: The identified maintenance record
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Maintenance'
+              example:
+                id: "maint_001"
+                expense:
+                  id: "exp_002"
+                  amount: 3500
+                  description: "Révision moteur"
+                equipment_id: "eq_001"
+                description: "Révision moteur périodique"
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      tags:
+        - Maintenance
+      summary: Delete maintenance by identifier
+      operationId: deleteMaintenanceById
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "job_001"
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "usr_123456"
+        - name: equipment_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "eq_001"
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "maint_001"
+      responses:
+        '204':
+          description: Maintenance record deleted successfully
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  '/companies/{comp_id}/job/{job_id}/user/{user_id}/equipment/{equipment_id}/maintenances':
+    get:
+      tags:
+        - Maintenance
+      summary: Get all maintenances for equipment
+      operationId: getMaintenances
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "job_001"
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "usr_123456"
+        - name: equipment_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "eq_001"
+        - name: page
+          in: query
+          schema:
+            $ref: '#/components/schemas/Page'
+          example: 1
+        - name: page_size
+          in: query
+          schema:
+            $ref: '#/components/schemas/PageSize'
+          example: 20
+        - name: description
+          in: query
+          description: "Filter maintenances by description, case is ignored"
+          schema:
+            type: string
+          example: "révision"
+      responses:
+        '200':
+          description: List of maintenances
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Maintenance'
+              example:
+                - id: "maint_001"
+                  expense:
+                    id: "exp_002"
+                    amount: 3500
+                    description: "Révision moteur"
+                  equipment_id: "eq_001"
+                  description: "Révision moteur périodique"
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      tags:
+        - Maintenance
+      summary: Create new maintenances or update existing ones
+      operationId: crupdateMaintenances
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "job_001"
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "usr_123456"
+        - name: equipment_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "eq_001"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/CrupdateMaintenance'
+            example:
+              - id: "maint_001"
+                expense:
+                  id: "exp_002"
+                  amount: 5000
+                  job_id: "job_002"
+                description: "Révision moteur périodique"
+      responses:
+        '200':
+          description: The created or updated maintenances
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Maintenance'
+              example:
+                - id: "maint_001"
+                  expense:
+                    id: "exp_002"
+                    amount: 3500
+                    description: "Révision moteur"
+                  equipment_id: "eq_001"
+                  description: "Révision moteur périodique"
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
 
   # =========================
   # MATERIAL
@@ -2905,7 +3165,7 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-  /companies/{comp_id}/income_types/{id}:
+  '/companies/{comp_id}/income_types/{id}':
     get:
       tags:
         - IncomeType
@@ -2964,6 +3224,176 @@ paths:
           schema:
             type: string
           example: "income_type_001"
+      responses:
+        '204':
+          description: Income type deleted successfully
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+
+  # =========================
+  # OTHER EXPENSE TYPE
+  # =========================
+
+  # =========================
+  # OTHER EXPENSE TYPE
+  # =========================
+  /companies/{comp_id}/other_expense_types:
+    get:
+      tags:
+        - OtherExpenseType
+      summary: Get all other expense types for a company
+      operationId: getOtherExpenseTypes
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+      responses:
+        '200':
+          description: List of other expense types
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OtherExpenseType'
+              example:
+                - id: "other_exp_type_001"
+                  name: "Logistique"
+                  description: "Frais logistiques et transport"
+                  company_id: "comp_btp001"
+                - id: "other_exp_type_002"
+                  name: "Administratif"
+                  description: "Frais administratifs et bureau"
+                  company_id: "comp_btp001"
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      tags:
+        - OtherExpenseType
+      summary: Create new other expense types or update existing ones
+      operationId: crupdateOtherExpenseTypes
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/CrupdateOtherExpenseType'
+            example:
+              - id: "other_exp_type_001"
+                name: "Logistique"
+                description: "Frais logistiques et transport"
+                company_id: "comp_btp001"
+                comment: "Type principal"
+              - name: "Maintenance"
+                description: "Frais de maintenance et réparation"
+                company_id: "comp_btp001"
+                comment: "Nouveau type"
+      responses:
+        '200':
+          description: The created or updated other expense types
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OtherExpenseType'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  '/companies/{comp_id}/other_expense_types/{id}':
+    get:
+      tags:
+        - OtherExpenseType
+      summary: Get an other expense type by identifier
+      operationId: getOtherExpenseTypeById
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "other_exp_type_001"
+      responses:
+        '200':
+          description: Other expense type found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OtherExpenseType'
+              example:
+                id: "other_exp_type_001"
+                name: "Logistique"
+                description: "Frais logistiques et transport"
+                company_id: "comp_btp001"
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      tags:
+        - OtherExpenseType
+      summary: Delete an other expense type by identifier
+      operationId: deleteOtherExpenseTypeById
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "other_exp_type_001"
       responses:
         '204':
           description: Income type deleted successfully
@@ -7237,6 +7667,15 @@ components:
         storage_number:
           type: integer
           example: 5
+        est_en_panne:
+          type: boolean
+          description: "Whether the equipment is broken"
+          example: false
+        maintenances:
+          type: array
+          description: "Maintenance records for this equipment"
+          items:
+            $ref: '#/components/schemas/Maintenance'
     CrupdateEquipment:
       allOf:
         - $ref: '#/components/schemas/comment'
@@ -7259,6 +7698,76 @@ components:
         storage_number:
           type: integer
           example: 5
+        est_en_panne:
+          type: boolean
+          description: "Whether the equipment is broken"
+          example: false
+
+    # =========================
+    # MAINTENANCE
+    # =========================
+    Maintenance:
+      properties:
+        id:
+          type: string
+          example: "maint_001"
+        expense:
+          $ref: '#/components/schemas/CrupdateExpenseMoney'
+        equipment_id:
+          type: string
+          description: "ID of the equipment this maintenance belongs to"
+          example: "eq_001"
+        description:
+          type: string
+          example: "Révision moteur périodique"
+    CrupdateMaintenance:
+      properties:
+        id:
+          type: string
+          example: "maint_001"
+        expense:
+          $ref: '#/components/schemas/CrupdateExpenseMoney'
+        description:
+          type: string
+          example: "Révision moteur périodique"
+
+    # =========================
+    # OTHER EXPENSE TYPE
+    # =========================
+    OtherExpenseType:
+      allOf:
+        - $ref: '#/components/schemas/AuditFields'
+      properties:
+        id:
+          type: string
+          example: "other_exp_type_001"
+        name:
+          type: string
+          example: "Logistique"
+        description:
+          type: string
+          example: "Frais logistiques et transport"
+        company_id:
+          type: string
+          description: "ID of the company this other expense type belongs to"
+          example: "comp_btp001"
+    CrupdateOtherExpenseType:
+      allOf:
+        - $ref: '#/components/schemas/comment'
+      properties:
+        id:
+          type: string
+          example: "other_exp_type_001"
+        name:
+          type: string
+          example: "Logistique"
+        description:
+          type: string
+          example: "Frais logistiques et transport"
+        company_id:
+          type: string
+          description: "ID of the company this other expense type belongs to"
+          example: "comp_btp001"
 
     # =========================
     # MATERIAL
@@ -7434,6 +7943,11 @@ components:
           type: string
           format: date
           example: "2024-01-15"
+        facturation_date:
+          type: string
+          format: date-time
+          description: "Date when the client started providing the invoice"
+          example: "2024-01-10T08:00:00Z"
         job:
           allOf:
             - $ref: '#/components/schemas/CrupdateJob'
@@ -7468,6 +7982,11 @@ components:
           type: string
           format: date
           example: "2024-01-15"
+        facturation_date:
+          type: string
+          format: date-time
+          description: "Date when the client started providing the invoice"
+          example: "2024-01-10T08:00:00Z"
         job_id:
           type: string
           description: "ID of the job this income is related to"
@@ -8139,6 +8658,10 @@ components:
           example: "other_001"
         expense:
           $ref: '#/components/schemas/CrupdateExpenseMoney'
+        other_expense_type:
+          allOf:
+            - $ref: '#/components/schemas/OtherExpenseType'
+          description: "Type of other expense associated with this expense"
         description:
           type: string
           example: "Frais de carburant pour grues"
@@ -8149,6 +8672,10 @@ components:
           example: "other_001"
         expense:
           $ref: '#/components/schemas/CrupdateExpenseMoney'
+        other_expense_type_id:
+          type: string
+          description: "ID of the other expense type associated with this expense"
+          example: "other_exp_type_001"
         description:
           type: string
           example: "Frais de carburant pour grues"
