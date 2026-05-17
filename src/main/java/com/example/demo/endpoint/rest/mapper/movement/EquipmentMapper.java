@@ -28,6 +28,7 @@ public class EquipmentMapper {
                 : null)
         .floorNumber(restEquipment.getFloorNumber())
         .storageNumber(restEquipment.getStorageNumber())
+        .estEnPanne(restEquipment.getEstEnPanne())
         .comment(restEquipment.getComment())
         .build();
   }
@@ -45,6 +46,7 @@ public class EquipmentMapper {
                 : null)
         .floorNumber(restEquipment.getFloorNumber())
         .storageNumber(restEquipment.getStorageNumber())
+        .estEnPanne(restEquipment.getEstEnPanne())
         .comment(restEquipment.getComment())
         .build();
   }
@@ -60,6 +62,7 @@ public class EquipmentMapper {
         warehouseMapper.toRestCrupdateWarehouse(domainEquipment.getWarehouse()));
     restEquipment.setFloorNumber(domainEquipment.getFloorNumber());
     restEquipment.setStorageNumber(domainEquipment.getStorageNumber());
+    restEquipment.setEstEnPanne(domainEquipment.getEstEnPanne());
     RestAuditMapperUtils.mapAuditFields(
         domainEquipment,
         restEquipment::setCreatedAt,
@@ -83,6 +86,7 @@ public class EquipmentMapper {
             domainEquipment.getWarehouse() != null ? domainEquipment.getWarehouse().getId() : null)
         .floorNumber(domainEquipment.getFloorNumber())
         .storageNumber(domainEquipment.getStorageNumber())
+        .estEnPanne(domainEquipment.getEstEnPanne())
         .comment(domainEquipment.getComment());
   }
 

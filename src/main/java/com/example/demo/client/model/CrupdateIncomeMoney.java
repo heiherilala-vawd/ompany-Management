@@ -38,13 +38,14 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   CrupdateIncomeMoney.JSON_PROPERTY_SOURCE_ORGANIZATION,
   CrupdateIncomeMoney.JSON_PROPERTY_INVOICE_REFERENCE,
   CrupdateIncomeMoney.JSON_PROPERTY_BILLING_START_DATE,
+  CrupdateIncomeMoney.JSON_PROPERTY_FACTURATION_DATE,
   CrupdateIncomeMoney.JSON_PROPERTY_JOB_ID,
   CrupdateIncomeMoney.JSON_PROPERTY_INCOME_TYPE_ID,
   CrupdateIncomeMoney.JSON_PROPERTY_AMOUNT,
   CrupdateIncomeMoney.JSON_PROPERTY_DESCRIPTION,
   CrupdateIncomeMoney.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-17T01:01:06.180120920+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-17T16:12:50.152254305+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdateIncomeMoney {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -57,6 +58,9 @@ public class CrupdateIncomeMoney {
 
   public static final String JSON_PROPERTY_BILLING_START_DATE = "billing_start_date";
   private java.time.LocalDate billingStartDate;
+
+  public static final String JSON_PROPERTY_FACTURATION_DATE = "facturation_date";
+  private java.time.Instant facturationDate;
 
   public static final String JSON_PROPERTY_JOB_ID = "job_id";
   private String jobId;
@@ -173,6 +177,31 @@ public class CrupdateIncomeMoney {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setBillingStartDate(java.time.LocalDate billingStartDate) {
     this.billingStartDate = billingStartDate;
+  }
+
+
+  public CrupdateIncomeMoney facturationDate(java.time.Instant facturationDate) {
+    this.facturationDate = facturationDate;
+    return this;
+  }
+
+   /**
+   * Date when the client started providing the invoice
+   * @return facturationDate
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_FACTURATION_DATE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public java.time.Instant getFacturationDate() {
+    return facturationDate;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_FACTURATION_DATE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setFacturationDate(java.time.Instant facturationDate) {
+    this.facturationDate = facturationDate;
   }
 
 
@@ -317,6 +346,7 @@ public class CrupdateIncomeMoney {
         Objects.equals(this.sourceOrganization, crupdateIncomeMoney.sourceOrganization) &&
         Objects.equals(this.invoiceReference, crupdateIncomeMoney.invoiceReference) &&
         Objects.equals(this.billingStartDate, crupdateIncomeMoney.billingStartDate) &&
+        Objects.equals(this.facturationDate, crupdateIncomeMoney.facturationDate) &&
         Objects.equals(this.jobId, crupdateIncomeMoney.jobId) &&
         Objects.equals(this.incomeTypeId, crupdateIncomeMoney.incomeTypeId) &&
         Objects.equals(this.amount, crupdateIncomeMoney.amount) &&
@@ -326,7 +356,7 @@ public class CrupdateIncomeMoney {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, sourceOrganization, invoiceReference, billingStartDate, jobId, incomeTypeId, amount, description, comment);
+    return Objects.hash(id, sourceOrganization, invoiceReference, billingStartDate, facturationDate, jobId, incomeTypeId, amount, description, comment);
   }
 
   @Override
@@ -337,6 +367,7 @@ public class CrupdateIncomeMoney {
     sb.append("    sourceOrganization: ").append(toIndentedString(sourceOrganization)).append("\n");
     sb.append("    invoiceReference: ").append(toIndentedString(invoiceReference)).append("\n");
     sb.append("    billingStartDate: ").append(toIndentedString(billingStartDate)).append("\n");
+    sb.append("    facturationDate: ").append(toIndentedString(facturationDate)).append("\n");
     sb.append("    jobId: ").append(toIndentedString(jobId)).append("\n");
     sb.append("    incomeTypeId: ").append(toIndentedString(incomeTypeId)).append("\n");
     sb.append("    amount: ").append(toIndentedString(amount)).append("\n");

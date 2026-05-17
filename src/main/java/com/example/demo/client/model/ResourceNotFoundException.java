@@ -35,7 +35,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   ResourceNotFoundException.JSON_PROPERTY_TYPE,
   ResourceNotFoundException.JSON_PROPERTY_MESSAGE
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-17T01:01:06.180120920+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-17T16:12:50.152254305+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class ResourceNotFoundException {
   public static final String JSON_PROPERTY_TYPE = "type";
   private String type;

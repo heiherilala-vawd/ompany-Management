@@ -29,6 +29,10 @@ public class OtherExpense implements Serializable {
   @JsonManagedReference
   private ExpenseMoney expense;
 
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "other_expense_type_id")
+  private OtherExpenseType otherExpenseType;
+
   private String description;
 
   @Override

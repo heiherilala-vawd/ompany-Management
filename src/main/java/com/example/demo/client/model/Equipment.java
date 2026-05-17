@@ -21,12 +21,15 @@ import java.util.Map;
 import java.util.HashMap;
 import com.example.demo.client.model.AuditUser;
 import com.example.demo.client.model.CrupdateWarehouse;
+import com.example.demo.client.model.Maintenance;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
@@ -40,13 +43,15 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   Equipment.JSON_PROPERTY_WAREHOUSE,
   Equipment.JSON_PROPERTY_FLOOR_NUMBER,
   Equipment.JSON_PROPERTY_STORAGE_NUMBER,
+  Equipment.JSON_PROPERTY_EST_EN_PANNE,
+  Equipment.JSON_PROPERTY_MAINTENANCES,
   Equipment.JSON_PROPERTY_CREATED_AT,
   Equipment.JSON_PROPERTY_UPDATED_AT,
   Equipment.JSON_PROPERTY_CREATED_BY,
   Equipment.JSON_PROPERTY_UPDATED_BY,
   Equipment.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-17T01:01:06.180120920+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-17T16:12:50.152254305+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class Equipment {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -65,6 +70,12 @@ public class Equipment {
 
   public static final String JSON_PROPERTY_STORAGE_NUMBER = "storage_number";
   private Integer storageNumber;
+
+  public static final String JSON_PROPERTY_EST_EN_PANNE = "est_en_panne";
+  private Boolean estEnPanne;
+
+  public static final String JSON_PROPERTY_MAINTENANCES = "maintenances";
+  private List<Maintenance> maintenances = new ArrayList<>();
 
   public static final String JSON_PROPERTY_CREATED_AT = "created_at";
   private java.time.Instant createdAt;
@@ -234,6 +245,64 @@ public class Equipment {
   }
 
 
+  public Equipment estEnPanne(Boolean estEnPanne) {
+    this.estEnPanne = estEnPanne;
+    return this;
+  }
+
+   /**
+   * Whether the equipment is broken
+   * @return estEnPanne
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_EST_EN_PANNE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public Boolean getEstEnPanne() {
+    return estEnPanne;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_EST_EN_PANNE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setEstEnPanne(Boolean estEnPanne) {
+    this.estEnPanne = estEnPanne;
+  }
+
+
+  public Equipment maintenances(List<Maintenance> maintenances) {
+    this.maintenances = maintenances;
+    return this;
+  }
+
+  public Equipment addMaintenancesItem(Maintenance maintenancesItem) {
+    if (this.maintenances == null) {
+      this.maintenances = new ArrayList<>();
+    }
+    this.maintenances.add(maintenancesItem);
+    return this;
+  }
+
+   /**
+   * Maintenance records for this equipment
+   * @return maintenances
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_MAINTENANCES)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public List<Maintenance> getMaintenances() {
+    return maintenances;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_MAINTENANCES)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setMaintenances(List<Maintenance> maintenances) {
+    this.maintenances = maintenances;
+  }
+
+
   public Equipment createdAt(java.time.Instant createdAt) {
     this.createdAt = createdAt;
     return this;
@@ -377,6 +446,8 @@ public class Equipment {
         Objects.equals(this.warehouse, equipment.warehouse) &&
         Objects.equals(this.floorNumber, equipment.floorNumber) &&
         Objects.equals(this.storageNumber, equipment.storageNumber) &&
+        Objects.equals(this.estEnPanne, equipment.estEnPanne) &&
+        Objects.equals(this.maintenances, equipment.maintenances) &&
         Objects.equals(this.createdAt, equipment.createdAt) &&
         Objects.equals(this.updatedAt, equipment.updatedAt) &&
         Objects.equals(this.createdBy, equipment.createdBy) &&
@@ -386,7 +457,7 @@ public class Equipment {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, description, warehouse, floorNumber, storageNumber, createdAt, updatedAt, createdBy, updatedBy, comment);
+    return Objects.hash(id, name, description, warehouse, floorNumber, storageNumber, estEnPanne, maintenances, createdAt, updatedAt, createdBy, updatedBy, comment);
   }
 
   @Override
@@ -399,6 +470,8 @@ public class Equipment {
     sb.append("    warehouse: ").append(toIndentedString(warehouse)).append("\n");
     sb.append("    floorNumber: ").append(toIndentedString(floorNumber)).append("\n");
     sb.append("    storageNumber: ").append(toIndentedString(storageNumber)).append("\n");
+    sb.append("    estEnPanne: ").append(toIndentedString(estEnPanne)).append("\n");
+    sb.append("    maintenances: ").append(toIndentedString(maintenances)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
     sb.append("    updatedAt: ").append(toIndentedString(updatedAt)).append("\n");
     sb.append("    createdBy: ").append(toIndentedString(createdBy)).append("\n");

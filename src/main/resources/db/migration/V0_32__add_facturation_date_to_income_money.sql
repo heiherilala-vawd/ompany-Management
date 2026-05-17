@@ -1,0 +1,1 @@
+ALTER TABLE income_money ADD COLUMN IF NOT EXISTS facturation_date TIMESTAMPTZ;

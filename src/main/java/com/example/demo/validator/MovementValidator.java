@@ -2,6 +2,7 @@ package com.example.demo.validator;
 
 import com.example.demo.model.exception.BadRequestException;
 import com.example.demo.model.movement.Equipment;
+import com.example.demo.model.movement.Maintenance;
 import com.example.demo.model.movement.Material;
 import com.example.demo.model.movement.MaterialWarehouse;
 import com.example.demo.model.movement.TravelEquipment;
@@ -50,6 +51,29 @@ public class MovementValidator {
       throw new BadRequestException("Equipment list cannot be null or empty");
     }
     equipments.forEach(this::validateEquipment);
+  }
+
+  public void validateMaintenance(Maintenance maintenance) {
+    if (maintenance == null) {
+      throw new BadRequestException("Maintenance cannot be null");
+    }
+    if (maintenance.getExpense() == null || maintenance.getExpense().getId() == null) {
+      throw new BadRequestException("Maintenance must be linked to an expense");
+    }
+    if (maintenance.getExpense().getAmount() == null
+        || maintenance.getExpense().getAmount().compareTo(java.math.BigDecimal.ZERO) <= 0) {
+      throw new BadRequestException("Maintenance expense amount must be positive");
+    }
+    if (maintenance.getDescription() == null || maintenance.getDescription().isBlank()) {
+      throw new BadRequestException("Maintenance description is mandatory");
+    }
+  }
+
+  public void validateMaintenances(List<Maintenance> maintenances) {
+    if (maintenances == null || maintenances.isEmpty()) {
+      throw new BadRequestException("Maintenance list cannot be null or empty");
+    }
+    maintenances.forEach(this::validateMaintenance);
   }
 
   public void validateWarehouse(Warehouse warehouse) {

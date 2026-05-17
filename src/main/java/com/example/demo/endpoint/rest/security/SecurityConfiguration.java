@@ -335,6 +335,32 @@ public class SecurityConfiguration {
                     .hasRole("ADMIN")
 
                     // =========================
+                    // OTHER EXPENSE TYPE
+                    // =========================
+                    .requestMatchers(
+                        GET,
+                        "/companies/*/other_expense_types",
+                        "/companies/*/other_expense_types/*")
+                    .authenticated()
+                    .requestMatchers(PUT, "/companies/*/other_expense_types")
+                    .authenticated()
+                    .requestMatchers(DELETE, "/companies/*/other_expense_types/*")
+                    .hasRole("ADMIN")
+
+                    // =========================
+                    // MAINTENANCE
+                    // =========================
+                    .requestMatchers(
+                        GET,
+                        "/companies/*/job/*/user/*/equipment/*/maintenances",
+                        "/companies/*/job/*/user/*/equipment/*/maintenances/*")
+                    .authenticated()
+                    .requestMatchers(PUT, "/companies/*/job/*/user/*/equipment/*/maintenances")
+                    .authenticated()
+                    .requestMatchers(DELETE, "/companies/*/job/*/user/*/equipment/*/maintenances/*")
+                    .hasRole("ADMIN")
+
+                    // =========================
                     // LOAN REPAYMENT
                     // =========================
                     .requestMatchers(
