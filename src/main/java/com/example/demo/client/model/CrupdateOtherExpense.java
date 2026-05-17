@@ -35,15 +35,19 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
   CrupdateOtherExpense.JSON_PROPERTY_ID,
   CrupdateOtherExpense.JSON_PROPERTY_EXPENSE,
+  CrupdateOtherExpense.JSON_PROPERTY_OTHER_EXPENSE_TYPE_ID,
   CrupdateOtherExpense.JSON_PROPERTY_DESCRIPTION
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-17T01:01:06.180120920+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-17T16:12:50.152254305+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdateOtherExpense {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
 
   public static final String JSON_PROPERTY_EXPENSE = "expense";
   private CrupdateExpenseMoney expense;
+
+  public static final String JSON_PROPERTY_OTHER_EXPENSE_TYPE_ID = "other_expense_type_id";
+  private String otherExpenseTypeId;
 
   public static final String JSON_PROPERTY_DESCRIPTION = "description";
   private String description;
@@ -101,6 +105,31 @@ public class CrupdateOtherExpense {
   }
 
 
+  public CrupdateOtherExpense otherExpenseTypeId(String otherExpenseTypeId) {
+    this.otherExpenseTypeId = otherExpenseTypeId;
+    return this;
+  }
+
+   /**
+   * ID of the other expense type associated with this expense
+   * @return otherExpenseTypeId
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_OTHER_EXPENSE_TYPE_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getOtherExpenseTypeId() {
+    return otherExpenseTypeId;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_OTHER_EXPENSE_TYPE_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setOtherExpenseTypeId(String otherExpenseTypeId) {
+    this.otherExpenseTypeId = otherExpenseTypeId;
+  }
+
+
   public CrupdateOtherExpense description(String description) {
     this.description = description;
     return this;
@@ -140,12 +169,13 @@ public class CrupdateOtherExpense {
     CrupdateOtherExpense crupdateOtherExpense = (CrupdateOtherExpense) o;
     return Objects.equals(this.id, crupdateOtherExpense.id) &&
         Objects.equals(this.expense, crupdateOtherExpense.expense) &&
+        Objects.equals(this.otherExpenseTypeId, crupdateOtherExpense.otherExpenseTypeId) &&
         Objects.equals(this.description, crupdateOtherExpense.description);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, expense, description);
+    return Objects.hash(id, expense, otherExpenseTypeId, description);
   }
 
   @Override
@@ -154,6 +184,7 @@ public class CrupdateOtherExpense {
     sb.append("class CrupdateOtherExpense {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    expense: ").append(toIndentedString(expense)).append("\n");
+    sb.append("    otherExpenseTypeId: ").append(toIndentedString(otherExpenseTypeId)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("}");
     return sb.toString();
@@ -210,6 +241,11 @@ public class CrupdateOtherExpense {
     // add `expense` to the URL query string
     if (getExpense() != null) {
       joiner.add(getExpense().toUrlQueryString(prefix + "expense" + suffix));
+    }
+
+    // add `other_expense_type_id` to the URL query string
+    if (getOtherExpenseTypeId() != null) {
+      joiner.add(String.format("%sother_expense_type_id%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getOtherExpenseTypeId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `description` to the URL query string

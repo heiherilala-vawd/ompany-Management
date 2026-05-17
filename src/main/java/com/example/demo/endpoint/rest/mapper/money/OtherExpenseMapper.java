@@ -3,6 +3,7 @@ package com.example.demo.endpoint.rest.mapper.money;
 import com.example.demo.client.model.CrupdateOtherExpense;
 import com.example.demo.client.model.OtherExpense;
 import com.example.demo.service.money.ExpenseMoneyService;
+import com.example.demo.service.money.OtherExpenseTypeService;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -13,6 +14,8 @@ public class OtherExpenseMapper {
 
   private final ExpenseMoneyService expenseMoneyService;
   private final ExpenseMoneyMapper expenseMoneyMapper;
+  private final OtherExpenseTypeService otherExpenseTypeService;
+  private final OtherExpenseTypeMapper otherExpenseTypeMapper;
 
   public com.example.demo.model.money.OtherExpense toDomain(OtherExpense restOtherExpense) {
     if (restOtherExpense == null) return null;
@@ -22,6 +25,13 @@ public class OtherExpenseMapper {
         .expense(
             restOtherExpense.getExpense() != null && restOtherExpense.getExpense().getId() != null
                 ? expenseMoneyService.findById(restOtherExpense.getExpense().getId()).orElse(null)
+                : null)
+        .otherExpenseType(
+            restOtherExpense.getOtherExpenseType() != null
+                    && restOtherExpense.getOtherExpenseType().getId() != null
+                ? otherExpenseTypeService
+                    .findById(restOtherExpense.getOtherExpenseType().getId())
+                    .orElse(null)
                 : null)
         .description(restOtherExpense.getDescription())
         .build();
@@ -33,6 +43,12 @@ public class OtherExpenseMapper {
     return com.example.demo.model.money.OtherExpense.builder()
         .id(restOtherExpense.getId())
         .expense(expenseMoneyMapper.toDomain(restOtherExpense.getExpense()))
+        .otherExpenseType(
+            restOtherExpense.getOtherExpenseTypeId() != null
+                ? otherExpenseTypeService
+                    .findById(restOtherExpense.getOtherExpenseTypeId())
+                    .orElse(null)
+                : null)
         .description(restOtherExpense.getDescription())
         .build();
   }
@@ -45,6 +61,8 @@ public class OtherExpenseMapper {
     restOtherExpense.setId(domainOtherExpense.getId());
     restOtherExpense.setExpense(
         expenseMoneyMapper.toRestCrupdateExpense(domainOtherExpense.getExpense()));
+    restOtherExpense.setOtherExpenseType(
+        otherExpenseTypeMapper.toRestOtherExpenseType(domainOtherExpense.getOtherExpenseType()));
     restOtherExpense.setDescription(domainOtherExpense.getDescription());
 
     return restOtherExpense;

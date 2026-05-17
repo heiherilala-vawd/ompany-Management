@@ -11,7 +11,9 @@ import com.example.demo.client.model.CrupdateIncomeReceipt;
 import com.example.demo.client.model.CrupdateIncomeType;
 import com.example.demo.client.model.CrupdateLoan;
 import com.example.demo.client.model.CrupdateLoanRepayment;
+import com.example.demo.client.model.CrupdateMaintenance;
 import com.example.demo.client.model.CrupdateOtherExpense;
+import com.example.demo.client.model.CrupdateOtherExpenseType;
 import com.example.demo.client.model.CrupdatePurchase;
 import com.example.demo.client.model.CrupdateWarehouse;
 import com.example.demo.client.model.EmployeePayment;
@@ -22,7 +24,9 @@ import com.example.demo.client.model.IncomeType;
 import com.example.demo.client.model.Loan;
 import com.example.demo.client.model.LoanRepayment;
 import com.example.demo.client.model.LoanStatus;
+import com.example.demo.client.model.Maintenance;
 import com.example.demo.client.model.OtherExpense;
+import com.example.demo.client.model.OtherExpenseType;
 import com.example.demo.client.model.PaymentType;
 import com.example.demo.client.model.Purchase;
 import com.example.demo.client.model.User;
@@ -296,6 +300,83 @@ final class TestMoneyFixtures {
     otherExpense.setExpense(expense);
     otherExpense.setDescription("Frais divers chantier");
     return otherExpense;
+  }
+
+  static OtherExpenseType otherExpenseType1() {
+    OtherExpenseType otherExpenseType = new OtherExpenseType();
+    otherExpenseType.setId(TestUtils.OTHER_EXPENSE_TYPE1_ID);
+    otherExpenseType.setName("Logistique");
+    otherExpenseType.setDescription("Frais logistiques et transport");
+    otherExpenseType.setCompanyId(TestUtils.COMPANY1_ID);
+    return otherExpenseType;
+  }
+
+  static OtherExpenseType otherExpenseType2() {
+    OtherExpenseType otherExpenseType = new OtherExpenseType();
+    otherExpenseType.setId(TestUtils.OTHER_EXPENSE_TYPE2_ID);
+    otherExpenseType.setName("Administratif");
+    otherExpenseType.setDescription("Frais administratifs et bureau");
+    otherExpenseType.setCompanyId(TestUtils.COMPANY1_ID);
+    return otherExpenseType;
+  }
+
+  static CrupdateOtherExpenseType otherExpenseTypeToCrupdateOtherExpenseType(
+      OtherExpenseType otherExpenseType) {
+    CrupdateOtherExpenseType crupdate = new CrupdateOtherExpenseType();
+    crupdate.setId(otherExpenseType.getId());
+    crupdate.setName(otherExpenseType.getName());
+    crupdate.setDescription(otherExpenseType.getDescription());
+    crupdate.setCompanyId(otherExpenseType.getCompanyId());
+    crupdate.setComment(otherExpenseType.getComment());
+    return crupdate;
+  }
+
+  static CrupdateOtherExpenseType someCreatableOtherExpenseType() {
+    CrupdateOtherExpenseType otherExpenseType = new CrupdateOtherExpenseType();
+    otherExpenseType.setId(UUID.randomUUID().toString());
+    otherExpenseType.setName("Maintenance");
+    otherExpenseType.setDescription("Frais de maintenance et reparation");
+    otherExpenseType.setCompanyId(TestUtils.COMPANY1_ID);
+    return otherExpenseType;
+  }
+
+  static Maintenance maintenance1() {
+    Maintenance maintenance = new Maintenance();
+    maintenance.setId(TestUtils.MAINTENANCE1_ID);
+    maintenance.setExpense(expenseToCrupdateExpense(expense1()));
+    maintenance.setEquipmentId(TestUtils.EQUIPMENT1_ID);
+    maintenance.setDescription("Revision moteur periodique");
+    return maintenance;
+  }
+
+  static Maintenance maintenance2() {
+    Maintenance maintenance = new Maintenance();
+    maintenance.setId(TestUtils.MAINTENANCE2_ID);
+    maintenance.setExpense(expenseToCrupdateExpense(expense2()));
+    maintenance.setEquipmentId(TestUtils.EQUIPMENT2_ID);
+    maintenance.setDescription("Remplacement pneus");
+    return maintenance;
+  }
+
+  static CrupdateMaintenance maintenanceToCrupdateMaintenance(Maintenance maintenance) {
+    CrupdateMaintenance crupdate = new CrupdateMaintenance();
+    crupdate.setId(maintenance.getId());
+    crupdate.setExpense(maintenance.getExpense());
+    crupdate.setDescription(maintenance.getDescription());
+    return crupdate;
+  }
+
+  static CrupdateMaintenance someCreatableMaintenance() {
+    CrupdateMaintenance maintenance = new CrupdateMaintenance();
+    maintenance.setId(UUID.randomUUID().toString());
+    CrupdateExpenseMoney expense = new CrupdateExpenseMoney();
+    expense.setId(TestUtils.EXPENSE1_ID);
+    expense.setAmount(new BigDecimal("2500.00"));
+    expense.setDescription("Test maintenance expense");
+    expense.setJobId(TestUtils.JOB1_ID);
+    maintenance.setExpense(expense);
+    maintenance.setDescription("Vidange et revision");
+    return maintenance;
   }
 
   static Purchase purchase1() {

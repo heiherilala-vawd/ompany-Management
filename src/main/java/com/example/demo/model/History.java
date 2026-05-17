@@ -78,6 +78,7 @@ public class History implements Serializable {
     PURCHASE,
     BANK_FEE,
     OTHER_EXPENSE,
+    OTHEREXPENSETYPE,
     LOAN,
     LOANREPAYMENT,
     INCOMERECEIPT

@@ -38,9 +38,10 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   CrupdateEquipment.JSON_PROPERTY_WAREHOUSE_ID,
   CrupdateEquipment.JSON_PROPERTY_FLOOR_NUMBER,
   CrupdateEquipment.JSON_PROPERTY_STORAGE_NUMBER,
+  CrupdateEquipment.JSON_PROPERTY_EST_EN_PANNE,
   CrupdateEquipment.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-17T01:01:06.180120920+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-17T16:12:50.152254305+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdateEquipment {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -59,6 +60,9 @@ public class CrupdateEquipment {
 
   public static final String JSON_PROPERTY_STORAGE_NUMBER = "storage_number";
   private Integer storageNumber;
+
+  public static final String JSON_PROPERTY_EST_EN_PANNE = "est_en_panne";
+  private Boolean estEnPanne;
 
   public static final String JSON_PROPERTY_COMMENT = "comment";
   private String comment;
@@ -216,6 +220,31 @@ public class CrupdateEquipment {
   }
 
 
+  public CrupdateEquipment estEnPanne(Boolean estEnPanne) {
+    this.estEnPanne = estEnPanne;
+    return this;
+  }
+
+   /**
+   * Whether the equipment is broken
+   * @return estEnPanne
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_EST_EN_PANNE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public Boolean getEstEnPanne() {
+    return estEnPanne;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_EST_EN_PANNE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setEstEnPanne(Boolean estEnPanne) {
+    this.estEnPanne = estEnPanne;
+  }
+
+
   public CrupdateEquipment comment(String comment) {
     this.comment = comment;
     return this;
@@ -259,12 +288,13 @@ public class CrupdateEquipment {
         Objects.equals(this.warehouseId, crupdateEquipment.warehouseId) &&
         Objects.equals(this.floorNumber, crupdateEquipment.floorNumber) &&
         Objects.equals(this.storageNumber, crupdateEquipment.storageNumber) &&
+        Objects.equals(this.estEnPanne, crupdateEquipment.estEnPanne) &&
         Objects.equals(this.comment, crupdateEquipment.comment);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, description, warehouseId, floorNumber, storageNumber, comment);
+    return Objects.hash(id, name, description, warehouseId, floorNumber, storageNumber, estEnPanne, comment);
   }
 
   @Override
@@ -277,6 +307,7 @@ public class CrupdateEquipment {
     sb.append("    warehouseId: ").append(toIndentedString(warehouseId)).append("\n");
     sb.append("    floorNumber: ").append(toIndentedString(floorNumber)).append("\n");
     sb.append("    storageNumber: ").append(toIndentedString(storageNumber)).append("\n");
+    sb.append("    estEnPanne: ").append(toIndentedString(estEnPanne)).append("\n");
     sb.append("    comment: ").append(toIndentedString(comment)).append("\n");
     sb.append("}");
     return sb.toString();

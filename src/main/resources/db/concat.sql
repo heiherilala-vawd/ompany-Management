@@ -5,6 +5,8 @@ DELETE FROM "travel_materials";
 DELETE FROM "travel_people";
 DELETE FROM "travel_expense";
 DELETE FROM "other_expense";
+DELETE FROM "maintenance";
+DELETE FROM "other_expense_type";
 DELETE FROM "bank_fee";
 DELETE FROM "purchase";
 DELETE FROM "employee_payment_users";
@@ -266,4 +268,16 @@ VALUES
 ('team1_id', 'user2_id'),
 ('team2_id', 'user1_id'),
 ('team2_id', 'employee1_id');
+
+insert into "other_expense_type" (id, name, description, company_id, created_at, updated_at)
+values
+('other_exp_type1_id', 'Logistique', 'Frais logistiques et transport', 'company1_id', now(), now()),
+('other_exp_type2_id', 'Administratif', 'Frais administratifs et bureau', 'company1_id', now(), now());
+
+INSERT INTO "maintenance" (
+  id, expense_id, equipment_id, description
+)
+VALUES
+('maintenance1_id', 'expense1_id', 'equipment1_id', 'Revision moteur periodique'),
+('maintenance2_id', 'expense2_id', 'equipment2_id', 'Remplacement pneus');
 

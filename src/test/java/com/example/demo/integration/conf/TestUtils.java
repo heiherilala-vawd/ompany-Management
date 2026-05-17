@@ -19,8 +19,10 @@ import com.example.demo.client.model.CrupdateIncomeType;
 import com.example.demo.client.model.CrupdateJob;
 import com.example.demo.client.model.CrupdateLoan;
 import com.example.demo.client.model.CrupdateLoanRepayment;
+import com.example.demo.client.model.CrupdateMaintenance;
 import com.example.demo.client.model.CrupdateMaterial;
 import com.example.demo.client.model.CrupdateOtherExpense;
+import com.example.demo.client.model.CrupdateOtherExpenseType;
 import com.example.demo.client.model.CrupdatePurchase;
 import com.example.demo.client.model.CrupdateTravelEquipment;
 import com.example.demo.client.model.CrupdateTravelExpense;
@@ -37,8 +39,10 @@ import com.example.demo.client.model.IncomeType;
 import com.example.demo.client.model.Job;
 import com.example.demo.client.model.Loan;
 import com.example.demo.client.model.LoanRepayment;
+import com.example.demo.client.model.Maintenance;
 import com.example.demo.client.model.Material;
 import com.example.demo.client.model.OtherExpense;
+import com.example.demo.client.model.OtherExpenseType;
 import com.example.demo.client.model.Purchase;
 import com.example.demo.client.model.TravelEquipment;
 import com.example.demo.client.model.TravelExpense;
@@ -101,6 +105,11 @@ public class TestUtils {
   public static final String OTHER_EXPENSE2_ID = "other_expense2_id";
   public static final String PURCHASE1_ID = "purchase1_id";
   public static final String PURCHASE2_ID = "purchase2_id";
+  public static final String OTHER_EXPENSE_TYPE1_ID = "other_exp_type1_id";
+  public static final String OTHER_EXPENSE_TYPE2_ID = "other_exp_type2_id";
+  public static final String MAINTENANCE1_ID = "maintenance1_id";
+  public static final String MAINTENANCE2_ID = "maintenance2_id";
+
   public static final String TRAVEL_EXPENSE1_ID = "travel_expense1_id";
   public static final String TRAVEL_EXPENSE2_ID = "travel_expense2_id";
   public static final String TRAVEL_PEOPLE1_ID = "travel_people1_id";
@@ -464,6 +473,39 @@ public class TestUtils {
 
   public static CrupdateIncomeReceipt someCreatableReceipt() {
     return TestMoneyFixtures.someCreatableReceipt();
+  }
+
+  public static OtherExpenseType otherExpenseType1() {
+    return TestMoneyFixtures.otherExpenseType1();
+  }
+
+  public static OtherExpenseType otherExpenseType2() {
+    return TestMoneyFixtures.otherExpenseType2();
+  }
+
+  public static CrupdateOtherExpenseType otherExpenseTypeToCrupdateOtherExpenseType(
+      OtherExpenseType otherExpenseType) {
+    return TestMoneyFixtures.otherExpenseTypeToCrupdateOtherExpenseType(otherExpenseType);
+  }
+
+  public static CrupdateOtherExpenseType someCreatableOtherExpenseType() {
+    return TestMoneyFixtures.someCreatableOtherExpenseType();
+  }
+
+  public static Maintenance maintenance1() {
+    return TestMoneyFixtures.maintenance1();
+  }
+
+  public static Maintenance maintenance2() {
+    return TestMoneyFixtures.maintenance2();
+  }
+
+  public static CrupdateMaintenance maintenanceToCrupdateMaintenance(Maintenance maintenance) {
+    return TestMoneyFixtures.maintenanceToCrupdateMaintenance(maintenance);
+  }
+
+  public static CrupdateMaintenance someCreatableMaintenance() {
+    return TestMoneyFixtures.someCreatableMaintenance();
   }
 
   public static Purchase purchase1() {

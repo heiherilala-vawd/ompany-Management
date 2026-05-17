@@ -3,6 +3,7 @@ package com.example.demo.model.money;
 import com.example.demo.model.Job;
 import jakarta.persistence.*;
 import java.io.Serializable;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
@@ -31,6 +32,8 @@ public class IncomeMoney extends MonetaryMovement implements Serializable {
   private String invoiceReference;
 
   private LocalDate billingStartDate;
+
+  private Instant facturationDate;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "job_id")

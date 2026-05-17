@@ -44,6 +44,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   IncomeMoney.JSON_PROPERTY_SOURCE_ORGANIZATION,
   IncomeMoney.JSON_PROPERTY_INVOICE_REFERENCE,
   IncomeMoney.JSON_PROPERTY_BILLING_START_DATE,
+  IncomeMoney.JSON_PROPERTY_FACTURATION_DATE,
   IncomeMoney.JSON_PROPERTY_JOB,
   IncomeMoney.JSON_PROPERTY_INCOME_TYPE,
   IncomeMoney.JSON_PROPERTY_RECEIPTS,
@@ -56,7 +57,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   IncomeMoney.JSON_PROPERTY_UPDATED_BY,
   IncomeMoney.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-17T01:01:06.180120920+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-17T16:12:50.152254305+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class IncomeMoney {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -69,6 +70,9 @@ public class IncomeMoney {
 
   public static final String JSON_PROPERTY_BILLING_START_DATE = "billing_start_date";
   private java.time.LocalDate billingStartDate;
+
+  public static final String JSON_PROPERTY_FACTURATION_DATE = "facturation_date";
+  private java.time.Instant facturationDate;
 
   public static final String JSON_PROPERTY_JOB = "job";
   private CrupdateJob job;
@@ -203,6 +207,31 @@ public class IncomeMoney {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setBillingStartDate(java.time.LocalDate billingStartDate) {
     this.billingStartDate = billingStartDate;
+  }
+
+
+  public IncomeMoney facturationDate(java.time.Instant facturationDate) {
+    this.facturationDate = facturationDate;
+    return this;
+  }
+
+   /**
+   * Date when the client started providing the invoice
+   * @return facturationDate
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_FACTURATION_DATE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public java.time.Instant getFacturationDate() {
+    return facturationDate;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_FACTURATION_DATE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setFacturationDate(java.time.Instant facturationDate) {
+    this.facturationDate = facturationDate;
   }
 
 
@@ -505,6 +534,7 @@ public class IncomeMoney {
         Objects.equals(this.sourceOrganization, incomeMoney.sourceOrganization) &&
         Objects.equals(this.invoiceReference, incomeMoney.invoiceReference) &&
         Objects.equals(this.billingStartDate, incomeMoney.billingStartDate) &&
+        Objects.equals(this.facturationDate, incomeMoney.facturationDate) &&
         Objects.equals(this.job, incomeMoney.job) &&
         Objects.equals(this.incomeType, incomeMoney.incomeType) &&
         Objects.equals(this.receipts, incomeMoney.receipts) &&
@@ -520,7 +550,7 @@ public class IncomeMoney {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, sourceOrganization, invoiceReference, billingStartDate, job, incomeType, receipts, remainingAmount, amount, description, createdAt, updatedAt, createdBy, updatedBy, comment);
+    return Objects.hash(id, sourceOrganization, invoiceReference, billingStartDate, facturationDate, job, incomeType, receipts, remainingAmount, amount, description, createdAt, updatedAt, createdBy, updatedBy, comment);
   }
 
   @Override
@@ -531,6 +561,7 @@ public class IncomeMoney {
     sb.append("    sourceOrganization: ").append(toIndentedString(sourceOrganization)).append("\n");
     sb.append("    invoiceReference: ").append(toIndentedString(invoiceReference)).append("\n");
     sb.append("    billingStartDate: ").append(toIndentedString(billingStartDate)).append("\n");
+    sb.append("    facturationDate: ").append(toIndentedString(facturationDate)).append("\n");
     sb.append("    job: ").append(toIndentedString(job)).append("\n");
     sb.append("    incomeType: ").append(toIndentedString(incomeType)).append("\n");
     sb.append("    receipts: ").append(toIndentedString(receipts)).append("\n");

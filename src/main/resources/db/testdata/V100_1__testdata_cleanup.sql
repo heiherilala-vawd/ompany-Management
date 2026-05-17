@@ -5,6 +5,8 @@ DELETE FROM "travel_materials";
 DELETE FROM "travel_people";
 DELETE FROM "travel_expense";
 DELETE FROM "other_expense";
+DELETE FROM "maintenance";
+DELETE FROM "other_expense_type";
 DELETE FROM "bank_fee";
 DELETE FROM "purchase";
 DELETE FROM "employee_payment_users";

@@ -20,6 +20,7 @@ import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
 import com.example.demo.client.model.CrupdateExpenseMoney;
+import com.example.demo.client.model.OtherExpenseType;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -35,15 +36,19 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
   OtherExpense.JSON_PROPERTY_ID,
   OtherExpense.JSON_PROPERTY_EXPENSE,
+  OtherExpense.JSON_PROPERTY_OTHER_EXPENSE_TYPE,
   OtherExpense.JSON_PROPERTY_DESCRIPTION
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-17T01:01:06.180120920+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-17T16:12:50.152254305+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class OtherExpense {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
 
   public static final String JSON_PROPERTY_EXPENSE = "expense";
   private CrupdateExpenseMoney expense;
+
+  public static final String JSON_PROPERTY_OTHER_EXPENSE_TYPE = "other_expense_type";
+  private OtherExpenseType otherExpenseType;
 
   public static final String JSON_PROPERTY_DESCRIPTION = "description";
   private String description;
@@ -101,6 +106,31 @@ public class OtherExpense {
   }
 
 
+  public OtherExpense otherExpenseType(OtherExpenseType otherExpenseType) {
+    this.otherExpenseType = otherExpenseType;
+    return this;
+  }
+
+   /**
+   * Type of other expense associated with this expense
+   * @return otherExpenseType
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_OTHER_EXPENSE_TYPE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public OtherExpenseType getOtherExpenseType() {
+    return otherExpenseType;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_OTHER_EXPENSE_TYPE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setOtherExpenseType(OtherExpenseType otherExpenseType) {
+    this.otherExpenseType = otherExpenseType;
+  }
+
+
   public OtherExpense description(String description) {
     this.description = description;
     return this;
@@ -140,12 +170,13 @@ public class OtherExpense {
     OtherExpense otherExpense = (OtherExpense) o;
     return Objects.equals(this.id, otherExpense.id) &&
         Objects.equals(this.expense, otherExpense.expense) &&
+        Objects.equals(this.otherExpenseType, otherExpense.otherExpenseType) &&
         Objects.equals(this.description, otherExpense.description);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, expense, description);
+    return Objects.hash(id, expense, otherExpenseType, description);
   }
 
   @Override
@@ -154,6 +185,7 @@ public class OtherExpense {
     sb.append("class OtherExpense {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    expense: ").append(toIndentedString(expense)).append("\n");
+    sb.append("    otherExpenseType: ").append(toIndentedString(otherExpenseType)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("}");
     return sb.toString();
@@ -210,6 +242,11 @@ public class OtherExpense {
     // add `expense` to the URL query string
     if (getExpense() != null) {
       joiner.add(getExpense().toUrlQueryString(prefix + "expense" + suffix));
+    }
+
+    // add `other_expense_type` to the URL query string
+    if (getOtherExpenseType() != null) {
+      joiner.add(getOtherExpenseType().toUrlQueryString(prefix + "other_expense_type" + suffix));
     }
 
     // add `description` to the URL query string
