@@ -23,9 +23,4 @@ CREATE TABLE IF NOT EXISTS team_members (
 CREATE INDEX IF NOT EXISTS idx_team_members_team_id ON team_members(team_id);
 CREATE INDEX IF NOT EXISTS idx_team_members_user_id ON team_members(user_id);
 
-ALTER TABLE employee_payment
-    ADD COLUMN IF NOT EXISTS is_for_team BOOLEAN DEFAULT FALSE,
-    ADD COLUMN IF NOT EXISTS team_id VARCHAR(150),
-    ADD CONSTRAINT fk_employee_payment_team FOREIGN KEY (team_id) REFERENCES team(id);
-
 CREATE INDEX IF NOT EXISTS idx_employee_payment_team_id ON employee_payment(team_id);

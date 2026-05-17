@@ -16,6 +16,7 @@ import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
 import com.example.demo.integration.conf.TestDataSqlLoader;
 import com.example.demo.integration.conf.TestUtils;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
@@ -132,7 +133,9 @@ class LoanIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     LoanApi api = new LoanApi(adminClient);
 
-    List<Loan> loans = api.getLoans(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, 5000000, null);
+    List<Loan> loans =
+        api.getLoans(
+            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, BigDecimal.valueOf(5000000), null);
 
     assertEquals(1, loans.size());
     assertEquals(LOAN1_ID, loans.get(0).getId());
@@ -181,7 +184,7 @@ class LoanIT {
     LoanApi api = new LoanApi(adminClient);
 
     CrupdateLoan invalidLoan = someCreatableLoan();
-    invalidLoan.setAmount(-5000);
+    invalidLoan.setAmount(BigDecimal.valueOf(-5000));
 
     assertThrowsApiException(
         "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Loan amount must be positive\"}",
@@ -246,10 +249,11 @@ class LoanIT {
     assertEquals(newRepayment.getId(), saved.getId());
     assertEquals(newRepayment.getPaymentDate(), saved.getPaymentDate());
     assertEquals(newRepayment.getAmount(), saved.getAmount());
-    assertTrue(saved.getPrincipalPortion() > 0);
-    assertTrue(saved.getInterestPortion() > 0);
+    assertTrue(saved.getPrincipalPortion().compareTo(BigDecimal.ZERO) > 0);
+    assertTrue(saved.getInterestPortion().compareTo(BigDecimal.ZERO) > 0);
     assertEquals(
-        saved.getAmount().intValue(), saved.getPrincipalPortion() + saved.getInterestPortion());
+        0,
+        saved.getAmount().compareTo(saved.getPrincipalPortion().add(saved.getInterestPortion())));
   }
 
   @Test
@@ -258,7 +262,7 @@ class LoanIT {
     LoanApi api = new LoanApi(adminClient);
 
     Loan actual = api.getLoanById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, LOAN3_ID);
-    assertEquals(0, actual.getRemainingAmount());
+    assertEquals(0, BigDecimal.ZERO.compareTo(actual.getRemainingAmount()));
     assertEquals(LoanStatus.PAID, actual.getStatus());
   }
 
@@ -268,7 +272,7 @@ class LoanIT {
     LoanApi api = new LoanApi(adminClient);
 
     Loan actual = api.getLoanById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, LOAN4_ID);
-    assertEquals(2000000, actual.getRemainingAmount());
+    assertEquals(0, BigDecimal.valueOf(2000000).compareTo(actual.getRemainingAmount()));
     assertEquals(LoanStatus.DEFAULTED, actual.getStatus());
   }
 
@@ -278,7 +282,7 @@ class LoanIT {
     LoanApi api = new LoanApi(adminClient);
 
     Loan actual = api.getLoanById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, LOAN5_ID);
-    assertEquals(0, actual.getRemainingAmount());
+    assertEquals(0, BigDecimal.ZERO.compareTo(actual.getRemainingAmount()));
     assertEquals(LoanStatus.PAID, actual.getStatus());
   }
 
@@ -290,7 +294,7 @@ class LoanIT {
     LoanApi api = new LoanApi(adminClient);
 
     CrupdateLoan invalidLoan = someCreatableLoan();
-    invalidLoan.setAmount(0);
+    invalidLoan.setAmount(BigDecimal.valueOf(0));
 
     assertThrowsApiException(
         "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Loan amount must be positive\"}",
@@ -393,7 +397,7 @@ class LoanIT {
     LoanRepaymentApi api = new LoanRepaymentApi(adminClient);
 
     CrupdateLoanRepayment invalid = someCreatableRepayment();
-    invalid.setAmount(0);
+    invalid.setAmount(BigDecimal.valueOf(0));
 
     assertThrowsApiException(
         "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Repayment amount must be positive\"}",
@@ -470,7 +474,7 @@ class LoanIT {
     LoanApi api = new LoanApi(adminClient);
 
     Loan actual = api.getLoanById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, LOAN1_ID);
-    assertTrue(actual.getRemainingAmount() > 0);
+    assertTrue(actual.getRemainingAmount().compareTo(BigDecimal.ZERO) > 0);
     assertEquals(LoanStatus.ACTIVE, actual.getStatus());
   }
 
@@ -480,7 +484,7 @@ class LoanIT {
     LoanApi api = new LoanApi(adminClient);
 
     Loan actual = api.getLoanById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, LOAN2_ID);
-    assertTrue(actual.getRemainingAmount() > 0);
+    assertTrue(actual.getRemainingAmount().compareTo(BigDecimal.ZERO) > 0);
     assertNull(actual.getDueDate());
     assertEquals(LoanStatus.ACTIVE, actual.getStatus());
   }
@@ -528,7 +532,8 @@ class LoanIT {
     LoanApi api = new LoanApi(adminClient);
 
     List<Loan> loans =
-        api.getLoans(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, 999999999, null);
+        api.getLoans(
+            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, BigDecimal.valueOf(999999999), null);
 
     assertTrue(loans.isEmpty());
   }
@@ -539,7 +544,15 @@ class LoanIT {
     LoanApi api = new LoanApi(adminClient);
 
     List<Loan> loans =
-        api.getLoans(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, 5000000, "BNI Madagascar");
+        api.getLoans(
+            COMPANY1_ID,
+            JOB1_ID,
+            EMPLOYEE_ID,
+            1,
+            100,
+            null,
+            BigDecimal.valueOf(5000000),
+            "BNI Madagascar");
 
     assertEquals(1, loans.size());
     assertEquals(LOAN1_ID, loans.get(0).getId());
@@ -633,8 +646,12 @@ class LoanIT {
 
     assertEquals(1, created.size());
     LoanRepayment saved = created.get(0);
-    assertEquals(repayment.getAmount(), saved.getPrincipalPortion() + saved.getInterestPortion());
-    assertEquals(0, saved.getInterestPortion()); // 0 days → no interest
+    assertEquals(
+        0,
+        repayment
+            .getAmount()
+            .compareTo(saved.getPrincipalPortion().add(saved.getInterestPortion())));
+    assertEquals(0, BigDecimal.ZERO.compareTo(saved.getInterestPortion())); // 0 days → no interest
     assertEquals(repayment.getAmount(), saved.getPrincipalPortion());
   }
 
@@ -652,8 +669,12 @@ class LoanIT {
 
     assertEquals(1, created.size());
     LoanRepayment saved = created.get(0);
-    assertEquals(repayment.getAmount(), saved.getPrincipalPortion() + saved.getInterestPortion());
-    assertEquals(0, saved.getInterestPortion()); // days clamped to 0
+    assertEquals(
+        0,
+        repayment
+            .getAmount()
+            .compareTo(saved.getPrincipalPortion().add(saved.getInterestPortion())));
+    assertEquals(0, BigDecimal.ZERO.compareTo(saved.getInterestPortion())); // days clamped to 0
     assertEquals(repayment.getAmount(), saved.getPrincipalPortion());
   }
 
@@ -665,16 +686,17 @@ class LoanIT {
 
     CrupdateLoanRepayment repayment = someCreatableRepayment();
     repayment.setPaymentDate(LocalDate.of(2025, 1, 1)); // far in future → lots of accrued interest
-    repayment.setAmount(100); // very small, likely < interest portion
+    repayment.setAmount(BigDecimal.valueOf(100)); // very small, likely < interest portion
 
     List<LoanRepayment> created =
         api.crupdateLoanRepayments(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, LOAN1_ID, List.of(repayment));
 
     assertEquals(1, created.size());
     LoanRepayment saved = created.get(0);
-    assertEquals(100, saved.getAmount().intValue());
-    assertEquals(100, saved.getInterestPortion()); // all to interest
-    assertEquals(0, saved.getPrincipalPortion()); // none to principal
+    assertEquals(0, BigDecimal.valueOf(100).compareTo(saved.getAmount()));
+    assertEquals(
+        0, BigDecimal.valueOf(100).compareTo(saved.getInterestPortion())); // all to interest
+    assertEquals(0, BigDecimal.ZERO.compareTo(saved.getPrincipalPortion())); // none to principal
   }
 
   @Test
@@ -686,7 +708,7 @@ class LoanIT {
 
     CrupdateLoan zeroInterestLoan = someCreatableLoan();
     zeroInterestLoan.setInterestRate(0);
-    zeroInterestLoan.setAmount(1000000);
+    zeroInterestLoan.setAmount(BigDecimal.valueOf(1000000));
     zeroInterestLoan.setDescription("Pret sans interet");
 
     List<Loan> createdLoans =
@@ -698,7 +720,7 @@ class LoanIT {
             .id(UUID.randomUUID().toString())
             .loanId(zeroInterestLoanId)
             .paymentDate(LocalDate.of(2025, 1, 1))
-            .amount(100000);
+            .amount(BigDecimal.valueOf(100000));
 
     List<LoanRepayment> created =
         api.crupdateLoanRepayments(
@@ -706,8 +728,8 @@ class LoanIT {
 
     assertEquals(1, created.size());
     LoanRepayment saved = created.get(0);
-    assertEquals(0, saved.getInterestPortion()); // 0% rate → no interest
-    assertEquals(100000, saved.getPrincipalPortion()); // all to principal
+    assertEquals(0, BigDecimal.ZERO.compareTo(saved.getInterestPortion())); // 0% rate → no interest
+    assertEquals(0, BigDecimal.valueOf(100000).compareTo(saved.getPrincipalPortion()));
   }
 
   @Test
@@ -722,18 +744,18 @@ class LoanIT {
             COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, LOAN1_ID, List.of(newRepayment));
 
     String repaymentId = created.get(0).getId();
-    int originalPrincipal = created.get(0).getPrincipalPortion();
-    int originalInterest = created.get(0).getInterestPortion();
+    BigDecimal originalPrincipal = created.get(0).getPrincipalPortion();
+    BigDecimal originalInterest = created.get(0).getInterestPortion();
 
     assertEquals(newRepayment.getAmount(), created.get(0).getAmount());
-    assertEquals(originalPrincipal + originalInterest, created.get(0).getAmount().intValue());
+    assertEquals(0, originalPrincipal.add(originalInterest).compareTo(created.get(0).getAmount()));
 
     CrupdateLoanRepayment updatedRepayment =
         new CrupdateLoanRepayment()
             .id(repaymentId)
             .loanId(LOAN1_ID)
             .paymentDate(LocalDate.of(2024, 5, 1))
-            .amount(1000000);
+            .amount(BigDecimal.valueOf(1000000));
 
     List<LoanRepayment> updated =
         api.crupdateLoanRepayments(
@@ -751,7 +773,7 @@ class LoanIT {
     LoanRepaymentApi api = new LoanRepaymentApi(adminClient);
 
     CrupdateLoan smallLoan = someCreatableLoan();
-    smallLoan.setAmount(100000);
+    smallLoan.setAmount(BigDecimal.valueOf(100000));
     smallLoan.setInterestRate(0);
 
     List<Loan> createdLoans =
@@ -763,7 +785,7 @@ class LoanIT {
             .id(UUID.randomUUID().toString())
             .loanId(smallLoanId)
             .paymentDate(LocalDate.of(2024, 7, 1))
-            .amount(200000); // more than outstanding
+            .amount(BigDecimal.valueOf(200000)); // more than outstanding
 
     List<LoanRepayment> created =
         api.crupdateLoanRepayments(
@@ -771,9 +793,9 @@ class LoanIT {
 
     assertEquals(1, created.size());
     LoanRepayment saved = created.get(0);
-    assertEquals(100000, saved.getPrincipalPortion()); // capped at outstanding
-    assertEquals(100000, saved.getInterestPortion()); // remainder after capping
-    assertEquals(200000, saved.getAmount().intValue());
+    assertEquals(0, BigDecimal.valueOf(100000).compareTo(saved.getPrincipalPortion()));
+    assertEquals(0, BigDecimal.valueOf(100000).compareTo(saved.getInterestPortion()));
+    assertEquals(0, BigDecimal.valueOf(200000).compareTo(saved.getAmount()));
   }
 
   // ========== OVERPAYMENT ==========
@@ -790,13 +812,13 @@ class LoanIT {
             .id(UUID.randomUUID().toString())
             .loanId(LOAN2_ID)
             .paymentDate(LocalDate.of(2024, 7, 1))
-            .amount(5000000); // more than loan2 amount (3,000,000)
+            .amount(BigDecimal.valueOf(5000000)); // more than loan2 amount (3,000,000)
 
     repaymentApi.crupdateLoanRepayments(
         COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, LOAN2_ID, List.of(repayment));
 
     Loan actual = loanApi.getLoanById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, LOAN2_ID);
-    assertTrue(actual.getRemainingAmount() <= 0);
+    assertTrue(actual.getRemainingAmount().compareTo(BigDecimal.ZERO) <= 0);
     assertEquals(LoanStatus.PAID, actual.getStatus());
   }
 

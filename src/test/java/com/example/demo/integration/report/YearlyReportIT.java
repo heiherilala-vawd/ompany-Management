@@ -145,7 +145,7 @@ class YearlyReportIT {
     assertNotNull(report.getSummary().getNetProfit());
     assertNotNull(report.getSummary().getJobCount());
     assertEquals(
-        report.getSummary().getTotalIncome() - report.getSummary().getTotalExpense(),
+        report.getSummary().getTotalIncome().subtract(report.getSummary().getTotalExpense()),
         report.getSummary().getNetProfit());
   }
 

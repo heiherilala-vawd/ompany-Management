@@ -3,6 +3,7 @@ package com.example.demo.model.money;
 import com.example.demo.model.CreatAndUpdateEntity;
 import jakarta.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
 import lombok.AllArgsConstructor;
@@ -27,7 +28,7 @@ public class IncomeReceipt extends CreatAndUpdateEntity implements Serializable 
 
   private LocalDate paymentDate;
 
-  private Integer amount;
+  private BigDecimal amount;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "income_id")

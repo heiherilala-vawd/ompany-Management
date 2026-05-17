@@ -18,6 +18,7 @@ import com.example.demo.client.invoker.ApiResponse;
 import com.example.demo.client.invoker.Pair;
 
 import com.example.demo.client.model.BadRequestException;
+import java.math.BigDecimal;
 import com.example.demo.client.model.CrupdateIncomeMoney;
 import java.io.File;
 import com.example.demo.client.model.IncomeMoney;
@@ -51,7 +52,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-16T21:32:49.384124061+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-17T01:01:06.180120920+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class IncomeApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -395,7 +396,7 @@ public class IncomeApi {
    * @return List&lt;IncomeMoney&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<IncomeMoney> getIncomes(String compId, String jobId, String userId, Integer page, Integer pageSize, String sourceOrganization, String invoiceReference, String description, Integer amount, String incomeTypeId, Boolean moneyReceived) throws ApiException {
+  public List<IncomeMoney> getIncomes(String compId, String jobId, String userId, Integer page, Integer pageSize, String sourceOrganization, String invoiceReference, String description, BigDecimal amount, String incomeTypeId, Boolean moneyReceived) throws ApiException {
     ApiResponse<List<IncomeMoney>> localVarResponse = getIncomesWithHttpInfo(compId, jobId, userId, page, pageSize, sourceOrganization, invoiceReference, description, amount, incomeTypeId, moneyReceived);
     return localVarResponse.getData();
   }
@@ -417,7 +418,7 @@ public class IncomeApi {
    * @return ApiResponse&lt;List&lt;IncomeMoney&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<IncomeMoney>> getIncomesWithHttpInfo(String compId, String jobId, String userId, Integer page, Integer pageSize, String sourceOrganization, String invoiceReference, String description, Integer amount, String incomeTypeId, Boolean moneyReceived) throws ApiException {
+  public ApiResponse<List<IncomeMoney>> getIncomesWithHttpInfo(String compId, String jobId, String userId, Integer page, Integer pageSize, String sourceOrganization, String invoiceReference, String description, BigDecimal amount, String incomeTypeId, Boolean moneyReceived) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = getIncomesRequestBuilder(compId, jobId, userId, page, pageSize, sourceOrganization, invoiceReference, description, amount, incomeTypeId, moneyReceived);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -446,7 +447,7 @@ public class IncomeApi {
     }
   }
 
-  private HttpRequest.Builder getIncomesRequestBuilder(String compId, String jobId, String userId, Integer page, Integer pageSize, String sourceOrganization, String invoiceReference, String description, Integer amount, String incomeTypeId, Boolean moneyReceived) throws ApiException {
+  private HttpRequest.Builder getIncomesRequestBuilder(String compId, String jobId, String userId, Integer page, Integer pageSize, String sourceOrganization, String invoiceReference, String description, BigDecimal amount, String incomeTypeId, Boolean moneyReceived) throws ApiException {
     // verify the required parameter 'compId' is set
     if (compId == null) {
       throw new ApiException(400, "Missing the required parameter 'compId' when calling getIncomes");

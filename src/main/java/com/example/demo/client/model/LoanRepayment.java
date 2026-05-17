@@ -26,6 +26,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -47,7 +48,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   LoanRepayment.JSON_PROPERTY_UPDATED_BY,
   LoanRepayment.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-16T21:32:49.384124061+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-17T01:01:06.180120920+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class LoanRepayment {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -56,13 +57,13 @@ public class LoanRepayment {
   private java.time.LocalDate paymentDate;
 
   public static final String JSON_PROPERTY_AMOUNT = "amount";
-  private Integer amount;
+  private BigDecimal amount;
 
   public static final String JSON_PROPERTY_PRINCIPAL_PORTION = "principal_portion";
-  private Integer principalPortion;
+  private BigDecimal principalPortion;
 
   public static final String JSON_PROPERTY_INTEREST_PORTION = "interest_portion";
-  private Integer interestPortion;
+  private BigDecimal interestPortion;
 
   public static final String JSON_PROPERTY_LOAN = "loan";
   private CrupdateLoan loan;
@@ -135,7 +136,7 @@ public class LoanRepayment {
   }
 
 
-  public LoanRepayment amount(Integer amount) {
+  public LoanRepayment amount(BigDecimal amount) {
     this.amount = amount;
     return this;
   }
@@ -148,19 +149,19 @@ public class LoanRepayment {
   @JsonProperty(JSON_PROPERTY_AMOUNT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public Integer getAmount() {
+  public BigDecimal getAmount() {
     return amount;
   }
 
 
   @JsonProperty(JSON_PROPERTY_AMOUNT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setAmount(Integer amount) {
+  public void setAmount(BigDecimal amount) {
     this.amount = amount;
   }
 
 
-  public LoanRepayment principalPortion(Integer principalPortion) {
+  public LoanRepayment principalPortion(BigDecimal principalPortion) {
     this.principalPortion = principalPortion;
     return this;
   }
@@ -173,19 +174,19 @@ public class LoanRepayment {
   @JsonProperty(JSON_PROPERTY_PRINCIPAL_PORTION)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public Integer getPrincipalPortion() {
+  public BigDecimal getPrincipalPortion() {
     return principalPortion;
   }
 
 
   @JsonProperty(JSON_PROPERTY_PRINCIPAL_PORTION)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setPrincipalPortion(Integer principalPortion) {
+  public void setPrincipalPortion(BigDecimal principalPortion) {
     this.principalPortion = principalPortion;
   }
 
 
-  public LoanRepayment interestPortion(Integer interestPortion) {
+  public LoanRepayment interestPortion(BigDecimal interestPortion) {
     this.interestPortion = interestPortion;
     return this;
   }
@@ -198,14 +199,14 @@ public class LoanRepayment {
   @JsonProperty(JSON_PROPERTY_INTEREST_PORTION)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public Integer getInterestPortion() {
+  public BigDecimal getInterestPortion() {
     return interestPortion;
   }
 
 
   @JsonProperty(JSON_PROPERTY_INTEREST_PORTION)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setInterestPortion(Integer interestPortion) {
+  public void setInterestPortion(BigDecimal interestPortion) {
     this.interestPortion = interestPortion;
   }
 

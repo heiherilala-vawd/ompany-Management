@@ -14,6 +14,7 @@ import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.service.money.IncomeMoneyService;
 import com.example.demo.service.money.IncomeReceiptService;
 import com.example.demo.service.utils.ExcelExportUtils;
+import java.math.BigDecimal;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -55,7 +56,7 @@ public class IncomeController {
       @RequestParam(name = "source_organization", required = false) String sourceOrganization,
       @RequestParam(name = "invoice_reference", required = false) String invoiceReference,
       @RequestParam(name = "description", required = false) String description,
-      @RequestParam(name = "amount", required = false) Integer amount,
+      @RequestParam(name = "amount", required = false) BigDecimal amount,
       @RequestParam(name = "income_type_id", required = false) String incomeTypeId,
       @RequestParam(name = "money_received", required = false) Boolean moneyReceived) {
     IncomeMoneyCriteria criteria = new IncomeMoneyCriteria();
@@ -81,7 +82,7 @@ public class IncomeController {
       @RequestParam(name = "source_organization", required = false) String sourceOrganization,
       @RequestParam(name = "invoice_reference", required = false) String invoiceReference,
       @RequestParam(name = "description", required = false) String description,
-      @RequestParam(name = "amount", required = false) Integer amount,
+      @RequestParam(name = "amount", required = false) BigDecimal amount,
       @RequestParam(name = "income_type_id", required = false) String incomeTypeId,
       @RequestParam(name = "money_received", required = false) Boolean moneyReceived) {
     IncomeMoneyCriteria criteria = new IncomeMoneyCriteria();

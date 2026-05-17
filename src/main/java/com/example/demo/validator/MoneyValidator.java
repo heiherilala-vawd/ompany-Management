@@ -13,6 +13,7 @@ import com.example.demo.model.money.MonetaryMovement;
 import com.example.demo.model.money.OtherExpense;
 import com.example.demo.model.money.Purchase;
 import com.example.demo.model.money.TravelExpense;
+import java.math.BigDecimal;
 import java.util.List;
 import org.springframework.stereotype.Component;
 
@@ -23,7 +24,7 @@ public class MoneyValidator {
     if (movement == null) {
       throw new BadRequestException("Monetary movement cannot be null");
     }
-    if (movement.getAmount() == null || movement.getAmount() <= 0) {
+    if (movement.getAmount() == null || movement.getAmount().compareTo(BigDecimal.ZERO) <= 0) {
       throw new BadRequestException("Amount must be positive");
     }
   }
@@ -35,7 +36,7 @@ public class MoneyValidator {
     if (expense.getJob() == null || expense.getJob().getId() == null) {
       throw new BadRequestException("Expense must be associated with a job");
     }
-    if (expense.getAmount() != null && expense.getAmount() < 0) {
+    if (expense.getAmount() != null && expense.getAmount().compareTo(BigDecimal.ZERO) < 0) {
       throw new BadRequestException("Amount must be positive");
     }
   }
@@ -200,7 +201,8 @@ public class MoneyValidator {
     if (bankFee.getExpense() == null || bankFee.getExpense().getId() == null) {
       throw new BadRequestException("Bank fee must be linked to an expense");
     }
-    if (bankFee.getExpense().getAmount() == null || bankFee.getExpense().getAmount() <= 0) {
+    if (bankFee.getExpense().getAmount() == null
+        || bankFee.getExpense().getAmount().compareTo(BigDecimal.ZERO) <= 0) {
       throw new BadRequestException("Bank fee amount must be positive");
     }
     if (bankFee.getBankName() == null || bankFee.getBankName().isBlank()) {
@@ -238,7 +240,7 @@ public class MoneyValidator {
     if (loan == null) {
       throw new BadRequestException("Loan cannot be null");
     }
-    if (loan.getAmount() == null || loan.getAmount() <= 0) {
+    if (loan.getAmount() == null || loan.getAmount().compareTo(BigDecimal.ZERO) <= 0) {
       throw new BadRequestException("Loan amount must be positive");
     }
     if (loan.getLender() == null || loan.getLender().isBlank()) {
@@ -272,7 +274,7 @@ public class MoneyValidator {
     if (repayment.getPaymentDate() == null) {
       throw new BadRequestException("Payment date is mandatory for loan repayment");
     }
-    if (repayment.getAmount() == null || repayment.getAmount() <= 0) {
+    if (repayment.getAmount() == null || repayment.getAmount().compareTo(BigDecimal.ZERO) <= 0) {
       throw new BadRequestException("Repayment amount must be positive");
     }
   }
@@ -294,7 +296,7 @@ public class MoneyValidator {
     if (receipt.getPaymentDate() == null) {
       throw new BadRequestException("Payment date is mandatory for income receipt");
     }
-    if (receipt.getAmount() == null || receipt.getAmount() <= 0) {
+    if (receipt.getAmount() == null || receipt.getAmount().compareTo(BigDecimal.ZERO) <= 0) {
       throw new BadRequestException("Receipt amount must be positive");
     }
   }

@@ -7,6 +7,7 @@ import com.example.demo.endpoint.rest.mapper.JobMapper;
 import com.example.demo.endpoint.rest.mapper.RestAuditMapperUtils;
 import com.example.demo.service.JobService;
 import com.example.demo.service.money.IncomeTypeService;
+import java.math.BigDecimal;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -99,15 +100,15 @@ public class IncomeMoneyMapper {
               .collect(Collectors.toList()));
     }
 
-    int sumReceipts =
+    BigDecimal sumReceipts =
         domainIncome.getReceipts() != null
             ? domainIncome.getReceipts().stream()
                 .filter(r -> r.getAmount() != null)
-                .mapToInt(com.example.demo.model.money.IncomeReceipt::getAmount)
-                .sum()
-            : 0;
-    Integer amount = domainIncome.getAmount();
-    restIncome.setRemainingAmount(amount != null ? amount - sumReceipts : null);
+                .map(com.example.demo.model.money.IncomeReceipt::getAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add)
+            : BigDecimal.ZERO;
+    BigDecimal amount = domainIncome.getAmount();
+    restIncome.setRemainingAmount(amount != null ? amount.subtract(sumReceipts) : null);
 
     return restIncome;
   }

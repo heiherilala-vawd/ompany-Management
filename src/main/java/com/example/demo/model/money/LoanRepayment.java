@@ -3,6 +3,7 @@ package com.example.demo.model.money;
 import com.example.demo.model.CreatAndUpdateEntity;
 import jakarta.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
 import lombok.AllArgsConstructor;
@@ -27,11 +28,11 @@ public class LoanRepayment extends CreatAndUpdateEntity implements Serializable 
 
   private LocalDate paymentDate;
 
-  private Integer amount;
+  private BigDecimal amount;
 
-  private Integer principalPortion;
+  private BigDecimal principalPortion;
 
-  private Integer interestPortion;
+  private BigDecimal interestPortion;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "loan_id")

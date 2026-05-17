@@ -11,6 +11,7 @@ import com.example.demo.client.model.TravelExpense;
 import com.example.demo.client.model.TravelMaterials;
 import com.example.demo.client.model.TravelPeople;
 import com.example.demo.client.model.User;
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.UUID;
 
@@ -65,7 +66,7 @@ final class TestTravelFixtures {
     travelExpense.setId(UUID.randomUUID().toString());
     CrupdateExpenseMoney expense = new CrupdateExpenseMoney();
     expense.setId(TestUtils.EXPENSE1_ID);
-    expense.setAmount(1000);
+    expense.setAmount(new BigDecimal("1000.00"));
     expense.setDescription("Test travel expense");
     expense.setJobId(TestUtils.JOB1_ID);
     travelExpense.setExpense(expense);

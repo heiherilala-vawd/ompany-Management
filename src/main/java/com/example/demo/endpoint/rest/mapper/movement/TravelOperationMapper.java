@@ -20,6 +20,7 @@ import com.example.demo.model.movement.TravelMaterials;
 import com.example.demo.model.movement.TravelPeople;
 import com.example.demo.model.movement.Warehouse;
 import com.example.demo.service.movement.TravelOperationAggregate;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Component;
@@ -41,7 +42,7 @@ public class TravelOperationMapper {
             ? ExpenseMoney.builder()
                 .id(restTravel.getExpenseId())
                 .job(job)
-                .amount(restTravel.getFee() != null ? restTravel.getFee() : 0)
+                .amount(restTravel.getFee() != null ? restTravel.getFee() : BigDecimal.ZERO)
                 .description("Travel expense")
                 .comment(request.getComment())
                 .build()

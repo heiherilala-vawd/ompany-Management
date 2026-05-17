@@ -1,6 +1,7 @@
 package com.example.demo.repository.money;
 
 import com.example.demo.model.money.IncomeMoney;
+import java.math.BigDecimal;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,5 +23,5 @@ public interface IncomeMoneyRepository
   boolean existsByInvoiceReference(String invoiceReference);
 
   @Query("SELECT COALESCE(SUM(i.amount), 0) FROM IncomeMoney i WHERE i.job.id = :jobId")
-  Integer sumByJobId(@Param("jobId") String jobId);
+  BigDecimal sumByJobId(@Param("jobId") String jobId);
 }

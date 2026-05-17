@@ -25,6 +25,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import java.math.BigDecimal;
 import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
@@ -41,7 +42,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   PurchaseOperationTravel.JSON_PROPERTY_ARRIVAL_DATE,
   PurchaseOperationTravel.JSON_PROPERTY_FEE
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-16T21:32:49.384124061+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-17T01:01:06.180120920+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class PurchaseOperationTravel {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -62,7 +63,7 @@ public class PurchaseOperationTravel {
   private java.time.Instant arrivalDate;
 
   public static final String JSON_PROPERTY_FEE = "fee";
-  private Integer fee;
+  private BigDecimal fee;
 
   public PurchaseOperationTravel() { 
   }
@@ -217,7 +218,7 @@ public class PurchaseOperationTravel {
   }
 
 
-  public PurchaseOperationTravel fee(Integer fee) {
+  public PurchaseOperationTravel fee(BigDecimal fee) {
     this.fee = fee;
     return this;
   }
@@ -230,14 +231,14 @@ public class PurchaseOperationTravel {
   @JsonProperty(JSON_PROPERTY_FEE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public Integer getFee() {
+  public BigDecimal getFee() {
     return fee;
   }
 
 
   @JsonProperty(JSON_PROPERTY_FEE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setFee(Integer fee) {
+  public void setFee(BigDecimal fee) {
     this.fee = fee;
   }
 

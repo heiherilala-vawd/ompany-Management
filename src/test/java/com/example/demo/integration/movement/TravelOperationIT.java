@@ -26,6 +26,7 @@ import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
 import com.example.demo.integration.conf.TestDataSqlLoader;
 import com.example.demo.integration.conf.TestUtils;
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
 import javax.sql.DataSource;
@@ -85,7 +86,7 @@ class TravelOperationIT {
             .arrivalLocation(new CrupdateWarehouse().id(arrivalWarehouseId).name("Test Arrival"))
             .departureDate(Instant.parse("2024-05-01T08:00:00Z"))
             .arrivalDate(Instant.parse("2024-05-02T10:00:00Z"))
-            .fee(1500));
+            .fee(BigDecimal.valueOf(1500)));
     request.setEquipmentLines(
         List.of(
             new TravelOperationEquipmentLine()
