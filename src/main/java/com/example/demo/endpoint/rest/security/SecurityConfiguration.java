@@ -361,6 +361,16 @@ public class SecurityConfiguration {
                     .hasRole("ADMIN")
 
                     // =========================
+                    // COMPANY FIXED COST
+                    // =========================
+                    .requestMatchers(GET, "/companies/*/fixed-costs", "/companies/*/fixed-costs/*")
+                    .authenticated()
+                    .requestMatchers(PUT, "/companies/*/fixed-costs")
+                    .authenticated()
+                    .requestMatchers(DELETE, "/companies/*/fixed-costs/*")
+                    .hasRole("ADMIN")
+
+                    // =========================
                     // LOAN REPAYMENT
                     // =========================
                     .requestMatchers(
@@ -372,6 +382,28 @@ public class SecurityConfiguration {
                     .authenticated()
                     // DELETE /loan_repayments - ADMIN uniquement
                     .requestMatchers(DELETE, "/companies/*/job/*/user/*/loans/*/repayments/*")
+                    .hasRole("ADMIN")
+
+                    // =========================
+                    // HR - LEAVE TYPES
+                    // =========================
+                    .requestMatchers(
+                        GET,
+                        "/companies/*/leave-types",
+                        "/companies/*/leave-configs",
+                        "/companies/*/leave-configs/*",
+                        "/companies/*/leaves",
+                        "/companies/*/leaves/*",
+                        "/companies/*/leave-balances",
+                        "/companies/*/leave-balances/employees-without-leave")
+                    .authenticated()
+                    .requestMatchers(
+                        PUT,
+                        "/companies/*/leave-types",
+                        "/companies/*/leave-configs",
+                        "/companies/*/leaves")
+                    .authenticated()
+                    .requestMatchers(DELETE, "/companies/*/leaves/*")
                     .hasRole("ADMIN")
 
                     // =========================

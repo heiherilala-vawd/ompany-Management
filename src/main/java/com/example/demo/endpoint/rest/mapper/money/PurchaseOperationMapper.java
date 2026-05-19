@@ -24,6 +24,7 @@ import com.example.demo.model.movement.TravelMaterials;
 import com.example.demo.model.movement.Warehouse;
 import com.example.demo.service.money.PurchaseOperationAggregate;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -103,6 +104,7 @@ public class PurchaseOperationMapper {
               .material(null)
               .quantity(1)
               .isEquipment(true)
+              .invoiceDate(LocalDate.now())
               .build());
 
       equipmentToUpdate.add(equipment);
@@ -133,6 +135,7 @@ public class PurchaseOperationMapper {
               .material(material)
               .quantity(quantity)
               .isEquipment(false)
+              .invoiceDate(LocalDate.now())
               .build());
 
       materials.add(material);

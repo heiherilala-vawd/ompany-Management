@@ -11,6 +11,8 @@ import com.example.demo.repository.money.PurchaseRepository;
 import com.example.demo.service.utils.ModificationUtils;
 import com.example.demo.service.utils.PageUtils;
 import com.example.demo.validator.MoneyValidator;
+import jakarta.persistence.criteria.Predicate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -67,6 +69,27 @@ public class PurchaseService {
 
   private Specification<Purchase> toSpecification(PurchaseCriteria criteria) {
     return Specification.<Purchase>where(equal(criteria.getSupplierId(), "supplier", "id"))
-        .and(equal(criteria.getIsEquipment(), "isEquipment"));
+        .and(equal(criteria.getIsEquipment(), "isEquipment"))
+        .and(
+            (root, query, cb) -> {
+              List<Predicate> predicates = new ArrayList<>();
+              if (criteria.getInvoiceDateFrom() != null) {
+                predicates.add(
+                    cb.greaterThanOrEqualTo(
+                        root.get("invoiceDate"), criteria.getInvoiceDateFrom()));
+              }
+              if (criteria.getInvoiceDateTo() != null) {
+                predicates.add(
+                    cb.lessThanOrEqualTo(root.get("invoiceDate"), criteria.getInvoiceDateTo()));
+              }
+              if (criteria.getPaid() != null) {
+                if (criteria.getPaid()) {
+                  predicates.add(cb.isNotNull(root.get("paidAt")));
+                } else {
+                  predicates.add(cb.isNull(root.get("paidAt")));
+                }
+              }
+              return cb.and(predicates.toArray(new Predicate[0]));
+            });
   }
 }

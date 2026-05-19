@@ -363,6 +363,68 @@ class MoneyValidatorTest {
           .isInstanceOf(BadRequestException.class)
           .hasMessageContaining("Income type is mandatory for income");
     }
+
+    @Test
+    void should_throw_when_dueDate_before_facturationDate() {
+      IncomeMoney i =
+          IncomeMoney.builder()
+              .id("inc1")
+              .amount(BigDecimal.valueOf(2000))
+              .sourceOrganization("Org")
+              .job(Job.builder().id("job1").build())
+              .incomeType(IncomeType.builder().id("it1").build())
+              .facturationDate(Instant.parse("2024-06-15T10:00:00Z"))
+              .dueDate(LocalDate.of(2024, 6, 1))
+              .build();
+      assertThatThrownBy(() -> validator.validateIncomeMoney(i))
+          .isInstanceOf(BadRequestException.class)
+          .hasMessageContaining("Due date cannot be before facturation date");
+    }
+
+    @Test
+    void should_pass_when_dueDate_after_facturationDate() {
+      IncomeMoney i =
+          IncomeMoney.builder()
+              .id("inc1")
+              .amount(BigDecimal.valueOf(2000))
+              .sourceOrganization("Org")
+              .job(Job.builder().id("job1").build())
+              .incomeType(IncomeType.builder().id("it1").build())
+              .facturationDate(Instant.parse("2024-06-01T10:00:00Z"))
+              .dueDate(LocalDate.of(2024, 6, 15))
+              .build();
+      assertThatCode(() -> validator.validateIncomeMoney(i)).doesNotThrowAnyException();
+    }
+
+    @Test
+    void should_pass_when_dueDate_null() {
+      IncomeMoney i =
+          IncomeMoney.builder()
+              .id("inc1")
+              .amount(BigDecimal.valueOf(2000))
+              .sourceOrganization("Org")
+              .job(Job.builder().id("job1").build())
+              .incomeType(IncomeType.builder().id("it1").build())
+              .facturationDate(Instant.parse("2024-06-01T10:00:00Z"))
+              .dueDate(null)
+              .build();
+      assertThatCode(() -> validator.validateIncomeMoney(i)).doesNotThrowAnyException();
+    }
+
+    @Test
+    void should_pass_when_facturationDate_null() {
+      IncomeMoney i =
+          IncomeMoney.builder()
+              .id("inc1")
+              .amount(BigDecimal.valueOf(2000))
+              .sourceOrganization("Org")
+              .job(Job.builder().id("job1").build())
+              .incomeType(IncomeType.builder().id("it1").build())
+              .facturationDate(null)
+              .dueDate(LocalDate.of(2024, 6, 15))
+              .build();
+      assertThatCode(() -> validator.validateIncomeMoney(i)).doesNotThrowAnyException();
+    }
   }
 
   @Nested
@@ -908,6 +970,7 @@ class MoneyValidatorTest {
               .isEquipment(true)
               .quantity(5)
               .equipment(Equipment.builder().id("eq1").build())
+              .invoiceDate(LocalDate.of(2024, 1, 15))
               .build();
       assertThatCode(() -> validator.validatePurchase(p)).doesNotThrowAnyException();
     }
@@ -922,6 +985,7 @@ class MoneyValidatorTest {
               .isEquipment(false)
               .quantity(5)
               .material(Material.builder().id("mat1").build())
+              .invoiceDate(LocalDate.of(2024, 1, 15))
               .build();
       assertThatCode(() -> validator.validatePurchase(p)).doesNotThrowAnyException();
     }

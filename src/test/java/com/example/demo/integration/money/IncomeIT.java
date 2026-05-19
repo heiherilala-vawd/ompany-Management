@@ -13,6 +13,7 @@ import com.example.demo.integration.conf.AbstractContextInitializer;
 import com.example.demo.integration.conf.TestDataSqlLoader;
 import com.example.demo.integration.conf.TestUtils;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import javax.sql.DataSource;
 import org.junit.jupiter.api.BeforeEach;
@@ -263,6 +264,40 @@ class IncomeIT {
     assertEquals(INCOME1_ID, updatedIncome.getId());
     assertEquals("Paiement initial chantier A valide", updatedIncome.getDescription());
     assertEquals(income1().getAmount(), updatedIncome.getAmount());
+    assertEquals(income1().getDueDate(), updatedIncome.getDueDate());
+    assertEquals(income1().getPaymentTerms(), updatedIncome.getPaymentTerms());
+  }
+
+  @Test
+  @DirtiesContext
+  void administration_can_create_income_with_due_date() throws Exception {
+    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
+    IncomeApi api = new IncomeApi(adminClient);
+
+    CrupdateIncomeMoney income = someCreatableIncome();
+    income.setDueDate(LocalDate.of(2024, 6, 30));
+    income.setPaymentTerms("NET-60");
+
+    List<IncomeMoney> created =
+        api.crupdateIncomes(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(income));
+
+    assertEquals(1, created.size());
+    assertEquals(LocalDate.of(2024, 6, 30), created.get(0).getDueDate());
+    assertEquals("NET-60", created.get(0).getPaymentTerms());
+  }
+
+  @Test
+  void admin_cannot_create_income_with_due_date_before_facturation_date() {
+    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
+    IncomeApi api = new IncomeApi(adminClient);
+
+    CrupdateIncomeMoney income = someCreatableIncome();
+    income.facturationDate(java.time.Instant.parse("2024-06-15T10:00:00Z"));
+    income.setDueDate(LocalDate.of(2024, 6, 1));
+
+    assertThrowsApiException(
+        "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Due date cannot be before facturation date\"}",
+        () -> api.crupdateIncomes(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(income)));
   }
 
   @Test

@@ -1,0 +1,21 @@
+package com.example.demo.repository.money;
+
+import com.example.demo.model.money.CompanyFixedCost;
+import java.time.LocalDate;
+import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface CompanyFixedCostRepository extends JpaRepository<CompanyFixedCost, String> {
+
+  List<CompanyFixedCost> findByCompanyIdOrderByName(String companyId);
+
+  @Query(
+      "SELECT c FROM CompanyFixedCost c WHERE c.company.id = :companyId "
+          + "AND c.startDate <= :date AND (c.endDate IS NULL OR c.endDate >= :date)")
+  List<CompanyFixedCost> findActiveByCompanyIdAtDate(
+      @Param("companyId") String companyId, @Param("date") LocalDate date);
+}
