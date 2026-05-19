@@ -49,6 +49,9 @@ public class PurchaseMapper {
                 : null)
         .quantity(restPurchase.getQuantity())
         .isEquipment(restPurchase.getIsEquipment())
+        .invoiceDate(restPurchase.getInvoiceDate())
+        .dueDate(restPurchase.getDueDate())
+        .paidAt(restPurchase.getPaidAt())
         .build();
   }
 
@@ -72,6 +75,9 @@ public class PurchaseMapper {
                 : null)
         .quantity(restPurchase.getQuantity())
         .isEquipment(restPurchase.getIsEquipment())
+        .invoiceDate(restPurchase.getInvoiceDate())
+        .dueDate(restPurchase.getDueDate())
+        .paidAt(restPurchase.getPaidAt())
         .build();
   }
 
@@ -87,6 +93,9 @@ public class PurchaseMapper {
     restPurchase.setMaterial(materialMapper.toRestCrupdateMaterial(domainPurchase.getMaterial()));
     restPurchase.setQuantity(domainPurchase.getQuantity());
     restPurchase.setIsEquipment(domainPurchase.getIsEquipment());
+    restPurchase.setInvoiceDate(domainPurchase.getInvoiceDate());
+    restPurchase.setDueDate(domainPurchase.getDueDate());
+    restPurchase.setPaidAt(domainPurchase.getPaidAt());
 
     return restPurchase;
   }

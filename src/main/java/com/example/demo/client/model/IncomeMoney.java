@@ -45,6 +45,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   IncomeMoney.JSON_PROPERTY_INVOICE_REFERENCE,
   IncomeMoney.JSON_PROPERTY_BILLING_START_DATE,
   IncomeMoney.JSON_PROPERTY_FACTURATION_DATE,
+  IncomeMoney.JSON_PROPERTY_DUE_DATE,
+  IncomeMoney.JSON_PROPERTY_PAYMENT_TERMS,
   IncomeMoney.JSON_PROPERTY_JOB,
   IncomeMoney.JSON_PROPERTY_INCOME_TYPE,
   IncomeMoney.JSON_PROPERTY_RECEIPTS,
@@ -57,7 +59,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   IncomeMoney.JSON_PROPERTY_UPDATED_BY,
   IncomeMoney.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-17T16:12:50.152254305+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-20T00:43:34.571733130+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class IncomeMoney {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -73,6 +75,12 @@ public class IncomeMoney {
 
   public static final String JSON_PROPERTY_FACTURATION_DATE = "facturation_date";
   private java.time.Instant facturationDate;
+
+  public static final String JSON_PROPERTY_DUE_DATE = "due_date";
+  private java.time.LocalDate dueDate;
+
+  public static final String JSON_PROPERTY_PAYMENT_TERMS = "payment_terms";
+  private String paymentTerms;
 
   public static final String JSON_PROPERTY_JOB = "job";
   private CrupdateJob job;
@@ -232,6 +240,56 @@ public class IncomeMoney {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setFacturationDate(java.time.Instant facturationDate) {
     this.facturationDate = facturationDate;
+  }
+
+
+  public IncomeMoney dueDate(java.time.LocalDate dueDate) {
+    this.dueDate = dueDate;
+    return this;
+  }
+
+   /**
+   * Due date for payment of the invoice
+   * @return dueDate
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_DUE_DATE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public java.time.LocalDate getDueDate() {
+    return dueDate;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_DUE_DATE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setDueDate(java.time.LocalDate dueDate) {
+    this.dueDate = dueDate;
+  }
+
+
+  public IncomeMoney paymentTerms(String paymentTerms) {
+    this.paymentTerms = paymentTerms;
+    return this;
+  }
+
+   /**
+   * Payment terms (e.g. NET-30, 30J fin de mois)
+   * @return paymentTerms
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_PAYMENT_TERMS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getPaymentTerms() {
+    return paymentTerms;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_PAYMENT_TERMS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setPaymentTerms(String paymentTerms) {
+    this.paymentTerms = paymentTerms;
   }
 
 
@@ -535,6 +593,8 @@ public class IncomeMoney {
         Objects.equals(this.invoiceReference, incomeMoney.invoiceReference) &&
         Objects.equals(this.billingStartDate, incomeMoney.billingStartDate) &&
         Objects.equals(this.facturationDate, incomeMoney.facturationDate) &&
+        Objects.equals(this.dueDate, incomeMoney.dueDate) &&
+        Objects.equals(this.paymentTerms, incomeMoney.paymentTerms) &&
         Objects.equals(this.job, incomeMoney.job) &&
         Objects.equals(this.incomeType, incomeMoney.incomeType) &&
         Objects.equals(this.receipts, incomeMoney.receipts) &&
@@ -550,7 +610,7 @@ public class IncomeMoney {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, sourceOrganization, invoiceReference, billingStartDate, facturationDate, job, incomeType, receipts, remainingAmount, amount, description, createdAt, updatedAt, createdBy, updatedBy, comment);
+    return Objects.hash(id, sourceOrganization, invoiceReference, billingStartDate, facturationDate, dueDate, paymentTerms, job, incomeType, receipts, remainingAmount, amount, description, createdAt, updatedAt, createdBy, updatedBy, comment);
   }
 
   @Override
@@ -562,6 +622,8 @@ public class IncomeMoney {
     sb.append("    invoiceReference: ").append(toIndentedString(invoiceReference)).append("\n");
     sb.append("    billingStartDate: ").append(toIndentedString(billingStartDate)).append("\n");
     sb.append("    facturationDate: ").append(toIndentedString(facturationDate)).append("\n");
+    sb.append("    dueDate: ").append(toIndentedString(dueDate)).append("\n");
+    sb.append("    paymentTerms: ").append(toIndentedString(paymentTerms)).append("\n");
     sb.append("    job: ").append(toIndentedString(job)).append("\n");
     sb.append("    incomeType: ").append(toIndentedString(incomeType)).append("\n");
     sb.append("    receipts: ").append(toIndentedString(receipts)).append("\n");

@@ -8,8 +8,10 @@ import com.example.demo.model.PageFromOne;
 import com.example.demo.model.criteria.PurchaseCriteria;
 import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.service.money.PurchaseService;
+import java.time.LocalDate;
 import java.util.List;
 import lombok.AllArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,10 +44,20 @@ public class PurchaseController {
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
       @RequestParam(name = "supplier_id", required = false) String supplierId,
-      @RequestParam(name = "is_equipment", required = false) Boolean isEquipment) {
+      @RequestParam(name = "is_equipment", required = false) Boolean isEquipment,
+      @RequestParam(name = "invoice_date_from", required = false)
+          @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+          LocalDate invoiceDateFrom,
+      @RequestParam(name = "invoice_date_to", required = false)
+          @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+          LocalDate invoiceDateTo,
+      @RequestParam(name = "paid", required = false) Boolean paid) {
     PurchaseCriteria criteria = new PurchaseCriteria();
     criteria.setSupplierId(supplierId);
     criteria.setIsEquipment(isEquipment);
+    criteria.setInvoiceDateFrom(invoiceDateFrom);
+    criteria.setInvoiceDateTo(invoiceDateTo);
+    criteria.setPaid(paid);
 
     return purchaseService.findAll(page, pageSize, criteria).stream()
         .map(purchaseMapper::toRestPurchase)

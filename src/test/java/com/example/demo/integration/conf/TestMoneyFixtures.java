@@ -3,7 +3,9 @@ package com.example.demo.integration.conf;
 import static com.example.demo.integration.conf.TestOrganizationFixtures.warehouse1;
 
 import com.example.demo.client.model.BankFee;
+import com.example.demo.client.model.CompanyFixedCost;
 import com.example.demo.client.model.CrupdateBankFee;
+import com.example.demo.client.model.CrupdateCompanyFixedCost;
 import com.example.demo.client.model.CrupdateEmployeePayment;
 import com.example.demo.client.model.CrupdateExpenseMoney;
 import com.example.demo.client.model.CrupdateIncomeMoney;
@@ -46,6 +48,8 @@ final class TestMoneyFixtures {
     income.setSourceOrganization("Client Alpha");
     income.setInvoiceReference("INV-2024-001");
     income.setBillingStartDate(LocalDate.of(2024, 1, 15));
+    income.setDueDate(LocalDate.of(2024, 2, 15));
+    income.setPaymentTerms("NET-30");
     income.setIncomeType(incomeType1());
     income.setAmount(new BigDecimal("150000.00"));
     income.setDescription("Paiement initial chantier A");
@@ -65,6 +69,8 @@ final class TestMoneyFixtures {
     income.setSourceOrganization("Client Beta");
     income.setInvoiceReference("INV-2024-002");
     income.setBillingStartDate(LocalDate.of(2024, 2, 10));
+    income.setDueDate(LocalDate.of(2024, 3, 12));
+    income.setPaymentTerms("NET-30");
     income.setIncomeType(incomeType1());
     income.setAmount(new BigDecimal("275000.00"));
     income.setDescription("Paiement avance renovation hotel");
@@ -115,6 +121,8 @@ final class TestMoneyFixtures {
     crupdateIncome.setSourceOrganization(income.getSourceOrganization());
     crupdateIncome.setInvoiceReference(income.getInvoiceReference());
     crupdateIncome.setBillingStartDate(income.getBillingStartDate());
+    crupdateIncome.setDueDate(income.getDueDate());
+    crupdateIncome.setPaymentTerms(income.getPaymentTerms());
     crupdateIncome.setIncomeTypeId(
         income.getIncomeType() != null ? income.getIncomeType().getId() : null);
     crupdateIncome.setAmount(income.getAmount());
@@ -130,6 +138,8 @@ final class TestMoneyFixtures {
     income.setSourceOrganization("Client Gamma");
     income.setInvoiceReference("INV-2024-003");
     income.setBillingStartDate(LocalDate.of(2024, 3, 1));
+    income.setDueDate(LocalDate.of(2024, 3, 31));
+    income.setPaymentTerms("NET-30");
     income.setIncomeTypeId(TestUtils.INCOME_TYPE2_ID);
     income.setAmount(new BigDecimal("99000.00"));
     income.setDescription("Paiement complementaire");
@@ -396,6 +406,9 @@ final class TestMoneyFixtures {
     purchase.setMaterial(null);
     purchase.setQuantity(1);
     purchase.setIsEquipment(true);
+    purchase.setInvoiceDate(LocalDate.of(2024, 1, 15));
+    purchase.setDueDate(LocalDate.of(2024, 2, 15));
+    purchase.setPaidAt(LocalDate.of(2024, 2, 10));
     return purchase;
   }
 
@@ -409,6 +422,8 @@ final class TestMoneyFixtures {
         TestOrganizationFixtures.materialToCrupdateMaterial(TestOrganizationFixtures.material2()));
     purchase.setQuantity(25);
     purchase.setIsEquipment(false);
+    purchase.setInvoiceDate(LocalDate.of(2024, 2, 1));
+    purchase.setDueDate(LocalDate.of(2024, 3, 1));
     return purchase;
   }
 
@@ -423,6 +438,9 @@ final class TestMoneyFixtures {
         purchase.getMaterial() != null ? purchase.getMaterial().getId() : null);
     crupdatePurchase.setQuantity(purchase.getQuantity());
     crupdatePurchase.setIsEquipment(purchase.getIsEquipment());
+    crupdatePurchase.setInvoiceDate(purchase.getInvoiceDate());
+    crupdatePurchase.setDueDate(purchase.getDueDate());
+    crupdatePurchase.setPaidAt(purchase.getPaidAt());
     return crupdatePurchase;
   }
 
@@ -643,6 +661,8 @@ final class TestMoneyFixtures {
     income.setSourceOrganization("Client Delta");
     income.setInvoiceReference("INV-2024-005");
     income.setBillingStartDate(LocalDate.of(2024, 4, 1));
+    income.setDueDate(LocalDate.of(2024, 5, 1));
+    income.setPaymentTerms("NET-30");
     income.setIncomeType(incomeType1());
     income.setAmount(new BigDecimal("100000.00"));
     income.setDescription("Paiement partiel");
@@ -662,6 +682,8 @@ final class TestMoneyFixtures {
     income.setSourceOrganization("Client Epsilon");
     income.setInvoiceReference("INV-2024-006");
     income.setBillingStartDate(LocalDate.of(2024, 4, 15));
+    income.setDueDate(LocalDate.of(2024, 5, 15));
+    income.setPaymentTerms("NET-30");
     income.setIncomeType(incomeType1());
     income.setAmount(new BigDecimal("100000.00"));
     income.setDescription("Paiement en exces");
@@ -685,6 +707,8 @@ final class TestMoneyFixtures {
     income.setSourceOrganization("Client Zeta");
     income.setInvoiceReference("INV-2024-007");
     income.setBillingStartDate(LocalDate.of(2024, 5, 1));
+    income.setDueDate(LocalDate.of(2024, 5, 31));
+    income.setPaymentTerms("NET-30");
     income.setIncomeType(incomeType1());
     income.setAmount(new BigDecimal("100000.00"));
     income.setDescription("Paiement total multiple recus");
@@ -699,5 +723,55 @@ final class TestMoneyFixtures {
     income.setReceipts(List.of(r1, r2));
     income.setRemainingAmount(new BigDecimal("0.00"));
     return income;
+  }
+
+  static CompanyFixedCost companyFixedCost1() {
+    CompanyFixedCost cost = new CompanyFixedCost();
+    cost.setId(TestUtils.FIXED_COST1_ID);
+    cost.setName("Loyer bureau");
+    cost.setAmount(new java.math.BigDecimal("2000.00"));
+    cost.setDescription("Loyer mensuel des locaux principaux");
+    cost.setCompanyId(TestUtils.COMPANY1_ID);
+    cost.setStartDate(java.time.LocalDate.of(2024, 1, 1));
+    cost.setEndDate(null);
+    return cost;
+  }
+
+  static CompanyFixedCost companyFixedCost2() {
+    CompanyFixedCost cost = new CompanyFixedCost();
+    cost.setId(TestUtils.FIXED_COST2_ID);
+    cost.setName("Assurance vehicule");
+    cost.setAmount(new java.math.BigDecimal("500.00"));
+    cost.setDescription("Assurance flotte automobile");
+    cost.setCompanyId(TestUtils.COMPANY1_ID);
+    cost.setStartDate(java.time.LocalDate.of(2024, 3, 1));
+    cost.setEndDate(java.time.LocalDate.of(2025, 3, 1));
+    return cost;
+  }
+
+  static CrupdateCompanyFixedCost companyFixedCostToCrupdateCompanyFixedCost(
+      CompanyFixedCost fixedCost) {
+    CrupdateCompanyFixedCost crupdate = new CrupdateCompanyFixedCost();
+    crupdate.setId(fixedCost.getId());
+    crupdate.setName(fixedCost.getName());
+    crupdate.setAmount(fixedCost.getAmount());
+    crupdate.setDescription(fixedCost.getDescription());
+    crupdate.setCompanyId(fixedCost.getCompanyId());
+    crupdate.setStartDate(fixedCost.getStartDate());
+    crupdate.setEndDate(fixedCost.getEndDate());
+    crupdate.setComment(fixedCost.getComment());
+    return crupdate;
+  }
+
+  static CrupdateCompanyFixedCost someCreatableCompanyFixedCost() {
+    CrupdateCompanyFixedCost cost = new CrupdateCompanyFixedCost();
+    cost.setId(java.util.UUID.randomUUID().toString());
+    cost.setName("Abonnement internet");
+    cost.setAmount(new java.math.BigDecimal("150.00"));
+    cost.setDescription("Fibre optique professionnelle");
+    cost.setCompanyId(TestUtils.COMPANY1_ID);
+    cost.setStartDate(java.time.LocalDate.of(2024, 6, 1));
+    cost.setEndDate(null);
+    return cost;
   }
 }

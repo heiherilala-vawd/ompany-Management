@@ -2,6 +2,7 @@ package com.example.demo.validator;
 
 import com.example.demo.model.exception.BadRequestException;
 import com.example.demo.model.money.BankFee;
+import com.example.demo.model.money.CompanyFixedCost;
 import com.example.demo.model.money.EmployeePayment;
 import com.example.demo.model.money.ExpenseMoney;
 import com.example.demo.model.money.IncomeMoney;
@@ -15,6 +16,7 @@ import com.example.demo.model.money.OtherExpenseType;
 import com.example.demo.model.money.Purchase;
 import com.example.demo.model.money.TravelExpense;
 import java.math.BigDecimal;
+import java.time.ZoneId;
 import java.util.List;
 import org.springframework.stereotype.Component;
 
@@ -59,6 +61,13 @@ public class MoneyValidator {
     }
     if (income.getIncomeType() == null || income.getIncomeType().getId() == null) {
       throw new BadRequestException("Income type is mandatory for income");
+    }
+    if (income.getDueDate() != null
+        && income.getFacturationDate() != null
+        && income
+            .getDueDate()
+            .isBefore(income.getFacturationDate().atZone(ZoneId.systemDefault()).toLocalDate())) {
+      throw new BadRequestException("Due date cannot be before facturation date");
     }
   }
 
@@ -186,6 +195,12 @@ public class MoneyValidator {
         throw new BadRequestException("Material is mandatory when isEquipment is false");
       }
     }
+    if (purchase.getInvoiceDate() == null) {
+      throw new BadRequestException("Invoice date is mandatory for purchase");
+    }
+    if (purchase.getPaidAt() != null && purchase.getPaidAt().isBefore(purchase.getInvoiceDate())) {
+      throw new BadRequestException("Payment date cannot be before invoice date");
+    }
   }
 
   public void validatePurchases(List<Purchase> purchases) {
@@ -228,6 +243,36 @@ public class MoneyValidator {
     if (otherExpenseType.getCompany() == null || otherExpenseType.getCompany().getId() == null) {
       throw new BadRequestException("Other expense type must be associated with a company");
     }
+  }
+
+  public void validateCompanyFixedCost(CompanyFixedCost fixedCost) {
+    if (fixedCost == null) {
+      throw new BadRequestException("Company fixed cost cannot be null");
+    }
+    if (fixedCost.getName() == null || fixedCost.getName().isBlank()) {
+      throw new BadRequestException("Company fixed cost name is mandatory");
+    }
+    if (fixedCost.getAmount() == null
+        || fixedCost.getAmount().compareTo(java.math.BigDecimal.ZERO) <= 0) {
+      throw new BadRequestException("Company fixed cost amount must be positive");
+    }
+    if (fixedCost.getCompany() == null || fixedCost.getCompany().getId() == null) {
+      throw new BadRequestException("Company fixed cost must be associated with a company");
+    }
+    if (fixedCost.getStartDate() == null) {
+      throw new BadRequestException("Company fixed cost start date is mandatory");
+    }
+    if (fixedCost.getEndDate() != null
+        && fixedCost.getEndDate().isBefore(fixedCost.getStartDate())) {
+      throw new BadRequestException("Company fixed cost end date cannot be before start date");
+    }
+  }
+
+  public void validateCompanyFixedCosts(List<CompanyFixedCost> fixedCosts) {
+    if (fixedCosts == null || fixedCosts.isEmpty()) {
+      throw new BadRequestException("Company fixed cost list cannot be null or empty");
+    }
+    fixedCosts.forEach(this::validateCompanyFixedCost);
   }
 
   public void validateOtherExpenseTypes(List<OtherExpenseType> otherExpenseTypes) {

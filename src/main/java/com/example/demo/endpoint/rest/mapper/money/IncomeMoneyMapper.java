@@ -30,6 +30,8 @@ public class IncomeMoneyMapper {
         .invoiceReference(restIncome.getInvoiceReference())
         .billingStartDate(restIncome.getBillingStartDate())
         .facturationDate(restIncome.getFacturationDate())
+        .dueDate(restIncome.getDueDate())
+        .paymentTerms(restIncome.getPaymentTerms())
         .amount(restIncome.getAmount())
         .description(restIncome.getDescription())
         .comment(restIncome.getComment())
@@ -53,6 +55,8 @@ public class IncomeMoneyMapper {
         .invoiceReference(restIncome.getInvoiceReference())
         .billingStartDate(restIncome.getBillingStartDate())
         .facturationDate(restIncome.getFacturationDate())
+        .dueDate(restIncome.getDueDate())
+        .paymentTerms(restIncome.getPaymentTerms())
         .amount(restIncome.getAmount())
         .description(restIncome.getDescription())
         .comment(restIncome.getComment())
@@ -76,6 +80,8 @@ public class IncomeMoneyMapper {
     restIncome.setInvoiceReference(domainIncome.getInvoiceReference());
     restIncome.setBillingStartDate(domainIncome.getBillingStartDate());
     restIncome.setFacturationDate(domainIncome.getFacturationDate());
+    restIncome.setDueDate(domainIncome.getDueDate());
+    restIncome.setPaymentTerms(domainIncome.getPaymentTerms());
     restIncome.setAmount(domainIncome.getAmount());
     restIncome.setDescription(domainIncome.getDescription());
     restIncome.setJob(jobMapper.toRestCrupdateJob(domainIncome.getJob()));
