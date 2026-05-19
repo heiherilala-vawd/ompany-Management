@@ -6,6 +6,7 @@ import com.example.demo.model.movement.Warehouse;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Objects;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -48,6 +49,12 @@ public class Purchase implements Serializable {
 
   private Boolean isEquipment;
 
+  private LocalDate invoiceDate;
+
+  private LocalDate dueDate;
+
+  private LocalDate paidAt;
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
@@ -79,6 +86,12 @@ public class Purchase implements Serializable {
         + quantity
         + ", isEquipment="
         + isEquipment
+        + ", invoiceDate="
+        + invoiceDate
+        + ", dueDate="
+        + dueDate
+        + ", paidAt="
+        + paidAt
         + '}';
   }
 }

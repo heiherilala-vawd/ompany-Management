@@ -19,6 +19,7 @@ import com.example.demo.client.invoker.Pair;
 
 import com.example.demo.client.model.BadRequestException;
 import com.example.demo.client.model.CrupdatePurchase;
+import java.util.Date;
 import com.example.demo.client.model.InternalServerException;
 import com.example.demo.client.model.NotAuthorizedException;
 import com.example.demo.client.model.Purchase;
@@ -50,7 +51,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-17T16:12:50.152254305+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-20T00:43:34.571733130+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class PurchaseApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -387,11 +388,14 @@ public class PurchaseApi {
    * @param pageSize  (optional)
    * @param supplierId Filter purchases by supplier id (optional)
    * @param isEquipment  (optional)
+   * @param invoiceDateFrom Filter by invoice date from (inclusive) (optional)
+   * @param invoiceDateTo Filter by invoice date to (inclusive) (optional)
+   * @param paid Filter by payment status (true &#x3D; paid, false &#x3D; unpaid) (optional)
    * @return List&lt;Purchase&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<Purchase> getPurchases(String compId, String jobId, String userId, Integer page, Integer pageSize, String supplierId, Boolean isEquipment) throws ApiException {
-    ApiResponse<List<Purchase>> localVarResponse = getPurchasesWithHttpInfo(compId, jobId, userId, page, pageSize, supplierId, isEquipment);
+  public List<Purchase> getPurchases(String compId, String jobId, String userId, Integer page, Integer pageSize, String supplierId, Boolean isEquipment, java.time.LocalDate invoiceDateFrom, java.time.LocalDate invoiceDateTo, Boolean paid) throws ApiException {
+    ApiResponse<List<Purchase>> localVarResponse = getPurchasesWithHttpInfo(compId, jobId, userId, page, pageSize, supplierId, isEquipment, invoiceDateFrom, invoiceDateTo, paid);
     return localVarResponse.getData();
   }
 
@@ -405,11 +409,14 @@ public class PurchaseApi {
    * @param pageSize  (optional)
    * @param supplierId Filter purchases by supplier id (optional)
    * @param isEquipment  (optional)
+   * @param invoiceDateFrom Filter by invoice date from (inclusive) (optional)
+   * @param invoiceDateTo Filter by invoice date to (inclusive) (optional)
+   * @param paid Filter by payment status (true &#x3D; paid, false &#x3D; unpaid) (optional)
    * @return ApiResponse&lt;List&lt;Purchase&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<Purchase>> getPurchasesWithHttpInfo(String compId, String jobId, String userId, Integer page, Integer pageSize, String supplierId, Boolean isEquipment) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getPurchasesRequestBuilder(compId, jobId, userId, page, pageSize, supplierId, isEquipment);
+  public ApiResponse<List<Purchase>> getPurchasesWithHttpInfo(String compId, String jobId, String userId, Integer page, Integer pageSize, String supplierId, Boolean isEquipment, java.time.LocalDate invoiceDateFrom, java.time.LocalDate invoiceDateTo, Boolean paid) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getPurchasesRequestBuilder(compId, jobId, userId, page, pageSize, supplierId, isEquipment, invoiceDateFrom, invoiceDateTo, paid);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -437,7 +444,7 @@ public class PurchaseApi {
     }
   }
 
-  private HttpRequest.Builder getPurchasesRequestBuilder(String compId, String jobId, String userId, Integer page, Integer pageSize, String supplierId, Boolean isEquipment) throws ApiException {
+  private HttpRequest.Builder getPurchasesRequestBuilder(String compId, String jobId, String userId, Integer page, Integer pageSize, String supplierId, Boolean isEquipment, java.time.LocalDate invoiceDateFrom, java.time.LocalDate invoiceDateTo, Boolean paid) throws ApiException {
     // verify the required parameter 'compId' is set
     if (compId == null) {
       throw new ApiException(400, "Missing the required parameter 'compId' when calling getPurchases");
@@ -469,6 +476,12 @@ public class PurchaseApi {
     localVarQueryParams.addAll(ApiClient.parameterToPairs("supplier_id", supplierId));
     localVarQueryParameterBaseName = "is_equipment";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("is_equipment", isEquipment));
+    localVarQueryParameterBaseName = "invoice_date_from";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("invoice_date_from", invoiceDateFrom));
+    localVarQueryParameterBaseName = "invoice_date_to";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("invoice_date_to", invoiceDateTo));
+    localVarQueryParameterBaseName = "paid";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("paid", paid));
 
     if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
       StringJoiner queryJoiner = new StringJoiner("&");

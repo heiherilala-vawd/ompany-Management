@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import com.example.demo.model.hr.EmployeeLeaveConfig;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -21,7 +22,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Table(name = "\"users\"")
 @Getter
 @Setter
-@ToString(exclude = "assignedJobs")
+@ToString(exclude = {"assignedJobs", "employeeLeaveConfig"})
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -55,6 +56,10 @@ public class User extends CreatAndUpdateEntity implements Serializable, UserDeta
 
   @ManyToMany(mappedBy = "responsibleUsers", fetch = FetchType.LAZY)
   private List<Job> assignedJobs = new ArrayList<>();
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "employee_leave_config_id")
+  private EmployeeLeaveConfig employeeLeaveConfig;
 
   @Override
   public boolean equals(Object o) {

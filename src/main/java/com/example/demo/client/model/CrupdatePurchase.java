@@ -27,6 +27,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Arrays;
+import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
@@ -40,9 +41,12 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   CrupdatePurchase.JSON_PROPERTY_EQUIPMENT,
   CrupdatePurchase.JSON_PROPERTY_MATERIAL,
   CrupdatePurchase.JSON_PROPERTY_QUANTITY,
-  CrupdatePurchase.JSON_PROPERTY_IS_EQUIPMENT
+  CrupdatePurchase.JSON_PROPERTY_IS_EQUIPMENT,
+  CrupdatePurchase.JSON_PROPERTY_INVOICE_DATE,
+  CrupdatePurchase.JSON_PROPERTY_DUE_DATE,
+  CrupdatePurchase.JSON_PROPERTY_PAID_AT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-17T16:12:50.152254305+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-20T00:43:34.571733130+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdatePurchase {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -64,6 +68,15 @@ public class CrupdatePurchase {
 
   public static final String JSON_PROPERTY_IS_EQUIPMENT = "is_equipment";
   private Boolean isEquipment;
+
+  public static final String JSON_PROPERTY_INVOICE_DATE = "invoice_date";
+  private java.time.LocalDate invoiceDate;
+
+  public static final String JSON_PROPERTY_DUE_DATE = "due_date";
+  private java.time.LocalDate dueDate;
+
+  public static final String JSON_PROPERTY_PAID_AT = "paid_at";
+  private java.time.LocalDate paidAt;
 
   public CrupdatePurchase() { 
   }
@@ -243,6 +256,81 @@ public class CrupdatePurchase {
   }
 
 
+  public CrupdatePurchase invoiceDate(java.time.LocalDate invoiceDate) {
+    this.invoiceDate = invoiceDate;
+    return this;
+  }
+
+   /**
+   * Get invoiceDate
+   * @return invoiceDate
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_INVOICE_DATE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public java.time.LocalDate getInvoiceDate() {
+    return invoiceDate;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_INVOICE_DATE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setInvoiceDate(java.time.LocalDate invoiceDate) {
+    this.invoiceDate = invoiceDate;
+  }
+
+
+  public CrupdatePurchase dueDate(java.time.LocalDate dueDate) {
+    this.dueDate = dueDate;
+    return this;
+  }
+
+   /**
+   * Get dueDate
+   * @return dueDate
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_DUE_DATE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public java.time.LocalDate getDueDate() {
+    return dueDate;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_DUE_DATE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setDueDate(java.time.LocalDate dueDate) {
+    this.dueDate = dueDate;
+  }
+
+
+  public CrupdatePurchase paidAt(java.time.LocalDate paidAt) {
+    this.paidAt = paidAt;
+    return this;
+  }
+
+   /**
+   * Get paidAt
+   * @return paidAt
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_PAID_AT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public java.time.LocalDate getPaidAt() {
+    return paidAt;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_PAID_AT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setPaidAt(java.time.LocalDate paidAt) {
+    this.paidAt = paidAt;
+  }
+
+
   /**
    * Return true if this CrupdatePurchase object is equal to o.
    */
@@ -261,12 +349,15 @@ public class CrupdatePurchase {
         Objects.equals(this.equipment, crupdatePurchase.equipment) &&
         Objects.equals(this.material, crupdatePurchase.material) &&
         Objects.equals(this.quantity, crupdatePurchase.quantity) &&
-        Objects.equals(this.isEquipment, crupdatePurchase.isEquipment);
+        Objects.equals(this.isEquipment, crupdatePurchase.isEquipment) &&
+        Objects.equals(this.invoiceDate, crupdatePurchase.invoiceDate) &&
+        Objects.equals(this.dueDate, crupdatePurchase.dueDate) &&
+        Objects.equals(this.paidAt, crupdatePurchase.paidAt);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, expense, supplier, equipment, material, quantity, isEquipment);
+    return Objects.hash(id, expense, supplier, equipment, material, quantity, isEquipment, invoiceDate, dueDate, paidAt);
   }
 
   @Override
@@ -280,6 +371,9 @@ public class CrupdatePurchase {
     sb.append("    material: ").append(toIndentedString(material)).append("\n");
     sb.append("    quantity: ").append(toIndentedString(quantity)).append("\n");
     sb.append("    isEquipment: ").append(toIndentedString(isEquipment)).append("\n");
+    sb.append("    invoiceDate: ").append(toIndentedString(invoiceDate)).append("\n");
+    sb.append("    dueDate: ").append(toIndentedString(dueDate)).append("\n");
+    sb.append("    paidAt: ").append(toIndentedString(paidAt)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -360,6 +454,21 @@ public class CrupdatePurchase {
     // add `is_equipment` to the URL query string
     if (getIsEquipment() != null) {
       joiner.add(String.format("%sis_equipment%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getIsEquipment()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `invoice_date` to the URL query string
+    if (getInvoiceDate() != null) {
+      joiner.add(String.format("%sinvoice_date%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getInvoiceDate()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `due_date` to the URL query string
+    if (getDueDate() != null) {
+      joiner.add(String.format("%sdue_date%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getDueDate()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `paid_at` to the URL query string
+    if (getPaidAt() != null) {
+      joiner.add(String.format("%spaid_at%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getPaidAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

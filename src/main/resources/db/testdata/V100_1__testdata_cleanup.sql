@@ -1,4 +1,7 @@
 -- Nettoyage des données de test (ordre FK inverse)
+DELETE FROM "leave";
+DELETE FROM "employee_leave_config";
+DELETE FROM "leave_type";
 DELETE FROM "history";
 DELETE FROM "travel_equipment";
 DELETE FROM "travel_materials";
@@ -6,6 +9,7 @@ DELETE FROM "travel_people";
 DELETE FROM "travel_expense";
 DELETE FROM "other_expense";
 DELETE FROM "maintenance";
+DELETE FROM "company_fixed_cost";
 DELETE FROM "other_expense_type";
 DELETE FROM "bank_fee";
 DELETE FROM "purchase";

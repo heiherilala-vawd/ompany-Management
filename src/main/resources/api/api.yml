@@ -16,6 +16,408 @@ security:
 
 paths:
 
+  # =========================
+  # HR - LEAVE TYPES
+  # =========================
+  /companies/{comp_id}/leave-types:
+    get:
+      tags:
+        - HR
+      summary: Get all leave types
+      operationId: getLeaveTypes
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+      responses:
+        '200':
+          description: List of leave types
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LeaveType'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      tags:
+        - HR
+      summary: Create or update leave types
+      operationId: crupdateLeaveTypes
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/CrupdateLeaveType'
+      responses:
+        '200':
+          description: The created or updated leave types
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LeaveType'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+
+  # =========================
+  # HR - EMPLOYEE LEAVE CONFIG
+  # =========================
+  /companies/{comp_id}/leave-configs:
+    get:
+      tags:
+        - HR
+      summary: Get all employee leave configs
+      operationId: getEmployeeLeaveConfigs
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+      responses:
+        '200':
+          description: List of employee leave configs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EmployeeLeaveConfig'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      tags:
+        - HR
+      summary: Create or update employee leave configs
+      operationId: crupdateEmployeeLeaveConfigs
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/CrupdateEmployeeLeaveConfig'
+      responses:
+        '200':
+          description: The created or updated configs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EmployeeLeaveConfig'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  # =========================
+  # HR - LEAVES
+  # =========================
+  /companies/{comp_id}/leaves:
+    get:
+      tags:
+        - HR
+      summary: Get all leaves
+      operationId: getLeaves
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: user_id
+          in: query
+          schema:
+            type: string
+          example: "usr_123456"
+        - name: leave_type_id
+          in: query
+          schema:
+            type: string
+          example: "leave_type_1"
+        - name: status
+          in: query
+          schema:
+            type: string
+          example: "APPROVED"
+        - name: year
+          in: query
+          schema:
+            type: integer
+          example: 2026
+        - name: page
+          in: query
+          schema:
+            $ref: '#/components/schemas/Page'
+          example: 1
+        - name: page_size
+          in: query
+          schema:
+            $ref: '#/components/schemas/PageSize'
+          example: 20
+      responses:
+        '200':
+          description: List of leaves
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Leave'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      tags:
+        - HR
+      summary: Create or update leaves
+      operationId: crupdateLeaves
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/CrupdateLeave'
+      responses:
+        '200':
+          description: The created or updated leaves
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Leave'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /companies/{comp_id}/leaves/{id}:
+    get:
+      tags:
+        - HR
+      summary: Get leave by identifier
+      operationId: getLeaveById
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "leave_1"
+      responses:
+        '200':
+          description: The identified leave
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Leave'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      tags:
+        - HR
+      summary: Delete leave by identifier
+      operationId: deleteLeaveById
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "leave_1"
+      responses:
+        '204':
+          description: Leave deleted successfully
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+
+  # =========================
+  # HR - LEAVE BALANCES
+  # =========================
+  /companies/{comp_id}/leave-balances:
+    get:
+      tags:
+        - HR
+      summary: Get leave balances for all employees in a company
+      operationId: getLeaveBalances
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: year
+          in: query
+          required: true
+          schema:
+            type: integer
+          example: 2026
+      responses:
+        '200':
+          description: List of leave balances
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LeaveBalance'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /companies/{comp_id}/leave-balances/employees-without-leave:
+    get:
+      tags:
+        - HR
+      summary: Get employees who haven't taken any leave
+      operationId: getEmployeesWithoutLeave
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: year
+          in: query
+          required: true
+          schema:
+            type: integer
+          example: 2026
+      responses:
+        '200':
+          description: List of users with no leave taken
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CrupdateUser'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+
+
   /companies/{comp_id}/yearly-report:
     get:
       tags:
@@ -4954,6 +5356,26 @@ paths:
           schema:
             type: boolean
           example: false
+        - name: invoice_date_from
+          in: query
+          description: "Filter by invoice date from (inclusive)"
+          schema:
+            type: string
+            format: date
+          example: "2024-01-01"
+        - name: invoice_date_to
+          in: query
+          description: "Filter by invoice date to (inclusive)"
+          schema:
+            type: string
+            format: date
+          example: "2024-12-31"
+        - name: paid
+          in: query
+          description: "Filter by payment status (true = paid, false = unpaid)"
+          schema:
+            type: boolean
+          example: false
       responses:
         '200':
           description: List of purchases
@@ -4979,6 +5401,9 @@ paths:
                     name: "Ciment Portland"
                   quantity: 200
                   is_equipment: false
+                  invoice_date: "2024-01-15"
+                  due_date: "2024-02-15"
+                  paid_at: "2024-02-10"
                 - id: "purch_002"
                   expense:
                     id: "exp_001"
@@ -4994,6 +5419,9 @@ paths:
                     name: "Gravier 10/20"
                   quantity: 300
                   is_equipment: false
+                  invoice_date: "2024-01-15"
+                  due_date: "2024-02-15"
+                  paid_at: null
         '400':
           $ref: '#/components/responses/400'
         '403':
@@ -7255,6 +7683,183 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
+  /companies/{comp_id}/fixed-costs:
+    get:
+      tags:
+        - CompanyFixedCost
+      summary: Get all fixed costs for a company
+      operationId: getCompanyFixedCosts
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+      responses:
+        '200':
+          description: List of company fixed costs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CompanyFixedCost'
+              example:
+                - id: "fixed_cost_001"
+                  name: "Loyer bureau"
+                  amount: 2000.00
+                  description: "Loyer mensuel des locaux"
+                  company_id: "comp_btp001"
+                  start_date: "2024-01-01"
+                  end_date: null
+                - id: "fixed_cost_002"
+                  name: "Assurance"
+                  amount: 500.00
+                  description: "Assurance responsabilité civile"
+                  company_id: "comp_btp001"
+                  start_date: "2024-01-01"
+                  end_date: "2024-12-31"
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      tags:
+        - CompanyFixedCost
+      summary: Create new fixed costs or update existing ones
+      operationId: crupdateCompanyFixedCosts
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/CrupdateCompanyFixedCost'
+            example:
+              - id: "fixed_cost_001"
+                name: "Loyer bureau"
+                amount: 2000.00
+                description: "Loyer mensuel des locaux"
+                company_id: "comp_btp001"
+                start_date: "2024-01-01"
+                end_date: null
+                comment: "Charge fixe mensuelle"
+              - name: "Abonnement internet"
+                amount: 150.00
+                description: "Fibre optique"
+                company_id: "comp_btp001"
+                start_date: "2024-06-01"
+                end_date: null
+                comment: "Nouvel abonnement"
+      responses:
+        '200':
+          description: The created or updated fixed costs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CompanyFixedCost'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  '/companies/{comp_id}/fixed-costs/{id}':
+    get:
+      tags:
+        - CompanyFixedCost
+      summary: Get a fixed cost by identifier
+      operationId: getCompanyFixedCostById
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "fixed_cost_001"
+      responses:
+        '200':
+          description: Company fixed cost found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CompanyFixedCost'
+              example:
+                id: "fixed_cost_001"
+                name: "Loyer bureau"
+                amount: 2000.00
+                description: "Loyer mensuel des locaux"
+                company_id: "comp_btp001"
+                start_date: "2024-01-01"
+                end_date: null
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      tags:
+        - CompanyFixedCost
+      summary: Delete a fixed cost by identifier
+      operationId: deleteCompanyFixedCostById
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "fixed_cost_001"
+      responses:
+        '204':
+          description: Company fixed cost deleted successfully
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
 
 components:
   securitySchemes:
@@ -7770,6 +8375,66 @@ components:
           example: "comp_btp001"
 
     # =========================
+    # COMPANY FIXED COST
+    # =========================
+    CompanyFixedCost:
+      allOf:
+        - $ref: '#/components/schemas/AuditFields'
+      properties:
+        id:
+          type: string
+          example: "fixed_cost_001"
+        name:
+          type: string
+          example: "Loyer bureau"
+        amount:
+          type: number
+          example: 2000.00
+        description:
+          type: string
+          example: "Loyer mensuel des locaux"
+        company_id:
+          type: string
+          description: "ID of the company this fixed cost belongs to"
+          example: "comp_btp001"
+        start_date:
+          type: string
+          format: date
+          example: "2024-01-01"
+        end_date:
+          type: string
+          format: date
+          example: "2024-12-31"
+    CrupdateCompanyFixedCost:
+      allOf:
+        - $ref: '#/components/schemas/comment'
+      properties:
+        id:
+          type: string
+          example: "fixed_cost_001"
+        name:
+          type: string
+          example: "Loyer bureau"
+        amount:
+          type: number
+          example: 2000.00
+        description:
+          type: string
+          example: "Loyer mensuel des locaux"
+        company_id:
+          type: string
+          description: "ID of the company this fixed cost belongs to"
+          example: "comp_btp001"
+        start_date:
+          type: string
+          format: date
+          example: "2024-01-01"
+        end_date:
+          type: string
+          format: date
+          example: "2024-12-31"
+
+    # =========================
     # MATERIAL
     # =========================
     MaterialUnit:
@@ -7948,6 +8613,15 @@ components:
           format: date-time
           description: "Date when the client started providing the invoice"
           example: "2024-01-10T08:00:00Z"
+        due_date:
+          type: string
+          format: date
+          description: "Due date for payment of the invoice"
+          example: "2024-02-15"
+        payment_terms:
+          type: string
+          description: "Payment terms (e.g. NET-30, 30J fin de mois)"
+          example: "NET-30"
         job:
           allOf:
             - $ref: '#/components/schemas/CrupdateJob'
@@ -7987,6 +8661,15 @@ components:
           format: date-time
           description: "Date when the client started providing the invoice"
           example: "2024-01-10T08:00:00Z"
+        due_date:
+          type: string
+          format: date
+          description: "Due date for payment of the invoice"
+          example: "2024-02-15"
+        payment_terms:
+          type: string
+          description: "Payment terms (e.g. NET-30, 30J fin de mois)"
+          example: "NET-30"
         job_id:
           type: string
           description: "ID of the job this income is related to"
@@ -8448,6 +9131,18 @@ components:
         is_equipment:
           type: boolean
           example: false
+        invoice_date:
+          type: string
+          format: date
+          example: "2024-01-15"
+        due_date:
+          type: string
+          format: date
+          example: "2024-02-15"
+        paid_at:
+          type: string
+          format: date
+          example: "2024-02-10"
     CrupdatePurchase:
       properties:
         id:
@@ -8469,6 +9164,18 @@ components:
         is_equipment:
           type: boolean
           example: false
+        invoice_date:
+          type: string
+          format: date
+          example: "2024-01-15"
+        due_date:
+          type: string
+          format: date
+          example: "2024-02-15"
+        paid_at:
+          type: string
+          format: date
+          example: "2024-02-10"
 
     # =========================
     # PURCHASE OPERATION
@@ -8848,3 +9555,200 @@ components:
       example:
         type: InternalServerException
         message: Unexpected error
+
+    # =========================
+    # HR - LEAVE TYPE
+    # =========================
+    LeaveType:
+      allOf:
+        - $ref: '#/components/schemas/AuditFields'
+      properties:
+        id:
+          type: string
+          example: "leave_type_1"
+        name:
+          type: string
+          example: "Congé payé"
+        description:
+          type: string
+          example: "Congés annuels payés"
+        paid:
+          type: boolean
+          example: true
+        deduct_from_balance:
+          type: boolean
+          example: true
+        color:
+          type: string
+          example: "#4CAF50"
+        days_per_year:
+          type: integer
+          example: 30
+        company_id:
+          type: string
+          example: "comp_btp001"
+    CrupdateLeaveType:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "leave_type_1"
+        name:
+          type: string
+          example: "Congé payé"
+        description:
+          type: string
+          example: "Congés annuels payés"
+        paid:
+          type: boolean
+          example: true
+        deduct_from_balance:
+          type: boolean
+          example: true
+        color:
+          type: string
+          example: "#4CAF50"
+        days_per_year:
+          type: integer
+          example: 30
+        company_id:
+          type: string
+          example: "comp_btp001"
+        comment:
+          type: string
+          example: "Modification des droits"
+
+    # =========================
+    # HR - EMPLOYEE LEAVE CONFIG
+    # =========================
+    EmployeeLeaveConfig:
+      allOf:
+        - $ref: '#/components/schemas/AuditFields'
+      properties:
+        id:
+          type: string
+          example: "config_1"
+        hire_date:
+          type: string
+          format: date
+          example: "2023-06-01"
+        contract_type:
+          type: string
+          example: "CDI"
+        vacation_days_per_month:
+          type: number
+          example: 2.5
+    CrupdateEmployeeLeaveConfig:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "config_1"
+        hire_date:
+          type: string
+          format: date
+          example: "2023-06-01"
+        contract_type:
+          type: string
+          example: "CDI"
+        vacation_days_per_month:
+          type: number
+          example: 2.5
+        comment:
+          type: string
+          example: "Nouveau contrat"
+
+    # =========================
+    # HR - LEAVE
+    # =========================
+    LeaveStatus:
+      type: string
+      enum:
+        - PENDING
+        - APPROVED
+        - REJECTED
+        - CANCELLED
+    Leave:
+      allOf:
+        - $ref: '#/components/schemas/AuditFields'
+      properties:
+        id:
+          type: string
+          example: "leave_1"
+        user:
+          $ref: '#/components/schemas/CrupdateUser'
+        leave_type:
+          $ref: '#/components/schemas/LeaveType'
+        start_date:
+          type: string
+          format: date
+          example: "2026-06-01"
+        end_date:
+          type: string
+          format: date
+          example: "2026-06-15"
+        duration_days:
+          type: number
+          example: 11.0
+        status:
+          $ref: '#/components/schemas/LeaveStatus'
+        reason:
+          type: string
+          example: "Vacances annuelles"
+        approved_by:
+          $ref: '#/components/schemas/CrupdateUser'
+        approved_at:
+          type: string
+          format: date-time
+          example: "2026-05-20T10:00:00Z"
+    CrupdateLeave:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "leave_1"
+        user_id:
+          type: string
+          example: "usr_123456"
+        leave_type_id:
+          type: string
+          example: "leave_type_1"
+        start_date:
+          type: string
+          format: date
+          example: "2026-06-01"
+        end_date:
+          type: string
+          format: date
+          example: "2026-06-15"
+        duration_days:
+          type: number
+          example: 11.0
+        status:
+          $ref: '#/components/schemas/LeaveStatus'
+        reason:
+          type: string
+          example: "Vacances annuelles"
+        comment:
+          type: string
+
+    # =========================
+    # HR - LEAVE BALANCE
+    # =========================
+    LeaveBalance:
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/CrupdateUser'
+        year:
+          type: integer
+          example: 2026
+        accrued_days:
+          type: number
+          example: 15.0
+        taken_days:
+          type: number
+          example: 5.0
+        remaining_days:
+          type: number
+          example: 10.0

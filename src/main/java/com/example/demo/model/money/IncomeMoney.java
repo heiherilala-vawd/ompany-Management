@@ -35,6 +35,10 @@ public class IncomeMoney extends MonetaryMovement implements Serializable {
 
   private Instant facturationDate;
 
+  private LocalDate dueDate;
+
+  private String paymentTerms;
+
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "job_id")
   private Job job;

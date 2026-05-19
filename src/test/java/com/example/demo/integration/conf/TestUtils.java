@@ -8,8 +8,11 @@ import static org.mockito.Mockito.when;
 import com.example.demo.client.invoker.ApiException;
 import com.example.demo.client.model.BankFee;
 import com.example.demo.client.model.Company;
+import com.example.demo.client.model.CompanyFixedCost;
 import com.example.demo.client.model.CrupdateBankFee;
 import com.example.demo.client.model.CrupdateCompany;
+import com.example.demo.client.model.CrupdateCompanyFixedCost;
+import com.example.demo.client.model.CrupdateEmployeeLeaveConfig;
 import com.example.demo.client.model.CrupdateEmployeePayment;
 import com.example.demo.client.model.CrupdateEquipment;
 import com.example.demo.client.model.CrupdateExpenseMoney;
@@ -17,6 +20,8 @@ import com.example.demo.client.model.CrupdateIncomeMoney;
 import com.example.demo.client.model.CrupdateIncomeReceipt;
 import com.example.demo.client.model.CrupdateIncomeType;
 import com.example.demo.client.model.CrupdateJob;
+import com.example.demo.client.model.CrupdateLeave;
+import com.example.demo.client.model.CrupdateLeaveType;
 import com.example.demo.client.model.CrupdateLoan;
 import com.example.demo.client.model.CrupdateLoanRepayment;
 import com.example.demo.client.model.CrupdateMaintenance;
@@ -30,6 +35,7 @@ import com.example.demo.client.model.CrupdateTravelMaterials;
 import com.example.demo.client.model.CrupdateTravelPeople;
 import com.example.demo.client.model.CrupdateUser;
 import com.example.demo.client.model.CrupdateWarehouse;
+import com.example.demo.client.model.EmployeeLeaveConfig;
 import com.example.demo.client.model.EmployeePayment;
 import com.example.demo.client.model.Equipment;
 import com.example.demo.client.model.ExpenseMoney;
@@ -37,6 +43,8 @@ import com.example.demo.client.model.IncomeMoney;
 import com.example.demo.client.model.IncomeReceipt;
 import com.example.demo.client.model.IncomeType;
 import com.example.demo.client.model.Job;
+import com.example.demo.client.model.Leave;
+import com.example.demo.client.model.LeaveType;
 import com.example.demo.client.model.Loan;
 import com.example.demo.client.model.LoanRepayment;
 import com.example.demo.client.model.Maintenance;
@@ -109,6 +117,16 @@ public class TestUtils {
   public static final String OTHER_EXPENSE_TYPE2_ID = "other_exp_type2_id";
   public static final String MAINTENANCE1_ID = "maintenance1_id";
   public static final String MAINTENANCE2_ID = "maintenance2_id";
+
+  public static final String FIXED_COST1_ID = "fixed_cost1_id";
+  public static final String FIXED_COST2_ID = "fixed_cost2_id";
+
+  public static final String LEAVE_TYPE1_ID = "leave_type1_id";
+  public static final String LEAVE_TYPE2_ID = "leave_type2_id";
+  public static final String CONFIG1_ID = "config1_id";
+  public static final String CONFIG2_ID = "config2_id";
+  public static final String LEAVE1_ID = "leave1_id";
+  public static final String LEAVE2_ID = "leave2_id";
 
   public static final String TRAVEL_EXPENSE1_ID = "travel_expense1_id";
   public static final String TRAVEL_EXPENSE2_ID = "travel_expense2_id";
@@ -506,6 +524,71 @@ public class TestUtils {
 
   public static CrupdateMaintenance someCreatableMaintenance() {
     return TestMoneyFixtures.someCreatableMaintenance();
+  }
+
+  public static CompanyFixedCost companyFixedCost1() {
+    return TestMoneyFixtures.companyFixedCost1();
+  }
+
+  public static CompanyFixedCost companyFixedCost2() {
+    return TestMoneyFixtures.companyFixedCost2();
+  }
+
+  public static CrupdateCompanyFixedCost companyFixedCostToCrupdateCompanyFixedCost(
+      CompanyFixedCost fixedCost) {
+    return TestMoneyFixtures.companyFixedCostToCrupdateCompanyFixedCost(fixedCost);
+  }
+
+  public static CrupdateCompanyFixedCost someCreatableCompanyFixedCost() {
+    return TestMoneyFixtures.someCreatableCompanyFixedCost();
+  }
+
+  public static LeaveType leaveType1() {
+    return TestHrFixtures.leaveType1();
+  }
+
+  public static LeaveType leaveType2() {
+    return TestHrFixtures.leaveType2();
+  }
+
+  public static CrupdateLeaveType leaveTypeToCrupdateLeaveType(LeaveType leaveType) {
+    return TestHrFixtures.leaveTypeToCrupdateLeaveType(leaveType);
+  }
+
+  public static CrupdateLeaveType someCreatableLeaveType() {
+    return TestHrFixtures.someCreatableLeaveType();
+  }
+
+  public static EmployeeLeaveConfig config1() {
+    return TestHrFixtures.config1();
+  }
+
+  public static EmployeeLeaveConfig config2() {
+    return TestHrFixtures.config2();
+  }
+
+  public static CrupdateEmployeeLeaveConfig configToCrupdateConfig(EmployeeLeaveConfig config) {
+    return TestHrFixtures.configToCrupdateConfig(config);
+  }
+
+  public static CrupdateEmployeeLeaveConfig someCreatableConfig() {
+    return TestHrFixtures.someCreatableConfig();
+  }
+
+  public static Leave leave1() {
+    return TestHrFixtures.leave1();
+  }
+
+  public static Leave leave2() {
+    return TestHrFixtures.leave2();
+  }
+
+  public static CrupdateLeave leaveToCrupdateLeave(Leave leave) {
+    return TestHrFixtures.leaveToCrupdateLeave(leave);
+  }
+
+  public static CrupdateLeave someCreatableLeave() {
+    return TestHrFixtures.someCreatableLeave();
   }
 
   public static Purchase purchase1() {

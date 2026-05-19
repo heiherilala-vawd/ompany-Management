@@ -116,7 +116,8 @@ class PurchaseOperationIT {
 
     PurchaseApi purchaseApi = new PurchaseApi(anApiClient(ADMIN_TOKEN));
     List<Purchase> equipmentPurchases =
-        purchaseApi.getPurchases(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, true);
+        purchaseApi.getPurchases(
+            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, true, null, null, null);
 
     assertTrue(
         equipmentPurchases.stream()
@@ -130,7 +131,8 @@ class PurchaseOperationIT {
                             == 0));
 
     List<Purchase> materialPurchases =
-        purchaseApi.getPurchases(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, false);
+        purchaseApi.getPurchases(
+            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, false, null, null, null);
 
     assertEquals(2, materialPurchases.size());
     assertEquals("purchase_operation_material_purchase_1", materialPurchases.get(1).getId());

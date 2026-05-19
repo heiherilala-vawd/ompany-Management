@@ -69,7 +69,7 @@ class PurchaseIT {
     PurchaseApi api = new PurchaseApi(anApiClient(ADMIN_TOKEN));
 
     List<Purchase> purchases =
-        api.getPurchases(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, null);
+        api.getPurchases(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, null, null, null, null);
 
     assertEquals(2, purchases.size());
     assertTrue(purchases.stream().anyMatch(purchase -> PURCHASE1_ID.equals(purchase.getId())));
@@ -81,7 +81,8 @@ class PurchaseIT {
     PurchaseApi api = new PurchaseApi(anApiClient(ADMIN_TOKEN));
 
     List<Purchase> purchases =
-        api.getPurchases(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, WAREHOUSE1_ID, null);
+        api.getPurchases(
+            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, WAREHOUSE1_ID, null, null, null, null);
 
     assertEquals(1, purchases.size());
     assertEquals(PURCHASE1_ID, purchases.get(0).getId());
@@ -92,7 +93,7 @@ class PurchaseIT {
     PurchaseApi api = new PurchaseApi(anApiClient(ADMIN_TOKEN));
 
     List<Purchase> purchases =
-        api.getPurchases(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, false);
+        api.getPurchases(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, false, null, null, null);
 
     assertEquals(1, purchases.size());
     assertEquals(PURCHASE2_ID, purchases.get(0).getId());
