@@ -4,6 +4,7 @@ import com.example.demo.model.hr.EmployeeLeaveConfig;
 import com.example.demo.repository.hr.EmployeeLeaveConfigRepository;
 import com.example.demo.service.utils.ModificationUtils;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +16,10 @@ public class EmployeeLeaveConfigService {
 
   private final EmployeeLeaveConfigRepository employeeLeaveConfigRepository;
   private final ModificationUtils modificationUtils;
+
+  public Optional<EmployeeLeaveConfig> findById(String id) {
+    return employeeLeaveConfigRepository.findById(id);
+  }
 
   public List<EmployeeLeaveConfig> findByCompanyId(String companyId) {
     return employeeLeaveConfigRepository.findByCompanyId(companyId);

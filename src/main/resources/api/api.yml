@@ -19,7 +19,7 @@ paths:
   # =========================
   # HR - LEAVE TYPES
   # =========================
-  /companies/{comp_id}/leave-types:
+  /companies/{comp_id}/leave_types:
     get:
       tags:
         - HR
@@ -90,11 +90,47 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
+  /companies/{comp_id}/leave_types/{id}:
+    get:
+      tags:
+        - HR
+      summary: Get a leave type by id
+      operationId: getLeaveTypeById
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "leave_type_1"
+      responses:
+        '200':
+          description: The leave type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LeaveType'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
 
   # =========================
   # HR - EMPLOYEE LEAVE CONFIG
   # =========================
-  /companies/{comp_id}/leave-configs:
+  /companies/{comp_id}/leave_configs:
     get:
       tags:
         - HR
@@ -165,6 +201,43 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
+  /companies/{comp_id}/leave_configs/{id}:
+    get:
+      tags:
+        - HR
+      summary: Get a leave config by id
+      operationId: getEmployeeLeaveConfigById
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "config_1"
+      responses:
+        '200':
+          description: The employee leave config
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeLeaveConfig'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+
   # =========================
   # HR - LEAVES
   # =========================
@@ -340,7 +413,7 @@ paths:
   # =========================
   # HR - LEAVE BALANCES
   # =========================
-  /companies/{comp_id}/leave-balances:
+  /companies/{comp_id}/leave_balances:
     get:
       tags:
         - HR
@@ -378,7 +451,7 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-  /companies/{comp_id}/leave-balances/employees-without-leave:
+  /companies/{comp_id}/leave_balances/employees_without_leave:
     get:
       tags:
         - HR

@@ -1,4 +1,7 @@
 -- Nettoyage des données de test (ordre FK inverse)
+DELETE FROM "leave";
+DELETE FROM "employee_leave_config";
+DELETE FROM "leave_type";
 DELETE FROM "history";
 DELETE FROM "travel_equipment";
 DELETE FROM "travel_materials";
@@ -6,6 +9,7 @@ DELETE FROM "travel_people";
 DELETE FROM "travel_expense";
 DELETE FROM "other_expense";
 DELETE FROM "maintenance";
+DELETE FROM "company_fixed_cost";
 DELETE FROM "other_expense_type";
 DELETE FROM "bank_fee";
 DELETE FROM "purchase";
@@ -108,16 +112,18 @@ INSERT INTO "income_money" (
   amount,
   description,
   billing_start_date,
+  due_date,
+  payment_terms,
   income_type_id,
   created_at,
   updated_at,
   job_id
 )
 VALUES
-('income1_id', 'Client Alpha', 'INV-2024-001', 150000, 'Paiement initial chantier A', DATE '2024-01-15', 'income_type1_id', NOW(), NOW(), 'job1_id'),
-('income2_id', 'Client Beta', 'INV-2024-002', 275000, 'Paiement avance renovation hotel', DATE '2024-02-10', 'income_type1_id', NOW(), NOW(), 'job1_id'),
-('income3_id', 'Etat', 'SUB-2024-001', 100000, 'Subvention travaux publics', DATE '2024-03-01', 'income_type2_id', NOW(), NOW(), 'job1_id'),
-('income4_id', 'Donateur X', 'DON-2024-001', 50000, 'Don exceptionnel', DATE '2024-03-15', 'income_type3_id', NOW(), NOW(), 'job1_id');
+('income1_id', 'Client Alpha', 'INV-2024-001', 150000, 'Paiement initial chantier A', DATE '2024-01-15', DATE '2024-02-15', 'NET-30', 'income_type1_id', NOW(), NOW(), 'job1_id'),
+('income2_id', 'Client Beta', 'INV-2024-002', 275000, 'Paiement avance renovation hotel', DATE '2024-02-10', DATE '2024-03-12', 'NET-30', 'income_type1_id', NOW(), NOW(), 'job1_id'),
+('income3_id', 'Etat', 'SUB-2024-001', 100000, 'Subvention travaux publics', DATE '2024-03-01', DATE '2024-06-01', 'NET-90', 'income_type2_id', NOW(), NOW(), 'job1_id'),
+('income4_id', 'Donateur X', 'DON-2024-001', 50000, 'Don exceptionnel', DATE '2024-03-15', NULL, NULL, 'income_type3_id', NOW(), NOW(), 'job1_id');
 
 INSERT INTO "expense_money" (id, amount, description, created_at, updated_at, job_id)
 VALUES
@@ -154,11 +160,11 @@ VALUES
 ('travel_equipment2_id', 'travel_expense2_id', 'equipment2_id', 1, 'ARRIVED', 'warehouse2_id', '2024-03-05 15:00:00');
 
 INSERT INTO "purchase" (
-  id, expense_id, supplier_id, equipment, material, quantity, is_equipment
+  id, expense_id, supplier_id, equipment, material, quantity, is_equipment, invoice_date, due_date, paid_at
 )
 VALUES
-('purchase1_id', 'expense1_id', 'warehouse1_id', 'equipment1_id', NULL, 1, true),
-('purchase2_id', 'expense2_id', 'warehouse2_id', NULL, 'material2_id', 25, false);
+('purchase1_id', 'expense1_id', 'warehouse1_id', 'equipment1_id', NULL, 1, true, '2024-01-15', '2024-02-15', '2024-02-10'),
+('purchase2_id', 'expense2_id', 'warehouse2_id', NULL, 'material2_id', 25, false, '2024-02-01', '2024-03-01', NULL);
 
 INSERT INTO "bank_fee" (
   id, expense_id, bank_name, description
@@ -229,15 +235,17 @@ INSERT INTO "income_money" (
   amount,
   description,
   billing_start_date,
+  due_date,
+  payment_terms,
   income_type_id,
   created_at,
   updated_at,
   job_id
 )
 VALUES
-('income5_id', 'Client Delta', 'INV-2024-005', 100000, 'Paiement partiel', DATE '2024-04-01', 'income_type1_id', NOW(), NOW(), 'job1_id'),
-('income6_id', 'Client Epsilon', 'INV-2024-006', 100000, 'Paiement en exces', DATE '2024-04-15', 'income_type1_id', NOW(), NOW(), 'job1_id'),
-('income7_id', 'Client Zeta', 'INV-2024-007', 100000, 'Paiement total multiple recus', DATE '2024-05-01', 'income_type1_id', NOW(), NOW(), 'job1_id');
+('income5_id', 'Client Delta', 'INV-2024-005', 100000, 'Paiement partiel', DATE '2024-04-01', DATE '2024-05-01', 'NET-30', 'income_type1_id', NOW(), NOW(), 'job1_id'),
+('income6_id', 'Client Epsilon', 'INV-2024-006', 100000, 'Paiement en exces', DATE '2024-04-15', DATE '2024-05-15', 'NET-30', 'income_type1_id', NOW(), NOW(), 'job1_id'),
+('income7_id', 'Client Zeta', 'INV-2024-007', 100000, 'Paiement total multiple recus', DATE '2024-05-01', DATE '2024-05-31', 'NET-30', 'income_type1_id', NOW(), NOW(), 'job1_id');
 
 INSERT INTO income_receipt (id, payment_date, amount, income_id, created_at, updated_at)
 VALUES
@@ -280,4 +288,24 @@ INSERT INTO "maintenance" (
 VALUES
 ('maintenance1_id', 'expense1_id', 'equipment1_id', 'Revision moteur periodique'),
 ('maintenance2_id', 'expense2_id', 'equipment2_id', 'Remplacement pneus');
+
+insert into "company_fixed_cost" (id, name, amount, description, company_id, start_date, end_date, created_at, updated_at)
+values
+('fixed_cost1_id', 'Loyer bureau', 2000.00, 'Loyer mensuel des locaux principaux', 'company1_id', '2024-01-01', null, now(), now()),
+('fixed_cost2_id', 'Assurance vehicule', 500.00, 'Assurance flotte automobile', 'company1_id', '2024-03-01', '2025-03-01', now(), now());
+
+insert into leave_type (id, name, description, paid, deduct_from_balance, color, days_per_year, company_id, created_at, updated_at)
+values
+('leave_type1_id', 'Congé payé', 'Congés annuels payés', true, true, '#4CAF50', 30, 'company1_id', now(), now()),
+('leave_type2_id', 'Congé maladie', 'Arrêt maladie', true, false, '#F44336', null, 'company1_id', now(), now());
+
+insert into employee_leave_config (id, company_id, hire_date, contract_type, vacation_days_per_month, created_at, updated_at)
+values
+('config1_id', 'company1_id', '2023-06-01', 'CDI', 2.5, now(), now()),
+('config2_id', 'company1_id', '2024-01-15', 'CDD', 2.0, now(), now());
+
+insert into "leave" (id, user_id, leave_type_id, start_date, end_date, duration_days, status, reason, created_at, updated_at)
+values
+('leave1_id', 'employee1_id', 'leave_type1_id', '2026-06-01', '2026-06-15', 11.0, 'APPROVED', 'Vacances annuelles', now(), now()),
+('leave2_id', 'employee1_id', 'leave_type2_id', '2026-03-10', '2026-03-12', 3.0, 'PENDING', 'Rendez-vous médical', now(), now());
 
