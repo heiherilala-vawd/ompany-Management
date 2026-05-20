@@ -62,7 +62,7 @@ public class LeaveController {
     leaveService.deleteById(id);
   }
 
-  @GetMapping("/companies/{comp_id}/leave-balances")
+  @GetMapping("/companies/{comp_id}/leave_balances")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'EMPLOYEE')")
   public List<LeaveBalance> getLeaveBalances(
       @PathVariable String comp_id, @RequestParam(name = "year") Integer year) {
@@ -71,7 +71,7 @@ public class LeaveController {
         .toList();
   }
 
-  @GetMapping("/companies/{comp_id}/leave-balances/employees-without-leave")
+  @GetMapping("/companies/{comp_id}/leave_balances/employees_without_leave")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<CrupdateUser> getEmployeesWithoutLeave(
       @PathVariable String comp_id, @RequestParam(name = "year") Integer year) {

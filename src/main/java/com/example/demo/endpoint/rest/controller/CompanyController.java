@@ -63,7 +63,13 @@ public class CompanyController {
 
   @DeleteMapping("/companies")
   @PreAuthorize("hasAnyRole('ADMIN')")
-  public void deleteCompanyById(@RequestParam String id) {
+  public Company deleteCompanyById(@RequestParam String id) {
+    Company entity =
+        companyMapper.toRestCompany(
+            companyService
+                .findById(id)
+                .orElseThrow(() -> new NotFoundException("Company " + id + " not found")));
     companyService.deleteById(id);
+    return entity;
   }
 }

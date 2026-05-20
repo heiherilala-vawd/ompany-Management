@@ -54,7 +54,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   Leave.JSON_PROPERTY_UPDATED_BY,
   Leave.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-20T00:43:34.571733130+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-21T00:50:35.879739319+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class Leave {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
