@@ -60,8 +60,14 @@ public class JobController {
 
   @DeleteMapping("/companies/{comp_id}/jobs/{id}")
   @PreAuthorize("hasAnyRole('ADMIN')")
-  public void deleteJobById(@PathVariable String comp_id, @PathVariable String id) {
+  public Job deleteJobById(@PathVariable String comp_id, @PathVariable String id) {
+    Job entity =
+        jobMapper.toRestJob(
+            jobService
+                .findById(id)
+                .orElseThrow(() -> new NotFoundException("Job " + id + " not found")));
     jobService.deleteById(id);
+    return entity;
   }
 
   @GetMapping("/companies/{comp_id}/jobs/{job_id}/users")

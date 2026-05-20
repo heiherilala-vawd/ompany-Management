@@ -389,18 +389,19 @@ public class SecurityConfiguration {
                     // =========================
                     .requestMatchers(
                         GET,
-                        "/companies/*/leave-types",
-                        "/companies/*/leave-configs",
-                        "/companies/*/leave-configs/*",
+                        "/companies/*/leave_types",
+                        "/companies/*/leave_types/*",
+                        "/companies/*/leave_configs",
+                        "/companies/*/leave_configs/*",
                         "/companies/*/leaves",
                         "/companies/*/leaves/*",
-                        "/companies/*/leave-balances",
-                        "/companies/*/leave-balances/employees-without-leave")
+                        "/companies/*/leave_balances",
+                        "/companies/*/leave_balances/employees_without_leave")
                     .authenticated()
                     .requestMatchers(
                         PUT,
-                        "/companies/*/leave-types",
-                        "/companies/*/leave-configs",
+                        "/companies/*/leave_types",
+                        "/companies/*/leave_configs",
                         "/companies/*/leaves")
                     .authenticated()
                     .requestMatchers(DELETE, "/companies/*/leaves/*")
