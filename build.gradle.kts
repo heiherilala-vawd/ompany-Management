@@ -222,9 +222,12 @@ tasks.jacocoTestCoverageVerification {
 
 sonarqube {
     properties {
-        property("sonar.projectKey", "votre-projet-key")
-        property("sonar.organization", "votre-organization")
-        property("sonar.host.url", "https://sonarcloud.io")
+        property("sonar.projectKey", project.findProperty("sonar.projectKey")
+            ?: System.getenv("SONAR_PROJECT_KEY") ?: "votre-projet-key")
+        property("sonar.organization", project.findProperty("sonar.organization")
+            ?: System.getenv("SONAR_ORGANIZATION") ?: "votre-organization")
+        property("sonar.host.url", project.findProperty("sonar.host.url")
+            ?: System.getenv("SONAR_HOST_URL") ?: "https://sonarcloud.io")
         property("sonar.coverage.jacoco.xmlReportPaths",
             layout.buildDirectory.file("reports/jacoco/jacocoTestReport.xml").get().asFile.toString())
         property("sonar.java.checkstyle.reportPaths",

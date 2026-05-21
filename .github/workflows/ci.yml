@@ -1,0 +1,129 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+env:
+  # Java
+  JAVA_VERSION: "21"
+
+  # PostgreSQL for tests (Testcontainers)
+  TC_POSTGRES_IMAGE: postgres:15.2
+  TC_DB_NAME: test-db
+  TC_DB_USERNAME: test
+  TC_DB_PASSWORD: test
+
+  # JWT (test only - override in production)
+  JWT_SECRET_KEY: test-secret-key-test-secret-key-test
+  JWT_EXPIRATION_TIME: "86400000"
+
+  # Docker
+  DOCKER_HOST: unix:///var/run/docker.sock
+
+  # SonarQube (set SONAR_TOKEN in GitHub Secrets)
+  SONAR_HOST_URL: https://sonarcloud.io
+  SONAR_PROJECT_KEY: votre-projet-key
+  SONAR_ORGANIZATION: votre-organization
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:15.2
+        env:
+          POSTGRES_DB: testdb
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: 00001111
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK ${{ env.JAVA_VERSION }}
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: temurin
+          cache: gradle
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: wrapper
+
+      - name: Grant execute permission
+        run: chmod +x .shell/publish_gen_to_maven_local.sh
+
+      - name: Build & Test
+        run: ./gradlew build
+        env:
+          SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/testdb
+          SPRING_DATASOURCE_USERNAME: postgres
+          SPRING_DATASOURCE_PASSWORD: 00001111
+          SPRING_FLYWAY_ENABLED: "true"
+          JWT_SECRET_KEY: ${{ env.JWT_SECRET_KEY }}
+          JWT_EXPIRATION_TIME: ${{ env.JWT_EXPIRATION_TIME }}
+
+      - name: Upload JaCoCo Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jacoco-report
+          path: build/reports/jacoco/
+
+      - name: Upload Test Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: build/reports/tests/
+
+  sonar:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.owner.login == github.repository_owner
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK ${{ env.JAVA_VERSION }}
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: temurin
+          cache: gradle
+
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+
+      - name: Grant execute permission
+        run: chmod +x .shell/publish_gen_to_maven_local.sh
+
+      - name: Build and analyze
+        run: ./gradlew build sonar --info
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ env.SONAR_HOST_URL }}
+          SONAR_PROJECT_KEY: ${{ env.SONAR_PROJECT_KEY }}
+          SONAR_ORGANIZATION: ${{ env.SONAR_ORGANIZATION }}
+          SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/testdb
+          SPRING_DATASOURCE_USERNAME: postgres
+          SPRING_DATASOURCE_PASSWORD: 00001111
+          JWT_SECRET_KEY: ${{ env.JWT_SECRET_KEY }}
+          JWT_EXPIRATION_TIME: ${{ env.JWT_EXPIRATION_TIME }}
