@@ -40,7 +40,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   PurchaseOperationEquipmentLine.JSON_PROPERTY_TRAVEL_EQUIPMENT_ID,
   PurchaseOperationEquipmentLine.JSON_PROPERTY_UNIT_PRICE
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-21T02:39:21.675435070+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-21T16:50:14.656602868+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class PurchaseOperationEquipmentLine {
   public static final String JSON_PROPERTY_EQUIPMENT = "equipment";
   private CrupdateEquipment equipment;

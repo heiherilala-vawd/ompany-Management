@@ -7934,6 +7934,148 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
+  # =========================
+  # TASK
+  # =========================
+  /companies/{comp_id}/tasks:
+    get:
+      tags:
+        - Task
+      summary: Get all tasks for a company
+      operationId: getTasks
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+      responses:
+        '200':
+          description: List of tasks
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Task'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      tags:
+        - Task
+      summary: Create or update tasks
+      operationId: crupdateTasks
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/CrupdateTask'
+      responses:
+        '200':
+          description: The created or updated tasks
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Task'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /companies/{comp_id}/tasks/{id}:
+    get:
+      tags:
+        - Task
+      summary: Get a task by id
+      operationId: getTaskById
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "task_001"
+      responses:
+        '200':
+          description: The task
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      tags:
+        - Task
+      summary: Delete a task by id
+      operationId: deleteTaskById
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "task_001"
+      responses:
+        '204':
+          description: Task deleted successfully
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+
 components:
   securitySchemes:
     BearerAuth:
@@ -9825,3 +9967,88 @@ components:
         remaining_days:
           type: number
           example: 10.0
+
+    # =========================
+    # TASK
+    # =========================
+    TaskPriority:
+      type: string
+      enum:
+        - LOW
+        - MEDIUM
+        - HIGH
+        - CRITICAL
+      example: "MEDIUM"
+    Task:
+      allOf:
+        - $ref: '#/components/schemas/AuditFields'
+      properties:
+        id:
+          type: string
+          example: "task_001"
+        title:
+          type: string
+          example: "Vérifier le matériel de chantier"
+        description:
+          type: string
+          example: "Faire l'inventaire du matériel sur le chantier A"
+        due_date:
+          type: string
+          format: date
+          example: "2026-06-15"
+        priority:
+          $ref: '#/components/schemas/TaskPriority'
+        frequency:
+          type: string
+          example: "0 0 8 1 * ?"
+          description: "Cron expression for recurring tasks (null for one-time tasks)"
+        company_id:
+          type: string
+          example: "comp_btp001"
+        assigned_user_ids:
+          type: array
+          items:
+            type: string
+          example:
+            - "usr_123456"
+            - "usr_789012"
+        completed_user_ids:
+          type: array
+          items:
+            type: string
+          example:
+            - "usr_123456"
+    CrupdateTask:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "task_001"
+        title:
+          type: string
+          example: "Vérifier le matériel de chantier"
+        description:
+          type: string
+          example: "Faire l'inventaire du matériel sur le chantier A"
+        due_date:
+          type: string
+          format: date
+          example: "2026-06-15"
+        priority:
+          $ref: '#/components/schemas/TaskPriority'
+        frequency:
+          type: string
+          example: "0 0 8 1 * ?"
+          description: "Cron expression for recurring tasks (null for one-time tasks)"
+        company_id:
+          type: string
+          example: "comp_btp001"
+        assigned_user_ids:
+          type: array
+          items:
+            type: string
+          example:
+            - "usr_123456"
+            - "usr_789012"
+        comment:
+          type: string

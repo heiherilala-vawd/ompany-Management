@@ -29,6 +29,7 @@ import com.example.demo.client.model.CrupdateMaterial;
 import com.example.demo.client.model.CrupdateOtherExpense;
 import com.example.demo.client.model.CrupdateOtherExpenseType;
 import com.example.demo.client.model.CrupdatePurchase;
+import com.example.demo.client.model.CrupdateTask;
 import com.example.demo.client.model.CrupdateTravelEquipment;
 import com.example.demo.client.model.CrupdateTravelExpense;
 import com.example.demo.client.model.CrupdateTravelMaterials;
@@ -52,6 +53,7 @@ import com.example.demo.client.model.Material;
 import com.example.demo.client.model.OtherExpense;
 import com.example.demo.client.model.OtherExpenseType;
 import com.example.demo.client.model.Purchase;
+import com.example.demo.client.model.Task;
 import com.example.demo.client.model.TravelEquipment;
 import com.example.demo.client.model.TravelExpense;
 import com.example.demo.client.model.TravelMaterials;
@@ -589,6 +591,22 @@ public class TestUtils {
 
   public static CrupdateLeave someCreatableLeave() {
     return TestHrFixtures.someCreatableLeave();
+  }
+
+  public static Task task1() {
+    return TestTaskFixtures.task1();
+  }
+
+  public static Task task2() {
+    return TestTaskFixtures.task2();
+  }
+
+  public static CrupdateTask taskToCrupdateTask(Task task) {
+    return TestTaskFixtures.taskToCrupdateTask(task);
+  }
+
+  public static CrupdateTask someCreatableTask() {
+    return TestTaskFixtures.someCreatableTask();
   }
 
   public static Purchase purchase1() {

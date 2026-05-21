@@ -371,6 +371,16 @@ public class SecurityConfiguration {
                     .hasRole("ADMIN")
 
                     // =========================
+                    // TASK
+                    // =========================
+                    .requestMatchers(GET, "/companies/*/tasks", "/companies/*/tasks/*")
+                    .authenticated()
+                    .requestMatchers(PUT, "/companies/*/tasks")
+                    .authenticated()
+                    .requestMatchers(DELETE, "/companies/*/tasks/*")
+                    .hasRole("ADMIN")
+
+                    // =========================
                     // LOAN REPAYMENT
                     // =========================
                     .requestMatchers(
