@@ -47,7 +47,8 @@ public final class TestDataSqlLoader {
           "db/testdata/V100_24__testdata_loan_repayments_edge_cases.sql",
           "db/testdata/V100_25__testdata_incomes_edge_cases.sql",
           "db/testdata/V100_26__testdata_income_receipts_edge_cases.sql",
-          "db/testdata/V100_27__testdata_user_job.sql");
+          "db/testdata/V100_27__testdata_user_job.sql",
+          "db/testdata/V100_36__testdata_tasks.sql");
 
   private TestDataSqlLoader() {}
 
