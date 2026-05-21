@@ -39,7 +39,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   OtherExpense.JSON_PROPERTY_OTHER_EXPENSE_TYPE,
   OtherExpense.JSON_PROPERTY_DESCRIPTION
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-21T00:50:35.879739319+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-21T02:39:21.675435070+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class OtherExpense {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
