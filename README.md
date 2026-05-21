@@ -115,6 +115,59 @@ When running a JUnit test directly from IntelliJ instead of Gradle, also add thi
 
 The Gradle test task already sets `api.version=1.44` for Testcontainers/docker-java, which is required for Docker versions whose minimum supported API version is 1.44.
 
+## Environment Variables
+
+The project uses environment variables for configuration. Spring Boot maps env vars automatically (e.g. `SPRING_DATASOURCE_URL` → `spring.datasource.url`).
+
+### All Variables
+
+| Variable | Description | Default (dev) | Required In |
+|---|---|---|---|
+| Variable | Description | Exemple de valeur | Requis |
+|---|---|---|---|
+| `SPRING_DATASOURCE_URL` | JDBC URL PostgreSQL | `jdbc:postgresql://localhost:5432/ma_base` | Production |
+| `SPRING_DATASOURCE_USERNAME` | Utilisateur DB | `postgres` ou `admin` | Production |
+| `SPRING_DATASOURCE_PASSWORD` | Mot de passe DB | `monMotDePasse123` | Production |
+| `JWT_SECRET_KEY` | Clé HMAC-SHA256 (≥256 bits) | `a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1` | Production, Tests |
+| `JWT_EXPIRATION_TIME` | Durée validité token (ms) | `86400000` (24h) | Optional |
+| `SENTRY_DSN` | DSN Sentry | `https://examplePublicKey@o123456.ingest.sentry.io/1234567` | Production |
+| `ENV` | Environnement de déploiement | `development`, `staging`, `production` | Production |
+| `SECURITY_BCRYPT_STRENGTH` | Nombre de rounds BCrypt | `10` | Optional |
+| `DOCKER_HOST` | Chemin du socket Docker | `unix:///var/run/docker.sock` | Tests |
+| `DOCKER_API_VERSION` | Version de l'API Docker | `1.44` | Tests |
+| `TC_POSTGRES_IMAGE` | Tag de l'image PostgreSQL Testcontainers | `postgres:15.2` | Tests |
+| `TC_DB_NAME` | Nom de la base de test | `test-db` | Tests |
+| `TC_DB_USERNAME` | Utilisateur DB de test | `test` | Tests |
+| `TC_DB_PASSWORD` | Mot de passe DB de test | `test` | Tests |
+| `TESTCONTAINERS_REUSE_ENABLE` | Réutiliser les conteneurs | `true` | Tests |
+| `SONAR_PROJECT_KEY` | Clé projet SonarCloud | `mon-projet-key` | CI |
+| `SONAR_ORGANIZATION` | Organisation SonarCloud | `mon-org-github` | CI |
+| `SONAR_HOST_URL` | URL du serveur Sonar | `https://sonarcloud.io` | CI |
+| `SONAR_TOKEN` | Token d'authentification Sonar | *(secret GitHub)* | CI |
+
+### Copy-paste for IntelliJ
+
+Replace `<...>` placeholders with your actual values before use.
+
+#### Dev (Run Configuration > Environment variables)
+```
+SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/<db-name>;SPRING_DATASOURCE_USERNAME=<db-user>;SPRING_DATASOURCE_PASSWORD=<db-password>;JWT_SECRET_KEY=<jwt-secret-key-min-256-bits>;JWT_EXPIRATION_TIME=86400000;ENV=development;SECURITY_BCRYPT_STRENGTH=10
+```
+
+#### Tests (Run Configuration > Environment variables)
+```
+DOCKER_API_VERSION=1.44;DOCKER_HOST=unix:///var/run/docker.sock;TC_POSTGRES_IMAGE=postgres:15.2;TC_DB_NAME=<test-db-name>;TC_DB_USERNAME=<test-db-user>;TC_DB_PASSWORD=<test-db-password>;JWT_SECRET_KEY=<jwt-secret-key>;JWT_EXPIRATION_TIME=86400000
+```
+
+#### Production / CI (GitHub Secrets)
+```
+SPRING_DATASOURCE_URL=jdbc:postgresql://<host>:5432/<db>;SPRING_DATASOURCE_USERNAME=<user>;SPRING_DATASOURCE_PASSWORD=<pass>;JWT_SECRET_KEY=<256-bit-key>;JWT_EXPIRATION_TIME=86400000;SENTRY_DSN=<sentry-dsn>;ENV=production
+```
+
+### Reference Files
+- `.env.example` — All documented variables with placeholders
+- `.github/workflows/ci.yml` — CI pipeline with env vars configured
+
 ## Getting Started
 1. Clone the repository:
    ```bash

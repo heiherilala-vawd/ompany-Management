@@ -1,5 +1,29 @@
 # AGENTS.md
 
+## Environment Variables
+
+| Variable | Source File | Default | Override Via |
+|---|---|---|---|
+| `SPRING_DATASOURCE_URL` | `application.properties` | Env var |
+| `SPRING_DATASOURCE_USERNAME` | `application.properties` | Env var |
+| `SPRING_DATASOURCE_PASSWORD` | `application.properties` | Env var |
+| `JWT_SECRET_KEY` | `application.properties` + `AbstractContextInitializer.java` | Env var |
+| `JWT_EXPIRATION_TIME` | `application.properties` + `AbstractContextInitializer.java` | Env var |
+| `SENTRY_DSN` | `SentryConf.java` | Env var |
+| `ENV` | `SentryConf.java` | Env var |
+| `DOCKER_HOST` | `build.gradle.kts`, `testcontainers.properties` | Env var |
+| `DOCKER_API_VERSION` | `build.gradle.kts` | Env var |
+| `TC_POSTGRES_IMAGE` | `AbstractContextInitializer.java` | Env var |
+| `TC_DB_NAME` | `AbstractContextInitializer.java` | Env var |
+| `TC_DB_USERNAME` | `AbstractContextInitializer.java` | Env var |
+| `TC_DB_PASSWORD` | `AbstractContextInitializer.java` | Env var |
+| `SONAR_PROJECT_KEY` | `build.gradle.kts` | `-P` flag or env var |
+| `SONAR_ORGANIZATION` | `build.gradle.kts` | `-P` flag or env var |
+| `SONAR_HOST_URL` | `build.gradle.kts` | `-P` flag or env var |
+| `SONAR_TOKEN` | CI pipeline | GitHub Secret |
+
+Reference files: `.env.example`, `.github/workflows/ci.yml`
+
 ## Commands
 - Build: `./gradlew build`
 - Test all: `./gradlew test`
