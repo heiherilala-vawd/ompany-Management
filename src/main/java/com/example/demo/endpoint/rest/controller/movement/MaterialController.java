@@ -17,6 +17,7 @@ import com.example.demo.service.movement.MaterialService;
 import com.example.demo.service.movement.MaterialWarehouseService;
 import com.example.demo.service.movement.WarehouseService;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -123,7 +124,7 @@ public class MaterialController {
                       .quantity(cw.getQuantity())
                       .build();
                 })
-            .toList();
+            .collect(Collectors.toList());
 
     List<com.example.demo.model.movement.MaterialWarehouse> saved =
         materialWarehouseService.createOrUpdateAll(domainList);

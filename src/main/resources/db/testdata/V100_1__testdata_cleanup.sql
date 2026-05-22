@@ -13,6 +13,8 @@ DELETE FROM "company_fixed_cost";
 DELETE FROM "other_expense_type";
 DELETE FROM "bank_fee";
 DELETE FROM "purchase";
+DELETE FROM "task_schedule_assigned_user";
+DELETE FROM "task_schedule";
 DELETE FROM "task_assignment";
 DELETE FROM "task";
 DELETE FROM "employee_payment_users";

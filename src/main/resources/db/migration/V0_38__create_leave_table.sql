@@ -18,12 +18,9 @@ create table if not exists "leave" (
     reason TEXT,
     approved_by VARCHAR(150) constraint leave_approved_by_fk references users(id),
     approved_at TIMESTAMPTZ,
-    created_at TIMESTAMPTZ,
-    updated_at TIMESTAMPTZ,
-    created_by VARCHAR(150) constraint leave_created_by_fk references users(id),
-    updated_by VARCHAR(150) constraint leave_updated_by_fk references users(id),
     comment TEXT
 );
+SELECT add_audit_columns('leave');
 
 create index if not exists idx_leave_user_id on "leave"(user_id);
 create index if not exists idx_leave_status on "leave"(status);

@@ -4,4 +4,5 @@ create table if not exists maintenance (
     equipment_id VARCHAR(150) constraint maintenance_equipment_fk REFERENCES equipment(id),
     description TEXT
 );
+SELECT add_audit_columns('maintenance');
 CREATE INDEX IF NOT EXISTS idx_maintenance_equipment_id ON maintenance(equipment_id);

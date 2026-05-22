@@ -1,1 +1,0 @@
--- employee_id is not created in the squashed employee_payment schema.

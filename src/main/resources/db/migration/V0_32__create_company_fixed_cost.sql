@@ -6,11 +6,8 @@ create table if not exists company_fixed_cost (
     start_date DATE not null,
     end_date DATE,
     company_id varchar(150) not null,
-    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-    updated_by VARCHAR(150) REFERENCES users(id),
-    created_by VARCHAR(150) REFERENCES users(id),
     comment TEXT,
     constraint company_fixed_cost_company_fk foreign key (company_id) references company(id)
 );
+SELECT add_audit_columns('company_fixed_cost');
 create index if not exists idx_company_fixed_cost_company_id on company_fixed_cost(company_id);
