@@ -1,5 +1,6 @@
 package com.example.demo.model.money;
 
+import com.example.demo.model.CreatAndUpdateEntity;
 import com.example.demo.model.User;
 import com.example.demo.model.core.Team;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -14,6 +15,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
@@ -23,10 +25,10 @@ import org.hibernate.type.SqlTypes;
 @Getter
 @Setter
 @ToString
-@Builder
+@SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
-public class EmployeePayment implements Serializable {
+public class EmployeePayment extends CreatAndUpdateEntity implements Serializable {
 
   @Id private String id;
 

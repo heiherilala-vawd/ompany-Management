@@ -2,6 +2,48 @@
 create extension if not exists "uuid-ossp";
 
 -- =========================
+-- function audit columns
+-- =========================
+
+CREATE OR REPLACE FUNCTION add_audit_columns(table_name TEXT)
+RETURNS VOID AS
+$$
+BEGIN
+EXECUTE format('
+        ALTER TABLE %I
+        ADD COLUMN IF NOT EXISTS created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+        ADD COLUMN IF NOT EXISTS updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+        ADD COLUMN IF NOT EXISTS updated_by VARCHAR(150),
+        ADD COLUMN IF NOT EXISTS created_by VARCHAR(150),
+        ADD COLUMN IF NOT EXISTS comment TEXT;
+    ', table_name);
+
+IF NOT EXISTS (
+        SELECT 1 FROM pg_constraint
+        WHERE conname = table_name || '_updated_by_fkey'
+    ) THEN
+        EXECUTE format('
+            ALTER TABLE %I
+            ADD CONSTRAINT %I
+            FOREIGN KEY (updated_by) REFERENCES users(id);
+        ', table_name, table_name || '_updated_by_fkey');
+END IF;
+
+    IF NOT EXISTS (
+        SELECT 1 FROM pg_constraint
+        WHERE conname = table_name || '_created_by_fkey'
+    ) THEN
+        EXECUTE format('
+            ALTER TABLE %I
+            ADD CONSTRAINT %I
+            FOREIGN KEY (created_by) REFERENCES users(id);
+        ', table_name, table_name || '_created_by_fkey');
+END IF;
+
+END;
+$$ LANGUAGE plpgsql;
+
+-- =========================
 -- ENUMS
 -- =========================
 
@@ -43,10 +85,7 @@ create table if not exists users (
     sex sex,
     email VARCHAR(150) UNIQUE,
     password VARCHAR(255) NOT NULL DEFAULT '',
-    company_id VARCHAR(150),
-    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-    updated_by VARCHAR(150) REFERENCES users(id),
-    created_by VARCHAR(150) REFERENCES users(id),
-    comment TEXT
-    );
+    company_id VARCHAR(150)
+);
+
+SELECT add_audit_columns('users');

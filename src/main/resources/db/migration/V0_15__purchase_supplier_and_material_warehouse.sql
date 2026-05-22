@@ -4,3 +4,4 @@ CREATE TABLE IF NOT EXISTS material_warehouse (
     quantity INTEGER NOT NULL,
     CONSTRAINT material_warehouse_pk PRIMARY KEY (material_id, warehouse_id)
 );
+SELECT add_audit_columns('material_warehouse');

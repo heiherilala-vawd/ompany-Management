@@ -8075,6 +8075,144 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
+  /companies/{comp_id}/task-schedules:
+    get:
+      tags:
+        - TaskSchedule
+      summary: Get all task schedules
+      operationId: getTaskSchedules
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+      responses:
+        '200':
+          description: List of task schedules
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TaskSchedule'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      tags:
+        - TaskSchedule
+      summary: Create or update task schedules
+      operationId: crupdateTaskSchedules
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/CrupdateTaskSchedule'
+      responses:
+        '200':
+          description: The created or updated task schedules
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TaskSchedule'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /companies/{comp_id}/task-schedules/{id}:
+    get:
+      tags:
+        - TaskSchedule
+      summary: Get a task schedule by id
+      operationId: getTaskScheduleById
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "schedule_001"
+      responses:
+        '200':
+          description: The task schedule
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskSchedule'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      tags:
+        - TaskSchedule
+      summary: Delete a task schedule by id
+      operationId: deleteTaskScheduleById
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "schedule_001"
+      responses:
+        '204':
+          description: Task schedule deleted successfully
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
 
 components:
   securitySchemes:
@@ -8160,6 +8298,17 @@ components:
         - BANK_FEE
         - OTHER_EXPENSE
         - TEAM
+        - OTHEREXPENSETYPE
+        - COMPANYFIXEDCOST
+        - LOAN
+        - LOANREPAYMENT
+        - INCOMERECEIPT
+        - LEAVETYPE
+        - EMPLOYEELEAVECONFIG
+        - LEAVE
+        - TASK
+        - TASKASSIGNMENT
+        - TASKSCHEDULE
       example: JOB
     JobStatus:
       type: string
@@ -9998,13 +10147,16 @@ components:
           example: "2026-06-15"
         priority:
           $ref: '#/components/schemas/TaskPriority'
-        frequency:
-          type: string
-          example: "0 0 8 1 * ?"
-          description: "Cron expression for recurring tasks (null for one-time tasks)"
         company_id:
           type: string
           example: "comp_btp001"
+        completed:
+          type: boolean
+          example: false
+        completed_at:
+          type: string
+          format: date-time
+          example: "2026-06-15T14:30:00Z"
         assigned_user_ids:
           type: array
           items:
@@ -10012,12 +10164,6 @@ components:
           example:
             - "usr_123456"
             - "usr_789012"
-        completed_user_ids:
-          type: array
-          items:
-            type: string
-          example:
-            - "usr_123456"
     CrupdateTask:
       type: object
       properties:
@@ -10036,10 +10182,87 @@ components:
           example: "2026-06-15"
         priority:
           $ref: '#/components/schemas/TaskPriority'
+        completed:
+          type: boolean
+          example: false
+        company_id:
+          type: string
+          example: "comp_btp001"
+        assigned_user_ids:
+          type: array
+          items:
+            type: string
+          example:
+            - "usr_123456"
+            - "usr_789012"
+
+    # =========================
+    # TASK SCHEDULE
+    # =========================
+    ScheduleStatus:
+      type: string
+      enum:
+        - PENDING
+        - GENERATED
+        - SKIPPED
+      example: "PENDING"
+    TaskSchedule:
+      allOf:
+        - $ref: '#/components/schemas/AuditFields'
+      properties:
+        id:
+          type: string
+          example: "schedule_001"
+        title:
+          type: string
+          example: "Maintenance équipement"
+        description:
+          type: string
+          example: "Maintenance mensuelle des équipements"
+        priority:
+          $ref: '#/components/schemas/TaskPriority'
         frequency:
           type: string
           example: "0 0 8 1 * ?"
-          description: "Cron expression for recurring tasks (null for one-time tasks)"
+          description: "Cron expression for recurring schedule"
+        scheduled_date:
+          type: string
+          format: date
+          example: "2026-07-01"
+        status:
+          $ref: '#/components/schemas/ScheduleStatus'
+        company_id:
+          type: string
+          example: "comp_btp001"
+        assigned_user_ids:
+          type: array
+          items:
+            type: string
+          example:
+            - "usr_123456"
+            - "usr_789012"
+    CrupdateTaskSchedule:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "schedule_001"
+        title:
+          type: string
+          example: "Maintenance équipement"
+        description:
+          type: string
+          example: "Maintenance mensuelle des équipements"
+        priority:
+          $ref: '#/components/schemas/TaskPriority'
+        frequency:
+          type: string
+          example: "0 0 8 1 * ?"
+          description: "Cron expression for recurring schedule"
+        scheduled_date:
+          type: string
+          format: date
+          example: "2026-07-01"
         company_id:
           type: string
           example: "comp_btp001"

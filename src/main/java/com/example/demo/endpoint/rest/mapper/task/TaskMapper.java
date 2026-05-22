@@ -5,6 +5,7 @@ import com.example.demo.client.model.Task;
 import com.example.demo.endpoint.rest.mapper.RestAuditMapperUtils;
 import com.example.demo.model.Company;
 import com.example.demo.model.task.TaskAssignment;
+import com.example.demo.model.task.TaskPriority;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
@@ -21,11 +22,11 @@ public class TaskMapper {
         .title(rest.getTitle())
         .description(rest.getDescription())
         .dueDate(rest.getDueDate())
-        .priority(rest.getPriority() != null ? rest.getPriority().getValue() : null)
-        .frequency(rest.getFrequency())
+        .priority(
+            rest.getPriority() != null ? TaskPriority.valueOf(rest.getPriority().getValue()) : null)
+        .completed(rest.getCompleted() != null ? rest.getCompleted() : false)
         .company(
             rest.getCompanyId() != null ? Company.builder().id(rest.getCompanyId()).build() : null)
-        .comment(rest.getComment())
         .build();
   }
 
@@ -38,18 +39,15 @@ public class TaskMapper {
     rest.setDescription(domain.getDescription());
     rest.setDueDate(domain.getDueDate());
     if (domain.getPriority() != null) {
-      rest.setPriority(com.example.demo.client.model.TaskPriority.fromValue(domain.getPriority()));
+      rest.setPriority(
+          com.example.demo.client.model.TaskPriority.fromValue(domain.getPriority().name()));
     }
-    rest.setFrequency(domain.getFrequency());
     rest.setCompanyId(domain.getCompany() != null ? domain.getCompany().getId() : null);
+    rest.setCompleted(domain.getCompleted());
+    rest.setCompletedAt(domain.getCompletedAt());
     if (assignments != null) {
       rest.setAssignedUserIds(
           assignments.stream().map(a -> a.getUser().getId()).collect(Collectors.toList()));
-      rest.setCompletedUserIds(
-          assignments.stream()
-              .filter(a -> Boolean.TRUE.equals(a.getCompleted()))
-              .map(a -> a.getUser().getId())
-              .collect(Collectors.toList()));
     }
     RestAuditMapperUtils.mapAuditFields(
         domain,

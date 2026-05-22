@@ -42,17 +42,17 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   Task.JSON_PROPERTY_DESCRIPTION,
   Task.JSON_PROPERTY_DUE_DATE,
   Task.JSON_PROPERTY_PRIORITY,
-  Task.JSON_PROPERTY_FREQUENCY,
   Task.JSON_PROPERTY_COMPANY_ID,
+  Task.JSON_PROPERTY_COMPLETED,
+  Task.JSON_PROPERTY_COMPLETED_AT,
   Task.JSON_PROPERTY_ASSIGNED_USER_IDS,
-  Task.JSON_PROPERTY_COMPLETED_USER_IDS,
   Task.JSON_PROPERTY_CREATED_AT,
   Task.JSON_PROPERTY_UPDATED_AT,
   Task.JSON_PROPERTY_CREATED_BY,
   Task.JSON_PROPERTY_UPDATED_BY,
   Task.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-21T16:50:14.656602868+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-22T04:36:10.989958896+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class Task {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -69,17 +69,17 @@ public class Task {
   public static final String JSON_PROPERTY_PRIORITY = "priority";
   private TaskPriority priority;
 
-  public static final String JSON_PROPERTY_FREQUENCY = "frequency";
-  private String frequency;
-
   public static final String JSON_PROPERTY_COMPANY_ID = "company_id";
   private String companyId;
 
+  public static final String JSON_PROPERTY_COMPLETED = "completed";
+  private Boolean completed;
+
+  public static final String JSON_PROPERTY_COMPLETED_AT = "completed_at";
+  private java.time.Instant completedAt;
+
   public static final String JSON_PROPERTY_ASSIGNED_USER_IDS = "assigned_user_ids";
   private List<String> assignedUserIds = new ArrayList<>();
-
-  public static final String JSON_PROPERTY_COMPLETED_USER_IDS = "completed_user_ids";
-  private List<String> completedUserIds = new ArrayList<>();
 
   public static final String JSON_PROPERTY_CREATED_AT = "created_at";
   private java.time.Instant createdAt;
@@ -224,31 +224,6 @@ public class Task {
   }
 
 
-  public Task frequency(String frequency) {
-    this.frequency = frequency;
-    return this;
-  }
-
-   /**
-   * Cron expression for recurring tasks (null for one-time tasks)
-   * @return frequency
-  **/
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_FREQUENCY)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-  public String getFrequency() {
-    return frequency;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_FREQUENCY)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setFrequency(String frequency) {
-    this.frequency = frequency;
-  }
-
-
   public Task companyId(String companyId) {
     this.companyId = companyId;
     return this;
@@ -271,6 +246,56 @@ public class Task {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setCompanyId(String companyId) {
     this.companyId = companyId;
+  }
+
+
+  public Task completed(Boolean completed) {
+    this.completed = completed;
+    return this;
+  }
+
+   /**
+   * Get completed
+   * @return completed
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_COMPLETED)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public Boolean getCompleted() {
+    return completed;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_COMPLETED)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setCompleted(Boolean completed) {
+    this.completed = completed;
+  }
+
+
+  public Task completedAt(java.time.Instant completedAt) {
+    this.completedAt = completedAt;
+    return this;
+  }
+
+   /**
+   * Get completedAt
+   * @return completedAt
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_COMPLETED_AT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public java.time.Instant getCompletedAt() {
+    return completedAt;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_COMPLETED_AT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setCompletedAt(java.time.Instant completedAt) {
+    this.completedAt = completedAt;
   }
 
 
@@ -304,39 +329,6 @@ public class Task {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setAssignedUserIds(List<String> assignedUserIds) {
     this.assignedUserIds = assignedUserIds;
-  }
-
-
-  public Task completedUserIds(List<String> completedUserIds) {
-    this.completedUserIds = completedUserIds;
-    return this;
-  }
-
-  public Task addCompletedUserIdsItem(String completedUserIdsItem) {
-    if (this.completedUserIds == null) {
-      this.completedUserIds = new ArrayList<>();
-    }
-    this.completedUserIds.add(completedUserIdsItem);
-    return this;
-  }
-
-   /**
-   * Get completedUserIds
-   * @return completedUserIds
-  **/
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_COMPLETED_USER_IDS)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-  public List<String> getCompletedUserIds() {
-    return completedUserIds;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_COMPLETED_USER_IDS)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setCompletedUserIds(List<String> completedUserIds) {
-    this.completedUserIds = completedUserIds;
   }
 
 
@@ -482,10 +474,10 @@ public class Task {
         Objects.equals(this.description, task.description) &&
         Objects.equals(this.dueDate, task.dueDate) &&
         Objects.equals(this.priority, task.priority) &&
-        Objects.equals(this.frequency, task.frequency) &&
         Objects.equals(this.companyId, task.companyId) &&
+        Objects.equals(this.completed, task.completed) &&
+        Objects.equals(this.completedAt, task.completedAt) &&
         Objects.equals(this.assignedUserIds, task.assignedUserIds) &&
-        Objects.equals(this.completedUserIds, task.completedUserIds) &&
         Objects.equals(this.createdAt, task.createdAt) &&
         Objects.equals(this.updatedAt, task.updatedAt) &&
         Objects.equals(this.createdBy, task.createdBy) &&
@@ -495,7 +487,7 @@ public class Task {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, title, description, dueDate, priority, frequency, companyId, assignedUserIds, completedUserIds, createdAt, updatedAt, createdBy, updatedBy, comment);
+    return Objects.hash(id, title, description, dueDate, priority, companyId, completed, completedAt, assignedUserIds, createdAt, updatedAt, createdBy, updatedBy, comment);
   }
 
   @Override
@@ -507,10 +499,10 @@ public class Task {
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("    dueDate: ").append(toIndentedString(dueDate)).append("\n");
     sb.append("    priority: ").append(toIndentedString(priority)).append("\n");
-    sb.append("    frequency: ").append(toIndentedString(frequency)).append("\n");
     sb.append("    companyId: ").append(toIndentedString(companyId)).append("\n");
+    sb.append("    completed: ").append(toIndentedString(completed)).append("\n");
+    sb.append("    completedAt: ").append(toIndentedString(completedAt)).append("\n");
     sb.append("    assignedUserIds: ").append(toIndentedString(assignedUserIds)).append("\n");
-    sb.append("    completedUserIds: ").append(toIndentedString(completedUserIds)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
     sb.append("    updatedAt: ").append(toIndentedString(updatedAt)).append("\n");
     sb.append("    createdBy: ").append(toIndentedString(createdBy)).append("\n");

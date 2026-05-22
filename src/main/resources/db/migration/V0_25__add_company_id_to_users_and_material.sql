@@ -1,1 +1,0 @@
--- company_id is defined directly in users and material table creation.

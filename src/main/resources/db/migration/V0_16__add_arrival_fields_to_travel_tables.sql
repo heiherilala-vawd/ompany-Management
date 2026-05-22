@@ -1,1 +1,0 @@
--- Arrival columns are defined directly in V0_7__travel_details.sql.

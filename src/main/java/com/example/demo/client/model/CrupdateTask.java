@@ -41,12 +41,11 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   CrupdateTask.JSON_PROPERTY_DESCRIPTION,
   CrupdateTask.JSON_PROPERTY_DUE_DATE,
   CrupdateTask.JSON_PROPERTY_PRIORITY,
-  CrupdateTask.JSON_PROPERTY_FREQUENCY,
+  CrupdateTask.JSON_PROPERTY_COMPLETED,
   CrupdateTask.JSON_PROPERTY_COMPANY_ID,
-  CrupdateTask.JSON_PROPERTY_ASSIGNED_USER_IDS,
-  CrupdateTask.JSON_PROPERTY_COMMENT
+  CrupdateTask.JSON_PROPERTY_ASSIGNED_USER_IDS
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-21T16:50:14.656602868+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-22T04:36:10.989958896+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdateTask {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -63,17 +62,14 @@ public class CrupdateTask {
   public static final String JSON_PROPERTY_PRIORITY = "priority";
   private TaskPriority priority;
 
-  public static final String JSON_PROPERTY_FREQUENCY = "frequency";
-  private String frequency;
+  public static final String JSON_PROPERTY_COMPLETED = "completed";
+  private Boolean completed;
 
   public static final String JSON_PROPERTY_COMPANY_ID = "company_id";
   private String companyId;
 
   public static final String JSON_PROPERTY_ASSIGNED_USER_IDS = "assigned_user_ids";
   private List<String> assignedUserIds = new ArrayList<>();
-
-  public static final String JSON_PROPERTY_COMMENT = "comment";
-  private String comment;
 
   public CrupdateTask() { 
   }
@@ -203,28 +199,28 @@ public class CrupdateTask {
   }
 
 
-  public CrupdateTask frequency(String frequency) {
-    this.frequency = frequency;
+  public CrupdateTask completed(Boolean completed) {
+    this.completed = completed;
     return this;
   }
 
    /**
-   * Cron expression for recurring tasks (null for one-time tasks)
-   * @return frequency
+   * Get completed
+   * @return completed
   **/
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_FREQUENCY)
+  @JsonProperty(JSON_PROPERTY_COMPLETED)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getFrequency() {
-    return frequency;
+  public Boolean getCompleted() {
+    return completed;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_FREQUENCY)
+  @JsonProperty(JSON_PROPERTY_COMPLETED)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setFrequency(String frequency) {
-    this.frequency = frequency;
+  public void setCompleted(Boolean completed) {
+    this.completed = completed;
   }
 
 
@@ -286,31 +282,6 @@ public class CrupdateTask {
   }
 
 
-  public CrupdateTask comment(String comment) {
-    this.comment = comment;
-    return this;
-  }
-
-   /**
-   * Get comment
-   * @return comment
-  **/
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_COMMENT)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-  public String getComment() {
-    return comment;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_COMMENT)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setComment(String comment) {
-    this.comment = comment;
-  }
-
-
   /**
    * Return true if this CrupdateTask object is equal to o.
    */
@@ -328,15 +299,14 @@ public class CrupdateTask {
         Objects.equals(this.description, crupdateTask.description) &&
         Objects.equals(this.dueDate, crupdateTask.dueDate) &&
         Objects.equals(this.priority, crupdateTask.priority) &&
-        Objects.equals(this.frequency, crupdateTask.frequency) &&
+        Objects.equals(this.completed, crupdateTask.completed) &&
         Objects.equals(this.companyId, crupdateTask.companyId) &&
-        Objects.equals(this.assignedUserIds, crupdateTask.assignedUserIds) &&
-        Objects.equals(this.comment, crupdateTask.comment);
+        Objects.equals(this.assignedUserIds, crupdateTask.assignedUserIds);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, title, description, dueDate, priority, frequency, companyId, assignedUserIds, comment);
+    return Objects.hash(id, title, description, dueDate, priority, completed, companyId, assignedUserIds);
   }
 
   @Override
@@ -348,10 +318,9 @@ public class CrupdateTask {
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("    dueDate: ").append(toIndentedString(dueDate)).append("\n");
     sb.append("    priority: ").append(toIndentedString(priority)).append("\n");
-    sb.append("    frequency: ").append(toIndentedString(frequency)).append("\n");
+    sb.append("    completed: ").append(toIndentedString(completed)).append("\n");
     sb.append("    companyId: ").append(toIndentedString(companyId)).append("\n");
     sb.append("    assignedUserIds: ").append(toIndentedString(assignedUserIds)).append("\n");
-    sb.append("    comment: ").append(toIndentedString(comment)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -424,9 +393,9 @@ public class CrupdateTask {
       joiner.add(String.format("%spriority%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getPriority()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `frequency` to the URL query string
-    if (getFrequency() != null) {
-      joiner.add(String.format("%sfrequency%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getFrequency()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    // add `completed` to the URL query string
+    if (getCompleted() != null) {
+      joiner.add(String.format("%scompleted%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getCompleted()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `company_id` to the URL query string
@@ -441,11 +410,6 @@ public class CrupdateTask {
             "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
             URLEncoder.encode(String.valueOf(getAssignedUserIds().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
       }
-    }
-
-    // add `comment` to the URL query string
-    if (getComment() != null) {
-      joiner.add(String.format("%scomment%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getComment()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

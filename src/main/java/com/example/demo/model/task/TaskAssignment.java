@@ -4,7 +4,6 @@ import com.example.demo.model.CreatAndUpdateEntity;
 import com.example.demo.model.User;
 import jakarta.persistence.*;
 import java.io.Serializable;
-import java.time.Instant;
 import java.util.Objects;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -33,11 +32,6 @@ public class TaskAssignment extends CreatAndUpdateEntity implements Serializable
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id")
   private User user;
-
-  private Boolean completed;
-
-  @Column(name = "completed_at")
-  private Instant completedAt;
 
   @Override
   public boolean equals(Object o) {

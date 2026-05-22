@@ -2,15 +2,10 @@ CREATE TABLE IF NOT EXISTS team (
     id VARCHAR(150) NOT NULL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     leader_id VARCHAR(150) NOT NULL,
-    created_at TIMESTAMP,
-    updated_at TIMESTAMP,
-    created_by VARCHAR(150),
-    updated_by VARCHAR(150),
-    comment TEXT,
-    CONSTRAINT fk_team_leader FOREIGN KEY (leader_id) REFERENCES "users"(id),
-    CONSTRAINT fk_team_created_by FOREIGN KEY (created_by) REFERENCES "users"(id),
-    CONSTRAINT fk_team_updated_by FOREIGN KEY (updated_by) REFERENCES "users"(id)
+    CONSTRAINT fk_team_leader FOREIGN KEY (leader_id) REFERENCES "users"(id)
 );
+
+SELECT add_audit_columns('team');
 
 create table if not exists employee_payment (
                                                 id VARCHAR(150) constraint employee_payment_pk  primary key default uuid_generate_v4(),
@@ -20,6 +15,7 @@ create table if not exists employee_payment (
     is_for_team BOOLEAN DEFAULT FALSE,
     team_id VARCHAR(150) constraint fk_employee_payment_team references team(id)
     );
+SELECT add_audit_columns('employee_payment');
 
 create table if not exists travel_expense (
                                               id VARCHAR(150) constraint travel_expense_pk  primary key default uuid_generate_v4(),
@@ -29,3 +25,4 @@ create table if not exists travel_expense (
     departure_date timestamp with time zone not null default now(),
     arrival_date timestamp with time zone not null default now()
     );
+SELECT add_audit_columns('travel_expense');
