@@ -1,1 +1,0 @@
--- money_arrival_date is not created in the squashed income_money schema.

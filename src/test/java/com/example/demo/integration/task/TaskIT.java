@@ -70,7 +70,7 @@ class TaskIT {
     assertEquals("task1_id", task.getId());
     assertEquals("Vérifier le matériel", task.getTitle());
     assertEquals(2, task.getAssignedUserIds().size());
-    assertEquals(1, task.getCompletedUserIds().size());
+    assertEquals(true, task.getCompleted());
   }
 
   @Test

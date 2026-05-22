@@ -4,6 +4,7 @@ import com.example.demo.model.Company;
 import com.example.demo.model.CreatAndUpdateEntity;
 import jakarta.persistence.*;
 import java.io.Serializable;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Objects;
 import lombok.AllArgsConstructor;
@@ -13,6 +14,8 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 @Entity
 @Table(name = "task")
@@ -34,9 +37,14 @@ public class Task extends CreatAndUpdateEntity implements Serializable {
   @Column(name = "due_date")
   private LocalDate dueDate;
 
-  private String priority;
+  @Enumerated(EnumType.STRING)
+  @JdbcTypeCode(SqlTypes.NAMED_ENUM)
+  private TaskPriority priority;
 
-  private String frequency;
+  private Boolean completed;
+
+  @Column(name = "completed_at")
+  private Instant completedAt;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "company_id")

@@ -1,5 +1,6 @@
 package com.example.demo.model.money;
 
+import com.example.demo.model.CreatAndUpdateEntity;
 import com.example.demo.model.movement.Equipment;
 import com.example.demo.model.movement.Material;
 import com.example.demo.model.movement.Warehouse;
@@ -9,11 +10,11 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.Hibernate;
 
 @Entity
@@ -21,10 +22,10 @@ import org.hibernate.Hibernate;
 @Getter
 @Setter
 @ToString
-@Builder
+@SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Purchase implements Serializable {
+public class Purchase extends CreatAndUpdateEntity implements Serializable {
 
   @Id private String id;
 

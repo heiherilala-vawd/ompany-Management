@@ -1,5 +1,6 @@
 package com.example.demo.model.movement;
 
+import com.example.demo.model.CreatAndUpdateEntity;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -8,21 +9,21 @@ import jakarta.persistence.MapsId;
 import jakarta.persistence.Table;
 import java.io.Serializable;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @Table(name = "material_warehouse")
 @Getter
 @Setter
-@Builder
+@SuperBuilder
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class MaterialWarehouse implements Serializable {
+public class MaterialWarehouse extends CreatAndUpdateEntity implements Serializable {
 
   @EmbeddedId private MaterialWarehouseId id;
 

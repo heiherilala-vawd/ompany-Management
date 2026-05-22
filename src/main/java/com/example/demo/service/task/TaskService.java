@@ -69,12 +69,7 @@ public class TaskService {
     for (String userId : userIds) {
       User user = User.builder().id(userId).build();
       TaskAssignment assignment =
-          TaskAssignment.builder()
-              .id(UUID.randomUUID().toString())
-              .task(task)
-              .user(user)
-              .completed(false)
-              .build();
+          TaskAssignment.builder().id(UUID.randomUUID().toString()).task(task).user(user).build();
       modificationUtils.createOrUpdateModel(assignment, null, assignment.getId(), currentUser);
       assignments.add(assignment);
     }

@@ -21,8 +21,8 @@ final class TestTaskFixtures {
     task.setDueDate(LocalDate.of(2026, 6, 15));
     task.setPriority(TaskPriority.HIGH);
     task.setCompanyId(COMPANY1_ID);
+    task.setCompleted(true);
     task.setAssignedUserIds(List.of(ADMIN_ID, EMPLOYEE_ID));
-    task.setCompletedUserIds(List.of(ADMIN_ID));
     return task;
   }
 
@@ -33,7 +33,6 @@ final class TestTaskFixtures {
     task.setDescription("Maintenance mensuelle des équipements");
     task.setDueDate(LocalDate.of(2026, 7, 1));
     task.setPriority(TaskPriority.MEDIUM);
-    task.setFrequency("0 0 8 1 * ?");
     task.setCompanyId(COMPANY1_ID);
     task.setAssignedUserIds(List.of(EMPLOYEE_ID));
     return task;
@@ -46,7 +45,6 @@ final class TestTaskFixtures {
     crupdate.setDescription(task.getDescription());
     crupdate.setDueDate(task.getDueDate());
     crupdate.setPriority(task.getPriority());
-    crupdate.setFrequency(task.getFrequency());
     crupdate.setAssignedUserIds(task.getAssignedUserIds());
     return crupdate;
   }

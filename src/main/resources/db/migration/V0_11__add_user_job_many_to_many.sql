@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS user_job (
     CONSTRAINT user_job_job_fk FOREIGN KEY (job_id) REFERENCES job(id),
     CONSTRAINT user_job_user_fk FOREIGN KEY (user_id) REFERENCES "users"(id)
 );
+SELECT add_audit_columns('user_job');
 
 CREATE INDEX IF NOT EXISTS idx_user_job_job_id ON user_job(job_id);
 CREATE INDEX IF NOT EXISTS idx_user_job_user_id ON user_job(user_id);

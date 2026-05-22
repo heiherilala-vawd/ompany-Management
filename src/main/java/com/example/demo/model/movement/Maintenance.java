@@ -1,5 +1,6 @@
 package com.example.demo.model.movement;
 
+import com.example.demo.model.CreatAndUpdateEntity;
 import com.example.demo.model.money.ExpenseMoney;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.Entity;
@@ -11,11 +12,11 @@ import jakarta.persistence.Table;
 import java.io.Serializable;
 import java.util.Objects;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.Hibernate;
 
 @Entity
@@ -23,10 +24,10 @@ import org.hibernate.Hibernate;
 @Getter
 @Setter
 @ToString
-@Builder
+@SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Maintenance implements Serializable {
+public class Maintenance extends CreatAndUpdateEntity implements Serializable {
 
   @Id private String id;
 

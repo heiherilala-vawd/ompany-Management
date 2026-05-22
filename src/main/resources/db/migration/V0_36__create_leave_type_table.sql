@@ -16,11 +16,8 @@ create table if not exists leave_type (
     color VARCHAR(7),
     days_per_year INTEGER,
     company_id VARCHAR(150) NOT NULL constraint leave_type_company_fk references company(id),
-    created_at TIMESTAMPTZ,
-    updated_at TIMESTAMPTZ,
-    created_by VARCHAR(150) constraint leave_type_created_by_fk references users(id),
-    updated_by VARCHAR(150) constraint leave_type_updated_by_fk references users(id),
     comment TEXT
 );
+SELECT add_audit_columns('leave_type');
 
 create index if not exists idx_leave_type_company_id on leave_type(company_id);

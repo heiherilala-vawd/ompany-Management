@@ -7,6 +7,7 @@ create table if not exists purchase (
     quantity integer not null,
     is_equipment BOOLEAN
     );
+SELECT add_audit_columns('purchase');
 
 create table if not exists bank_fee (
                                         id VARCHAR(150) constraint bank_fee_pk  primary key default uuid_generate_v4(),
@@ -14,9 +15,11 @@ create table if not exists bank_fee (
     bank_name VARCHAR(150),
     description TEXT
     );
+SELECT add_audit_columns('bank_fee');
 
 create table if not exists other_expense (
                                              id VARCHAR(150) constraint other_expense_pk  primary key default uuid_generate_v4(),
     expense_id VARCHAR(150) constraint other_expense_expense_money_pk REFERENCES expense_money(id),
     description TEXT
     );
+SELECT add_audit_columns('other_expense');

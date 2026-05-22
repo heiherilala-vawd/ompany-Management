@@ -87,6 +87,7 @@ public class History implements Serializable {
     EMPLOYEELEAVECONFIG,
     LEAVE,
     TASK,
-    TASKASSIGNMENT
+    TASKASSIGNMENT,
+    TASKSCHEDULE
   }
 }
