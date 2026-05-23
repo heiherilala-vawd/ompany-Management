@@ -39,13 +39,15 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   EmployeeLeaveConfig.JSON_PROPERTY_HIRE_DATE,
   EmployeeLeaveConfig.JSON_PROPERTY_CONTRACT_TYPE,
   EmployeeLeaveConfig.JSON_PROPERTY_VACATION_DAYS_PER_MONTH,
+  EmployeeLeaveConfig.JSON_PROPERTY_END_DATE,
+  EmployeeLeaveConfig.JSON_PROPERTY_WEEKLY_HOURS,
   EmployeeLeaveConfig.JSON_PROPERTY_CREATED_AT,
   EmployeeLeaveConfig.JSON_PROPERTY_UPDATED_AT,
   EmployeeLeaveConfig.JSON_PROPERTY_CREATED_BY,
   EmployeeLeaveConfig.JSON_PROPERTY_UPDATED_BY,
   EmployeeLeaveConfig.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-22T04:36:10.989958896+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-23T02:25:48.303916325+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class EmployeeLeaveConfig {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -58,6 +60,12 @@ public class EmployeeLeaveConfig {
 
   public static final String JSON_PROPERTY_VACATION_DAYS_PER_MONTH = "vacation_days_per_month";
   private BigDecimal vacationDaysPerMonth;
+
+  public static final String JSON_PROPERTY_END_DATE = "end_date";
+  private java.time.LocalDate endDate;
+
+  public static final String JSON_PROPERTY_WEEKLY_HOURS = "weekly_hours";
+  private Integer weeklyHours;
 
   public static final String JSON_PROPERTY_CREATED_AT = "created_at";
   private java.time.Instant createdAt;
@@ -174,6 +182,56 @@ public class EmployeeLeaveConfig {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setVacationDaysPerMonth(BigDecimal vacationDaysPerMonth) {
     this.vacationDaysPerMonth = vacationDaysPerMonth;
+  }
+
+
+  public EmployeeLeaveConfig endDate(java.time.LocalDate endDate) {
+    this.endDate = endDate;
+    return this;
+  }
+
+   /**
+   * Get endDate
+   * @return endDate
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_END_DATE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public java.time.LocalDate getEndDate() {
+    return endDate;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_END_DATE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setEndDate(java.time.LocalDate endDate) {
+    this.endDate = endDate;
+  }
+
+
+  public EmployeeLeaveConfig weeklyHours(Integer weeklyHours) {
+    this.weeklyHours = weeklyHours;
+    return this;
+  }
+
+   /**
+   * Get weeklyHours
+   * @return weeklyHours
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_WEEKLY_HOURS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public Integer getWeeklyHours() {
+    return weeklyHours;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_WEEKLY_HOURS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setWeeklyHours(Integer weeklyHours) {
+    this.weeklyHours = weeklyHours;
   }
 
 
@@ -318,6 +376,8 @@ public class EmployeeLeaveConfig {
         Objects.equals(this.hireDate, employeeLeaveConfig.hireDate) &&
         Objects.equals(this.contractType, employeeLeaveConfig.contractType) &&
         Objects.equals(this.vacationDaysPerMonth, employeeLeaveConfig.vacationDaysPerMonth) &&
+        Objects.equals(this.endDate, employeeLeaveConfig.endDate) &&
+        Objects.equals(this.weeklyHours, employeeLeaveConfig.weeklyHours) &&
         Objects.equals(this.createdAt, employeeLeaveConfig.createdAt) &&
         Objects.equals(this.updatedAt, employeeLeaveConfig.updatedAt) &&
         Objects.equals(this.createdBy, employeeLeaveConfig.createdBy) &&
@@ -327,7 +387,7 @@ public class EmployeeLeaveConfig {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, hireDate, contractType, vacationDaysPerMonth, createdAt, updatedAt, createdBy, updatedBy, comment);
+    return Objects.hash(id, hireDate, contractType, vacationDaysPerMonth, endDate, weeklyHours, createdAt, updatedAt, createdBy, updatedBy, comment);
   }
 
   @Override
@@ -338,6 +398,8 @@ public class EmployeeLeaveConfig {
     sb.append("    hireDate: ").append(toIndentedString(hireDate)).append("\n");
     sb.append("    contractType: ").append(toIndentedString(contractType)).append("\n");
     sb.append("    vacationDaysPerMonth: ").append(toIndentedString(vacationDaysPerMonth)).append("\n");
+    sb.append("    endDate: ").append(toIndentedString(endDate)).append("\n");
+    sb.append("    weeklyHours: ").append(toIndentedString(weeklyHours)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
     sb.append("    updatedAt: ").append(toIndentedString(updatedAt)).append("\n");
     sb.append("    createdBy: ").append(toIndentedString(createdBy)).append("\n");

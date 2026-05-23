@@ -29,6 +29,7 @@ public class MaterialMapper {
             EnumMapper.mapEnum(
                 restMaterial.getUnit(), com.example.demo.model.movement.Material.Unit.class))
         .comment(restMaterial.getComment())
+        .unitPrice(restMaterial.getUnitPrice())
         .build();
   }
 
@@ -44,7 +45,8 @@ public class MaterialMapper {
             .unit(
                 EnumMapper.mapEnum(
                     restMaterial.getUnit(), com.example.demo.model.movement.Material.Unit.class))
-            .comment(restMaterial.getComment());
+            .comment(restMaterial.getComment())
+            .unitPrice(restMaterial.getUnitPrice());
     if (companyId != null) {
       builder.company(Company.builder().id(companyId).build());
     }
@@ -63,6 +65,7 @@ public class MaterialMapper {
             domainMaterial.getUnit(), com.example.demo.client.model.MaterialUnit.class));
     restMaterial.setCompanyId(
         domainMaterial.getCompany() != null ? domainMaterial.getCompany().getId() : null);
+    restMaterial.setUnitPrice(domainMaterial.getUnitPrice());
     if (domainMaterial.getMaterialWarehouses() != null) {
       restMaterial.setMaterialWarehouses(
           domainMaterial.getMaterialWarehouses().stream()

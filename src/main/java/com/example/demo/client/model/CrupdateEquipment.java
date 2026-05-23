@@ -24,7 +24,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
@@ -39,9 +41,12 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   CrupdateEquipment.JSON_PROPERTY_FLOOR_NUMBER,
   CrupdateEquipment.JSON_PROPERTY_STORAGE_NUMBER,
   CrupdateEquipment.JSON_PROPERTY_EST_EN_PANNE,
+  CrupdateEquipment.JSON_PROPERTY_PURCHASE_PRICE,
+  CrupdateEquipment.JSON_PROPERTY_PURCHASE_DATE,
+  CrupdateEquipment.JSON_PROPERTY_CATEGORY,
   CrupdateEquipment.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-22T04:36:10.989958896+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-23T02:25:48.303916325+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdateEquipment {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -63,6 +68,15 @@ public class CrupdateEquipment {
 
   public static final String JSON_PROPERTY_EST_EN_PANNE = "est_en_panne";
   private Boolean estEnPanne;
+
+  public static final String JSON_PROPERTY_PURCHASE_PRICE = "purchase_price";
+  private BigDecimal purchasePrice;
+
+  public static final String JSON_PROPERTY_PURCHASE_DATE = "purchase_date";
+  private java.time.LocalDate purchaseDate;
+
+  public static final String JSON_PROPERTY_CATEGORY = "category";
+  private String category;
 
   public static final String JSON_PROPERTY_COMMENT = "comment";
   private String comment;
@@ -245,6 +259,81 @@ public class CrupdateEquipment {
   }
 
 
+  public CrupdateEquipment purchasePrice(BigDecimal purchasePrice) {
+    this.purchasePrice = purchasePrice;
+    return this;
+  }
+
+   /**
+   * Get purchasePrice
+   * @return purchasePrice
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_PURCHASE_PRICE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public BigDecimal getPurchasePrice() {
+    return purchasePrice;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_PURCHASE_PRICE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setPurchasePrice(BigDecimal purchasePrice) {
+    this.purchasePrice = purchasePrice;
+  }
+
+
+  public CrupdateEquipment purchaseDate(java.time.LocalDate purchaseDate) {
+    this.purchaseDate = purchaseDate;
+    return this;
+  }
+
+   /**
+   * Get purchaseDate
+   * @return purchaseDate
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_PURCHASE_DATE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public java.time.LocalDate getPurchaseDate() {
+    return purchaseDate;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_PURCHASE_DATE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setPurchaseDate(java.time.LocalDate purchaseDate) {
+    this.purchaseDate = purchaseDate;
+  }
+
+
+  public CrupdateEquipment category(String category) {
+    this.category = category;
+    return this;
+  }
+
+   /**
+   * Get category
+   * @return category
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_CATEGORY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getCategory() {
+    return category;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_CATEGORY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setCategory(String category) {
+    this.category = category;
+  }
+
+
   public CrupdateEquipment comment(String comment) {
     this.comment = comment;
     return this;
@@ -289,12 +378,15 @@ public class CrupdateEquipment {
         Objects.equals(this.floorNumber, crupdateEquipment.floorNumber) &&
         Objects.equals(this.storageNumber, crupdateEquipment.storageNumber) &&
         Objects.equals(this.estEnPanne, crupdateEquipment.estEnPanne) &&
+        Objects.equals(this.purchasePrice, crupdateEquipment.purchasePrice) &&
+        Objects.equals(this.purchaseDate, crupdateEquipment.purchaseDate) &&
+        Objects.equals(this.category, crupdateEquipment.category) &&
         Objects.equals(this.comment, crupdateEquipment.comment);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, description, warehouseId, floorNumber, storageNumber, estEnPanne, comment);
+    return Objects.hash(id, name, description, warehouseId, floorNumber, storageNumber, estEnPanne, purchasePrice, purchaseDate, category, comment);
   }
 
   @Override
@@ -308,6 +400,9 @@ public class CrupdateEquipment {
     sb.append("    floorNumber: ").append(toIndentedString(floorNumber)).append("\n");
     sb.append("    storageNumber: ").append(toIndentedString(storageNumber)).append("\n");
     sb.append("    estEnPanne: ").append(toIndentedString(estEnPanne)).append("\n");
+    sb.append("    purchasePrice: ").append(toIndentedString(purchasePrice)).append("\n");
+    sb.append("    purchaseDate: ").append(toIndentedString(purchaseDate)).append("\n");
+    sb.append("    category: ").append(toIndentedString(category)).append("\n");
     sb.append("    comment: ").append(toIndentedString(comment)).append("\n");
     sb.append("}");
     return sb.toString();

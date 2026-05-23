@@ -27,6 +27,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -40,6 +41,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   Material.JSON_PROPERTY_ID,
   Material.JSON_PROPERTY_NAME,
   Material.JSON_PROPERTY_DESCRIPTION,
+  Material.JSON_PROPERTY_UNIT_PRICE,
   Material.JSON_PROPERTY_UNIT,
   Material.JSON_PROPERTY_COMPANY_ID,
   Material.JSON_PROPERTY_MATERIAL_WAREHOUSES,
@@ -49,7 +51,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   Material.JSON_PROPERTY_UPDATED_BY,
   Material.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-22T04:36:10.989958896+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-23T02:25:48.303916325+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class Material {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -59,6 +61,9 @@ public class Material {
 
   public static final String JSON_PROPERTY_DESCRIPTION = "description";
   private String description;
+
+  public static final String JSON_PROPERTY_UNIT_PRICE = "unit_price";
+  private BigDecimal unitPrice;
 
   public static final String JSON_PROPERTY_UNIT = "unit";
   private MaterialUnit unit;
@@ -159,6 +164,31 @@ public class Material {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setDescription(String description) {
     this.description = description;
+  }
+
+
+  public Material unitPrice(BigDecimal unitPrice) {
+    this.unitPrice = unitPrice;
+    return this;
+  }
+
+   /**
+   * Get unitPrice
+   * @return unitPrice
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_UNIT_PRICE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public BigDecimal getUnitPrice() {
+    return unitPrice;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_UNIT_PRICE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setUnitPrice(BigDecimal unitPrice) {
+    this.unitPrice = unitPrice;
   }
 
 
@@ -385,6 +415,7 @@ public class Material {
     return Objects.equals(this.id, material.id) &&
         Objects.equals(this.name, material.name) &&
         Objects.equals(this.description, material.description) &&
+        Objects.equals(this.unitPrice, material.unitPrice) &&
         Objects.equals(this.unit, material.unit) &&
         Objects.equals(this.companyId, material.companyId) &&
         Objects.equals(this.materialWarehouses, material.materialWarehouses) &&
@@ -397,7 +428,7 @@ public class Material {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, description, unit, companyId, materialWarehouses, createdAt, updatedAt, createdBy, updatedBy, comment);
+    return Objects.hash(id, name, description, unitPrice, unit, companyId, materialWarehouses, createdAt, updatedAt, createdBy, updatedBy, comment);
   }
 
   @Override
@@ -407,6 +438,7 @@ public class Material {
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
+    sb.append("    unitPrice: ").append(toIndentedString(unitPrice)).append("\n");
     sb.append("    unit: ").append(toIndentedString(unit)).append("\n");
     sb.append("    companyId: ").append(toIndentedString(companyId)).append("\n");
     sb.append("    materialWarehouses: ").append(toIndentedString(materialWarehouses)).append("\n");

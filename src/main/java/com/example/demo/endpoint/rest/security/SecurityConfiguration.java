@@ -429,6 +429,84 @@ public class SecurityConfiguration {
                     .hasRole("ADMIN")
 
                     // =========================
+                    // DEPARTMENT
+                    // =========================
+                    .requestMatchers(
+                        GET, "/companies/*/departments", "/companies/*/departments/*")
+                    .authenticated()
+                    .requestMatchers(PUT, "/companies/*/departments")
+                    .authenticated()
+                    .requestMatchers(DELETE, "/companies/*/departments/*")
+                    .hasRole("ADMIN")
+
+                    // =========================
+                    // CASH ACCOUNT
+                    // =========================
+                    .requestMatchers(
+                        GET, "/companies/*/cash-accounts", "/companies/*/cash-accounts/*")
+                    .authenticated()
+                    .requestMatchers(PUT, "/companies/*/cash-accounts")
+                    .authenticated()
+                    .requestMatchers(DELETE, "/companies/*/cash-accounts/*")
+                    .hasRole("ADMIN")
+
+                    // =========================
+                    // CASH TRANSACTION
+                    // =========================
+                    .requestMatchers(
+                        GET,
+                        "/companies/*/cash-accounts/*/transactions",
+                        "/companies/*/cash-accounts/*/transactions/*")
+                    .authenticated()
+                    .requestMatchers(PUT, "/companies/*/cash-accounts/*/transactions")
+                    .authenticated()
+                    .requestMatchers(DELETE, "/companies/*/cash-accounts/*/transactions/*")
+                    .hasRole("ADMIN")
+
+                    // =========================
+                    // BUDGET LINE
+                    // =========================
+                    .requestMatchers(
+                        GET, "/companies/*/budget-lines", "/companies/*/budget-lines/*")
+                    .authenticated()
+                    .requestMatchers(PUT, "/companies/*/budget-lines")
+                    .authenticated()
+                    .requestMatchers(DELETE, "/companies/*/budget-lines/*")
+                    .hasRole("ADMIN")
+
+                    // =========================
+                    // EQUIPMENT USAGE
+                    // =========================
+                    .requestMatchers(
+                        GET, "/companies/*/equipment-usage", "/companies/*/equipment-usage/*")
+                    .authenticated()
+                    .requestMatchers(PUT, "/companies/*/equipment-usage")
+                    .authenticated()
+                    .requestMatchers(DELETE, "/companies/*/equipment-usage/*")
+                    .hasRole("ADMIN")
+
+                    // =========================
+                    // MATERIAL CONSUMPTION
+                    // =========================
+                    .requestMatchers(
+                        GET, "/companies/*/material-consumption", "/companies/*/material-consumption/*")
+                    .authenticated()
+                    .requestMatchers(PUT, "/companies/*/material-consumption")
+                    .authenticated()
+                    .requestMatchers(DELETE, "/companies/*/material-consumption/*")
+                    .hasRole("ADMIN")
+
+                    // =========================
+                    // TEAM
+                    // =========================
+                    .requestMatchers(GET, "/companies/*/teams", "/companies/*/teams/*")
+                    .authenticated()
+                    .requestMatchers(PUT, "/companies/*/teams")
+                    .authenticated()
+                    .requestMatchers(DELETE, "/companies/*/teams/*")
+                    .hasRole("ADMIN")
+
+                    // =========================
                     // DEFAULT - Toute autre requête non auizer
                     // =========================
                     .anyRequest()

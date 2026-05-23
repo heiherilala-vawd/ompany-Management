@@ -38,6 +38,12 @@ public class EmployeeLeaveConfig extends CreatAndUpdateEntity implements Seriali
   @Column(name = "vacation_days_per_month")
   private BigDecimal vacationDaysPerMonth;
 
+  @Column(name = "end_date")
+  private LocalDate endDate;
+
+  @Column(name = "weekly_hours")
+  private Integer weeklyHours;
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;

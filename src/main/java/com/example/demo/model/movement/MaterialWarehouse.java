@@ -1,6 +1,7 @@
 package com.example.demo.model.movement;
 
 import com.example.demo.model.CreatAndUpdateEntity;
+import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -38,4 +39,10 @@ public class MaterialWarehouse extends CreatAndUpdateEntity implements Serializa
   private Warehouse warehouse;
 
   private Integer quantity;
+
+  @Column(name = "min_stock")
+  private Integer minStock;
+
+  @Column(name = "max_stock")
+  private Integer maxStock;
 }

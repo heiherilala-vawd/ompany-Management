@@ -13,6 +13,10 @@ DELETE FROM "company_fixed_cost";
 DELETE FROM "other_expense_type";
 DELETE FROM "bank_fee";
 DELETE FROM "purchase";
+DELETE FROM "task_schedule_assigned_user";
+DELETE FROM "task_schedule";
+DELETE FROM "task_assignment";
+DELETE FROM "task";
 DELETE FROM "employee_payment_users";
 DELETE FROM "employee_payment";
 DELETE FROM "team_members";
@@ -308,4 +312,21 @@ insert into "leave" (id, user_id, leave_type_id, start_date, end_date, duration_
 values
 ('leave1_id', 'employee1_id', 'leave_type1_id', '2026-06-01', '2026-06-15', 11.0, 'APPROVED', 'Vacances annuelles', now(), now()),
 ('leave2_id', 'employee1_id', 'leave_type2_id', '2026-03-10', '2026-03-12', 3.0, 'PENDING', 'Rendez-vous médical', now(), now());
+
+insert into task (id, title, description, due_date, priority, completed, completed_at, company_id, created_at, updated_at)
+values
+('task1_id', 'Vérifier le matériel', 'Inventaire du matériel sur le chantier A', '2026-06-15', 'HIGH', true, now(), 'company1_id', now(), now()),
+('task2_id', 'Maintenance équipement', 'Maintenance mensuelle des équipements', '2026-07-01', 'MEDIUM', false, null, 'company1_id', now(), now());
+
+insert into task_assignment (id, task_id, user_id, created_at, updated_at)
+values
+('task_assign1_id', 'task1_id', 'admin1_id', now(), now()),
+('task_assign2_id', 'task1_id', 'employee1_id', now(), now()),
+('task_assign3_id', 'task2_id', 'employee1_id', now(), now());
+
+insert into task_schedule (id, title, description, priority, frequency, scheduled_date, status, company_id, created_at, updated_at)
+values ('schedule1_id', 'Maintenance mensuelle', 'Nettoyage mensuel des équipements', 'MEDIUM', '0 0 8 1 * ?', '2026-07-01', 'PENDING', 'company1_id', now(), now());
+
+insert into task_schedule_assigned_user (task_schedule_id, user_id)
+values ('schedule1_id', 'employee1_id');
 

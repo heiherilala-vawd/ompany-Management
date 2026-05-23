@@ -3,6 +3,8 @@ package com.example.demo.model.movement;
 import com.example.demo.model.CreatAndUpdateEntity;
 import jakarta.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -42,6 +44,14 @@ public class Equipment extends CreatAndUpdateEntity implements Serializable {
   @Column(name = "est_en_panne")
   @Builder.Default
   private Boolean estEnPanne = false;
+
+  @Column(name = "purchase_price")
+  private BigDecimal purchasePrice;
+
+  @Column(name = "purchase_date")
+  private LocalDate purchaseDate;
+
+  private String category;
 
   @OneToMany(mappedBy = "equipment")
   @ToString.Exclude

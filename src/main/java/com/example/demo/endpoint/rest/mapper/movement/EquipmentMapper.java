@@ -30,6 +30,9 @@ public class EquipmentMapper {
         .storageNumber(restEquipment.getStorageNumber())
         .estEnPanne(restEquipment.getEstEnPanne())
         .comment(restEquipment.getComment())
+        .purchasePrice(restEquipment.getPurchasePrice())
+        .purchaseDate(restEquipment.getPurchaseDate())
+        .category(restEquipment.getCategory())
         .build();
   }
 
@@ -48,6 +51,9 @@ public class EquipmentMapper {
         .storageNumber(restEquipment.getStorageNumber())
         .estEnPanne(restEquipment.getEstEnPanne())
         .comment(restEquipment.getComment())
+        .purchasePrice(restEquipment.getPurchasePrice())
+        .purchaseDate(restEquipment.getPurchaseDate())
+        .category(restEquipment.getCategory())
         .build();
   }
 
@@ -63,6 +69,9 @@ public class EquipmentMapper {
     restEquipment.setFloorNumber(domainEquipment.getFloorNumber());
     restEquipment.setStorageNumber(domainEquipment.getStorageNumber());
     restEquipment.setEstEnPanne(domainEquipment.getEstEnPanne());
+    restEquipment.setPurchasePrice(domainEquipment.getPurchasePrice());
+    restEquipment.setPurchaseDate(domainEquipment.getPurchaseDate());
+    restEquipment.setCategory(domainEquipment.getCategory());
     RestAuditMapperUtils.mapAuditFields(
         domainEquipment,
         restEquipment::setCreatedAt,

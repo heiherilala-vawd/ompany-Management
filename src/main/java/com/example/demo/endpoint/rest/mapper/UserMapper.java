@@ -5,6 +5,7 @@ import com.example.demo.client.model.Role;
 import com.example.demo.client.model.Sex;
 import com.example.demo.client.model.User;
 import com.example.demo.model.Company;
+import com.example.demo.model.core.Department;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -38,7 +39,16 @@ public class UserMapper {
             .sex(EnumMapper.mapEnum(restUser.getSex(), com.example.demo.model.User.Sex.class))
             .email(restUser.getEmail())
             .password(restUser.getPassword())
-            .comment(restUser.getComment());
+            .comment(restUser.getComment())
+            .birthDate(restUser.getBirthDate())
+            .manager(
+                restUser.getManagerId() != null
+                    ? com.example.demo.model.User.builder().id(restUser.getManagerId()).build()
+                    : null)
+            .department(
+                restUser.getDepartmentId() != null
+                    ? Department.builder().id(restUser.getDepartmentId()).build()
+                    : null);
     if (companyId != null) {
       builder.company(Company.builder().id(companyId).build());
     }
@@ -54,6 +64,9 @@ public class UserMapper {
     restUser.setSex(EnumMapper.mapEnum(domainUser.getSex(), Sex.class));
     restUser.setEmail(domainUser.getEmail());
     restUser.setCompanyId(domainUser.getCompany() != null ? domainUser.getCompany().getId() : null);
+    restUser.setBirthDate(domainUser.getBirthDate());
+    restUser.setManagerId(domainUser.getManager() != null ? domainUser.getManager().getId() : null);
+    restUser.setDepartmentId(domainUser.getDepartment() != null ? domainUser.getDepartment().getId() : null);
     RestAuditMapperUtils.mapAuditFields(
         domainUser,
         restUser::setCreatedAt,

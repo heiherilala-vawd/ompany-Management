@@ -30,6 +30,7 @@ import com.example.demo.client.model.CrupdateOtherExpense;
 import com.example.demo.client.model.CrupdateOtherExpenseType;
 import com.example.demo.client.model.CrupdatePurchase;
 import com.example.demo.client.model.CrupdateTask;
+import com.example.demo.client.model.CrupdateTeam;
 import com.example.demo.client.model.CrupdateTravelEquipment;
 import com.example.demo.client.model.CrupdateTravelExpense;
 import com.example.demo.client.model.CrupdateTravelMaterials;
@@ -129,6 +130,8 @@ public class TestUtils {
   public static final String CONFIG2_ID = "config2_id";
   public static final String LEAVE1_ID = "leave1_id";
   public static final String LEAVE2_ID = "leave2_id";
+  public static final String TEAM1_ID = "team1_id";
+  public static final String TEAM2_ID = "team2_id";
 
   public static final String TRAVEL_EXPENSE1_ID = "travel_expense1_id";
   public static final String TRAVEL_EXPENSE2_ID = "travel_expense2_id";
@@ -607,6 +610,22 @@ public class TestUtils {
 
   public static CrupdateTask someCreatableTask() {
     return TestTaskFixtures.someCreatableTask();
+  }
+
+  public static com.example.demo.client.model.Team team1() {
+    return TestOrganizationFixtures.team1();
+  }
+
+  public static com.example.demo.client.model.Team team2() {
+    return TestOrganizationFixtures.team2();
+  }
+
+  public static CrupdateTeam teamToCrupdateTeam(com.example.demo.client.model.Team team) {
+    return TestOrganizationFixtures.teamToCrupdateTeam(team);
+  }
+
+  public static CrupdateTeam someCreatableTeam() {
+    return TestOrganizationFixtures.someCreatableTeam();
   }
 
   public static Purchase purchase1() {
