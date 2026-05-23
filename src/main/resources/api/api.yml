@@ -8214,6 +8214,954 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
+  # =========================
+  # DEPARTMENT
+  # =========================
+  /companies/{comp_id}/departments:
+    get:
+      tags:
+        - Department
+      summary: Get all departments
+      operationId: getDepartments
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: page
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/Page'
+          example: 1
+        - name: page_size
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/PageSize'
+          example: 20
+      responses:
+        '200':
+          description: List of departments
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Department'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      tags:
+        - Department
+      summary: Create new departments or update existing ones
+      operationId: crupdateDepartments
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/CrupdateDepartment'
+      responses:
+        '200':
+          description: The created or updated departments
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Department'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  '/companies/{comp_id}/departments/{id}':
+    get:
+      tags:
+        - Department
+      summary: Get a department by identifier
+      operationId: getDepartmentById
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "dept_001"
+      responses:
+        '200':
+          description: The department
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Department'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      tags:
+        - Department
+      summary: Delete a department by identifier
+      operationId: deleteDepartmentById
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "dept_001"
+      responses:
+        '204':
+          description: Department deleted
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+
+  # =========================
+  # CASH ACCOUNT
+  # =========================
+  /companies/{comp_id}/cash-accounts:
+    get:
+      tags:
+        - CashAccount
+      summary: Get all cash accounts
+      operationId: getCashAccounts
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: page
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/Page'
+          example: 1
+        - name: page_size
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/PageSize'
+          example: 20
+      responses:
+        '200':
+          description: List of cash accounts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CashAccount'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      tags:
+        - CashAccount
+      summary: Create new cash accounts or update existing ones
+      operationId: crupdateCashAccounts
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/CrupdateCashAccount'
+      responses:
+        '200':
+          description: The created or updated cash accounts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CashAccount'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  '/companies/{comp_id}/cash-accounts/{id}':
+    get:
+      tags:
+        - CashAccount
+      summary: Get a cash account by identifier
+      operationId: getCashAccountById
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "ca_001"
+      responses:
+        '200':
+          description: The cash account
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CashAccount'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      tags:
+        - CashAccount
+      summary: Delete a cash account by identifier
+      operationId: deleteCashAccountById
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "ca_001"
+      responses:
+        '204':
+          description: Cash account deleted
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+
+  # =========================
+  # CASH TRANSACTION
+  # =========================
+  /companies/{comp_id}/cash-accounts/{account_id}/transactions:
+    get:
+      tags:
+        - CashTransaction
+      summary: Get all cash transactions for an account
+      operationId: getCashTransactions
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: account_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "ca_001"
+        - name: page
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/Page'
+          example: 1
+        - name: page_size
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/PageSize'
+          example: 20
+      responses:
+        '200':
+          description: List of cash transactions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CashTransaction'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      tags:
+        - CashTransaction
+      summary: Create new cash transactions or update existing ones
+      operationId: crupdateCashTransactions
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: account_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "ca_001"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/CrupdateCashTransaction'
+      responses:
+        '200':
+          description: The created or updated cash transactions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CashTransaction'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  '/companies/{comp_id}/cash-accounts/{account_id}/transactions/{id}':
+    get:
+      tags:
+        - CashTransaction
+      summary: Get a cash transaction by identifier
+      operationId: getCashTransactionById
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: account_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "ca_001"
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "ct_001"
+      responses:
+        '200':
+          description: The cash transaction
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CashTransaction'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      tags:
+        - CashTransaction
+      summary: Delete a cash transaction by identifier
+      operationId: deleteCashTransactionById
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: account_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "ca_001"
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "ct_001"
+      responses:
+        '204':
+          description: Cash transaction deleted
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+
+  # =========================
+  # BUDGET LINE
+  # =========================
+  /companies/{comp_id}/budget-lines:
+    get:
+      tags:
+        - BudgetLine
+      summary: Get all budget lines
+      operationId: getBudgetLines
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: page
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/Page'
+          example: 1
+        - name: page_size
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/PageSize'
+          example: 20
+      responses:
+        '200':
+          description: List of budget lines
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BudgetLine'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      tags:
+        - BudgetLine
+      summary: Create new budget lines or update existing ones
+      operationId: crupdateBudgetLines
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/CrupdateBudgetLine'
+      responses:
+        '200':
+          description: The created or updated budget lines
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BudgetLine'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  '/companies/{comp_id}/budget-lines/{id}':
+    get:
+      tags:
+        - BudgetLine
+      summary: Get a budget line by identifier
+      operationId: getBudgetLineById
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "bl_001"
+      responses:
+        '200':
+          description: The budget line
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BudgetLine'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      tags:
+        - BudgetLine
+      summary: Delete a budget line by identifier
+      operationId: deleteBudgetLineById
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "bl_001"
+      responses:
+        '204':
+          description: Budget line deleted
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+
+  # =========================
+  # EQUIPMENT USAGE
+  # =========================
+  /companies/{comp_id}/equipment-usage:
+    get:
+      tags:
+        - EquipmentUsage
+      summary: Get all equipment usage records
+      operationId: getEquipmentUsages
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: page
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/Page'
+          example: 1
+        - name: page_size
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/PageSize'
+          example: 20
+      responses:
+        '200':
+          description: List of equipment usage records
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EquipmentUsage'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      tags:
+        - EquipmentUsage
+      summary: Create new equipment usage records or update existing ones
+      operationId: crupdateEquipmentUsages
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/CrupdateEquipmentUsage'
+      responses:
+        '200':
+          description: The created or updated equipment usage records
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EquipmentUsage'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  '/companies/{comp_id}/equipment-usage/{id}':
+    get:
+      tags:
+        - EquipmentUsage
+      summary: Get an equipment usage record by identifier
+      operationId: getEquipmentUsageById
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "eu_001"
+      responses:
+        '200':
+          description: The equipment usage record
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EquipmentUsage'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      tags:
+        - EquipmentUsage
+      summary: Delete an equipment usage record by identifier
+      operationId: deleteEquipmentUsageById
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "eu_001"
+      responses:
+        '204':
+          description: Equipment usage record deleted
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+
+  # =========================
+  # MATERIAL CONSUMPTION
+  # =========================
+  /companies/{comp_id}/material-consumption:
+    get:
+      tags:
+        - MaterialConsumption
+      summary: Get all material consumption records
+      operationId: getMaterialConsumptions
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: page
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/Page'
+          example: 1
+        - name: page_size
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/PageSize'
+          example: 20
+      responses:
+        '200':
+          description: List of material consumption records
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MaterialConsumption'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      tags:
+        - MaterialConsumption
+      summary: Create new material consumption records or update existing ones
+      operationId: crupdateMaterialConsumptions
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/CrupdateMaterialConsumption'
+      responses:
+        '200':
+          description: The created or updated material consumption records
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MaterialConsumption'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  '/companies/{comp_id}/material-consumption/{id}':
+    get:
+      tags:
+        - MaterialConsumption
+      summary: Get a material consumption record by identifier
+      operationId: getMaterialConsumptionById
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "mc_001"
+      responses:
+        '200':
+          description: The material consumption record
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MaterialConsumption'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      tags:
+        - MaterialConsumption
+      summary: Delete a material consumption record by identifier
+      operationId: deleteMaterialConsumptionById
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "mc_001"
+      responses:
+        '204':
+          description: Material consumption record deleted
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+
 components:
   securitySchemes:
     BearerAuth:
@@ -8309,6 +9257,12 @@ components:
         - TASK
         - TASKASSIGNMENT
         - TASKSCHEDULE
+        - DEPARTMENT
+        - CASHACCOUNT
+        - CASHTRANSACTION
+        - BUDGETLINE
+        - EQUIPMENTUSAGE
+        - MATERIALCONSUMPTION
       example: JOB
     JobStatus:
       type: string
@@ -8354,6 +9308,300 @@ components:
         comment:
           type: string
           example: "Commentaire sur cette entité"
+
+    # =========================
+    # DEPARTMENT
+    # =========================
+    Department:
+      allOf:
+        - $ref: '#/components/schemas/AuditFields'
+      properties:
+        id:
+          type: string
+          example: "dept_001"
+        name:
+          type: string
+          example: "Génie Civil"
+        description:
+          type: string
+          example: "Département en charge des travaux de génie civil"
+        company_id:
+          type: string
+          example: "comp_btp001"
+    CrupdateDepartment:
+      allOf:
+        - $ref: '#/components/schemas/comment'
+      properties:
+        id:
+          type: string
+          example: "dept_001"
+        name:
+          type: string
+          example: "Génie Civil"
+        description:
+          type: string
+          example: "Département en charge des travaux de génie civil"
+
+    # =========================
+    # CASH ACCOUNT
+    # =========================
+    CashAccount:
+      allOf:
+        - $ref: '#/components/schemas/AuditFields'
+      properties:
+        id:
+          type: string
+          example: "ca_001"
+        name:
+          type: string
+          example: "Compte courant BNI"
+        balance:
+          type: number
+          example: 1500000.00
+        description:
+          type: string
+          example: "Compte bancaire principal"
+        company_id:
+          type: string
+          example: "comp_btp001"
+    CrupdateCashAccount:
+      allOf:
+        - $ref: '#/components/schemas/comment'
+      properties:
+        id:
+          type: string
+          example: "ca_001"
+        name:
+          type: string
+          example: "Compte courant BNI"
+        balance:
+          type: number
+          example: 1500000.00
+        description:
+          type: string
+          example: "Compte bancaire principal"
+        company_id:
+          type: string
+          example: "comp_btp001"
+
+    # =========================
+    # CASH TRANSACTION
+    # =========================
+    CashTransactionType:
+      type: string
+      enum:
+        - CREDIT
+        - DEBIT
+    CashTransaction:
+      allOf:
+        - $ref: '#/components/schemas/AuditFields'
+      properties:
+        id:
+          type: string
+          example: "ct_001"
+        cash_account_id:
+          type: string
+          example: "ca_001"
+        amount:
+          type: number
+          example: 500000.00
+        transaction_date:
+          type: string
+          format: date
+          example: "2024-06-15"
+        description:
+          type: string
+          example: "Dépôt chèque client"
+        type:
+          $ref: '#/components/schemas/CashTransactionType'
+    CrupdateCashTransaction:
+      allOf:
+        - $ref: '#/components/schemas/comment'
+      properties:
+        id:
+          type: string
+          example: "ct_001"
+        cash_account_id:
+          type: string
+          example: "ca_001"
+        amount:
+          type: number
+          example: 500000.00
+        transaction_date:
+          type: string
+          format: date
+          example: "2024-06-15"
+        description:
+          type: string
+          example: "Dépôt chèque client"
+        type:
+          $ref: '#/components/schemas/CashTransactionType'
+
+    # =========================
+    # BUDGET LINE
+    # =========================
+    BudgetLine:
+      allOf:
+        - $ref: '#/components/schemas/AuditFields'
+      properties:
+        id:
+          type: string
+          example: "bl_001"
+        company_id:
+          type: string
+          example: "comp_btp001"
+        category:
+          type: string
+          example: "Matériaux"
+        planned_amount:
+          type: number
+          example: 1000000.00
+        actual_amount:
+          type: number
+          example: 950000.00
+        period_start:
+          type: string
+          format: date
+          example: "2024-01-01"
+        period_end:
+          type: string
+          format: date
+          example: "2024-03-31"
+        description:
+          type: string
+          example: "Budget matériaux Q1 2024"
+    CrupdateBudgetLine:
+      allOf:
+        - $ref: '#/components/schemas/comment'
+      properties:
+        id:
+          type: string
+          example: "bl_001"
+        company_id:
+          type: string
+          example: "comp_btp001"
+        category:
+          type: string
+          example: "Matériaux"
+        planned_amount:
+          type: number
+          example: 1000000.00
+        actual_amount:
+          type: number
+          example: 950000.00
+        period_start:
+          type: string
+          format: date
+          example: "2024-01-01"
+        period_end:
+          type: string
+          format: date
+          example: "2024-03-31"
+        description:
+          type: string
+          example: "Budget matériaux Q1 2024"
+
+    # =========================
+    # EQUIPMENT USAGE
+    # =========================
+    EquipmentUsage:
+      allOf:
+        - $ref: '#/components/schemas/AuditFields'
+      properties:
+        id:
+          type: string
+          example: "eu_001"
+        equipment_id:
+          type: string
+          example: "eq_001"
+        job_id:
+          type: string
+          example: "job_001"
+        start_time:
+          type: string
+          format: date-time
+          example: "2024-06-10T08:00:00Z"
+        end_time:
+          type: string
+          format: date-time
+          example: "2024-06-10T17:00:00Z"
+    CrupdateEquipmentUsage:
+      allOf:
+        - $ref: '#/components/schemas/comment'
+      properties:
+        id:
+          type: string
+          example: "eu_001"
+        equipment_id:
+          type: string
+          example: "eq_001"
+        job_id:
+          type: string
+          example: "job_001"
+        start_time:
+          type: string
+          format: date-time
+          example: "2024-06-10T08:00:00Z"
+        end_time:
+          type: string
+          format: date-time
+          example: "2024-06-10T17:00:00Z"
+
+    # =========================
+    # MATERIAL CONSUMPTION
+    # =========================
+    MaterialConsumption:
+      allOf:
+        - $ref: '#/components/schemas/AuditFields'
+      properties:
+        id:
+          type: string
+          example: "mc_001"
+        material_id:
+          type: string
+          example: "mat_001"
+        warehouse_id:
+          type: string
+          example: "wh_001"
+        quantity:
+          type: integer
+          example: 50
+        consumption_date:
+          type: string
+          format: date
+          example: "2024-06-15"
+        job_id:
+          type: string
+          example: "job_001"
+        reason:
+          type: string
+          example: "Utilisation pour fondations"
+    CrupdateMaterialConsumption:
+      allOf:
+        - $ref: '#/components/schemas/comment'
+      properties:
+        id:
+          type: string
+          example: "mc_001"
+        material_id:
+          type: string
+          example: "mat_001"
+        warehouse_id:
+          type: string
+          example: "wh_001"
+        quantity:
+          type: integer
+          example: 50
+        consumption_date:
+          type: string
+          format: date
+          example: "2024-06-15"
+        job_id:
+          type: string
+          example: "job_001"
+        reason:
+          type: string
+          example: "Utilisation pour fondations"
     AuditUser:
       properties:
         id:
@@ -8415,6 +9663,16 @@ components:
         company_id:
           type: string
           example: "comp_001"
+        birth_date:
+          type: string
+          format: date
+          example: "1990-05-15"
+        manager_id:
+          type: string
+          example: "usr_admin001"
+        department_id:
+          type: string
+          example: "dept_001"
     CrupdateUser:
       allOf:
         - $ref: '#/components/schemas/comment'
@@ -8441,6 +9699,16 @@ components:
         company_id:
           type: string
           example: "comp_001"
+        birth_date:
+          type: string
+          format: date
+          example: "1990-05-15"
+        manager_id:
+          type: string
+          example: "usr_admin001"
+        department_id:
+          type: string
+          example: "dept_001"
 
     # =========================
     # TEAM
@@ -8640,6 +9908,16 @@ components:
           type: boolean
           description: "Whether the equipment is broken"
           example: false
+        purchase_price:
+          type: number
+          example: 150000.00
+        purchase_date:
+          type: string
+          format: date
+          example: "2024-01-15"
+        category:
+          type: string
+          example: "Engins de terrassement"
         maintenances:
           type: array
           description: "Maintenance records for this equipment"
@@ -8671,6 +9949,16 @@ components:
           type: boolean
           description: "Whether the equipment is broken"
           example: false
+        purchase_price:
+          type: number
+          example: 150000.00
+        purchase_date:
+          type: string
+          format: date
+          example: "2024-01-15"
+        category:
+          type: string
+          example: "Engins de terrassement"
 
     # =========================
     # MAINTENANCE
@@ -8832,6 +10120,9 @@ components:
         description:
           type: string
           example: "Ciment Portland de qualité supérieure pour béton armé"
+        unit_price:
+          type: number
+          example: 12.50
         unit:
           $ref: '#/components/schemas/MaterialUnit'
         company_id:
@@ -8849,6 +10140,12 @@ components:
         quantity:
           type: integer
           example: 50
+        min_stock:
+          type: integer
+          example: 10
+        max_stock:
+          type: integer
+          example: 200
     MaterialWarehouseView:
       type: object
       properties:
@@ -8884,6 +10181,9 @@ components:
         description:
           type: string
           example: "Ciment Portland de qualité supérieure pour béton armé"
+        unit_price:
+          type: number
+          example: 12.50
         unit:
           $ref: '#/components/schemas/MaterialUnit'
         company_id:
@@ -10002,6 +11302,13 @@ components:
         vacation_days_per_month:
           type: number
           example: 2.5
+        end_date:
+          type: string
+          format: date
+          example: "2026-12-31"
+        weekly_hours:
+          type: integer
+          example: 35
     CrupdateEmployeeLeaveConfig:
       type: object
       properties:
@@ -10018,6 +11325,13 @@ components:
         vacation_days_per_month:
           type: number
           example: 2.5
+        end_date:
+          type: string
+          format: date
+          example: "2026-12-31"
+        weekly_hours:
+          type: integer
+          example: 35
         comment:
           type: string
           example: "Nouveau contrat"

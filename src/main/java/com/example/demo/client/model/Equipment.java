@@ -27,8 +27,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
@@ -44,6 +46,9 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   Equipment.JSON_PROPERTY_FLOOR_NUMBER,
   Equipment.JSON_PROPERTY_STORAGE_NUMBER,
   Equipment.JSON_PROPERTY_EST_EN_PANNE,
+  Equipment.JSON_PROPERTY_PURCHASE_PRICE,
+  Equipment.JSON_PROPERTY_PURCHASE_DATE,
+  Equipment.JSON_PROPERTY_CATEGORY,
   Equipment.JSON_PROPERTY_MAINTENANCES,
   Equipment.JSON_PROPERTY_CREATED_AT,
   Equipment.JSON_PROPERTY_UPDATED_AT,
@@ -51,7 +56,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   Equipment.JSON_PROPERTY_UPDATED_BY,
   Equipment.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-22T04:36:10.989958896+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-23T02:25:48.303916325+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class Equipment {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -73,6 +78,15 @@ public class Equipment {
 
   public static final String JSON_PROPERTY_EST_EN_PANNE = "est_en_panne";
   private Boolean estEnPanne;
+
+  public static final String JSON_PROPERTY_PURCHASE_PRICE = "purchase_price";
+  private BigDecimal purchasePrice;
+
+  public static final String JSON_PROPERTY_PURCHASE_DATE = "purchase_date";
+  private java.time.LocalDate purchaseDate;
+
+  public static final String JSON_PROPERTY_CATEGORY = "category";
+  private String category;
 
   public static final String JSON_PROPERTY_MAINTENANCES = "maintenances";
   private List<Maintenance> maintenances = new ArrayList<>();
@@ -270,6 +284,81 @@ public class Equipment {
   }
 
 
+  public Equipment purchasePrice(BigDecimal purchasePrice) {
+    this.purchasePrice = purchasePrice;
+    return this;
+  }
+
+   /**
+   * Get purchasePrice
+   * @return purchasePrice
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_PURCHASE_PRICE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public BigDecimal getPurchasePrice() {
+    return purchasePrice;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_PURCHASE_PRICE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setPurchasePrice(BigDecimal purchasePrice) {
+    this.purchasePrice = purchasePrice;
+  }
+
+
+  public Equipment purchaseDate(java.time.LocalDate purchaseDate) {
+    this.purchaseDate = purchaseDate;
+    return this;
+  }
+
+   /**
+   * Get purchaseDate
+   * @return purchaseDate
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_PURCHASE_DATE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public java.time.LocalDate getPurchaseDate() {
+    return purchaseDate;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_PURCHASE_DATE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setPurchaseDate(java.time.LocalDate purchaseDate) {
+    this.purchaseDate = purchaseDate;
+  }
+
+
+  public Equipment category(String category) {
+    this.category = category;
+    return this;
+  }
+
+   /**
+   * Get category
+   * @return category
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_CATEGORY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getCategory() {
+    return category;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_CATEGORY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setCategory(String category) {
+    this.category = category;
+  }
+
+
   public Equipment maintenances(List<Maintenance> maintenances) {
     this.maintenances = maintenances;
     return this;
@@ -447,6 +536,9 @@ public class Equipment {
         Objects.equals(this.floorNumber, equipment.floorNumber) &&
         Objects.equals(this.storageNumber, equipment.storageNumber) &&
         Objects.equals(this.estEnPanne, equipment.estEnPanne) &&
+        Objects.equals(this.purchasePrice, equipment.purchasePrice) &&
+        Objects.equals(this.purchaseDate, equipment.purchaseDate) &&
+        Objects.equals(this.category, equipment.category) &&
         Objects.equals(this.maintenances, equipment.maintenances) &&
         Objects.equals(this.createdAt, equipment.createdAt) &&
         Objects.equals(this.updatedAt, equipment.updatedAt) &&
@@ -457,7 +549,7 @@ public class Equipment {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, description, warehouse, floorNumber, storageNumber, estEnPanne, maintenances, createdAt, updatedAt, createdBy, updatedBy, comment);
+    return Objects.hash(id, name, description, warehouse, floorNumber, storageNumber, estEnPanne, purchasePrice, purchaseDate, category, maintenances, createdAt, updatedAt, createdBy, updatedBy, comment);
   }
 
   @Override
@@ -471,6 +563,9 @@ public class Equipment {
     sb.append("    floorNumber: ").append(toIndentedString(floorNumber)).append("\n");
     sb.append("    storageNumber: ").append(toIndentedString(storageNumber)).append("\n");
     sb.append("    estEnPanne: ").append(toIndentedString(estEnPanne)).append("\n");
+    sb.append("    purchasePrice: ").append(toIndentedString(purchasePrice)).append("\n");
+    sb.append("    purchaseDate: ").append(toIndentedString(purchaseDate)).append("\n");
+    sb.append("    category: ").append(toIndentedString(category)).append("\n");
     sb.append("    maintenances: ").append(toIndentedString(maintenances)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
     sb.append("    updatedAt: ").append(toIndentedString(updatedAt)).append("\n");

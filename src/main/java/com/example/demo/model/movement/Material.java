@@ -4,6 +4,7 @@ import com.example.demo.model.Company;
 import com.example.demo.model.CreatAndUpdateEntity;
 import jakarta.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Objects;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -36,6 +37,9 @@ public class Material extends CreatAndUpdateEntity implements Serializable {
   @Enumerated(EnumType.STRING)
   @org.hibernate.annotations.JdbcTypeCode(org.hibernate.type.SqlTypes.NAMED_ENUM)
   private Unit unit;
+
+  @Column(name = "unit_price")
+  private BigDecimal unitPrice;
 
   @OneToMany(mappedBy = "material", cascade = CascadeType.ALL, orphanRemoval = true)
   @ToString.Exclude

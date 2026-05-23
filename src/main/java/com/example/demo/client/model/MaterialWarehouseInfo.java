@@ -34,15 +34,23 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  */
 @JsonPropertyOrder({
   MaterialWarehouseInfo.JSON_PROPERTY_WAREHOUSE,
-  MaterialWarehouseInfo.JSON_PROPERTY_QUANTITY
+  MaterialWarehouseInfo.JSON_PROPERTY_QUANTITY,
+  MaterialWarehouseInfo.JSON_PROPERTY_MIN_STOCK,
+  MaterialWarehouseInfo.JSON_PROPERTY_MAX_STOCK
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-22T04:36:10.989958896+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-23T02:25:48.303916325+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class MaterialWarehouseInfo {
   public static final String JSON_PROPERTY_WAREHOUSE = "warehouse";
   private Warehouse warehouse;
 
   public static final String JSON_PROPERTY_QUANTITY = "quantity";
   private Integer quantity;
+
+  public static final String JSON_PROPERTY_MIN_STOCK = "min_stock";
+  private Integer minStock;
+
+  public static final String JSON_PROPERTY_MAX_STOCK = "max_stock";
+  private Integer maxStock;
 
   public MaterialWarehouseInfo() { 
   }
@@ -97,6 +105,56 @@ public class MaterialWarehouseInfo {
   }
 
 
+  public MaterialWarehouseInfo minStock(Integer minStock) {
+    this.minStock = minStock;
+    return this;
+  }
+
+   /**
+   * Get minStock
+   * @return minStock
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_MIN_STOCK)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public Integer getMinStock() {
+    return minStock;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_MIN_STOCK)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setMinStock(Integer minStock) {
+    this.minStock = minStock;
+  }
+
+
+  public MaterialWarehouseInfo maxStock(Integer maxStock) {
+    this.maxStock = maxStock;
+    return this;
+  }
+
+   /**
+   * Get maxStock
+   * @return maxStock
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_MAX_STOCK)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public Integer getMaxStock() {
+    return maxStock;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_MAX_STOCK)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setMaxStock(Integer maxStock) {
+    this.maxStock = maxStock;
+  }
+
+
   /**
    * Return true if this MaterialWarehouseInfo object is equal to o.
    */
@@ -110,12 +168,14 @@ public class MaterialWarehouseInfo {
     }
     MaterialWarehouseInfo materialWarehouseInfo = (MaterialWarehouseInfo) o;
     return Objects.equals(this.warehouse, materialWarehouseInfo.warehouse) &&
-        Objects.equals(this.quantity, materialWarehouseInfo.quantity);
+        Objects.equals(this.quantity, materialWarehouseInfo.quantity) &&
+        Objects.equals(this.minStock, materialWarehouseInfo.minStock) &&
+        Objects.equals(this.maxStock, materialWarehouseInfo.maxStock);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(warehouse, quantity);
+    return Objects.hash(warehouse, quantity, minStock, maxStock);
   }
 
   @Override
@@ -124,6 +184,8 @@ public class MaterialWarehouseInfo {
     sb.append("class MaterialWarehouseInfo {\n");
     sb.append("    warehouse: ").append(toIndentedString(warehouse)).append("\n");
     sb.append("    quantity: ").append(toIndentedString(quantity)).append("\n");
+    sb.append("    minStock: ").append(toIndentedString(minStock)).append("\n");
+    sb.append("    maxStock: ").append(toIndentedString(maxStock)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -179,6 +241,16 @@ public class MaterialWarehouseInfo {
     // add `quantity` to the URL query string
     if (getQuantity() != null) {
       joiner.add(String.format("%squantity%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getQuantity()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `min_stock` to the URL query string
+    if (getMinStock() != null) {
+      joiner.add(String.format("%smin_stock%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getMinStock()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `max_stock` to the URL query string
+    if (getMaxStock() != null) {
+      joiner.add(String.format("%smax_stock%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getMaxStock()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();
