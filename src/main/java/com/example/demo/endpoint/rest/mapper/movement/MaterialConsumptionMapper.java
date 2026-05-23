@@ -1,0 +1,70 @@
+package com.example.demo.endpoint.rest.mapper.movement;
+
+import com.example.demo.client.model.CrupdateMaterialConsumption;
+import com.example.demo.client.model.MaterialConsumption;
+import com.example.demo.endpoint.rest.mapper.RestAuditMapperUtils;
+import com.example.demo.service.movement.MaterialService;
+import com.example.demo.service.movement.WarehouseService;
+import com.example.demo.service.JobService;
+import java.util.List;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Component;
+
+@Component
+@AllArgsConstructor
+public class MaterialConsumptionMapper {
+
+  private final MaterialService materialService;
+  private final WarehouseService warehouseService;
+  private final JobService jobService;
+
+  public com.example.demo.model.movement.MaterialConsumption toDomain(CrupdateMaterialConsumption rest) {
+    if (rest == null) return null;
+
+    return com.example.demo.model.movement.MaterialConsumption.builder()
+        .id(rest.getId())
+        .material(
+            rest.getMaterialId() != null
+                ? materialService.findById(rest.getMaterialId()).orElse(null)
+                : null)
+        .warehouse(
+            rest.getWarehouseId() != null
+                ? warehouseService.findById(rest.getWarehouseId()).orElse(null)
+                : null)
+        .quantity(rest.getQuantity())
+        .consumptionDate(rest.getConsumptionDate())
+        .job(
+            rest.getJobId() != null
+                ? jobService.findById(rest.getJobId()).orElse(null)
+                : null)
+        .reason(rest.getReason())
+        .comment(rest.getComment())
+        .build();
+  }
+
+  public MaterialConsumption toRestMaterialConsumption(com.example.demo.model.movement.MaterialConsumption domain) {
+    if (domain == null) return null;
+
+    MaterialConsumption rest = new MaterialConsumption();
+    rest.setId(domain.getId());
+    rest.setMaterialId(domain.getMaterial() != null ? domain.getMaterial().getId() : null);
+    rest.setWarehouseId(domain.getWarehouse() != null ? domain.getWarehouse().getId() : null);
+    rest.setQuantity(domain.getQuantity());
+    rest.setConsumptionDate(domain.getConsumptionDate());
+    rest.setJobId(domain.getJob() != null ? domain.getJob().getId() : null);
+    rest.setReason(domain.getReason());
+    RestAuditMapperUtils.mapAuditFields(
+        domain,
+        rest::setCreatedAt,
+        rest::setUpdatedAt,
+        rest::setComment,
+        rest::setCreatedBy,
+        rest::setUpdatedBy);
+
+    return rest;
+  }
+
+  public List<MaterialConsumption> toRestMaterialConsumptions(List<com.example.demo.model.movement.MaterialConsumption> domains) {
+    return domains.stream().map(this::toRestMaterialConsumption).toList();
+  }
+}

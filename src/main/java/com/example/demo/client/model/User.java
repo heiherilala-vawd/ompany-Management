@@ -28,6 +28,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Arrays;
+import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
@@ -42,13 +43,16 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   User.JSON_PROPERTY_SEX,
   User.JSON_PROPERTY_EMAIL,
   User.JSON_PROPERTY_COMPANY_ID,
+  User.JSON_PROPERTY_BIRTH_DATE,
+  User.JSON_PROPERTY_MANAGER_ID,
+  User.JSON_PROPERTY_DEPARTMENT_ID,
   User.JSON_PROPERTY_CREATED_AT,
   User.JSON_PROPERTY_UPDATED_AT,
   User.JSON_PROPERTY_CREATED_BY,
   User.JSON_PROPERTY_UPDATED_BY,
   User.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-22T04:36:10.989958896+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-23T02:25:48.303916325+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class User {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -70,6 +74,15 @@ public class User {
 
   public static final String JSON_PROPERTY_COMPANY_ID = "company_id";
   private String companyId;
+
+  public static final String JSON_PROPERTY_BIRTH_DATE = "birth_date";
+  private java.time.LocalDate birthDate;
+
+  public static final String JSON_PROPERTY_MANAGER_ID = "manager_id";
+  private String managerId;
+
+  public static final String JSON_PROPERTY_DEPARTMENT_ID = "department_id";
+  private String departmentId;
 
   public static final String JSON_PROPERTY_CREATED_AT = "created_at";
   private java.time.Instant createdAt;
@@ -264,6 +277,81 @@ public class User {
   }
 
 
+  public User birthDate(java.time.LocalDate birthDate) {
+    this.birthDate = birthDate;
+    return this;
+  }
+
+   /**
+   * Get birthDate
+   * @return birthDate
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_BIRTH_DATE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public java.time.LocalDate getBirthDate() {
+    return birthDate;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_BIRTH_DATE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setBirthDate(java.time.LocalDate birthDate) {
+    this.birthDate = birthDate;
+  }
+
+
+  public User managerId(String managerId) {
+    this.managerId = managerId;
+    return this;
+  }
+
+   /**
+   * Get managerId
+   * @return managerId
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_MANAGER_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getManagerId() {
+    return managerId;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_MANAGER_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setManagerId(String managerId) {
+    this.managerId = managerId;
+  }
+
+
+  public User departmentId(String departmentId) {
+    this.departmentId = departmentId;
+    return this;
+  }
+
+   /**
+   * Get departmentId
+   * @return departmentId
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_DEPARTMENT_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getDepartmentId() {
+    return departmentId;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_DEPARTMENT_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setDepartmentId(String departmentId) {
+    this.departmentId = departmentId;
+  }
+
+
   public User createdAt(java.time.Instant createdAt) {
     this.createdAt = createdAt;
     return this;
@@ -408,6 +496,9 @@ public class User {
         Objects.equals(this.sex, user.sex) &&
         Objects.equals(this.email, user.email) &&
         Objects.equals(this.companyId, user.companyId) &&
+        Objects.equals(this.birthDate, user.birthDate) &&
+        Objects.equals(this.managerId, user.managerId) &&
+        Objects.equals(this.departmentId, user.departmentId) &&
         Objects.equals(this.createdAt, user.createdAt) &&
         Objects.equals(this.updatedAt, user.updatedAt) &&
         Objects.equals(this.createdBy, user.createdBy) &&
@@ -417,7 +508,7 @@ public class User {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, role, firstName, lastName, sex, email, companyId, createdAt, updatedAt, createdBy, updatedBy, comment);
+    return Objects.hash(id, role, firstName, lastName, sex, email, companyId, birthDate, managerId, departmentId, createdAt, updatedAt, createdBy, updatedBy, comment);
   }
 
   @Override
@@ -431,6 +522,9 @@ public class User {
     sb.append("    sex: ").append(toIndentedString(sex)).append("\n");
     sb.append("    email: ").append(toIndentedString(email)).append("\n");
     sb.append("    companyId: ").append(toIndentedString(companyId)).append("\n");
+    sb.append("    birthDate: ").append(toIndentedString(birthDate)).append("\n");
+    sb.append("    managerId: ").append(toIndentedString(managerId)).append("\n");
+    sb.append("    departmentId: ").append(toIndentedString(departmentId)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
     sb.append("    updatedAt: ").append(toIndentedString(updatedAt)).append("\n");
     sb.append("    createdBy: ").append(toIndentedString(createdBy)).append("\n");

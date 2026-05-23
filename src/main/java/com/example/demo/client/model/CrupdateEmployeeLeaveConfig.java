@@ -38,9 +38,11 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   CrupdateEmployeeLeaveConfig.JSON_PROPERTY_HIRE_DATE,
   CrupdateEmployeeLeaveConfig.JSON_PROPERTY_CONTRACT_TYPE,
   CrupdateEmployeeLeaveConfig.JSON_PROPERTY_VACATION_DAYS_PER_MONTH,
+  CrupdateEmployeeLeaveConfig.JSON_PROPERTY_END_DATE,
+  CrupdateEmployeeLeaveConfig.JSON_PROPERTY_WEEKLY_HOURS,
   CrupdateEmployeeLeaveConfig.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-22T04:36:10.989958896+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-23T02:25:48.303916325+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdateEmployeeLeaveConfig {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -53,6 +55,12 @@ public class CrupdateEmployeeLeaveConfig {
 
   public static final String JSON_PROPERTY_VACATION_DAYS_PER_MONTH = "vacation_days_per_month";
   private BigDecimal vacationDaysPerMonth;
+
+  public static final String JSON_PROPERTY_END_DATE = "end_date";
+  private java.time.LocalDate endDate;
+
+  public static final String JSON_PROPERTY_WEEKLY_HOURS = "weekly_hours";
+  private Integer weeklyHours;
 
   public static final String JSON_PROPERTY_COMMENT = "comment";
   private String comment;
@@ -160,6 +168,56 @@ public class CrupdateEmployeeLeaveConfig {
   }
 
 
+  public CrupdateEmployeeLeaveConfig endDate(java.time.LocalDate endDate) {
+    this.endDate = endDate;
+    return this;
+  }
+
+   /**
+   * Get endDate
+   * @return endDate
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_END_DATE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public java.time.LocalDate getEndDate() {
+    return endDate;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_END_DATE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setEndDate(java.time.LocalDate endDate) {
+    this.endDate = endDate;
+  }
+
+
+  public CrupdateEmployeeLeaveConfig weeklyHours(Integer weeklyHours) {
+    this.weeklyHours = weeklyHours;
+    return this;
+  }
+
+   /**
+   * Get weeklyHours
+   * @return weeklyHours
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_WEEKLY_HOURS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public Integer getWeeklyHours() {
+    return weeklyHours;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_WEEKLY_HOURS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setWeeklyHours(Integer weeklyHours) {
+    this.weeklyHours = weeklyHours;
+  }
+
+
   public CrupdateEmployeeLeaveConfig comment(String comment) {
     this.comment = comment;
     return this;
@@ -201,12 +259,14 @@ public class CrupdateEmployeeLeaveConfig {
         Objects.equals(this.hireDate, crupdateEmployeeLeaveConfig.hireDate) &&
         Objects.equals(this.contractType, crupdateEmployeeLeaveConfig.contractType) &&
         Objects.equals(this.vacationDaysPerMonth, crupdateEmployeeLeaveConfig.vacationDaysPerMonth) &&
+        Objects.equals(this.endDate, crupdateEmployeeLeaveConfig.endDate) &&
+        Objects.equals(this.weeklyHours, crupdateEmployeeLeaveConfig.weeklyHours) &&
         Objects.equals(this.comment, crupdateEmployeeLeaveConfig.comment);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, hireDate, contractType, vacationDaysPerMonth, comment);
+    return Objects.hash(id, hireDate, contractType, vacationDaysPerMonth, endDate, weeklyHours, comment);
   }
 
   @Override
@@ -217,6 +277,8 @@ public class CrupdateEmployeeLeaveConfig {
     sb.append("    hireDate: ").append(toIndentedString(hireDate)).append("\n");
     sb.append("    contractType: ").append(toIndentedString(contractType)).append("\n");
     sb.append("    vacationDaysPerMonth: ").append(toIndentedString(vacationDaysPerMonth)).append("\n");
+    sb.append("    endDate: ").append(toIndentedString(endDate)).append("\n");
+    sb.append("    weeklyHours: ").append(toIndentedString(weeklyHours)).append("\n");
     sb.append("    comment: ").append(toIndentedString(comment)).append("\n");
     sb.append("}");
     return sb.toString();
@@ -283,6 +345,16 @@ public class CrupdateEmployeeLeaveConfig {
     // add `vacation_days_per_month` to the URL query string
     if (getVacationDaysPerMonth() != null) {
       joiner.add(String.format("%svacation_days_per_month%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getVacationDaysPerMonth()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `end_date` to the URL query string
+    if (getEndDate() != null) {
+      joiner.add(String.format("%send_date%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getEndDate()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `weekly_hours` to the URL query string
+    if (getWeeklyHours() != null) {
+      joiner.add(String.format("%sweekly_hours%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getWeeklyHours()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `comment` to the URL query string

@@ -5,6 +5,7 @@ import com.example.demo.client.model.CompanyType;
 import com.example.demo.client.model.CrupdateCompany;
 import com.example.demo.client.model.CrupdateEquipment;
 import com.example.demo.client.model.CrupdateJob;
+import com.example.demo.client.model.CrupdateTeam;
 import com.example.demo.client.model.CrupdateMaterial;
 import com.example.demo.client.model.CrupdateWarehouse;
 import com.example.demo.client.model.Equipment;
@@ -295,5 +296,46 @@ final class TestOrganizationFixtures {
     material.setDescription("Sable fin");
     material.setUnit(com.example.demo.client.model.MaterialUnit.KG);
     return material;
+  }
+
+  static com.example.demo.client.model.Team team1() {
+    com.example.demo.client.model.Team team = new com.example.demo.client.model.Team();
+    team.setId(TestUtils.TEAM1_ID);
+    team.setName("Équipe chantier A");
+    team.setLeader(TestUserFixtures.employee1());
+    team.setMembers(List.of(TestUserFixtures.employee1(), TestUserFixtures.user1(), TestUserFixtures.user2()));
+    return team;
+  }
+
+  static com.example.demo.client.model.Team team2() {
+    com.example.demo.client.model.Team team = new com.example.demo.client.model.Team();
+    team.setId(TestUtils.TEAM2_ID);
+    team.setName("Équipe rénovation hôtel");
+    team.setLeader(TestUserFixtures.user1());
+    team.setMembers(List.of(TestUserFixtures.user1(), TestUserFixtures.employee1()));
+    return team;
+  }
+
+  static CrupdateTeam teamToCrupdateTeam(com.example.demo.client.model.Team team) {
+    CrupdateTeam crupdate = new CrupdateTeam();
+    crupdate.setId(team.getId());
+    crupdate.setName(team.getName());
+    if (team.getLeader() != null) {
+      crupdate.setLeaderId(team.getLeader().getId());
+    }
+    if (team.getMembers() != null) {
+      crupdate.setMemberIds(team.getMembers().stream().map(com.example.demo.client.model.User::getId).toList());
+    }
+    crupdate.setComment(team.getComment());
+    return crupdate;
+  }
+
+  static CrupdateTeam someCreatableTeam() {
+    CrupdateTeam team = new CrupdateTeam();
+    team.setId(UUID.randomUUID().toString());
+    team.setName("Nouvelle équipe");
+    team.setLeaderId(TestUtils.EMPLOYEE_ID);
+    team.setMemberIds(List.of(TestUtils.EMPLOYEE_ID, TestUtils.USER1_ID));
+    return team;
   }
 }

@@ -1,10 +1,12 @@
 package com.example.demo.model;
 
+import com.example.demo.model.core.Department;
 import com.example.demo.model.hr.EmployeeLeaveConfig;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -60,6 +62,17 @@ public class User extends CreatAndUpdateEntity implements Serializable, UserDeta
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "employee_leave_config_id")
   private EmployeeLeaveConfig employeeLeaveConfig;
+
+  @Column(name = "birth_date")
+  private LocalDate birthDate;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "manager_id")
+  private User manager;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "department_id")
+  private Department department;
 
   @Override
   public boolean equals(Object o) {

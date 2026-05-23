@@ -89,8 +89,8 @@ final class TestUserFixtures {
     user.setLastName("Bernard");
     user.setSex(Sex.M);
     user.setEmail(TestUtils.USER2_EMAIL);
-    user.setCreatedAt(Instant.parse(""));
-    user.setUpdatedAt(Instant.parse(""));
+    user.setCreatedAt(Instant.parse("2024-01-01T00:00:00Z"));
+    user.setUpdatedAt(Instant.parse("2024-01-01T00:00:00Z"));
     user.setCompanyId(TestUtils.COMPANY1_ID);
     return user;
   }

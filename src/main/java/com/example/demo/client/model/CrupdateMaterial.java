@@ -25,6 +25,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import java.math.BigDecimal;
 import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
@@ -36,11 +37,12 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   CrupdateMaterial.JSON_PROPERTY_ID,
   CrupdateMaterial.JSON_PROPERTY_NAME,
   CrupdateMaterial.JSON_PROPERTY_DESCRIPTION,
+  CrupdateMaterial.JSON_PROPERTY_UNIT_PRICE,
   CrupdateMaterial.JSON_PROPERTY_UNIT,
   CrupdateMaterial.JSON_PROPERTY_COMPANY_ID,
   CrupdateMaterial.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-22T04:36:10.989958896+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-23T02:25:48.303916325+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdateMaterial {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -50,6 +52,9 @@ public class CrupdateMaterial {
 
   public static final String JSON_PROPERTY_DESCRIPTION = "description";
   private String description;
+
+  public static final String JSON_PROPERTY_UNIT_PRICE = "unit_price";
+  private BigDecimal unitPrice;
 
   public static final String JSON_PROPERTY_UNIT = "unit";
   private MaterialUnit unit;
@@ -135,6 +140,31 @@ public class CrupdateMaterial {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setDescription(String description) {
     this.description = description;
+  }
+
+
+  public CrupdateMaterial unitPrice(BigDecimal unitPrice) {
+    this.unitPrice = unitPrice;
+    return this;
+  }
+
+   /**
+   * Get unitPrice
+   * @return unitPrice
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_UNIT_PRICE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public BigDecimal getUnitPrice() {
+    return unitPrice;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_UNIT_PRICE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setUnitPrice(BigDecimal unitPrice) {
+    this.unitPrice = unitPrice;
   }
 
 
@@ -228,6 +258,7 @@ public class CrupdateMaterial {
     return Objects.equals(this.id, crupdateMaterial.id) &&
         Objects.equals(this.name, crupdateMaterial.name) &&
         Objects.equals(this.description, crupdateMaterial.description) &&
+        Objects.equals(this.unitPrice, crupdateMaterial.unitPrice) &&
         Objects.equals(this.unit, crupdateMaterial.unit) &&
         Objects.equals(this.companyId, crupdateMaterial.companyId) &&
         Objects.equals(this.comment, crupdateMaterial.comment);
@@ -235,7 +266,7 @@ public class CrupdateMaterial {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, description, unit, companyId, comment);
+    return Objects.hash(id, name, description, unitPrice, unit, companyId, comment);
   }
 
   @Override
@@ -245,6 +276,7 @@ public class CrupdateMaterial {
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
+    sb.append("    unitPrice: ").append(toIndentedString(unitPrice)).append("\n");
     sb.append("    unit: ").append(toIndentedString(unit)).append("\n");
     sb.append("    companyId: ").append(toIndentedString(companyId)).append("\n");
     sb.append("    comment: ").append(toIndentedString(comment)).append("\n");

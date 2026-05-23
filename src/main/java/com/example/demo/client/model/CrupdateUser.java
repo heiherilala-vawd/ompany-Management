@@ -27,6 +27,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Arrays;
+import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
@@ -42,9 +43,12 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   CrupdateUser.JSON_PROPERTY_EMAIL,
   CrupdateUser.JSON_PROPERTY_PASSWORD,
   CrupdateUser.JSON_PROPERTY_COMPANY_ID,
+  CrupdateUser.JSON_PROPERTY_BIRTH_DATE,
+  CrupdateUser.JSON_PROPERTY_MANAGER_ID,
+  CrupdateUser.JSON_PROPERTY_DEPARTMENT_ID,
   CrupdateUser.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-22T04:36:10.989958896+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-23T02:25:48.303916325+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdateUser {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -69,6 +73,15 @@ public class CrupdateUser {
 
   public static final String JSON_PROPERTY_COMPANY_ID = "company_id";
   private String companyId;
+
+  public static final String JSON_PROPERTY_BIRTH_DATE = "birth_date";
+  private java.time.LocalDate birthDate;
+
+  public static final String JSON_PROPERTY_MANAGER_ID = "manager_id";
+  private String managerId;
+
+  public static final String JSON_PROPERTY_DEPARTMENT_ID = "department_id";
+  private String departmentId;
 
   public static final String JSON_PROPERTY_COMMENT = "comment";
   private String comment;
@@ -276,6 +289,81 @@ public class CrupdateUser {
   }
 
 
+  public CrupdateUser birthDate(java.time.LocalDate birthDate) {
+    this.birthDate = birthDate;
+    return this;
+  }
+
+   /**
+   * Get birthDate
+   * @return birthDate
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_BIRTH_DATE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public java.time.LocalDate getBirthDate() {
+    return birthDate;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_BIRTH_DATE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setBirthDate(java.time.LocalDate birthDate) {
+    this.birthDate = birthDate;
+  }
+
+
+  public CrupdateUser managerId(String managerId) {
+    this.managerId = managerId;
+    return this;
+  }
+
+   /**
+   * Get managerId
+   * @return managerId
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_MANAGER_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getManagerId() {
+    return managerId;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_MANAGER_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setManagerId(String managerId) {
+    this.managerId = managerId;
+  }
+
+
+  public CrupdateUser departmentId(String departmentId) {
+    this.departmentId = departmentId;
+    return this;
+  }
+
+   /**
+   * Get departmentId
+   * @return departmentId
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_DEPARTMENT_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getDepartmentId() {
+    return departmentId;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_DEPARTMENT_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setDepartmentId(String departmentId) {
+    this.departmentId = departmentId;
+  }
+
+
   public CrupdateUser comment(String comment) {
     this.comment = comment;
     return this;
@@ -321,12 +409,15 @@ public class CrupdateUser {
         Objects.equals(this.email, crupdateUser.email) &&
         Objects.equals(this.password, crupdateUser.password) &&
         Objects.equals(this.companyId, crupdateUser.companyId) &&
+        Objects.equals(this.birthDate, crupdateUser.birthDate) &&
+        Objects.equals(this.managerId, crupdateUser.managerId) &&
+        Objects.equals(this.departmentId, crupdateUser.departmentId) &&
         Objects.equals(this.comment, crupdateUser.comment);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, role, firstName, lastName, sex, email, password, companyId, comment);
+    return Objects.hash(id, role, firstName, lastName, sex, email, password, companyId, birthDate, managerId, departmentId, comment);
   }
 
   @Override
@@ -341,6 +432,9 @@ public class CrupdateUser {
     sb.append("    email: ").append(toIndentedString(email)).append("\n");
     sb.append("    password: ").append(toIndentedString(password)).append("\n");
     sb.append("    companyId: ").append(toIndentedString(companyId)).append("\n");
+    sb.append("    birthDate: ").append(toIndentedString(birthDate)).append("\n");
+    sb.append("    managerId: ").append(toIndentedString(managerId)).append("\n");
+    sb.append("    departmentId: ").append(toIndentedString(departmentId)).append("\n");
     sb.append("    comment: ").append(toIndentedString(comment)).append("\n");
     sb.append("}");
     return sb.toString();

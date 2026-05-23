@@ -21,6 +21,8 @@ public class EmployeeLeaveConfigMapper {
         .hireDate(rest.getHireDate())
         .contractType(rest.getContractType())
         .vacationDaysPerMonth(rest.getVacationDaysPerMonth())
+        .endDate(rest.getEndDate())
+        .weeklyHours(rest.getWeeklyHours())
         .comment(rest.getComment())
         .build();
   }
@@ -34,6 +36,8 @@ public class EmployeeLeaveConfigMapper {
     rest.setHireDate(domain.getHireDate());
     rest.setContractType(domain.getContractType());
     rest.setVacationDaysPerMonth(domain.getVacationDaysPerMonth());
+    rest.setEndDate(domain.getEndDate());
+    rest.setWeeklyHours(domain.getWeeklyHours());
     RestAuditMapperUtils.mapAuditFields(
         domain,
         rest::setCreatedAt,
