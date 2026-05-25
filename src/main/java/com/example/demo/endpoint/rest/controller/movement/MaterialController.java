@@ -86,11 +86,13 @@ public class MaterialController {
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
       @RequestParam(name = "material_id", required = false) String materialId,
       @RequestParam(name = "warehouse_id", required = false) String warehouseId,
-      @RequestParam(name = "not_arrived", required = false) Boolean notArrived) {
+      @RequestParam(name = "not_arrived", required = false) Boolean notArrived,
+      @RequestParam(name = "job_id", required = false) String jobId) {
     MaterialWarehouseCriteria criteria = new MaterialWarehouseCriteria();
     criteria.setMaterialId(materialId);
     criteria.setWarehouseId(warehouseId);
     criteria.setNotArrived(notArrived);
+    criteria.setJobId(jobId);
 
     return materialMapper.toRestMaterialWarehouseViews(
         materialWarehouseService.findAll(page, pageSize, criteria).getContent());

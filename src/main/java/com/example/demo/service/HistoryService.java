@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.Hibernate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -81,7 +82,8 @@ public class HistoryService {
       User creater) {
     String oldValue = "";
     String newValue = "";
-    if (History.EntityType.valueOf(newCreatAndUpdateEntity.getClass().getSimpleName().toUpperCase())
+    var entityClass = Hibernate.getClass(newCreatAndUpdateEntity);
+    if (History.EntityType.valueOf(entityClass.getSimpleName().toUpperCase())
         == History.EntityType.USER) {
       if (oldCreatAndUpdate != null) {
         User odlUser = (User) oldCreatAndUpdate;
@@ -124,7 +126,7 @@ public class HistoryService {
             .modifiedAt(Instant.now())
             .entityType(
                 History.EntityType.valueOf(
-                    newCreatAndUpdateEntity.getClass().getSimpleName().toUpperCase()))
+                    Hibernate.getClass(newCreatAndUpdateEntity).getSimpleName().toUpperCase()))
             .entityId(entityId)
             .previousValue(oldValue)
             .newValue(newValue)

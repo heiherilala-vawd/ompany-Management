@@ -19,7 +19,7 @@ public class BudgetLineController {
   private final BudgetLineService budgetLineService;
   private final BudgetLineMapper budgetLineMapper;
 
-  @GetMapping("/companies/{comp_id}/budget-lines/{id}")
+  @GetMapping("/companies/{comp_id}/budget_lines/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public BudgetLine getBudgetLineById(@PathVariable String comp_id, @PathVariable String id) {
     return budgetLineMapper.toRestBudgetLine(
@@ -28,7 +28,7 @@ public class BudgetLineController {
             .orElseThrow(() -> new NotFoundException("BudgetLine with id " + id + " not found")));
   }
 
-  @GetMapping("/companies/{comp_id}/budget-lines")
+  @GetMapping("/companies/{comp_id}/budget_lines")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<BudgetLine> getBudgetLines(
       @PathVariable String comp_id,
@@ -38,7 +38,7 @@ public class BudgetLineController {
         budgetLineService.findAll(page, pageSize).getContent());
   }
 
-  @PutMapping("/companies/{comp_id}/budget-lines")
+  @PutMapping("/companies/{comp_id}/budget_lines")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<BudgetLine> crupdateBudgetLines(
       @PathVariable String comp_id, @RequestBody List<CrupdateBudgetLine> toWrite) {
@@ -48,7 +48,7 @@ public class BudgetLineController {
     return budgetLineMapper.toRestBudgetLines(saved);
   }
 
-  @DeleteMapping("/companies/{comp_id}/budget-lines/{id}")
+  @DeleteMapping("/companies/{comp_id}/budget_lines/{id}")
   @PreAuthorize("hasRole('ADMIN')")
   public void deleteBudgetLineById(@PathVariable String comp_id, @PathVariable String id) {
     budgetLineService.deleteById(id);

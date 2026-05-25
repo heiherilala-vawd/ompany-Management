@@ -19,7 +19,7 @@ public class CashAccountController {
   private final CashAccountService cashAccountService;
   private final CashAccountMapper cashAccountMapper;
 
-  @GetMapping("/companies/{comp_id}/cash-accounts/{id}")
+  @GetMapping("/companies/{comp_id}/cash_accounts/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public CashAccount getCashAccountById(@PathVariable String comp_id, @PathVariable String id) {
     return cashAccountMapper.toRestCashAccount(
@@ -28,7 +28,7 @@ public class CashAccountController {
             .orElseThrow(() -> new NotFoundException("CashAccount with id " + id + " not found")));
   }
 
-  @GetMapping("/companies/{comp_id}/cash-accounts")
+  @GetMapping("/companies/{comp_id}/cash_accounts")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<CashAccount> getCashAccounts(
       @PathVariable String comp_id,
@@ -38,7 +38,7 @@ public class CashAccountController {
         cashAccountService.findAll(page, pageSize).getContent());
   }
 
-  @PutMapping("/companies/{comp_id}/cash-accounts")
+  @PutMapping("/companies/{comp_id}/cash_accounts")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<CashAccount> crupdateCashAccounts(
       @PathVariable String comp_id, @RequestBody List<CrupdateCashAccount> toWrite) {
@@ -48,7 +48,7 @@ public class CashAccountController {
     return cashAccountMapper.toRestCashAccounts(saved);
   }
 
-  @DeleteMapping("/companies/{comp_id}/cash-accounts/{id}")
+  @DeleteMapping("/companies/{comp_id}/cash_accounts/{id}")
   @PreAuthorize("hasRole('ADMIN')")
   public void deleteCashAccountById(@PathVariable String comp_id, @PathVariable String id) {
     cashAccountService.deleteById(id);

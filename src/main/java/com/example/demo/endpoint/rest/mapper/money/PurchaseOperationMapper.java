@@ -228,6 +228,8 @@ public class PurchaseOperationMapper {
         .warehouse(null)
         .floorNumber(c.getFloorNumber() != null ? c.getFloorNumber() : 0)
         .storageNumber(c.getStorageNumber() != null ? c.getStorageNumber() : 0)
+        .purchasePrice(c.getPurchasePrice())
+        .purchaseDate(c.getPurchaseDate())
         .comment(c.getComment())
         .build();
   }
@@ -239,6 +241,7 @@ public class PurchaseOperationMapper {
         .name(c.getName())
         .description(c.getDescription())
         .unit(c.getUnit() != null ? Material.Unit.valueOf(c.getUnit().name()) : null)
+        .unitPrice(c.getUnitPrice())
         .comment(c.getComment())
         .build();
   }

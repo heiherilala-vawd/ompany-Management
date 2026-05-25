@@ -24,6 +24,11 @@ import org.hibernate.Hibernate;
 @NoArgsConstructor
 public class MaterialConsumption extends CreatAndUpdateEntity implements Serializable {
 
+  public enum ConsumptionStatus {
+    IN_PROGRESS,
+    COMPLETED
+  }
+
   @Id private String id;
 
   @ManyToOne(fetch = FetchType.LAZY)
@@ -44,6 +49,10 @@ public class MaterialConsumption extends CreatAndUpdateEntity implements Seriali
   private Job job;
 
   private String reason;
+
+  @Enumerated(EnumType.STRING)
+  @Column(name = "consumption_status")
+  private ConsumptionStatus consumptionStatus;
 
   @Override
   public boolean equals(Object o) {

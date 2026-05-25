@@ -19,7 +19,7 @@ public class EquipmentUsageController {
   private final EquipmentUsageService equipmentUsageService;
   private final EquipmentUsageMapper equipmentUsageMapper;
 
-  @GetMapping("/companies/{comp_id}/equipment-usage/{id}")
+  @GetMapping("/companies/{comp_id}/equipment_usage/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public EquipmentUsage getEquipmentUsageById(@PathVariable String comp_id, @PathVariable String id) {
     return equipmentUsageMapper.toRestEquipmentUsage(
@@ -28,7 +28,7 @@ public class EquipmentUsageController {
             .orElseThrow(() -> new NotFoundException("EquipmentUsage with id " + id + " not found")));
   }
 
-  @GetMapping("/companies/{comp_id}/equipment-usage")
+  @GetMapping("/companies/{comp_id}/equipment_usage")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public List<EquipmentUsage> getEquipmentUsages(
       @PathVariable String comp_id,
@@ -38,7 +38,7 @@ public class EquipmentUsageController {
         equipmentUsageService.findAll(page, pageSize).getContent());
   }
 
-  @PutMapping("/companies/{comp_id}/equipment-usage")
+  @PutMapping("/companies/{comp_id}/equipment_usage")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public List<EquipmentUsage> crupdateEquipmentUsages(
       @PathVariable String comp_id, @RequestBody List<CrupdateEquipmentUsage> toWrite) {
@@ -48,7 +48,19 @@ public class EquipmentUsageController {
     return equipmentUsageMapper.toRestEquipmentUsages(saved);
   }
 
-  @DeleteMapping("/companies/{comp_id}/equipment-usage/{id}")
+  @PutMapping("/companies/{comp_id}/equipment_usage/{id}/return")
+  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
+  public EquipmentUsage returnEquipment(
+      @PathVariable String comp_id,
+      @PathVariable String id,
+      @RequestParam(name = "status") String status) {
+    com.example.demo.model.movement.EquipmentUsage.UsageStatus usageStatus =
+        com.example.demo.model.movement.EquipmentUsage.UsageStatus.valueOf(status);
+    return equipmentUsageMapper.toRestEquipmentUsage(
+        equipmentUsageService.returnEquipment(id, usageStatus));
+  }
+
+  @DeleteMapping("/companies/{comp_id}/equipment_usage/{id}")
   @PreAuthorize("hasRole('ADMIN')")
   public void deleteEquipmentUsageById(@PathVariable String comp_id, @PathVariable String id) {
     equipmentUsageService.deleteById(id);

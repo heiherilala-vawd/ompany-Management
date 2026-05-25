@@ -27,13 +27,10 @@ public class MaintenanceController {
   private final MaintenanceMapper maintenanceMapper;
   private final EquipmentService equipmentService;
 
-  @GetMapping(
-      "/companies/{comp_id}/job/{job_id}/user/{user_id}/equipment/{equipment_id}/maintenances/{id}")
+  @GetMapping("/companies/{comp_id}/equipment/{equipment_id}/maintenances/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public Maintenance getMaintenanceById(
       @PathVariable String comp_id,
-      @PathVariable String job_id,
-      @PathVariable String user_id,
       @PathVariable String equipment_id,
       @PathVariable String id) {
     return maintenanceMapper.toRestMaintenance(
@@ -42,13 +39,10 @@ public class MaintenanceController {
             .orElseThrow(() -> new NotFoundException("Maintenance with id " + id + " not found")));
   }
 
-  @GetMapping(
-      "/companies/{comp_id}/job/{job_id}/user/{user_id}/equipment/{equipment_id}/maintenances")
+  @GetMapping("/companies/{comp_id}/equipment/{equipment_id}/maintenances")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public List<Maintenance> getMaintenances(
       @PathVariable String comp_id,
-      @PathVariable String job_id,
-      @PathVariable String user_id,
       @PathVariable String equipment_id,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
@@ -58,13 +52,10 @@ public class MaintenanceController {
         .toList();
   }
 
-  @PutMapping(
-      "/companies/{comp_id}/job/{job_id}/user/{user_id}/equipment/{equipment_id}/maintenances")
+  @PutMapping("/companies/{comp_id}/equipment/{equipment_id}/maintenances")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public List<Maintenance> crupdateMaintenances(
       @PathVariable String comp_id,
-      @PathVariable String job_id,
-      @PathVariable String user_id,
       @PathVariable String equipment_id,
       @RequestBody List<CrupdateMaintenance> toWrite) {
     List<com.example.demo.model.movement.Maintenance> saved =
@@ -88,13 +79,10 @@ public class MaintenanceController {
     return saved.stream().map(maintenanceMapper::toRestMaintenance).toList();
   }
 
-  @DeleteMapping(
-      "/companies/{comp_id}/job/{job_id}/user/{user_id}/equipment/{equipment_id}/maintenances/{id}")
+  @DeleteMapping("/companies/{comp_id}/equipment/{equipment_id}/maintenances/{id}")
   @PreAuthorize("hasRole('ADMIN')")
   public void deleteMaintenanceById(
       @PathVariable String comp_id,
-      @PathVariable String job_id,
-      @PathVariable String user_id,
       @PathVariable String equipment_id,
       @PathVariable String id) {
     maintenanceService.deleteById(id);

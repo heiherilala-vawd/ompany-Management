@@ -1,4 +1,10 @@
 -- Nettoyage des données de test (ordre FK inverse)
+DELETE FROM "material_consumption";
+DELETE FROM "equipment_usage";
+DELETE FROM "cash_transaction";
+DELETE FROM "cash_account";
+DELETE FROM "budget_line";
+DELETE FROM "department";
 DELETE FROM "leave";
 DELETE FROM "employee_leave_config";
 DELETE FROM "leave_type";
@@ -329,4 +335,34 @@ values ('schedule1_id', 'Maintenance mensuelle', 'Nettoyage mensuel des équipem
 
 insert into task_schedule_assigned_user (task_schedule_id, user_id)
 values ('schedule1_id', 'employee1_id');
+
+INSERT INTO department (id, name, description, company_id, created_at, updated_at, created_by, updated_by, comment)
+VALUES
+('department1_id', 'Génie Civil', 'Département en charge des travaux de génie civil', 'company1_id', NOW(), NOW(), 'admin1_id', 'admin1_id', 'Département principal'),
+('department2_id', 'Électricité', 'Département en charge des installations électriques', 'company1_id', NOW(), NOW(), 'admin1_id', 'admin1_id', NULL);
+
+INSERT INTO budget_line (id, company_id, category, planned_amount, actual_amount, period_start, period_end, description, created_at, updated_at, created_by, updated_by, comment)
+VALUES
+('budget_line1_id', 'company1_id', 'Matériaux', 500000.00, 450000.00, '2024-01-01', '2024-12-31', 'Budget matériaux construction', NOW(), NOW(), 'admin1_id', 'admin1_id', NULL),
+('budget_line2_id', 'company1_id', 'Main-d''œuvre', 300000.00, 280000.00, '2024-01-01', '2024-12-31', 'Budget main-d''œuvre', NOW(), NOW(), 'admin1_id', 'admin1_id', NULL);
+
+INSERT INTO cash_account (id, name, balance, description, company_id, created_at, updated_at, created_by, updated_by, comment)
+VALUES
+('cash_account1_id', 'Compte bancaire principal', 1000000.00, 'Compte courant BNI', 'company1_id', NOW(), NOW(), 'admin1_id', 'admin1_id', NULL),
+('cash_account2_id', 'Caisse', 500000.00, 'Caisse entreprise', 'company1_id', NOW(), NOW(), 'admin1_id', 'admin1_id', NULL);
+
+INSERT INTO cash_transaction (id, cash_account_id, amount, transaction_date, description, type, created_at, updated_at, created_by, updated_by, comment)
+VALUES
+('cash_txn1_id', 'cash_account1_id', 50000.00, '2024-06-01', 'Achat matériel bureau', 'DEBIT', NOW(), NOW(), 'admin1_id', 'admin1_id', NULL),
+('cash_txn2_id', 'cash_account1_id', 200000.00, '2024-06-15', 'Virement client', 'CREDIT', NOW(), NOW(), 'admin1_id', 'admin1_id', NULL);
+
+INSERT INTO equipment_usage (id, equipment_id, job_id, start_time, end_time, source_location, usage_status, used_by, created_at, updated_at, created_by, updated_by, comment)
+VALUES
+('equip_usage1_id', 'equipment1_id', 'job1_id', '2024-06-01 08:00:00+03', '2024-06-01 17:00:00+03', 'warehouse1_id', 'RETURNED', 'admin1_id', NOW(), NOW(), 'admin1_id', 'admin1_id', NULL),
+('equip_usage2_id', 'equipment1_id', 'job1_id', '2024-06-02 08:00:00+03', '2024-06-02 17:00:00+03', 'warehouse1_id', 'RETURNED', 'admin1_id', NOW(), NOW(), 'admin1_id', 'admin1_id', NULL);
+
+INSERT INTO material_consumption (id, material_id, warehouse_id, quantity, consumption_date, job_id, reason, consumption_status, created_at, updated_at, created_by, updated_by, comment)
+VALUES
+('mat_consumption1_id', 'material1_id', 'warehouse1_id', 10, '2024-06-01', 'job1_id', 'Utilisation pour fondation', 'COMPLETED', NOW(), NOW(), 'admin1_id', 'admin1_id', NULL),
+('mat_consumption2_id', 'material1_id', 'warehouse1_id', 5, '2024-06-15', 'job1_id', 'Utilisation pour réparation', 'COMPLETED', NOW(), NOW(), 'admin1_id', 'admin1_id', NULL);
 

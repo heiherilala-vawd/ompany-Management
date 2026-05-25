@@ -38,13 +38,16 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   EquipmentUsage.JSON_PROPERTY_JOB_ID,
   EquipmentUsage.JSON_PROPERTY_START_TIME,
   EquipmentUsage.JSON_PROPERTY_END_TIME,
+  EquipmentUsage.JSON_PROPERTY_SOURCE_LOCATION,
+  EquipmentUsage.JSON_PROPERTY_USAGE_STATUS,
+  EquipmentUsage.JSON_PROPERTY_USED_BY,
   EquipmentUsage.JSON_PROPERTY_CREATED_AT,
   EquipmentUsage.JSON_PROPERTY_UPDATED_AT,
   EquipmentUsage.JSON_PROPERTY_CREATED_BY,
   EquipmentUsage.JSON_PROPERTY_UPDATED_BY,
   EquipmentUsage.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-23T02:25:48.303916325+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-25T05:11:13.467251135+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class EquipmentUsage {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -60,6 +63,15 @@ public class EquipmentUsage {
 
   public static final String JSON_PROPERTY_END_TIME = "end_time";
   private java.time.Instant endTime;
+
+  public static final String JSON_PROPERTY_SOURCE_LOCATION = "source_location";
+  private String sourceLocation;
+
+  public static final String JSON_PROPERTY_USAGE_STATUS = "usage_status";
+  private String usageStatus;
+
+  public static final String JSON_PROPERTY_USED_BY = "used_by";
+  private String usedBy;
 
   public static final String JSON_PROPERTY_CREATED_AT = "created_at";
   private java.time.Instant createdAt;
@@ -201,6 +213,81 @@ public class EquipmentUsage {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setEndTime(java.time.Instant endTime) {
     this.endTime = endTime;
+  }
+
+
+  public EquipmentUsage sourceLocation(String sourceLocation) {
+    this.sourceLocation = sourceLocation;
+    return this;
+  }
+
+   /**
+   * Get sourceLocation
+   * @return sourceLocation
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_SOURCE_LOCATION)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getSourceLocation() {
+    return sourceLocation;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_SOURCE_LOCATION)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setSourceLocation(String sourceLocation) {
+    this.sourceLocation = sourceLocation;
+  }
+
+
+  public EquipmentUsage usageStatus(String usageStatus) {
+    this.usageStatus = usageStatus;
+    return this;
+  }
+
+   /**
+   * Get usageStatus
+   * @return usageStatus
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_USAGE_STATUS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getUsageStatus() {
+    return usageStatus;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_USAGE_STATUS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setUsageStatus(String usageStatus) {
+    this.usageStatus = usageStatus;
+  }
+
+
+  public EquipmentUsage usedBy(String usedBy) {
+    this.usedBy = usedBy;
+    return this;
+  }
+
+   /**
+   * Get usedBy
+   * @return usedBy
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_USED_BY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getUsedBy() {
+    return usedBy;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_USED_BY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setUsedBy(String usedBy) {
+    this.usedBy = usedBy;
   }
 
 
@@ -346,6 +433,9 @@ public class EquipmentUsage {
         Objects.equals(this.jobId, equipmentUsage.jobId) &&
         Objects.equals(this.startTime, equipmentUsage.startTime) &&
         Objects.equals(this.endTime, equipmentUsage.endTime) &&
+        Objects.equals(this.sourceLocation, equipmentUsage.sourceLocation) &&
+        Objects.equals(this.usageStatus, equipmentUsage.usageStatus) &&
+        Objects.equals(this.usedBy, equipmentUsage.usedBy) &&
         Objects.equals(this.createdAt, equipmentUsage.createdAt) &&
         Objects.equals(this.updatedAt, equipmentUsage.updatedAt) &&
         Objects.equals(this.createdBy, equipmentUsage.createdBy) &&
@@ -355,7 +445,7 @@ public class EquipmentUsage {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, equipmentId, jobId, startTime, endTime, createdAt, updatedAt, createdBy, updatedBy, comment);
+    return Objects.hash(id, equipmentId, jobId, startTime, endTime, sourceLocation, usageStatus, usedBy, createdAt, updatedAt, createdBy, updatedBy, comment);
   }
 
   @Override
@@ -367,6 +457,9 @@ public class EquipmentUsage {
     sb.append("    jobId: ").append(toIndentedString(jobId)).append("\n");
     sb.append("    startTime: ").append(toIndentedString(startTime)).append("\n");
     sb.append("    endTime: ").append(toIndentedString(endTime)).append("\n");
+    sb.append("    sourceLocation: ").append(toIndentedString(sourceLocation)).append("\n");
+    sb.append("    usageStatus: ").append(toIndentedString(usageStatus)).append("\n");
+    sb.append("    usedBy: ").append(toIndentedString(usedBy)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
     sb.append("    updatedAt: ").append(toIndentedString(updatedAt)).append("\n");
     sb.append("    createdBy: ").append(toIndentedString(createdBy)).append("\n");
