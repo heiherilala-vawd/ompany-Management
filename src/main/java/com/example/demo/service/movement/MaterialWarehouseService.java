@@ -129,6 +129,9 @@ public class MaterialWarehouseService {
       if (criteria.getWarehouseId() != null) {
         predicates.add(cb.equal(root.get("warehouse").get("id"), criteria.getWarehouseId()));
       }
+      if (criteria.getJobId() != null) {
+        predicates.add(cb.equal(root.get("job").get("id"), criteria.getJobId()));
+      }
       if (Boolean.TRUE.equals(criteria.getNotArrived())) {
         predicates.add(cb.greaterThan(root.get("quantity"), 0));
         predicates.add(

@@ -491,7 +491,7 @@ paths:
           $ref: '#/components/responses/500'
 
 
-  /companies/{comp_id}/yearly-report:
+  /companies/{comp_id}/yearly_report:
     get:
       tags:
         - Report
@@ -2532,7 +2532,7 @@ paths:
   # =========================
   # MAINTENANCE
   # =========================
-  '/companies/{comp_id}/job/{job_id}/user/{user_id}/equipment/{equipment_id}/maintenances/{id}':
+  '/companies/{comp_id}/equipment/{equipment_id}/maintenances/{id}':
     get:
       tags:
         - Maintenance
@@ -2545,18 +2545,6 @@ paths:
           schema:
             type: string
           example: "comp_btp001"
-        - name: job_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "job_001"
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "usr_123456"
         - name: equipment_id
           in: path
           required: true
@@ -2606,18 +2594,6 @@ paths:
           schema:
             type: string
           example: "comp_btp001"
-        - name: job_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "job_001"
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "usr_123456"
         - name: equipment_id
           in: path
           required: true
@@ -2643,7 +2619,7 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-  '/companies/{comp_id}/job/{job_id}/user/{user_id}/equipment/{equipment_id}/maintenances':
+  '/companies/{comp_id}/equipment/{equipment_id}/maintenances':
     get:
       tags:
         - Maintenance
@@ -2656,18 +2632,6 @@ paths:
           schema:
             type: string
           example: "comp_btp001"
-        - name: job_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "job_001"
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "usr_123456"
         - name: equipment_id
           in: path
           required: true
@@ -2729,18 +2693,6 @@ paths:
           schema:
             type: string
           example: "comp_btp001"
-        - name: job_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "job_001"
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "usr_123456"
         - name: equipment_id
           in: path
           required: true
@@ -7756,7 +7708,7 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  /companies/{comp_id}/fixed-costs:
+  /companies/{comp_id}/fixed_costs:
     get:
       tags:
         - CompanyFixedCost
@@ -7858,7 +7810,7 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-  '/companies/{comp_id}/fixed-costs/{id}':
+  '/companies/{comp_id}/fixed_costs/{id}':
     get:
       tags:
         - CompanyFixedCost
@@ -8075,7 +8027,7 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-  /companies/{comp_id}/task-schedules:
+  /companies/{comp_id}/task_schedules:
     get:
       tags:
         - TaskSchedule
@@ -8146,7 +8098,7 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-  /companies/{comp_id}/task-schedules/{id}:
+  /companies/{comp_id}/task_schedules/{id}:
     get:
       tags:
         - TaskSchedule
@@ -8371,7 +8323,7 @@ paths:
   # =========================
   # CASH ACCOUNT
   # =========================
-  /companies/{comp_id}/cash-accounts:
+  /companies/{comp_id}/cash_accounts:
     get:
       tags:
         - CashAccount
@@ -8454,7 +8406,7 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-  '/companies/{comp_id}/cash-accounts/{id}':
+  '/companies/{comp_id}/cash_accounts/{id}':
     get:
       tags:
         - CashAccount
@@ -8525,7 +8477,7 @@ paths:
   # =========================
   # CASH TRANSACTION
   # =========================
-  /companies/{comp_id}/cash-accounts/{account_id}/transactions:
+  /companies/{comp_id}/cash_accounts/{account_id}/transactions:
     get:
       tags:
         - CashTransaction
@@ -8620,7 +8572,7 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-  '/companies/{comp_id}/cash-accounts/{account_id}/transactions/{id}':
+  '/companies/{comp_id}/cash_accounts/{account_id}/transactions/{id}':
     get:
       tags:
         - CashTransaction
@@ -8703,7 +8655,7 @@ paths:
   # =========================
   # BUDGET LINE
   # =========================
-  /companies/{comp_id}/budget-lines:
+  /companies/{comp_id}/budget_lines:
     get:
       tags:
         - BudgetLine
@@ -8786,7 +8738,7 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-  '/companies/{comp_id}/budget-lines/{id}':
+  '/companies/{comp_id}/budget_lines/{id}':
     get:
       tags:
         - BudgetLine
@@ -8857,7 +8809,7 @@ paths:
   # =========================
   # EQUIPMENT USAGE
   # =========================
-  /companies/{comp_id}/equipment-usage:
+  /companies/{comp_id}/equipment_usage:
     get:
       tags:
         - EquipmentUsage
@@ -8940,7 +8892,7 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-  '/companies/{comp_id}/equipment-usage/{id}':
+  '/companies/{comp_id}/equipment_usage/{id}':
     get:
       tags:
         - EquipmentUsage
@@ -9011,7 +8963,7 @@ paths:
   # =========================
   # MATERIAL CONSUMPTION
   # =========================
-  /companies/{comp_id}/material-consumption:
+  /companies/{comp_id}/material_consumption:
     get:
       tags:
         - MaterialConsumption
@@ -9094,7 +9046,7 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-  '/companies/{comp_id}/material-consumption/{id}':
+  '/companies/{comp_id}/material_consumption/{id}':
     get:
       tags:
         - MaterialConsumption
@@ -9525,6 +9477,15 @@ components:
           type: string
           format: date-time
           example: "2024-06-10T17:00:00Z"
+        source_location:
+          type: string
+          example: "wh_001"
+        usage_status:
+          type: string
+          example: "COMPLETED"
+        used_by:
+          type: string
+          example: "user_001"
     CrupdateEquipmentUsage:
       allOf:
         - $ref: '#/components/schemas/comment'
@@ -9546,6 +9507,15 @@ components:
           type: string
           format: date-time
           example: "2024-06-10T17:00:00Z"
+        source_location:
+          type: string
+          example: "wh_001"
+        usage_status:
+          type: string
+          example: "COMPLETED"
+        used_by:
+          type: string
+          example: "user_001"
 
     # =========================
     # MATERIAL CONSUMPTION
@@ -9576,6 +9546,9 @@ components:
         reason:
           type: string
           example: "Utilisation pour fondations"
+        consumption_status:
+          type: string
+          example: "COMPLETED"
     CrupdateMaterialConsumption:
       allOf:
         - $ref: '#/components/schemas/comment'
@@ -9602,6 +9575,9 @@ components:
         reason:
           type: string
           example: "Utilisation pour fondations"
+        consumption_status:
+          type: string
+          example: "COMPLETED"
     AuditUser:
       properties:
         id:

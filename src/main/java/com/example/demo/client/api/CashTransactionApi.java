@@ -50,7 +50,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-23T02:25:48.303916325+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-25T05:11:13.467251135+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CashTransactionApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -155,7 +155,7 @@ public class CashTransactionApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/cash-accounts/{account_id}/transactions"
+    String localVarPath = "/companies/{comp_id}/cash_accounts/{account_id}/transactions"
         .replace("{comp_id}", ApiClient.urlEncode(compId.toString()))
         .replace("{account_id}", ApiClient.urlEncode(accountId.toString()));
 
@@ -250,7 +250,7 @@ public class CashTransactionApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/cash-accounts/{account_id}/transactions/{id}"
+    String localVarPath = "/companies/{comp_id}/cash_accounts/{account_id}/transactions/{id}"
         .replace("{comp_id}", ApiClient.urlEncode(compId.toString()))
         .replace("{account_id}", ApiClient.urlEncode(accountId.toString()))
         .replace("{id}", ApiClient.urlEncode(id.toString()));
@@ -337,7 +337,7 @@ public class CashTransactionApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/cash-accounts/{account_id}/transactions/{id}"
+    String localVarPath = "/companies/{comp_id}/cash_accounts/{account_id}/transactions/{id}"
         .replace("{comp_id}", ApiClient.urlEncode(compId.toString()))
         .replace("{account_id}", ApiClient.urlEncode(accountId.toString()))
         .replace("{id}", ApiClient.urlEncode(id.toString()));
@@ -422,7 +422,7 @@ public class CashTransactionApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/cash-accounts/{account_id}/transactions"
+    String localVarPath = "/companies/{comp_id}/cash_accounts/{account_id}/transactions"
         .replace("{comp_id}", ApiClient.urlEncode(compId.toString()))
         .replace("{account_id}", ApiClient.urlEncode(accountId.toString()));
 

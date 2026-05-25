@@ -41,13 +41,14 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   MaterialConsumption.JSON_PROPERTY_CONSUMPTION_DATE,
   MaterialConsumption.JSON_PROPERTY_JOB_ID,
   MaterialConsumption.JSON_PROPERTY_REASON,
+  MaterialConsumption.JSON_PROPERTY_CONSUMPTION_STATUS,
   MaterialConsumption.JSON_PROPERTY_CREATED_AT,
   MaterialConsumption.JSON_PROPERTY_UPDATED_AT,
   MaterialConsumption.JSON_PROPERTY_CREATED_BY,
   MaterialConsumption.JSON_PROPERTY_UPDATED_BY,
   MaterialConsumption.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-23T02:25:48.303916325+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-25T05:11:13.467251135+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class MaterialConsumption {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -69,6 +70,9 @@ public class MaterialConsumption {
 
   public static final String JSON_PROPERTY_REASON = "reason";
   private String reason;
+
+  public static final String JSON_PROPERTY_CONSUMPTION_STATUS = "consumption_status";
+  private String consumptionStatus;
 
   public static final String JSON_PROPERTY_CREATED_AT = "created_at";
   private java.time.Instant createdAt;
@@ -263,6 +267,31 @@ public class MaterialConsumption {
   }
 
 
+  public MaterialConsumption consumptionStatus(String consumptionStatus) {
+    this.consumptionStatus = consumptionStatus;
+    return this;
+  }
+
+   /**
+   * Get consumptionStatus
+   * @return consumptionStatus
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_CONSUMPTION_STATUS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getConsumptionStatus() {
+    return consumptionStatus;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_CONSUMPTION_STATUS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setConsumptionStatus(String consumptionStatus) {
+    this.consumptionStatus = consumptionStatus;
+  }
+
+
   public MaterialConsumption createdAt(java.time.Instant createdAt) {
     this.createdAt = createdAt;
     return this;
@@ -407,6 +436,7 @@ public class MaterialConsumption {
         Objects.equals(this.consumptionDate, materialConsumption.consumptionDate) &&
         Objects.equals(this.jobId, materialConsumption.jobId) &&
         Objects.equals(this.reason, materialConsumption.reason) &&
+        Objects.equals(this.consumptionStatus, materialConsumption.consumptionStatus) &&
         Objects.equals(this.createdAt, materialConsumption.createdAt) &&
         Objects.equals(this.updatedAt, materialConsumption.updatedAt) &&
         Objects.equals(this.createdBy, materialConsumption.createdBy) &&
@@ -416,7 +446,7 @@ public class MaterialConsumption {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, materialId, warehouseId, quantity, consumptionDate, jobId, reason, createdAt, updatedAt, createdBy, updatedBy, comment);
+    return Objects.hash(id, materialId, warehouseId, quantity, consumptionDate, jobId, reason, consumptionStatus, createdAt, updatedAt, createdBy, updatedBy, comment);
   }
 
   @Override
@@ -430,6 +460,7 @@ public class MaterialConsumption {
     sb.append("    consumptionDate: ").append(toIndentedString(consumptionDate)).append("\n");
     sb.append("    jobId: ").append(toIndentedString(jobId)).append("\n");
     sb.append("    reason: ").append(toIndentedString(reason)).append("\n");
+    sb.append("    consumptionStatus: ").append(toIndentedString(consumptionStatus)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
     sb.append("    updatedAt: ").append(toIndentedString(updatedAt)).append("\n");
     sb.append("    createdBy: ").append(toIndentedString(createdBy)).append("\n");

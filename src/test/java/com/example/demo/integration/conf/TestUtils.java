@@ -14,6 +14,10 @@ import com.example.demo.client.model.CrupdateCompany;
 import com.example.demo.client.model.CrupdateCompanyFixedCost;
 import com.example.demo.client.model.CrupdateEmployeeLeaveConfig;
 import com.example.demo.client.model.CrupdateEmployeePayment;
+import com.example.demo.client.model.CrupdateEquipmentUsage;
+import com.example.demo.client.model.CrupdateMaterialConsumption;
+import com.example.demo.client.model.EquipmentUsage;
+import com.example.demo.client.model.MaterialConsumption;
 import com.example.demo.client.model.CrupdateEquipment;
 import com.example.demo.client.model.CrupdateExpenseMoney;
 import com.example.demo.client.model.CrupdateIncomeMoney;
@@ -128,6 +132,12 @@ public class TestUtils {
   public static final String LEAVE_TYPE2_ID = "leave_type2_id";
   public static final String CONFIG1_ID = "config1_id";
   public static final String CONFIG2_ID = "config2_id";
+  public static final String MAT_CONSUMPTION1_ID = "mat_consumption1_id";
+  public static final String MAT_CONSUMPTION2_ID = "mat_consumption2_id";
+  public static final String EQUIP_USAGE1_ID = "equip_usage1_id";
+  public static final String EQUIP_USAGE2_ID = "equip_usage2_id";
+  public static final String USED_WAREHOUSE_ID = "warehouse_used_id";
+
   public static final String LEAVE1_ID = "leave1_id";
   public static final String LEAVE2_ID = "leave2_id";
   public static final String TEAM1_ID = "team1_id";
@@ -709,6 +719,39 @@ public class TestUtils {
 
   public static CrupdateTravelEquipment someCreatableTravelEquipment() {
     return TestTravelFixtures.someCreatableTravelEquipment();
+  }
+
+  public static MaterialConsumption materialConsumption1() {
+    return TestMovementFixtures.materialConsumption1();
+  }
+
+  public static MaterialConsumption materialConsumption2() {
+    return TestMovementFixtures.materialConsumption2();
+  }
+
+  public static CrupdateMaterialConsumption materialConsumptionToCrupdateMaterialConsumption(
+      MaterialConsumption mc) {
+    return TestMovementFixtures.materialConsumptionToCrupdateMaterialConsumption(mc);
+  }
+
+  public static CrupdateMaterialConsumption someCreatableMaterialConsumption() {
+    return TestMovementFixtures.someCreatableMaterialConsumption();
+  }
+
+  public static EquipmentUsage equipmentUsage1() {
+    return TestMovementFixtures.equipmentUsage1();
+  }
+
+  public static EquipmentUsage equipmentUsage2() {
+    return TestMovementFixtures.equipmentUsage2();
+  }
+
+  public static CrupdateEquipmentUsage equipmentUsageToCrupdateEquipmentUsage(EquipmentUsage eu) {
+    return TestMovementFixtures.equipmentUsageToCrupdateEquipmentUsage(eu);
+  }
+
+  public static CrupdateEquipmentUsage someCreatableEquipmentUsage() {
+    return TestMovementFixtures.someCreatableEquipmentUsage();
   }
 
   public static int anAvailableRandomPort() {

@@ -12,4 +12,5 @@ public class UserCriteria {
   private String lastName;
   private String email;
   private User.Role role;
+  private Boolean withoutLeaveConfig;
 }

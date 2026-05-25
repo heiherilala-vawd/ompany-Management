@@ -21,6 +21,13 @@ public class MaterialConsumptionMapper {
   public com.example.demo.model.movement.MaterialConsumption toDomain(CrupdateMaterialConsumption rest) {
     if (rest == null) return null;
 
+    com.example.demo.model.movement.MaterialConsumption.ConsumptionStatus status = null;
+    if (rest.getConsumptionStatus() != null) {
+      status =
+          com.example.demo.model.movement.MaterialConsumption.ConsumptionStatus.valueOf(
+              rest.getConsumptionStatus());
+    }
+
     return com.example.demo.model.movement.MaterialConsumption.builder()
         .id(rest.getId())
         .material(
@@ -38,6 +45,7 @@ public class MaterialConsumptionMapper {
                 ? jobService.findById(rest.getJobId()).orElse(null)
                 : null)
         .reason(rest.getReason())
+        .consumptionStatus(status)
         .comment(rest.getComment())
         .build();
   }
@@ -53,6 +61,8 @@ public class MaterialConsumptionMapper {
     rest.setConsumptionDate(domain.getConsumptionDate());
     rest.setJobId(domain.getJob() != null ? domain.getJob().getId() : null);
     rest.setReason(domain.getReason());
+    rest.setConsumptionStatus(
+        domain.getConsumptionStatus() != null ? domain.getConsumptionStatus().name() : null);
     RestAuditMapperUtils.mapAuditFields(
         domain,
         rest::setCreatedAt,

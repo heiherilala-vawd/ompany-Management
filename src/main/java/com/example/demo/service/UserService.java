@@ -79,6 +79,13 @@ public class UserService {
         .and(containsIgnoreCase(criteria.getFirstName(), "firstName"))
         .and(containsIgnoreCase(criteria.getLastName(), "lastName"))
         .and(containsIgnoreCase(criteria.getEmail(), "email"))
-        .and(equal(criteria.getRole(), "role"));
+        .and(equal(criteria.getRole(), "role"))
+        .and(
+            (root, query, cb) -> {
+              if (Boolean.TRUE.equals(criteria.getWithoutLeaveConfig())) {
+                return cb.isNull(root.get("employeeLeaveConfig"));
+              }
+              return cb.conjunction();
+            });
   }
 }

@@ -1,9 +1,11 @@
 package com.example.demo.model.movement;
 
 import com.example.demo.model.CreatAndUpdateEntity;
+import com.example.demo.model.Job;
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
@@ -39,6 +41,10 @@ public class MaterialWarehouse extends CreatAndUpdateEntity implements Serializa
   private Warehouse warehouse;
 
   private Integer quantity;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "job_id")
+  private Job job;
 
   @Column(name = "min_stock")
   private Integer minStock;

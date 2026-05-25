@@ -2,8 +2,10 @@ package com.example.demo.validator;
 
 import com.example.demo.model.exception.BadRequestException;
 import com.example.demo.model.movement.Equipment;
+import com.example.demo.model.movement.EquipmentUsage;
 import com.example.demo.model.movement.Maintenance;
 import com.example.demo.model.movement.Material;
+import com.example.demo.model.movement.MaterialConsumption;
 import com.example.demo.model.movement.MaterialWarehouse;
 import com.example.demo.model.movement.TravelEquipment;
 import com.example.demo.model.movement.TravelMaterials;
@@ -156,6 +158,41 @@ public class MovementValidator {
       throw new BadRequestException("Travel people list cannot be null or empty");
     }
     travelPeoples.forEach(this::validateTravelPeople);
+  }
+
+  public void validateMaterialConsumption(MaterialConsumption consumption) {
+    if (consumption == null) {
+      throw new BadRequestException("Material consumption cannot be null");
+    }
+    if (consumption.getMaterial() == null || consumption.getMaterial().getId() == null) {
+      throw new BadRequestException("Material is mandatory");
+    }
+    if (consumption.getQuantity() == null) {
+      throw new BadRequestException("Quantity is mandatory");
+    }
+  }
+
+  public void validateMaterialConsumptions(List<MaterialConsumption> consumptions) {
+    if (consumptions == null || consumptions.isEmpty()) {
+      throw new BadRequestException("Material consumption list cannot be null or empty");
+    }
+    consumptions.forEach(this::validateMaterialConsumption);
+  }
+
+  public void validateEquipmentUsage(EquipmentUsage usage) {
+    if (usage == null) {
+      throw new BadRequestException("Equipment usage cannot be null");
+    }
+    if (usage.getEquipment() == null || usage.getEquipment().getId() == null) {
+      throw new BadRequestException("Equipment is mandatory");
+    }
+  }
+
+  public void validateEquipmentUsages(List<EquipmentUsage> usages) {
+    if (usages == null || usages.isEmpty()) {
+      throw new BadRequestException("Equipment usage list cannot be null or empty");
+    }
+    usages.forEach(this::validateEquipmentUsage);
   }
 
   public void validateMaterialWarehouse(MaterialWarehouse materialWarehouse) {

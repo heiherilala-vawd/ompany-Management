@@ -40,7 +40,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   LeaveBalance.JSON_PROPERTY_TAKEN_DAYS,
   LeaveBalance.JSON_PROPERTY_REMAINING_DAYS
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-23T02:25:48.303916325+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-25T05:11:13.467251135+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class LeaveBalance {
   public static final String JSON_PROPERTY_USER = "user";
   private CrupdateUser user;

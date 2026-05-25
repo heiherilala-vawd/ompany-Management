@@ -2,6 +2,7 @@ package com.example.demo.model.movement;
 
 import com.example.demo.model.CreatAndUpdateEntity;
 import com.example.demo.model.Job;
+import com.example.demo.model.User;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
@@ -24,6 +25,13 @@ import org.hibernate.Hibernate;
 @NoArgsConstructor
 public class EquipmentUsage extends CreatAndUpdateEntity implements Serializable {
 
+  public enum UsageStatus {
+    IN_USE,
+    BROKEN,
+    RETURNED,
+    LOST
+  }
+
   @Id private String id;
 
   @ManyToOne(fetch = FetchType.LAZY)
@@ -39,6 +47,18 @@ public class EquipmentUsage extends CreatAndUpdateEntity implements Serializable
 
   @Column(name = "end_time")
   private Instant endTime;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "source_location")
+  private Warehouse sourceLocation;
+
+  @Enumerated(EnumType.STRING)
+  @Column(name = "usage_status")
+  private UsageStatus usageStatus;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "used_by")
+  private User usedBy;
 
   @Override
   public boolean equals(Object o) {
