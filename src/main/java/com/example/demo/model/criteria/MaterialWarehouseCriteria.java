@@ -9,4 +9,5 @@ public class MaterialWarehouseCriteria {
   private String materialId;
   private String warehouseId;
   private Boolean notArrived;
+  private String jobId;
 }

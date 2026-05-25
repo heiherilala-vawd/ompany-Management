@@ -98,15 +98,19 @@ public class PurchaseOperationService {
   }
 
   private void saveNewMaterials(List<Material> materials) {
-    List<Material> newMaterials = new ArrayList<>();
+    List<Material> toSave = new ArrayList<>();
     for (Material material : materials) {
       Optional<Material> existing = materialService.findById(material.getId());
       if (existing.isEmpty()) {
-        newMaterials.add(material);
+        toSave.add(material);
+      } else if (material.getUnitPrice() != null) {
+        Material existingMaterial = existing.get();
+        existingMaterial.setUnitPrice(material.getUnitPrice());
+        toSave.add(existingMaterial);
       }
     }
-    if (!newMaterials.isEmpty()) {
-      materialService.createOrUpdateAll(newMaterials);
+    if (!toSave.isEmpty()) {
+      materialService.createOrUpdateAll(toSave);
     }
   }
 
@@ -123,6 +127,8 @@ public class PurchaseOperationService {
                 .warehouse(targetWarehouse)
                 .floorNumber(equipment.getFloorNumber())
                 .storageNumber(equipment.getStorageNumber())
+                .purchasePrice(equipment.getPurchasePrice())
+                .purchaseDate(equipment.getPurchaseDate())
                 .comment(equipment.getComment())
                 .build());
         continue;
@@ -130,7 +136,7 @@ public class PurchaseOperationService {
 
       Equipment existingEquipment = existing.get();
 
-      toUpdate.add(
+      Equipment.EquipmentBuilder builder =
           Equipment.builder()
               .id(existingEquipment.getId())
               .name(
@@ -147,8 +153,20 @@ public class PurchaseOperationService {
               .comment(
                   existingEquipment.getComment() != null
                       ? existingEquipment.getComment()
-                      : equipment.getComment())
-              .build());
+                      : equipment.getComment());
+
+      if (equipment.getPurchasePrice() != null) {
+        builder.purchasePrice(equipment.getPurchasePrice());
+      } else {
+        builder.purchasePrice(existingEquipment.getPurchasePrice());
+      }
+      if (equipment.getPurchaseDate() != null) {
+        builder.purchaseDate(equipment.getPurchaseDate());
+      } else {
+        builder.purchaseDate(existingEquipment.getPurchaseDate());
+      }
+
+      toUpdate.add(builder.build());
     }
     if (!toUpdate.isEmpty()) {
       equipmentService.createOrUpdateAll(toUpdate);

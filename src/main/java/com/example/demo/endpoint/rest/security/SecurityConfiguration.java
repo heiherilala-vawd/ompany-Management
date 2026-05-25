@@ -319,7 +319,7 @@ public class SecurityConfiguration {
                     // =========================
                     // YEARLY REPORT
                     // =========================
-                    .requestMatchers(GET, "/companies/*/yearly-report")
+                    .requestMatchers(GET, "/companies/*/yearly_report")
                     .authenticated()
 
                     // =========================
@@ -352,22 +352,22 @@ public class SecurityConfiguration {
                     // =========================
                     .requestMatchers(
                         GET,
-                        "/companies/*/job/*/user/*/equipment/*/maintenances",
-                        "/companies/*/job/*/user/*/equipment/*/maintenances/*")
+                        "/companies/*/equipment/*/maintenances",
+                        "/companies/*/equipment/*/maintenances/*")
                     .authenticated()
-                    .requestMatchers(PUT, "/companies/*/job/*/user/*/equipment/*/maintenances")
+                    .requestMatchers(PUT, "/companies/*/equipment/*/maintenances")
                     .authenticated()
-                    .requestMatchers(DELETE, "/companies/*/job/*/user/*/equipment/*/maintenances/*")
+                    .requestMatchers(DELETE, "/companies/*/equipment/*/maintenances/*")
                     .hasRole("ADMIN")
 
                     // =========================
                     // COMPANY FIXED COST
                     // =========================
-                    .requestMatchers(GET, "/companies/*/fixed-costs", "/companies/*/fixed-costs/*")
+                    .requestMatchers(GET, "/companies/*/fixed_costs", "/companies/*/fixed_costs/*")
                     .authenticated()
-                    .requestMatchers(PUT, "/companies/*/fixed-costs")
+                    .requestMatchers(PUT, "/companies/*/fixed_costs")
                     .authenticated()
-                    .requestMatchers(DELETE, "/companies/*/fixed-costs/*")
+                    .requestMatchers(DELETE, "/companies/*/fixed_costs/*")
                     .hasRole("ADMIN")
 
                     // =========================
@@ -384,11 +384,11 @@ public class SecurityConfiguration {
                     // TASK SCHEDULE
                     // =========================
                     .requestMatchers(
-                        GET, "/companies/*/task-schedules", "/companies/*/task-schedules/*")
+                        GET, "/companies/*/task_schedules", "/companies/*/task_schedules/*")
                     .authenticated()
-                    .requestMatchers(PUT, "/companies/*/task-schedules")
+                    .requestMatchers(PUT, "/companies/*/task_schedules")
                     .authenticated()
-                    .requestMatchers(DELETE, "/companies/*/task-schedules/*")
+                    .requestMatchers(DELETE, "/companies/*/task_schedules/*")
                     .hasRole("ADMIN")
 
                     // =========================
@@ -443,11 +443,11 @@ public class SecurityConfiguration {
                     // CASH ACCOUNT
                     // =========================
                     .requestMatchers(
-                        GET, "/companies/*/cash-accounts", "/companies/*/cash-accounts/*")
+                        GET, "/companies/*/cash_accounts", "/companies/*/cash_accounts/*")
                     .authenticated()
-                    .requestMatchers(PUT, "/companies/*/cash-accounts")
+                    .requestMatchers(PUT, "/companies/*/cash_accounts")
                     .authenticated()
-                    .requestMatchers(DELETE, "/companies/*/cash-accounts/*")
+                    .requestMatchers(DELETE, "/companies/*/cash_accounts/*")
                     .hasRole("ADMIN")
 
                     // =========================
@@ -455,45 +455,51 @@ public class SecurityConfiguration {
                     // =========================
                     .requestMatchers(
                         GET,
-                        "/companies/*/cash-accounts/*/transactions",
-                        "/companies/*/cash-accounts/*/transactions/*")
+                        "/companies/*/cash_accounts/*/transactions",
+                        "/companies/*/cash_accounts/*/transactions/*")
                     .authenticated()
-                    .requestMatchers(PUT, "/companies/*/cash-accounts/*/transactions")
+                    .requestMatchers(PUT, "/companies/*/cash_accounts/*/transactions")
                     .authenticated()
-                    .requestMatchers(DELETE, "/companies/*/cash-accounts/*/transactions/*")
+                    .requestMatchers(DELETE, "/companies/*/cash_accounts/*/transactions/*")
                     .hasRole("ADMIN")
 
                     // =========================
                     // BUDGET LINE
                     // =========================
                     .requestMatchers(
-                        GET, "/companies/*/budget-lines", "/companies/*/budget-lines/*")
+                        GET, "/companies/*/budget_lines", "/companies/*/budget_lines/*")
                     .authenticated()
-                    .requestMatchers(PUT, "/companies/*/budget-lines")
+                    .requestMatchers(PUT, "/companies/*/budget_lines")
                     .authenticated()
-                    .requestMatchers(DELETE, "/companies/*/budget-lines/*")
+                    .requestMatchers(DELETE, "/companies/*/budget_lines/*")
                     .hasRole("ADMIN")
 
                     // =========================
                     // EQUIPMENT USAGE
                     // =========================
                     .requestMatchers(
-                        GET, "/companies/*/equipment-usage", "/companies/*/equipment-usage/*")
+                        GET, "/companies/*/equipment_usage", "/companies/*/equipment_usage/*")
                     .authenticated()
-                    .requestMatchers(PUT, "/companies/*/equipment-usage")
+                    .requestMatchers(PUT, "/companies/*/equipment_usage")
                     .authenticated()
-                    .requestMatchers(DELETE, "/companies/*/equipment-usage/*")
+                    .requestMatchers(PUT, "/companies/*/equipment_usage/*/return")
+                    .authenticated()
+                    .requestMatchers(DELETE, "/companies/*/equipment_usage/*")
                     .hasRole("ADMIN")
 
                     // =========================
                     // MATERIAL CONSUMPTION
                     // =========================
                     .requestMatchers(
-                        GET, "/companies/*/material-consumption", "/companies/*/material-consumption/*")
+                        GET, "/companies/*/material_consumption", "/companies/*/material_consumption/*")
                     .authenticated()
-                    .requestMatchers(PUT, "/companies/*/material-consumption")
+                    .requestMatchers(PUT, "/companies/*/material_consumption")
                     .authenticated()
-                    .requestMatchers(DELETE, "/companies/*/material-consumption/*")
+                    .requestMatchers(PUT, "/companies/*/material_consumption/*/complete")
+                    .authenticated()
+                    .requestMatchers(PUT, "/companies/*/material_consumption/*/return")
+                    .authenticated()
+                    .requestMatchers(DELETE, "/companies/*/material_consumption/*")
                     .hasRole("ADMIN")
 
                     // =========================

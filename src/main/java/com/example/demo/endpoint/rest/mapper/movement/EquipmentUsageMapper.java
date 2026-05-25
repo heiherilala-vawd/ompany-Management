@@ -3,7 +3,10 @@ package com.example.demo.endpoint.rest.mapper.movement;
 import com.example.demo.client.model.CrupdateEquipmentUsage;
 import com.example.demo.client.model.EquipmentUsage;
 import com.example.demo.endpoint.rest.mapper.RestAuditMapperUtils;
+import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.service.movement.EquipmentService;
+import com.example.demo.service.movement.WarehouseService;
+import com.example.demo.service.UserService;
 import com.example.demo.service.JobService;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -15,9 +18,17 @@ public class EquipmentUsageMapper {
 
   private final EquipmentService equipmentService;
   private final JobService jobService;
+  private final WarehouseService warehouseService;
+  private final UserService userService;
 
   public com.example.demo.model.movement.EquipmentUsage toDomain(CrupdateEquipmentUsage rest) {
     if (rest == null) return null;
+
+    com.example.demo.model.movement.EquipmentUsage.UsageStatus usageStatus = null;
+    if (rest.getUsageStatus() != null) {
+      usageStatus =
+          com.example.demo.model.movement.EquipmentUsage.UsageStatus.valueOf(rest.getUsageStatus());
+    }
 
     return com.example.demo.model.movement.EquipmentUsage.builder()
         .id(rest.getId())
@@ -31,6 +42,15 @@ public class EquipmentUsageMapper {
                 : null)
         .startTime(rest.getStartTime())
         .endTime(rest.getEndTime())
+        .sourceLocation(
+            rest.getSourceLocation() != null
+                ? warehouseService.findById(rest.getSourceLocation()).orElse(null)
+                : null)
+        .usageStatus(usageStatus)
+        .usedBy(
+            rest.getUsedBy() != null
+                ? findUserById(rest.getUsedBy())
+                : null)
         .comment(rest.getComment())
         .build();
   }
@@ -44,6 +64,10 @@ public class EquipmentUsageMapper {
     rest.setJobId(domain.getJob() != null ? domain.getJob().getId() : null);
     rest.setStartTime(domain.getStartTime());
     rest.setEndTime(domain.getEndTime());
+    rest.setSourceLocation(
+        domain.getSourceLocation() != null ? domain.getSourceLocation().getId() : null);
+    rest.setUsageStatus(domain.getUsageStatus() != null ? domain.getUsageStatus().name() : null);
+    rest.setUsedBy(domain.getUsedBy() != null ? domain.getUsedBy().getId() : null);
     RestAuditMapperUtils.mapAuditFields(
         domain,
         rest::setCreatedAt,
@@ -57,5 +81,13 @@ public class EquipmentUsageMapper {
 
   public List<EquipmentUsage> toRestEquipmentUsages(List<com.example.demo.model.movement.EquipmentUsage> domains) {
     return domains.stream().map(this::toRestEquipmentUsage).toList();
+  }
+
+  private com.example.demo.model.User findUserById(String id) {
+    try {
+      return userService.getById(id);
+    } catch (NotFoundException e) {
+      return null;
+    }
   }
 }

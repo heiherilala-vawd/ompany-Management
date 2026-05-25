@@ -44,13 +44,15 @@ public class UserController {
       @RequestParam(name = "first_name", required = false, defaultValue = "") String firstName,
       @RequestParam(name = "last_name", required = false, defaultValue = "") String lastName,
       @RequestParam(name = "email", required = false, defaultValue = "") String email,
-      @RequestParam(name = "role", required = false) com.example.demo.model.User.Role role) {
+      @RequestParam(name = "role", required = false) com.example.demo.model.User.Role role,
+      @RequestParam(name = "without_leave_config", required = false) Boolean withoutLeaveConfig) {
     UserCriteria criteria = new UserCriteria();
     criteria.setCompanyId(comp_id);
     criteria.setFirstName(firstName);
     criteria.setLastName(lastName);
     criteria.setEmail(email);
     criteria.setRole(role);
+    criteria.setWithoutLeaveConfig(withoutLeaveConfig);
 
     return userService.getUsers(page, pageSize, criteria).stream()
         .map(userMapper::toRestUser)

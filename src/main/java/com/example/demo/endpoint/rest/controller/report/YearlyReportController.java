@@ -14,7 +14,7 @@ public class YearlyReportController {
 
   private final YearlyReportService yearlyReportService;
 
-  @GetMapping("/companies/{comp_id}/yearly-report")
+  @GetMapping("/companies/{comp_id}/yearly_report")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public YearlyReport getYearlyReport(
       @PathVariable String comp_id,

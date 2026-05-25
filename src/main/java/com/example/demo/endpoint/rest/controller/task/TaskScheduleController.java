@@ -19,7 +19,7 @@ public class TaskScheduleController {
   private final TaskScheduleService taskScheduleService;
   private final TaskScheduleMapper taskScheduleMapper;
 
-  @GetMapping("/companies/{comp_id}/task-schedules")
+  @GetMapping("/companies/{comp_id}/task_schedules")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<TaskSchedule> getTaskSchedules(
       @PathVariable String comp_id,
@@ -30,7 +30,7 @@ public class TaskScheduleController {
         .toList();
   }
 
-  @PutMapping("/companies/{comp_id}/task-schedules")
+  @PutMapping("/companies/{comp_id}/task_schedules")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<TaskSchedule> crupdateTaskSchedules(
       @PathVariable String comp_id, @RequestBody List<CrupdateTaskSchedule> toWrite) {
@@ -47,7 +47,7 @@ public class TaskScheduleController {
     return schedules.stream().map(taskScheduleMapper::toRestTaskSchedule).toList();
   }
 
-  @GetMapping("/companies/{comp_id}/task-schedules/{id}")
+  @GetMapping("/companies/{comp_id}/task_schedules/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public TaskSchedule getTaskScheduleById(@PathVariable String comp_id, @PathVariable String id) {
     com.example.demo.model.task.TaskSchedule schedule =
@@ -57,7 +57,7 @@ public class TaskScheduleController {
     return taskScheduleMapper.toRestTaskSchedule(schedule);
   }
 
-  @DeleteMapping("/companies/{comp_id}/task-schedules/{id}")
+  @DeleteMapping("/companies/{comp_id}/task_schedules/{id}")
   @PreAuthorize("hasRole('ADMIN')")
   public void deleteTaskScheduleById(@PathVariable String comp_id, @PathVariable String id) {
     taskScheduleService.deleteById(id);

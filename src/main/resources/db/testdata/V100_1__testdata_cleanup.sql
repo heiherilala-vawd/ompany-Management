@@ -1,4 +1,10 @@
 -- Nettoyage des données de test (ordre FK inverse)
+DELETE FROM "material_consumption";
+DELETE FROM "equipment_usage";
+DELETE FROM "cash_transaction";
+DELETE FROM "cash_account";
+DELETE FROM "budget_line";
+DELETE FROM "department";
 DELETE FROM "leave";
 DELETE FROM "employee_leave_config";
 DELETE FROM "leave_type";

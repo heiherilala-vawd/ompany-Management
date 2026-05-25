@@ -37,9 +37,12 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   CrupdateEquipmentUsage.JSON_PROPERTY_JOB_ID,
   CrupdateEquipmentUsage.JSON_PROPERTY_START_TIME,
   CrupdateEquipmentUsage.JSON_PROPERTY_END_TIME,
+  CrupdateEquipmentUsage.JSON_PROPERTY_SOURCE_LOCATION,
+  CrupdateEquipmentUsage.JSON_PROPERTY_USAGE_STATUS,
+  CrupdateEquipmentUsage.JSON_PROPERTY_USED_BY,
   CrupdateEquipmentUsage.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-23T02:25:48.303916325+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-25T05:11:13.467251135+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdateEquipmentUsage {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -55,6 +58,15 @@ public class CrupdateEquipmentUsage {
 
   public static final String JSON_PROPERTY_END_TIME = "end_time";
   private java.time.Instant endTime;
+
+  public static final String JSON_PROPERTY_SOURCE_LOCATION = "source_location";
+  private String sourceLocation;
+
+  public static final String JSON_PROPERTY_USAGE_STATUS = "usage_status";
+  private String usageStatus;
+
+  public static final String JSON_PROPERTY_USED_BY = "used_by";
+  private String usedBy;
 
   public static final String JSON_PROPERTY_COMMENT = "comment";
   private String comment;
@@ -187,6 +199,81 @@ public class CrupdateEquipmentUsage {
   }
 
 
+  public CrupdateEquipmentUsage sourceLocation(String sourceLocation) {
+    this.sourceLocation = sourceLocation;
+    return this;
+  }
+
+   /**
+   * Get sourceLocation
+   * @return sourceLocation
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_SOURCE_LOCATION)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getSourceLocation() {
+    return sourceLocation;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_SOURCE_LOCATION)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setSourceLocation(String sourceLocation) {
+    this.sourceLocation = sourceLocation;
+  }
+
+
+  public CrupdateEquipmentUsage usageStatus(String usageStatus) {
+    this.usageStatus = usageStatus;
+    return this;
+  }
+
+   /**
+   * Get usageStatus
+   * @return usageStatus
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_USAGE_STATUS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getUsageStatus() {
+    return usageStatus;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_USAGE_STATUS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setUsageStatus(String usageStatus) {
+    this.usageStatus = usageStatus;
+  }
+
+
+  public CrupdateEquipmentUsage usedBy(String usedBy) {
+    this.usedBy = usedBy;
+    return this;
+  }
+
+   /**
+   * Get usedBy
+   * @return usedBy
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_USED_BY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getUsedBy() {
+    return usedBy;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_USED_BY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setUsedBy(String usedBy) {
+    this.usedBy = usedBy;
+  }
+
+
   public CrupdateEquipmentUsage comment(String comment) {
     this.comment = comment;
     return this;
@@ -229,12 +316,15 @@ public class CrupdateEquipmentUsage {
         Objects.equals(this.jobId, crupdateEquipmentUsage.jobId) &&
         Objects.equals(this.startTime, crupdateEquipmentUsage.startTime) &&
         Objects.equals(this.endTime, crupdateEquipmentUsage.endTime) &&
+        Objects.equals(this.sourceLocation, crupdateEquipmentUsage.sourceLocation) &&
+        Objects.equals(this.usageStatus, crupdateEquipmentUsage.usageStatus) &&
+        Objects.equals(this.usedBy, crupdateEquipmentUsage.usedBy) &&
         Objects.equals(this.comment, crupdateEquipmentUsage.comment);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, equipmentId, jobId, startTime, endTime, comment);
+    return Objects.hash(id, equipmentId, jobId, startTime, endTime, sourceLocation, usageStatus, usedBy, comment);
   }
 
   @Override
@@ -246,6 +336,9 @@ public class CrupdateEquipmentUsage {
     sb.append("    jobId: ").append(toIndentedString(jobId)).append("\n");
     sb.append("    startTime: ").append(toIndentedString(startTime)).append("\n");
     sb.append("    endTime: ").append(toIndentedString(endTime)).append("\n");
+    sb.append("    sourceLocation: ").append(toIndentedString(sourceLocation)).append("\n");
+    sb.append("    usageStatus: ").append(toIndentedString(usageStatus)).append("\n");
+    sb.append("    usedBy: ").append(toIndentedString(usedBy)).append("\n");
     sb.append("    comment: ").append(toIndentedString(comment)).append("\n");
     sb.append("}");
     return sb.toString();

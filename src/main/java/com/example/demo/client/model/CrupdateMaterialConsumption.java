@@ -40,9 +40,10 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   CrupdateMaterialConsumption.JSON_PROPERTY_CONSUMPTION_DATE,
   CrupdateMaterialConsumption.JSON_PROPERTY_JOB_ID,
   CrupdateMaterialConsumption.JSON_PROPERTY_REASON,
+  CrupdateMaterialConsumption.JSON_PROPERTY_CONSUMPTION_STATUS,
   CrupdateMaterialConsumption.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-23T02:25:48.303916325+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-25T05:11:13.467251135+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdateMaterialConsumption {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -64,6 +65,9 @@ public class CrupdateMaterialConsumption {
 
   public static final String JSON_PROPERTY_REASON = "reason";
   private String reason;
+
+  public static final String JSON_PROPERTY_CONSUMPTION_STATUS = "consumption_status";
+  private String consumptionStatus;
 
   public static final String JSON_PROPERTY_COMMENT = "comment";
   private String comment;
@@ -246,6 +250,31 @@ public class CrupdateMaterialConsumption {
   }
 
 
+  public CrupdateMaterialConsumption consumptionStatus(String consumptionStatus) {
+    this.consumptionStatus = consumptionStatus;
+    return this;
+  }
+
+   /**
+   * Get consumptionStatus
+   * @return consumptionStatus
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_CONSUMPTION_STATUS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getConsumptionStatus() {
+    return consumptionStatus;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_CONSUMPTION_STATUS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setConsumptionStatus(String consumptionStatus) {
+    this.consumptionStatus = consumptionStatus;
+  }
+
+
   public CrupdateMaterialConsumption comment(String comment) {
     this.comment = comment;
     return this;
@@ -290,12 +319,13 @@ public class CrupdateMaterialConsumption {
         Objects.equals(this.consumptionDate, crupdateMaterialConsumption.consumptionDate) &&
         Objects.equals(this.jobId, crupdateMaterialConsumption.jobId) &&
         Objects.equals(this.reason, crupdateMaterialConsumption.reason) &&
+        Objects.equals(this.consumptionStatus, crupdateMaterialConsumption.consumptionStatus) &&
         Objects.equals(this.comment, crupdateMaterialConsumption.comment);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, materialId, warehouseId, quantity, consumptionDate, jobId, reason, comment);
+    return Objects.hash(id, materialId, warehouseId, quantity, consumptionDate, jobId, reason, consumptionStatus, comment);
   }
 
   @Override
@@ -309,6 +339,7 @@ public class CrupdateMaterialConsumption {
     sb.append("    consumptionDate: ").append(toIndentedString(consumptionDate)).append("\n");
     sb.append("    jobId: ").append(toIndentedString(jobId)).append("\n");
     sb.append("    reason: ").append(toIndentedString(reason)).append("\n");
+    sb.append("    consumptionStatus: ").append(toIndentedString(consumptionStatus)).append("\n");
     sb.append("    comment: ").append(toIndentedString(comment)).append("\n");
     sb.append("}");
     return sb.toString();

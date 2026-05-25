@@ -22,7 +22,7 @@ public class CompanyFixedCostController {
   private final CompanyFixedCostService companyFixedCostService;
   private final CompanyFixedCostMapper companyFixedCostMapper;
 
-  @GetMapping("/companies/{comp_id}/fixed-costs/{id}")
+  @GetMapping("/companies/{comp_id}/fixed_costs/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public CompanyFixedCost getCompanyFixedCostById(
       @PathVariable String comp_id, @PathVariable String id) {
@@ -33,14 +33,14 @@ public class CompanyFixedCostController {
                 () -> new NotFoundException("CompanyFixedCost with id " + id + " not found")));
   }
 
-  @GetMapping("/companies/{comp_id}/fixed-costs")
+  @GetMapping("/companies/{comp_id}/fixed_costs")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<CompanyFixedCost> getCompanyFixedCosts(@PathVariable String comp_id) {
     return companyFixedCostMapper.toRestCompanyFixedCosts(
         companyFixedCostService.findAllByCompanyId(comp_id));
   }
 
-  @PutMapping("/companies/{comp_id}/fixed-costs")
+  @PutMapping("/companies/{comp_id}/fixed_costs")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<CompanyFixedCost> crupdateCompanyFixedCosts(
       @PathVariable String comp_id, @RequestBody List<CrupdateCompanyFixedCost> toWrite) {
@@ -49,7 +49,7 @@ public class CompanyFixedCostController {
             toWrite.stream().map(companyFixedCostMapper::toDomain).toList()));
   }
 
-  @DeleteMapping("/companies/{comp_id}/fixed-costs/{id}")
+  @DeleteMapping("/companies/{comp_id}/fixed_costs/{id}")
   @PreAuthorize("hasRole('ADMIN')")
   public void deleteCompanyFixedCostById(@PathVariable String comp_id, @PathVariable String id) {
     companyFixedCostService.deleteById(id);
