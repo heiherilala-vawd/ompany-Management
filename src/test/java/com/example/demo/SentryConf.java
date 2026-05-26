@@ -3,6 +3,7 @@ package com.example.demo;
 import io.sentry.Sentry;
 import io.sentry.Sentry.OptionsConfiguration;
 import io.sentry.SentryOptions;
+import jakarta.annotation.PreDestroy;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,5 +31,10 @@ public class SentryConf {
         };
     Sentry.init(optionsConf);
     return optionsConf;
+  }
+
+  @PreDestroy
+  public void closeSentry() {
+    Sentry.close();
   }
 }

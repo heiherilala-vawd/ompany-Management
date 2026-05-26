@@ -5,6 +5,7 @@ import com.example.demo.model.CreatAndUpdateEntity;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Objects;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -40,6 +41,9 @@ public class Material extends CreatAndUpdateEntity implements Serializable {
 
   @Column(name = "unit_price")
   private BigDecimal unitPrice;
+
+  @Column(name = "expiry_date")
+  private LocalDate expiryDate;
 
   @OneToMany(mappedBy = "material", cascade = CascadeType.ALL, orphanRemoval = true)
   @ToString.Exclude

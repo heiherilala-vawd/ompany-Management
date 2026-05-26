@@ -20,7 +20,8 @@ public class CashAccountMapper {
         .name(rest.getName())
         .balance(rest.getBalance())
         .description(rest.getDescription())
-        .company(rest.getCompanyId() != null ? Company.builder().id(rest.getCompanyId()).build() : null)
+        .company(
+            rest.getCompanyId() != null ? Company.builder().id(rest.getCompanyId()).build() : null)
         .comment(rest.getComment())
         .build();
   }
@@ -45,7 +46,8 @@ public class CashAccountMapper {
     return rest;
   }
 
-  public List<CashAccount> toRestCashAccounts(List<com.example.demo.model.money.CashAccount> domains) {
+  public List<CashAccount> toRestCashAccounts(
+      List<com.example.demo.model.money.CashAccount> domains) {
     return domains.stream().map(this::toRestCashAccount).toList();
   }
 }

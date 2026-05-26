@@ -1,4 +1,8 @@
 -- Nettoyage des données de test (ordre FK inverse)
+DELETE FROM "maintenance_schedule";
+DELETE FROM "purchase_order_line";
+DELETE FROM "purchase_order";
+DELETE FROM "supplier";
 DELETE FROM "material_consumption";
 DELETE FROM "equipment_usage";
 DELETE FROM "cash_transaction";
@@ -93,7 +97,8 @@ VALUES
 ('warehouse2_id', 'Entrepôt Sud', 'Stockage équipements', 'job2_id', NOW(), NOW()),
 ('warehouse_route_id', 'En route', 'Emplacement virtuel pour les équipements en déplacement', NULL, NOW(), NOW()),
 ('warehouse_at_seller_id', 'Chez le vendeur', 'Emplacement virtuel pour les équipements encore chez le vendeur', NULL, NOW(), NOW()),
-('warehouse_unfindable_id', 'Introuvable', 'Emplacement virtuel pour les équipements introuvables', NULL, NOW(), NOW());
+('warehouse_unfindable_id', 'Introuvable', 'Emplacement virtuel pour les équipements introuvables', NULL, NOW(), NOW()),
+('warehouse_used_id', 'Utilisé', 'Emplacement virtuel pour les matériaux/équipements utilisés', NULL, NOW(), NOW());
 
 INSERT INTO "equipment" (id, name, description, warehouse_id, floor_number, storage_number, created_at, updated_at)
 VALUES
@@ -109,11 +114,11 @@ values
 ('income_type2_id', 'Subvention', 'Aides et subventions recues', 'company1_id', now(), now()),
 ('income_type3_id', 'Don', 'Dons et apports exceptionnels', 'company2_id', now(), now());
 
-INSERT INTO "material" (id, name, description, unit, created_at, updated_at, company_id)
+INSERT INTO "material" (id, name, description, unit, unit_price, created_at, updated_at, company_id)
 VALUES
-('material1_id', 'Ciment', 'Ciment Portland 35kg', 'SAC', NOW(), NOW(), 'company1_id'),
-('material2_id', 'Brique', 'Brique rouge 20x10x5', 'U', NOW(), NOW(), 'company1_id'),
-('material3_id', 'Peinture', 'Peinture blanche mate', 'L', NOW(), NOW(), 'company1_id');
+('material1_id', 'Ciment', 'Ciment Portland 35kg', 'SAC', 5000.00, NOW(), NOW(), 'company1_id'),
+('material2_id', 'Brique', 'Brique rouge 20x10x5', 'U', 200.00, NOW(), NOW(), 'company1_id'),
+('material3_id', 'Peinture', 'Peinture blanche mate', 'L', 15000.00, NOW(), NOW(), 'company1_id');
 
 INSERT INTO "income_money" (
   id,
@@ -365,4 +370,25 @@ INSERT INTO material_consumption (id, material_id, warehouse_id, quantity, consu
 VALUES
 ('mat_consumption1_id', 'material1_id', 'warehouse1_id', 10, '2024-06-01', 'job1_id', 'Utilisation pour fondation', 'COMPLETED', NOW(), NOW(), 'admin1_id', 'admin1_id', NULL),
 ('mat_consumption2_id', 'material1_id', 'warehouse1_id', 5, '2024-06-15', 'job1_id', 'Utilisation pour réparation', 'COMPLETED', NOW(), NOW(), 'admin1_id', 'admin1_id', NULL);
+
+INSERT INTO "supplier" (id, name, siret, address, email, phone, contact_name, company_id, created_at, updated_at)
+VALUES
+('supplier1_id', 'Fournitures Pro', '12345678901234', '123 Rue du Commerce, Antananarivo', 'contact@fourniturespro.mg', '+261341234567', 'Jean Rajaonarison', 'company1_id', NOW(), NOW()),
+('supplier2_id', 'Matériaux BTP', '98765432109876', '456 Avenue de l''Industrie, Toamasina', 'info@materiauxbtp.mg', '+261337654321', 'Marie Randrianarisoa', 'company1_id', NOW(), NOW());
+
+INSERT INTO "purchase_order" (id, supplier_id, order_date, status, total_amount, company_id, job_id, created_at, updated_at)
+VALUES
+('po1_id', 'supplier1_id', '2024-06-01', 'VALIDATED', 150000.00, 'company1_id', 'job1_id', NOW(), NOW()),
+('po2_id', 'supplier2_id', '2024-06-15', 'PENDING', 85000.00, 'company1_id', 'job1_id', NOW(), NOW());
+
+INSERT INTO "purchase_order_line" (id, purchase_order_id, material_id, quantity, unit_price, created_at, updated_at)
+VALUES
+('pol1_id', 'po1_id', 'material1_id', 50, 1500.00, NOW(), NOW()),
+('pol2_id', 'po1_id', 'material2_id', 200, 350.00, NOW(), NOW()),
+('pol3_id', 'po2_id', 'material1_id', 20, 1600.00, NOW(), NOW());
+
+INSERT INTO "maintenance_schedule" (id, equipment_id, description, scheduled_date, frequency, status, company_id, created_at, updated_at)
+VALUES
+('ms1_id', 'equipment1_id', 'Révision moteur périodique', '2024-07-15', 'MENSUEL', 'PENDING', 'company1_id', NOW(), NOW()),
+('ms2_id', 'equipment2_id', 'Vidange et contrôle', '2024-08-01', 'TRIMESTRIEL', 'SCHEDULED', 'company1_id', NOW(), NOW());
 

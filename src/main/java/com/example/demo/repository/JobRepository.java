@@ -18,6 +18,8 @@ public interface JobRepository extends JpaRepository<Job, String>, JpaSpecificat
 
   Page<Job> findByStatusAndCompanyId(JobStatus status, String companyId, Pageable pageable);
 
+  List<Job> findByCompanyId(String companyId);
+
   List<Job> findByCompanyIdOrderByStartDateDesc(String companyId);
 
   List<Job> findByStartDateBetween(LocalDate startDate, LocalDate endDate);

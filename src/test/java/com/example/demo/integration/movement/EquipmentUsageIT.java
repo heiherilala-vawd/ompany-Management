@@ -119,8 +119,7 @@ class EquipmentUsageIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     EquipmentUsageApi api = new EquipmentUsageApi(adminClient);
 
-    CrupdateEquipmentUsage toUpdate =
-        equipmentUsageToCrupdateEquipmentUsage(equipmentUsage1());
+    CrupdateEquipmentUsage toUpdate = equipmentUsageToCrupdateEquipmentUsage(equipmentUsage1());
     toUpdate.setComment("Mis \u00e0 jour");
 
     List<EquipmentUsage> updated = api.crupdateEquipmentUsages(COMPANY1_ID, List.of(toUpdate));
@@ -188,11 +187,7 @@ class EquipmentUsageIT {
     HttpResponse<String> response =
         authenticatedPut(
             ADMIN_TOKEN,
-            "/companies/"
-                + COMPANY1_ID
-                + "/equipment_usage/"
-                + newId
-                + "/return?status=RETURNED");
+            "/companies/" + COMPANY1_ID + "/equipment_usage/" + newId + "/return?status=RETURNED");
 
     assertEquals(HttpStatus.OK.value(), response.statusCode());
   }
@@ -211,11 +206,7 @@ class EquipmentUsageIT {
     HttpResponse<String> response =
         authenticatedPut(
             ADMIN_TOKEN,
-            "/companies/"
-                + COMPANY1_ID
-                + "/equipment_usage/"
-                + newId
-                + "/return?status=LOST");
+            "/companies/" + COMPANY1_ID + "/equipment_usage/" + newId + "/return?status=LOST");
 
     assertEquals(HttpStatus.OK.value(), response.statusCode());
   }
@@ -234,11 +225,7 @@ class EquipmentUsageIT {
     HttpResponse<String> response =
         authenticatedPut(
             ADMIN_TOKEN,
-            "/companies/"
-                + COMPANY1_ID
-                + "/equipment_usage/"
-                + newId
-                + "/return?status=BROKEN");
+            "/companies/" + COMPANY1_ID + "/equipment_usage/" + newId + "/return?status=BROKEN");
 
     assertEquals(HttpStatus.OK.value(), response.statusCode());
   }

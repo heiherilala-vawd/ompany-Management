@@ -3,9 +3,9 @@ package com.example.demo.endpoint.rest.mapper.movement;
 import com.example.demo.client.model.CrupdateMaterialConsumption;
 import com.example.demo.client.model.MaterialConsumption;
 import com.example.demo.endpoint.rest.mapper.RestAuditMapperUtils;
+import com.example.demo.service.JobService;
 import com.example.demo.service.movement.MaterialService;
 import com.example.demo.service.movement.WarehouseService;
-import com.example.demo.service.JobService;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -18,7 +18,8 @@ public class MaterialConsumptionMapper {
   private final WarehouseService warehouseService;
   private final JobService jobService;
 
-  public com.example.demo.model.movement.MaterialConsumption toDomain(CrupdateMaterialConsumption rest) {
+  public com.example.demo.model.movement.MaterialConsumption toDomain(
+      CrupdateMaterialConsumption rest) {
     if (rest == null) return null;
 
     com.example.demo.model.movement.MaterialConsumption.ConsumptionStatus status = null;
@@ -40,17 +41,15 @@ public class MaterialConsumptionMapper {
                 : null)
         .quantity(rest.getQuantity())
         .consumptionDate(rest.getConsumptionDate())
-        .job(
-            rest.getJobId() != null
-                ? jobService.findById(rest.getJobId()).orElse(null)
-                : null)
+        .job(rest.getJobId() != null ? jobService.findById(rest.getJobId()).orElse(null) : null)
         .reason(rest.getReason())
         .consumptionStatus(status)
         .comment(rest.getComment())
         .build();
   }
 
-  public MaterialConsumption toRestMaterialConsumption(com.example.demo.model.movement.MaterialConsumption domain) {
+  public MaterialConsumption toRestMaterialConsumption(
+      com.example.demo.model.movement.MaterialConsumption domain) {
     if (domain == null) return null;
 
     MaterialConsumption rest = new MaterialConsumption();
@@ -74,7 +73,8 @@ public class MaterialConsumptionMapper {
     return rest;
   }
 
-  public List<MaterialConsumption> toRestMaterialConsumptions(List<com.example.demo.model.movement.MaterialConsumption> domains) {
+  public List<MaterialConsumption> toRestMaterialConsumptions(
+      List<com.example.demo.model.movement.MaterialConsumption> domains) {
     return domains.stream().map(this::toRestMaterialConsumption).toList();
   }
 }

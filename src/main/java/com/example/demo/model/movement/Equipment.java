@@ -51,6 +51,16 @@ public class Equipment extends CreatAndUpdateEntity implements Serializable {
   @Column(name = "purchase_date")
   private LocalDate purchaseDate;
 
+  @Column(name = "is_leased")
+  @Builder.Default
+  private Boolean isLeased = false;
+
+  @Column(name = "lease_end_date")
+  private LocalDate leaseEndDate;
+
+  @Column(name = "document_url")
+  private String documentUrl;
+
   private String category;
 
   @OneToMany(mappedBy = "equipment")

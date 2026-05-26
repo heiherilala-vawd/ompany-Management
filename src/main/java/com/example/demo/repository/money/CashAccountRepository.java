@@ -1,10 +1,13 @@
 package com.example.demo.repository.money;
 
 import com.example.demo.model.money.CashAccount;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CashAccountRepository
-    extends JpaRepository<CashAccount, String>, JpaSpecificationExecutor<CashAccount> {}
+    extends JpaRepository<CashAccount, String>, JpaSpecificationExecutor<CashAccount> {
+  List<CashAccount> findByCompanyId(String companyId);
+}

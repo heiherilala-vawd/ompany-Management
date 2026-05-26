@@ -7887,6 +7887,290 @@ paths:
           $ref: '#/components/responses/500'
 
   # =========================
+  # SUPPLIER
+  # =========================
+  /companies/{comp_id}/suppliers:
+    get:
+      tags:
+        - Supplier
+      summary: Get all suppliers for a company
+      operationId: getSuppliers
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+      responses:
+        '200':
+          description: List of suppliers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Supplier'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      tags:
+        - Supplier
+      summary: Create or update suppliers (crupdate)
+      operationId: crupdateSuppliers
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/CrupdateSupplier'
+      responses:
+        '200':
+          description: Suppliers created/updated
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Supplier'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /companies/{comp_id}/suppliers/{id}:
+    get:
+      tags:
+        - Supplier
+      summary: Get supplier by ID
+      operationId: getSupplierById
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "supplier_001"
+      responses:
+        '200':
+          description: Supplier found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Supplier'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      tags:
+        - Supplier
+      summary: Delete a supplier
+      operationId: deleteSupplierById
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "supplier_001"
+      responses:
+        '204':
+          description: Supplier deleted successfully
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+
+  # =========================
+  # PURCHASE ORDER
+  # =========================
+  /companies/{comp_id}/purchase_orders:
+    get:
+      tags:
+        - PurchaseOrder
+      summary: Get all purchase orders for a company
+      operationId: getPurchaseOrders
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+      responses:
+        '200':
+          description: List of purchase orders
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PurchaseOrder'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      tags:
+        - PurchaseOrder
+      summary: Create or update purchase orders (crupdate)
+      operationId: crupdatePurchaseOrders
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/CrupdatePurchaseOrder'
+      responses:
+        '200':
+          description: Purchase orders created/updated
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PurchaseOrder'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /companies/{comp_id}/purchase_orders/{id}:
+    get:
+      tags:
+        - PurchaseOrder
+      summary: Get purchase order by ID
+      operationId: getPurchaseOrderById
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "po_001"
+      responses:
+        '200':
+          description: Purchase order found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PurchaseOrder'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      tags:
+        - PurchaseOrder
+      summary: Delete a purchase order
+      operationId: deletePurchaseOrderById
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "po_001"
+      responses:
+        '204':
+          description: Purchase order deleted successfully
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+
+  # =========================
   # TASK
   # =========================
   /companies/{comp_id}/tasks:
@@ -11563,5 +11847,208 @@ components:
           example:
             - "usr_123456"
             - "usr_789012"
+        comment:
+          type: string
+
+    # =========================
+    # SUPPLIER
+    # =========================
+    Supplier:
+      allOf:
+        - $ref: '#/components/schemas/AuditFields'
+      properties:
+        id:
+          type: string
+          example: "supplier_001"
+        name:
+          type: string
+          example: "Fournitures BTP SARL"
+        siret:
+          type: string
+          example: "12345678901234"
+        address:
+          type: string
+          example: "12 Rue des Usines, 75001 Paris"
+        email:
+          type: string
+          example: "contact@fournitures-btp.fr"
+        phone:
+          type: string
+          example: "01 23 45 67 89"
+        contact_name:
+          type: string
+          example: "Jean Dupont"
+        company_id:
+          type: string
+          example: "comp_btp001"
+    CrupdateSupplier:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "supplier_001"
+        name:
+          type: string
+          example: "Fournitures BTP SARL"
+        siret:
+          type: string
+          example: "12345678901234"
+        address:
+          type: string
+          example: "12 Rue des Usines, 75001 Paris"
+        email:
+          type: string
+          example: "contact@fournitures-btp.fr"
+        phone:
+          type: string
+          example: "01 23 45 67 89"
+        contact_name:
+          type: string
+          example: "Jean Dupont"
+        comment:
+          type: string
+
+    # =========================
+    # PURCHASE ORDER
+    # =========================
+    PurchaseOrderStatus:
+      type: string
+      enum:
+        - PENDING
+        - VALIDATED
+        - DELIVERED
+        - INVOICED
+      example: "PENDING"
+    PurchaseOrderLine:
+      type: object
+      properties:
+        id:
+          type: string
+        material_id:
+          type: string
+        quantity:
+          type: integer
+        unit_price:
+          type: number
+    CrupdatePurchaseOrderLine:
+      type: object
+      properties:
+        id:
+          type: string
+        material_id:
+          type: string
+        quantity:
+          type: integer
+        unit_price:
+          type: number
+        comment:
+          type: string
+    PurchaseOrder:
+      allOf:
+        - $ref: '#/components/schemas/AuditFields'
+      properties:
+        id:
+          type: string
+          example: "po_001"
+        supplier_id:
+          type: string
+          example: "supplier_001"
+        order_date:
+          type: string
+          format: date
+          example: "2026-05-25"
+        status:
+          $ref: '#/components/schemas/PurchaseOrderStatus'
+        total_amount:
+          type: number
+          example: 5000.00
+        company_id:
+          type: string
+          example: "comp_btp001"
+        job_id:
+          type: string
+          example: "job_001"
+        lines:
+          type: array
+          items:
+            $ref: '#/components/schemas/PurchaseOrderLine'
+    CrupdatePurchaseOrder:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "po_001"
+        supplier_id:
+          type: string
+          example: "supplier_001"
+        order_date:
+          type: string
+          format: date
+          example: "2026-05-25"
+        status:
+          $ref: '#/components/schemas/PurchaseOrderStatus'
+        total_amount:
+          type: number
+          example: 5000.00
+        company_id:
+          type: string
+          example: "comp_btp001"
+        job_id:
+          type: string
+          example: "job_001"
+        lines:
+          type: array
+          items:
+            $ref: '#/components/schemas/CrupdatePurchaseOrderLine'
+        comment:
+          type: string
+
+    # =========================
+    # MAINTENANCE SCHEDULE
+    # =========================
+    MaintenanceScheduleStatus:
+      type: string
+      enum:
+        - PENDING
+        - DONE
+        - SKIPPED
+      example: "PENDING"
+    MaintenanceSchedule:
+      allOf:
+        - $ref: '#/components/schemas/AuditFields'
+      properties:
+        id:
+          type: string
+        equipment_id:
+          type: string
+        description:
+          type: string
+        scheduled_date:
+          type: string
+          format: date
+        frequency:
+          type: string
+        status:
+          $ref: '#/components/schemas/MaintenanceScheduleStatus'
+        company_id:
+          type: string
+    CrupdateMaintenanceSchedule:
+      type: object
+      properties:
+        id:
+          type: string
+        equipment_id:
+          type: string
+        description:
+          type: string
+        scheduled_date:
+          type: string
+          format: date
+        frequency:
+          type: string
+        status:
+          $ref: '#/components/schemas/MaintenanceScheduleStatus'
+        company_id:
+          type: string
         comment:
           type: string

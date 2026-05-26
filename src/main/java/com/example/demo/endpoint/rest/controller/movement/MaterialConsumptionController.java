@@ -21,11 +21,13 @@ public class MaterialConsumptionController {
 
   @GetMapping("/companies/{comp_id}/material_consumption/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
-  public MaterialConsumption getMaterialConsumptionById(@PathVariable String comp_id, @PathVariable String id) {
+  public MaterialConsumption getMaterialConsumptionById(
+      @PathVariable String comp_id, @PathVariable String id) {
     return materialConsumptionMapper.toRestMaterialConsumption(
         materialConsumptionService
             .findById(id)
-            .orElseThrow(() -> new NotFoundException("MaterialConsumption with id " + id + " not found")));
+            .orElseThrow(
+                () -> new NotFoundException("MaterialConsumption with id " + id + " not found")));
   }
 
   @GetMapping("/companies/{comp_id}/material_consumption")

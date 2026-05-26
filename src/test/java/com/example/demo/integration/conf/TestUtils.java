@@ -14,11 +14,8 @@ import com.example.demo.client.model.CrupdateCompany;
 import com.example.demo.client.model.CrupdateCompanyFixedCost;
 import com.example.demo.client.model.CrupdateEmployeeLeaveConfig;
 import com.example.demo.client.model.CrupdateEmployeePayment;
-import com.example.demo.client.model.CrupdateEquipmentUsage;
-import com.example.demo.client.model.CrupdateMaterialConsumption;
-import com.example.demo.client.model.EquipmentUsage;
-import com.example.demo.client.model.MaterialConsumption;
 import com.example.demo.client.model.CrupdateEquipment;
+import com.example.demo.client.model.CrupdateEquipmentUsage;
 import com.example.demo.client.model.CrupdateExpenseMoney;
 import com.example.demo.client.model.CrupdateIncomeMoney;
 import com.example.demo.client.model.CrupdateIncomeReceipt;
@@ -30,9 +27,12 @@ import com.example.demo.client.model.CrupdateLoan;
 import com.example.demo.client.model.CrupdateLoanRepayment;
 import com.example.demo.client.model.CrupdateMaintenance;
 import com.example.demo.client.model.CrupdateMaterial;
+import com.example.demo.client.model.CrupdateMaterialConsumption;
 import com.example.demo.client.model.CrupdateOtherExpense;
 import com.example.demo.client.model.CrupdateOtherExpenseType;
 import com.example.demo.client.model.CrupdatePurchase;
+import com.example.demo.client.model.CrupdatePurchaseOrder;
+import com.example.demo.client.model.CrupdateSupplier;
 import com.example.demo.client.model.CrupdateTask;
 import com.example.demo.client.model.CrupdateTeam;
 import com.example.demo.client.model.CrupdateTravelEquipment;
@@ -44,6 +44,7 @@ import com.example.demo.client.model.CrupdateWarehouse;
 import com.example.demo.client.model.EmployeeLeaveConfig;
 import com.example.demo.client.model.EmployeePayment;
 import com.example.demo.client.model.Equipment;
+import com.example.demo.client.model.EquipmentUsage;
 import com.example.demo.client.model.ExpenseMoney;
 import com.example.demo.client.model.IncomeMoney;
 import com.example.demo.client.model.IncomeReceipt;
@@ -55,9 +56,12 @@ import com.example.demo.client.model.Loan;
 import com.example.demo.client.model.LoanRepayment;
 import com.example.demo.client.model.Maintenance;
 import com.example.demo.client.model.Material;
+import com.example.demo.client.model.MaterialConsumption;
 import com.example.demo.client.model.OtherExpense;
 import com.example.demo.client.model.OtherExpenseType;
 import com.example.demo.client.model.Purchase;
+import com.example.demo.client.model.PurchaseOrder;
+import com.example.demo.client.model.Supplier;
 import com.example.demo.client.model.Task;
 import com.example.demo.client.model.TravelEquipment;
 import com.example.demo.client.model.TravelExpense;
@@ -137,6 +141,16 @@ public class TestUtils {
   public static final String EQUIP_USAGE1_ID = "equip_usage1_id";
   public static final String EQUIP_USAGE2_ID = "equip_usage2_id";
   public static final String USED_WAREHOUSE_ID = "warehouse_used_id";
+
+  public static final String SUPPLIER1_ID = "supplier1_id";
+  public static final String SUPPLIER2_ID = "supplier2_id";
+  public static final String PO1_ID = "po1_id";
+  public static final String PO2_ID = "po2_id";
+  public static final String POL1_ID = "pol1_id";
+  public static final String POL2_ID = "pol2_id";
+  public static final String POL3_ID = "pol3_id";
+  public static final String MS1_ID = "ms1_id";
+  public static final String MS2_ID = "ms2_id";
 
   public static final String LEAVE1_ID = "leave1_id";
   public static final String LEAVE2_ID = "leave2_id";
@@ -719,6 +733,38 @@ public class TestUtils {
 
   public static CrupdateTravelEquipment someCreatableTravelEquipment() {
     return TestTravelFixtures.someCreatableTravelEquipment();
+  }
+
+  public static Supplier supplier1() {
+    return TestMoneyFixtures.supplier1();
+  }
+
+  public static Supplier supplier2() {
+    return TestMoneyFixtures.supplier2();
+  }
+
+  public static CrupdateSupplier supplierToCrupdateSupplier(Supplier supplier) {
+    return TestMoneyFixtures.supplierToCrupdateSupplier(supplier);
+  }
+
+  public static CrupdateSupplier someCreatableSupplier() {
+    return TestMoneyFixtures.someCreatableSupplier();
+  }
+
+  public static PurchaseOrder purchaseOrder1() {
+    return TestMoneyFixtures.purchaseOrder1();
+  }
+
+  public static PurchaseOrder purchaseOrder2() {
+    return TestMoneyFixtures.purchaseOrder2();
+  }
+
+  public static CrupdatePurchaseOrder purchaseOrderToCrupdatePurchaseOrder(PurchaseOrder po) {
+    return TestMoneyFixtures.purchaseOrderToCrupdatePurchaseOrder(po);
+  }
+
+  public static CrupdatePurchaseOrder someCreatablePurchaseOrder() {
+    return TestMoneyFixtures.someCreatablePurchaseOrder();
   }
 
   public static MaterialConsumption materialConsumption1() {

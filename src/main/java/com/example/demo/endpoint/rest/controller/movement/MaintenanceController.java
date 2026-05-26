@@ -30,9 +30,7 @@ public class MaintenanceController {
   @GetMapping("/companies/{comp_id}/equipment/{equipment_id}/maintenances/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public Maintenance getMaintenanceById(
-      @PathVariable String comp_id,
-      @PathVariable String equipment_id,
-      @PathVariable String id) {
+      @PathVariable String comp_id, @PathVariable String equipment_id, @PathVariable String id) {
     return maintenanceMapper.toRestMaintenance(
         maintenanceService
             .findById(id)
@@ -82,9 +80,7 @@ public class MaintenanceController {
   @DeleteMapping("/companies/{comp_id}/equipment/{equipment_id}/maintenances/{id}")
   @PreAuthorize("hasRole('ADMIN')")
   public void deleteMaintenanceById(
-      @PathVariable String comp_id,
-      @PathVariable String equipment_id,
-      @PathVariable String id) {
+      @PathVariable String comp_id, @PathVariable String equipment_id, @PathVariable String id) {
     maintenanceService.deleteById(id);
   }
 }

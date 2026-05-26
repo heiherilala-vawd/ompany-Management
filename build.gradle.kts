@@ -300,6 +300,8 @@ dependencies {
 tasks.withType<Test> {
     useJUnitPlatform()
 
+    maxHeapSize = "4g"
+
     // Testcontainers reuse (optionnel)
     systemProperty("testcontainers.reuse.enable", "true")
 

@@ -43,6 +43,9 @@ public class Job extends CreatAndUpdateEntity implements Serializable {
   @Column(name = "end_date")
   private LocalDate endDate;
 
+  @Column(name = "expected_price")
+  private java.math.BigDecimal expectedPrice;
+
   @Enumerated(EnumType.STRING)
   @JdbcTypeCode(SqlTypes.NAMED_ENUM)
   private JobStatus status;

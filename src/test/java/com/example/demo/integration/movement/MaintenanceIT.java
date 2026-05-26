@@ -51,8 +51,7 @@ class MaintenanceIT {
   void administration_can_get_maintenance_by_id() throws Exception {
     MaintenanceApi api = new MaintenanceApi(anApiClient(ADMINISTRATION_TOKEN));
 
-    Maintenance actual =
-        api.getMaintenanceById(COMPANY1_ID, EQUIPMENT1_ID, MAINTENANCE1_ID);
+    Maintenance actual = api.getMaintenanceById(COMPANY1_ID, EQUIPMENT1_ID, MAINTENANCE1_ID);
 
     assertEquals(maintenance1(), actual);
   }
@@ -62,17 +61,14 @@ class MaintenanceIT {
     MaintenanceApi api = new MaintenanceApi(anApiClient(BAD_TOKEN));
 
     assertThrowsNotAuthorizedException(
-        () ->
-            api.getMaintenanceById(
-                COMPANY1_ID, EQUIPMENT1_ID, MAINTENANCE1_ID));
+        () -> api.getMaintenanceById(COMPANY1_ID, EQUIPMENT1_ID, MAINTENANCE1_ID));
   }
 
   @Test
   void admin_can_get_all_maintenances() throws Exception {
     MaintenanceApi api = new MaintenanceApi(anApiClient(ADMIN_TOKEN));
 
-    List<Maintenance> maintenances =
-        api.getMaintenances(COMPANY1_ID, EQUIPMENT1_ID, 1, 100, null);
+    List<Maintenance> maintenances = api.getMaintenances(COMPANY1_ID, EQUIPMENT1_ID, 1, 100, null);
 
     assertEquals(1, maintenances.size());
     assertTrue(maintenances.stream().anyMatch(m -> MAINTENANCE1_ID.equals(m.getId())));
@@ -93,8 +89,7 @@ class MaintenanceIT {
   void admin_can_get_all_maintenances_for_equipment2() throws Exception {
     MaintenanceApi api = new MaintenanceApi(anApiClient(ADMIN_TOKEN));
 
-    List<Maintenance> maintenances =
-        api.getMaintenances(COMPANY1_ID, EQUIPMENT2_ID, 1, 100, null);
+    List<Maintenance> maintenances = api.getMaintenances(COMPANY1_ID, EQUIPMENT2_ID, 1, 100, null);
 
     assertEquals(1, maintenances.size());
     assertEquals(MAINTENANCE2_ID, maintenances.get(0).getId());
@@ -109,8 +104,7 @@ class MaintenanceIT {
     toUpdate.setDescription("Revision moteur periodique ajustee");
 
     List<Maintenance> updated =
-        api.crupdateMaintenances(
-            COMPANY1_ID, EQUIPMENT1_ID, List.of(toUpdate));
+        api.crupdateMaintenances(COMPANY1_ID, EQUIPMENT1_ID, List.of(toUpdate));
 
     assertEquals(1, updated.size());
     assertEquals(MAINTENANCE1_ID, updated.get(0).getId());
@@ -124,9 +118,7 @@ class MaintenanceIT {
     assertThrowsForbiddenException(
         () ->
             api.crupdateMaintenances(
-                COMPANY1_ID,
-                EQUIPMENT1_ID,
-                List.of(someCreatableMaintenance())));
+                COMPANY1_ID, EQUIPMENT1_ID, List.of(someCreatableMaintenance())));
   }
 
   @Test
@@ -134,9 +126,7 @@ class MaintenanceIT {
     MaintenanceApi api = new MaintenanceApi(anApiClient(ADMINISTRATION_TOKEN));
 
     assertThrowsForbiddenException(
-        () ->
-            api.deleteMaintenanceById(
-                COMPANY1_ID, EQUIPMENT1_ID, MAINTENANCE1_ID));
+        () -> api.deleteMaintenanceById(COMPANY1_ID, EQUIPMENT1_ID, MAINTENANCE1_ID));
   }
 
   @Test
@@ -150,9 +140,7 @@ class MaintenanceIT {
         "{\"type\":\"404 NOT_FOUND\",\"message\":\"Maintenance with id "
             + MAINTENANCE2_ID
             + " not found\"}",
-        () ->
-            api.getMaintenanceById(
-                COMPANY1_ID, EQUIPMENT2_ID, MAINTENANCE2_ID));
+        () -> api.getMaintenanceById(COMPANY1_ID, EQUIPMENT2_ID, MAINTENANCE2_ID));
   }
 
   @Test
@@ -164,9 +152,7 @@ class MaintenanceIT {
 
     assertThrowsApiException(
         "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Maintenance expense amount must be positive\"}",
-        () ->
-            api.crupdateMaintenances(
-                COMPANY1_ID, EQUIPMENT1_ID, List.of(invalid)));
+        () -> api.crupdateMaintenances(COMPANY1_ID, EQUIPMENT1_ID, List.of(invalid)));
   }
 
   @Test
@@ -178,9 +164,7 @@ class MaintenanceIT {
 
     assertThrowsApiException(
         "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Maintenance description is mandatory\"}",
-        () ->
-            api.crupdateMaintenances(
-                COMPANY1_ID, EQUIPMENT1_ID, List.of(invalid)));
+        () -> api.crupdateMaintenances(COMPANY1_ID, EQUIPMENT1_ID, List.of(invalid)));
   }
 
   static class ContextInitializer extends AbstractContextInitializer {

@@ -17,7 +17,8 @@ public class BudgetLineMapper {
 
     return com.example.demo.model.money.BudgetLine.builder()
         .id(rest.getId())
-        .company(rest.getCompanyId() != null ? Company.builder().id(rest.getCompanyId()).build() : null)
+        .company(
+            rest.getCompanyId() != null ? Company.builder().id(rest.getCompanyId()).build() : null)
         .category(rest.getCategory())
         .plannedAmount(rest.getPlannedAmount())
         .actualAmount(rest.getActualAmount())
