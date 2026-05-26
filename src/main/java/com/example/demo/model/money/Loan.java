@@ -41,6 +41,9 @@ public class Loan extends MonetaryMovement implements Serializable {
   @OneToMany(mappedBy = "loan")
   private List<LoanRepayment> repayments;
 
+  @Enumerated(EnumType.STRING)
+  private LoanStatus status;
+
   public enum LoanStatus {
     ACTIVE,
     PAID,

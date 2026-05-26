@@ -431,8 +431,7 @@ public class SecurityConfiguration {
                     // =========================
                     // DEPARTMENT
                     // =========================
-                    .requestMatchers(
-                        GET, "/companies/*/departments", "/companies/*/departments/*")
+                    .requestMatchers(GET, "/companies/*/departments", "/companies/*/departments/*")
                     .authenticated()
                     .requestMatchers(PUT, "/companies/*/departments")
                     .authenticated()
@@ -491,7 +490,9 @@ public class SecurityConfiguration {
                     // MATERIAL CONSUMPTION
                     // =========================
                     .requestMatchers(
-                        GET, "/companies/*/material_consumption", "/companies/*/material_consumption/*")
+                        GET,
+                        "/companies/*/material_consumption",
+                        "/companies/*/material_consumption/*")
                     .authenticated()
                     .requestMatchers(PUT, "/companies/*/material_consumption")
                     .authenticated()
@@ -511,6 +512,33 @@ public class SecurityConfiguration {
                     .authenticated()
                     .requestMatchers(DELETE, "/companies/*/teams/*")
                     .hasRole("ADMIN")
+
+                    // =========================
+                    // SUPPLIER
+                    // =========================
+                    .requestMatchers(GET, "/companies/*/suppliers", "/companies/*/suppliers/*")
+                    .authenticated()
+                    .requestMatchers(PUT, "/companies/*/suppliers")
+                    .authenticated()
+                    .requestMatchers(DELETE, "/companies/*/suppliers/*")
+                    .hasRole("ADMIN")
+
+                    // =========================
+                    // PURCHASE ORDER
+                    // =========================
+                    .requestMatchers(
+                        GET, "/companies/*/purchase_orders", "/companies/*/purchase_orders/*")
+                    .authenticated()
+                    .requestMatchers(PUT, "/companies/*/purchase_orders")
+                    .authenticated()
+                    .requestMatchers(DELETE, "/companies/*/purchase_orders/*")
+                    .hasRole("ADMIN")
+
+                    // =========================
+                    // DASHBOARD
+                    // =========================
+                    .requestMatchers(GET, "/companies/*/dashboard/**")
+                    .authenticated()
 
                     // =========================
                     // DEFAULT - Toute autre requête non auizer

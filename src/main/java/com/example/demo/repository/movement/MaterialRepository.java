@@ -1,6 +1,7 @@
 package com.example.demo.repository.movement;
 
 import com.example.demo.model.movement.Material;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
@@ -25,4 +26,8 @@ public interface MaterialRepository
           + "WHERE mw.quantity > 0 AND mw.warehouse.id IN (:routeId, :atSellerId)")
   Page<Material> findNotArrived(
       @Param("routeId") String routeId, @Param("atSellerId") String atSellerId, Pageable pageable);
+
+  List<Material> findByExpiryDateBefore(LocalDate date);
+
+  List<Material> findByExpiryDateBetween(LocalDate from, LocalDate to);
 }

@@ -1,0 +1,50 @@
+package com.example.demo.service.money;
+
+import com.example.demo.model.exception.NotFoundException;
+import com.example.demo.model.money.Supplier;
+import com.example.demo.repository.money.SupplierRepository;
+import com.example.demo.service.utils.ModificationUtils;
+import java.util.ArrayList;
+import java.util.List;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+@RequiredArgsConstructor
+@Transactional(readOnly = true)
+public class SupplierService {
+
+  private final SupplierRepository supplierRepository;
+  private final ModificationUtils modificationUtils;
+
+  public Supplier findById(String id) {
+    return supplierRepository
+        .findById(id)
+        .orElseThrow(() -> new NotFoundException("Supplier with id " + id + " not found"));
+  }
+
+  public List<Supplier> findByCompanyId(String companyId) {
+    return supplierRepository.findByCompany_Id(companyId);
+  }
+
+  @Transactional
+  public List<Supplier> createOrUpdateAll(List<Supplier> suppliers) {
+    List<Supplier> processed = new ArrayList<>();
+    for (Supplier supplier : suppliers) {
+      Supplier existing =
+          supplier.getId() != null
+              ? supplierRepository.findById(supplier.getId()).orElse(null)
+              : null;
+      modificationUtils.createOrUpdateModel(
+          supplier, existing, supplier.getId(), modificationUtils.takePrimaryUser());
+      processed.add(supplier);
+    }
+    return supplierRepository.saveAll(processed);
+  }
+
+  @Transactional
+  public void deleteById(String id) {
+    supplierRepository.deleteById(id);
+  }
+}

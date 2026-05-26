@@ -4,10 +4,10 @@ import com.example.demo.client.model.CrupdateEquipmentUsage;
 import com.example.demo.client.model.EquipmentUsage;
 import com.example.demo.endpoint.rest.mapper.RestAuditMapperUtils;
 import com.example.demo.model.exception.NotFoundException;
+import com.example.demo.service.JobService;
+import com.example.demo.service.UserService;
 import com.example.demo.service.movement.EquipmentService;
 import com.example.demo.service.movement.WarehouseService;
-import com.example.demo.service.UserService;
-import com.example.demo.service.JobService;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -36,10 +36,7 @@ public class EquipmentUsageMapper {
             rest.getEquipmentId() != null
                 ? equipmentService.findById(rest.getEquipmentId()).orElse(null)
                 : null)
-        .job(
-            rest.getJobId() != null
-                ? jobService.findById(rest.getJobId()).orElse(null)
-                : null)
+        .job(rest.getJobId() != null ? jobService.findById(rest.getJobId()).orElse(null) : null)
         .startTime(rest.getStartTime())
         .endTime(rest.getEndTime())
         .sourceLocation(
@@ -47,15 +44,13 @@ public class EquipmentUsageMapper {
                 ? warehouseService.findById(rest.getSourceLocation()).orElse(null)
                 : null)
         .usageStatus(usageStatus)
-        .usedBy(
-            rest.getUsedBy() != null
-                ? findUserById(rest.getUsedBy())
-                : null)
+        .usedBy(rest.getUsedBy() != null ? findUserById(rest.getUsedBy()) : null)
         .comment(rest.getComment())
         .build();
   }
 
-  public EquipmentUsage toRestEquipmentUsage(com.example.demo.model.movement.EquipmentUsage domain) {
+  public EquipmentUsage toRestEquipmentUsage(
+      com.example.demo.model.movement.EquipmentUsage domain) {
     if (domain == null) return null;
 
     EquipmentUsage rest = new EquipmentUsage();
@@ -79,7 +74,8 @@ public class EquipmentUsageMapper {
     return rest;
   }
 
-  public List<EquipmentUsage> toRestEquipmentUsages(List<com.example.demo.model.movement.EquipmentUsage> domains) {
+  public List<EquipmentUsage> toRestEquipmentUsages(
+      List<com.example.demo.model.movement.EquipmentUsage> domains) {
     return domains.stream().map(this::toRestEquipmentUsage).toList();
   }
 

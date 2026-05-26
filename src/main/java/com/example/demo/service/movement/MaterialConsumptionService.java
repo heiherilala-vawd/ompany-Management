@@ -99,7 +99,8 @@ public class MaterialConsumptionService {
       throw new BadRequestException("returned quantity must be positive");
     }
 
-    Warehouse used = warehouseService.findById(SpecialWarehouseUtils.usedWarehouseId()).orElse(null);
+    Warehouse used =
+        warehouseService.findById(SpecialWarehouseUtils.usedWarehouseId()).orElse(null);
     Warehouse source = consumption.getWarehouse();
     if (source == null || used == null) {
       throw new BadRequestException("Cannot return materials: missing warehouse");
@@ -137,7 +138,8 @@ public class MaterialConsumptionService {
 
   private void moveToUsedWarehouse(MaterialConsumption consumption) {
     Warehouse source = consumption.getWarehouse();
-    Warehouse used = warehouseService.findById(SpecialWarehouseUtils.usedWarehouseId()).orElse(null);
+    Warehouse used =
+        warehouseService.findById(SpecialWarehouseUtils.usedWarehouseId()).orElse(null);
     if (source == null || used == null || consumption.getQuantity() == null) {
       return;
     }

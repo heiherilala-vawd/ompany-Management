@@ -21,11 +21,13 @@ public class EquipmentUsageController {
 
   @GetMapping("/companies/{comp_id}/equipment_usage/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
-  public EquipmentUsage getEquipmentUsageById(@PathVariable String comp_id, @PathVariable String id) {
+  public EquipmentUsage getEquipmentUsageById(
+      @PathVariable String comp_id, @PathVariable String id) {
     return equipmentUsageMapper.toRestEquipmentUsage(
         equipmentUsageService
             .findById(id)
-            .orElseThrow(() -> new NotFoundException("EquipmentUsage with id " + id + " not found")));
+            .orElseThrow(
+                () -> new NotFoundException("EquipmentUsage with id " + id + " not found")));
   }
 
   @GetMapping("/companies/{comp_id}/equipment_usage")

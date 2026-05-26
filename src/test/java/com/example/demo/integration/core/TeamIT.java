@@ -106,7 +106,8 @@ class TeamIT {
   void employee_cannot_create_teams() {
     TeamApi api = new TeamApi(anApiClient(EMPLOYEE_TOKEN));
 
-    assertThrowsForbiddenException(() -> api.crupdateTeams(COMPANY1_ID, List.of(someCreatableTeam())));
+    assertThrowsForbiddenException(
+        () -> api.crupdateTeams(COMPANY1_ID, List.of(someCreatableTeam())));
   }
 
   @Test
