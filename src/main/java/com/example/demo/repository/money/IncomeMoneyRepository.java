@@ -2,6 +2,8 @@ package com.example.demo.repository.money;
 
 import com.example.demo.model.money.IncomeMoney;
 import java.math.BigDecimal;
+import java.time.Instant;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,4 +26,31 @@ public interface IncomeMoneyRepository
 
   @Query("SELECT COALESCE(SUM(i.amount), 0) FROM IncomeMoney i WHERE i.job.id = :jobId")
   BigDecimal sumByJobId(@Param("jobId") String jobId);
+
+  @Query(
+      "SELECT COALESCE(SUM(i.amount), 0) FROM IncomeMoney i "
+          + "WHERE i.job.id = COALESCE(:jobId, i.job.id) "
+          + "AND i.createdAt >= COALESCE(:dateFrom, i.createdAt) "
+          + "AND i.createdAt <= COALESCE(:dateTo, i.createdAt)")
+  BigDecimal sumIncomes(
+      @Param("jobId") String jobId,
+      @Param("dateFrom") Instant dateFrom,
+      @Param("dateTo") Instant dateTo);
+
+  @Query(
+      nativeQuery = true,
+      value =
+          "SELECT sub.fmt, COALESCE(SUM(sub.amount), 0) FROM ("
+              + "SELECT TO_CHAR(i.created_at, CAST(:format AS TEXT)) AS fmt, i.amount "
+              + "FROM income_money i "
+              + "WHERE i.job_id = COALESCE(CAST(:jobId AS TEXT), i.job_id) "
+              + "AND i.created_at >= COALESCE(CAST(:dateFrom AS TIMESTAMPTZ), i.created_at) "
+              + "AND i.created_at <= COALESCE(CAST(:dateTo AS TIMESTAMPTZ), i.created_at)"
+              + ") sub "
+              + "GROUP BY sub.fmt ORDER BY sub.fmt")
+  List<Object[]> findIncomesByPeriod(
+      @Param("jobId") String jobId,
+      @Param("dateFrom") Instant dateFrom,
+      @Param("dateTo") Instant dateTo,
+      @Param("format") String format);
 }

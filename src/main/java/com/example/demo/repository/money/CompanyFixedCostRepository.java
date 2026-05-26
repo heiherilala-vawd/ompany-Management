@@ -1,6 +1,7 @@
 package com.example.demo.repository.money;
 
 import com.example.demo.model.money.CompanyFixedCost;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -18,4 +19,7 @@ public interface CompanyFixedCostRepository extends JpaRepository<CompanyFixedCo
           + "AND c.startDate <= :date AND (c.endDate IS NULL OR c.endDate >= :date)")
   List<CompanyFixedCost> findActiveByCompanyIdAtDate(
       @Param("companyId") String companyId, @Param("date") LocalDate date);
+
+  @Query("SELECT COALESCE(SUM(c.amount), 0) FROM CompanyFixedCost c")
+  BigDecimal sumActiveCosts();
 }

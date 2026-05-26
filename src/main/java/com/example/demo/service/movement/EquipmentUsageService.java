@@ -68,10 +68,12 @@ public class EquipmentUsageService {
     EquipmentUsage usage =
         equipmentUsageRepository
             .findById(id)
-            .orElseThrow(() -> new NotFoundException("EquipmentUsage with id " + id + " not found"));
+            .orElseThrow(
+                () -> new NotFoundException("EquipmentUsage with id " + id + " not found"));
 
     usage.setUsageStatus(status);
-    modificationUtils.createOrUpdateModel(usage, usage, usage.getId(), modificationUtils.takePrimaryUser());
+    modificationUtils.createOrUpdateModel(
+        usage, usage, usage.getId(), modificationUtils.takePrimaryUser());
 
     var equipment = usage.getEquipment();
     if (equipment == null) {

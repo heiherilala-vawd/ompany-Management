@@ -66,7 +66,8 @@ public class UserMapper {
     restUser.setCompanyId(domainUser.getCompany() != null ? domainUser.getCompany().getId() : null);
     restUser.setBirthDate(domainUser.getBirthDate());
     restUser.setManagerId(domainUser.getManager() != null ? domainUser.getManager().getId() : null);
-    restUser.setDepartmentId(domainUser.getDepartment() != null ? domainUser.getDepartment().getId() : null);
+    restUser.setDepartmentId(
+        domainUser.getDepartment() != null ? domainUser.getDepartment().getId() : null);
     RestAuditMapperUtils.mapAuditFields(
         domainUser,
         restUser::setCreatedAt,

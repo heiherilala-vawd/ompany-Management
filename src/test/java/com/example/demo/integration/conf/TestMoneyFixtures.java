@@ -17,6 +17,9 @@ import com.example.demo.client.model.CrupdateMaintenance;
 import com.example.demo.client.model.CrupdateOtherExpense;
 import com.example.demo.client.model.CrupdateOtherExpenseType;
 import com.example.demo.client.model.CrupdatePurchase;
+import com.example.demo.client.model.CrupdatePurchaseOrder;
+import com.example.demo.client.model.CrupdatePurchaseOrderLine;
+import com.example.demo.client.model.CrupdateSupplier;
 import com.example.demo.client.model.CrupdateWarehouse;
 import com.example.demo.client.model.EmployeePayment;
 import com.example.demo.client.model.ExpenseMoney;
@@ -31,6 +34,10 @@ import com.example.demo.client.model.OtherExpense;
 import com.example.demo.client.model.OtherExpenseType;
 import com.example.demo.client.model.PaymentType;
 import com.example.demo.client.model.Purchase;
+import com.example.demo.client.model.PurchaseOrder;
+import com.example.demo.client.model.PurchaseOrderLine;
+import com.example.demo.client.model.PurchaseOrderStatus;
+import com.example.demo.client.model.Supplier;
 import com.example.demo.client.model.User;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -747,6 +754,143 @@ final class TestMoneyFixtures {
     cost.setStartDate(java.time.LocalDate.of(2024, 3, 1));
     cost.setEndDate(java.time.LocalDate.of(2025, 3, 1));
     return cost;
+  }
+
+  static Supplier supplier1() {
+    Supplier supplier = new Supplier();
+    supplier.setId(TestUtils.SUPPLIER1_ID);
+    supplier.setName("Fournitures Pro");
+    supplier.setSiret("12345678901234");
+    supplier.setAddress("123 Rue du Commerce, Antananarivo");
+    supplier.setEmail("contact@fourniturespro.mg");
+    supplier.setPhone("+261341234567");
+    supplier.setContactName("Jean Rajaonarison");
+    supplier.setCompanyId(TestUtils.COMPANY1_ID);
+    return supplier;
+  }
+
+  static Supplier supplier2() {
+    Supplier supplier = new Supplier();
+    supplier.setId(TestUtils.SUPPLIER2_ID);
+    supplier.setName("Matériaux BTP");
+    supplier.setSiret("98765432109876");
+    supplier.setAddress("456 Avenue de l'Industrie, Toamasina");
+    supplier.setEmail("info@materiauxbtp.mg");
+    supplier.setPhone("+261337654321");
+    supplier.setContactName("Marie Randrianarisoa");
+    supplier.setCompanyId(TestUtils.COMPANY1_ID);
+    return supplier;
+  }
+
+  static CrupdateSupplier supplierToCrupdateSupplier(Supplier supplier) {
+    CrupdateSupplier crupdate = new CrupdateSupplier();
+    crupdate.setId(supplier.getId());
+    crupdate.setName(supplier.getName());
+    crupdate.setSiret(supplier.getSiret());
+    crupdate.setAddress(supplier.getAddress());
+    crupdate.setEmail(supplier.getEmail());
+    crupdate.setPhone(supplier.getPhone());
+    crupdate.setContactName(supplier.getContactName());
+    crupdate.setComment(supplier.getComment());
+    return crupdate;
+  }
+
+  static CrupdateSupplier someCreatableSupplier() {
+    CrupdateSupplier supplier = new CrupdateSupplier();
+    supplier.setId(java.util.UUID.randomUUID().toString());
+    supplier.setName("Nouveau Fournisseur");
+    supplier.setSiret("11111111111111");
+    supplier.setAddress("789 Rue Test");
+    supplier.setEmail("test@fournisseur.mg");
+    supplier.setPhone("+261330000000");
+    supplier.setContactName("Contact Test");
+    return supplier;
+  }
+
+  static PurchaseOrder purchaseOrder1() {
+    PurchaseOrder po = new PurchaseOrder();
+    po.setId(TestUtils.PO1_ID);
+    po.setSupplierId(TestUtils.SUPPLIER1_ID);
+    po.setOrderDate(java.time.LocalDate.of(2024, 6, 1));
+    po.setStatus(PurchaseOrderStatus.VALIDATED);
+    po.setTotalAmount(new java.math.BigDecimal("150000.00"));
+    po.setCompanyId(TestUtils.COMPANY1_ID);
+    po.setJobId(TestUtils.JOB1_ID);
+    PurchaseOrderLine line1 = new PurchaseOrderLine();
+    line1.setId(TestUtils.POL1_ID);
+    line1.setMaterialId(TestUtils.MATERIAL1_ID);
+    line1.setQuantity(50);
+    line1.setUnitPrice(new java.math.BigDecimal("1500.00"));
+    PurchaseOrderLine line2 = new PurchaseOrderLine();
+    line2.setId(TestUtils.POL2_ID);
+    line2.setMaterialId(TestUtils.MATERIAL2_ID);
+    line2.setQuantity(200);
+    line2.setUnitPrice(new java.math.BigDecimal("350.00"));
+    po.setLines(java.util.List.of(line1, line2));
+    return po;
+  }
+
+  static PurchaseOrder purchaseOrder2() {
+    PurchaseOrder po = new PurchaseOrder();
+    po.setId(TestUtils.PO2_ID);
+    po.setSupplierId(TestUtils.SUPPLIER2_ID);
+    po.setOrderDate(java.time.LocalDate.of(2024, 6, 15));
+    po.setStatus(PurchaseOrderStatus.PENDING);
+    po.setTotalAmount(new java.math.BigDecimal("85000.00"));
+    po.setCompanyId(TestUtils.COMPANY1_ID);
+    po.setJobId(TestUtils.JOB1_ID);
+    PurchaseOrderLine line = new PurchaseOrderLine();
+    line.setId(TestUtils.POL3_ID);
+    line.setMaterialId(TestUtils.MATERIAL1_ID);
+    line.setQuantity(20);
+    line.setUnitPrice(new java.math.BigDecimal("1600.00"));
+    po.setLines(java.util.List.of(line));
+    return po;
+  }
+
+  static CrupdatePurchaseOrder purchaseOrderToCrupdatePurchaseOrder(PurchaseOrder po) {
+    CrupdatePurchaseOrder crupdate = new CrupdatePurchaseOrder();
+    crupdate.setId(po.getId());
+    crupdate.setSupplierId(po.getSupplierId());
+    crupdate.setOrderDate(po.getOrderDate());
+    crupdate.setStatus(po.getStatus());
+    crupdate.setTotalAmount(po.getTotalAmount());
+    crupdate.setCompanyId(po.getCompanyId());
+    crupdate.setJobId(po.getJobId());
+    if (po.getLines() != null) {
+      crupdate.setLines(
+          po.getLines().stream()
+              .map(
+                  l -> {
+                    CrupdatePurchaseOrderLine cl = new CrupdatePurchaseOrderLine();
+                    cl.setId(l.getId());
+                    cl.setMaterialId(l.getMaterialId());
+                    cl.setQuantity(l.getQuantity());
+                    cl.setUnitPrice(l.getUnitPrice());
+                    return cl;
+                  })
+              .toList());
+    }
+    crupdate.setComment(po.getComment());
+    return crupdate;
+  }
+
+  static CrupdatePurchaseOrder someCreatablePurchaseOrder() {
+    CrupdatePurchaseOrder po = new CrupdatePurchaseOrder();
+    po.setId(java.util.UUID.randomUUID().toString());
+    po.setSupplierId(TestUtils.SUPPLIER1_ID);
+    po.setOrderDate(java.time.LocalDate.of(2024, 7, 1));
+    po.setStatus(PurchaseOrderStatus.PENDING);
+    po.setTotalAmount(new java.math.BigDecimal("50000.00"));
+    po.setCompanyId(TestUtils.COMPANY1_ID);
+    po.setJobId(TestUtils.JOB1_ID);
+    CrupdatePurchaseOrderLine line = new CrupdatePurchaseOrderLine();
+    line.setId(java.util.UUID.randomUUID().toString());
+    line.setMaterialId(TestUtils.MATERIAL1_ID);
+    line.setQuantity(10);
+    line.setUnitPrice(new java.math.BigDecimal("1500.00"));
+    po.setLines(java.util.List.of(line));
+    return po;
   }
 
   static CrupdateCompanyFixedCost companyFixedCostToCrupdateCompanyFixedCost(

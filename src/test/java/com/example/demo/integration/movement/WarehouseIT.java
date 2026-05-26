@@ -90,8 +90,7 @@ class WarehouseIT {
         warehouses.stream()
             .anyMatch(warehouse -> UNFINDABLE_WAREHOUSE_ID.equals(warehouse.getId())));
     assertTrue(
-        warehouses.stream()
-            .anyMatch(warehouse -> USED_WAREHOUSE_ID.equals(warehouse.getId())));
+        warehouses.stream().anyMatch(warehouse -> USED_WAREHOUSE_ID.equals(warehouse.getId())));
   }
 
   @Test

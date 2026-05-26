@@ -5,8 +5,8 @@ import com.example.demo.client.model.CompanyType;
 import com.example.demo.client.model.CrupdateCompany;
 import com.example.demo.client.model.CrupdateEquipment;
 import com.example.demo.client.model.CrupdateJob;
-import com.example.demo.client.model.CrupdateTeam;
 import com.example.demo.client.model.CrupdateMaterial;
+import com.example.demo.client.model.CrupdateTeam;
 import com.example.demo.client.model.CrupdateWarehouse;
 import com.example.demo.client.model.Equipment;
 import com.example.demo.client.model.Job;
@@ -14,6 +14,7 @@ import com.example.demo.client.model.JobStatus;
 import com.example.demo.client.model.Material;
 import com.example.demo.client.model.MaterialWarehouseInfo;
 import com.example.demo.client.model.Warehouse;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -234,6 +235,7 @@ final class TestOrganizationFixtures {
     material.setDescription("Ciment Portland 35kg");
     material.setUnit(com.example.demo.client.model.MaterialUnit.SAC);
     material.setCompanyId(TestUtils.COMPANY1_ID);
+    material.setUnitPrice(new BigDecimal("5000.00"));
     List<MaterialWarehouseInfo> mws = new ArrayList<>();
     MaterialWarehouseInfo mw1 = new MaterialWarehouseInfo();
     mw1.setWarehouse(warehouse1());
@@ -254,6 +256,7 @@ final class TestOrganizationFixtures {
     material.setDescription("Brique rouge 20x10x5");
     material.setUnit(com.example.demo.client.model.MaterialUnit.U);
     material.setCompanyId(TestUtils.COMPANY1_ID);
+    material.setUnitPrice(new BigDecimal("200.00"));
     List<MaterialWarehouseInfo> mws = new ArrayList<>();
     MaterialWarehouseInfo mw = new MaterialWarehouseInfo();
     mw.setWarehouse(atSellerWarehouse());
@@ -270,6 +273,7 @@ final class TestOrganizationFixtures {
     material.setDescription("Peinture blanche mate");
     material.setUnit(com.example.demo.client.model.MaterialUnit.L);
     material.setCompanyId(TestUtils.COMPANY1_ID);
+    material.setUnitPrice(new BigDecimal("15000.00"));
     List<MaterialWarehouseInfo> mws = new ArrayList<>();
     MaterialWarehouseInfo mw = new MaterialWarehouseInfo();
     mw.setWarehouse(routeWarehouse());
@@ -303,7 +307,8 @@ final class TestOrganizationFixtures {
     team.setId(TestUtils.TEAM1_ID);
     team.setName("Équipe chantier A");
     team.setLeader(TestUserFixtures.employee1());
-    team.setMembers(List.of(TestUserFixtures.employee1(), TestUserFixtures.user1(), TestUserFixtures.user2()));
+    team.setMembers(
+        List.of(TestUserFixtures.employee1(), TestUserFixtures.user1(), TestUserFixtures.user2()));
     return team;
   }
 
@@ -324,7 +329,8 @@ final class TestOrganizationFixtures {
       crupdate.setLeaderId(team.getLeader().getId());
     }
     if (team.getMembers() != null) {
-      crupdate.setMemberIds(team.getMembers().stream().map(com.example.demo.client.model.User::getId).toList());
+      crupdate.setMemberIds(
+          team.getMembers().stream().map(com.example.demo.client.model.User::getId).toList());
     }
     crupdate.setComment(team.getComment());
     return crupdate;

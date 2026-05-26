@@ -1,4 +1,8 @@
 -- Nettoyage des données de test (ordre FK inverse)
+DELETE FROM "maintenance_schedule";
+DELETE FROM "purchase_order_line";
+DELETE FROM "purchase_order";
+DELETE FROM "supplier";
 DELETE FROM "material_consumption";
 DELETE FROM "equipment_usage";
 DELETE FROM "cash_transaction";

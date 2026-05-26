@@ -22,13 +22,12 @@ public class CashTransactionController {
   @GetMapping("/companies/{comp_id}/cash_accounts/{account_id}/transactions/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public CashTransaction getCashTransactionById(
-      @PathVariable String comp_id,
-      @PathVariable String account_id,
-      @PathVariable String id) {
+      @PathVariable String comp_id, @PathVariable String account_id, @PathVariable String id) {
     return cashTransactionMapper.toRestCashTransaction(
         cashTransactionService
             .findById(id)
-            .orElseThrow(() -> new NotFoundException("CashTransaction with id " + id + " not found")));
+            .orElseThrow(
+                () -> new NotFoundException("CashTransaction with id " + id + " not found")));
   }
 
   @GetMapping("/companies/{comp_id}/cash_accounts/{account_id}/transactions")
@@ -57,9 +56,7 @@ public class CashTransactionController {
   @DeleteMapping("/companies/{comp_id}/cash_accounts/{account_id}/transactions/{id}")
   @PreAuthorize("hasRole('ADMIN')")
   public void deleteCashTransactionById(
-      @PathVariable String comp_id,
-      @PathVariable String account_id,
-      @PathVariable String id) {
+      @PathVariable String comp_id, @PathVariable String account_id, @PathVariable String id) {
     cashTransactionService.deleteById(id);
   }
 }
