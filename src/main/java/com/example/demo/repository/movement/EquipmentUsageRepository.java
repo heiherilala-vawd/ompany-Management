@@ -17,9 +17,22 @@ public interface EquipmentUsageRepository
       value =
           "SELECT COALESCE(SUM(EXTRACT(EPOCH FROM (eu.end_time - eu.start_time)) / 3600), 0) "
               + "FROM equipment_usage eu "
-              + "WHERE (:jobId IS NULL OR eu.job_id = :jobId)",
+              + "WHERE (CAST(:jobId AS text) IS NULL OR eu.job_id = :jobId)",
       nativeQuery = true)
   BigDecimal sumUsageHours(@Param("jobId") String jobId);
+
+  @Query(
+      value =
+          "SELECT COALESCE(SUM(EXTRACT(EPOCH FROM (eu.end_time - eu.start_time)) / 3600), 0) "
+              + "FROM equipment_usage eu "
+              + "WHERE (CAST(:jobId AS text) IS NULL OR eu.job_id = :jobId) "
+              + "AND (CAST(:dateFrom AS timestamptz) IS NULL OR eu.start_time >= :dateFrom) "
+              + "AND (CAST(:dateTo AS timestamptz) IS NULL OR eu.end_time <= :dateTo)",
+      nativeQuery = true)
+  BigDecimal sumUsageHours(
+      @Param("jobId") String jobId,
+      @Param("dateFrom") java.time.Instant dateFrom,
+      @Param("dateTo") java.time.Instant dateTo);
 
   @Query(
       value =
@@ -27,7 +40,7 @@ public interface EquipmentUsageRepository
               + "SUM(EXTRACT(EPOCH FROM (eu.end_time - eu.start_time)) / 3600) "
               + "FROM equipment_usage eu "
               + "JOIN equipment e ON e.id = eu.equipment_id "
-              + "WHERE (:jobId IS NULL OR eu.job_id = :jobId) "
+              + "WHERE (CAST(:jobId AS text) IS NULL OR eu.job_id = :jobId) "
               + "GROUP BY eu.equipment_id, e.name",
       nativeQuery = true)
   List<Object[]> findUsageHoursByEquipment(@Param("jobId") String jobId);

@@ -168,13 +168,13 @@ public class SecurityConfiguration {
                     // =========================
                     .requestMatchers(
                         GET,
-                        "/companies/*/job/*/user/*/incomes/*/receipts",
-                        "/companies/*/job/*/user/*/incomes/*/receipts/*")
+                        "/companies/*/job/*/user/*/incomes_receipts",
+                        "/companies/*/job/*/user/*/incomes_receipts/*")
                     .authenticated()
-                    .requestMatchers(PUT, "/companies/*/job/*/user/*/incomes/*/receipts")
+                    .requestMatchers(PUT, "/companies/*/job/*/user/*/incomes_receipts")
                     .authenticated()
                     // DELETE /receipts - ADMIN uniquement
-                    .requestMatchers(DELETE, "/companies/*/job/*/user/*/incomes/*/receipts/*")
+                    .requestMatchers(DELETE, "/companies/*/job/*/user/*/incomes_receipts/*")
                     .hasRole("ADMIN")
 
                     // =========================
@@ -265,15 +265,13 @@ public class SecurityConfiguration {
                     // =========================
                     .requestMatchers(
                         GET,
-                        "/companies/*/job/*/user/*/travel_expenses/*/travel_people",
-                        "/companies/*/job/*/user/*/travel_expenses/*/travel_people/*")
+                        "/companies/*/job/*/user/*/travel_people",
+                        "/companies/*/job/*/user/*/travel_people/*")
                     .authenticated()
-                    .requestMatchers(
-                        PUT, "/companies/*/job/*/user/*/travel_expenses/*/travel_people")
+                    .requestMatchers(PUT, "/companies/*/job/*/user/*/travel_people")
                     .authenticated()
                     // DELETE /travel_people - ADMIN uniquement
-                    .requestMatchers(
-                        DELETE, "/companies/*/job/*/user/*/travel_expenses/*/travel_people/*")
+                    .requestMatchers(DELETE, "/companies/*/job/*/user/*/travel_people/*")
                     .hasRole("ADMIN")
 
                     // =========================
@@ -281,15 +279,13 @@ public class SecurityConfiguration {
                     // =========================
                     .requestMatchers(
                         GET,
-                        "/companies/*/job/*/user/*/travel_expenses/*/travel_materials",
-                        "/companies/*/job/*/user/*/travel_expenses/*/travel_materials/*")
+                        "/companies/*/job/*/user/*/travel_materials",
+                        "/companies/*/job/*/user/*/travel_materials/*")
                     .authenticated()
-                    .requestMatchers(
-                        PUT, "/companies/*/job/*/user/*/travel_expenses/*/travel_materials")
+                    .requestMatchers(PUT, "/companies/*/job/*/user/*/travel_materials")
                     .authenticated()
                     // DELETE /travel_materials - ADMIN uniquement
-                    .requestMatchers(
-                        DELETE, "/companies/*/job/*/user/*/travel_expenses/*/travel_materials/*")
+                    .requestMatchers(DELETE, "/companies/*/job/*/user/*/travel_materials/*")
                     .hasRole("ADMIN")
 
                     // =========================
@@ -297,15 +293,13 @@ public class SecurityConfiguration {
                     // =========================
                     .requestMatchers(
                         GET,
-                        "/companies/*/job/*/user/*/travel_expenses/*/travel_equipment",
-                        "/companies/*/job/*/user/*/travel_expenses/*/travel_equipment/*")
+                        "/companies/*/job/*/user/*/travel_equipment",
+                        "/companies/*/job/*/user/*/travel_equipment/*")
                     .authenticated()
-                    .requestMatchers(
-                        PUT, "/companies/*/job/*/user/*/travel_expenses/*/travel_equipment")
+                    .requestMatchers(PUT, "/companies/*/job/*/user/*/travel_equipment")
                     .authenticated()
                     // DELETE /travel_equipment - ADMIN uniquement
-                    .requestMatchers(
-                        DELETE, "/companies/*/job/*/user/*/travel_expenses/*/travel_equipment/*")
+                    .requestMatchers(DELETE, "/companies/*/job/*/user/*/travel_equipment/*")
                     .hasRole("ADMIN")
                     .requestMatchers("/histories")
                     .authenticated()
@@ -351,13 +345,11 @@ public class SecurityConfiguration {
                     // MAINTENANCE
                     // =========================
                     .requestMatchers(
-                        GET,
-                        "/companies/*/equipment/*/maintenances",
-                        "/companies/*/equipment/*/maintenances/*")
+                        GET, "/companies/*/maintenances", "/companies/*/maintenances/*")
                     .authenticated()
-                    .requestMatchers(PUT, "/companies/*/equipment/*/maintenances")
+                    .requestMatchers(PUT, "/companies/*/maintenances")
                     .authenticated()
-                    .requestMatchers(DELETE, "/companies/*/equipment/*/maintenances/*")
+                    .requestMatchers(DELETE, "/companies/*/maintenances/*")
                     .hasRole("ADMIN")
 
                     // =========================
@@ -396,13 +388,13 @@ public class SecurityConfiguration {
                     // =========================
                     .requestMatchers(
                         GET,
-                        "/companies/*/job/*/user/*/loans/*/repayments",
-                        "/companies/*/job/*/user/*/loans/*/repayments/*")
+                        "/companies/*/job/*/user/*/loans_repayment",
+                        "/companies/*/job/*/user/*/loans_repayment/*")
                     .authenticated()
-                    .requestMatchers(PUT, "/companies/*/job/*/user/*/loans/*/repayments")
+                    .requestMatchers(PUT, "/companies/*/job/*/user/*/loans_repayment")
                     .authenticated()
                     // DELETE /loan_repayments - ADMIN uniquement
-                    .requestMatchers(DELETE, "/companies/*/job/*/user/*/loans/*/repayments/*")
+                    .requestMatchers(DELETE, "/companies/*/job/*/user/*/loans_repayment/*")
                     .hasRole("ADMIN")
 
                     // =========================

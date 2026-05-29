@@ -53,8 +53,7 @@ class TravelMaterialsIT {
     TravelMaterialsApi api = new TravelMaterialsApi(anApiClient(EMPLOYEE_TOKEN));
 
     TravelMaterials actual =
-        api.getTravelMaterialsById(
-            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, TRAVEL_EXPENSE1_ID, TRAVEL_MATERIALS1_ID);
+        api.getTravelMaterialsById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, TRAVEL_MATERIALS1_ID);
 
     TravelMaterials expected = travelMaterials1();
     expected.setCreatedAt(actual.getCreatedAt());
@@ -71,9 +70,7 @@ class TravelMaterialsIT {
     TravelMaterialsApi api = new TravelMaterialsApi(anApiClient(BAD_TOKEN));
 
     assertThrowsNotAuthorizedException(
-        () ->
-            api.getTravelMaterialsById(
-                COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, TRAVEL_EXPENSE1_ID, TRAVEL_MATERIALS1_ID));
+        () -> api.getTravelMaterialsById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, TRAVEL_MATERIALS1_ID));
   }
 
   @Test
@@ -85,7 +82,6 @@ class TravelMaterialsIT {
             COMPANY1_ID,
             JOB1_ID,
             EMPLOYEE_ID,
-            TRAVEL_EXPENSE1_ID,
             1,
             100,
             null,
@@ -111,7 +107,6 @@ class TravelMaterialsIT {
             COMPANY1_ID,
             JOB1_ID,
             EMPLOYEE_ID,
-            TRAVEL_EXPENSE1_ID,
             1,
             100,
             TRAVEL_EXPENSE2_ID,
@@ -136,7 +131,6 @@ class TravelMaterialsIT {
             COMPANY1_ID,
             JOB1_ID,
             EMPLOYEE_ID,
-            TRAVEL_EXPENSE1_ID,
             1,
             100,
             null,
@@ -161,7 +155,6 @@ class TravelMaterialsIT {
             COMPANY1_ID,
             JOB1_ID,
             EMPLOYEE_ID,
-            TRAVEL_EXPENSE1_ID,
             1,
             100,
             null,
@@ -183,20 +176,7 @@ class TravelMaterialsIT {
 
     List<TravelMaterials> list =
         api.getTravelMaterials(
-            COMPANY1_ID,
-            JOB1_ID,
-            EMPLOYEE_ID,
-            TRAVEL_EXPENSE1_ID,
-            1,
-            100,
-            null,
-            null,
-            null,
-            5,
-            null,
-            null,
-            null,
-            null);
+            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, null, null, 5, null, null, null, null);
 
     assertEquals(1, list.size());
     assertEquals(TRAVEL_MATERIALS1_ID, list.get(0).getId());
@@ -211,7 +191,6 @@ class TravelMaterialsIT {
             COMPANY1_ID,
             JOB1_ID,
             EMPLOYEE_ID,
-            TRAVEL_EXPENSE1_ID,
             1,
             100,
             null,
@@ -236,7 +215,6 @@ class TravelMaterialsIT {
             COMPANY1_ID,
             JOB1_ID,
             EMPLOYEE_ID,
-            TRAVEL_EXPENSE1_ID,
             1,
             100,
             null,
@@ -261,15 +239,13 @@ class TravelMaterialsIT {
     toUpdate.setArrivalLocation(null);
     toUpdate.setArrivalDate(null);
 
-    api.crupdateTravelMaterials(
-        COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, TRAVEL_EXPENSE2_ID, List.of(toUpdate));
+    api.crupdateTravelMaterials(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(toUpdate));
 
     List<TravelMaterials> list =
         api.getTravelMaterials(
             COMPANY1_ID,
             JOB1_ID,
             EMPLOYEE_ID,
-            TRAVEL_EXPENSE2_ID,
             1,
             100,
             null,
@@ -296,8 +272,7 @@ class TravelMaterialsIT {
     toUpdate.setArrivalDate(java.time.Instant.parse("2024-03-01T18:00:00Z"));
 
     List<TravelMaterials> updated =
-        api.crupdateTravelMaterials(
-            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, TRAVEL_EXPENSE1_ID, List.of(toUpdate));
+        api.crupdateTravelMaterials(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(toUpdate));
 
     assertEquals(1, updated.size());
     assertEquals(TRAVEL_MATERIALS1_ID, updated.get(0).getId());
@@ -314,11 +289,7 @@ class TravelMaterialsIT {
     assertThrowsForbiddenException(
         () ->
             api.crupdateTravelMaterials(
-                COMPANY1_ID,
-                JOB1_ID,
-                EMPLOYEE_ID,
-                TRAVEL_EXPENSE1_ID,
-                List.of(someCreatableTravelMaterials())));
+                COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(someCreatableTravelMaterials())));
   }
 
   @Test
@@ -327,8 +298,7 @@ class TravelMaterialsIT {
 
     assertThrowsForbiddenException(
         () ->
-            api.deleteTravelMaterialsById(
-                COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, TRAVEL_EXPENSE1_ID, TRAVEL_MATERIALS1_ID));
+            api.deleteTravelMaterialsById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, TRAVEL_MATERIALS1_ID));
   }
 
   @Test
@@ -336,16 +306,13 @@ class TravelMaterialsIT {
   void admin_can_delete_travel_materials() throws Exception {
     TravelMaterialsApi api = new TravelMaterialsApi(anApiClient(ADMIN_TOKEN));
 
-    api.deleteTravelMaterialsById(
-        COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, TRAVEL_EXPENSE2_ID, TRAVEL_MATERIALS2_ID);
+    api.deleteTravelMaterialsById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, TRAVEL_MATERIALS2_ID);
 
     assertThrowsApiException(
         "{\"type\":\"404 NOT_FOUND\",\"message\":\"TravelMaterials with id "
             + TRAVEL_MATERIALS2_ID
             + " not found\"}",
-        () ->
-            api.getTravelMaterialsById(
-                COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, TRAVEL_EXPENSE2_ID, TRAVEL_MATERIALS2_ID));
+        () -> api.getTravelMaterialsById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, TRAVEL_MATERIALS2_ID));
   }
 
   static class ContextInitializer extends AbstractContextInitializer {
