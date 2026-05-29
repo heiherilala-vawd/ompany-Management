@@ -129,7 +129,6 @@ class TravelOperationIT {
             COMPANY1_ID,
             JOB1_ID,
             EMPLOYEE_ID,
-            travelExpenseId,
             1,
             100,
             travelId,
@@ -151,7 +150,6 @@ class TravelOperationIT {
             COMPANY1_ID,
             JOB1_ID,
             EMPLOYEE_ID,
-            travelExpenseId,
             1,
             100,
             travelId,
@@ -170,18 +168,7 @@ class TravelOperationIT {
     TravelPeopleApi travelPeopleApi = new TravelPeopleApi(anApiClient(ADMIN_TOKEN));
     List<TravelPeople> createdTravelPeople =
         travelPeopleApi.getTravelPeople(
-            COMPANY1_ID,
-            JOB1_ID,
-            EMPLOYEE_ID,
-            travelExpenseId,
-            1,
-            100,
-            travelId,
-            USER1_ID,
-            null,
-            null,
-            null,
-            null);
+            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, travelId, USER1_ID, null, null, null, null);
     assertEquals(1, createdTravelPeople.size());
     assertEquals(travelPeopleId, createdTravelPeople.get(0).getId());
     assertEquals(USER1_ID, createdTravelPeople.get(0).getUser().getId());
@@ -217,18 +204,7 @@ class TravelOperationIT {
     TravelPeopleApi travelPeopleApi = new TravelPeopleApi(anApiClient(ADMIN_TOKEN));
     List<TravelPeople> createdTravelPeople =
         travelPeopleApi.getTravelPeople(
-            COMPANY1_ID,
-            JOB1_ID,
-            EMPLOYEE_ID,
-            travelExpenseId,
-            1,
-            100,
-            travelId,
-            USER2_ID,
-            null,
-            null,
-            null,
-            null);
+            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, travelId, USER2_ID, null, null, null, null);
     assertEquals(1, createdTravelPeople.size());
     assertEquals(travelPeopleId, createdTravelPeople.get(0).getId());
     assertEquals(USER2_ID, createdTravelPeople.get(0).getUser().getId());
@@ -240,7 +216,6 @@ class TravelOperationIT {
             COMPANY1_ID,
             JOB1_ID,
             EMPLOYEE_ID,
-            travelExpenseId,
             1,
             100,
             travelId,
@@ -259,7 +234,6 @@ class TravelOperationIT {
             COMPANY1_ID,
             JOB1_ID,
             EMPLOYEE_ID,
-            travelExpenseId,
             1,
             100,
             travelId,
@@ -308,7 +282,6 @@ class TravelOperationIT {
             COMPANY1_ID,
             JOB1_ID,
             EMPLOYEE_ID,
-            travelExpenseId,
             1,
             100,
             travelId,
@@ -325,18 +298,7 @@ class TravelOperationIT {
     TravelPeopleApi travelPeopleApi = new TravelPeopleApi(anApiClient(ADMIN_TOKEN));
     List<TravelPeople> peopleList =
         travelPeopleApi.getTravelPeople(
-            COMPANY1_ID,
-            JOB1_ID,
-            EMPLOYEE_ID,
-            travelExpenseId,
-            1,
-            100,
-            travelId,
-            USER1_ID,
-            null,
-            null,
-            null,
-            null);
+            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, travelId, USER1_ID, null, null, null, null);
     assertEquals(1, peopleList.size());
     assertEquals(travelPeopleId, peopleList.get(0).getId());
   }

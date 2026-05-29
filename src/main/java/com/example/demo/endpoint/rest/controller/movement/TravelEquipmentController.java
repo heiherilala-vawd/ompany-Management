@@ -21,14 +21,12 @@ public class TravelEquipmentController {
   private final TravelEquipmentService travelEquipmentService;
   private final TravelEquipmentMapper travelEquipmentMapper;
 
-  @GetMapping(
-      "/companies/{comp_id}/job/{job_id}/user/{user_id}/travel_expenses/{travel_expenses_id}/travel_equipment/{id}")
+  @GetMapping("/companies/{comp_id}/job/{job_id}/user/{user_id}/travel_equipment/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION') or #user_id == authentication.principal.id")
   public TravelEquipment getTravelEquipmentById(
       @PathVariable String comp_id,
       @PathVariable String job_id,
       @PathVariable String user_id,
-      @PathVariable String travel_expenses_id,
       @PathVariable String id) {
     return travelEquipmentMapper.toRestTravelEquipment(
         travelEquipmentService
@@ -37,14 +35,12 @@ public class TravelEquipmentController {
                 () -> new NotFoundException("TravelEquipment with id " + id + " not found")));
   }
 
-  @GetMapping(
-      "/companies/{comp_id}/job/{job_id}/user/{user_id}/travel_expenses/{travel_expenses_id}/travel_equipment")
+  @GetMapping("/companies/{comp_id}/job/{job_id}/user/{user_id}/travel_equipment")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION') or #user_id == authentication.principal.id")
   public List<TravelEquipment> getTravelEquipment(
       @PathVariable String comp_id,
       @PathVariable String job_id,
       @PathVariable String user_id,
-      @PathVariable String travel_expenses_id,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
       @RequestParam(name = "travel_id", required = false) String travelId,
@@ -73,14 +69,12 @@ public class TravelEquipmentController {
         .toList();
   }
 
-  @PutMapping(
-      "/companies/{comp_id}/job/{job_id}/user/{user_id}/travel_expenses/{travel_expenses_id}/travel_equipment")
+  @PutMapping("/companies/{comp_id}/job/{job_id}/user/{user_id}/travel_equipment")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION') or #user_id == authentication.principal.id")
   public List<TravelEquipment> crupdateTravelEquipment(
       @PathVariable String comp_id,
       @PathVariable String job_id,
       @PathVariable String user_id,
-      @PathVariable String travel_expenses_id,
       @RequestBody List<CrupdateTravelEquipment> toWrite) {
     List<com.example.demo.model.movement.TravelEquipment> saved =
         toWrite.stream().map(travelEquipmentMapper::toDomain).toList();
@@ -88,14 +82,12 @@ public class TravelEquipmentController {
     return saved.stream().map(travelEquipmentMapper::toRestTravelEquipment).toList();
   }
 
-  @DeleteMapping(
-      "/companies/{comp_id}/job/{job_id}/user/{user_id}/travel_expenses/{travel_expenses_id}/travel_equipment/{id}")
+  @DeleteMapping("/companies/{comp_id}/job/{job_id}/user/{user_id}/travel_equipment/{id}")
   @PreAuthorize("hasAnyRole('ADMIN')")
   public void deleteTravelEquipmentById(
       @PathVariable String comp_id,
       @PathVariable String job_id,
       @PathVariable String user_id,
-      @PathVariable String travel_expenses_id,
       @PathVariable String id) {
     travelEquipmentService.deleteById(id);
   }

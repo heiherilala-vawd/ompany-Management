@@ -1,9 +1,17 @@
 package com.example.demo.endpoint.rest.controller.dashboard;
 
+import com.example.demo.model.dashboard.EquipmentBreakdownResponse;
 import com.example.demo.model.dashboard.EquipmentDashboardResponse;
+import com.example.demo.model.dashboard.EquipmentSummaryResponse;
+import com.example.demo.model.dashboard.HrBreakdownResponse;
 import com.example.demo.model.dashboard.HrDashboardResponse;
+import com.example.demo.model.dashboard.HrSummaryResponse;
+import com.example.demo.model.dashboard.MaterialBreakdownResponse;
 import com.example.demo.model.dashboard.MaterialDashboardResponse;
+import com.example.demo.model.dashboard.MaterialSummaryResponse;
+import com.example.demo.model.dashboard.MonetaryBreakdownResponse;
 import com.example.demo.model.dashboard.MonetaryDashboardResponse;
+import com.example.demo.model.dashboard.MonetarySummaryResponse;
 import com.example.demo.model.dashboard.TimeSeriesResponse;
 import com.example.demo.service.dashboard.DashboardEquipmentService;
 import com.example.demo.service.dashboard.DashboardHrService;
@@ -29,6 +37,8 @@ public class DashboardController {
   private final DashboardMonetaryService dashboardMonetaryService;
   private final DashboardTimeSeriesService dashboardTimeSeriesService;
 
+  // ===================== Endpoints existants (compatibilité) =====================
+
   @GetMapping("/companies/{comp_id}/dashboard/materials")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public MaterialDashboardResponse getMaterialDashboard(
@@ -47,8 +57,14 @@ public class DashboardController {
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public EquipmentDashboardResponse getEquipmentDashboard(
       @PathVariable("comp_id") String companyId,
-      @RequestParam(name = "job_id", required = false) String jobId) {
-    return dashboardEquipmentService.getDashboard(jobId);
+      @RequestParam(name = "job_id", required = false) String jobId,
+      @RequestParam(name = "date_from", required = false)
+          @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+          LocalDate dateFrom,
+      @RequestParam(name = "date_to", required = false)
+          @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+          LocalDate dateTo) {
+    return dashboardEquipmentService.getDashboard(jobId, dateFrom, dateTo);
   }
 
   @GetMapping("/companies/{comp_id}/dashboard/hr")
@@ -77,6 +93,126 @@ public class DashboardController {
           @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
           LocalDate dateTo) {
     return dashboardMonetaryService.getDashboard(companyId, jobId, dateFrom, dateTo);
+  }
+
+  // ===================== HR Endpoints =====================
+
+  @GetMapping("/companies/{comp_id}/dashboard/hr/summary")
+  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
+  public HrSummaryResponse getHrSummary(
+      @PathVariable("comp_id") String companyId,
+      @RequestParam(name = "job_id", required = false) String jobId,
+      @RequestParam(name = "date_from", required = false)
+          @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+          LocalDate dateFrom,
+      @RequestParam(name = "date_to", required = false)
+          @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+          LocalDate dateTo) {
+    return dashboardHrService.getSummary(companyId, jobId, dateFrom, dateTo);
+  }
+
+  @GetMapping("/companies/{comp_id}/dashboard/hr/breakdown")
+  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
+  public HrBreakdownResponse getHrBreakdown(
+      @PathVariable("comp_id") String companyId,
+      @RequestParam(name = "job_id", required = false) String jobId,
+      @RequestParam(name = "date_from", required = false)
+          @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+          LocalDate dateFrom,
+      @RequestParam(name = "date_to", required = false)
+          @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+          LocalDate dateTo) {
+    return dashboardHrService.getBreakdown(companyId, jobId, dateFrom, dateTo);
+  }
+
+  // ===================== Equipment Endpoints =====================
+
+  @GetMapping("/companies/{comp_id}/dashboard/equipment/summary")
+  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
+  public EquipmentSummaryResponse getEquipmentSummary(
+      @PathVariable("comp_id") String companyId,
+      @RequestParam(name = "job_id", required = false) String jobId,
+      @RequestParam(name = "date_from", required = false)
+          @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+          LocalDate dateFrom,
+      @RequestParam(name = "date_to", required = false)
+          @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+          LocalDate dateTo) {
+    return dashboardEquipmentService.getSummary(jobId, dateFrom, dateTo);
+  }
+
+  @GetMapping("/companies/{comp_id}/dashboard/equipment/breakdown")
+  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
+  public EquipmentBreakdownResponse getEquipmentBreakdown(
+      @PathVariable("comp_id") String companyId,
+      @RequestParam(name = "job_id", required = false) String jobId,
+      @RequestParam(name = "date_from", required = false)
+          @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+          LocalDate dateFrom,
+      @RequestParam(name = "date_to", required = false)
+          @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+          LocalDate dateTo) {
+    return dashboardEquipmentService.getBreakdown(jobId, dateFrom, dateTo);
+  }
+
+  // ===================== Material Endpoints =====================
+
+  @GetMapping("/companies/{comp_id}/dashboard/materials/summary")
+  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
+  public MaterialSummaryResponse getMaterialSummary(
+      @PathVariable("comp_id") String companyId,
+      @RequestParam(name = "job_id", required = false) String jobId,
+      @RequestParam(name = "date_from", required = false)
+          @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+          LocalDate dateFrom,
+      @RequestParam(name = "date_to", required = false)
+          @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+          LocalDate dateTo) {
+    return dashboardMaterialService.getSummary(jobId, dateFrom, dateTo);
+  }
+
+  @GetMapping("/companies/{comp_id}/dashboard/materials/breakdown")
+  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
+  public MaterialBreakdownResponse getMaterialBreakdown(
+      @PathVariable("comp_id") String companyId,
+      @RequestParam(name = "job_id", required = false) String jobId,
+      @RequestParam(name = "date_from", required = false)
+          @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+          LocalDate dateFrom,
+      @RequestParam(name = "date_to", required = false)
+          @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+          LocalDate dateTo) {
+    return dashboardMaterialService.getBreakdown(jobId, dateFrom, dateTo);
+  }
+
+  // ===================== Monetary Endpoints =====================
+
+  @GetMapping("/companies/{comp_id}/dashboard/monetary/summary")
+  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
+  public MonetarySummaryResponse getMonetarySummary(
+      @PathVariable("comp_id") String companyId,
+      @RequestParam(name = "job_id", required = false) String jobId,
+      @RequestParam(name = "date_from", required = false)
+          @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+          LocalDate dateFrom,
+      @RequestParam(name = "date_to", required = false)
+          @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+          LocalDate dateTo) {
+    return dashboardMonetaryService.getSummary(companyId, jobId, dateFrom, dateTo);
+  }
+
+  @GetMapping("/companies/{comp_id}/dashboard/monetary/breakdown")
+  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
+  public MonetaryBreakdownResponse getMonetaryBreakdown(
+      @PathVariable("comp_id") String companyId,
+      @RequestParam(name = "job_id", required = false) String jobId,
+      @RequestParam(name = "date_from", required = false)
+          @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+          LocalDate dateFrom,
+      @RequestParam(name = "date_to", required = false)
+          @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+          LocalDate dateTo) {
+    return dashboardMonetaryService.getBreakdown(companyId, jobId, dateFrom, dateTo);
   }
 
   // ===================== Time Series Endpoints =====================

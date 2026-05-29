@@ -54,7 +54,7 @@ class IncomeReceiptIT {
     IncomeReceiptApi api = new IncomeReceiptApi(administrationClient);
 
     IncomeReceipt actual =
-        api.getIncomeReceiptById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, INCOME1_ID, RECEIPT1_ID);
+        api.getIncomeReceiptById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, RECEIPT1_ID, INCOME1_ID);
     IncomeReceipt expected = receipt1();
     expected.setCreatedAt(actual.getCreatedAt());
     expected.setUpdatedAt(actual.getUpdatedAt());
@@ -74,7 +74,7 @@ class IncomeReceiptIT {
     IncomeReceiptApi api = new IncomeReceiptApi(badClient);
 
     assertThrowsNotAuthorizedException(
-        () -> api.getIncomeReceiptById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, INCOME1_ID, RECEIPT1_ID));
+        () -> api.getIncomeReceiptById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, RECEIPT1_ID, INCOME1_ID));
   }
 
   @Test
@@ -108,7 +108,7 @@ class IncomeReceiptIT {
 
     List<IncomeReceipt> created =
         api.crupdateIncomeReceipts(
-            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, INCOME1_ID, List.of(newReceipt));
+            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(newReceipt), INCOME1_ID);
 
     assertEquals(1, created.size());
     IncomeReceipt saved = created.get(0);
@@ -128,7 +128,7 @@ class IncomeReceiptIT {
 
     List<IncomeReceipt> updated =
         api.crupdateIncomeReceipts(
-            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, INCOME1_ID, List.of(receiptToUpdate));
+            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(receiptToUpdate), INCOME1_ID);
 
     assertEquals(1, updated.size());
     IncomeReceipt saved = updated.get(0);
@@ -144,7 +144,7 @@ class IncomeReceiptIT {
     assertThrowsForbiddenException(
         () ->
             api.crupdateIncomeReceipts(
-                COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, INCOME1_ID, List.of(someCreatableReceipt())));
+                COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(someCreatableReceipt()), INCOME1_ID));
   }
 
   @Test
@@ -159,7 +159,7 @@ class IncomeReceiptIT {
         "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Payment date is mandatory for income receipt\"}",
         () ->
             api.crupdateIncomeReceipts(
-                COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, INCOME1_ID, List.of(invalidReceipt)));
+                COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(invalidReceipt), INCOME1_ID));
   }
 
   @Test
@@ -170,7 +170,7 @@ class IncomeReceiptIT {
     assertThrowsForbiddenException(
         () ->
             api.deleteIncomeReceiptById(
-                COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, INCOME1_ID, RECEIPT1_ID));
+                COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, RECEIPT1_ID, INCOME1_ID));
   }
 
   @Test
@@ -179,7 +179,7 @@ class IncomeReceiptIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     IncomeReceiptApi api = new IncomeReceiptApi(adminClient);
 
-    api.deleteIncomeReceiptById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, INCOME1_ID, RECEIPT1_ID);
+    api.deleteIncomeReceiptById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, RECEIPT1_ID, INCOME1_ID);
 
     List<IncomeReceipt> receipts =
         api.getIncomeReceipts(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, INCOME1_ID, 1, 100);
