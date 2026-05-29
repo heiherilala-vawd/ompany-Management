@@ -85,13 +85,12 @@ public class LoanController {
     loanService.deleteById(id);
   }
 
-  @GetMapping("/companies/{comp_id}/job/{job_id}/user/{user_id}/loans/{loan_id}/repayments/{id}")
+  @GetMapping("/companies/{comp_id}/job/{job_id}/user/{user_id}/loans_repayment/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public LoanRepayment getLoanRepaymentById(
       @PathVariable String comp_id,
       @PathVariable String job_id,
       @PathVariable String user_id,
-      @PathVariable String loan_id,
       @PathVariable String id) {
     return loanRepaymentMapper.toRestLoanRepayment(
         loanRepaymentService
@@ -100,13 +99,13 @@ public class LoanController {
                 () -> new NotFoundException("Loan repayment with id " + id + " not found")));
   }
 
-  @GetMapping("/companies/{comp_id}/job/{job_id}/user/{user_id}/loans/{loan_id}/repayments")
+  @GetMapping("/companies/{comp_id}/job/{job_id}/user/{user_id}/loans_repayment")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<LoanRepayment> getLoanRepayments(
       @PathVariable String comp_id,
       @PathVariable String job_id,
       @PathVariable String user_id,
-      @PathVariable String loan_id,
+      @RequestParam(required = false) String loan_id,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize) {
     LoanRepaymentCriteria criteria = new LoanRepaymentCriteria();
@@ -117,13 +116,12 @@ public class LoanController {
         .toList();
   }
 
-  @PutMapping("/companies/{comp_id}/job/{job_id}/user/{user_id}/loans/{loan_id}/repayments")
+  @PutMapping("/companies/{comp_id}/job/{job_id}/user/{user_id}/loans_repayment")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<LoanRepayment> crupdateLoanRepayments(
       @PathVariable String comp_id,
       @PathVariable String job_id,
       @PathVariable String user_id,
-      @PathVariable String loan_id,
       @RequestBody List<CrupdateLoanRepayment> toWrite) {
     List<com.example.demo.model.money.LoanRepayment> saved =
         loanRepaymentService.createOrUpdateAll(
@@ -131,13 +129,12 @@ public class LoanController {
     return saved.stream().map(loanRepaymentMapper::toRestLoanRepayment).toList();
   }
 
-  @DeleteMapping("/companies/{comp_id}/job/{job_id}/user/{user_id}/loans/{loan_id}/repayments/{id}")
+  @DeleteMapping("/companies/{comp_id}/job/{job_id}/user/{user_id}/loans_repayment/{id}")
   @PreAuthorize("hasAnyRole('ADMIN')")
   public void deleteLoanRepaymentById(
       @PathVariable String comp_id,
       @PathVariable String job_id,
       @PathVariable String user_id,
-      @PathVariable String loan_id,
       @PathVariable String id) {
     loanRepaymentService.deleteById(id);
   }

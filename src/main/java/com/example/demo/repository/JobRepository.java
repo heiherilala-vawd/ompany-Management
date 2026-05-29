@@ -8,6 +8,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -29,4 +31,9 @@ public interface JobRepository extends JpaRepository<Job, String>, JpaSpecificat
   List<Job> findByStartDateAfter(LocalDate date);
 
   boolean existsByCompanyIdAndStatus(String companyId, JobStatus status);
+
+  @Query(
+      "SELECT j.id, j.description, COUNT(u) FROM Job j JOIN j.responsibleUsers u "
+          + "WHERE j.company.id = :companyId GROUP BY j.id, j.description")
+  List<Object[]> countUsersByJob(@Param("companyId") String companyId);
 }

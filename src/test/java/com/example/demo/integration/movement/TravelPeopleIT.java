@@ -53,8 +53,7 @@ class TravelPeopleIT {
     TravelPeopleApi api = new TravelPeopleApi(anApiClient(EMPLOYEE_TOKEN));
 
     TravelPeople actual =
-        api.getTravelPeopleById(
-            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, TRAVEL_EXPENSE1_ID, TRAVEL_PEOPLE1_ID);
+        api.getTravelPeopleById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, TRAVEL_PEOPLE1_ID);
 
     TravelPeople expected = travelPeople1();
     expected.setCreatedAt(actual.getCreatedAt());
@@ -71,9 +70,7 @@ class TravelPeopleIT {
     TravelPeopleApi api = new TravelPeopleApi(anApiClient(BAD_TOKEN));
 
     assertThrowsNotAuthorizedException(
-        () ->
-            api.getTravelPeopleById(
-                COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, TRAVEL_EXPENSE1_ID, TRAVEL_PEOPLE1_ID));
+        () -> api.getTravelPeopleById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, TRAVEL_PEOPLE1_ID));
   }
 
   @Test
@@ -82,18 +79,7 @@ class TravelPeopleIT {
 
     List<TravelPeople> list =
         api.getTravelPeople(
-            COMPANY1_ID,
-            JOB1_ID,
-            EMPLOYEE_ID,
-            TRAVEL_EXPENSE1_ID,
-            1,
-            100,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null);
+            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, null, null, null, null, null);
 
     assertEquals(2, list.size());
     assertTrue(list.stream().anyMatch(tp -> TRAVEL_PEOPLE1_ID.equals(tp.getId())));
@@ -109,7 +95,6 @@ class TravelPeopleIT {
             COMPANY1_ID,
             JOB1_ID,
             EMPLOYEE_ID,
-            TRAVEL_EXPENSE1_ID,
             1,
             100,
             TRAVEL_EXPENSE1_ID,
@@ -132,18 +117,7 @@ class TravelPeopleIT {
 
     List<TravelPeople> list =
         api.getTravelPeople(
-            COMPANY1_ID,
-            JOB1_ID,
-            EMPLOYEE_ID,
-            TRAVEL_EXPENSE1_ID,
-            1,
-            100,
-            null,
-            EMPLOYEE_ID,
-            null,
-            null,
-            null,
-            null);
+            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, EMPLOYEE_ID, null, null, null, null);
 
     assertEquals(2, list.size());
   }
@@ -154,18 +128,7 @@ class TravelPeopleIT {
 
     List<TravelPeople> list =
         api.getTravelPeople(
-            COMPANY1_ID,
-            JOB1_ID,
-            EMPLOYEE_ID,
-            TRAVEL_EXPENSE1_ID,
-            1,
-            100,
-            null,
-            null,
-            WAREHOUSE1_ID,
-            null,
-            null,
-            null);
+            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, null, WAREHOUSE1_ID, null, null, null);
 
     assertEquals(1, list.size());
     assertEquals(TRAVEL_PEOPLE1_ID, list.get(0).getId());
@@ -180,7 +143,6 @@ class TravelPeopleIT {
             COMPANY1_ID,
             JOB1_ID,
             EMPLOYEE_ID,
-            TRAVEL_EXPENSE1_ID,
             1,
             100,
             null,
@@ -203,23 +165,11 @@ class TravelPeopleIT {
     toUpdate.setArrivalLocation(null);
     toUpdate.setArrivalDate(null);
 
-    api.crupdateTravelPeople(
-        COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, TRAVEL_EXPENSE1_ID, List.of(toUpdate));
+    api.crupdateTravelPeople(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(toUpdate));
 
     List<TravelPeople> list =
         api.getTravelPeople(
-            COMPANY1_ID,
-            JOB1_ID,
-            EMPLOYEE_ID,
-            TRAVEL_EXPENSE1_ID,
-            1,
-            100,
-            null,
-            null,
-            null,
-            null,
-            null,
-            true);
+            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, null, null, null, null, true);
 
     assertEquals(1, list.size());
     assertEquals(TRAVEL_PEOPLE2_ID, list.get(0).getId());
@@ -236,8 +186,7 @@ class TravelPeopleIT {
     toUpdate.setArrivalDate(java.time.Instant.parse("2024-03-05T15:00:00Z"));
 
     List<TravelPeople> updated =
-        api.crupdateTravelPeople(
-            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, TRAVEL_EXPENSE1_ID, List.of(toUpdate));
+        api.crupdateTravelPeople(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(toUpdate));
 
     assertEquals(1, updated.size());
     assertEquals(TRAVEL_PEOPLE2_ID, updated.get(0).getId());
@@ -253,11 +202,7 @@ class TravelPeopleIT {
     assertThrowsForbiddenException(
         () ->
             api.crupdateTravelPeople(
-                COMPANY1_ID,
-                JOB1_ID,
-                EMPLOYEE_ID,
-                TRAVEL_EXPENSE1_ID,
-                List.of(someCreatableTravelPeople())));
+                COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(someCreatableTravelPeople())));
   }
 
   @Test
@@ -265,9 +210,7 @@ class TravelPeopleIT {
     TravelPeopleApi api = new TravelPeopleApi(anApiClient(ADMINISTRATION_TOKEN));
 
     assertThrowsForbiddenException(
-        () ->
-            api.deleteTravelPeopleById(
-                COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, TRAVEL_EXPENSE1_ID, TRAVEL_PEOPLE1_ID));
+        () -> api.deleteTravelPeopleById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, TRAVEL_PEOPLE1_ID));
   }
 
   @Test
@@ -275,16 +218,13 @@ class TravelPeopleIT {
   void admin_can_delete_travel_people() throws Exception {
     TravelPeopleApi api = new TravelPeopleApi(anApiClient(ADMIN_TOKEN));
 
-    api.deleteTravelPeopleById(
-        COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, TRAVEL_EXPENSE1_ID, TRAVEL_PEOPLE2_ID);
+    api.deleteTravelPeopleById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, TRAVEL_PEOPLE2_ID);
 
     assertThrowsApiException(
         "{\"type\":\"404 NOT_FOUND\",\"message\":\"Travel with id "
             + TRAVEL_PEOPLE2_ID
             + " not found\"}",
-        () ->
-            api.getTravelPeopleById(
-                COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, TRAVEL_EXPENSE1_ID, TRAVEL_PEOPLE2_ID));
+        () -> api.getTravelPeopleById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, TRAVEL_PEOPLE2_ID));
   }
 
   static class ContextInitializer extends AbstractContextInitializer {

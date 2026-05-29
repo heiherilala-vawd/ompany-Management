@@ -131,13 +131,12 @@ public class IncomeController {
     incomeMoneyService.deleteById(id);
   }
 
-  @GetMapping("/companies/{comp_id}/job/{job_id}/user/{user_id}/incomes/{income_id}/receipts/{id}")
+  @GetMapping("/companies/{comp_id}/job/{job_id}/user/{user_id}/incomes_receipts/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public IncomeReceipt getIncomeReceiptById(
       @PathVariable String comp_id,
       @PathVariable String job_id,
       @PathVariable String user_id,
-      @PathVariable String income_id,
       @PathVariable String id) {
     return incomeReceiptMapper.toRestIncomeReceipt(
         incomeReceiptService
@@ -146,13 +145,13 @@ public class IncomeController {
                 () -> new NotFoundException("Income receipt with id " + id + " not found")));
   }
 
-  @GetMapping("/companies/{comp_id}/job/{job_id}/user/{user_id}/incomes/{income_id}/receipts")
+  @GetMapping("/companies/{comp_id}/job/{job_id}/user/{user_id}/incomes_receipts")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<IncomeReceipt> getIncomeReceipts(
       @PathVariable String comp_id,
       @PathVariable String job_id,
       @PathVariable String user_id,
-      @PathVariable String income_id,
+      @RequestParam(required = false) String income_id,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize) {
     IncomeReceiptCriteria criteria = new IncomeReceiptCriteria();
@@ -163,13 +162,12 @@ public class IncomeController {
         .toList();
   }
 
-  @PutMapping("/companies/{comp_id}/job/{job_id}/user/{user_id}/incomes/{income_id}/receipts")
+  @PutMapping("/companies/{comp_id}/job/{job_id}/user/{user_id}/incomes_receipts")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<IncomeReceipt> crupdateIncomeReceipts(
       @PathVariable String comp_id,
       @PathVariable String job_id,
       @PathVariable String user_id,
-      @PathVariable String income_id,
       @RequestBody List<CrupdateIncomeReceipt> toWrite) {
     List<com.example.demo.model.money.IncomeReceipt> saved =
         incomeReceiptService.createOrUpdateAll(
@@ -177,14 +175,12 @@ public class IncomeController {
     return saved.stream().map(incomeReceiptMapper::toRestIncomeReceipt).toList();
   }
 
-  @DeleteMapping(
-      "/companies/{comp_id}/job/{job_id}/user/{user_id}/incomes/{income_id}/receipts/{id}")
+  @DeleteMapping("/companies/{comp_id}/job/{job_id}/user/{user_id}/incomes_receipts/{id}")
   @PreAuthorize("hasAnyRole('ADMIN')")
   public void deleteIncomeReceiptById(
       @PathVariable String comp_id,
       @PathVariable String job_id,
       @PathVariable String user_id,
-      @PathVariable String income_id,
       @PathVariable String id) {
     incomeReceiptService.deleteById(id);
   }
