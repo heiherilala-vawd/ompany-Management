@@ -9,7 +9,6 @@ plugins {
     id("checkstyle")
     id("com.diffplug.spotless") version "6.25.0"
     id("jacoco")
-    id("org.sonarqube") version "5.0.0.4638"  // Optionnel
 }
 
 group = "com.example"
@@ -216,25 +215,8 @@ tasks.jacocoTestCoverageVerification {
 }
 
 
-// ============================================================
-// SONARQUBE - ANALYSE CONTINUE (optionnel)
-// ============================================================
 
-sonarqube {
-    properties {
-        property("sonar.projectKey", project.findProperty("sonar.projectKey")
-            ?: System.getenv("SONAR_PROJECT_KEY") ?: "votre-projet-key")
-        property("sonar.organization", project.findProperty("sonar.organization")
-            ?: System.getenv("SONAR_ORGANIZATION") ?: "votre-organization")
-        property("sonar.host.url", project.findProperty("sonar.host.url")
-            ?: System.getenv("SONAR_HOST_URL") ?: "https://sonarcloud.io")
-        property("sonar.coverage.jacoco.xmlReportPaths",
-            layout.buildDirectory.file("reports/jacoco/jacocoTestReport.xml").get().asFile.toString())
-        property("sonar.java.checkstyle.reportPaths",
-            layout.buildDirectory.file("reports/checkstyle/main.xml").get().asFile.toString())
-        property("sonar.exclusions", "**/client/**, **/model/**, **/dto/**, **/config/**")
-    }
-}
+// SONARQUBE REMOVED - Using only JaCoCo and Checkstyle for local quality checks
 
 
 
