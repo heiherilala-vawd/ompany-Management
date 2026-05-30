@@ -55,7 +55,7 @@ jobs:
           name: jacoco-report
           path: build/reports/jacoco/html/
           retention-days: 7
-      
+       
       # 8. Upload du rapport de test (HTML)
       - name: Upload test report
         uses: actions/upload-artifact@v4
@@ -63,15 +63,15 @@ jobs:
           name: test-report
           path: build/reports/tests/test/
           retention-days: 7
-      
-      # 9. Upload du rapport JaCoCo XML (pour SonarQube)
+       
+      # 9. Upload du rapport JaCoCo XML (pour archivage)
       - name: Upload JaCoCo XML
         uses: actions/upload-artifact@v4
         with:
           name: jacoco-xml
           path: build/reports/jacoco/jacocoTestReport.xml
           retention-days: 7
-  
+   
   # ============================================================
   # JOB 2 : ANALYSE DE CODE STATIQUE (Checkstyle)
   # ============================================================
@@ -98,7 +98,7 @@ jobs:
           name: checkstyle-report
           path: build/reports/checkstyle/
           retention-days: 7
-  
+   
   # ============================================================
   # JOB 3 : SPOTLESS (Formatage du code)
   # ============================================================
@@ -118,7 +118,3 @@ jobs:
       
       - name: Check code formatting
         run: ./gradlew spotlessCheck --no-daemon
-  
-  # ============================================================
-  # JOB 4 : INTEGRATION AVEC SONARCLOUD (optionnel)
-  # ============================================================
