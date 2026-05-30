@@ -45,7 +45,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   CrupdateTask.JSON_PROPERTY_COMPANY_ID,
   CrupdateTask.JSON_PROPERTY_ASSIGNED_USER_IDS
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-26T13:42:36.425111812+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-30T17:19:15.606578257+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdateTask {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
