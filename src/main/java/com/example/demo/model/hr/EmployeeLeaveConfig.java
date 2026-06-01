@@ -3,6 +3,7 @@ package com.example.demo.model.hr;
 import com.example.demo.model.Company;
 import com.example.demo.model.CreatAndUpdateEntity;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -27,20 +28,27 @@ public class EmployeeLeaveConfig extends CreatAndUpdateEntity implements Seriali
 
   @Id private String id;
 
+  @NotNull
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "company_id")
   private Company company;
 
-  private LocalDate hireDate;
+  @NotNull private LocalDate hireDate;
 
+  @NotBlank
+  @Size(max = 255)
   private String contractType;
 
+  @NotNull
+  @PositiveOrZero
   @Column(name = "vacation_days_per_month")
   private BigDecimal vacationDaysPerMonth;
 
   @Column(name = "end_date")
   private LocalDate endDate;
 
+  @NotNull
+  @Min(0)
   @Column(name = "weekly_hours")
   private Integer weeklyHours;
 

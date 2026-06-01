@@ -211,7 +211,8 @@ final class TestMoneyFixtures {
   static CrupdateBankFee bankFeeToCrupdateBankFee(BankFee bankFee) {
     CrupdateBankFee crupdateBankFee = new CrupdateBankFee();
     crupdateBankFee.setId(bankFee.getId());
-    crupdateBankFee.setExpense(bankFee.getExpense());
+    crupdateBankFee.setExpenseId(
+        bankFee.getExpense() != null ? bankFee.getExpense().getId() : null);
     crupdateBankFee.setBankName(bankFee.getBankName());
     crupdateBankFee.setDescription(bankFee.getDescription());
     return crupdateBankFee;
@@ -220,12 +221,7 @@ final class TestMoneyFixtures {
   static CrupdateBankFee someCreatableBankFee() {
     CrupdateBankFee bankFee = new CrupdateBankFee();
     bankFee.setId(UUID.randomUUID().toString());
-    CrupdateExpenseMoney expense = new CrupdateExpenseMoney();
-    expense.setId(TestUtils.EXPENSE1_ID);
-    expense.setAmount(new BigDecimal("5000.00"));
-    expense.setDescription("Test bank fee expense");
-    expense.setJobId(TestUtils.JOB1_ID);
-    bankFee.setExpense(expense);
+    bankFee.setExpenseId(TestUtils.EXPENSE1_ID);
     bankFee.setBankName("MCB Madagascar");
     bankFee.setDescription("Frais tenue compte");
     return bankFee;
@@ -257,7 +253,8 @@ final class TestMoneyFixtures {
       EmployeePayment employeePayment) {
     CrupdateEmployeePayment crupdateEmployeePayment = new CrupdateEmployeePayment();
     crupdateEmployeePayment.setId(employeePayment.getId());
-    crupdateEmployeePayment.setExpense(employeePayment.getExpense());
+    crupdateEmployeePayment.setExpenseId(
+        employeePayment.getExpense() != null ? employeePayment.getExpense().getId() : null);
     crupdateEmployeePayment.setUserIds(
         employeePayment.getUsers() != null
             ? employeePayment.getUsers().stream().map(User::getId).toList()
@@ -270,12 +267,7 @@ final class TestMoneyFixtures {
   static CrupdateEmployeePayment someCreatableEmployeePayment() {
     CrupdateEmployeePayment employeePayment = new CrupdateEmployeePayment();
     employeePayment.setId(UUID.randomUUID().toString());
-    CrupdateExpenseMoney expense = new CrupdateExpenseMoney();
-    expense.setId(TestUtils.EXPENSE1_ID);
-    expense.setAmount(new BigDecimal("2000.00"));
-    expense.setDescription("Test employee payment expense");
-    expense.setJobId(TestUtils.JOB1_ID);
-    employeePayment.setExpense(expense);
+    employeePayment.setExpenseId(TestUtils.EXPENSE1_ID);
     employeePayment.setUserIds(List.of(TestUtils.EMPLOYEE_ID));
     employeePayment.setPaymentDescription("Prime exceptionnelle");
     employeePayment.setPaymentType(PaymentType.OTHER);
@@ -301,7 +293,8 @@ final class TestMoneyFixtures {
   static CrupdateOtherExpense otherExpenseToCrupdateOtherExpense(OtherExpense otherExpense) {
     CrupdateOtherExpense crupdateOtherExpense = new CrupdateOtherExpense();
     crupdateOtherExpense.setId(otherExpense.getId());
-    crupdateOtherExpense.setExpense(otherExpense.getExpense());
+    crupdateOtherExpense.setExpenseId(
+        otherExpense.getExpense() != null ? otherExpense.getExpense().getId() : null);
     crupdateOtherExpense.setDescription(otherExpense.getDescription());
     return crupdateOtherExpense;
   }
@@ -309,12 +302,7 @@ final class TestMoneyFixtures {
   static CrupdateOtherExpense someCreatableOtherExpense() {
     CrupdateOtherExpense otherExpense = new CrupdateOtherExpense();
     otherExpense.setId(UUID.randomUUID().toString());
-    CrupdateExpenseMoney expense = new CrupdateExpenseMoney();
-    expense.setId(TestUtils.EXPENSE1_ID);
-    expense.setAmount(new BigDecimal("1500.00"));
-    expense.setDescription("Test other expense");
-    expense.setJobId(TestUtils.JOB1_ID);
-    otherExpense.setExpense(expense);
+    otherExpense.setExpenseId(TestUtils.EXPENSE1_ID);
     otherExpense.setDescription("Frais divers chantier");
     return otherExpense;
   }
@@ -378,7 +366,9 @@ final class TestMoneyFixtures {
   static CrupdateMaintenance maintenanceToCrupdateMaintenance(Maintenance maintenance) {
     CrupdateMaintenance crupdate = new CrupdateMaintenance();
     crupdate.setId(maintenance.getId());
-    crupdate.setExpense(maintenance.getExpense());
+    crupdate.setExpenseId(
+        maintenance.getExpense() != null ? maintenance.getExpense().getId() : null);
+    crupdate.setEquipmentId(maintenance.getEquipmentId());
     crupdate.setDescription(maintenance.getDescription());
     return crupdate;
   }
@@ -386,12 +376,8 @@ final class TestMoneyFixtures {
   static CrupdateMaintenance someCreatableMaintenance() {
     CrupdateMaintenance maintenance = new CrupdateMaintenance();
     maintenance.setId(UUID.randomUUID().toString());
-    CrupdateExpenseMoney expense = new CrupdateExpenseMoney();
-    expense.setId(TestUtils.EXPENSE1_ID);
-    expense.setAmount(new BigDecimal("2500.00"));
-    expense.setDescription("Test maintenance expense");
-    expense.setJobId(TestUtils.JOB1_ID);
-    maintenance.setExpense(expense);
+    maintenance.setExpenseId(TestUtils.EXPENSE1_ID);
+    maintenance.setEquipmentId(TestUtils.EQUIPMENT1_ID);
     maintenance.setDescription("Vidange et revision");
     return maintenance;
   }
@@ -400,7 +386,7 @@ final class TestMoneyFixtures {
     Purchase purchase = new Purchase();
     purchase.setId(TestUtils.PURCHASE1_ID);
     purchase.setExpense(expenseToCrupdateExpense(expense1()));
-    purchase.setSupplier(
+    purchase.setSourceWarehouse(
         new CrupdateWarehouse()
             .id(TestUtils.WAREHOUSE1_ID)
             .name(warehouse1().getName())
@@ -423,7 +409,7 @@ final class TestMoneyFixtures {
     Purchase purchase = new Purchase();
     purchase.setId(TestUtils.PURCHASE2_ID);
     purchase.setExpense(expenseToCrupdateExpense(expense2()));
-    purchase.setSupplier(new CrupdateWarehouse().id(TestUtils.WAREHOUSE2_ID));
+    purchase.setSourceWarehouse(new CrupdateWarehouse().id(TestUtils.WAREHOUSE2_ID));
     purchase.setEquipment(null);
     purchase.setMaterial(
         TestOrganizationFixtures.materialToCrupdateMaterial(TestOrganizationFixtures.material2()));
@@ -437,8 +423,12 @@ final class TestMoneyFixtures {
   static CrupdatePurchase purchaseToCrupdatePurchase(Purchase purchase) {
     CrupdatePurchase crupdatePurchase = new CrupdatePurchase();
     crupdatePurchase.setId(purchase.getId());
-    crupdatePurchase.setExpense(purchase.getExpense());
-    crupdatePurchase.setSupplier(purchase.getSupplier() != null ? purchase.getSupplier() : null);
+    crupdatePurchase.setExpenseId(
+        purchase.getExpense() != null ? purchase.getExpense().getId() : null);
+    crupdatePurchase.setSourceWarehouseId(
+        purchase.getSourceWarehouse() != null ? purchase.getSourceWarehouse().getId() : null);
+    crupdatePurchase.setSupplierId(
+        purchase.getSupplier() != null ? purchase.getSupplier().getId() : null);
     crupdatePurchase.setEquipment(
         purchase.getEquipment() != null ? purchase.getEquipment().getId() : null);
     crupdatePurchase.setMaterial(
@@ -454,13 +444,8 @@ final class TestMoneyFixtures {
   static CrupdatePurchase someCreatablePurchase() {
     CrupdatePurchase purchase = new CrupdatePurchase();
     purchase.setId(UUID.randomUUID().toString());
-    CrupdateExpenseMoney expense = new CrupdateExpenseMoney();
-    expense.setId(TestUtils.EXPENSE1_ID);
-    expense.setAmount(new BigDecimal("5000.00"));
-    expense.setDescription("Test purchase expense");
-    expense.setJobId(TestUtils.JOB1_ID);
-    purchase.setExpense(expense);
-    purchase.setSupplier(new CrupdateWarehouse().id(TestUtils.WAREHOUSE1_ID));
+    purchase.setExpenseId(TestUtils.EXPENSE1_ID);
+    purchase.setSourceWarehouseId(TestUtils.WAREHOUSE1_ID);
     purchase.setEquipment(TestUtils.EQUIPMENT1_ID);
     purchase.setMaterial(null);
     purchase.setQuantity(1);

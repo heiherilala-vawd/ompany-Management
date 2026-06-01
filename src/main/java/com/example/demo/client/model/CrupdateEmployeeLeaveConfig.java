@@ -35,6 +35,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  */
 @JsonPropertyOrder({
   CrupdateEmployeeLeaveConfig.JSON_PROPERTY_ID,
+  CrupdateEmployeeLeaveConfig.JSON_PROPERTY_USER_ID,
+  CrupdateEmployeeLeaveConfig.JSON_PROPERTY_COMPANY_ID,
   CrupdateEmployeeLeaveConfig.JSON_PROPERTY_HIRE_DATE,
   CrupdateEmployeeLeaveConfig.JSON_PROPERTY_CONTRACT_TYPE,
   CrupdateEmployeeLeaveConfig.JSON_PROPERTY_VACATION_DAYS_PER_MONTH,
@@ -42,10 +44,16 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   CrupdateEmployeeLeaveConfig.JSON_PROPERTY_WEEKLY_HOURS,
   CrupdateEmployeeLeaveConfig.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-30T17:19:15.606578257+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-01T18:19:40.950295941+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdateEmployeeLeaveConfig {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
+
+  public static final String JSON_PROPERTY_USER_ID = "user_id";
+  private String userId;
+
+  public static final String JSON_PROPERTY_COMPANY_ID = "company_id";
+  private String companyId;
 
   public static final String JSON_PROPERTY_HIRE_DATE = "hire_date";
   private java.time.LocalDate hireDate;
@@ -93,6 +101,56 @@ public class CrupdateEmployeeLeaveConfig {
   }
 
 
+  public CrupdateEmployeeLeaveConfig userId(String userId) {
+    this.userId = userId;
+    return this;
+  }
+
+   /**
+   * Get userId
+   * @return userId
+  **/
+  @jakarta.annotation.Nonnull
+  @JsonProperty(JSON_PROPERTY_USER_ID)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+
+  public String getUserId() {
+    return userId;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_USER_ID)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setUserId(String userId) {
+    this.userId = userId;
+  }
+
+
+  public CrupdateEmployeeLeaveConfig companyId(String companyId) {
+    this.companyId = companyId;
+    return this;
+  }
+
+   /**
+   * Get companyId
+   * @return companyId
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_COMPANY_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getCompanyId() {
+    return companyId;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_COMPANY_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setCompanyId(String companyId) {
+    this.companyId = companyId;
+  }
+
+
   public CrupdateEmployeeLeaveConfig hireDate(java.time.LocalDate hireDate) {
     this.hireDate = hireDate;
     return this;
@@ -102,9 +160,9 @@ public class CrupdateEmployeeLeaveConfig {
    * Get hireDate
    * @return hireDate
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_HIRE_DATE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public java.time.LocalDate getHireDate() {
     return hireDate;
@@ -112,7 +170,7 @@ public class CrupdateEmployeeLeaveConfig {
 
 
   @JsonProperty(JSON_PROPERTY_HIRE_DATE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setHireDate(java.time.LocalDate hireDate) {
     this.hireDate = hireDate;
   }
@@ -127,9 +185,9 @@ public class CrupdateEmployeeLeaveConfig {
    * Get contractType
    * @return contractType
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_CONTRACT_TYPE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getContractType() {
     return contractType;
@@ -137,7 +195,7 @@ public class CrupdateEmployeeLeaveConfig {
 
 
   @JsonProperty(JSON_PROPERTY_CONTRACT_TYPE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setContractType(String contractType) {
     this.contractType = contractType;
   }
@@ -150,11 +208,12 @@ public class CrupdateEmployeeLeaveConfig {
 
    /**
    * Get vacationDaysPerMonth
+   * minimum: 0
    * @return vacationDaysPerMonth
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_VACATION_DAYS_PER_MONTH)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public BigDecimal getVacationDaysPerMonth() {
     return vacationDaysPerMonth;
@@ -162,7 +221,7 @@ public class CrupdateEmployeeLeaveConfig {
 
 
   @JsonProperty(JSON_PROPERTY_VACATION_DAYS_PER_MONTH)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setVacationDaysPerMonth(BigDecimal vacationDaysPerMonth) {
     this.vacationDaysPerMonth = vacationDaysPerMonth;
   }
@@ -200,11 +259,12 @@ public class CrupdateEmployeeLeaveConfig {
 
    /**
    * Get weeklyHours
+   * minimum: 0
    * @return weeklyHours
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_WEEKLY_HOURS)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public Integer getWeeklyHours() {
     return weeklyHours;
@@ -212,7 +272,7 @@ public class CrupdateEmployeeLeaveConfig {
 
 
   @JsonProperty(JSON_PROPERTY_WEEKLY_HOURS)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setWeeklyHours(Integer weeklyHours) {
     this.weeklyHours = weeklyHours;
   }
@@ -256,6 +316,8 @@ public class CrupdateEmployeeLeaveConfig {
     }
     CrupdateEmployeeLeaveConfig crupdateEmployeeLeaveConfig = (CrupdateEmployeeLeaveConfig) o;
     return Objects.equals(this.id, crupdateEmployeeLeaveConfig.id) &&
+        Objects.equals(this.userId, crupdateEmployeeLeaveConfig.userId) &&
+        Objects.equals(this.companyId, crupdateEmployeeLeaveConfig.companyId) &&
         Objects.equals(this.hireDate, crupdateEmployeeLeaveConfig.hireDate) &&
         Objects.equals(this.contractType, crupdateEmployeeLeaveConfig.contractType) &&
         Objects.equals(this.vacationDaysPerMonth, crupdateEmployeeLeaveConfig.vacationDaysPerMonth) &&
@@ -266,7 +328,7 @@ public class CrupdateEmployeeLeaveConfig {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, hireDate, contractType, vacationDaysPerMonth, endDate, weeklyHours, comment);
+    return Objects.hash(id, userId, companyId, hireDate, contractType, vacationDaysPerMonth, endDate, weeklyHours, comment);
   }
 
   @Override
@@ -274,6 +336,8 @@ public class CrupdateEmployeeLeaveConfig {
     StringBuilder sb = new StringBuilder();
     sb.append("class CrupdateEmployeeLeaveConfig {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    userId: ").append(toIndentedString(userId)).append("\n");
+    sb.append("    companyId: ").append(toIndentedString(companyId)).append("\n");
     sb.append("    hireDate: ").append(toIndentedString(hireDate)).append("\n");
     sb.append("    contractType: ").append(toIndentedString(contractType)).append("\n");
     sb.append("    vacationDaysPerMonth: ").append(toIndentedString(vacationDaysPerMonth)).append("\n");
@@ -330,6 +394,16 @@ public class CrupdateEmployeeLeaveConfig {
     // add `id` to the URL query string
     if (getId() != null) {
       joiner.add(String.format("%sid%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `user_id` to the URL query string
+    if (getUserId() != null) {
+      joiner.add(String.format("%suser_id%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getUserId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `company_id` to the URL query string
+    if (getCompanyId() != null) {
+      joiner.add(String.format("%scompany_id%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getCompanyId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `hire_date` to the URL query string

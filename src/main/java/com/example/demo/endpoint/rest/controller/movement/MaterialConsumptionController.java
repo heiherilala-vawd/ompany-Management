@@ -6,7 +6,9 @@ import com.example.demo.endpoint.rest.mapper.movement.MaterialConsumptionMapper;
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
 import com.example.demo.model.exception.NotFoundException;
+import com.example.demo.model.movement.MaterialConsumption.ConsumptionStatus;
 import com.example.demo.service.movement.MaterialConsumptionService;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -35,15 +37,19 @@ public class MaterialConsumptionController {
   public List<MaterialConsumption> getMaterialConsumptions(
       @PathVariable String comp_id,
       @RequestParam(name = "page", required = false) PageFromOne page,
-      @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize) {
+      @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
+      @RequestParam(name = "consumption_status", required = false) String consumptionStatus,
+      @RequestParam(name = "job_id", required = false) String jobId) {
+    ConsumptionStatus status =
+        consumptionStatus != null ? ConsumptionStatus.valueOf(consumptionStatus) : null;
     return materialConsumptionMapper.toRestMaterialConsumptions(
-        materialConsumptionService.findAll(page, pageSize).getContent());
+        materialConsumptionService.findAll(page, pageSize, status, jobId).getContent());
   }
 
   @PutMapping("/companies/{comp_id}/material_consumption")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public List<MaterialConsumption> crupdateMaterialConsumptions(
-      @PathVariable String comp_id, @RequestBody List<CrupdateMaterialConsumption> toWrite) {
+      @PathVariable String comp_id, @Valid @RequestBody List<CrupdateMaterialConsumption> toWrite) {
     List<com.example.demo.model.movement.MaterialConsumption> saved =
         materialConsumptionService.createOrUpdateAll(
             toWrite.stream().map(materialConsumptionMapper::toDomain).toList());

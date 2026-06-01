@@ -7,6 +7,7 @@ import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
 import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.service.money.BudgetLineService;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -41,10 +42,10 @@ public class BudgetLineController {
   @PutMapping("/companies/{comp_id}/budget_lines")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<BudgetLine> crupdateBudgetLines(
-      @PathVariable String comp_id, @RequestBody List<CrupdateBudgetLine> toWrite) {
+      @PathVariable String comp_id, @Valid @RequestBody List<CrupdateBudgetLine> toWrite) {
     List<com.example.demo.model.money.BudgetLine> saved =
         budgetLineService.createOrUpdateAll(
-            toWrite.stream().map(budgetLineMapper::toDomain).toList());
+            toWrite.stream().map(rest -> budgetLineMapper.toDomain(rest, comp_id)).toList());
     return budgetLineMapper.toRestBudgetLines(saved);
   }
 

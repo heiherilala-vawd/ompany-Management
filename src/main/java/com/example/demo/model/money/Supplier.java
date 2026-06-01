@@ -4,6 +4,10 @@ import com.example.demo.model.Company;
 import com.example.demo.model.CreatAndUpdateEntity;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Objects;
 import lombok.AllArgsConstructor;
@@ -26,13 +30,20 @@ public class Supplier extends CreatAndUpdateEntity implements Serializable {
 
   @Id private String id;
 
+  @NotBlank
+  @Size(max = 255)
   private String name;
 
+  @NotBlank
+  @Size(max = 255)
   private String siret;
 
   @Column(columnDefinition = "TEXT")
   private String address;
 
+  @NotBlank
+  @Size(max = 255)
+  @Email
   private String email;
 
   private String phone;
@@ -42,6 +53,7 @@ public class Supplier extends CreatAndUpdateEntity implements Serializable {
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "company_id")
+  @NotNull
   private Company company;
 
   @JsonProperty("company_id")

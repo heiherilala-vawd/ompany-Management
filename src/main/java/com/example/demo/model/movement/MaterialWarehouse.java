@@ -10,6 +10,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -30,18 +31,23 @@ public class MaterialWarehouse extends CreatAndUpdateEntity implements Serializa
 
   @EmbeddedId private MaterialWarehouseId id;
 
+  @NotNull
   @ManyToOne
   @MapsId("materialId")
   @JoinColumn(name = "material_id")
   private Material material;
 
+  @NotNull
   @ManyToOne
   @MapsId("warehouseId")
   @JoinColumn(name = "warehouse_id")
   private Warehouse warehouse;
 
+  @NotNull
+  @Min(0)
   private Integer quantity;
 
+  @NotNull
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "job_id")
   private Job job;

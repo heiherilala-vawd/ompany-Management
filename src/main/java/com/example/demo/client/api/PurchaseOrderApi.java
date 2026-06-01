@@ -50,7 +50,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-30T17:19:15.606578257+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-01T18:19:40.950295941+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class PurchaseOrderApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -339,11 +339,12 @@ public class PurchaseOrderApi {
    * Get all purchase orders for a company
    * 
    * @param compId  (required)
+   * @param jobId  (optional)
    * @return List&lt;PurchaseOrder&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<PurchaseOrder> getPurchaseOrders(String compId) throws ApiException {
-    ApiResponse<List<PurchaseOrder>> localVarResponse = getPurchaseOrdersWithHttpInfo(compId);
+  public List<PurchaseOrder> getPurchaseOrders(String compId, String jobId) throws ApiException {
+    ApiResponse<List<PurchaseOrder>> localVarResponse = getPurchaseOrdersWithHttpInfo(compId, jobId);
     return localVarResponse.getData();
   }
 
@@ -351,11 +352,12 @@ public class PurchaseOrderApi {
    * Get all purchase orders for a company
    * 
    * @param compId  (required)
+   * @param jobId  (optional)
    * @return ApiResponse&lt;List&lt;PurchaseOrder&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<PurchaseOrder>> getPurchaseOrdersWithHttpInfo(String compId) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getPurchaseOrdersRequestBuilder(compId);
+  public ApiResponse<List<PurchaseOrder>> getPurchaseOrdersWithHttpInfo(String compId, String jobId) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getPurchaseOrdersRequestBuilder(compId, jobId);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -383,7 +385,7 @@ public class PurchaseOrderApi {
     }
   }
 
-  private HttpRequest.Builder getPurchaseOrdersRequestBuilder(String compId) throws ApiException {
+  private HttpRequest.Builder getPurchaseOrdersRequestBuilder(String compId, String jobId) throws ApiException {
     // verify the required parameter 'compId' is set
     if (compId == null) {
       throw new ApiException(400, "Missing the required parameter 'compId' when calling getPurchaseOrders");
@@ -394,7 +396,22 @@ public class PurchaseOrderApi {
     String localVarPath = "/companies/{comp_id}/purchase_orders"
         .replace("{comp_id}", ApiClient.urlEncode(compId.toString()));
 
-    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    List<Pair> localVarQueryParams = new ArrayList<>();
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
+    String localVarQueryParameterBaseName;
+    localVarQueryParameterBaseName = "job_id";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("job_id", jobId));
+
+    if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
+      StringJoiner queryJoiner = new StringJoiner("&");
+      localVarQueryParams.forEach(p -> queryJoiner.add(p.getName() + '=' + p.getValue()));
+      if (localVarQueryStringJoiner.length() != 0) {
+        queryJoiner.add(localVarQueryStringJoiner.toString());
+      }
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
+    } else {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    }
 
     localVarRequestBuilder.header("Accept", "application/json");
 

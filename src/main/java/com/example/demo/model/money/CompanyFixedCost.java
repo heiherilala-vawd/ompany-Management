@@ -8,6 +8,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -32,17 +36,20 @@ public class CompanyFixedCost extends CreatAndUpdateEntity implements Serializab
 
   @Id private String id;
 
+  @NotBlank
+  @Size(max = 255)
   private String name;
 
-  private BigDecimal amount;
+  @NotNull @PositiveOrZero private BigDecimal amount;
 
   private String description;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "company_id")
+  @NotNull
   private Company company;
 
-  private LocalDate startDate;
+  @NotNull private LocalDate startDate;
 
   private LocalDate endDate;
 

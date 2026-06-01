@@ -8,6 +8,7 @@ import com.example.demo.model.PageFromOne;
 import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.service.movement.EquipmentService;
 import com.example.demo.service.movement.MaintenanceService;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -52,24 +53,25 @@ public class MaintenanceController {
   @PutMapping("/companies/{comp_id}/maintenances")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public List<Maintenance> crupdateMaintenances(
-      @PathVariable String comp_id,
-      @RequestParam(required = false) String equipment_id,
-      @RequestBody List<CrupdateMaintenance> toWrite) {
+      @PathVariable String comp_id, @Valid @RequestBody List<CrupdateMaintenance> toWrite) {
     List<com.example.demo.model.movement.Maintenance> saved =
         maintenanceService.createOrUpdateAll(
-            equipment_id,
             toWrite.stream()
                 .map(
                     cm -> {
                       com.example.demo.model.movement.Maintenance m =
                           maintenanceMapper.toDomain(cm);
-                      m.setEquipment(
-                          equipmentService
-                              .findById(equipment_id)
-                              .orElseThrow(
-                                  () ->
-                                      new NotFoundException(
-                                          "Equipment with id " + equipment_id + " not found")));
+                      if (cm.getEquipmentId() != null) {
+                        m.setEquipment(
+                            equipmentService
+                                .findById(cm.getEquipmentId())
+                                .orElseThrow(
+                                    () ->
+                                        new NotFoundException(
+                                            "Equipment with id "
+                                                + cm.getEquipmentId()
+                                                + " not found")));
+                      }
                       return m;
                     })
                 .toList());

@@ -79,7 +79,10 @@ public class EmployeePaymentMapper {
 
     return com.example.demo.model.money.EmployeePayment.builder()
         .id(restPayment.getId())
-        .expense(expenseMoneyMapper.toDomain(restPayment.getExpense()))
+        .expense(
+            restPayment.getExpenseId() != null
+                ? expenseMoneyService.findById(restPayment.getExpenseId()).orElse(null)
+                : null)
         .users(users)
         .isForTeam(restPayment.getIsForTeam())
         .team(team)

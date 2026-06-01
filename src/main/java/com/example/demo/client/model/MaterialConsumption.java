@@ -48,7 +48,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   MaterialConsumption.JSON_PROPERTY_UPDATED_BY,
   MaterialConsumption.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-30T17:19:15.606578257+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-01T18:19:40.950295941+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class MaterialConsumption {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;

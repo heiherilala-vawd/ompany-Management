@@ -37,11 +37,12 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   CrupdateSupplier.JSON_PROPERTY_SIRET,
   CrupdateSupplier.JSON_PROPERTY_ADDRESS,
   CrupdateSupplier.JSON_PROPERTY_EMAIL,
+  CrupdateSupplier.JSON_PROPERTY_COMPANY_ID,
   CrupdateSupplier.JSON_PROPERTY_PHONE,
   CrupdateSupplier.JSON_PROPERTY_CONTACT_NAME,
   CrupdateSupplier.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-30T17:19:15.606578257+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-01T18:19:40.950295941+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdateSupplier {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -57,6 +58,9 @@ public class CrupdateSupplier {
 
   public static final String JSON_PROPERTY_EMAIL = "email";
   private String email;
+
+  public static final String JSON_PROPERTY_COMPANY_ID = "company_id";
+  private String companyId;
 
   public static final String JSON_PROPERTY_PHONE = "phone";
   private String phone;
@@ -104,9 +108,9 @@ public class CrupdateSupplier {
    * Get name
    * @return name
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_NAME)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getName() {
     return name;
@@ -114,7 +118,7 @@ public class CrupdateSupplier {
 
 
   @JsonProperty(JSON_PROPERTY_NAME)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setName(String name) {
     this.name = name;
   }
@@ -129,9 +133,9 @@ public class CrupdateSupplier {
    * Get siret
    * @return siret
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_SIRET)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getSiret() {
     return siret;
@@ -139,7 +143,7 @@ public class CrupdateSupplier {
 
 
   @JsonProperty(JSON_PROPERTY_SIRET)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setSiret(String siret) {
     this.siret = siret;
   }
@@ -179,9 +183,9 @@ public class CrupdateSupplier {
    * Get email
    * @return email
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_EMAIL)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getEmail() {
     return email;
@@ -189,9 +193,34 @@ public class CrupdateSupplier {
 
 
   @JsonProperty(JSON_PROPERTY_EMAIL)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setEmail(String email) {
     this.email = email;
+  }
+
+
+  public CrupdateSupplier companyId(String companyId) {
+    this.companyId = companyId;
+    return this;
+  }
+
+   /**
+   * Get companyId
+   * @return companyId
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_COMPANY_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getCompanyId() {
+    return companyId;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_COMPANY_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setCompanyId(String companyId) {
+    this.companyId = companyId;
   }
 
 
@@ -287,6 +316,7 @@ public class CrupdateSupplier {
         Objects.equals(this.siret, crupdateSupplier.siret) &&
         Objects.equals(this.address, crupdateSupplier.address) &&
         Objects.equals(this.email, crupdateSupplier.email) &&
+        Objects.equals(this.companyId, crupdateSupplier.companyId) &&
         Objects.equals(this.phone, crupdateSupplier.phone) &&
         Objects.equals(this.contactName, crupdateSupplier.contactName) &&
         Objects.equals(this.comment, crupdateSupplier.comment);
@@ -294,7 +324,7 @@ public class CrupdateSupplier {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, siret, address, email, phone, contactName, comment);
+    return Objects.hash(id, name, siret, address, email, companyId, phone, contactName, comment);
   }
 
   @Override
@@ -306,6 +336,7 @@ public class CrupdateSupplier {
     sb.append("    siret: ").append(toIndentedString(siret)).append("\n");
     sb.append("    address: ").append(toIndentedString(address)).append("\n");
     sb.append("    email: ").append(toIndentedString(email)).append("\n");
+    sb.append("    companyId: ").append(toIndentedString(companyId)).append("\n");
     sb.append("    phone: ").append(toIndentedString(phone)).append("\n");
     sb.append("    contactName: ").append(toIndentedString(contactName)).append("\n");
     sb.append("    comment: ").append(toIndentedString(comment)).append("\n");
@@ -379,6 +410,11 @@ public class CrupdateSupplier {
     // add `email` to the URL query string
     if (getEmail() != null) {
       joiner.add(String.format("%semail%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getEmail()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `company_id` to the URL query string
+    if (getCompanyId() != null) {
+      joiner.add(String.format("%scompany_id%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getCompanyId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `phone` to the URL query string

@@ -15,7 +15,8 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 public class TaskScheduleMapper {
 
-  public com.example.demo.model.task.TaskSchedule toDomain(CrupdateTaskSchedule rest) {
+  public com.example.demo.model.task.TaskSchedule toDomain(
+      CrupdateTaskSchedule rest, String companyId) {
     if (rest == null) return null;
     com.example.demo.model.task.TaskSchedule.TaskScheduleBuilder<?, ?> builder =
         com.example.demo.model.task.TaskSchedule.builder()
@@ -29,8 +30,8 @@ public class TaskScheduleMapper {
     if (rest.getPriority() != null) {
       builder.priority(TaskPriority.valueOf(rest.getPriority().getValue()));
     }
-    if (rest.getCompanyId() != null) {
-      builder.company(Company.builder().id(rest.getCompanyId()).build());
+    if (companyId != null) {
+      builder.company(Company.builder().id(companyId).build());
     }
     com.example.demo.model.task.TaskSchedule domain = builder.build();
     if (rest.getAssignedUserIds() != null) {

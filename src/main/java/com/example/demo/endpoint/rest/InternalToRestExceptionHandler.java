@@ -2,6 +2,8 @@ package com.example.demo.endpoint.rest;
 
 import com.example.demo.model.exception.*;
 import jakarta.persistence.OptimisticLockException;
+import jakarta.validation.ConstraintViolationException;
+import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.exception.LockAcquisitionException;
 import org.springframework.dao.CannotAcquireLockException;
@@ -10,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authorization.AuthorizationDeniedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -38,6 +41,28 @@ public class InternalToRestExceptionHandler {
       MethodArgumentTypeMismatchException e) {
     log.info("Conversion failed", e);
     String message = e.getCause().getCause().getMessage();
+    return handleBadRequest(new BadRequestException(message));
+  }
+
+  @ExceptionHandler(value = {MethodArgumentNotValidException.class})
+  ResponseEntity<com.example.demo.client.model.ModelApiException> handleValidationError(
+      MethodArgumentNotValidException e) {
+    log.info("Validation failed", e);
+    String message =
+        e.getBindingResult().getFieldErrors().stream()
+            .map(f -> f.getField() + ": " + f.getDefaultMessage())
+            .collect(Collectors.joining(", "));
+    return handleBadRequest(new BadRequestException(message));
+  }
+
+  @ExceptionHandler(value = {ConstraintViolationException.class})
+  ResponseEntity<com.example.demo.client.model.ModelApiException> handleConstraintViolation(
+      ConstraintViolationException e) {
+    log.info("Constraint violation", e);
+    String message =
+        e.getConstraintViolations().stream()
+            .map(v -> v.getPropertyPath() + ": " + v.getMessage())
+            .collect(Collectors.joining(", "));
     return handleBadRequest(new BadRequestException(message));
   }
 

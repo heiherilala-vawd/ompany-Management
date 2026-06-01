@@ -8,6 +8,7 @@ import com.example.demo.model.PageFromOne;
 import com.example.demo.model.criteria.TravelExpenseCriteria;
 import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.service.money.TravelExpenseService;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -61,7 +62,7 @@ public class TravelExpenseController {
       @PathVariable String comp_id,
       @PathVariable String job_id,
       @PathVariable String user_id,
-      @RequestBody List<CrupdateTravelExpense> toWrite) {
+      @Valid @RequestBody List<CrupdateTravelExpense> toWrite) {
     List<com.example.demo.model.money.TravelExpense> saved =
         travelExpenseService.createOrUpdateAll(
             toWrite.stream().map(travelExpenseMapper::toDomain).toList());

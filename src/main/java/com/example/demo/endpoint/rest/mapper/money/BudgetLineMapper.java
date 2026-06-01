@@ -12,13 +12,13 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 public class BudgetLineMapper {
 
-  public com.example.demo.model.money.BudgetLine toDomain(CrupdateBudgetLine rest) {
+  public com.example.demo.model.money.BudgetLine toDomain(
+      CrupdateBudgetLine rest, String companyId) {
     if (rest == null) return null;
 
     return com.example.demo.model.money.BudgetLine.builder()
         .id(rest.getId())
-        .company(
-            rest.getCompanyId() != null ? Company.builder().id(rest.getCompanyId()).build() : null)
+        .company(companyId != null ? Company.builder().id(companyId).build() : null)
         .category(rest.getCategory())
         .plannedAmount(rest.getPlannedAmount())
         .actualAmount(rest.getActualAmount())

@@ -12,7 +12,8 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 public class CashAccountMapper {
 
-  public com.example.demo.model.money.CashAccount toDomain(CrupdateCashAccount rest) {
+  public com.example.demo.model.money.CashAccount toDomain(
+      CrupdateCashAccount rest, String companyId) {
     if (rest == null) return null;
 
     return com.example.demo.model.money.CashAccount.builder()
@@ -20,8 +21,7 @@ public class CashAccountMapper {
         .name(rest.getName())
         .balance(rest.getBalance())
         .description(rest.getDescription())
-        .company(
-            rest.getCompanyId() != null ? Company.builder().id(rest.getCompanyId()).build() : null)
+        .company(companyId != null ? Company.builder().id(companyId).build() : null)
         .comment(rest.getComment())
         .build();
   }

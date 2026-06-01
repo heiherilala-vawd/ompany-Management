@@ -5,6 +5,7 @@ import com.example.demo.client.model.IncomeType;
 import com.example.demo.endpoint.rest.mapper.money.IncomeTypeMapper;
 import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.service.money.IncomeTypeService;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -40,10 +41,10 @@ public class IncomeTypeController {
   @PutMapping("/companies/{comp_id}/income_types")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<IncomeType> crupdateIncomeTypes(
-      @PathVariable String comp_id, @RequestBody List<CrupdateIncomeType> toWrite) {
+      @PathVariable String comp_id, @Valid @RequestBody List<CrupdateIncomeType> toWrite) {
     return incomeTypeMapper.toRestIncomeTypes(
         incomeTypeService.createOrUpdateAll(
-            toWrite.stream().map(incomeTypeMapper::toDomain).toList()));
+            toWrite.stream().map(rest -> incomeTypeMapper.toDomain(rest, comp_id)).toList()));
   }
 
   @DeleteMapping("/companies/{comp_id}/income_types/{id}")

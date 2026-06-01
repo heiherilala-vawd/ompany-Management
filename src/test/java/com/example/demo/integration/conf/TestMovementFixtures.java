@@ -4,6 +4,7 @@ import com.example.demo.client.model.CrupdateEquipmentUsage;
 import com.example.demo.client.model.CrupdateMaterialConsumption;
 import com.example.demo.client.model.EquipmentUsage;
 import com.example.demo.client.model.MaterialConsumption;
+import com.example.demo.client.model.UsageStatus;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.UUID;
@@ -74,7 +75,7 @@ final class TestMovementFixtures {
     eu.setStartTime(Instant.parse("2024-06-01T05:00:00Z"));
     eu.setEndTime(Instant.parse("2024-06-01T14:00:00Z"));
     eu.setSourceLocation(TestUtils.WAREHOUSE1_ID);
-    eu.setUsageStatus("RETURNED");
+    eu.setUsageStatus(UsageStatus.RETURNED);
     eu.setUsedBy(TestUtils.ADMIN_ID);
     return eu;
   }
@@ -87,7 +88,7 @@ final class TestMovementFixtures {
     eu.setStartTime(Instant.parse("2024-06-02T05:00:00Z"));
     eu.setEndTime(Instant.parse("2024-06-02T14:00:00Z"));
     eu.setSourceLocation(TestUtils.WAREHOUSE1_ID);
-    eu.setUsageStatus("RETURNED");
+    eu.setUsageStatus(UsageStatus.RETURNED);
     eu.setUsedBy(TestUtils.ADMIN_ID);
     return eu;
   }
@@ -100,7 +101,7 @@ final class TestMovementFixtures {
     crupdate.setStartTime(eu.getStartTime());
     crupdate.setEndTime(eu.getEndTime());
     crupdate.setSourceLocation(eu.getSourceLocation());
-    crupdate.setUsageStatus(eu.getUsageStatus());
+    crupdate.setUsageStatus(eu.getUsageStatus().getValue());
     crupdate.setUsedBy(eu.getUsedBy());
     crupdate.setComment(eu.getComment());
     return crupdate;

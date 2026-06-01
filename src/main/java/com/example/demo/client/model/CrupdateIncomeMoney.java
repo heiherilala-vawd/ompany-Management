@@ -47,7 +47,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   CrupdateIncomeMoney.JSON_PROPERTY_DESCRIPTION,
   CrupdateIncomeMoney.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-30T17:19:15.606578257+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-01T18:19:40.950295941+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdateIncomeMoney {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -122,9 +122,9 @@ public class CrupdateIncomeMoney {
    * Get sourceOrganization
    * @return sourceOrganization
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_SOURCE_ORGANIZATION)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getSourceOrganization() {
     return sourceOrganization;
@@ -132,7 +132,7 @@ public class CrupdateIncomeMoney {
 
 
   @JsonProperty(JSON_PROPERTY_SOURCE_ORGANIZATION)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setSourceOrganization(String sourceOrganization) {
     this.sourceOrganization = sourceOrganization;
   }
@@ -272,9 +272,9 @@ public class CrupdateIncomeMoney {
    * ID of the job this income is related to
    * @return jobId
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_JOB_ID)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getJobId() {
     return jobId;
@@ -282,7 +282,7 @@ public class CrupdateIncomeMoney {
 
 
   @JsonProperty(JSON_PROPERTY_JOB_ID)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setJobId(String jobId) {
     this.jobId = jobId;
   }
@@ -297,9 +297,9 @@ public class CrupdateIncomeMoney {
    * ID of the income type associated with this income
    * @return incomeTypeId
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_INCOME_TYPE_ID)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getIncomeTypeId() {
     return incomeTypeId;
@@ -307,7 +307,7 @@ public class CrupdateIncomeMoney {
 
 
   @JsonProperty(JSON_PROPERTY_INCOME_TYPE_ID)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setIncomeTypeId(String incomeTypeId) {
     this.incomeTypeId = incomeTypeId;
   }
@@ -320,6 +320,7 @@ public class CrupdateIncomeMoney {
 
    /**
    * Get amount
+   * minimum: 0
    * @return amount
   **/
   @jakarta.annotation.Nullable

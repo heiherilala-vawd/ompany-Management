@@ -3,6 +3,9 @@ package com.example.demo.model.task;
 import com.example.demo.model.Company;
 import com.example.demo.model.CreatAndUpdateEntity;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -29,6 +32,8 @@ public class Task extends CreatAndUpdateEntity implements Serializable {
 
   @Id private String id;
 
+  @NotBlank
+  @Size(max = 255)
   private String title;
 
   @Column(columnDefinition = "TEXT")
@@ -37,15 +42,17 @@ public class Task extends CreatAndUpdateEntity implements Serializable {
   @Column(name = "due_date")
   private LocalDate dueDate;
 
+  @NotNull
   @Enumerated(EnumType.STRING)
   @JdbcTypeCode(SqlTypes.NAMED_ENUM)
   private TaskPriority priority;
 
-  private Boolean completed;
+  @NotNull private Boolean completed;
 
   @Column(name = "completed_at")
   private Instant completedAt;
 
+  @NotNull
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "company_id")
   private Company company;

@@ -8,6 +8,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Objects;
 import lombok.AllArgsConstructor;
@@ -30,12 +33,15 @@ public class OtherExpenseType extends CreatAndUpdateEntity implements Serializab
 
   @Id private String id;
 
+  @NotBlank
+  @Size(max = 255)
   private String name;
 
   private String description;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "company_id")
+  @NotNull
   private Company company;
 
   @Override

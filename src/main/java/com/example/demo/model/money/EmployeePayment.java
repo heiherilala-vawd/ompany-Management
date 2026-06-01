@@ -5,6 +5,7 @@ import com.example.demo.model.User;
 import com.example.demo.model.core.Team;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +36,7 @@ public class EmployeePayment extends CreatAndUpdateEntity implements Serializabl
   @OneToOne
   @JoinColumn(name = "expense_id")
   @JsonManagedReference
+  @NotNull
   private ExpenseMoney expense;
 
   @ManyToMany
@@ -48,6 +50,7 @@ public class EmployeePayment extends CreatAndUpdateEntity implements Serializabl
 
   @Column(name = "is_for_team")
   @Builder.Default
+  @NotNull
   private Boolean isForTeam = false;
 
   @ManyToOne(fetch = FetchType.LAZY)
@@ -58,6 +61,7 @@ public class EmployeePayment extends CreatAndUpdateEntity implements Serializabl
 
   @Enumerated(EnumType.STRING)
   @JdbcTypeCode(SqlTypes.NAMED_ENUM)
+  @NotNull
   private PaymentType paymentType;
 
   @Override

@@ -45,7 +45,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   CrupdateTask.JSON_PROPERTY_COMPANY_ID,
   CrupdateTask.JSON_PROPERTY_ASSIGNED_USER_IDS
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-30T17:19:15.606578257+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-01T18:19:40.950295941+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdateTask {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -108,9 +108,9 @@ public class CrupdateTask {
    * Get title
    * @return title
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_TITLE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getTitle() {
     return title;
@@ -118,7 +118,7 @@ public class CrupdateTask {
 
 
   @JsonProperty(JSON_PROPERTY_TITLE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setTitle(String title) {
     this.title = title;
   }
@@ -183,9 +183,9 @@ public class CrupdateTask {
    * Get priority
    * @return priority
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_PRIORITY)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public TaskPriority getPriority() {
     return priority;
@@ -193,7 +193,7 @@ public class CrupdateTask {
 
 
   @JsonProperty(JSON_PROPERTY_PRIORITY)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setPriority(TaskPriority priority) {
     this.priority = priority;
   }

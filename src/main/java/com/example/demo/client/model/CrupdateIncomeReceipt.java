@@ -40,7 +40,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   CrupdateIncomeReceipt.JSON_PROPERTY_INCOME_ID,
   CrupdateIncomeReceipt.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-30T17:19:15.606578257+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-01T18:19:40.950295941+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdateIncomeReceipt {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -94,9 +94,9 @@ public class CrupdateIncomeReceipt {
    * Get paymentDate
    * @return paymentDate
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_PAYMENT_DATE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public java.time.LocalDate getPaymentDate() {
     return paymentDate;
@@ -104,7 +104,7 @@ public class CrupdateIncomeReceipt {
 
 
   @JsonProperty(JSON_PROPERTY_PAYMENT_DATE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setPaymentDate(java.time.LocalDate paymentDate) {
     this.paymentDate = paymentDate;
   }
@@ -117,11 +117,12 @@ public class CrupdateIncomeReceipt {
 
    /**
    * Get amount
+   * minimum: 0
    * @return amount
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_AMOUNT)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public BigDecimal getAmount() {
     return amount;
@@ -129,7 +130,7 @@ public class CrupdateIncomeReceipt {
 
 
   @JsonProperty(JSON_PROPERTY_AMOUNT)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setAmount(BigDecimal amount) {
     this.amount = amount;
   }
@@ -144,9 +145,9 @@ public class CrupdateIncomeReceipt {
    * ID of the income this receipt is related to
    * @return incomeId
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_INCOME_ID)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getIncomeId() {
     return incomeId;
@@ -154,7 +155,7 @@ public class CrupdateIncomeReceipt {
 
 
   @JsonProperty(JSON_PROPERTY_INCOME_ID)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setIncomeId(String incomeId) {
     this.incomeId = incomeId;
   }

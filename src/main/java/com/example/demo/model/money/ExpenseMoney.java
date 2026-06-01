@@ -4,6 +4,7 @@ import com.example.demo.model.Job;
 import com.example.demo.model.movement.Maintenance;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Objects;
 import lombok.AllArgsConstructor;
@@ -52,6 +53,7 @@ public class ExpenseMoney extends MonetaryMovement implements Serializable {
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "job_id")
+  @NotNull
   private Job job;
 
   @Override

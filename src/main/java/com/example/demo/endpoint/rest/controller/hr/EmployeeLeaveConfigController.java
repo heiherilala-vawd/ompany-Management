@@ -4,6 +4,7 @@ import com.example.demo.client.model.CrupdateEmployeeLeaveConfig;
 import com.example.demo.client.model.EmployeeLeaveConfig;
 import com.example.demo.endpoint.rest.mapper.hr.EmployeeLeaveConfigMapper;
 import com.example.demo.model.exception.NotFoundException;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -27,7 +28,7 @@ public class EmployeeLeaveConfigController {
   @PutMapping("/companies/{comp_id}/leave_configs")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<EmployeeLeaveConfig> crupdateEmployeeLeaveConfigs(
-      @PathVariable String comp_id, @RequestBody List<CrupdateEmployeeLeaveConfig> toWrite) {
+      @PathVariable String comp_id, @Valid @RequestBody List<CrupdateEmployeeLeaveConfig> toWrite) {
     List<com.example.demo.model.hr.EmployeeLeaveConfig> saved =
         employeeLeaveConfigService.createOrUpdateAll(
             toWrite.stream().map(dto -> employeeLeaveConfigMapper.toDomain(dto, comp_id)).toList());

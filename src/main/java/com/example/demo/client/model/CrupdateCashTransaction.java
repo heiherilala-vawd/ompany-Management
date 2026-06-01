@@ -43,7 +43,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   CrupdateCashTransaction.JSON_PROPERTY_TYPE,
   CrupdateCashTransaction.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-30T17:19:15.606578257+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-01T18:19:40.950295941+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdateCashTransaction {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -103,9 +103,9 @@ public class CrupdateCashTransaction {
    * Get cashAccountId
    * @return cashAccountId
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_CASH_ACCOUNT_ID)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getCashAccountId() {
     return cashAccountId;
@@ -113,7 +113,7 @@ public class CrupdateCashTransaction {
 
 
   @JsonProperty(JSON_PROPERTY_CASH_ACCOUNT_ID)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setCashAccountId(String cashAccountId) {
     this.cashAccountId = cashAccountId;
   }
@@ -126,11 +126,12 @@ public class CrupdateCashTransaction {
 
    /**
    * Get amount
+   * minimum: 0
    * @return amount
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_AMOUNT)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public BigDecimal getAmount() {
     return amount;
@@ -138,7 +139,7 @@ public class CrupdateCashTransaction {
 
 
   @JsonProperty(JSON_PROPERTY_AMOUNT)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setAmount(BigDecimal amount) {
     this.amount = amount;
   }
@@ -153,9 +154,9 @@ public class CrupdateCashTransaction {
    * Get transactionDate
    * @return transactionDate
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_TRANSACTION_DATE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public java.time.LocalDate getTransactionDate() {
     return transactionDate;
@@ -163,7 +164,7 @@ public class CrupdateCashTransaction {
 
 
   @JsonProperty(JSON_PROPERTY_TRANSACTION_DATE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setTransactionDate(java.time.LocalDate transactionDate) {
     this.transactionDate = transactionDate;
   }
@@ -203,9 +204,9 @@ public class CrupdateCashTransaction {
    * Get type
    * @return type
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_TYPE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public CashTransactionType getType() {
     return type;
@@ -213,7 +214,7 @@ public class CrupdateCashTransaction {
 
 
   @JsonProperty(JSON_PROPERTY_TYPE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setType(CashTransactionType type) {
     this.type = type;
   }

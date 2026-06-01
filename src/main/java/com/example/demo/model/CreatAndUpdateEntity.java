@@ -1,6 +1,7 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.Instant;
 import lombok.AllArgsConstructor;
@@ -35,6 +36,7 @@ public abstract class CreatAndUpdateEntity implements Serializable {
   @JoinColumn(name = "updated_by")
   private User updatedBy;
 
+  @Size(max = 500)
   @Column(columnDefinition = "TEXT")
   private String comment;
 }

@@ -53,4 +53,23 @@ public interface IncomeMoneyRepository
       @Param("dateFrom") Instant dateFrom,
       @Param("dateTo") Instant dateTo,
       @Param("format") String format);
+
+  @Query(
+      nativeQuery = true,
+      value =
+          "SELECT sub.fmt, COALESCE(SUM(sub.net), 0) FROM ("
+              + "SELECT TO_CHAR(i.facturation_date, CAST(:format AS TEXT)) AS fmt, "
+              + "  i.amount - COALESCE("
+              + "    (SELECT SUM(r.amount) FROM income_receipt r WHERE r.income_id = i.id), 0"
+              + "  ) AS net "
+              + "FROM income_money i "
+              + "WHERE i.job_id = COALESCE(CAST(:jobId AS TEXT), i.job_id) "
+              + "AND i.facturation_date >= COALESCE(CAST(:dateFrom AS TIMESTAMPTZ), i.facturation_date) "
+              + "AND i.facturation_date <= COALESCE(CAST(:dateTo AS TIMESTAMPTZ), i.facturation_date)"
+              + ") sub GROUP BY sub.fmt ORDER BY sub.fmt")
+  List<Object[]> findReceivablesByPeriod(
+      @Param("jobId") String jobId,
+      @Param("dateFrom") Instant dateFrom,
+      @Param("dateTo") Instant dateTo,
+      @Param("format") String format);
 }

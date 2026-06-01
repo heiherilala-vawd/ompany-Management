@@ -52,19 +52,15 @@ class MoneyValidatorTest {
     }
 
     @Test
-    void should_throw_when_amount_null() {
+    void should_pass_when_amount_null() {
       MonetaryMovement m = MonetaryMovement.builder().amount(null).build();
-      assertThatThrownBy(() -> validator.validateMonetaryMovement(m))
-          .isInstanceOf(BadRequestException.class)
-          .hasMessageContaining("Amount must be positive");
+      assertThatCode(() -> validator.validateMonetaryMovement(m)).doesNotThrowAnyException();
     }
 
     @Test
-    void should_throw_when_amount_zero() {
+    void should_pass_when_amount_zero() {
       MonetaryMovement m = MonetaryMovement.builder().amount(BigDecimal.valueOf(0)).build();
-      assertThatThrownBy(() -> validator.validateMonetaryMovement(m))
-          .isInstanceOf(BadRequestException.class)
-          .hasMessageContaining("Amount must be positive");
+      assertThatCode(() -> validator.validateMonetaryMovement(m)).doesNotThrowAnyException();
     }
 
     @Test
@@ -72,7 +68,7 @@ class MoneyValidatorTest {
       MonetaryMovement m = MonetaryMovement.builder().amount(BigDecimal.valueOf(-1)).build();
       assertThatThrownBy(() -> validator.validateMonetaryMovement(m))
           .isInstanceOf(BadRequestException.class)
-          .hasMessageContaining("Amount must be positive");
+          .hasMessageContaining("Amount must be non-negative");
     }
   }
 
@@ -151,12 +147,22 @@ class MoneyValidatorTest {
               .build();
       assertThatThrownBy(() -> validator.validateExpenseMoney(e))
           .isInstanceOf(BadRequestException.class)
-          .hasMessageContaining("Amount must be positive");
+          .hasMessageContaining("Amount must be non-negative");
     }
 
     @Test
     void should_pass_when_amount_positive() {
       assertThatCode(() -> validator.validateExpenseMoney(validExpense)).doesNotThrowAnyException();
+    }
+
+    @Test
+    void should_throw_when_all_fields_invalid() {
+      ExpenseMoney e =
+          ExpenseMoney.builder().id("exp1").job(null).amount(BigDecimal.valueOf(-1)).build();
+      assertThatThrownBy(() -> validator.validateExpenseMoney(e))
+          .isInstanceOf(BadRequestException.class)
+          .hasMessageContaining("Expense must be associated with a job")
+          .hasMessageContaining("Amount must be non-negative");
     }
   }
 
@@ -211,11 +217,11 @@ class MoneyValidatorTest {
     void should_throw_when_null() {
       assertThatThrownBy(() -> validator.validateIncomeMoney(null))
           .isInstanceOf(BadRequestException.class)
-          .hasMessageContaining("Monetary movement cannot be null");
+          .hasMessageContaining("Income cannot be null");
     }
 
     @Test
-    void should_throw_when_amount_null() {
+    void should_pass_when_amount_null() {
       IncomeMoney i =
           IncomeMoney.builder()
               .id("inc1")
@@ -224,13 +230,11 @@ class MoneyValidatorTest {
               .job(Job.builder().id("job1").build())
               .incomeType(IncomeType.builder().id("it1").build())
               .build();
-      assertThatThrownBy(() -> validator.validateIncomeMoney(i))
-          .isInstanceOf(BadRequestException.class)
-          .hasMessageContaining("Amount must be positive");
+      assertThatCode(() -> validator.validateIncomeMoney(i)).doesNotThrowAnyException();
     }
 
     @Test
-    void should_throw_when_amount_zero() {
+    void should_pass_when_amount_zero() {
       IncomeMoney i =
           IncomeMoney.builder()
               .id("inc1")
@@ -239,9 +243,7 @@ class MoneyValidatorTest {
               .job(Job.builder().id("job1").build())
               .incomeType(IncomeType.builder().id("it1").build())
               .build();
-      assertThatThrownBy(() -> validator.validateIncomeMoney(i))
-          .isInstanceOf(BadRequestException.class)
-          .hasMessageContaining("Amount must be positive");
+      assertThatCode(() -> validator.validateIncomeMoney(i)).doesNotThrowAnyException();
     }
 
     @Test
@@ -256,7 +258,7 @@ class MoneyValidatorTest {
               .build();
       assertThatThrownBy(() -> validator.validateIncomeMoney(i))
           .isInstanceOf(BadRequestException.class)
-          .hasMessageContaining("Amount must be positive");
+          .hasMessageContaining("Amount must be non-negative");
     }
 
     @Test
@@ -425,6 +427,24 @@ class MoneyValidatorTest {
               .build();
       assertThatCode(() -> validator.validateIncomeMoney(i)).doesNotThrowAnyException();
     }
+
+    @Test
+    void should_throw_when_all_fields_invalid() {
+      IncomeMoney i =
+          IncomeMoney.builder()
+              .id("inc1")
+              .amount(BigDecimal.valueOf(-1))
+              .sourceOrganization(null)
+              .job(null)
+              .incomeType(null)
+              .build();
+      assertThatThrownBy(() -> validator.validateIncomeMoney(i))
+          .isInstanceOf(BadRequestException.class)
+          .hasMessageContaining("Amount must be non-negative")
+          .hasMessageContaining("Income must be associated with a job")
+          .hasMessageContaining("Source organization is mandatory for income")
+          .hasMessageContaining("Income type is mandatory for income");
+    }
   }
 
   @Nested
@@ -526,6 +546,15 @@ class MoneyValidatorTest {
           IncomeType.builder().id("it1").name("Consulting").company(new Company()).build();
       assertThatThrownBy(() -> validator.validateIncomeType(it))
           .isInstanceOf(BadRequestException.class)
+          .hasMessageContaining("Income type must be associated with a company");
+    }
+
+    @Test
+    void should_throw_when_all_fields_invalid() {
+      IncomeType it = IncomeType.builder().id("it1").name(null).company(null).build();
+      assertThatThrownBy(() -> validator.validateIncomeType(it))
+          .isInstanceOf(BadRequestException.class)
+          .hasMessageContaining("Income type name is mandatory")
           .hasMessageContaining("Income type must be associated with a company");
     }
   }
@@ -721,6 +750,24 @@ class MoneyValidatorTest {
       assertThatThrownBy(() -> validator.validateEmployeePayment(p))
           .isInstanceOf(BadRequestException.class)
           .hasMessageContaining("Team must be null when payment is not for a team");
+    }
+
+    @Test
+    void should_throw_when_all_fields_invalid() {
+      EmployeePayment p =
+          EmployeePayment.builder()
+              .id("ep1")
+              .expense(null)
+              .users(null)
+              .paymentType(null)
+              .paymentDescription(null)
+              .build();
+      assertThatThrownBy(() -> validator.validateEmployeePayment(p))
+          .isInstanceOf(BadRequestException.class)
+          .hasMessageContaining("Employee payment must be linked to an expense")
+          .hasMessageContaining("Employee payment must be linked to at least one user")
+          .hasMessageContaining("Payment type is mandatory")
+          .hasMessageContaining("Payment description is mandatory");
     }
   }
 
@@ -937,6 +984,26 @@ class MoneyValidatorTest {
               .build();
       assertThatCode(() -> validator.validateTravelExpense(te)).doesNotThrowAnyException();
     }
+
+    @Test
+    void should_throw_when_all_fields_invalid() {
+      TravelExpense te =
+          TravelExpense.builder()
+              .id("te1")
+              .expense(null)
+              .departureLocation(null)
+              .arrivalLocation(null)
+              .departureDate(null)
+              .arrivalDate(null)
+              .build();
+      assertThatThrownBy(() -> validator.validateTravelExpense(te))
+          .isInstanceOf(BadRequestException.class)
+          .hasMessageContaining("Travel expense must be linked to an expense")
+          .hasMessageContaining("Departure location is mandatory")
+          .hasMessageContaining("Arrival location is mandatory")
+          .hasMessageContaining("Departure date is mandatory")
+          .hasMessageContaining("Arrival date is mandatory");
+    }
   }
 
   @Nested
@@ -966,7 +1033,7 @@ class MoneyValidatorTest {
           Purchase.builder()
               .id("p1")
               .expense(ExpenseMoney.builder().id("exp1").build())
-              .supplier(Warehouse.builder().id("wh1").build())
+              .sourceWarehouse(Warehouse.builder().id("wh1").build())
               .isEquipment(true)
               .quantity(5)
               .equipment(Equipment.builder().id("eq1").build())
@@ -981,7 +1048,7 @@ class MoneyValidatorTest {
           Purchase.builder()
               .id("p1")
               .expense(ExpenseMoney.builder().id("exp1").build())
-              .supplier(Warehouse.builder().id("wh1").build())
+              .sourceWarehouse(Warehouse.builder().id("wh1").build())
               .isEquipment(false)
               .quantity(5)
               .material(Material.builder().id("mat1").build())
@@ -1003,7 +1070,7 @@ class MoneyValidatorTest {
           Purchase.builder()
               .id("p1")
               .expense(null)
-              .supplier(Warehouse.builder().id("wh1").build())
+              .sourceWarehouse(Warehouse.builder().id("wh1").build())
               .isEquipment(true)
               .quantity(5)
               .equipment(Equipment.builder().id("eq1").build())
@@ -1019,7 +1086,7 @@ class MoneyValidatorTest {
           Purchase.builder()
               .id("p1")
               .expense(new ExpenseMoney())
-              .supplier(Warehouse.builder().id("wh1").build())
+              .sourceWarehouse(Warehouse.builder().id("wh1").build())
               .isEquipment(true)
               .quantity(5)
               .equipment(Equipment.builder().id("eq1").build())
@@ -1035,14 +1102,14 @@ class MoneyValidatorTest {
           Purchase.builder()
               .id("p1")
               .expense(ExpenseMoney.builder().id("exp1").build())
-              .supplier(null)
+              .sourceWarehouse(null)
               .isEquipment(true)
               .quantity(5)
               .equipment(Equipment.builder().id("eq1").build())
               .build();
       assertThatThrownBy(() -> validator.validatePurchase(p))
           .isInstanceOf(BadRequestException.class)
-          .hasMessageContaining("Supplier is mandatory for purchase");
+          .hasMessageContaining("Source warehouse is mandatory for purchase");
     }
 
     @Test
@@ -1051,14 +1118,14 @@ class MoneyValidatorTest {
           Purchase.builder()
               .id("p1")
               .expense(ExpenseMoney.builder().id("exp1").build())
-              .supplier(new Warehouse())
+              .sourceWarehouse(new Warehouse())
               .isEquipment(true)
               .quantity(5)
               .equipment(Equipment.builder().id("eq1").build())
               .build();
       assertThatThrownBy(() -> validator.validatePurchase(p))
           .isInstanceOf(BadRequestException.class)
-          .hasMessageContaining("Supplier is mandatory for purchase");
+          .hasMessageContaining("Source warehouse is mandatory for purchase");
     }
 
     @Test
@@ -1067,7 +1134,7 @@ class MoneyValidatorTest {
           Purchase.builder()
               .id("p1")
               .expense(ExpenseMoney.builder().id("exp1").build())
-              .supplier(Warehouse.builder().id("wh1").build())
+              .sourceWarehouse(Warehouse.builder().id("wh1").build())
               .isEquipment(null)
               .quantity(5)
               .build();
@@ -1082,7 +1149,7 @@ class MoneyValidatorTest {
           Purchase.builder()
               .id("p1")
               .expense(ExpenseMoney.builder().id("exp1").build())
-              .supplier(Warehouse.builder().id("wh1").build())
+              .sourceWarehouse(Warehouse.builder().id("wh1").build())
               .isEquipment(true)
               .quantity(null)
               .equipment(Equipment.builder().id("eq1").build())
@@ -1098,7 +1165,7 @@ class MoneyValidatorTest {
           Purchase.builder()
               .id("p1")
               .expense(ExpenseMoney.builder().id("exp1").build())
-              .supplier(Warehouse.builder().id("wh1").build())
+              .sourceWarehouse(Warehouse.builder().id("wh1").build())
               .isEquipment(true)
               .quantity(0)
               .equipment(Equipment.builder().id("eq1").build())
@@ -1114,7 +1181,7 @@ class MoneyValidatorTest {
           Purchase.builder()
               .id("p1")
               .expense(ExpenseMoney.builder().id("exp1").build())
-              .supplier(Warehouse.builder().id("wh1").build())
+              .sourceWarehouse(Warehouse.builder().id("wh1").build())
               .isEquipment(true)
               .quantity(-1)
               .equipment(Equipment.builder().id("eq1").build())
@@ -1130,7 +1197,7 @@ class MoneyValidatorTest {
           Purchase.builder()
               .id("p1")
               .expense(ExpenseMoney.builder().id("exp1").build())
-              .supplier(Warehouse.builder().id("wh1").build())
+              .sourceWarehouse(Warehouse.builder().id("wh1").build())
               .isEquipment(true)
               .quantity(5)
               .equipment(null)
@@ -1146,7 +1213,7 @@ class MoneyValidatorTest {
           Purchase.builder()
               .id("p1")
               .expense(ExpenseMoney.builder().id("exp1").build())
-              .supplier(Warehouse.builder().id("wh1").build())
+              .sourceWarehouse(Warehouse.builder().id("wh1").build())
               .isEquipment(true)
               .quantity(5)
               .equipment(new Equipment())
@@ -1162,7 +1229,7 @@ class MoneyValidatorTest {
           Purchase.builder()
               .id("p1")
               .expense(ExpenseMoney.builder().id("exp1").build())
-              .supplier(Warehouse.builder().id("wh1").build())
+              .sourceWarehouse(Warehouse.builder().id("wh1").build())
               .isEquipment(false)
               .quantity(5)
               .material(null)
@@ -1178,7 +1245,7 @@ class MoneyValidatorTest {
           Purchase.builder()
               .id("p1")
               .expense(ExpenseMoney.builder().id("exp1").build())
-              .supplier(Warehouse.builder().id("wh1").build())
+              .sourceWarehouse(Warehouse.builder().id("wh1").build())
               .isEquipment(false)
               .quantity(5)
               .material(new Material())
@@ -1186,6 +1253,26 @@ class MoneyValidatorTest {
       assertThatThrownBy(() -> validator.validatePurchase(p))
           .isInstanceOf(BadRequestException.class)
           .hasMessageContaining("Material is mandatory when isEquipment is false");
+    }
+
+    @Test
+    void should_throw_when_all_fields_invalid() {
+      Purchase p =
+          Purchase.builder()
+              .id("p1")
+              .expense(null)
+              .sourceWarehouse(null)
+              .isEquipment(null)
+              .quantity(null)
+              .invoiceDate(null)
+              .build();
+      assertThatThrownBy(() -> validator.validatePurchase(p))
+          .isInstanceOf(BadRequestException.class)
+          .hasMessageContaining("Purchase must be linked to an expense")
+          .hasMessageContaining("Source warehouse is mandatory for purchase")
+          .hasMessageContaining("IsEquipment flag is mandatory")
+          .hasMessageContaining("Quantity must be positive")
+          .hasMessageContaining("Invoice date is mandatory for purchase");
     }
   }
 
@@ -1245,29 +1332,25 @@ class MoneyValidatorTest {
     }
 
     @Test
-    void should_throw_when_expense_amount_null() {
+    void should_pass_when_expense_amount_null() {
       BankFee bf =
           BankFee.builder()
               .id("bf1")
               .expense(ExpenseMoney.builder().id("exp1").amount(null).build())
               .bankName("BNI")
               .build();
-      assertThatThrownBy(() -> validator.validateBankFee(bf))
-          .isInstanceOf(BadRequestException.class)
-          .hasMessageContaining("Bank fee amount must be positive");
+      assertThatCode(() -> validator.validateBankFee(bf)).doesNotThrowAnyException();
     }
 
     @Test
-    void should_throw_when_expense_amount_zero() {
+    void should_pass_when_expense_amount_zero() {
       BankFee bf =
           BankFee.builder()
               .id("bf1")
               .expense(ExpenseMoney.builder().id("exp1").amount(BigDecimal.valueOf(0)).build())
               .bankName("BNI")
               .build();
-      assertThatThrownBy(() -> validator.validateBankFee(bf))
-          .isInstanceOf(BadRequestException.class)
-          .hasMessageContaining("Bank fee amount must be positive");
+      assertThatCode(() -> validator.validateBankFee(bf)).doesNotThrowAnyException();
     }
 
     @Test
@@ -1280,7 +1363,7 @@ class MoneyValidatorTest {
               .build();
       assertThatThrownBy(() -> validator.validateBankFee(bf))
           .isInstanceOf(BadRequestException.class)
-          .hasMessageContaining("Bank fee amount must be positive");
+          .hasMessageContaining("Bank fee amount must be non-negative");
     }
 
     @Test
@@ -1330,6 +1413,15 @@ class MoneyValidatorTest {
               .build();
       assertThatThrownBy(() -> validator.validateBankFee(bf))
           .isInstanceOf(BadRequestException.class)
+          .hasMessageContaining("Bank name is mandatory");
+    }
+
+    @Test
+    void should_throw_when_all_fields_invalid() {
+      BankFee bf = BankFee.builder().id("bf1").expense(null).bankName(null).build();
+      assertThatThrownBy(() -> validator.validateBankFee(bf))
+          .isInstanceOf(BadRequestException.class)
+          .hasMessageContaining("Bank fee must be linked to an expense")
           .hasMessageContaining("Bank name is mandatory");
     }
   }
@@ -1433,6 +1525,15 @@ class MoneyValidatorTest {
           .isInstanceOf(BadRequestException.class)
           .hasMessageContaining("Description is mandatory for other expense");
     }
+
+    @Test
+    void should_throw_when_all_fields_invalid() {
+      OtherExpense oe = OtherExpense.builder().id("oe1").expense(null).description(null).build();
+      assertThatThrownBy(() -> validator.validateOtherExpense(oe))
+          .isInstanceOf(BadRequestException.class)
+          .hasMessageContaining("Other expense must be linked to an expense")
+          .hasMessageContaining("Description is mandatory for other expense");
+    }
   }
 
   @Nested
@@ -1490,11 +1591,11 @@ class MoneyValidatorTest {
               .build();
       assertThatThrownBy(() -> validator.validateLoan(loan))
           .isInstanceOf(BadRequestException.class)
-          .hasMessageContaining("Loan amount must be positive");
+          .hasMessageContaining("Loan amount must be non-negative");
     }
 
     @Test
-    void should_throw_when_amount_zero() {
+    void should_pass_when_amount_zero() {
       Loan loan =
           Loan.builder()
               .id("l1")
@@ -1504,9 +1605,7 @@ class MoneyValidatorTest {
               .startDate(LocalDate.of(2024, 1, 15))
               .job(Job.builder().id("job1").build())
               .build();
-      assertThatThrownBy(() -> validator.validateLoan(loan))
-          .isInstanceOf(BadRequestException.class)
-          .hasMessageContaining("Loan amount must be positive");
+      assertThatCode(() -> validator.validateLoan(loan)).doesNotThrowAnyException();
     }
 
     @Test
@@ -1522,7 +1621,7 @@ class MoneyValidatorTest {
               .build();
       assertThatThrownBy(() -> validator.validateLoan(loan))
           .isInstanceOf(BadRequestException.class)
-          .hasMessageContaining("Loan amount must be positive");
+          .hasMessageContaining("Loan amount must be non-negative");
     }
 
     @Test
@@ -1666,6 +1765,26 @@ class MoneyValidatorTest {
           .isInstanceOf(BadRequestException.class)
           .hasMessageContaining("Loan must be associated with a job");
     }
+
+    @Test
+    void should_throw_when_all_fields_invalid() {
+      Loan loan =
+          Loan.builder()
+              .id("l1")
+              .amount(null)
+              .lender(null)
+              .interestRate(null)
+              .startDate(null)
+              .job(null)
+              .build();
+      assertThatThrownBy(() -> validator.validateLoan(loan))
+          .isInstanceOf(BadRequestException.class)
+          .hasMessageContaining("Loan amount must be non-negative")
+          .hasMessageContaining("Lender is mandatory for loan")
+          .hasMessageContaining("Interest rate must be non-negative")
+          .hasMessageContaining("Start date is mandatory for loan")
+          .hasMessageContaining("Loan must be associated with a job");
+    }
   }
 
   @Nested
@@ -1761,11 +1880,11 @@ class MoneyValidatorTest {
               .build();
       assertThatThrownBy(() -> validator.validateLoanRepayment(r))
           .isInstanceOf(BadRequestException.class)
-          .hasMessageContaining("Repayment amount must be positive");
+          .hasMessageContaining("Repayment amount must be non-negative");
     }
 
     @Test
-    void should_throw_when_amount_zero() {
+    void should_pass_when_amount_zero() {
       LoanRepayment r =
           LoanRepayment.builder()
               .id("r1")
@@ -1773,9 +1892,7 @@ class MoneyValidatorTest {
               .paymentDate(LocalDate.of(2024, 2, 15))
               .amount(BigDecimal.valueOf(0))
               .build();
-      assertThatThrownBy(() -> validator.validateLoanRepayment(r))
-          .isInstanceOf(BadRequestException.class)
-          .hasMessageContaining("Repayment amount must be positive");
+      assertThatCode(() -> validator.validateLoanRepayment(r)).doesNotThrowAnyException();
     }
 
     @Test
@@ -1789,7 +1906,18 @@ class MoneyValidatorTest {
               .build();
       assertThatThrownBy(() -> validator.validateLoanRepayment(r))
           .isInstanceOf(BadRequestException.class)
-          .hasMessageContaining("Repayment amount must be positive");
+          .hasMessageContaining("Repayment amount must be non-negative");
+    }
+
+    @Test
+    void should_throw_when_all_fields_invalid() {
+      LoanRepayment r =
+          LoanRepayment.builder().id("r1").loan(null).paymentDate(null).amount(null).build();
+      assertThatThrownBy(() -> validator.validateLoanRepayment(r))
+          .isInstanceOf(BadRequestException.class)
+          .hasMessageContaining("Loan repayment must be linked to a loan")
+          .hasMessageContaining("Payment date is mandatory for loan repayment")
+          .hasMessageContaining("Repayment amount must be non-negative");
     }
   }
 
@@ -1886,11 +2014,11 @@ class MoneyValidatorTest {
               .build();
       assertThatThrownBy(() -> validator.validateIncomeReceipt(r))
           .isInstanceOf(BadRequestException.class)
-          .hasMessageContaining("Receipt amount must be positive");
+          .hasMessageContaining("Receipt amount must be non-negative");
     }
 
     @Test
-    void should_throw_when_amount_zero() {
+    void should_pass_when_amount_zero() {
       IncomeReceipt r =
           IncomeReceipt.builder()
               .id("ir1")
@@ -1898,9 +2026,7 @@ class MoneyValidatorTest {
               .paymentDate(LocalDate.of(2024, 1, 31))
               .amount(BigDecimal.valueOf(0))
               .build();
-      assertThatThrownBy(() -> validator.validateIncomeReceipt(r))
-          .isInstanceOf(BadRequestException.class)
-          .hasMessageContaining("Receipt amount must be positive");
+      assertThatCode(() -> validator.validateIncomeReceipt(r)).doesNotThrowAnyException();
     }
 
     @Test
@@ -1914,7 +2040,18 @@ class MoneyValidatorTest {
               .build();
       assertThatThrownBy(() -> validator.validateIncomeReceipt(r))
           .isInstanceOf(BadRequestException.class)
-          .hasMessageContaining("Receipt amount must be positive");
+          .hasMessageContaining("Receipt amount must be non-negative");
+    }
+
+    @Test
+    void should_throw_when_all_fields_invalid() {
+      IncomeReceipt r =
+          IncomeReceipt.builder().id("ir1").income(null).paymentDate(null).amount(null).build();
+      assertThatThrownBy(() -> validator.validateIncomeReceipt(r))
+          .isInstanceOf(BadRequestException.class)
+          .hasMessageContaining("Income receipt must be linked to an income")
+          .hasMessageContaining("Payment date is mandatory for income receipt")
+          .hasMessageContaining("Receipt amount must be non-negative");
     }
   }
 
@@ -1933,6 +2070,339 @@ class MoneyValidatorTest {
       assertThatThrownBy(() -> validator.validateIncomeReceipts(Collections.emptyList()))
           .isInstanceOf(BadRequestException.class)
           .hasMessageContaining("Income receipt list cannot be null or empty");
+    }
+  }
+
+  @Nested
+  class ValidateOtherExpenseType {
+
+    private OtherExpenseType validOtherExpenseType;
+
+    @BeforeEach
+    void setUp() {
+      validOtherExpenseType =
+          OtherExpenseType.builder()
+              .id("oet1")
+              .name("Miscellaneous")
+              .company(Company.builder().id("c1").build())
+              .build();
+    }
+
+    @Test
+    void should_pass_with_valid_other_expense_type() {
+      assertThatCode(() -> validator.validateOtherExpenseType(validOtherExpenseType))
+          .doesNotThrowAnyException();
+    }
+
+    @Test
+    void should_throw_when_null() {
+      assertThatThrownBy(() -> validator.validateOtherExpenseType(null))
+          .isInstanceOf(BadRequestException.class)
+          .hasMessageContaining("Other expense type cannot be null");
+    }
+
+    @Test
+    void should_throw_when_name_null() {
+      OtherExpenseType oet =
+          OtherExpenseType.builder()
+              .id("oet1")
+              .name(null)
+              .company(Company.builder().id("c1").build())
+              .build();
+      assertThatThrownBy(() -> validator.validateOtherExpenseType(oet))
+          .isInstanceOf(BadRequestException.class)
+          .hasMessageContaining("Other expense type name is mandatory");
+    }
+
+    @Test
+    void should_throw_when_name_empty() {
+      OtherExpenseType oet =
+          OtherExpenseType.builder()
+              .id("oet1")
+              .name("")
+              .company(Company.builder().id("c1").build())
+              .build();
+      assertThatThrownBy(() -> validator.validateOtherExpenseType(oet))
+          .isInstanceOf(BadRequestException.class)
+          .hasMessageContaining("Other expense type name is mandatory");
+    }
+
+    @Test
+    void should_throw_when_name_blank() {
+      OtherExpenseType oet =
+          OtherExpenseType.builder()
+              .id("oet1")
+              .name("   ")
+              .company(Company.builder().id("c1").build())
+              .build();
+      assertThatThrownBy(() -> validator.validateOtherExpenseType(oet))
+          .isInstanceOf(BadRequestException.class)
+          .hasMessageContaining("Other expense type name is mandatory");
+    }
+
+    @Test
+    void should_throw_when_company_null() {
+      OtherExpenseType oet =
+          OtherExpenseType.builder().id("oet1").name("Miscellaneous").company(null).build();
+      assertThatThrownBy(() -> validator.validateOtherExpenseType(oet))
+          .isInstanceOf(BadRequestException.class)
+          .hasMessageContaining("Other expense type must be associated with a company");
+    }
+
+    @Test
+    void should_throw_when_company_without_id() {
+      OtherExpenseType oet =
+          OtherExpenseType.builder()
+              .id("oet1")
+              .name("Miscellaneous")
+              .company(new Company())
+              .build();
+      assertThatThrownBy(() -> validator.validateOtherExpenseType(oet))
+          .isInstanceOf(BadRequestException.class)
+          .hasMessageContaining("Other expense type must be associated with a company");
+    }
+
+    @Test
+    void should_throw_when_all_fields_invalid() {
+      OtherExpenseType oet = OtherExpenseType.builder().id("oet1").name(null).company(null).build();
+      assertThatThrownBy(() -> validator.validateOtherExpenseType(oet))
+          .isInstanceOf(BadRequestException.class)
+          .hasMessageContaining("Other expense type name is mandatory")
+          .hasMessageContaining("Other expense type must be associated with a company");
+    }
+  }
+
+  @Nested
+  class ValidateOtherExpenseTypes {
+
+    @Test
+    void should_throw_when_null() {
+      assertThatThrownBy(() -> validator.validateOtherExpenseTypes(null))
+          .isInstanceOf(BadRequestException.class)
+          .hasMessageContaining("Other expense type list cannot be null or empty");
+    }
+
+    @Test
+    void should_throw_when_empty() {
+      assertThatThrownBy(() -> validator.validateOtherExpenseTypes(Collections.emptyList()))
+          .isInstanceOf(BadRequestException.class)
+          .hasMessageContaining("Other expense type list cannot be null or empty");
+    }
+  }
+
+  @Nested
+  class ValidateCompanyFixedCost {
+
+    private CompanyFixedCost validFixedCost;
+
+    @BeforeEach
+    void setUp() {
+      validFixedCost =
+          CompanyFixedCost.builder()
+              .id("cfc1")
+              .name("Rent")
+              .amount(BigDecimal.valueOf(5000))
+              .company(Company.builder().id("c1").build())
+              .startDate(LocalDate.of(2024, 1, 1))
+              .build();
+    }
+
+    @Test
+    void should_pass_with_valid_company_fixed_cost() {
+      assertThatCode(() -> validator.validateCompanyFixedCost(validFixedCost))
+          .doesNotThrowAnyException();
+    }
+
+    @Test
+    void should_throw_when_null() {
+      assertThatThrownBy(() -> validator.validateCompanyFixedCost(null))
+          .isInstanceOf(BadRequestException.class)
+          .hasMessageContaining("Company fixed cost cannot be null");
+    }
+
+    @Test
+    void should_throw_when_name_null() {
+      CompanyFixedCost cfc =
+          CompanyFixedCost.builder()
+              .id("cfc1")
+              .name(null)
+              .amount(BigDecimal.valueOf(5000))
+              .company(Company.builder().id("c1").build())
+              .startDate(LocalDate.of(2024, 1, 1))
+              .build();
+      assertThatThrownBy(() -> validator.validateCompanyFixedCost(cfc))
+          .isInstanceOf(BadRequestException.class)
+          .hasMessageContaining("Company fixed cost name is mandatory");
+    }
+
+    @Test
+    void should_throw_when_name_empty() {
+      CompanyFixedCost cfc =
+          CompanyFixedCost.builder()
+              .id("cfc1")
+              .name("")
+              .amount(BigDecimal.valueOf(5000))
+              .company(Company.builder().id("c1").build())
+              .startDate(LocalDate.of(2024, 1, 1))
+              .build();
+      assertThatThrownBy(() -> validator.validateCompanyFixedCost(cfc))
+          .isInstanceOf(BadRequestException.class)
+          .hasMessageContaining("Company fixed cost name is mandatory");
+    }
+
+    @Test
+    void should_throw_when_name_blank() {
+      CompanyFixedCost cfc =
+          CompanyFixedCost.builder()
+              .id("cfc1")
+              .name("   ")
+              .amount(BigDecimal.valueOf(5000))
+              .company(Company.builder().id("c1").build())
+              .startDate(LocalDate.of(2024, 1, 1))
+              .build();
+      assertThatThrownBy(() -> validator.validateCompanyFixedCost(cfc))
+          .isInstanceOf(BadRequestException.class)
+          .hasMessageContaining("Company fixed cost name is mandatory");
+    }
+
+    @Test
+    void should_throw_when_amount_null() {
+      CompanyFixedCost cfc =
+          CompanyFixedCost.builder()
+              .id("cfc1")
+              .name("Rent")
+              .amount(null)
+              .company(Company.builder().id("c1").build())
+              .startDate(LocalDate.of(2024, 1, 1))
+              .build();
+      assertThatThrownBy(() -> validator.validateCompanyFixedCost(cfc))
+          .isInstanceOf(BadRequestException.class)
+          .hasMessageContaining("Company fixed cost amount must be non-negative");
+    }
+
+    @Test
+    void should_throw_when_amount_negative() {
+      CompanyFixedCost cfc =
+          CompanyFixedCost.builder()
+              .id("cfc1")
+              .name("Rent")
+              .amount(BigDecimal.valueOf(-1))
+              .company(Company.builder().id("c1").build())
+              .startDate(LocalDate.of(2024, 1, 1))
+              .build();
+      assertThatThrownBy(() -> validator.validateCompanyFixedCost(cfc))
+          .isInstanceOf(BadRequestException.class)
+          .hasMessageContaining("Company fixed cost amount must be non-negative");
+    }
+
+    @Test
+    void should_pass_when_amount_zero() {
+      CompanyFixedCost cfc =
+          CompanyFixedCost.builder()
+              .id("cfc1")
+              .name("Rent")
+              .amount(BigDecimal.valueOf(0))
+              .company(Company.builder().id("c1").build())
+              .startDate(LocalDate.of(2024, 1, 1))
+              .build();
+      assertThatCode(() -> validator.validateCompanyFixedCost(cfc)).doesNotThrowAnyException();
+    }
+
+    @Test
+    void should_throw_when_company_null() {
+      CompanyFixedCost cfc =
+          CompanyFixedCost.builder()
+              .id("cfc1")
+              .name("Rent")
+              .amount(BigDecimal.valueOf(5000))
+              .company(null)
+              .startDate(LocalDate.of(2024, 1, 1))
+              .build();
+      assertThatThrownBy(() -> validator.validateCompanyFixedCost(cfc))
+          .isInstanceOf(BadRequestException.class)
+          .hasMessageContaining("Company fixed cost must be associated with a company");
+    }
+
+    @Test
+    void should_throw_when_company_without_id() {
+      CompanyFixedCost cfc =
+          CompanyFixedCost.builder()
+              .id("cfc1")
+              .name("Rent")
+              .amount(BigDecimal.valueOf(5000))
+              .company(new Company())
+              .startDate(LocalDate.of(2024, 1, 1))
+              .build();
+      assertThatThrownBy(() -> validator.validateCompanyFixedCost(cfc))
+          .isInstanceOf(BadRequestException.class)
+          .hasMessageContaining("Company fixed cost must be associated with a company");
+    }
+
+    @Test
+    void should_throw_when_startDate_null() {
+      CompanyFixedCost cfc =
+          CompanyFixedCost.builder()
+              .id("cfc1")
+              .name("Rent")
+              .amount(BigDecimal.valueOf(5000))
+              .company(Company.builder().id("c1").build())
+              .startDate(null)
+              .build();
+      assertThatThrownBy(() -> validator.validateCompanyFixedCost(cfc))
+          .isInstanceOf(BadRequestException.class)
+          .hasMessageContaining("Company fixed cost start date is mandatory");
+    }
+
+    @Test
+    void should_throw_when_endDate_before_startDate() {
+      CompanyFixedCost cfc =
+          CompanyFixedCost.builder()
+              .id("cfc1")
+              .name("Rent")
+              .amount(BigDecimal.valueOf(5000))
+              .company(Company.builder().id("c1").build())
+              .startDate(LocalDate.of(2024, 6, 1))
+              .endDate(LocalDate.of(2024, 1, 1))
+              .build();
+      assertThatThrownBy(() -> validator.validateCompanyFixedCost(cfc))
+          .isInstanceOf(BadRequestException.class)
+          .hasMessageContaining("Company fixed cost end date cannot be before start date");
+    }
+
+    @Test
+    void should_throw_when_all_fields_invalid() {
+      CompanyFixedCost cfc =
+          CompanyFixedCost.builder()
+              .id("cfc1")
+              .name(null)
+              .amount(null)
+              .company(null)
+              .startDate(null)
+              .build();
+      assertThatThrownBy(() -> validator.validateCompanyFixedCost(cfc))
+          .isInstanceOf(BadRequestException.class)
+          .hasMessageContaining("Company fixed cost name is mandatory")
+          .hasMessageContaining("Company fixed cost amount must be non-negative")
+          .hasMessageContaining("Company fixed cost must be associated with a company")
+          .hasMessageContaining("Company fixed cost start date is mandatory");
+    }
+  }
+
+  @Nested
+  class ValidateCompanyFixedCosts {
+
+    @Test
+    void should_throw_when_null() {
+      assertThatThrownBy(() -> validator.validateCompanyFixedCosts(null))
+          .isInstanceOf(BadRequestException.class)
+          .hasMessageContaining("Company fixed cost list cannot be null or empty");
+    }
+
+    @Test
+    void should_throw_when_empty() {
+      assertThatThrownBy(() -> validator.validateCompanyFixedCosts(Collections.emptyList()))
+          .isInstanceOf(BadRequestException.class)
+          .hasMessageContaining("Company fixed cost list cannot be null or empty");
     }
   }
 }

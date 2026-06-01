@@ -2,6 +2,8 @@ package com.example.demo.model.money;
 
 import com.example.demo.model.CreatAndUpdateEntity;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -28,16 +30,19 @@ public class CashTransaction extends CreatAndUpdateEntity implements Serializabl
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "cash_account_id")
+  @NotNull
   private CashAccount cashAccount;
 
-  private BigDecimal amount;
+  @NotNull @PositiveOrZero private BigDecimal amount;
 
   @Column(name = "transaction_date")
+  @NotNull
   private LocalDate transactionDate;
 
   private String description;
 
   @Enumerated(EnumType.STRING)
+  @NotNull
   private TransactionType type;
 
   public enum TransactionType {

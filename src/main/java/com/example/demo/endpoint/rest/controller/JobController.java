@@ -10,6 +10,7 @@ import com.example.demo.model.PageFromOne;
 import com.example.demo.model.criteria.JobCriteria;
 import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.service.JobService;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -32,10 +33,10 @@ public class JobController {
             .orElseThrow(() -> new NotFoundException("Job with id " + id + " not found")));
   }
 
-  @GetMapping("/companies/{companyId}/jobs")
+  @GetMapping("/companies/{comp_id}/jobs")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public List<Job> getJobs(
-      @PathVariable String companyId,
+      @PathVariable String comp_id,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
       @RequestParam(name = "status", required = false) JobStatus status,
@@ -43,7 +44,7 @@ public class JobController {
     JobCriteria criteria = new JobCriteria();
     criteria.setStatus(
         status != null ? com.example.demo.model.Job.JobStatus.valueOf(status.name()) : null);
-    criteria.setCompanyId(companyId);
+    criteria.setCompanyId(comp_id);
     criteria.setDescription(description);
 
     return jobService.findAll(page, pageSize, criteria).stream().map(jobMapper::toRestJob).toList();
@@ -52,9 +53,10 @@ public class JobController {
   @PutMapping("/companies/{comp_id}/jobs")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<Job> crupdateJobs(
-      @PathVariable String comp_id, @RequestBody List<CrupdateJob> toWrite) {
+      @PathVariable String comp_id, @Valid @RequestBody List<CrupdateJob> toWrite) {
     List<com.example.demo.model.Job> saved =
-        jobService.createOrUpdateAll(toWrite.stream().map(jobMapper::toDomain).toList());
+        jobService.createOrUpdateAll(
+            toWrite.stream().map(rest -> jobMapper.toDomain(rest, comp_id)).toList());
     return saved.stream().map(jobMapper::toRestJob).toList();
   }
 

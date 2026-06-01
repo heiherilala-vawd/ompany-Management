@@ -48,7 +48,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   CrupdatePurchaseOrder.JSON_PROPERTY_LINES,
   CrupdatePurchaseOrder.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-30T17:19:15.606578257+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-01T18:19:40.950295941+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdatePurchaseOrder {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -114,9 +114,9 @@ public class CrupdatePurchaseOrder {
    * Get supplierId
    * @return supplierId
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_SUPPLIER_ID)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getSupplierId() {
     return supplierId;
@@ -124,7 +124,7 @@ public class CrupdatePurchaseOrder {
 
 
   @JsonProperty(JSON_PROPERTY_SUPPLIER_ID)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setSupplierId(String supplierId) {
     this.supplierId = supplierId;
   }
@@ -139,9 +139,9 @@ public class CrupdatePurchaseOrder {
    * Get orderDate
    * @return orderDate
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_ORDER_DATE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public java.time.LocalDate getOrderDate() {
     return orderDate;
@@ -149,7 +149,7 @@ public class CrupdatePurchaseOrder {
 
 
   @JsonProperty(JSON_PROPERTY_ORDER_DATE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setOrderDate(java.time.LocalDate orderDate) {
     this.orderDate = orderDate;
   }
@@ -164,9 +164,9 @@ public class CrupdatePurchaseOrder {
    * Get status
    * @return status
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_STATUS)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public PurchaseOrderStatus getStatus() {
     return status;
@@ -174,7 +174,7 @@ public class CrupdatePurchaseOrder {
 
 
   @JsonProperty(JSON_PROPERTY_STATUS)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setStatus(PurchaseOrderStatus status) {
     this.status = status;
   }
@@ -187,11 +187,12 @@ public class CrupdatePurchaseOrder {
 
    /**
    * Get totalAmount
+   * minimum: 0
    * @return totalAmount
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_TOTAL_AMOUNT)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public BigDecimal getTotalAmount() {
     return totalAmount;
@@ -199,7 +200,7 @@ public class CrupdatePurchaseOrder {
 
 
   @JsonProperty(JSON_PROPERTY_TOTAL_AMOUNT)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setTotalAmount(BigDecimal totalAmount) {
     this.totalAmount = totalAmount;
   }
@@ -239,9 +240,9 @@ public class CrupdatePurchaseOrder {
    * Get jobId
    * @return jobId
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_JOB_ID)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getJobId() {
     return jobId;
@@ -249,7 +250,7 @@ public class CrupdatePurchaseOrder {
 
 
   @JsonProperty(JSON_PROPERTY_JOB_ID)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setJobId(String jobId) {
     this.jobId = jobId;
   }

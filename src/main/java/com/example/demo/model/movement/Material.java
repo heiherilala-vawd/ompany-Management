@@ -3,6 +3,7 @@ package com.example.demo.model.movement;
 import com.example.demo.model.Company;
 import com.example.demo.model.CreatAndUpdateEntity;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -27,18 +28,24 @@ public class Material extends CreatAndUpdateEntity implements Serializable {
 
   @Id private String id;
 
+  @NotNull
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "company_id")
   private Company company;
 
+  @NotBlank
+  @Size(max = 255)
   private String name;
 
   private String description;
 
+  @NotNull
   @Enumerated(EnumType.STRING)
   @org.hibernate.annotations.JdbcTypeCode(org.hibernate.type.SqlTypes.NAMED_ENUM)
   private Unit unit;
 
+  @NotNull
+  @PositiveOrZero
   @Column(name = "unit_price")
   private BigDecimal unitPrice;
 

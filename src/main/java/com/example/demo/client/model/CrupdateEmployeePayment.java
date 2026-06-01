@@ -19,7 +19,6 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
-import com.example.demo.client.model.CrupdateExpenseMoney;
 import com.example.demo.client.model.PaymentType;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -37,20 +36,20 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  */
 @JsonPropertyOrder({
   CrupdateEmployeePayment.JSON_PROPERTY_ID,
-  CrupdateEmployeePayment.JSON_PROPERTY_EXPENSE,
+  CrupdateEmployeePayment.JSON_PROPERTY_EXPENSE_ID,
   CrupdateEmployeePayment.JSON_PROPERTY_USER_IDS,
   CrupdateEmployeePayment.JSON_PROPERTY_IS_FOR_TEAM,
   CrupdateEmployeePayment.JSON_PROPERTY_TEAM_ID,
   CrupdateEmployeePayment.JSON_PROPERTY_PAYMENT_DESCRIPTION,
   CrupdateEmployeePayment.JSON_PROPERTY_PAYMENT_TYPE
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-30T17:19:15.606578257+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-01T18:19:40.950295941+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdateEmployeePayment {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
 
-  public static final String JSON_PROPERTY_EXPENSE = "expense";
-  private CrupdateExpenseMoney expense;
+  public static final String JSON_PROPERTY_EXPENSE_ID = "expense_id";
+  private String expenseId;
 
   public static final String JSON_PROPERTY_USER_IDS = "user_ids";
   private List<String> userIds = new ArrayList<>();
@@ -95,28 +94,28 @@ public class CrupdateEmployeePayment {
   }
 
 
-  public CrupdateEmployeePayment expense(CrupdateExpenseMoney expense) {
-    this.expense = expense;
+  public CrupdateEmployeePayment expenseId(String expenseId) {
+    this.expenseId = expenseId;
     return this;
   }
 
    /**
-   * Get expense
-   * @return expense
+   * Get expenseId
+   * @return expenseId
   **/
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_EXPENSE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @jakarta.annotation.Nonnull
+  @JsonProperty(JSON_PROPERTY_EXPENSE_ID)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
-  public CrupdateExpenseMoney getExpense() {
-    return expense;
+  public String getExpenseId() {
+    return expenseId;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_EXPENSE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setExpense(CrupdateExpenseMoney expense) {
-    this.expense = expense;
+  @JsonProperty(JSON_PROPERTY_EXPENSE_ID)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setExpenseId(String expenseId) {
+    this.expenseId = expenseId;
   }
 
 
@@ -162,9 +161,9 @@ public class CrupdateEmployeePayment {
    * Get isForTeam
    * @return isForTeam
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_IS_FOR_TEAM)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public Boolean getIsForTeam() {
     return isForTeam;
@@ -172,7 +171,7 @@ public class CrupdateEmployeePayment {
 
 
   @JsonProperty(JSON_PROPERTY_IS_FOR_TEAM)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setIsForTeam(Boolean isForTeam) {
     this.isForTeam = isForTeam;
   }
@@ -212,9 +211,9 @@ public class CrupdateEmployeePayment {
    * Get paymentDescription
    * @return paymentDescription
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_PAYMENT_DESCRIPTION)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getPaymentDescription() {
     return paymentDescription;
@@ -222,7 +221,7 @@ public class CrupdateEmployeePayment {
 
 
   @JsonProperty(JSON_PROPERTY_PAYMENT_DESCRIPTION)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setPaymentDescription(String paymentDescription) {
     this.paymentDescription = paymentDescription;
   }
@@ -237,9 +236,9 @@ public class CrupdateEmployeePayment {
    * Get paymentType
    * @return paymentType
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_PAYMENT_TYPE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public PaymentType getPaymentType() {
     return paymentType;
@@ -247,7 +246,7 @@ public class CrupdateEmployeePayment {
 
 
   @JsonProperty(JSON_PROPERTY_PAYMENT_TYPE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setPaymentType(PaymentType paymentType) {
     this.paymentType = paymentType;
   }
@@ -266,7 +265,7 @@ public class CrupdateEmployeePayment {
     }
     CrupdateEmployeePayment crupdateEmployeePayment = (CrupdateEmployeePayment) o;
     return Objects.equals(this.id, crupdateEmployeePayment.id) &&
-        Objects.equals(this.expense, crupdateEmployeePayment.expense) &&
+        Objects.equals(this.expenseId, crupdateEmployeePayment.expenseId) &&
         Objects.equals(this.userIds, crupdateEmployeePayment.userIds) &&
         Objects.equals(this.isForTeam, crupdateEmployeePayment.isForTeam) &&
         Objects.equals(this.teamId, crupdateEmployeePayment.teamId) &&
@@ -276,7 +275,7 @@ public class CrupdateEmployeePayment {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, expense, userIds, isForTeam, teamId, paymentDescription, paymentType);
+    return Objects.hash(id, expenseId, userIds, isForTeam, teamId, paymentDescription, paymentType);
   }
 
   @Override
@@ -284,7 +283,7 @@ public class CrupdateEmployeePayment {
     StringBuilder sb = new StringBuilder();
     sb.append("class CrupdateEmployeePayment {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    expense: ").append(toIndentedString(expense)).append("\n");
+    sb.append("    expenseId: ").append(toIndentedString(expenseId)).append("\n");
     sb.append("    userIds: ").append(toIndentedString(userIds)).append("\n");
     sb.append("    isForTeam: ").append(toIndentedString(isForTeam)).append("\n");
     sb.append("    teamId: ").append(toIndentedString(teamId)).append("\n");
@@ -342,9 +341,9 @@ public class CrupdateEmployeePayment {
       joiner.add(String.format("%sid%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `expense` to the URL query string
-    if (getExpense() != null) {
-      joiner.add(getExpense().toUrlQueryString(prefix + "expense" + suffix));
+    // add `expense_id` to the URL query string
+    if (getExpenseId() != null) {
+      joiner.add(String.format("%sexpense_id%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getExpenseId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `user_ids` to the URL query string

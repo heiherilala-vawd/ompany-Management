@@ -7,6 +7,7 @@ import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
 import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.service.money.CashTransactionService;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -46,7 +47,7 @@ public class CashTransactionController {
   public List<CashTransaction> crupdateCashTransactions(
       @PathVariable String comp_id,
       @PathVariable String account_id,
-      @RequestBody List<CrupdateCashTransaction> toWrite) {
+      @Valid @RequestBody List<CrupdateCashTransaction> toWrite) {
     List<com.example.demo.model.money.CashTransaction> saved =
         cashTransactionService.createOrUpdateAll(
             toWrite.stream().map(cashTransactionMapper::toDomain).toList());

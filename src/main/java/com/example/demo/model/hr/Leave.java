@@ -3,6 +3,7 @@ package com.example.demo.model.hr;
 import com.example.demo.model.CreatAndUpdateEntity;
 import com.example.demo.model.User;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -35,21 +36,26 @@ public class Leave extends CreatAndUpdateEntity implements Serializable {
 
   @Id private String id;
 
+  @NotNull
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id")
   private User user;
 
+  @NotNull
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "leave_type_id")
   private LeaveType leaveType;
 
-  private LocalDate startDate;
+  @NotNull private LocalDate startDate;
 
-  private LocalDate endDate;
+  @NotNull private LocalDate endDate;
 
+  @NotNull
+  @PositiveOrZero
   @Column(name = "duration_days")
   private BigDecimal durationDays;
 
+  @NotNull
   @Enumerated(EnumType.STRING)
   @Column(length = 20)
   private LeaveStatus status;

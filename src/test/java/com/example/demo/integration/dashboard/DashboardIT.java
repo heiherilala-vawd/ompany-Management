@@ -602,7 +602,7 @@ class DashboardIT {
   void admin_can_get_expense_breakdown() throws Exception {
     TimeSeriesResponse result =
         get(
-            "/companies/" + COMPANY1_ID + "/dashboard/monetary/expense-breakdown?granularity=month",
+            "/companies/" + COMPANY1_ID + "/dashboard/monetary/expense_breakdown?granularity=month",
             TimeSeriesResponse.class,
             ADMIN_TOKEN);
     assertNotNull(result);
@@ -616,6 +616,34 @@ class DashboardIT {
             "/companies/"
                 + COMPANY1_ID
                 + "/dashboard/monetary/revenue?granularity=month&job_id="
+                + JOB1_ID,
+            TimeSeriesResponse.class,
+            ADMIN_TOKEN);
+    assertNotNull(result);
+    assertEquals(JOB1_ID, result.getFilteredByJob());
+  }
+
+  @Test
+  void receivables_with_job_id_filter() throws Exception {
+    TimeSeriesResponse result =
+        get(
+            "/companies/"
+                + COMPANY1_ID
+                + "/dashboard/monetary/receivables?granularity=month&job_id="
+                + JOB1_ID,
+            TimeSeriesResponse.class,
+            ADMIN_TOKEN);
+    assertNotNull(result);
+    assertEquals(JOB1_ID, result.getFilteredByJob());
+  }
+
+  @Test
+  void expense_breakdown_with_job_id_filter() throws Exception {
+    TimeSeriesResponse result =
+        get(
+            "/companies/"
+                + COMPANY1_ID
+                + "/dashboard/monetary/expense_breakdown?granularity=month&job_id="
                 + JOB1_ID,
             TimeSeriesResponse.class,
             ADMIN_TOKEN);

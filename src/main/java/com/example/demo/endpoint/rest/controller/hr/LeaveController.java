@@ -9,6 +9,7 @@ import com.example.demo.endpoint.rest.mapper.hr.LeaveMapper;
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
 import com.example.demo.model.exception.NotFoundException;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -50,7 +51,7 @@ public class LeaveController {
   @PutMapping("/companies/{comp_id}/leaves")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<Leave> crupdateLeaves(
-      @PathVariable String comp_id, @RequestBody List<CrupdateLeave> toWrite) {
+      @PathVariable String comp_id, @Valid @RequestBody List<CrupdateLeave> toWrite) {
     List<com.example.demo.model.hr.Leave> saved =
         leaveService.createOrUpdateAll(toWrite.stream().map(leaveMapper::toDomain).toList());
     return saved.stream().map(leaveMapper::toRestLeave).toList();

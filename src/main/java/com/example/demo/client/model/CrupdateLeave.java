@@ -45,7 +45,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   CrupdateLeave.JSON_PROPERTY_REASON,
   CrupdateLeave.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-30T17:19:15.606578257+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-01T18:19:40.950295941+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdateLeave {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -111,9 +111,9 @@ public class CrupdateLeave {
    * Get userId
    * @return userId
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_USER_ID)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getUserId() {
     return userId;
@@ -121,7 +121,7 @@ public class CrupdateLeave {
 
 
   @JsonProperty(JSON_PROPERTY_USER_ID)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setUserId(String userId) {
     this.userId = userId;
   }
@@ -136,9 +136,9 @@ public class CrupdateLeave {
    * Get leaveTypeId
    * @return leaveTypeId
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_LEAVE_TYPE_ID)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getLeaveTypeId() {
     return leaveTypeId;
@@ -146,7 +146,7 @@ public class CrupdateLeave {
 
 
   @JsonProperty(JSON_PROPERTY_LEAVE_TYPE_ID)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setLeaveTypeId(String leaveTypeId) {
     this.leaveTypeId = leaveTypeId;
   }
@@ -161,9 +161,9 @@ public class CrupdateLeave {
    * Get startDate
    * @return startDate
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_START_DATE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public java.time.LocalDate getStartDate() {
     return startDate;
@@ -171,7 +171,7 @@ public class CrupdateLeave {
 
 
   @JsonProperty(JSON_PROPERTY_START_DATE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setStartDate(java.time.LocalDate startDate) {
     this.startDate = startDate;
   }
@@ -186,9 +186,9 @@ public class CrupdateLeave {
    * Get endDate
    * @return endDate
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_END_DATE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public java.time.LocalDate getEndDate() {
     return endDate;
@@ -196,7 +196,7 @@ public class CrupdateLeave {
 
 
   @JsonProperty(JSON_PROPERTY_END_DATE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setEndDate(java.time.LocalDate endDate) {
     this.endDate = endDate;
   }
@@ -209,11 +209,12 @@ public class CrupdateLeave {
 
    /**
    * Get durationDays
+   * minimum: 0
    * @return durationDays
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_DURATION_DAYS)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public BigDecimal getDurationDays() {
     return durationDays;
@@ -221,7 +222,7 @@ public class CrupdateLeave {
 
 
   @JsonProperty(JSON_PROPERTY_DURATION_DAYS)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setDurationDays(BigDecimal durationDays) {
     this.durationDays = durationDays;
   }
@@ -236,9 +237,9 @@ public class CrupdateLeave {
    * Get status
    * @return status
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_STATUS)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public LeaveStatus getStatus() {
     return status;
@@ -246,7 +247,7 @@ public class CrupdateLeave {
 
 
   @JsonProperty(JSON_PROPERTY_STATUS)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setStatus(LeaveStatus status) {
     this.status = status;
   }

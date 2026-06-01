@@ -3,6 +3,9 @@ package com.example.demo.model.money;
 import com.example.demo.model.Company;
 import com.example.demo.model.CreatAndUpdateEntity;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -26,14 +29,17 @@ public class CashAccount extends CreatAndUpdateEntity implements Serializable {
 
   @Id private String id;
 
+  @NotBlank
+  @Size(max = 255)
   private String name;
 
-  private BigDecimal balance;
+  @NotNull private BigDecimal balance;
 
   private String description;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "company_id")
+  @NotNull
   private Company company;
 
   @Override

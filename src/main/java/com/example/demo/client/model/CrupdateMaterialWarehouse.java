@@ -36,7 +36,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   CrupdateMaterialWarehouse.JSON_PROPERTY_WAREHOUSE_ID,
   CrupdateMaterialWarehouse.JSON_PROPERTY_QUANTITY
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-30T17:19:15.606578257+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-01T18:19:40.950295941+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdateMaterialWarehouse {
   public static final String JSON_PROPERTY_MATERIAL_ID = "material_id";
   private String materialId;
@@ -59,9 +59,9 @@ public class CrupdateMaterialWarehouse {
    * Get materialId
    * @return materialId
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_MATERIAL_ID)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getMaterialId() {
     return materialId;
@@ -69,7 +69,7 @@ public class CrupdateMaterialWarehouse {
 
 
   @JsonProperty(JSON_PROPERTY_MATERIAL_ID)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setMaterialId(String materialId) {
     this.materialId = materialId;
   }
@@ -84,9 +84,9 @@ public class CrupdateMaterialWarehouse {
    * Get warehouseId
    * @return warehouseId
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_WAREHOUSE_ID)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getWarehouseId() {
     return warehouseId;
@@ -94,7 +94,7 @@ public class CrupdateMaterialWarehouse {
 
 
   @JsonProperty(JSON_PROPERTY_WAREHOUSE_ID)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setWarehouseId(String warehouseId) {
     this.warehouseId = warehouseId;
   }
@@ -107,11 +107,12 @@ public class CrupdateMaterialWarehouse {
 
    /**
    * Get quantity
+   * minimum: 0
    * @return quantity
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_QUANTITY)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public Integer getQuantity() {
     return quantity;
@@ -119,7 +120,7 @@ public class CrupdateMaterialWarehouse {
 
 
   @JsonProperty(JSON_PROPERTY_QUANTITY)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setQuantity(Integer quantity) {
     this.quantity = quantity;
   }

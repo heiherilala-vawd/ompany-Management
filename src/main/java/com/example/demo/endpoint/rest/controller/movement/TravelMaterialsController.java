@@ -8,6 +8,7 @@ import com.example.demo.model.PageFromOne;
 import com.example.demo.model.criteria.TravelMaterialsCriteria;
 import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.service.movement.TravelMaterialsService;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -71,7 +72,7 @@ public class TravelMaterialsController {
       @PathVariable String comp_id,
       @PathVariable String job_id,
       @PathVariable String user_id,
-      @RequestBody List<CrupdateTravelMaterials> toWrite) {
+      @Valid @RequestBody List<CrupdateTravelMaterials> toWrite) {
     List<com.example.demo.model.movement.TravelMaterials> saved =
         travelMaterialsService.createOrUpdateAll(
             toWrite.stream().map(travelMaterialsMapper::toDomain).toList());

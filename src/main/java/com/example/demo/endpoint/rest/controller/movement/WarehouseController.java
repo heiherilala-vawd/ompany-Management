@@ -8,6 +8,7 @@ import com.example.demo.model.PageFromOne;
 import com.example.demo.model.criteria.WarehouseCriteria;
 import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.service.movement.WarehouseService;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -51,7 +52,7 @@ public class WarehouseController {
   @PutMapping("/companies/{comp_id}/warehouses")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public List<Warehouse> crupdateWarehouses(
-      @PathVariable String comp_id, @RequestBody List<CrupdateWarehouse> toWrite) {
+      @PathVariable String comp_id, @Valid @RequestBody List<CrupdateWarehouse> toWrite) {
     List<com.example.demo.model.movement.Warehouse> saved =
         warehouseService.createOrUpdateAll(
             toWrite.stream().map(warehouseMapper::toDomain).toList());

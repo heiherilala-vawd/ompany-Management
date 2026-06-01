@@ -6,6 +6,7 @@ import com.example.demo.endpoint.rest.mapper.hr.LeaveTypeMapper;
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
 import com.example.demo.model.exception.NotFoundException;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -32,10 +33,10 @@ public class LeaveTypeController {
   @PutMapping("/companies/{comp_id}/leave_types")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<LeaveType> crupdateLeaveTypes(
-      @PathVariable String comp_id, @RequestBody List<CrupdateLeaveType> toWrite) {
+      @PathVariable String comp_id, @Valid @RequestBody List<CrupdateLeaveType> toWrite) {
     List<com.example.demo.model.hr.LeaveType> saved =
         leaveTypeService.createOrUpdateAll(
-            toWrite.stream().map(leaveTypeMapper::toDomain).toList());
+            toWrite.stream().map(rest -> leaveTypeMapper.toDomain(rest, comp_id)).toList());
     return saved.stream().map(leaveTypeMapper::toRestLeaveType).toList();
   }
 

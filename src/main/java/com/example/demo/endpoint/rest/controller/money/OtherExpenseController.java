@@ -8,6 +8,7 @@ import com.example.demo.model.PageFromOne;
 import com.example.demo.model.criteria.OtherExpenseCriteria;
 import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.service.money.OtherExpenseService;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -56,7 +57,7 @@ public class OtherExpenseController {
       @PathVariable String comp_id,
       @PathVariable String job_id,
       @PathVariable String user_id,
-      @RequestBody List<CrupdateOtherExpense> toWrite) {
+      @Valid @RequestBody List<CrupdateOtherExpense> toWrite) {
     List<com.example.demo.model.money.OtherExpense> saved =
         otherExpenseService.createOrUpdateAll(
             toWrite.stream().map(otherExpenseMapper::toDomain).toList());

@@ -9,6 +9,7 @@ import com.example.demo.model.PageFromOne;
 import com.example.demo.model.criteria.EmployeePaymentCriteria;
 import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.service.money.EmployeePaymentService;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -65,7 +66,7 @@ public class EmployeePaymentController {
       @PathVariable String comp_id,
       @PathVariable String job_id,
       @PathVariable String user_id,
-      @RequestBody List<CrupdateEmployeePayment> toWrite) {
+      @Valid @RequestBody List<CrupdateEmployeePayment> toWrite) {
     List<com.example.demo.model.money.EmployeePayment> saved =
         employeePaymentService.createOrUpdateAll(
             toWrite.stream().map(employeePaymentMapper::toDomain).toList());

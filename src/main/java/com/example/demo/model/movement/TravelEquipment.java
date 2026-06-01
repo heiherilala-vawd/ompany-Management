@@ -4,6 +4,7 @@ import com.example.demo.model.CreatAndUpdateEntity;
 import com.example.demo.model.money.TravelExpense;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
@@ -29,21 +30,27 @@ public class TravelEquipment extends CreatAndUpdateEntity implements Serializabl
 
   @Id private String id;
 
+  @NotNull
   @ManyToOne
   @JoinColumn(name = "travel_id")
   @JsonBackReference
   private TravelExpense travel;
 
+  @NotNull
   @ManyToOne
   @JoinColumn(name = "equipment")
   private Equipment equipment;
 
+  @NotNull
+  @Min(0)
   private Integer quantity;
 
+  @NotNull
   @Enumerated(EnumType.STRING)
   @JdbcTypeCode(SqlTypes.NAMED_ENUM)
   private TransportStatus status;
 
+  @NotNull
   @ManyToOne
   @JoinColumn(name = "arrival_location")
   private Warehouse arrivalLocation;

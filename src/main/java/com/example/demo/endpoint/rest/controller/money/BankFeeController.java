@@ -8,6 +8,7 @@ import com.example.demo.model.PageFromOne;
 import com.example.demo.model.criteria.BankFeeCriteria;
 import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.service.money.BankFeeService;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -58,7 +59,7 @@ public class BankFeeController {
       @PathVariable String comp_id,
       @PathVariable String job_id,
       @PathVariable String user_id,
-      @RequestBody List<CrupdateBankFee> toWrite) {
+      @Valid @RequestBody List<CrupdateBankFee> toWrite) {
     List<com.example.demo.model.money.BankFee> saved =
         bankFeeService.createOrUpdateAll(toWrite.stream().map(bankFeeMapper::toDomain).toList());
     return saved.stream().map(bankFeeMapper::toRestBankFee).toList();

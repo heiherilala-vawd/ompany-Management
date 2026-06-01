@@ -3,6 +3,7 @@ package com.example.demo.model.movement;
 import com.example.demo.model.CreatAndUpdateEntity;
 import com.example.demo.model.Job;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -31,25 +32,32 @@ public class MaterialConsumption extends CreatAndUpdateEntity implements Seriali
 
   @Id private String id;
 
+  @NotNull
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "material_id")
   private Material material;
 
+  @NotNull
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "warehouse_id")
   private Warehouse warehouse;
 
+  @NotNull
+  @Min(0)
   private Integer quantity;
 
+  @NotNull
   @Column(name = "consumption_date")
   private LocalDate consumptionDate;
 
+  @NotNull
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "job_id")
   private Job job;
 
   private String reason;
 
+  @NotNull
   @Enumerated(EnumType.STRING)
   @Column(name = "consumption_status")
   private ConsumptionStatus consumptionStatus;

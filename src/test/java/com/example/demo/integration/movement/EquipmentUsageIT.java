@@ -8,6 +8,7 @@ import com.example.demo.client.api.EquipmentUsageApi;
 import com.example.demo.client.invoker.ApiClient;
 import com.example.demo.client.model.CrupdateEquipmentUsage;
 import com.example.demo.client.model.EquipmentUsage;
+import com.example.demo.client.model.UsageStatus;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
 import com.example.demo.integration.conf.TestDataSqlLoader;
@@ -98,7 +99,7 @@ class EquipmentUsageIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     EquipmentUsageApi api = new EquipmentUsageApi(adminClient);
 
-    List<EquipmentUsage> usages = api.getEquipmentUsages(COMPANY1_ID, 1, 100);
+    List<EquipmentUsage> usages = api.getEquipmentUsages(COMPANY1_ID, 1, 100, null);
 
     assertEquals(2, usages.size());
     assertTrue(usages.stream().anyMatch(eu -> EQUIP_USAGE1_ID.equals(eu.getId())));
@@ -106,11 +107,22 @@ class EquipmentUsageIT {
   }
 
   @Test
+  void admin_can_filter_equipment_usages_by_job_id() throws Exception {
+    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
+    EquipmentUsageApi api = new EquipmentUsageApi(adminClient);
+
+    List<EquipmentUsage> result = api.getEquipmentUsages(COMPANY1_ID, 1, 100, JOB1_ID);
+
+    assertEquals(2, result.size());
+    assertTrue(result.stream().allMatch(eu -> JOB1_ID.equals(eu.getJobId())));
+  }
+
+  @Test
   void employee_cannot_get_equipment_usages() {
     ApiClient employeeClient = anApiClient(EMPLOYEE_TOKEN);
     EquipmentUsageApi api = new EquipmentUsageApi(employeeClient);
 
-    assertThrowsForbiddenException(() -> api.getEquipmentUsages(COMPANY1_ID, 1, 100));
+    assertThrowsForbiddenException(() -> api.getEquipmentUsages(COMPANY1_ID, 1, 100, null));
   }
 
   @Test
@@ -143,7 +155,7 @@ class EquipmentUsageIT {
     assertEquals(1, created.size());
     EquipmentUsage result = created.get(0);
     assertEquals(creatable.getId(), result.getId());
-    assertEquals("IN_USE", result.getUsageStatus());
+    assertEquals(UsageStatus.IN_USE, result.getUsageStatus());
   }
 
   @Test

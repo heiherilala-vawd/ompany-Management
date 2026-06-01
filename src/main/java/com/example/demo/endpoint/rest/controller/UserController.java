@@ -7,6 +7,7 @@ import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
 import com.example.demo.model.criteria.UserCriteria;
 import com.example.demo.service.UserService;
+import jakarta.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
@@ -22,17 +23,17 @@ public class UserController {
   @PutMapping("/companies/{comp_id}/users")
   @PreAuthorize("hasAnyRole(\"ADMIN\", \"ADMINISTRATION\")\n")
   public List<User> crupdateUsers(
-      @PathVariable String comp_id, @RequestBody List<CrupdateUser> toWrite) {
+      @PathVariable String comp_id, @Valid @RequestBody List<CrupdateUser> toWrite) {
     List<com.example.demo.model.User> saved =
         userService.updateExistingUsers(
             toWrite.stream().map(u -> userMapper.toDomain(u, comp_id)).toList());
     return saved.stream().map(userMapper::toRestUser).toList();
   }
 
-  @GetMapping("/companies/{comp_id}/users/{userId}")
-  @PreAuthorize("hasAnyRole('ADMIN') or #userId == authentication.principal.id")
-  public User getUserById(@PathVariable String comp_id, @PathVariable String userId) {
-    return userMapper.toRestUser(userService.getById(userId));
+  @GetMapping("/companies/{comp_id}/users/{id}")
+  @PreAuthorize("hasAnyRole('ADMIN') or #id == authentication.principal.id")
+  public User getUserById(@PathVariable String comp_id, @PathVariable String id) {
+    return userMapper.toRestUser(userService.getById(id));
   }
 
   @GetMapping("/companies/{comp_id}/users")

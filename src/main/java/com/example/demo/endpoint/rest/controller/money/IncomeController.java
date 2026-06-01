@@ -14,6 +14,7 @@ import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.service.money.IncomeMoneyService;
 import com.example.demo.service.money.IncomeReceiptService;
 import com.example.demo.service.utils.ExcelExportUtils;
+import jakarta.validation.Valid;
 import java.math.BigDecimal;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -114,7 +115,7 @@ public class IncomeController {
       @PathVariable String comp_id,
       @PathVariable String job_id,
       @PathVariable String user_id,
-      @RequestBody List<CrupdateIncomeMoney> toWrite) {
+      @Valid @RequestBody List<CrupdateIncomeMoney> toWrite) {
     List<com.example.demo.model.money.IncomeMoney> saved =
         incomeMoneyService.createOrUpdateAll(
             toWrite.stream().map(incomeMoneyMapper::toDomain).toList());
@@ -168,7 +169,7 @@ public class IncomeController {
       @PathVariable String comp_id,
       @PathVariable String job_id,
       @PathVariable String user_id,
-      @RequestBody List<CrupdateIncomeReceipt> toWrite) {
+      @Valid @RequestBody List<CrupdateIncomeReceipt> toWrite) {
     List<com.example.demo.model.money.IncomeReceipt> saved =
         incomeReceiptService.createOrUpdateAll(
             toWrite.stream().map(incomeReceiptMapper::toDomain).toList());

@@ -27,7 +27,7 @@ public class LeaveTypeMapper {
         .build();
   }
 
-  public com.example.demo.model.hr.LeaveType toDomain(CrupdateLeaveType rest) {
+  public com.example.demo.model.hr.LeaveType toDomain(CrupdateLeaveType rest, String companyId) {
     if (rest == null) return null;
 
     return com.example.demo.model.hr.LeaveType.builder()
@@ -38,8 +38,7 @@ public class LeaveTypeMapper {
         .deductFromBalance(rest.getDeductFromBalance())
         .color(rest.getColor())
         .daysPerYear(rest.getDaysPerYear())
-        .company(
-            rest.getCompanyId() != null ? Company.builder().id(rest.getCompanyId()).build() : null)
+        .company(companyId != null ? Company.builder().id(companyId).build() : null)
         .comment(rest.getComment())
         .build();
   }

@@ -5,6 +5,7 @@ import com.example.demo.client.model.TravelOperationRequest;
 import com.example.demo.endpoint.rest.mapper.money.TravelExpenseMapper;
 import com.example.demo.endpoint.rest.mapper.movement.TravelOperationMapper;
 import com.example.demo.service.movement.TravelOperationService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,7 +28,7 @@ public class TravelOperationController {
       @PathVariable String comp_id,
       @PathVariable String job_id,
       @PathVariable String user_id,
-      @RequestBody TravelOperationRequest request) {
+      @Valid @RequestBody TravelOperationRequest request) {
     return travelExpenseMapper.toRestTravelExpense(
         travelOperationService.create(travelOperationMapper.toAggregate(job_id, user_id, request)));
   }

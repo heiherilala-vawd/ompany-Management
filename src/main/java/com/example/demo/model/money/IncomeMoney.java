@@ -2,6 +2,9 @@ package com.example.demo.model.money;
 
 import com.example.demo.model.Job;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -27,24 +30,30 @@ public class IncomeMoney extends MonetaryMovement implements Serializable {
 
   @Id private String id;
 
+  @NotBlank
+  @Size(max = 255)
   private String sourceOrganization;
 
+  @NotBlank
+  @Size(max = 255)
   private String invoiceReference;
 
-  private LocalDate billingStartDate;
+  @NotNull private LocalDate billingStartDate;
 
-  private Instant facturationDate;
+  @NotNull private Instant facturationDate;
 
-  private LocalDate dueDate;
+  @NotNull private LocalDate dueDate;
 
   private String paymentTerms;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "job_id")
+  @NotNull
   private Job job;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "income_type_id")
+  @NotNull
   private IncomeType incomeType;
 
   @OneToMany(mappedBy = "income")

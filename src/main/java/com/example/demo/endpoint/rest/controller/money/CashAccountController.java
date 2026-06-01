@@ -7,6 +7,7 @@ import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
 import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.service.money.CashAccountService;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -41,10 +42,10 @@ public class CashAccountController {
   @PutMapping("/companies/{comp_id}/cash_accounts")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<CashAccount> crupdateCashAccounts(
-      @PathVariable String comp_id, @RequestBody List<CrupdateCashAccount> toWrite) {
+      @PathVariable String comp_id, @Valid @RequestBody List<CrupdateCashAccount> toWrite) {
     List<com.example.demo.model.money.CashAccount> saved =
         cashAccountService.createOrUpdateAll(
-            toWrite.stream().map(cashAccountMapper::toDomain).toList());
+            toWrite.stream().map(rest -> cashAccountMapper.toDomain(rest, comp_id)).toList());
     return cashAccountMapper.toRestCashAccounts(saved);
   }
 

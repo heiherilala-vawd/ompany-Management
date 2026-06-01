@@ -2,6 +2,7 @@ package com.example.demo.model.movement;
 
 import com.example.demo.model.CreatAndUpdateEntity;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -29,10 +30,13 @@ public class Equipment extends CreatAndUpdateEntity implements Serializable {
 
   @Id private String id;
 
+  @NotBlank
+  @Size(max = 255)
   private String name;
 
   private String description;
 
+  @NotNull
   @ManyToOne
   @JoinColumn(name = "warehouse_id")
   private Warehouse warehouse;
@@ -41,16 +45,20 @@ public class Equipment extends CreatAndUpdateEntity implements Serializable {
 
   private Integer storageNumber;
 
+  @NotNull
   @Column(name = "est_en_panne")
   @Builder.Default
   private Boolean estEnPanne = false;
 
+  @NotNull
+  @PositiveOrZero
   @Column(name = "purchase_price")
   private BigDecimal purchasePrice;
 
   @Column(name = "purchase_date")
   private LocalDate purchaseDate;
 
+  @NotNull
   @Column(name = "is_leased")
   @Builder.Default
   private Boolean isLeased = false;

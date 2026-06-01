@@ -50,7 +50,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-30T17:19:15.606578257+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-01T18:19:40.950295941+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class MaintenanceApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -92,12 +92,11 @@ public class MaintenanceApi {
    * 
    * @param compId  (required)
    * @param crupdateMaintenance  (required)
-   * @param equipmentId  (optional)
    * @return List&lt;Maintenance&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<Maintenance> crupdateMaintenances(String compId, List<CrupdateMaintenance> crupdateMaintenance, String equipmentId) throws ApiException {
-    ApiResponse<List<Maintenance>> localVarResponse = crupdateMaintenancesWithHttpInfo(compId, crupdateMaintenance, equipmentId);
+  public List<Maintenance> crupdateMaintenances(String compId, List<CrupdateMaintenance> crupdateMaintenance) throws ApiException {
+    ApiResponse<List<Maintenance>> localVarResponse = crupdateMaintenancesWithHttpInfo(compId, crupdateMaintenance);
     return localVarResponse.getData();
   }
 
@@ -106,12 +105,11 @@ public class MaintenanceApi {
    * 
    * @param compId  (required)
    * @param crupdateMaintenance  (required)
-   * @param equipmentId  (optional)
    * @return ApiResponse&lt;List&lt;Maintenance&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<Maintenance>> crupdateMaintenancesWithHttpInfo(String compId, List<CrupdateMaintenance> crupdateMaintenance, String equipmentId) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = crupdateMaintenancesRequestBuilder(compId, crupdateMaintenance, equipmentId);
+  public ApiResponse<List<Maintenance>> crupdateMaintenancesWithHttpInfo(String compId, List<CrupdateMaintenance> crupdateMaintenance) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = crupdateMaintenancesRequestBuilder(compId, crupdateMaintenance);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -139,7 +137,7 @@ public class MaintenanceApi {
     }
   }
 
-  private HttpRequest.Builder crupdateMaintenancesRequestBuilder(String compId, List<CrupdateMaintenance> crupdateMaintenance, String equipmentId) throws ApiException {
+  private HttpRequest.Builder crupdateMaintenancesRequestBuilder(String compId, List<CrupdateMaintenance> crupdateMaintenance) throws ApiException {
     // verify the required parameter 'compId' is set
     if (compId == null) {
       throw new ApiException(400, "Missing the required parameter 'compId' when calling crupdateMaintenances");
@@ -154,22 +152,7 @@ public class MaintenanceApi {
     String localVarPath = "/companies/{comp_id}/maintenances"
         .replace("{comp_id}", ApiClient.urlEncode(compId.toString()));
 
-    List<Pair> localVarQueryParams = new ArrayList<>();
-    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
-    String localVarQueryParameterBaseName;
-    localVarQueryParameterBaseName = "equipment_id";
-    localVarQueryParams.addAll(ApiClient.parameterToPairs("equipment_id", equipmentId));
-
-    if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
-      StringJoiner queryJoiner = new StringJoiner("&");
-      localVarQueryParams.forEach(p -> queryJoiner.add(p.getName() + '=' + p.getValue()));
-      if (localVarQueryStringJoiner.length() != 0) {
-        queryJoiner.add(localVarQueryStringJoiner.toString());
-      }
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
-    } else {
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
-    }
+    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
     localVarRequestBuilder.header("Content-Type", "application/json");
     localVarRequestBuilder.header("Accept", "application/json");

@@ -29,17 +29,15 @@ public class IncomeTypeMapper {
         .build();
   }
 
-  public com.example.demo.model.money.IncomeType toDomain(CrupdateIncomeType restIncomeType) {
+  public com.example.demo.model.money.IncomeType toDomain(
+      CrupdateIncomeType restIncomeType, String companyId) {
     if (restIncomeType == null) return null;
 
     return com.example.demo.model.money.IncomeType.builder()
         .id(restIncomeType.getId())
         .name(restIncomeType.getName())
         .description(restIncomeType.getDescription())
-        .company(
-            restIncomeType.getCompanyId() != null
-                ? companyService.findById(restIncomeType.getCompanyId()).orElse(null)
-                : null)
+        .company(companyId != null ? companyService.findById(companyId).orElse(null) : null)
         .comment(restIncomeType.getComment())
         .build();
   }

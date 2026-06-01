@@ -69,7 +69,8 @@ class PurchaseIT {
     PurchaseApi api = new PurchaseApi(anApiClient(ADMIN_TOKEN));
 
     List<Purchase> purchases =
-        api.getPurchases(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, null, null, null, null);
+        api.getPurchases(
+            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, null, null, null, null, null);
 
     assertEquals(2, purchases.size());
     assertTrue(purchases.stream().anyMatch(purchase -> PURCHASE1_ID.equals(purchase.getId())));
@@ -82,7 +83,7 @@ class PurchaseIT {
 
     List<Purchase> purchases =
         api.getPurchases(
-            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, WAREHOUSE1_ID, null, null, null, null);
+            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, WAREHOUSE1_ID, null, null, null, null, null);
 
     assertEquals(1, purchases.size());
     assertEquals(PURCHASE1_ID, purchases.get(0).getId());
@@ -93,7 +94,8 @@ class PurchaseIT {
     PurchaseApi api = new PurchaseApi(anApiClient(ADMIN_TOKEN));
 
     List<Purchase> purchases =
-        api.getPurchases(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, false, null, null, null);
+        api.getPurchases(
+            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, null, false, null, null, null);
 
     assertEquals(1, purchases.size());
     assertEquals(PURCHASE2_ID, purchases.get(0).getId());
@@ -146,14 +148,14 @@ class PurchaseIT {
   }
 
   @Test
-  void admin_cannot_create_purchase_without_supplier() {
+  void admin_cannot_create_purchase_without_source_warehouse() {
     PurchaseApi api = new PurchaseApi(anApiClient(ADMIN_TOKEN));
 
     CrupdatePurchase invalidPurchase = purchaseToCrupdatePurchase(purchase1());
-    invalidPurchase.setSupplier(null);
+    invalidPurchase.setSourceWarehouseId(null);
 
     assertThrowsApiException(
-        "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Supplier is mandatory for purchase\"}",
+        "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Source warehouse is mandatory for purchase\"}",
         () -> api.crupdatePurchases(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(invalidPurchase)));
   }
 

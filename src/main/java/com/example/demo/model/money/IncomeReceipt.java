@@ -2,6 +2,8 @@ package com.example.demo.model.money;
 
 import com.example.demo.model.CreatAndUpdateEntity;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -26,12 +28,13 @@ public class IncomeReceipt extends CreatAndUpdateEntity implements Serializable 
 
   @Id private String id;
 
-  private LocalDate paymentDate;
+  @NotNull private LocalDate paymentDate;
 
-  private BigDecimal amount;
+  @NotNull @PositiveOrZero private BigDecimal amount;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "income_id")
+  @NotNull
   private IncomeMoney income;
 
   @Override

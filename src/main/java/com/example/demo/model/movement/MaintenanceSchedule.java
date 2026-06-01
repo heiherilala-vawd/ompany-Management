@@ -3,6 +3,7 @@ package com.example.demo.model.movement;
 import com.example.demo.model.Company;
 import com.example.demo.model.CreatAndUpdateEntity;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -28,6 +29,7 @@ public class MaintenanceSchedule extends CreatAndUpdateEntity implements Seriali
 
   @Id private String id;
 
+  @NotNull
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "equipment_id")
   private Equipment equipment;
@@ -35,15 +37,20 @@ public class MaintenanceSchedule extends CreatAndUpdateEntity implements Seriali
   @Column(columnDefinition = "TEXT")
   private String description;
 
+  @NotNull
   @Column(name = "scheduled_date")
   private LocalDate scheduledDate;
 
+  @NotBlank
+  @Size(max = 255)
   private String frequency;
 
+  @NotNull
   @Enumerated(EnumType.STRING)
   @JdbcTypeCode(SqlTypes.NAMED_ENUM)
   private MaintenanceScheduleStatus status;
 
+  @NotNull
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "company_id")
   private Company company;

@@ -1,6 +1,7 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
@@ -32,18 +33,23 @@ public class History implements Serializable {
   @Column(columnDefinition = "TEXT")
   private String newValue;
 
+  @NotNull
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id")
   private User user;
 
+  @NotNull
   @Column(name = "modified_at", nullable = false)
   private Instant modifiedAt;
 
+  @NotNull
   @Enumerated(EnumType.STRING)
   @JdbcTypeCode(SqlTypes.NAMED_ENUM)
   @Column(name = "entity_type", nullable = false)
   private EntityType entityType;
 
+  @NotBlank
+  @Size(max = 255)
   @Column(name = "entity_id", nullable = false)
   private String entityId;
 

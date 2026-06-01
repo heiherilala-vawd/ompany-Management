@@ -17,6 +17,7 @@ security:
 x-tagGroups:
   - name: Features
     tags:
+      - Health
       - Auth
       - Company
       - Users
@@ -66,6 +67,8 @@ x-tagGroups:
       - Report
 
 tags:
+  - name: Health
+    description: Health check endpoints
   - name: Auth
     description: Authentication & current user
   - name: Company
@@ -2451,12 +2454,6 @@ paths:
           schema:
             type: string
           example: "comp_btp001"
-        - name: equipment_id
-          in: query
-          required: false
-          schema:
-            type: string
-          example: "eq_001"
       requestBody:
         required: true
         content:
@@ -4507,12 +4504,18 @@ paths:
           schema:
             $ref: '#/components/schemas/PageSize'
           example: 20
+        - name: source_warehouse_id
+          in: query
+          description: "Filter purchases by source warehouse id"
+          schema:
+            type: string
+          example: "wh_001"
         - name: supplier_id
           in: query
           description: "Filter purchases by supplier id"
           schema:
             type: string
-          example: "supp_001"
+          example: "supplier_001"
         - name: is_equipment
           in: query
           schema:
@@ -6893,6 +6896,12 @@ paths:
           schema:
             type: string
           example: "comp_btp001"
+        - name: job_id
+          in: query
+          required: false
+          schema:
+            type: string
+          example: "job_001"
       responses:
         '200':
           description: List of purchase orders
@@ -7957,6 +7966,12 @@ paths:
           schema:
             $ref: '#/components/schemas/PageSize'
           example: 20
+        - name: job_id
+          in: query
+          required: false
+          schema:
+            type: string
+          example: "job_001"
       responses:
         '200':
           description: List of equipment usage records
@@ -8109,6 +8124,18 @@ paths:
           schema:
             $ref: '#/components/schemas/PageSize'
           example: 20
+        - name: consumption_status
+          in: query
+          required: false
+          schema:
+            type: string
+          example: "IN_PROGRESS"
+        - name: job_id
+          in: query
+          required: false
+          schema:
+            type: string
+          example: "job_001"
       responses:
         '200':
           description: List of material consumption records
@@ -9372,6 +9399,895 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
+  # ╔══════════════════════════════════════════════════════════╗
+  # ║  HEALTH                                                      ║
+  # ╚══════════════════════════════════════════════════════════╝
+
+  /ping:
+    get:
+      tags:
+        - Health
+      summary: Health check endpoint
+      operationId: ping
+      responses:
+        '200':
+          description: Health check ok
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "pong"
+
+  # ╔══════════════════════════════════════════════════════════╗
+  # ║  EQUIPMENT USAGE ACTIONS                                       ║
+  # ╚══════════════════════════════════════════════════════════╝
+
+  /companies/{comp_id}/equipment_usage/{id}/return:
+    put:
+      tags:
+        - EquipmentUsage
+      summary: Return equipment from usage
+      operationId: returnEquipment
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "eu_001"
+        - name: status
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/UsageStatus'
+      responses:
+        '200':
+          description: Equipment returned successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EquipmentUsage'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+
+  # ╔══════════════════════════════════════════════════════════╗
+  # ║  MATERIAL CONSUMPTION ACTIONS                                    ║
+  # ╚══════════════════════════════════════════════════════════╝
+
+  /companies/{comp_id}/material_consumption/{id}/complete:
+    put:
+      tags:
+        - MaterialConsumption
+      summary: Complete a material consumption
+      operationId: completeMaterialConsumption
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "mc_001"
+      responses:
+        '200':
+          description: Material consumption completed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MaterialConsumption'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+
+  /companies/{comp_id}/material_consumption/{id}/return:
+    put:
+      tags:
+        - MaterialConsumption
+      summary: Return materials from a consumption
+      operationId: returnMaterialsFromConsumption
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "mc_001"
+        - name: quantity
+          in: query
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          example: 10
+      responses:
+        '200':
+          description: Materials returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MaterialConsumption'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+
+  # ╔══════════════════════════════════════════════════════════╗
+  # ║  DASHBOARD                                                    ║
+  # ╚══════════════════════════════════════════════════════════╝
+
+  /companies/{comp_id}/dashboard/materials:
+    get:
+      tags:
+        - Report
+      summary: Get material dashboard
+      operationId: getMaterialDashboard
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: job_id
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: date_from
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: date_to
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Material dashboard data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MaterialDashboardResponse'
+
+  /companies/{comp_id}/dashboard/materials/summary:
+    get:
+      tags:
+        - Report
+      summary: Get material dashboard summary
+      operationId: getMaterialDashboardSummary
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: job_id
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: date_from
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: date_to
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Material dashboard summary
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MaterialSummaryResponse'
+
+  /companies/{comp_id}/dashboard/materials/breakdown:
+    get:
+      tags:
+        - Report
+      summary: Get material dashboard breakdown
+      operationId: getMaterialDashboardBreakdown
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: job_id
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: date_from
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: date_to
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Material dashboard breakdown
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MaterialBreakdownResponse'
+
+  /companies/{comp_id}/dashboard/equipment:
+    get:
+      tags:
+        - Report
+      summary: Get equipment dashboard
+      operationId: getEquipmentDashboard
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: job_id
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: date_from
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: date_to
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Equipment dashboard data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EquipmentDashboardResponse'
+
+  /companies/{comp_id}/dashboard/equipment/summary:
+    get:
+      tags:
+        - Report
+      summary: Get equipment dashboard summary
+      operationId: getEquipmentDashboardSummary
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: job_id
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: date_from
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: date_to
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Equipment dashboard summary
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EquipmentSummaryResponse'
+
+  /companies/{comp_id}/dashboard/equipment/breakdown:
+    get:
+      tags:
+        - Report
+      summary: Get equipment dashboard breakdown
+      operationId: getEquipmentDashboardBreakdown
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: job_id
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: date_from
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: date_to
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Equipment dashboard breakdown
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EquipmentBreakdownResponse'
+
+  /companies/{comp_id}/dashboard/hr:
+    get:
+      tags:
+        - Report
+      summary: Get HR dashboard
+      operationId: getHrDashboard
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: job_id
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: date_from
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: date_to
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: HR dashboard data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HrDashboardResponse'
+
+  /companies/{comp_id}/dashboard/hr/summary:
+    get:
+      tags:
+        - Report
+      summary: Get HR dashboard summary
+      operationId: getHrDashboardSummary
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: job_id
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: date_from
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: date_to
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: HR dashboard summary
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HrSummaryResponse'
+
+  /companies/{comp_id}/dashboard/hr/breakdown:
+    get:
+      tags:
+        - Report
+      summary: Get HR dashboard breakdown
+      operationId: getHrDashboardBreakdown
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: job_id
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: date_from
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: date_to
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: HR dashboard breakdown
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HrBreakdownResponse'
+
+  /companies/{comp_id}/dashboard/monetary:
+    get:
+      tags:
+        - Report
+      summary: Get monetary dashboard
+      operationId: getMonetaryDashboard
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: job_id
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: date_from
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: date_to
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Monetary dashboard data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonetaryDashboardResponse'
+
+  /companies/{comp_id}/dashboard/monetary/summary:
+    get:
+      tags:
+        - Report
+      summary: Get monetary dashboard summary
+      operationId: getMonetaryDashboardSummary
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: job_id
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: date_from
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: date_to
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Monetary dashboard summary
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonetarySummaryResponse'
+
+  /companies/{comp_id}/dashboard/monetary/breakdown:
+    get:
+      tags:
+        - Report
+      summary: Get monetary dashboard breakdown
+      operationId: getMonetaryDashboardBreakdown
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: job_id
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: date_from
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: date_to
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Monetary dashboard breakdown
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonetaryBreakdownResponse'
+
+  /companies/{comp_id}/dashboard/monetary/revenue:
+    get:
+      tags:
+        - Report
+      summary: Get revenue time series
+      operationId: getRevenueTimeSeries
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: job_id
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: date_from
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: date_to
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: granularity
+          in: query
+          required: false
+          schema:
+            type: string
+            default: month
+      responses:
+        '200':
+          description: Revenue time series
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimeSeriesResponse'
+
+  /companies/{comp_id}/dashboard/monetary/expenses:
+    get:
+      tags:
+        - Report
+      summary: Get expenses time series
+      operationId: getExpensesTimeSeries
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: job_id
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: date_from
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: date_to
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: granularity
+          in: query
+          required: false
+          schema:
+            type: string
+            default: month
+      responses:
+        '200':
+          description: Expenses time series
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimeSeriesResponse'
+
+  /companies/{comp_id}/dashboard/monetary/cashflow:
+    get:
+      tags:
+        - Report
+      summary: Get cash flow time series
+      operationId: getCashFlowTimeSeries
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: date_from
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: date_to
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: granularity
+          in: query
+          required: false
+          schema:
+            type: string
+            default: month
+      responses:
+        '200':
+          description: Cash flow time series
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimeSeriesResponse'
+
+  /companies/{comp_id}/dashboard/monetary/profit:
+    get:
+      tags:
+        - Report
+      summary: Get profit time series
+      operationId: getProfitTimeSeries
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: job_id
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: date_from
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: date_to
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: granularity
+          in: query
+          required: false
+          schema:
+            type: string
+            default: month
+      responses:
+        '200':
+          description: Profit time series
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimeSeriesResponse'
+
+  /companies/{comp_id}/dashboard/monetary/receivables:
+    get:
+      tags:
+        - Report
+      summary: Get receivables time series
+      operationId: getReceivablesTimeSeries
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: job_id
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: date_from
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: date_to
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: granularity
+          in: query
+          required: false
+          schema:
+            type: string
+            default: month
+      responses:
+        '200':
+          description: Receivables time series
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimeSeriesResponse'
+
+  /companies/{comp_id}/dashboard/monetary/budget:
+    get:
+      tags:
+        - Report
+      summary: Get budget time series
+      operationId: getBudgetTimeSeries
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: date_from
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: date_to
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: granularity
+          in: query
+          required: false
+          schema:
+            type: string
+            default: month
+      responses:
+        '200':
+          description: Budget time series
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimeSeriesResponse'
+
+  /companies/{comp_id}/dashboard/monetary/expense_breakdown:
+    get:
+      tags:
+        - Report
+      summary: Get expense breakdown time series
+      operationId: getExpenseBreakdownTimeSeries
+      parameters:
+        - name: comp_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: job_id
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: date_from
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: date_to
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: granularity
+          in: query
+          required: false
+          schema:
+            type: string
+            default: month
+      responses:
+        '200':
+          description: Expense breakdown time series
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimeSeriesResponse'
+
 components:
   securitySchemes:
     BearerAuth:
@@ -9539,6 +10455,8 @@ components:
           type: string
           example: "comp_btp001"
     CrupdateDepartment:
+      required:
+        - name
       allOf:
         - $ref: '#/components/schemas/comment'
       properties:
@@ -9547,7 +10465,12 @@ components:
           example: "dept_001"
         name:
           type: string
+          minLength: 1
+          maxLength: 255
           example: "Génie Civil"
+        company_id:
+          type: string
+          example: "comp_btp001"
         description:
           type: string
           example: "Département en charge des travaux de génie civil"
@@ -9575,6 +10498,9 @@ components:
           type: string
           example: "comp_btp001"
     CrupdateCashAccount:
+      required:
+        - name
+        - balance
       allOf:
         - $ref: '#/components/schemas/comment'
       properties:
@@ -9583,9 +10509,12 @@ components:
           example: "ca_001"
         name:
           type: string
+          minLength: 1
+          maxLength: 255
           example: "Compte courant BNI"
         balance:
           type: number
+          minimum: 0
           example: 1500000.00
         description:
           type: string
@@ -9625,6 +10554,11 @@ components:
         type:
           $ref: '#/components/schemas/CashTransactionType'
     CrupdateCashTransaction:
+      required:
+        - cash_account_id
+        - transaction_date
+        - type
+        - amount
       allOf:
         - $ref: '#/components/schemas/comment'
       properties:
@@ -9636,6 +10570,7 @@ components:
           example: "ca_001"
         amount:
           type: number
+          minimum: 0
           example: 500000.00
         transaction_date:
           type: string
@@ -9681,6 +10616,12 @@ components:
           type: string
           example: "Budget matériaux Q1 2024"
     CrupdateBudgetLine:
+      required:
+        - category
+        - period_start
+        - period_end
+        - planned_amount
+        - actual_amount
       allOf:
         - $ref: '#/components/schemas/comment'
       properties:
@@ -9692,12 +10633,16 @@ components:
           example: "comp_btp001"
         category:
           type: string
+          minLength: 1
+          maxLength: 255
           example: "Matériaux"
         planned_amount:
           type: number
+          minimum: 0
           example: 1000000.00
         actual_amount:
           type: number
+          minimum: 0
           example: 950000.00
         period_start:
           type: string
@@ -9714,6 +10659,14 @@ components:
     # =========================
     # EQUIPMENT USAGE
     # =========================
+    UsageStatus:
+      type: string
+      enum:
+        - IN_USE
+        - BROKEN
+        - RETURNED
+        - LOST
+      example: "RETURNED"
     EquipmentUsage:
       allOf:
         - $ref: '#/components/schemas/AuditFields'
@@ -9739,12 +10692,18 @@ components:
           type: string
           example: "wh_001"
         usage_status:
-          type: string
-          example: "COMPLETED"
+          $ref: '#/components/schemas/UsageStatus'
         used_by:
           type: string
           example: "user_001"
     CrupdateEquipmentUsage:
+      required:
+        - equipment_id
+        - job_id
+        - start_time
+        - source_location
+        - usage_status
+        - used_by
       allOf:
         - $ref: '#/components/schemas/comment'
       properties:
@@ -9767,6 +10726,8 @@ components:
           example: "2024-06-10T17:00:00Z"
         source_location:
           type: string
+          minLength: 1
+          maxLength: 255
           example: "wh_001"
         usage_status:
           type: string
@@ -9808,6 +10769,13 @@ components:
           type: string
           example: "COMPLETED"
     CrupdateMaterialConsumption:
+      required:
+        - material_id
+        - warehouse_id
+        - quantity
+        - consumption_date
+        - job_id
+        - consumption_status
       allOf:
         - $ref: '#/components/schemas/comment'
       properties:
@@ -9822,6 +10790,7 @@ components:
           example: "wh_001"
         quantity:
           type: integer
+          minimum: 0
           example: 50
         consumption_date:
           type: string
@@ -9908,6 +10877,13 @@ components:
           type: string
           example: "dept_001"
     CrupdateUser:
+      required:
+        - first_name
+        - last_name
+        - email
+        - password
+        - role
+        - sex
       allOf:
         - $ref: '#/components/schemas/comment'
       properties:
@@ -9918,17 +10894,25 @@ components:
           $ref: '#/components/schemas/Role'
         first_name:
           type: string
+          minLength: 1
+          maxLength: 100
           example: "Jean"
         last_name:
           type: string
+          minLength: 1
+          maxLength: 100
           example: "Dupont"
         sex:
           $ref: '#/components/schemas/Sex'
         email:
           type: string
+          format: email
+          maxLength: 255
           example: "jean.dupont@example.com"
         password:
           type: string
+          minLength: 8
+          maxLength: 128
           example: "securePassword123"
         company_id:
           type: string
@@ -9964,6 +10948,8 @@ components:
           items:
             $ref: '#/components/schemas/User'
     CrupdateTeam:
+      required:
+        - name
       allOf:
         - $ref: '#/components/schemas/comment'
       properties:
@@ -9972,6 +10958,8 @@ components:
           example: "team_001"
         name:
           type: string
+          minLength: 1
+          maxLength: 255
           example: "Équipe chantier A"
         leader_id:
           type: string
@@ -10004,6 +10992,9 @@ components:
         company_type:
           $ref: '#/components/schemas/CompanyType'
     CrupdateCompany:
+      required:
+        - name
+        - company_type
       allOf:
         - $ref: '#/components/schemas/comment'
       properties:
@@ -10012,6 +11003,8 @@ components:
           example: "comp_btp001"
         name:
           type: string
+          minLength: 1
+          maxLength: 255
           example: "BTP Construction Martin"
         rib:
           type: string
@@ -10052,6 +11045,8 @@ components:
         status:
           $ref: '#/components/schemas/JobStatus'
     CrupdateJob:
+      required:
+        - status
       allOf:
         - $ref: '#/components/schemas/comment'
       properties:
@@ -10098,6 +11093,8 @@ components:
         job:
           $ref: '#/components/schemas/CrupdateJob'
     CrupdateWarehouse:
+      required:
+        - name
       allOf:
         - $ref: '#/components/schemas/comment'
       properties:
@@ -10106,6 +11103,8 @@ components:
           example: "wh_001"
         name:
           type: string
+          minLength: 1
+          maxLength: 255
           example: "Entrepôt Nord"
         description:
           type: string
@@ -10158,6 +11157,9 @@ components:
           items:
             $ref: '#/components/schemas/Maintenance'
     CrupdateEquipment:
+      required:
+        - name
+        - warehouse_id
       allOf:
         - $ref: '#/components/schemas/comment'
       properties:
@@ -10166,6 +11168,8 @@ components:
           example: "eq_001"
         name:
           type: string
+          minLength: 1
+          maxLength: 255
           example: "Pelleteuse CAT 320"
         description:
           type: string
@@ -10212,12 +11216,19 @@ components:
           type: string
           example: "Révision moteur périodique"
     CrupdateMaintenance:
+      required:
+        - expense_id
+        - equipment_id
       properties:
         id:
           type: string
           example: "maint_001"
-        expense:
-          $ref: '#/components/schemas/CrupdateExpenseMoney'
+        expense_id:
+          type: string
+          example: "exp_001"
+        equipment_id:
+          type: string
+          example: "eq_001"
         description:
           type: string
           example: "Révision moteur périodique"
@@ -10243,6 +11254,8 @@ components:
           description: "ID of the company this other expense type belongs to"
           example: "comp_btp001"
     CrupdateOtherExpenseType:
+      required:
+        - name
       allOf:
         - $ref: '#/components/schemas/comment'
       properties:
@@ -10251,6 +11264,8 @@ components:
           example: "other_exp_type_001"
         name:
           type: string
+          minLength: 1
+          maxLength: 255
           example: "Logistique"
         description:
           type: string
@@ -10292,6 +11307,10 @@ components:
           format: date
           example: "2024-12-31"
     CrupdateCompanyFixedCost:
+      required:
+        - name
+        - amount
+        - start_date
       allOf:
         - $ref: '#/components/schemas/comment'
       properties:
@@ -10300,9 +11319,12 @@ components:
           example: "fixed_cost_001"
         name:
           type: string
+          minLength: 1
+          maxLength: 255
           example: "Loyer bureau"
         amount:
           type: number
+          minimum: 0
           example: 2000.00
         description:
           type: string
@@ -10392,6 +11414,10 @@ components:
           example: 100
     CrupdateMaterialWarehouse:
       type: object
+      required:
+        - material_id
+        - warehouse_id
+        - quantity
       properties:
         material_id:
           type: string
@@ -10401,8 +11427,12 @@ components:
           example: "wh_001"
         quantity:
           type: integer
+          minimum: 0
           example: 50
     CrupdateMaterial:
+      required:
+        - name
+        - unit
       allOf:
         - $ref: '#/components/schemas/comment'
       properties:
@@ -10411,6 +11441,8 @@ components:
           example: "mat_001"
         name:
           type: string
+          minLength: 1
+          maxLength: 255
           example: "Ciment Portland"
         description:
           type: string
@@ -10443,6 +11475,7 @@ components:
       properties:
         amount:
           type: number
+          minimum: 0
           example: 15000
         description:
           type: string
@@ -10469,6 +11502,8 @@ components:
           description: "ID of the company this income type belongs to"
           example: "comp_btp001"
     CrupdateIncomeType:
+      required:
+        - name
       allOf:
         - $ref: '#/components/schemas/comment'
       properties:
@@ -10477,6 +11512,8 @@ components:
           example: "income_type_001"
         name:
           type: string
+          minLength: 1
+          maxLength: 255
           example: "Facturation client"
         description:
           type: string
@@ -10538,6 +11575,10 @@ components:
           description: "Remaining unpaid amount (amount - sum of receipts)"
           example: 50000
     CrupdateIncomeMoney:
+      required:
+        - job_id
+        - source_organization
+        - income_type_id
       allOf:
         - $ref: '#/components/schemas/CrupdateMonetaryMovement'
       properties:
@@ -10546,6 +11587,8 @@ components:
           example: "inc_001"
         source_organization:
           type: string
+          minLength: 1
+          maxLength: 255
           example: "Client Principal"
         invoice_reference:
           type: string
@@ -10600,6 +11643,10 @@ components:
           description: "Income this receipt is related to"
     CrupdateIncomeReceipt:
       type: object
+      required:
+        - income_id
+        - payment_date
+        - amount
       properties:
         id:
           type: string
@@ -10610,6 +11657,7 @@ components:
           example: "2024-02-01"
         amount:
           type: number
+          minimum: 0
           example: 150000
         income_id:
           type: string
@@ -10667,6 +11715,13 @@ components:
           description: "Remaining outstanding amount (amount - sum of repayments)"
           example: 3800000
     CrupdateLoan:
+      required:
+        - amount
+        - lender
+        - interest_rate
+        - start_date
+        - due_date
+        - job_id
       allOf:
         - $ref: '#/components/schemas/CrupdateMonetaryMovement'
       properties:
@@ -10675,9 +11730,12 @@ components:
           example: "loan_001"
         lender:
           type: string
+          minLength: 1
+          maxLength: 255
           example: "BNI Madagascar"
         interest_rate:
           type: integer
+          minimum: 0
           description: "Annual interest rate in basis points (e.g., 1200 = 12%)"
           example: 1200
         start_date:
@@ -10726,6 +11784,12 @@ components:
           description: "Loan this repayment is related to"
     CrupdateLoanRepayment:
       type: object
+      required:
+        - loan_id
+        - payment_date
+        - amount
+        - principal_portion
+        - interest_portion
       properties:
         id:
           type: string
@@ -10736,12 +11800,23 @@ components:
           example: "2024-03-01"
         amount:
           type: number
+          minimum: 0
           description: "Total repayment amount"
           example: 600000
         loan_id:
           type: string
           description: "ID of the loan this repayment is related to"
           example: "loan_001"
+        principal_portion:
+          type: number
+          minimum: 0
+          description: "Portion of the payment that goes to principal (auto-calculated)"
+          example: 500000
+        interest_portion:
+          type: number
+          minimum: 0
+          description: "Portion of the payment that goes to interest (auto-calculated)"
+          example: 100000
         comment:
           type: string
           example: "Remboursement mars 2024"
@@ -10761,6 +11836,8 @@ components:
             - $ref: '#/components/schemas/CrupdateJob'
           description: "Job this expense is related to"
     CrupdateExpenseMoney:
+      required:
+        - job_id
       allOf:
         - $ref: '#/components/schemas/CrupdateMonetaryMovement'
       properties:
@@ -10797,12 +11874,18 @@ components:
         payment_type:
           $ref: '#/components/schemas/PaymentType'
     CrupdateEmployeePayment:
+      required:
+        - expense_id
+        - is_for_team
+        - payment_type
+        - payment_description
       properties:
         id:
           type: string
           example: "emp_pay_001"
-        expense:
-          $ref: '#/components/schemas/CrupdateExpenseMoney'
+        expense_id:
+          type: string
+          example: "exp_001"
         user_ids:
           type: array
           items:
@@ -10816,6 +11899,8 @@ components:
           example: "team_001"
         payment_description:
           type: string
+          minLength: 1
+          maxLength: 500
           example: "Salaire février 2024"
         payment_type:
           $ref: '#/components/schemas/PaymentType'
@@ -10843,12 +11928,15 @@ components:
           format: date-time
           example: "2024-02-20T18:00:00Z"
     CrupdateTravelExpense:
+      required:
+        - expense_id
       properties:
         id:
           type: string
           example: "travel_001"
-        expense:
-          $ref: '#/components/schemas/CrupdateExpenseMoney'
+        expense_id:
+          type: string
+          example: "exp_001"
         departure_location:
           $ref: '#/components/schemas/CrupdateWarehouse'
         arrival_location:
@@ -10883,6 +11971,9 @@ components:
         arrival_location:
           $ref: '#/components/schemas/CrupdateWarehouse'
     CrupdateTravelPeople:
+      required:
+        - travel_id
+        - user_id
       allOf:
         - $ref: '#/components/schemas/comment'
       properties:
@@ -10930,6 +12021,10 @@ components:
         arrival_location:
           $ref: '#/components/schemas/CrupdateWarehouse'
     CrupdateTravelMaterials:
+      required:
+        - travel_id
+        - material
+        - quantity
       allOf:
         - $ref: '#/components/schemas/comment'
       properties:
@@ -10944,6 +12039,7 @@ components:
           example: "mat_001"
         quantity:
           type: integer
+          minimum: 0
           example: 100
         quantity_received:
           type: integer
@@ -10982,6 +12078,10 @@ components:
         arrival_location:
           $ref: '#/components/schemas/CrupdateWarehouse'
     CrupdateTravelEquipment:
+      required:
+        - travel_id
+        - equipment
+        - quantity
       allOf:
         - $ref: '#/components/schemas/comment'
       properties:
@@ -10996,6 +12096,7 @@ components:
           example: "eq_001"
         quantity:
           type: integer
+          minimum: 0
           example: 1
         status:
           $ref: '#/components/schemas/TransportStatus'
@@ -11017,8 +12118,10 @@ components:
           example: "purch_001"
         expense:
           $ref: '#/components/schemas/CrupdateExpenseMoney'
-        supplier:
+        source_warehouse:
           $ref: '#/components/schemas/CrupdateWarehouse'
+        supplier:
+          $ref: '#/components/schemas/Supplier'
         equipment:
           $ref: '#/components/schemas/CrupdateEquipment'
         material:
@@ -11042,14 +12145,25 @@ components:
           format: date
           example: "2024-02-10"
     CrupdatePurchase:
+      required:
+        - expense_id
+        - source_warehouse_id
+        - is_equipment
+        - quantity
+        - invoice_date
       properties:
         id:
           type: string
           example: "purch_001"
-        expense:
-          $ref: '#/components/schemas/CrupdateExpenseMoney'
-        supplier:
-          $ref: '#/components/schemas/CrupdateWarehouse'
+        expense_id:
+          type: string
+          example: "exp_001"
+        source_warehouse_id:
+          type: string
+          example: "wh_001"
+        supplier_id:
+          type: string
+          example: "supplier_001"
         equipment:
           type: string
           example: "eq_001"
@@ -11058,6 +12172,7 @@ components:
           example: "mat_001"
         quantity:
           type: integer
+          minimum: 0
           example: 200
         is_equipment:
           type: boolean
@@ -11240,12 +12355,15 @@ components:
           type: string
           example: "Frais de virement international"
     CrupdateBankFee:
+      required:
+        - expense_id
       properties:
         id:
           type: string
           example: "bank_001"
-        expense:
-          $ref: '#/components/schemas/CrupdateExpenseMoney'
+        expense_id:
+          type: string
+          example: "exp_001"
         bank_name:
           type: string
           example: "BNP Paribas"
@@ -11271,12 +12389,15 @@ components:
           type: string
           example: "Frais de carburant pour grues"
     CrupdateOtherExpense:
+      required:
+        - expense_id
       properties:
         id:
           type: string
           example: "other_001"
-        expense:
-          $ref: '#/components/schemas/CrupdateExpenseMoney'
+        expense_id:
+          type: string
+          example: "exp_001"
         other_expense_type_id:
           type: string
           description: "ID of the other expense type associated with this expense"
@@ -11334,6 +12455,382 @@ components:
             in_progress_job_count:
               type: integer
               example: 3
+
+    # =========================
+    # DASHBOARD
+    # =========================
+
+    MaterialDashboardResponse:
+      type: object
+      properties:
+        stock_value_total:
+          type: number
+        consumption_cost_total:
+          type: number
+        top5_stock_value:
+          type: array
+          items:
+            type: object
+        top5_consumption_cost:
+          type: array
+          items:
+            type: object
+        stock_by_material:
+          type: array
+          items:
+            type: object
+        consumption_by_material:
+          type: array
+          items:
+            type: object
+        expiring_materials:
+          type: array
+          items:
+            type: object
+
+    MaterialSummaryResponse:
+      type: object
+      properties:
+        stock_value_total:
+          type: number
+        consumption_cost_total:
+          type: number
+        total_materials_count:
+          type: integer
+        expiring_count:
+          type: integer
+
+    MaterialBreakdownResponse:
+      type: object
+      properties:
+        top5_stock_value:
+          type: array
+          items:
+            type: object
+        top5_consumption_cost:
+          type: array
+          items:
+            type: object
+        stock_by_material:
+          type: array
+          items:
+            type: object
+        consumption_by_material:
+          type: array
+          items:
+            type: object
+        stock_value_by_warehouse:
+          type: array
+          items:
+            type: object
+        expiring_materials:
+          type: array
+          items:
+            type: object
+
+    EquipmentDashboardResponse:
+      type: object
+      properties:
+        total_equipment:
+          type: integer
+        broken_count:
+          type: integer
+        available_count:
+          type: integer
+        usage_rate:
+          type: number
+        avg_age_years:
+          type: number
+        category_distribution:
+          type: array
+          items:
+            type: object
+        maintenance_cost_by_equipment:
+          type: array
+          items:
+            type: object
+        scheduled_maintenances:
+          type: array
+          items:
+            type: object
+        leased_equipment:
+          type: array
+          items:
+            type: object
+        lost_count:
+          type: integer
+        usage_by_job:
+          type: array
+          items:
+            type: object
+
+    EquipmentSummaryResponse:
+      type: object
+      properties:
+        total_equipment:
+          type: integer
+        available_count:
+          type: integer
+        broken_count:
+          type: integer
+        lost_count:
+          type: integer
+        avg_age_years:
+          type: number
+        total_usage_hours:
+          type: number
+
+    EquipmentBreakdownResponse:
+      type: object
+      properties:
+        category_distribution:
+          type: array
+          items:
+            type: object
+        status_breakdown:
+          type: array
+          items:
+            type: object
+        usage_by_job:
+          type: array
+          items:
+            type: object
+        maintenance_cost_by_equipment:
+          type: array
+          items:
+            type: object
+        leased_equipment:
+          type: array
+          items:
+            type: object
+        scheduled_maintenances:
+          type: array
+          items:
+            type: object
+
+    HrDashboardResponse:
+      type: object
+      properties:
+        total_employees:
+          type: integer
+        employees_by_department:
+          type: array
+          items:
+            type: object
+        leave_summary:
+          type: object
+        payroll_total:
+          type: number
+        payroll_by_type:
+          type: array
+          items:
+            type: object
+        new_hires:
+          type: integer
+        leave_balances:
+          type: array
+          items:
+            type: object
+        tasks_by_priority:
+          type: array
+          items:
+            type: object
+        tasks_completed:
+          type: integer
+        employees_by_job:
+          type: array
+          items:
+            type: object
+        labor_cost_by_job:
+          type: array
+          items:
+            type: object
+
+    HrSummaryResponse:
+      type: object
+      properties:
+        total_employees:
+          type: integer
+        new_hires:
+          type: integer
+        payroll_total:
+          type: number
+        tasks_completed:
+          type: integer
+        leave_days_approved:
+          type: number
+        absence_rate:
+          type: number
+
+    HrBreakdownResponse:
+      type: object
+      properties:
+        employees_by_department:
+          type: array
+          items:
+            type: object
+        leave_days_by_type:
+          type: array
+          items:
+            type: object
+        leave_by_status:
+          type: array
+          items:
+            type: object
+        employees_by_job:
+          type: array
+          items:
+            type: object
+        labor_cost_by_job:
+          type: array
+          items:
+            type: object
+        payroll_by_type:
+          type: array
+          items:
+            type: object
+        leave_balances:
+          type: array
+          items:
+            type: object
+
+    MonetaryDashboardResponse:
+      type: object
+      properties:
+        total_revenue:
+          type: number
+        total_expenses:
+          type: number
+        gross_margin:
+          type: number
+        expected_revenue:
+          type: number
+        expected_vs_actual:
+          type: array
+          items:
+            type: object
+        receivables:
+          type: number
+        cash_accounts:
+          type: array
+          items:
+            type: object
+        cash_flow:
+          type: object
+        expenses_by_type:
+          type: array
+          items:
+            type: object
+        budget_vs_actual:
+          type: array
+          items:
+            type: object
+        active_loans:
+          type: array
+          items:
+            type: object
+        fixed_costs_total:
+          type: number
+        profitability_by_job:
+          type: array
+          items:
+            type: object
+        revenue_by_job:
+          type: array
+          items:
+            type: object
+        expense_by_job:
+          type: array
+          items:
+            type: object
+
+    MonetarySummaryResponse:
+      type: object
+      properties:
+        total_revenue:
+          type: number
+        total_expenses:
+          type: number
+        gross_margin:
+          type: number
+        expected_revenue:
+          type: number
+        receivables:
+          type: number
+        fixed_costs_total:
+          type: number
+        cash_flow:
+          type: object
+        cash_accounts:
+          type: array
+          items:
+            type: object
+        active_loans_count:
+          type: integer
+
+    MonetaryBreakdownResponse:
+      type: object
+      properties:
+        expenses_by_type:
+          type: array
+          items:
+            type: object
+        budget_vs_actual:
+          type: array
+          items:
+            type: object
+        expected_vs_actual:
+          type: array
+          items:
+            type: object
+        revenue_by_job:
+          type: array
+          items:
+            type: object
+        expense_by_job:
+          type: array
+          items:
+            type: object
+        profitability_by_job:
+          type: array
+          items:
+            type: object
+        active_loans:
+          type: array
+          items:
+            type: object
+
+    TimeSeriesResponse:
+      type: object
+      properties:
+        schema:
+          type: string
+        period:
+          type: object
+          properties:
+            from:
+              type: string
+            to:
+              type: string
+        granularity:
+          type: string
+        intervals:
+          type: array
+          items:
+            type: object
+            properties:
+              label:
+                type: string
+              value:
+                type: number
+        cumulative:
+          type: array
+          items:
+            type: number
+        total:
+          type: number
+        filtered_by_job:
+          type: string
 
     # =========================
     # HISTORY
@@ -11395,13 +12892,20 @@ components:
     # =========================
     LoginRequest:
       type: object
+      required:
+        - email
+        - password
       properties:
         email:
           type: string
           format: email
+          minLength: 1
+          maxLength: 255
           example: "jean.dupont@example.com"
         password:
           type: string
+          minLength: 1
+          maxLength: 255
           example: "securePassword123"
 
     # =========================
@@ -11414,6 +12918,8 @@ components:
     PageSize:
       type: integer
       description: Cannot exceed `500`
+      minimum: 1
+      maximum: 500
       example: 20
 
     ApiException:
@@ -11487,12 +12993,16 @@ components:
           example: "comp_btp001"
     CrupdateLeaveType:
       type: object
+      required:
+        - name
       properties:
         id:
           type: string
           example: "leave_type_1"
         name:
           type: string
+          minLength: 1
+          maxLength: 255
           example: "Congé payé"
         description:
           type: string
@@ -11545,19 +13055,34 @@ components:
           example: 35
     CrupdateEmployeeLeaveConfig:
       type: object
+      required:
+        - user_id
+        - hire_date
+        - contract_type
+        - vacation_days_per_month
+        - weekly_hours
       properties:
         id:
           type: string
           example: "config_1"
+        user_id:
+          type: string
+          example: "usr_123456"
+        company_id:
+          type: string
+          example: "comp_btp001"
         hire_date:
           type: string
           format: date
           example: "2023-06-01"
         contract_type:
           type: string
+          minLength: 1
+          maxLength: 255
           example: "CDI"
         vacation_days_per_month:
           type: number
+          minimum: 0
           example: 2.5
         end_date:
           type: string
@@ -11565,6 +13090,7 @@ components:
           example: "2026-12-31"
         weekly_hours:
           type: integer
+          minimum: 0
           example: 35
         comment:
           type: string
@@ -11615,6 +13141,13 @@ components:
           example: "2026-05-20T10:00:00Z"
     CrupdateLeave:
       type: object
+      required:
+        - user_id
+        - leave_type_id
+        - start_date
+        - end_date
+        - duration_days
+        - status
       properties:
         id:
           type: string
@@ -11635,6 +13168,7 @@ components:
           example: "2026-06-15"
         duration_days:
           type: number
+          minimum: 0
           example: 11.0
         status:
           $ref: '#/components/schemas/LeaveStatus'
@@ -11714,12 +13248,17 @@ components:
             - "usr_789012"
     CrupdateTask:
       type: object
+      required:
+        - title
+        - priority
       properties:
         id:
           type: string
           example: "task_001"
         title:
           type: string
+          minLength: 1
+          maxLength: 255
           example: "Vérifier le matériel de chantier"
         description:
           type: string
@@ -11771,6 +13310,8 @@ components:
           $ref: '#/components/schemas/TaskPriority'
         frequency:
           type: string
+          minLength: 1
+          maxLength: 255
           example: "0 0 8 1 * ?"
           description: "Cron expression for recurring schedule"
         scheduled_date:
@@ -11790,13 +13331,20 @@ components:
             - "usr_123456"
             - "usr_789012"
     CrupdateTaskSchedule:
-      type: object
+      required:
+        - title
+        - priority
+        - frequency
+        - scheduled_date
+        - status
       properties:
         id:
           type: string
           example: "schedule_001"
         title:
           type: string
+          minLength: 1
+          maxLength: 255
           example: "Maintenance équipement"
         description:
           type: string
@@ -11856,23 +13404,35 @@ components:
           type: string
           example: "comp_btp001"
     CrupdateSupplier:
-      type: object
+      required:
+        - name
+        - siret
+        - email
       properties:
         id:
           type: string
           example: "supplier_001"
         name:
           type: string
+          minLength: 1
+          maxLength: 255
           example: "Fournitures BTP SARL"
         siret:
           type: string
+          minLength: 1
+          maxLength: 255
           example: "12345678901234"
         address:
           type: string
           example: "12 Rue des Usines, 75001 Paris"
         email:
           type: string
+          format: email
+          maxLength: 255
           example: "contact@fournitures-btp.fr"
+        company_id:
+          type: string
+          example: "comp_btp001"
         phone:
           type: string
           example: "01 23 45 67 89"
@@ -11906,15 +13466,24 @@ components:
           type: number
     CrupdatePurchaseOrderLine:
       type: object
+      required:
+        - purchase_order_id
+        - material_id
+        - quantity
+        - unit_price
       properties:
         id:
+          type: string
+        purchase_order_id:
           type: string
         material_id:
           type: string
         quantity:
           type: integer
+          minimum: 0
         unit_price:
           type: number
+          minimum: 0
         comment:
           type: string
     PurchaseOrder:
@@ -11948,6 +13517,12 @@ components:
             $ref: '#/components/schemas/PurchaseOrderLine'
     CrupdatePurchaseOrder:
       type: object
+      required:
+        - supplier_id
+        - order_date
+        - status
+        - job_id
+        - total_amount
       properties:
         id:
           type: string
@@ -11963,6 +13538,7 @@ components:
           $ref: '#/components/schemas/PurchaseOrderStatus'
         total_amount:
           type: number
+          minimum: 0
           example: 5000.00
         company_id:
           type: string
@@ -12008,6 +13584,11 @@ components:
           type: string
     CrupdateMaintenanceSchedule:
       type: object
+      required:
+        - equipment_id
+        - scheduled_date
+        - frequency
+        - status
       properties:
         id:
           type: string
@@ -12020,6 +13601,8 @@ components:
           format: date
         frequency:
           type: string
+          minLength: 1
+          maxLength: 255
         status:
           $ref: '#/components/schemas/MaintenanceScheduleStatus'
         company_id:

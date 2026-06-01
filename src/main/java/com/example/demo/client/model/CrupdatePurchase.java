@@ -19,8 +19,6 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
-import com.example.demo.client.model.CrupdateExpenseMoney;
-import com.example.demo.client.model.CrupdateWarehouse;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -36,8 +34,9 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  */
 @JsonPropertyOrder({
   CrupdatePurchase.JSON_PROPERTY_ID,
-  CrupdatePurchase.JSON_PROPERTY_EXPENSE,
-  CrupdatePurchase.JSON_PROPERTY_SUPPLIER,
+  CrupdatePurchase.JSON_PROPERTY_EXPENSE_ID,
+  CrupdatePurchase.JSON_PROPERTY_SOURCE_WAREHOUSE_ID,
+  CrupdatePurchase.JSON_PROPERTY_SUPPLIER_ID,
   CrupdatePurchase.JSON_PROPERTY_EQUIPMENT,
   CrupdatePurchase.JSON_PROPERTY_MATERIAL,
   CrupdatePurchase.JSON_PROPERTY_QUANTITY,
@@ -46,16 +45,19 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   CrupdatePurchase.JSON_PROPERTY_DUE_DATE,
   CrupdatePurchase.JSON_PROPERTY_PAID_AT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-30T17:19:15.606578257+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-01T18:19:40.950295941+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdatePurchase {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
 
-  public static final String JSON_PROPERTY_EXPENSE = "expense";
-  private CrupdateExpenseMoney expense;
+  public static final String JSON_PROPERTY_EXPENSE_ID = "expense_id";
+  private String expenseId;
 
-  public static final String JSON_PROPERTY_SUPPLIER = "supplier";
-  private CrupdateWarehouse supplier;
+  public static final String JSON_PROPERTY_SOURCE_WAREHOUSE_ID = "source_warehouse_id";
+  private String sourceWarehouseId;
+
+  public static final String JSON_PROPERTY_SUPPLIER_ID = "supplier_id";
+  private String supplierId;
 
   public static final String JSON_PROPERTY_EQUIPMENT = "equipment";
   private String equipment;
@@ -106,53 +108,78 @@ public class CrupdatePurchase {
   }
 
 
-  public CrupdatePurchase expense(CrupdateExpenseMoney expense) {
-    this.expense = expense;
+  public CrupdatePurchase expenseId(String expenseId) {
+    this.expenseId = expenseId;
     return this;
   }
 
    /**
-   * Get expense
-   * @return expense
+   * Get expenseId
+   * @return expenseId
   **/
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_EXPENSE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @jakarta.annotation.Nonnull
+  @JsonProperty(JSON_PROPERTY_EXPENSE_ID)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
-  public CrupdateExpenseMoney getExpense() {
-    return expense;
+  public String getExpenseId() {
+    return expenseId;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_EXPENSE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setExpense(CrupdateExpenseMoney expense) {
-    this.expense = expense;
+  @JsonProperty(JSON_PROPERTY_EXPENSE_ID)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setExpenseId(String expenseId) {
+    this.expenseId = expenseId;
   }
 
 
-  public CrupdatePurchase supplier(CrupdateWarehouse supplier) {
-    this.supplier = supplier;
+  public CrupdatePurchase sourceWarehouseId(String sourceWarehouseId) {
+    this.sourceWarehouseId = sourceWarehouseId;
     return this;
   }
 
    /**
-   * Get supplier
-   * @return supplier
+   * Get sourceWarehouseId
+   * @return sourceWarehouseId
   **/
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SUPPLIER)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @jakarta.annotation.Nonnull
+  @JsonProperty(JSON_PROPERTY_SOURCE_WAREHOUSE_ID)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
-  public CrupdateWarehouse getSupplier() {
-    return supplier;
+  public String getSourceWarehouseId() {
+    return sourceWarehouseId;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_SUPPLIER)
+  @JsonProperty(JSON_PROPERTY_SOURCE_WAREHOUSE_ID)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setSourceWarehouseId(String sourceWarehouseId) {
+    this.sourceWarehouseId = sourceWarehouseId;
+  }
+
+
+  public CrupdatePurchase supplierId(String supplierId) {
+    this.supplierId = supplierId;
+    return this;
+  }
+
+   /**
+   * Get supplierId
+   * @return supplierId
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_SUPPLIER_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setSupplier(CrupdateWarehouse supplier) {
-    this.supplier = supplier;
+
+  public String getSupplierId() {
+    return supplierId;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_SUPPLIER_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setSupplierId(String supplierId) {
+    this.supplierId = supplierId;
   }
 
 
@@ -213,11 +240,12 @@ public class CrupdatePurchase {
 
    /**
    * Get quantity
+   * minimum: 0
    * @return quantity
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_QUANTITY)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public Integer getQuantity() {
     return quantity;
@@ -225,7 +253,7 @@ public class CrupdatePurchase {
 
 
   @JsonProperty(JSON_PROPERTY_QUANTITY)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setQuantity(Integer quantity) {
     this.quantity = quantity;
   }
@@ -240,9 +268,9 @@ public class CrupdatePurchase {
    * Get isEquipment
    * @return isEquipment
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_IS_EQUIPMENT)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public Boolean getIsEquipment() {
     return isEquipment;
@@ -250,7 +278,7 @@ public class CrupdatePurchase {
 
 
   @JsonProperty(JSON_PROPERTY_IS_EQUIPMENT)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setIsEquipment(Boolean isEquipment) {
     this.isEquipment = isEquipment;
   }
@@ -265,9 +293,9 @@ public class CrupdatePurchase {
    * Get invoiceDate
    * @return invoiceDate
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_INVOICE_DATE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public java.time.LocalDate getInvoiceDate() {
     return invoiceDate;
@@ -275,7 +303,7 @@ public class CrupdatePurchase {
 
 
   @JsonProperty(JSON_PROPERTY_INVOICE_DATE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setInvoiceDate(java.time.LocalDate invoiceDate) {
     this.invoiceDate = invoiceDate;
   }
@@ -344,8 +372,9 @@ public class CrupdatePurchase {
     }
     CrupdatePurchase crupdatePurchase = (CrupdatePurchase) o;
     return Objects.equals(this.id, crupdatePurchase.id) &&
-        Objects.equals(this.expense, crupdatePurchase.expense) &&
-        Objects.equals(this.supplier, crupdatePurchase.supplier) &&
+        Objects.equals(this.expenseId, crupdatePurchase.expenseId) &&
+        Objects.equals(this.sourceWarehouseId, crupdatePurchase.sourceWarehouseId) &&
+        Objects.equals(this.supplierId, crupdatePurchase.supplierId) &&
         Objects.equals(this.equipment, crupdatePurchase.equipment) &&
         Objects.equals(this.material, crupdatePurchase.material) &&
         Objects.equals(this.quantity, crupdatePurchase.quantity) &&
@@ -357,7 +386,7 @@ public class CrupdatePurchase {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, expense, supplier, equipment, material, quantity, isEquipment, invoiceDate, dueDate, paidAt);
+    return Objects.hash(id, expenseId, sourceWarehouseId, supplierId, equipment, material, quantity, isEquipment, invoiceDate, dueDate, paidAt);
   }
 
   @Override
@@ -365,8 +394,9 @@ public class CrupdatePurchase {
     StringBuilder sb = new StringBuilder();
     sb.append("class CrupdatePurchase {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    expense: ").append(toIndentedString(expense)).append("\n");
-    sb.append("    supplier: ").append(toIndentedString(supplier)).append("\n");
+    sb.append("    expenseId: ").append(toIndentedString(expenseId)).append("\n");
+    sb.append("    sourceWarehouseId: ").append(toIndentedString(sourceWarehouseId)).append("\n");
+    sb.append("    supplierId: ").append(toIndentedString(supplierId)).append("\n");
     sb.append("    equipment: ").append(toIndentedString(equipment)).append("\n");
     sb.append("    material: ").append(toIndentedString(material)).append("\n");
     sb.append("    quantity: ").append(toIndentedString(quantity)).append("\n");
@@ -426,14 +456,19 @@ public class CrupdatePurchase {
       joiner.add(String.format("%sid%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `expense` to the URL query string
-    if (getExpense() != null) {
-      joiner.add(getExpense().toUrlQueryString(prefix + "expense" + suffix));
+    // add `expense_id` to the URL query string
+    if (getExpenseId() != null) {
+      joiner.add(String.format("%sexpense_id%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getExpenseId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `supplier` to the URL query string
-    if (getSupplier() != null) {
-      joiner.add(getSupplier().toUrlQueryString(prefix + "supplier" + suffix));
+    // add `source_warehouse_id` to the URL query string
+    if (getSourceWarehouseId() != null) {
+      joiner.add(String.format("%ssource_warehouse_id%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getSourceWarehouseId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `supplier_id` to the URL query string
+    if (getSupplierId() != null) {
+      joiner.add(String.format("%ssupplier_id%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getSupplierId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `equipment` to the URL query string
