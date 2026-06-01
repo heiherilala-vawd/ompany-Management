@@ -5,6 +5,7 @@ import com.example.demo.model.User;
 import com.example.demo.model.money.TravelExpense;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
@@ -28,15 +29,18 @@ public class TravelPeople extends CreatAndUpdateEntity implements Serializable {
 
   @Id private String id;
 
+  @NotNull
   @ManyToOne
   @JoinColumn(name = "travel_id")
   @JsonBackReference
   private TravelExpense travel;
 
+  @NotNull
   @ManyToOne
   @JoinColumn(name = "user_id")
   private User user;
 
+  @NotNull
   @ManyToOne
   @JoinColumn(name = "arrival_location")
   private Warehouse arrivalLocation;

@@ -5,6 +5,8 @@ import com.example.demo.model.CreatAndUpdateEntity;
 import com.example.demo.model.Job;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -35,24 +37,31 @@ public class PurchaseOrder extends CreatAndUpdateEntity implements Serializable 
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "supplier_id")
+  @NotNull
   private Supplier supplier;
 
   @Column(name = "order_date")
+  @NotNull
   private LocalDate orderDate;
 
   @Enumerated(EnumType.STRING)
   @JdbcTypeCode(SqlTypes.NAMED_ENUM)
+  @NotNull
   private PurchaseOrderStatus status;
 
   @Column(name = "total_amount")
+  @NotNull
+  @PositiveOrZero
   private BigDecimal totalAmount;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "company_id")
+  @NotNull
   private Company company;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "job_id")
+  @NotNull
   private Job job;
 
   @JsonProperty("supplier_id")

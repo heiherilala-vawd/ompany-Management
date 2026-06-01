@@ -2,6 +2,8 @@ package com.example.demo.endpoint.rest.mapper.movement;
 
 import com.example.demo.client.model.CrupdateEquipmentUsage;
 import com.example.demo.client.model.EquipmentUsage;
+import com.example.demo.client.model.UsageStatus;
+import com.example.demo.endpoint.rest.mapper.EnumMapper;
 import com.example.demo.endpoint.rest.mapper.RestAuditMapperUtils;
 import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.service.JobService;
@@ -61,7 +63,10 @@ public class EquipmentUsageMapper {
     rest.setEndTime(domain.getEndTime());
     rest.setSourceLocation(
         domain.getSourceLocation() != null ? domain.getSourceLocation().getId() : null);
-    rest.setUsageStatus(domain.getUsageStatus() != null ? domain.getUsageStatus().name() : null);
+    rest.setUsageStatus(
+        domain.getUsageStatus() != null
+            ? EnumMapper.mapEnum(domain.getUsageStatus(), UsageStatus.class)
+            : null);
     rest.setUsedBy(domain.getUsedBy() != null ? domain.getUsedBy().getId() : null);
     RestAuditMapperUtils.mapAuditFields(
         domain,

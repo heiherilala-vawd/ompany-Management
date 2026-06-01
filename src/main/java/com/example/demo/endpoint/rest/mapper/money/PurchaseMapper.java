@@ -35,9 +35,9 @@ public class PurchaseMapper {
             restPurchase.getExpense() != null && restPurchase.getExpense().getId() != null
                 ? expenseMoneyService.findById(restPurchase.getExpense().getId()).orElse(null)
                 : null)
-        .supplier(
-            restPurchase.getSupplier() != null
-                ? warehouseService.findById(restPurchase.getSupplier().getId()).orElse(null)
+        .sourceWarehouse(
+            restPurchase.getSourceWarehouse() != null
+                ? warehouseService.findById(restPurchase.getSourceWarehouse().getId()).orElse(null)
                 : null)
         .equipment(
             restPurchase.getEquipment() != null
@@ -60,10 +60,13 @@ public class PurchaseMapper {
 
     return com.example.demo.model.money.Purchase.builder()
         .id(restPurchase.getId())
-        .expense(expenseMoneyMapper.toDomain(restPurchase.getExpense()))
-        .supplier(
-            restPurchase.getSupplier() != null
-                ? warehouseService.findById(restPurchase.getSupplier().getId()).orElse(null)
+        .expense(
+            restPurchase.getExpenseId() != null
+                ? expenseMoneyService.findById(restPurchase.getExpenseId()).orElse(null)
+                : null)
+        .sourceWarehouse(
+            restPurchase.getSourceWarehouseId() != null
+                ? warehouseService.findById(restPurchase.getSourceWarehouseId()).orElse(null)
                 : null)
         .equipment(
             restPurchase.getEquipment() != null
@@ -87,7 +90,8 @@ public class PurchaseMapper {
     Purchase restPurchase = new Purchase();
     restPurchase.setId(domainPurchase.getId());
     restPurchase.setExpense(expenseMoneyMapper.toRestCrupdateExpense(domainPurchase.getExpense()));
-    restPurchase.setSupplier(warehouseMapper.toRestCrupdateWarehouse(domainPurchase.getSupplier()));
+    restPurchase.setSourceWarehouse(
+        warehouseMapper.toRestCrupdateWarehouse(domainPurchase.getSourceWarehouse()));
     restPurchase.setEquipment(
         equipmentMapper.toRestCrupdateEquipment(domainPurchase.getEquipment()));
     restPurchase.setMaterial(materialMapper.toRestCrupdateMaterial(domainPurchase.getMaterial()));

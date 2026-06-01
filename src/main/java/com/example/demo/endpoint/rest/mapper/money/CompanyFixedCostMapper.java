@@ -33,7 +33,7 @@ public class CompanyFixedCostMapper {
   }
 
   public com.example.demo.model.money.CompanyFixedCost toDomain(
-      CrupdateCompanyFixedCost restFixedCost) {
+      CrupdateCompanyFixedCost restFixedCost, String companyId) {
     if (restFixedCost == null) return null;
 
     return com.example.demo.model.money.CompanyFixedCost.builder()
@@ -41,10 +41,7 @@ public class CompanyFixedCostMapper {
         .name(restFixedCost.getName())
         .amount(restFixedCost.getAmount())
         .description(restFixedCost.getDescription())
-        .company(
-            restFixedCost.getCompanyId() != null
-                ? companyService.findById(restFixedCost.getCompanyId()).orElse(null)
-                : null)
+        .company(companyId != null ? companyService.findById(companyId).orElse(null) : null)
         .startDate(restFixedCost.getStartDate())
         .endDate(restFixedCost.getEndDate())
         .comment(restFixedCost.getComment())

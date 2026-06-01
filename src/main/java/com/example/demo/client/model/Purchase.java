@@ -23,6 +23,7 @@ import com.example.demo.client.model.CrupdateEquipment;
 import com.example.demo.client.model.CrupdateExpenseMoney;
 import com.example.demo.client.model.CrupdateMaterial;
 import com.example.demo.client.model.CrupdateWarehouse;
+import com.example.demo.client.model.Supplier;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -39,6 +40,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
   Purchase.JSON_PROPERTY_ID,
   Purchase.JSON_PROPERTY_EXPENSE,
+  Purchase.JSON_PROPERTY_SOURCE_WAREHOUSE,
   Purchase.JSON_PROPERTY_SUPPLIER,
   Purchase.JSON_PROPERTY_EQUIPMENT,
   Purchase.JSON_PROPERTY_MATERIAL,
@@ -48,7 +50,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   Purchase.JSON_PROPERTY_DUE_DATE,
   Purchase.JSON_PROPERTY_PAID_AT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-30T17:19:15.606578257+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-01T18:19:40.950295941+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class Purchase {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -56,8 +58,11 @@ public class Purchase {
   public static final String JSON_PROPERTY_EXPENSE = "expense";
   private CrupdateExpenseMoney expense;
 
+  public static final String JSON_PROPERTY_SOURCE_WAREHOUSE = "source_warehouse";
+  private CrupdateWarehouse sourceWarehouse;
+
   public static final String JSON_PROPERTY_SUPPLIER = "supplier";
-  private CrupdateWarehouse supplier;
+  private Supplier supplier;
 
   public static final String JSON_PROPERTY_EQUIPMENT = "equipment";
   private CrupdateEquipment equipment;
@@ -133,7 +138,32 @@ public class Purchase {
   }
 
 
-  public Purchase supplier(CrupdateWarehouse supplier) {
+  public Purchase sourceWarehouse(CrupdateWarehouse sourceWarehouse) {
+    this.sourceWarehouse = sourceWarehouse;
+    return this;
+  }
+
+   /**
+   * Get sourceWarehouse
+   * @return sourceWarehouse
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_SOURCE_WAREHOUSE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public CrupdateWarehouse getSourceWarehouse() {
+    return sourceWarehouse;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_SOURCE_WAREHOUSE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setSourceWarehouse(CrupdateWarehouse sourceWarehouse) {
+    this.sourceWarehouse = sourceWarehouse;
+  }
+
+
+  public Purchase supplier(Supplier supplier) {
     this.supplier = supplier;
     return this;
   }
@@ -146,14 +176,14 @@ public class Purchase {
   @JsonProperty(JSON_PROPERTY_SUPPLIER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public CrupdateWarehouse getSupplier() {
+  public Supplier getSupplier() {
     return supplier;
   }
 
 
   @JsonProperty(JSON_PROPERTY_SUPPLIER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setSupplier(CrupdateWarehouse supplier) {
+  public void setSupplier(Supplier supplier) {
     this.supplier = supplier;
   }
 
@@ -347,6 +377,7 @@ public class Purchase {
     Purchase purchase = (Purchase) o;
     return Objects.equals(this.id, purchase.id) &&
         Objects.equals(this.expense, purchase.expense) &&
+        Objects.equals(this.sourceWarehouse, purchase.sourceWarehouse) &&
         Objects.equals(this.supplier, purchase.supplier) &&
         Objects.equals(this.equipment, purchase.equipment) &&
         Objects.equals(this.material, purchase.material) &&
@@ -359,7 +390,7 @@ public class Purchase {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, expense, supplier, equipment, material, quantity, isEquipment, invoiceDate, dueDate, paidAt);
+    return Objects.hash(id, expense, sourceWarehouse, supplier, equipment, material, quantity, isEquipment, invoiceDate, dueDate, paidAt);
   }
 
   @Override
@@ -368,6 +399,7 @@ public class Purchase {
     sb.append("class Purchase {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    expense: ").append(toIndentedString(expense)).append("\n");
+    sb.append("    sourceWarehouse: ").append(toIndentedString(sourceWarehouse)).append("\n");
     sb.append("    supplier: ").append(toIndentedString(supplier)).append("\n");
     sb.append("    equipment: ").append(toIndentedString(equipment)).append("\n");
     sb.append("    material: ").append(toIndentedString(material)).append("\n");
@@ -431,6 +463,11 @@ public class Purchase {
     // add `expense` to the URL query string
     if (getExpense() != null) {
       joiner.add(getExpense().toUrlQueryString(prefix + "expense" + suffix));
+    }
+
+    // add `source_warehouse` to the URL query string
+    if (getSourceWarehouse() != null) {
+      joiner.add(getSourceWarehouse().toUrlQueryString(prefix + "source_warehouse" + suffix));
     }
 
     // add `supplier` to the URL query string

@@ -187,7 +187,7 @@ class LoanIT {
     invalidLoan.setAmount(BigDecimal.valueOf(-5000));
 
     assertThrowsApiException(
-        "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Loan amount must be positive\"}",
+        "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Loan amount must be non-negative\"}",
         () -> api.crupdateLoans(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(invalidLoan)));
   }
 
@@ -289,19 +289,6 @@ class LoanIT {
   // ========== VALIDATION : LOAN ==========
 
   @Test
-  void admin_cannot_create_loan_with_amount_zero() {
-    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
-    LoanApi api = new LoanApi(adminClient);
-
-    CrupdateLoan invalidLoan = someCreatableLoan();
-    invalidLoan.setAmount(BigDecimal.valueOf(0));
-
-    assertThrowsApiException(
-        "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Loan amount must be positive\"}",
-        () -> api.crupdateLoans(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(invalidLoan)));
-  }
-
-  @Test
   void admin_cannot_create_loan_with_null_amount() {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     LoanApi api = new LoanApi(adminClient);
@@ -310,7 +297,7 @@ class LoanIT {
     invalidLoan.setAmount(null);
 
     assertThrowsApiException(
-        "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Loan amount must be positive\"}",
+        "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Loan amount must be non-negative\"}",
         () -> api.crupdateLoans(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(invalidLoan)));
   }
 
@@ -392,18 +379,17 @@ class LoanIT {
   // ========== VALIDATION : REPAYMENT ==========
 
   @Test
-  void admin_cannot_create_repayment_with_amount_zero() {
+  void admin_can_create_repayment_with_amount_zero() throws Exception {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     LoanRepaymentApi api = new LoanRepaymentApi(adminClient);
 
-    CrupdateLoanRepayment invalid = someCreatableRepayment();
-    invalid.setAmount(BigDecimal.valueOf(0));
+    CrupdateLoanRepayment repayment = someCreatableRepayment();
+    repayment.setAmount(BigDecimal.valueOf(0));
 
-    assertThrowsApiException(
-        "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Repayment amount must be positive\"}",
-        () ->
-            api.crupdateLoanRepayments(
-                COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(invalid), LOAN1_ID));
+    List<LoanRepayment> created =
+        api.crupdateLoanRepayments(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(repayment), LOAN1_ID);
+    assertEquals(1, created.size());
+    assertEquals(0, BigDecimal.ZERO.compareTo(created.get(0).getAmount()));
   }
 
   @Test
@@ -415,7 +401,7 @@ class LoanIT {
     invalid.setAmount(null);
 
     assertThrowsApiException(
-        "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Repayment amount must be positive\"}",
+        "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Repayment amount must be non-negative\"}",
         () ->
             api.crupdateLoanRepayments(
                 COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(invalid), LOAN1_ID));

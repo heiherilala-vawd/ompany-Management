@@ -5,6 +5,7 @@ import com.example.demo.client.model.PurchaseOperationRequest;
 import com.example.demo.endpoint.rest.mapper.money.PurchaseMapper;
 import com.example.demo.endpoint.rest.mapper.money.PurchaseOperationMapper;
 import com.example.demo.service.money.PurchaseOperationService;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -28,7 +29,7 @@ public class PurchaseOperationController {
       @PathVariable String comp_id,
       @PathVariable String job_id,
       @PathVariable String user_id,
-      @RequestBody PurchaseOperationRequest request) {
+      @Valid @RequestBody PurchaseOperationRequest request) {
     return purchaseMapper.toRestPurchases(
         purchaseOperationService.create(
             purchaseOperationMapper.toAggregate(job_id, user_id, request)));

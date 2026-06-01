@@ -43,7 +43,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   CrupdateMaintenanceSchedule.JSON_PROPERTY_COMPANY_ID,
   CrupdateMaintenanceSchedule.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-30T17:19:15.606578257+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-01T18:19:40.950295941+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdateMaintenanceSchedule {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -106,9 +106,9 @@ public class CrupdateMaintenanceSchedule {
    * Get equipmentId
    * @return equipmentId
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_EQUIPMENT_ID)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getEquipmentId() {
     return equipmentId;
@@ -116,7 +116,7 @@ public class CrupdateMaintenanceSchedule {
 
 
   @JsonProperty(JSON_PROPERTY_EQUIPMENT_ID)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setEquipmentId(String equipmentId) {
     this.equipmentId = equipmentId;
   }
@@ -156,9 +156,9 @@ public class CrupdateMaintenanceSchedule {
    * Get scheduledDate
    * @return scheduledDate
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_SCHEDULED_DATE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public java.time.LocalDate getScheduledDate() {
     return scheduledDate;
@@ -166,7 +166,7 @@ public class CrupdateMaintenanceSchedule {
 
 
   @JsonProperty(JSON_PROPERTY_SCHEDULED_DATE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setScheduledDate(java.time.LocalDate scheduledDate) {
     this.scheduledDate = scheduledDate;
   }
@@ -181,9 +181,9 @@ public class CrupdateMaintenanceSchedule {
    * Get frequency
    * @return frequency
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_FREQUENCY)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getFrequency() {
     return frequency;
@@ -191,7 +191,7 @@ public class CrupdateMaintenanceSchedule {
 
 
   @JsonProperty(JSON_PROPERTY_FREQUENCY)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setFrequency(String frequency) {
     this.frequency = frequency;
   }
@@ -206,9 +206,9 @@ public class CrupdateMaintenanceSchedule {
    * Get status
    * @return status
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_STATUS)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public MaintenanceScheduleStatus getStatus() {
     return status;
@@ -216,7 +216,7 @@ public class CrupdateMaintenanceSchedule {
 
 
   @JsonProperty(JSON_PROPERTY_STATUS)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setStatus(MaintenanceScheduleStatus status) {
     this.status = status;
   }

@@ -103,8 +103,7 @@ class MaintenanceIT {
     CrupdateMaintenance toUpdate = maintenanceToCrupdateMaintenance(maintenance1());
     toUpdate.setDescription("Revision moteur periodique ajustee");
 
-    List<Maintenance> updated =
-        api.crupdateMaintenances(COMPANY1_ID, List.of(toUpdate), EQUIPMENT1_ID);
+    List<Maintenance> updated = api.crupdateMaintenances(COMPANY1_ID, List.of(toUpdate));
 
     assertEquals(1, updated.size());
     assertEquals(MAINTENANCE1_ID, updated.get(0).getId());
@@ -116,9 +115,7 @@ class MaintenanceIT {
     MaintenanceApi api = new MaintenanceApi(anApiClient(EMPLOYEE_TOKEN));
 
     assertThrowsForbiddenException(
-        () ->
-            api.crupdateMaintenances(
-                COMPANY1_ID, List.of(someCreatableMaintenance()), EQUIPMENT1_ID));
+        () -> api.crupdateMaintenances(COMPANY1_ID, List.of(someCreatableMaintenance())));
   }
 
   @Test
@@ -144,15 +141,15 @@ class MaintenanceIT {
   }
 
   @Test
-  void admin_cannot_create_maintenance_with_null_amount() {
+  void admin_cannot_create_maintenance_with_null_expense_id() {
     MaintenanceApi api = new MaintenanceApi(anApiClient(ADMIN_TOKEN));
 
     CrupdateMaintenance invalid = someCreatableMaintenance();
-    invalid.getExpense().setAmount(null);
+    invalid.setExpenseId(null);
 
     assertThrowsApiException(
-        "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Maintenance expense amount must be positive\"}",
-        () -> api.crupdateMaintenances(COMPANY1_ID, List.of(invalid), EQUIPMENT1_ID));
+        "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Maintenance must be linked to an expense\"}",
+        () -> api.crupdateMaintenances(COMPANY1_ID, List.of(invalid)));
   }
 
   @Test
@@ -164,7 +161,7 @@ class MaintenanceIT {
 
     assertThrowsApiException(
         "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Maintenance description is mandatory\"}",
-        () -> api.crupdateMaintenances(COMPANY1_ID, List.of(invalid), EQUIPMENT1_ID));
+        () -> api.crupdateMaintenances(COMPANY1_ID, List.of(invalid)));
   }
 
   static class ContextInitializer extends AbstractContextInitializer {

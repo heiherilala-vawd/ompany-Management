@@ -11,6 +11,7 @@ import com.example.demo.model.movement.TravelEquipment;
 import com.example.demo.model.movement.TravelMaterials;
 import com.example.demo.model.movement.TravelPeople;
 import com.example.demo.model.movement.Warehouse;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Component;
 
@@ -18,197 +19,292 @@ import org.springframework.stereotype.Component;
 public class MovementValidator {
 
   public void validateMaterial(Material material) {
+    List<String> errors = new ArrayList<>();
     if (material == null) {
-      throw new BadRequestException("Material cannot be null");
+      errors.add("Material cannot be null");
     }
-    if (material.getName() == null || material.getName().isBlank()) {
-      throw new BadRequestException("Material name is mandatory");
+    if (material != null && (material.getName() == null || material.getName().isBlank())) {
+      errors.add("Material name is mandatory");
     }
-    if (material.getUnit() == null) {
-      throw new BadRequestException("Material unit is mandatory");
+    if (material != null && material.getUnit() == null) {
+      errors.add("Material unit is mandatory");
+    }
+    if (!errors.isEmpty()) {
+      throw new BadRequestException(String.join("; ", errors));
     }
   }
 
   public void validateMaterials(List<Material> materials) {
+    List<String> errors = new ArrayList<>();
     if (materials == null || materials.isEmpty()) {
-      throw new BadRequestException("Material list cannot be null or empty");
+      errors.add("Material list cannot be null or empty");
+    }
+    if (!errors.isEmpty()) {
+      throw new BadRequestException(String.join("; ", errors));
     }
     materials.forEach(this::validateMaterial);
   }
 
   public void validateEquipment(Equipment equipment) {
+    List<String> errors = new ArrayList<>();
     if (equipment == null) {
-      throw new BadRequestException("Equipment cannot be null");
+      errors.add("Equipment cannot be null");
     }
-    if (equipment.getName() == null || equipment.getName().isBlank()) {
-      throw new BadRequestException("Equipment name is mandatory");
+    if (equipment != null && (equipment.getName() == null || equipment.getName().isBlank())) {
+      errors.add("Equipment name is mandatory");
     }
-    if (equipment.getWarehouse() == null || equipment.getWarehouse().getId() == null) {
-      throw new BadRequestException("Equipment must be associated with a warehouse");
+    if (equipment != null
+        && (equipment.getWarehouse() == null || equipment.getWarehouse().getId() == null)) {
+      errors.add("Equipment must be associated with a warehouse");
+    }
+    if (!errors.isEmpty()) {
+      throw new BadRequestException(String.join("; ", errors));
     }
   }
 
   public void validateEquipments(List<Equipment> equipments) {
+    List<String> errors = new ArrayList<>();
     if (equipments == null || equipments.isEmpty()) {
-      throw new BadRequestException("Equipment list cannot be null or empty");
+      errors.add("Equipment list cannot be null or empty");
+    }
+    if (!errors.isEmpty()) {
+      throw new BadRequestException(String.join("; ", errors));
     }
     equipments.forEach(this::validateEquipment);
   }
 
   public void validateMaintenance(Maintenance maintenance) {
+    List<String> errors = new ArrayList<>();
     if (maintenance == null) {
-      throw new BadRequestException("Maintenance cannot be null");
+      errors.add("Maintenance cannot be null");
     }
-    if (maintenance.getExpense() == null || maintenance.getExpense().getId() == null) {
-      throw new BadRequestException("Maintenance must be linked to an expense");
+    if (maintenance != null
+        && (maintenance.getExpense() == null || maintenance.getExpense().getId() == null)) {
+      errors.add("Maintenance must be linked to an expense");
     }
-    if (maintenance.getExpense().getAmount() == null
-        || maintenance.getExpense().getAmount().compareTo(java.math.BigDecimal.ZERO) <= 0) {
-      throw new BadRequestException("Maintenance expense amount must be positive");
+    if (maintenance != null
+        && maintenance.getExpense() != null
+        && maintenance.getExpense().getAmount() != null
+        && maintenance.getExpense().getAmount().compareTo(java.math.BigDecimal.ZERO) < 0) {
+      errors.add("Maintenance expense amount must be non-negative");
     }
-    if (maintenance.getDescription() == null || maintenance.getDescription().isBlank()) {
-      throw new BadRequestException("Maintenance description is mandatory");
+    if (maintenance != null
+        && (maintenance.getDescription() == null || maintenance.getDescription().isBlank())) {
+      errors.add("Maintenance description is mandatory");
+    }
+    if (!errors.isEmpty()) {
+      throw new BadRequestException(String.join("; ", errors));
     }
   }
 
   public void validateMaintenances(List<Maintenance> maintenances) {
+    List<String> errors = new ArrayList<>();
     if (maintenances == null || maintenances.isEmpty()) {
-      throw new BadRequestException("Maintenance list cannot be null or empty");
+      errors.add("Maintenance list cannot be null or empty");
+    }
+    if (!errors.isEmpty()) {
+      throw new BadRequestException(String.join("; ", errors));
     }
     maintenances.forEach(this::validateMaintenance);
   }
 
   public void validateWarehouse(Warehouse warehouse) {
+    List<String> errors = new ArrayList<>();
     if (warehouse == null) {
-      throw new BadRequestException("Warehouse cannot be null");
+      errors.add("Warehouse cannot be null");
     }
-    if (warehouse.getName() == null || warehouse.getName().isBlank()) {
-      throw new BadRequestException("Warehouse name is mandatory");
+    if (warehouse != null && (warehouse.getName() == null || warehouse.getName().isBlank())) {
+      errors.add("Warehouse name is mandatory");
+    }
+    if (!errors.isEmpty()) {
+      throw new BadRequestException(String.join("; ", errors));
     }
   }
 
   public void validateWarehouses(List<Warehouse> warehouses) {
+    List<String> errors = new ArrayList<>();
     if (warehouses == null || warehouses.isEmpty()) {
-      throw new BadRequestException("Warehouse list cannot be null or empty");
+      errors.add("Warehouse list cannot be null or empty");
+    }
+    if (!errors.isEmpty()) {
+      throw new BadRequestException(String.join("; ", errors));
     }
     warehouses.forEach(this::validateWarehouse);
   }
 
   public void validateTravelEquipment(TravelEquipment travelEquipment) {
+    List<String> errors = new ArrayList<>();
     if (travelEquipment == null) {
-      throw new BadRequestException("Travel equipment cannot be null");
+      errors.add("Travel equipment cannot be null");
     }
-    if (travelEquipment.getTravel() == null || travelEquipment.getTravel().getId() == null) {
-      throw new BadRequestException("Travel equipment must be linked to a travel expense");
+    if (travelEquipment != null
+        && (travelEquipment.getTravel() == null || travelEquipment.getTravel().getId() == null)) {
+      errors.add("Travel equipment must be linked to a travel expense");
     }
-    if (travelEquipment.getEquipment() == null || travelEquipment.getEquipment().getId() == null) {
-      throw new BadRequestException("Equipment is mandatory for travel equipment");
+    if (travelEquipment != null
+        && (travelEquipment.getEquipment() == null
+            || travelEquipment.getEquipment().getId() == null)) {
+      errors.add("Equipment is mandatory for travel equipment");
     }
-    if (travelEquipment.getQuantity() == null || travelEquipment.getQuantity() <= 0) {
-      throw new BadRequestException("Quantity must be positive");
+    if (travelEquipment != null
+        && (travelEquipment.getQuantity() == null || travelEquipment.getQuantity() <= 0)) {
+      errors.add("Quantity must be positive");
     }
-    if (travelEquipment.getStatus() == null) {
-      throw new BadRequestException("Transport status is mandatory");
+    if (travelEquipment != null && travelEquipment.getStatus() == null) {
+      errors.add("Transport status is mandatory");
+    }
+    if (!errors.isEmpty()) {
+      throw new BadRequestException(String.join("; ", errors));
     }
   }
 
   public void validateTravelEquipments(List<TravelEquipment> travelEquipments) {
+    List<String> errors = new ArrayList<>();
     if (travelEquipments == null || travelEquipments.isEmpty()) {
-      throw new BadRequestException("Travel equipment list cannot be null or empty");
+      errors.add("Travel equipment list cannot be null or empty");
+    }
+    if (!errors.isEmpty()) {
+      throw new BadRequestException(String.join("; ", errors));
     }
     travelEquipments.forEach(this::validateTravelEquipment);
   }
 
   public void validateTravelMaterials(TravelMaterials travelMaterials) {
+    List<String> errors = new ArrayList<>();
     if (travelMaterials == null) {
-      throw new BadRequestException("Travel materials cannot be null");
+      errors.add("Travel materials cannot be null");
     }
-    if (travelMaterials.getTravel() == null || travelMaterials.getTravel().getId() == null) {
-      throw new BadRequestException("Travel materials must be linked to a travel expense");
+    if (travelMaterials != null
+        && (travelMaterials.getTravel() == null || travelMaterials.getTravel().getId() == null)) {
+      errors.add("Travel materials must be linked to a travel expense");
     }
-    if (travelMaterials.getMaterial() == null || travelMaterials.getMaterial().getId() == null) {
-      throw new BadRequestException("Material is mandatory for travel materials");
+    if (travelMaterials != null
+        && (travelMaterials.getMaterial() == null
+            || travelMaterials.getMaterial().getId() == null)) {
+      errors.add("Material is mandatory for travel materials");
     }
-    if (travelMaterials.getQuantity() == null || travelMaterials.getQuantity() <= 0) {
-      throw new BadRequestException("Quantity must be positive");
+    if (travelMaterials != null
+        && (travelMaterials.getQuantity() == null || travelMaterials.getQuantity() <= 0)) {
+      errors.add("Quantity must be positive");
+    }
+    if (!errors.isEmpty()) {
+      throw new BadRequestException(String.join("; ", errors));
     }
   }
 
   public void validateTravelMaterialsList(List<TravelMaterials> travelMaterialsList) {
+    List<String> errors = new ArrayList<>();
     if (travelMaterialsList == null || travelMaterialsList.isEmpty()) {
-      throw new BadRequestException("Travel materials list cannot be null or empty");
+      errors.add("Travel materials list cannot be null or empty");
+    }
+    if (!errors.isEmpty()) {
+      throw new BadRequestException(String.join("; ", errors));
     }
     travelMaterialsList.forEach(this::validateTravelMaterials);
   }
 
   public void validateTravelPeople(TravelPeople travelPeople) {
+    List<String> errors = new ArrayList<>();
     if (travelPeople == null) {
-      throw new BadRequestException("Travel people cannot be null");
+      errors.add("Travel people cannot be null");
     }
-    if (travelPeople.getTravel() == null || travelPeople.getTravel().getId() == null) {
-      throw new BadRequestException("Travel people must be linked to a travel expense");
+    if (travelPeople != null
+        && (travelPeople.getTravel() == null || travelPeople.getTravel().getId() == null)) {
+      errors.add("Travel people must be linked to a travel expense");
     }
-    if (travelPeople.getUser() == null || travelPeople.getUser().getId() == null) {
-      throw new BadRequestException("User is mandatory for travel people");
+    if (travelPeople != null
+        && (travelPeople.getUser() == null || travelPeople.getUser().getId() == null)) {
+      errors.add("User is mandatory for travel people");
+    }
+    if (!errors.isEmpty()) {
+      throw new BadRequestException(String.join("; ", errors));
     }
   }
 
   public void validateTravelPeoples(List<TravelPeople> travelPeoples) {
+    List<String> errors = new ArrayList<>();
     if (travelPeoples == null || travelPeoples.isEmpty()) {
-      throw new BadRequestException("Travel people list cannot be null or empty");
+      errors.add("Travel people list cannot be null or empty");
+    }
+    if (!errors.isEmpty()) {
+      throw new BadRequestException(String.join("; ", errors));
     }
     travelPeoples.forEach(this::validateTravelPeople);
   }
 
   public void validateMaterialConsumption(MaterialConsumption consumption) {
+    List<String> errors = new ArrayList<>();
     if (consumption == null) {
-      throw new BadRequestException("Material consumption cannot be null");
+      errors.add("Material consumption cannot be null");
     }
-    if (consumption.getMaterial() == null || consumption.getMaterial().getId() == null) {
-      throw new BadRequestException("Material is mandatory");
+    if (consumption != null
+        && (consumption.getMaterial() == null || consumption.getMaterial().getId() == null)) {
+      errors.add("Material is mandatory");
     }
-    if (consumption.getQuantity() == null) {
-      throw new BadRequestException("Quantity is mandatory");
+    if (consumption != null && consumption.getQuantity() == null) {
+      errors.add("Quantity is mandatory");
+    }
+    if (!errors.isEmpty()) {
+      throw new BadRequestException(String.join("; ", errors));
     }
   }
 
   public void validateMaterialConsumptions(List<MaterialConsumption> consumptions) {
+    List<String> errors = new ArrayList<>();
     if (consumptions == null || consumptions.isEmpty()) {
-      throw new BadRequestException("Material consumption list cannot be null or empty");
+      errors.add("Material consumption list cannot be null or empty");
+    }
+    if (!errors.isEmpty()) {
+      throw new BadRequestException(String.join("; ", errors));
     }
     consumptions.forEach(this::validateMaterialConsumption);
   }
 
   public void validateEquipmentUsage(EquipmentUsage usage) {
+    List<String> errors = new ArrayList<>();
     if (usage == null) {
-      throw new BadRequestException("Equipment usage cannot be null");
+      errors.add("Equipment usage cannot be null");
     }
-    if (usage.getEquipment() == null || usage.getEquipment().getId() == null) {
-      throw new BadRequestException("Equipment is mandatory");
+    if (usage != null && (usage.getEquipment() == null || usage.getEquipment().getId() == null)) {
+      errors.add("Equipment is mandatory");
+    }
+    if (!errors.isEmpty()) {
+      throw new BadRequestException(String.join("; ", errors));
     }
   }
 
   public void validateEquipmentUsages(List<EquipmentUsage> usages) {
+    List<String> errors = new ArrayList<>();
     if (usages == null || usages.isEmpty()) {
-      throw new BadRequestException("Equipment usage list cannot be null or empty");
+      errors.add("Equipment usage list cannot be null or empty");
+    }
+    if (!errors.isEmpty()) {
+      throw new BadRequestException(String.join("; ", errors));
     }
     usages.forEach(this::validateEquipmentUsage);
   }
 
   public void validateMaterialWarehouse(MaterialWarehouse materialWarehouse) {
+    List<String> errors = new ArrayList<>();
     if (materialWarehouse == null) {
-      throw new BadRequestException("Material warehouse cannot be null");
+      errors.add("Material warehouse cannot be null");
     }
-    if (materialWarehouse.getMaterial() == null
-        || materialWarehouse.getMaterial().getId() == null) {
-      throw new BadRequestException("Material is mandatory for material warehouse");
+    if (materialWarehouse != null
+        && (materialWarehouse.getMaterial() == null
+            || materialWarehouse.getMaterial().getId() == null)) {
+      errors.add("Material is mandatory for material warehouse");
     }
-    if (materialWarehouse.getWarehouse() == null
-        || materialWarehouse.getWarehouse().getId() == null) {
-      throw new BadRequestException("Warehouse is mandatory for material warehouse");
+    if (materialWarehouse != null
+        && (materialWarehouse.getWarehouse() == null
+            || materialWarehouse.getWarehouse().getId() == null)) {
+      errors.add("Warehouse is mandatory for material warehouse");
     }
-    if (materialWarehouse.getQuantity() == null || materialWarehouse.getQuantity() < 0) {
-      throw new BadRequestException("Quantity must be non-negative");
+    if (materialWarehouse != null
+        && (materialWarehouse.getQuantity() == null || materialWarehouse.getQuantity() < 0)) {
+      errors.add("Quantity must be non-negative");
+    }
+    if (!errors.isEmpty()) {
+      throw new BadRequestException(String.join("; ", errors));
     }
   }
 }

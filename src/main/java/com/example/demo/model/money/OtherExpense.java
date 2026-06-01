@@ -3,6 +3,7 @@ package com.example.demo.model.money;
 import com.example.demo.model.CreatAndUpdateEntity;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Objects;
 import lombok.AllArgsConstructor;
@@ -28,10 +29,12 @@ public class OtherExpense extends CreatAndUpdateEntity implements Serializable {
   @OneToOne
   @JoinColumn(name = "expense_id")
   @JsonManagedReference
+  @NotNull
   private ExpenseMoney expense;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "other_expense_type_id")
+  @NotNull
   private OtherExpenseType otherExpenseType;
 
   private String description;

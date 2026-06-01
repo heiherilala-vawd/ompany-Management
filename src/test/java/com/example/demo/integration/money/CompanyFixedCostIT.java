@@ -131,7 +131,7 @@ class CompanyFixedCostIT {
     invalid.setAmount(null);
 
     assertThrowsApiException(
-        "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Company fixed cost amount must be positive\"}",
+        "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Company fixed cost amount must be non-negative\"}",
         () -> api.crupdateCompanyFixedCosts(COMPANY1_ID, List.of(invalid)));
   }
 

@@ -1,6 +1,5 @@
 package com.example.demo.integration.conf;
 
-import com.example.demo.client.model.CrupdateExpenseMoney;
 import com.example.demo.client.model.CrupdateTravelEquipment;
 import com.example.demo.client.model.CrupdateTravelExpense;
 import com.example.demo.client.model.CrupdateTravelMaterials;
@@ -11,7 +10,6 @@ import com.example.demo.client.model.TravelExpense;
 import com.example.demo.client.model.TravelMaterials;
 import com.example.demo.client.model.TravelPeople;
 import com.example.demo.client.model.User;
-import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.UUID;
 
@@ -53,7 +51,8 @@ final class TestTravelFixtures {
   static CrupdateTravelExpense travelExpenseToCrupdateTravelExpense(TravelExpense travelExpense) {
     CrupdateTravelExpense crupdateTravelExpense = new CrupdateTravelExpense();
     crupdateTravelExpense.setId(travelExpense.getId());
-    crupdateTravelExpense.setExpense(travelExpense.getExpense());
+    crupdateTravelExpense.setExpenseId(
+        travelExpense.getExpense() != null ? travelExpense.getExpense().getId() : null);
     crupdateTravelExpense.setDepartureLocation(travelExpense.getDepartureLocation());
     crupdateTravelExpense.setArrivalLocation(travelExpense.getArrivalLocation());
     crupdateTravelExpense.setDepartureDate(travelExpense.getDepartureDate());
@@ -64,12 +63,7 @@ final class TestTravelFixtures {
   static CrupdateTravelExpense someCreatableTravelExpense() {
     CrupdateTravelExpense travelExpense = new CrupdateTravelExpense();
     travelExpense.setId(UUID.randomUUID().toString());
-    CrupdateExpenseMoney expense = new CrupdateExpenseMoney();
-    expense.setId(TestUtils.EXPENSE1_ID);
-    expense.setAmount(new BigDecimal("1000.00"));
-    expense.setDescription("Test travel expense");
-    expense.setJobId(TestUtils.JOB1_ID);
-    travelExpense.setExpense(expense);
+    travelExpense.setExpenseId(TestUtils.EXPENSE1_ID);
     travelExpense.setDepartureLocation(
         TestOrganizationFixtures.warehouseToCrupdateWarehouse(routeWarehouse()));
     travelExpense.setArrivalLocation(

@@ -9,6 +9,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
 import lombok.AllArgsConstructor;
@@ -31,11 +32,13 @@ public class Maintenance extends CreatAndUpdateEntity implements Serializable {
 
   @Id private String id;
 
+  @NotNull
   @OneToOne
   @JoinColumn(name = "expense_id")
   @JsonManagedReference
   private ExpenseMoney expense;
 
+  @NotNull
   @ManyToOne
   @JoinColumn(name = "equipment_id")
   private Equipment equipment;

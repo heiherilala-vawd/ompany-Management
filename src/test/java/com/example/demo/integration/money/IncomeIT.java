@@ -328,7 +328,7 @@ class IncomeIT {
     invalidIncome.setAmount(BigDecimal.valueOf(-5000));
 
     assertThrowsApiException(
-        "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Amount must be positive\"}",
+        "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Amount must be non-negative\"}",
         () -> api.crupdateIncomes(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(invalidIncome)));
   }
 

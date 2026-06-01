@@ -8,6 +8,7 @@ import com.example.demo.model.PageFromOne;
 import com.example.demo.model.criteria.EquipmentCriteria;
 import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.service.movement.EquipmentService;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -57,7 +58,7 @@ public class EquipmentController {
   @PutMapping("/companies/{comp_id}/equipment")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public List<Equipment> crupdateEquipment(
-      @PathVariable String comp_id, @RequestBody List<CrupdateEquipment> toWrite) {
+      @PathVariable String comp_id, @Valid @RequestBody List<CrupdateEquipment> toWrite) {
     System.out.println("----------------------------------------");
     System.out.println(toWrite.toString());
     System.out.println("----------------------------------------");

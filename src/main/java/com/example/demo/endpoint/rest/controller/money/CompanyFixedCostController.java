@@ -5,6 +5,7 @@ import com.example.demo.client.model.CrupdateCompanyFixedCost;
 import com.example.demo.endpoint.rest.mapper.money.CompanyFixedCostMapper;
 import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.service.money.CompanyFixedCostService;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -43,10 +44,10 @@ public class CompanyFixedCostController {
   @PutMapping("/companies/{comp_id}/fixed_costs")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<CompanyFixedCost> crupdateCompanyFixedCosts(
-      @PathVariable String comp_id, @RequestBody List<CrupdateCompanyFixedCost> toWrite) {
+      @PathVariable String comp_id, @Valid @RequestBody List<CrupdateCompanyFixedCost> toWrite) {
     return companyFixedCostMapper.toRestCompanyFixedCosts(
         companyFixedCostService.createOrUpdateAll(
-            toWrite.stream().map(companyFixedCostMapper::toDomain).toList()));
+            toWrite.stream().map(rest -> companyFixedCostMapper.toDomain(rest, comp_id)).toList()));
   }
 
   @DeleteMapping("/companies/{comp_id}/fixed_costs/{id}")

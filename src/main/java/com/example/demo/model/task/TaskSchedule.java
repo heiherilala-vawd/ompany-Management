@@ -4,6 +4,9 @@ import com.example.demo.model.Company;
 import com.example.demo.model.CreatAndUpdateEntity;
 import com.example.demo.model.User;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -31,24 +34,32 @@ public class TaskSchedule extends CreatAndUpdateEntity implements Serializable {
 
   @Id private String id;
 
+  @NotBlank
+  @Size(max = 255)
   private String title;
 
   @Column(columnDefinition = "TEXT")
   private String description;
 
+  @NotNull
   @Enumerated(EnumType.STRING)
   @JdbcTypeCode(SqlTypes.NAMED_ENUM)
   private TaskPriority priority;
 
+  @NotBlank
+  @Size(max = 255)
   private String frequency;
 
+  @NotNull
   @Column(name = "scheduled_date")
   private LocalDate scheduledDate;
 
+  @NotNull
   @Enumerated(EnumType.STRING)
   @JdbcTypeCode(SqlTypes.NAMED_ENUM)
   private ScheduleStatus status;
 
+  @NotNull
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "company_id")
   private Company company;

@@ -3,6 +3,7 @@ package com.example.demo.model.core;
 import com.example.demo.model.CreatAndUpdateEntity;
 import com.example.demo.model.User;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -27,8 +28,11 @@ public class Team extends CreatAndUpdateEntity {
 
   @Id private String id;
 
+  @NotBlank
+  @Size(max = 255)
   private String name;
 
+  @NotNull
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "leader_id")
   private User leader;

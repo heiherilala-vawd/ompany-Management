@@ -19,7 +19,6 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
-import com.example.demo.client.model.CrupdateExpenseMoney;
 import com.example.demo.client.model.CrupdateWarehouse;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -35,19 +34,19 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  */
 @JsonPropertyOrder({
   CrupdateTravelExpense.JSON_PROPERTY_ID,
-  CrupdateTravelExpense.JSON_PROPERTY_EXPENSE,
+  CrupdateTravelExpense.JSON_PROPERTY_EXPENSE_ID,
   CrupdateTravelExpense.JSON_PROPERTY_DEPARTURE_LOCATION,
   CrupdateTravelExpense.JSON_PROPERTY_ARRIVAL_LOCATION,
   CrupdateTravelExpense.JSON_PROPERTY_DEPARTURE_DATE,
   CrupdateTravelExpense.JSON_PROPERTY_ARRIVAL_DATE
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-30T17:19:15.606578257+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-01T18:19:40.950295941+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdateTravelExpense {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
 
-  public static final String JSON_PROPERTY_EXPENSE = "expense";
-  private CrupdateExpenseMoney expense;
+  public static final String JSON_PROPERTY_EXPENSE_ID = "expense_id";
+  private String expenseId;
 
   public static final String JSON_PROPERTY_DEPARTURE_LOCATION = "departure_location";
   private CrupdateWarehouse departureLocation;
@@ -89,28 +88,28 @@ public class CrupdateTravelExpense {
   }
 
 
-  public CrupdateTravelExpense expense(CrupdateExpenseMoney expense) {
-    this.expense = expense;
+  public CrupdateTravelExpense expenseId(String expenseId) {
+    this.expenseId = expenseId;
     return this;
   }
 
    /**
-   * Get expense
-   * @return expense
+   * Get expenseId
+   * @return expenseId
   **/
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_EXPENSE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @jakarta.annotation.Nonnull
+  @JsonProperty(JSON_PROPERTY_EXPENSE_ID)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
-  public CrupdateExpenseMoney getExpense() {
-    return expense;
+  public String getExpenseId() {
+    return expenseId;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_EXPENSE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setExpense(CrupdateExpenseMoney expense) {
-    this.expense = expense;
+  @JsonProperty(JSON_PROPERTY_EXPENSE_ID)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setExpenseId(String expenseId) {
+    this.expenseId = expenseId;
   }
 
 
@@ -227,7 +226,7 @@ public class CrupdateTravelExpense {
     }
     CrupdateTravelExpense crupdateTravelExpense = (CrupdateTravelExpense) o;
     return Objects.equals(this.id, crupdateTravelExpense.id) &&
-        Objects.equals(this.expense, crupdateTravelExpense.expense) &&
+        Objects.equals(this.expenseId, crupdateTravelExpense.expenseId) &&
         Objects.equals(this.departureLocation, crupdateTravelExpense.departureLocation) &&
         Objects.equals(this.arrivalLocation, crupdateTravelExpense.arrivalLocation) &&
         Objects.equals(this.departureDate, crupdateTravelExpense.departureDate) &&
@@ -236,7 +235,7 @@ public class CrupdateTravelExpense {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, expense, departureLocation, arrivalLocation, departureDate, arrivalDate);
+    return Objects.hash(id, expenseId, departureLocation, arrivalLocation, departureDate, arrivalDate);
   }
 
   @Override
@@ -244,7 +243,7 @@ public class CrupdateTravelExpense {
     StringBuilder sb = new StringBuilder();
     sb.append("class CrupdateTravelExpense {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    expense: ").append(toIndentedString(expense)).append("\n");
+    sb.append("    expenseId: ").append(toIndentedString(expenseId)).append("\n");
     sb.append("    departureLocation: ").append(toIndentedString(departureLocation)).append("\n");
     sb.append("    arrivalLocation: ").append(toIndentedString(arrivalLocation)).append("\n");
     sb.append("    departureDate: ").append(toIndentedString(departureDate)).append("\n");
@@ -301,9 +300,9 @@ public class CrupdateTravelExpense {
       joiner.add(String.format("%sid%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `expense` to the URL query string
-    if (getExpense() != null) {
-      joiner.add(getExpense().toUrlQueryString(prefix + "expense" + suffix));
+    // add `expense_id` to the URL query string
+    if (getExpenseId() != null) {
+      joiner.add(String.format("%sexpense_id%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getExpenseId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `departure_location` to the URL query string

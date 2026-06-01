@@ -34,16 +34,20 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
   CrupdateDepartment.JSON_PROPERTY_ID,
   CrupdateDepartment.JSON_PROPERTY_NAME,
+  CrupdateDepartment.JSON_PROPERTY_COMPANY_ID,
   CrupdateDepartment.JSON_PROPERTY_DESCRIPTION,
   CrupdateDepartment.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-30T17:19:15.606578257+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-01T18:19:40.950295941+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdateDepartment {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
 
   public static final String JSON_PROPERTY_NAME = "name";
   private String name;
+
+  public static final String JSON_PROPERTY_COMPANY_ID = "company_id";
+  private String companyId;
 
   public static final String JSON_PROPERTY_DESCRIPTION = "description";
   private String description;
@@ -88,9 +92,9 @@ public class CrupdateDepartment {
    * Get name
    * @return name
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_NAME)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getName() {
     return name;
@@ -98,9 +102,34 @@ public class CrupdateDepartment {
 
 
   @JsonProperty(JSON_PROPERTY_NAME)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setName(String name) {
     this.name = name;
+  }
+
+
+  public CrupdateDepartment companyId(String companyId) {
+    this.companyId = companyId;
+    return this;
+  }
+
+   /**
+   * Get companyId
+   * @return companyId
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_COMPANY_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getCompanyId() {
+    return companyId;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_COMPANY_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setCompanyId(String companyId) {
+    this.companyId = companyId;
   }
 
 
@@ -168,13 +197,14 @@ public class CrupdateDepartment {
     CrupdateDepartment crupdateDepartment = (CrupdateDepartment) o;
     return Objects.equals(this.id, crupdateDepartment.id) &&
         Objects.equals(this.name, crupdateDepartment.name) &&
+        Objects.equals(this.companyId, crupdateDepartment.companyId) &&
         Objects.equals(this.description, crupdateDepartment.description) &&
         Objects.equals(this.comment, crupdateDepartment.comment);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, description, comment);
+    return Objects.hash(id, name, companyId, description, comment);
   }
 
   @Override
@@ -183,6 +213,7 @@ public class CrupdateDepartment {
     sb.append("class CrupdateDepartment {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    companyId: ").append(toIndentedString(companyId)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("    comment: ").append(toIndentedString(comment)).append("\n");
     sb.append("}");

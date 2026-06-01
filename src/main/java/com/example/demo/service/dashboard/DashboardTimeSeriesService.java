@@ -3,6 +3,7 @@ package com.example.demo.service.dashboard;
 import com.example.demo.model.dashboard.TimeSeriesResponse;
 import com.example.demo.model.dashboard.TimeSeriesResponse.Interval;
 import com.example.demo.model.dashboard.TimeSeriesResponse.Period;
+import com.example.demo.repository.money.BudgetLineRepository;
 import com.example.demo.repository.money.CashTransactionRepository;
 import com.example.demo.repository.money.ExpenseMoneyRepository;
 import com.example.demo.repository.money.IncomeMoneyRepository;
@@ -25,6 +26,7 @@ public class DashboardTimeSeriesService {
   private final IncomeMoneyRepository incomeMoneyRepository;
   private final ExpenseMoneyRepository expenseMoneyRepository;
   private final CashTransactionRepository cashTransactionRepository;
+  private final BudgetLineRepository budgetLineRepository;
 
   public TimeSeriesResponse revenue(
       String companyId, String jobId, LocalDate dateFrom, LocalDate dateTo, String granularity) {
@@ -114,35 +116,73 @@ public class DashboardTimeSeriesService {
   }
 
   public TimeSeriesResponse receivables(
-      String companyId, LocalDate dateFrom, LocalDate dateTo, String granularity) {
-    return TimeSeriesResponse.builder()
-        .schema("receivables")
-        .period(Period.builder().from(fromStr(dateFrom)).to(fromStr(dateTo)).build())
-        .granularity(granularity)
-        .intervals(List.of())
-        .total(BigDecimal.ZERO)
-        .build();
+      String companyId, String jobId, LocalDate dateFrom, LocalDate dateTo, String granularity) {
+    Instant from = toInstant(dateFrom);
+    Instant to = toInstantEnd(dateTo);
+    String format = toSqlFormat(granularity);
+
+    List<Object[]> raw = incomeMoneyRepository.findReceivablesByPeriod(jobId, from, to, format);
+    return buildResponse("receivables", dateFrom, dateTo, granularity, raw, jobId);
   }
 
   public TimeSeriesResponse budget(
       String companyId, LocalDate dateFrom, LocalDate dateTo, String granularity) {
+    String format = toSqlFormat(granularity);
+
+    List<Object[]> raw =
+        budgetLineRepository.findBudgetByPeriod(companyId, dateFrom, dateTo, format);
+    List<Interval> intervals = new ArrayList<>();
+    BigDecimal cumulative = BigDecimal.ZERO;
+    List<BigDecimal> cumList = new ArrayList<>();
+    BigDecimal total = BigDecimal.ZERO;
+    for (Object[] row : raw) {
+      BigDecimal planned = (BigDecimal) row[1];
+      BigDecimal actual = (BigDecimal) row[2];
+      BigDecimal variance = planned.subtract(actual);
+      cumulative = cumulative.add(variance);
+      total = total.add(variance);
+      intervals.add(Interval.builder().label((String) row[0]).value(variance).build());
+      cumList.add(cumulative);
+    }
     return TimeSeriesResponse.builder()
         .schema("budget")
         .period(Period.builder().from(fromStr(dateFrom)).to(fromStr(dateTo)).build())
         .granularity(granularity)
-        .intervals(List.of())
-        .total(BigDecimal.ZERO)
+        .intervals(intervals)
+        .cumulative(cumList)
+        .total(total)
         .build();
   }
 
   public TimeSeriesResponse expenseBreakdown(
-      String companyId, LocalDate dateFrom, LocalDate dateTo, String granularity) {
+      String companyId, String jobId, LocalDate dateFrom, LocalDate dateTo, String granularity) {
+    Instant from = toInstant(dateFrom);
+    Instant to = toInstantEnd(dateTo);
+    String format = toSqlFormat(granularity);
+
+    List<Object[]> raw =
+        expenseMoneyRepository.findExpenseBreakdownByPeriod(jobId, from, to, format);
+    List<Interval> intervals = new ArrayList<>();
+    BigDecimal cumulative = BigDecimal.ZERO;
+    List<BigDecimal> cumList = new ArrayList<>();
+    BigDecimal total = BigDecimal.ZERO;
+    for (Object[] row : raw) {
+      String period = (String) row[0];
+      String type = (String) row[1];
+      BigDecimal amount = (BigDecimal) row[2];
+      cumulative = cumulative.add(amount);
+      total = total.add(amount);
+      intervals.add(Interval.builder().label(period + "-" + type).value(amount).build());
+      cumList.add(cumulative);
+    }
     return TimeSeriesResponse.builder()
         .schema("expense_breakdown")
         .period(Period.builder().from(fromStr(dateFrom)).to(fromStr(dateTo)).build())
         .granularity(granularity)
-        .intervals(List.of())
-        .total(BigDecimal.ZERO)
+        .intervals(intervals)
+        .cumulative(cumList)
+        .total(total)
+        .filteredByJob(jobId)
         .build();
   }
 

@@ -50,7 +50,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-30T17:19:15.606578257+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-01T18:19:40.950295941+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class MaterialConsumptionApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -85,6 +85,86 @@ public class MaterialConsumptionApi {
       body = "[no body]";
     }
     return operationId + " call failed with: " + statusCode + " - " + body;
+  }
+
+  /**
+   * Complete a material consumption
+   * 
+   * @param compId  (required)
+   * @param id  (required)
+   * @return MaterialConsumption
+   * @throws ApiException if fails to make API call
+   */
+  public MaterialConsumption completeMaterialConsumption(String compId, String id) throws ApiException {
+    ApiResponse<MaterialConsumption> localVarResponse = completeMaterialConsumptionWithHttpInfo(compId, id);
+    return localVarResponse.getData();
+  }
+
+  /**
+   * Complete a material consumption
+   * 
+   * @param compId  (required)
+   * @param id  (required)
+   * @return ApiResponse&lt;MaterialConsumption&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<MaterialConsumption> completeMaterialConsumptionWithHttpInfo(String compId, String id) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = completeMaterialConsumptionRequestBuilder(compId, id);
+    try {
+      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("completeMaterialConsumption", localVarResponse);
+        }
+        return new ApiResponse<MaterialConsumption>(
+          localVarResponse.statusCode(),
+          localVarResponse.headers().map(),
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<MaterialConsumption>() {}) // closes the InputStream
+        );
+      } finally {
+      }
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new ApiException(e);
+    }
+  }
+
+  private HttpRequest.Builder completeMaterialConsumptionRequestBuilder(String compId, String id) throws ApiException {
+    // verify the required parameter 'compId' is set
+    if (compId == null) {
+      throw new ApiException(400, "Missing the required parameter 'compId' when calling completeMaterialConsumption");
+    }
+    // verify the required parameter 'id' is set
+    if (id == null) {
+      throw new ApiException(400, "Missing the required parameter 'id' when calling completeMaterialConsumption");
+    }
+
+    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
+
+    String localVarPath = "/companies/{comp_id}/material_consumption/{id}/complete"
+        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()))
+        .replace("{id}", ApiClient.urlEncode(id.toString()));
+
+    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+
+    localVarRequestBuilder.header("Accept", "application/json");
+
+    localVarRequestBuilder.method("PUT", HttpRequest.BodyPublishers.noBody());
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
+    }
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
+    }
+    return localVarRequestBuilder;
   }
 
   /**
@@ -341,11 +421,13 @@ public class MaterialConsumptionApi {
    * @param compId  (required)
    * @param page  (optional)
    * @param pageSize  (optional)
+   * @param consumptionStatus  (optional)
+   * @param jobId  (optional)
    * @return List&lt;MaterialConsumption&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<MaterialConsumption> getMaterialConsumptions(String compId, Integer page, Integer pageSize) throws ApiException {
-    ApiResponse<List<MaterialConsumption>> localVarResponse = getMaterialConsumptionsWithHttpInfo(compId, page, pageSize);
+  public List<MaterialConsumption> getMaterialConsumptions(String compId, Integer page, Integer pageSize, String consumptionStatus, String jobId) throws ApiException {
+    ApiResponse<List<MaterialConsumption>> localVarResponse = getMaterialConsumptionsWithHttpInfo(compId, page, pageSize, consumptionStatus, jobId);
     return localVarResponse.getData();
   }
 
@@ -355,11 +437,13 @@ public class MaterialConsumptionApi {
    * @param compId  (required)
    * @param page  (optional)
    * @param pageSize  (optional)
+   * @param consumptionStatus  (optional)
+   * @param jobId  (optional)
    * @return ApiResponse&lt;List&lt;MaterialConsumption&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<MaterialConsumption>> getMaterialConsumptionsWithHttpInfo(String compId, Integer page, Integer pageSize) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getMaterialConsumptionsRequestBuilder(compId, page, pageSize);
+  public ApiResponse<List<MaterialConsumption>> getMaterialConsumptionsWithHttpInfo(String compId, Integer page, Integer pageSize, String consumptionStatus, String jobId) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getMaterialConsumptionsRequestBuilder(compId, page, pageSize, consumptionStatus, jobId);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -387,7 +471,7 @@ public class MaterialConsumptionApi {
     }
   }
 
-  private HttpRequest.Builder getMaterialConsumptionsRequestBuilder(String compId, Integer page, Integer pageSize) throws ApiException {
+  private HttpRequest.Builder getMaterialConsumptionsRequestBuilder(String compId, Integer page, Integer pageSize, String consumptionStatus, String jobId) throws ApiException {
     // verify the required parameter 'compId' is set
     if (compId == null) {
       throw new ApiException(400, "Missing the required parameter 'compId' when calling getMaterialConsumptions");
@@ -405,6 +489,10 @@ public class MaterialConsumptionApi {
     localVarQueryParams.addAll(ApiClient.parameterToPairs("page", page));
     localVarQueryParameterBaseName = "page_size";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("page_size", pageSize));
+    localVarQueryParameterBaseName = "consumption_status";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("consumption_status", consumptionStatus));
+    localVarQueryParameterBaseName = "job_id";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("job_id", jobId));
 
     if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
       StringJoiner queryJoiner = new StringJoiner("&");
@@ -420,6 +508,107 @@ public class MaterialConsumptionApi {
     localVarRequestBuilder.header("Accept", "application/json");
 
     localVarRequestBuilder.method("GET", HttpRequest.BodyPublishers.noBody());
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
+    }
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
+    }
+    return localVarRequestBuilder;
+  }
+
+  /**
+   * Return materials from a consumption
+   * 
+   * @param compId  (required)
+   * @param id  (required)
+   * @param quantity  (required)
+   * @return MaterialConsumption
+   * @throws ApiException if fails to make API call
+   */
+  public MaterialConsumption returnMaterialsFromConsumption(String compId, String id, Integer quantity) throws ApiException {
+    ApiResponse<MaterialConsumption> localVarResponse = returnMaterialsFromConsumptionWithHttpInfo(compId, id, quantity);
+    return localVarResponse.getData();
+  }
+
+  /**
+   * Return materials from a consumption
+   * 
+   * @param compId  (required)
+   * @param id  (required)
+   * @param quantity  (required)
+   * @return ApiResponse&lt;MaterialConsumption&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<MaterialConsumption> returnMaterialsFromConsumptionWithHttpInfo(String compId, String id, Integer quantity) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = returnMaterialsFromConsumptionRequestBuilder(compId, id, quantity);
+    try {
+      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("returnMaterialsFromConsumption", localVarResponse);
+        }
+        return new ApiResponse<MaterialConsumption>(
+          localVarResponse.statusCode(),
+          localVarResponse.headers().map(),
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<MaterialConsumption>() {}) // closes the InputStream
+        );
+      } finally {
+      }
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new ApiException(e);
+    }
+  }
+
+  private HttpRequest.Builder returnMaterialsFromConsumptionRequestBuilder(String compId, String id, Integer quantity) throws ApiException {
+    // verify the required parameter 'compId' is set
+    if (compId == null) {
+      throw new ApiException(400, "Missing the required parameter 'compId' when calling returnMaterialsFromConsumption");
+    }
+    // verify the required parameter 'id' is set
+    if (id == null) {
+      throw new ApiException(400, "Missing the required parameter 'id' when calling returnMaterialsFromConsumption");
+    }
+    // verify the required parameter 'quantity' is set
+    if (quantity == null) {
+      throw new ApiException(400, "Missing the required parameter 'quantity' when calling returnMaterialsFromConsumption");
+    }
+
+    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
+
+    String localVarPath = "/companies/{comp_id}/material_consumption/{id}/return"
+        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()))
+        .replace("{id}", ApiClient.urlEncode(id.toString()));
+
+    List<Pair> localVarQueryParams = new ArrayList<>();
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
+    String localVarQueryParameterBaseName;
+    localVarQueryParameterBaseName = "quantity";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("quantity", quantity));
+
+    if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
+      StringJoiner queryJoiner = new StringJoiner("&");
+      localVarQueryParams.forEach(p -> queryJoiner.add(p.getName() + '=' + p.getValue()));
+      if (localVarQueryStringJoiner.length() != 0) {
+        queryJoiner.add(localVarQueryStringJoiner.toString());
+      }
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
+    } else {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    }
+
+    localVarRequestBuilder.header("Accept", "application/json");
+
+    localVarRequestBuilder.method("PUT", HttpRequest.BodyPublishers.noBody());
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }

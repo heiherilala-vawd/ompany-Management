@@ -46,7 +46,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   CrupdateTaskSchedule.JSON_PROPERTY_ASSIGNED_USER_IDS,
   CrupdateTaskSchedule.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-30T17:19:15.606578257+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-01T18:19:40.950295941+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdateTaskSchedule {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -112,9 +112,9 @@ public class CrupdateTaskSchedule {
    * Get title
    * @return title
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_TITLE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getTitle() {
     return title;
@@ -122,7 +122,7 @@ public class CrupdateTaskSchedule {
 
 
   @JsonProperty(JSON_PROPERTY_TITLE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setTitle(String title) {
     this.title = title;
   }
@@ -162,9 +162,9 @@ public class CrupdateTaskSchedule {
    * Get priority
    * @return priority
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_PRIORITY)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public TaskPriority getPriority() {
     return priority;
@@ -172,7 +172,7 @@ public class CrupdateTaskSchedule {
 
 
   @JsonProperty(JSON_PROPERTY_PRIORITY)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setPriority(TaskPriority priority) {
     this.priority = priority;
   }
@@ -187,9 +187,9 @@ public class CrupdateTaskSchedule {
    * Cron expression for recurring schedule
    * @return frequency
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_FREQUENCY)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getFrequency() {
     return frequency;
@@ -197,7 +197,7 @@ public class CrupdateTaskSchedule {
 
 
   @JsonProperty(JSON_PROPERTY_FREQUENCY)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setFrequency(String frequency) {
     this.frequency = frequency;
   }
@@ -212,9 +212,9 @@ public class CrupdateTaskSchedule {
    * Get scheduledDate
    * @return scheduledDate
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_SCHEDULED_DATE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public java.time.LocalDate getScheduledDate() {
     return scheduledDate;
@@ -222,7 +222,7 @@ public class CrupdateTaskSchedule {
 
 
   @JsonProperty(JSON_PROPERTY_SCHEDULED_DATE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setScheduledDate(java.time.LocalDate scheduledDate) {
     this.scheduledDate = scheduledDate;
   }

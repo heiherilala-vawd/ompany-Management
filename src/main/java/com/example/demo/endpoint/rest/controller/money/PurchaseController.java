@@ -8,6 +8,7 @@ import com.example.demo.model.PageFromOne;
 import com.example.demo.model.criteria.PurchaseCriteria;
 import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.service.money.PurchaseService;
+import jakarta.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -43,6 +44,7 @@ public class PurchaseController {
       @PathVariable String user_id,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
+      @RequestParam(name = "source_warehouse_id", required = false) String sourceWarehouseId,
       @RequestParam(name = "supplier_id", required = false) String supplierId,
       @RequestParam(name = "is_equipment", required = false) Boolean isEquipment,
       @RequestParam(name = "invoice_date_from", required = false)
@@ -53,6 +55,7 @@ public class PurchaseController {
           LocalDate invoiceDateTo,
       @RequestParam(name = "paid", required = false) Boolean paid) {
     PurchaseCriteria criteria = new PurchaseCriteria();
+    criteria.setSourceWarehouseId(sourceWarehouseId);
     criteria.setSupplierId(supplierId);
     criteria.setIsEquipment(isEquipment);
     criteria.setInvoiceDateFrom(invoiceDateFrom);
@@ -70,7 +73,7 @@ public class PurchaseController {
       @PathVariable String comp_id,
       @PathVariable String job_id,
       @PathVariable String user_id,
-      @RequestBody List<CrupdatePurchase> toWrite) {
+      @Valid @RequestBody List<CrupdatePurchase> toWrite) {
     List<com.example.demo.model.money.Purchase> saved =
         purchaseService.createOrUpdateAll(toWrite.stream().map(purchaseMapper::toDomain).toList());
     return saved.stream().map(purchaseMapper::toRestPurchase).toList();

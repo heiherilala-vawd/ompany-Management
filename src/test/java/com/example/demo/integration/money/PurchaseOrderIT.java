@@ -78,16 +78,26 @@ class PurchaseOrderIT {
   @Test
   void admin_can_get_all_purchase_orders() throws Exception {
     PurchaseOrderApi api = new PurchaseOrderApi(anApiClient(ADMIN_TOKEN));
-    List<PurchaseOrder> orders = api.getPurchaseOrders(COMPANY1_ID);
+    List<PurchaseOrder> orders = api.getPurchaseOrders(COMPANY1_ID, null);
     assertEquals(2, orders.size());
     assertTrue(orders.stream().anyMatch(po -> PO1_ID.equals(po.getId())));
     assertTrue(orders.stream().anyMatch(po -> PO2_ID.equals(po.getId())));
   }
 
   @Test
+  void admin_can_filter_purchase_orders_by_job_id() throws Exception {
+    PurchaseOrderApi api = new PurchaseOrderApi(anApiClient(ADMIN_TOKEN));
+
+    List<PurchaseOrder> result = api.getPurchaseOrders(COMPANY1_ID, JOB1_ID);
+
+    assertEquals(2, result.size());
+    assertTrue(result.stream().allMatch(po -> JOB1_ID.equals(po.getJobId())));
+  }
+
+  @Test
   void employee_cannot_get_purchase_orders() {
     PurchaseOrderApi api = new PurchaseOrderApi(anApiClient(EMPLOYEE_TOKEN));
-    assertThrowsForbiddenException(() -> api.getPurchaseOrders(COMPANY1_ID));
+    assertThrowsForbiddenException(() -> api.getPurchaseOrders(COMPANY1_ID, null));
   }
 
   @Test

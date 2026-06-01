@@ -3,6 +3,10 @@ package com.example.demo.model.money;
 import com.example.demo.model.Company;
 import com.example.demo.model.CreatAndUpdateEntity;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -29,20 +33,29 @@ public class BudgetLine extends CreatAndUpdateEntity implements Serializable {
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "company_id")
+  @NotNull
   private Company company;
 
+  @NotBlank
+  @Size(max = 255)
   private String category;
 
   @Column(name = "planned_amount")
+  @NotNull
+  @PositiveOrZero
   private BigDecimal plannedAmount;
 
   @Column(name = "actual_amount")
+  @NotNull
+  @PositiveOrZero
   private BigDecimal actualAmount;
 
   @Column(name = "period_start")
+  @NotNull
   private LocalDate periodStart;
 
   @Column(name = "period_end")
+  @NotNull
   private LocalDate periodEnd;
 
   private String description;

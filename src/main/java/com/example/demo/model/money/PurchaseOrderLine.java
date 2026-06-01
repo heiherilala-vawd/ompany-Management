@@ -3,6 +3,9 @@ package com.example.demo.model.money;
 import com.example.demo.model.CreatAndUpdateEntity;
 import com.example.demo.model.movement.Material;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -28,15 +31,21 @@ public class PurchaseOrderLine extends CreatAndUpdateEntity implements Serializa
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "purchase_order_id")
+  @NotNull
   private PurchaseOrder purchaseOrder;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "material_id")
+  @NotNull
   private Material material;
 
+  @NotNull
+  @Min(0)
   private Integer quantity;
 
   @Column(name = "unit_price")
+  @NotNull
+  @PositiveOrZero
   private BigDecimal unitPrice;
 
   @Override

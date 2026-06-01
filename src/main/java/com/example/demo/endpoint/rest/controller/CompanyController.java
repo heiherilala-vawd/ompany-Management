@@ -9,6 +9,7 @@ import com.example.demo.model.PageFromOne;
 import com.example.demo.model.criteria.CompanyCriteria;
 import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.service.CompanyService;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -55,15 +56,15 @@ public class CompanyController {
 
   @PutMapping("/companies")
   @PreAuthorize("hasAnyRole('ADMIN')")
-  public List<Company> crupdateCompanies(@RequestBody List<CrupdateCompany> toWrite) {
+  public List<Company> crupdateCompanies(@Valid @RequestBody List<CrupdateCompany> toWrite) {
     List<com.example.demo.model.Company> saved =
         companyService.createOrUpdateAll(toWrite.stream().map(companyMapper::toDomain).toList());
     return saved.stream().map(companyMapper::toRestCompany).toList();
   }
 
-  @DeleteMapping("/companies")
+  @DeleteMapping("/companies/{id}")
   @PreAuthorize("hasAnyRole('ADMIN')")
-  public Company deleteCompanyById(@RequestParam String id) {
+  public Company deleteCompanyById(@PathVariable String id) {
     Company entity =
         companyMapper.toRestCompany(
             companyService

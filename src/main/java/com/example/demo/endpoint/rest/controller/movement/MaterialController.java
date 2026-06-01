@@ -16,6 +16,7 @@ import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.service.movement.MaterialService;
 import com.example.demo.service.movement.MaterialWarehouseService;
 import com.example.demo.service.movement.WarehouseService;
+import jakarta.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
@@ -65,7 +66,7 @@ public class MaterialController {
   @PutMapping("/companies/{comp_id}/materials")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public List<Material> crupdateMaterials(
-      @PathVariable String comp_id, @RequestBody List<CrupdateMaterial> toWrite) {
+      @PathVariable String comp_id, @Valid @RequestBody List<CrupdateMaterial> toWrite) {
     List<com.example.demo.model.movement.Material> saved =
         materialService.createOrUpdateAll(
             toWrite.stream().map(m -> materialMapper.toDomain(m, comp_id)).toList());
@@ -101,7 +102,7 @@ public class MaterialController {
   @PutMapping("/companies/{comp_id}/material_warehouse")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public List<MaterialWarehouseInfo> crupdateMaterialWarehouses(
-      @PathVariable String comp_id, @RequestBody List<CrupdateMaterialWarehouse> toWrite) {
+      @PathVariable String comp_id, @Valid @RequestBody List<CrupdateMaterialWarehouse> toWrite) {
     List<com.example.demo.model.movement.MaterialWarehouse> domainList =
         toWrite.stream()
             .map(

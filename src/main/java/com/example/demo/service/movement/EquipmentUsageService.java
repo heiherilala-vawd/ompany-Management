@@ -7,6 +7,7 @@ import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.model.movement.EquipmentUsage;
 import com.example.demo.model.movement.Warehouse;
 import com.example.demo.repository.movement.EquipmentUsageRepository;
+import com.example.demo.repository.specification.SpecificationUtils;
 import com.example.demo.service.utils.ModificationUtils;
 import com.example.demo.service.utils.PageUtils;
 import com.example.demo.service.utils.SpecialWarehouseUtils;
@@ -35,9 +36,13 @@ public class EquipmentUsageService {
     return equipmentUsageRepository.findById(id);
   }
 
-  public Page<EquipmentUsage> findAll(PageFromOne page, BoundedPageSize pageSize) {
+  public Page<EquipmentUsage> findAll(PageFromOne page, BoundedPageSize pageSize, String jobId) {
     Pageable pageable = PageUtils.createPageable(page, pageSize);
-    return equipmentUsageRepository.findAll(pageable);
+    return equipmentUsageRepository.findAll(SpecificationUtils.equal(jobId, "job", "id"), pageable);
+  }
+
+  public Page<EquipmentUsage> findAll(PageFromOne page, BoundedPageSize pageSize) {
+    return findAll(page, pageSize, null);
   }
 
   @Transactional

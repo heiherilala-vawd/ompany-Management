@@ -4,6 +4,7 @@ import com.example.demo.client.model.CrupdateSupplier;
 import com.example.demo.client.model.Supplier;
 import com.example.demo.endpoint.rest.mapper.money.SupplierMapper;
 import com.example.demo.service.money.SupplierService;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -37,7 +38,8 @@ public class SupplierController {
   @PutMapping("/companies/{comp_id}/suppliers")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<Supplier> crupdateSuppliers(
-      @PathVariable("comp_id") String companyId, @RequestBody List<CrupdateSupplier> toWrite) {
+      @PathVariable("comp_id") String companyId,
+      @Valid @RequestBody List<CrupdateSupplier> toWrite) {
     var domains = toWrite.stream().map(s -> supplierMapper.toDomain(s, companyId)).toList();
     return supplierService.createOrUpdateAll(domains).stream().map(supplierMapper::toRest).toList();
   }

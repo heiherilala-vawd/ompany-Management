@@ -7,6 +7,7 @@ import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
 import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.service.task.TaskScheduleService;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -33,10 +34,10 @@ public class TaskScheduleController {
   @PutMapping("/companies/{comp_id}/task_schedules")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<TaskSchedule> crupdateTaskSchedules(
-      @PathVariable String comp_id, @RequestBody List<CrupdateTaskSchedule> toWrite) {
+      @PathVariable String comp_id, @Valid @RequestBody List<CrupdateTaskSchedule> toWrite) {
     List<com.example.demo.model.task.TaskSchedule> schedules =
         taskScheduleService.createOrUpdateAll(
-            toWrite.stream().map(taskScheduleMapper::toDomain).toList());
+            toWrite.stream().map(rest -> taskScheduleMapper.toDomain(rest, comp_id)).toList());
     for (int i = 0; i < toWrite.size(); i++) {
       CrupdateTaskSchedule rest = toWrite.get(i);
       com.example.demo.model.task.TaskSchedule schedule = schedules.get(i);

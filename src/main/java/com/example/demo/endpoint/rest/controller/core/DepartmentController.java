@@ -7,6 +7,7 @@ import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
 import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.service.core.DepartmentService;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -41,7 +42,7 @@ public class DepartmentController {
   @PutMapping("/companies/{comp_id}/departments")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<Department> crupdateDepartments(
-      @PathVariable String comp_id, @RequestBody List<CrupdateDepartment> toWrite) {
+      @PathVariable String comp_id, @Valid @RequestBody List<CrupdateDepartment> toWrite) {
     List<com.example.demo.model.core.Department> saved =
         departmentService.createOrUpdateAll(
             toWrite.stream().map(d -> departmentMapper.toDomain(d, comp_id)).toList());

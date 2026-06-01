@@ -1,5 +1,5 @@
 INSERT INTO "purchase" (
-  id, expense_id, supplier_id, equipment, material, quantity, is_equipment, invoice_date, due_date, paid_at
+  id, expense_id, source_warehouse_id, equipment, material, quantity, is_equipment, invoice_date, due_date, paid_at
 )
 VALUES
 ('purchase1_id', 'expense1_id', 'warehouse1_id', 'equipment1_id', NULL, 1, true, '2024-01-15', '2024-02-15', '2024-02-10'),

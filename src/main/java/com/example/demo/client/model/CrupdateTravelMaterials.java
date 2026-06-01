@@ -41,7 +41,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   CrupdateTravelMaterials.JSON_PROPERTY_ARRIVAL_LOCATION,
   CrupdateTravelMaterials.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-30T17:19:15.606578257+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-01T18:19:40.950295941+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdateTravelMaterials {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -104,9 +104,9 @@ public class CrupdateTravelMaterials {
    * Get travelId
    * @return travelId
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_TRAVEL_ID)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getTravelId() {
     return travelId;
@@ -114,7 +114,7 @@ public class CrupdateTravelMaterials {
 
 
   @JsonProperty(JSON_PROPERTY_TRAVEL_ID)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setTravelId(String travelId) {
     this.travelId = travelId;
   }
@@ -129,9 +129,9 @@ public class CrupdateTravelMaterials {
    * Get material
    * @return material
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_MATERIAL)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getMaterial() {
     return material;
@@ -139,7 +139,7 @@ public class CrupdateTravelMaterials {
 
 
   @JsonProperty(JSON_PROPERTY_MATERIAL)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setMaterial(String material) {
     this.material = material;
   }
@@ -152,11 +152,12 @@ public class CrupdateTravelMaterials {
 
    /**
    * Get quantity
+   * minimum: 0
    * @return quantity
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_QUANTITY)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public Integer getQuantity() {
     return quantity;
@@ -164,7 +165,7 @@ public class CrupdateTravelMaterials {
 
 
   @JsonProperty(JSON_PROPERTY_QUANTITY)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setQuantity(Integer quantity) {
     this.quantity = quantity;
   }

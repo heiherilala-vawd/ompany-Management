@@ -42,7 +42,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   CrupdateEquipmentUsage.JSON_PROPERTY_USED_BY,
   CrupdateEquipmentUsage.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-30T17:19:15.606578257+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-01T18:19:40.950295941+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdateEquipmentUsage {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -108,9 +108,9 @@ public class CrupdateEquipmentUsage {
    * Get equipmentId
    * @return equipmentId
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_EQUIPMENT_ID)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getEquipmentId() {
     return equipmentId;
@@ -118,7 +118,7 @@ public class CrupdateEquipmentUsage {
 
 
   @JsonProperty(JSON_PROPERTY_EQUIPMENT_ID)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setEquipmentId(String equipmentId) {
     this.equipmentId = equipmentId;
   }
@@ -133,9 +133,9 @@ public class CrupdateEquipmentUsage {
    * Get jobId
    * @return jobId
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_JOB_ID)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getJobId() {
     return jobId;
@@ -143,7 +143,7 @@ public class CrupdateEquipmentUsage {
 
 
   @JsonProperty(JSON_PROPERTY_JOB_ID)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setJobId(String jobId) {
     this.jobId = jobId;
   }
@@ -158,9 +158,9 @@ public class CrupdateEquipmentUsage {
    * Get startTime
    * @return startTime
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_START_TIME)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public java.time.Instant getStartTime() {
     return startTime;
@@ -168,7 +168,7 @@ public class CrupdateEquipmentUsage {
 
 
   @JsonProperty(JSON_PROPERTY_START_TIME)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setStartTime(java.time.Instant startTime) {
     this.startTime = startTime;
   }
@@ -208,9 +208,9 @@ public class CrupdateEquipmentUsage {
    * Get sourceLocation
    * @return sourceLocation
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_SOURCE_LOCATION)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getSourceLocation() {
     return sourceLocation;
@@ -218,7 +218,7 @@ public class CrupdateEquipmentUsage {
 
 
   @JsonProperty(JSON_PROPERTY_SOURCE_LOCATION)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setSourceLocation(String sourceLocation) {
     this.sourceLocation = sourceLocation;
   }
@@ -233,9 +233,9 @@ public class CrupdateEquipmentUsage {
    * Get usageStatus
    * @return usageStatus
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_USAGE_STATUS)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getUsageStatus() {
     return usageStatus;
@@ -243,7 +243,7 @@ public class CrupdateEquipmentUsage {
 
 
   @JsonProperty(JSON_PROPERTY_USAGE_STATUS)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setUsageStatus(String usageStatus) {
     this.usageStatus = usageStatus;
   }
@@ -258,9 +258,9 @@ public class CrupdateEquipmentUsage {
    * Get usedBy
    * @return usedBy
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_USED_BY)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getUsedBy() {
     return usedBy;
@@ -268,7 +268,7 @@ public class CrupdateEquipmentUsage {
 
 
   @JsonProperty(JSON_PROPERTY_USED_BY)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setUsedBy(String usedBy) {
     this.usedBy = usedBy;
   }

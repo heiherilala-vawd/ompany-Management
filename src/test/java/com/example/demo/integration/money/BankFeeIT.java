@@ -158,14 +158,14 @@ class BankFeeIT {
   }
 
   @Test
-  void admin_cannot_create_bank_fee_with_null_amount() {
+  void admin_cannot_create_bank_fee_with_null_expense_id() {
     BankFeeApi api = new BankFeeApi(anApiClient(ADMIN_TOKEN));
 
     CrupdateBankFee invalidBankFee = someCreatableBankFee();
-    invalidBankFee.getExpense().setAmount(null);
+    invalidBankFee.setExpenseId(null);
 
     assertThrowsApiException(
-        "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Bank fee amount must be positive\"}",
+        "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Bank fee must be linked to an expense\"}",
         () -> api.crupdateBankFees(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(invalidBankFee)));
   }
 

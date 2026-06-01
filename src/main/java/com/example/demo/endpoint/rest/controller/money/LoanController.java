@@ -13,6 +13,7 @@ import com.example.demo.model.criteria.LoanRepaymentCriteria;
 import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.service.money.LoanRepaymentService;
 import com.example.demo.service.money.LoanService;
+import jakarta.validation.Valid;
 import java.math.BigDecimal;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -69,7 +70,7 @@ public class LoanController {
       @PathVariable String comp_id,
       @PathVariable String job_id,
       @PathVariable String user_id,
-      @RequestBody List<CrupdateLoan> toWrite) {
+      @Valid @RequestBody List<CrupdateLoan> toWrite) {
     List<com.example.demo.model.money.Loan> saved =
         loanService.createOrUpdateAll(toWrite.stream().map(loanMapper::toDomain).toList());
     return saved.stream().map(loanMapper::toRestLoanWithDetails).toList();
@@ -122,7 +123,7 @@ public class LoanController {
       @PathVariable String comp_id,
       @PathVariable String job_id,
       @PathVariable String user_id,
-      @RequestBody List<CrupdateLoanRepayment> toWrite) {
+      @Valid @RequestBody List<CrupdateLoanRepayment> toWrite) {
     List<com.example.demo.model.money.LoanRepayment> saved =
         loanRepaymentService.createOrUpdateAll(
             toWrite.stream().map(loanRepaymentMapper::toDomain).toList());

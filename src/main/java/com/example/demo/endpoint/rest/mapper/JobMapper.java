@@ -33,15 +33,12 @@ public class JobMapper {
         .build();
   }
 
-  public com.example.demo.model.Job toDomain(CrupdateJob restJob) {
+  public com.example.demo.model.Job toDomain(CrupdateJob restJob, String companyId) {
     if (restJob == null) return null;
 
     return com.example.demo.model.Job.builder()
         .id(restJob.getId())
-        .company(
-            restJob.getCompanyId() != null
-                ? companyService.findById(restJob.getCompanyId()).orElse(null)
-                : null)
+        .company(companyId != null ? companyService.findById(companyId).orElse(null) : null)
         .description(restJob.getDescription())
         .contractSignatureDate(restJob.getContractSignatureDate())
         .startDate(restJob.getStartDate())

@@ -8,6 +8,7 @@ import com.example.demo.model.PageFromOne;
 import com.example.demo.model.criteria.ExpenseMoneyCriteria;
 import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.service.money.ExpenseMoneyService;
+import jakarta.validation.Valid;
 import java.math.BigDecimal;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -60,7 +61,7 @@ public class ExpenseController {
       @PathVariable String comp_id,
       @PathVariable String job_id,
       @PathVariable String user_id,
-      @RequestBody List<CrupdateExpenseMoney> toWrite) {
+      @Valid @RequestBody List<CrupdateExpenseMoney> toWrite) {
     List<com.example.demo.model.money.ExpenseMoney> saved =
         expenseMoneyService.createOrUpdateAll(
             toWrite.stream().map(expenseMoneyMapper::toDomain).toList());

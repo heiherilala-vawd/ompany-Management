@@ -98,7 +98,8 @@ class MaterialConsumptionIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     MaterialConsumptionApi api = new MaterialConsumptionApi(adminClient);
 
-    List<MaterialConsumption> consumptions = api.getMaterialConsumptions(COMPANY1_ID, 1, 100);
+    List<MaterialConsumption> consumptions =
+        api.getMaterialConsumptions(COMPANY1_ID, 1, 100, null, null);
 
     assertEquals(2, consumptions.size());
     assertTrue(consumptions.stream().anyMatch(mc -> MAT_CONSUMPTION1_ID.equals(mc.getId())));
@@ -106,11 +107,41 @@ class MaterialConsumptionIT {
   }
 
   @Test
+  void admin_can_filter_material_consumptions_by_consumption_status() throws Exception {
+    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
+    MaterialConsumptionApi api = new MaterialConsumptionApi(adminClient);
+
+    List<MaterialConsumption> completed =
+        api.getMaterialConsumptions(COMPANY1_ID, 1, 100, "COMPLETED", null);
+
+    assertEquals(2, completed.size());
+    assertTrue(completed.stream().allMatch(mc -> "COMPLETED".equals(mc.getConsumptionStatus())));
+
+    List<MaterialConsumption> inProgress =
+        api.getMaterialConsumptions(COMPANY1_ID, 1, 100, "IN_PROGRESS", null);
+
+    assertTrue(inProgress.isEmpty());
+  }
+
+  @Test
+  void admin_can_filter_material_consumptions_by_job_id() throws Exception {
+    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
+    MaterialConsumptionApi api = new MaterialConsumptionApi(adminClient);
+
+    List<MaterialConsumption> result =
+        api.getMaterialConsumptions(COMPANY1_ID, 1, 100, null, JOB1_ID);
+
+    assertEquals(2, result.size());
+    assertTrue(result.stream().allMatch(mc -> JOB1_ID.equals(mc.getJobId())));
+  }
+
+  @Test
   void employee_cannot_get_material_consumptions() {
     ApiClient employeeClient = anApiClient(EMPLOYEE_TOKEN);
     MaterialConsumptionApi api = new MaterialConsumptionApi(employeeClient);
 
-    assertThrowsForbiddenException(() -> api.getMaterialConsumptions(COMPANY1_ID, 1, 100));
+    assertThrowsForbiddenException(
+        () -> api.getMaterialConsumptions(COMPANY1_ID, 1, 100, null, null));
   }
 
   @Test

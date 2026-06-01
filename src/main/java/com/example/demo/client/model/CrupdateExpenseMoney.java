@@ -39,7 +39,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   CrupdateExpenseMoney.JSON_PROPERTY_DESCRIPTION,
   CrupdateExpenseMoney.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-30T17:19:15.606578257+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-01T18:19:40.950295941+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdateExpenseMoney {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -93,9 +93,9 @@ public class CrupdateExpenseMoney {
    * ID of the job this expense is related to
    * @return jobId
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_JOB_ID)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getJobId() {
     return jobId;
@@ -103,7 +103,7 @@ public class CrupdateExpenseMoney {
 
 
   @JsonProperty(JSON_PROPERTY_JOB_ID)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setJobId(String jobId) {
     this.jobId = jobId;
   }
@@ -116,6 +116,7 @@ public class CrupdateExpenseMoney {
 
    /**
    * Get amount
+   * minimum: 0
    * @return amount
   **/
   @jakarta.annotation.Nullable

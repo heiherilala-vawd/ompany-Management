@@ -7,6 +7,7 @@ import com.example.demo.model.movement.TravelPeople;
 import com.example.demo.model.movement.Warehouse;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -35,19 +36,22 @@ public class TravelExpense extends CreatAndUpdateEntity implements Serializable 
   @OneToOne
   @JoinColumn(name = "expense_id")
   @JsonManagedReference
+  @NotNull
   private ExpenseMoney expense;
 
   @ManyToOne
   @JoinColumn(name = "departure_location")
+  @NotNull
   private Warehouse departureLocation;
 
   @ManyToOne
   @JoinColumn(name = "arrival_location")
+  @NotNull
   private Warehouse arrivalLocation;
 
-  private Instant departureDate;
+  @NotNull private Instant departureDate;
 
-  private Instant arrivalDate;
+  @NotNull private Instant arrivalDate;
 
   @OneToMany(mappedBy = "travel", cascade = CascadeType.ALL)
   @JsonManagedReference

@@ -6,6 +6,8 @@ import com.example.demo.model.movement.Material;
 import com.example.demo.model.movement.Warehouse;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -32,11 +34,17 @@ public class Purchase extends CreatAndUpdateEntity implements Serializable {
   @OneToOne
   @JoinColumn(name = "expense_id")
   @JsonManagedReference
+  @NotNull
   private ExpenseMoney expense;
 
   @ManyToOne
+  @JoinColumn(name = "source_warehouse_id")
+  @NotNull
+  private Warehouse sourceWarehouse;
+
+  @ManyToOne
   @JoinColumn(name = "supplier_id")
-  private Warehouse supplier;
+  private Supplier supplier;
 
   @ManyToOne
   @JoinColumn(name = "equipment")
@@ -46,13 +54,15 @@ public class Purchase extends CreatAndUpdateEntity implements Serializable {
   @JoinColumn(name = "material")
   private Material material;
 
+  @NotNull
+  @Min(0)
   private Integer quantity;
 
-  private Boolean isEquipment;
+  @NotNull private Boolean isEquipment;
 
-  private LocalDate invoiceDate;
+  @NotNull private LocalDate invoiceDate;
 
-  private LocalDate dueDate;
+  @NotNull private LocalDate dueDate;
 
   private LocalDate paidAt;
 
@@ -77,6 +87,8 @@ public class Purchase extends CreatAndUpdateEntity implements Serializable {
         + '\''
         + ", expense="
         + (expense != null ? expense.getId() : null)
+        + ", sourceWarehouse="
+        + (sourceWarehouse != null ? sourceWarehouse.getId() : null)
         + ", supplier="
         + (supplier != null ? supplier.getId() : null)
         + ", equipment="

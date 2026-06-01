@@ -8,6 +8,7 @@ import com.example.demo.model.PageFromOne;
 import com.example.demo.model.criteria.TravelPeopleCriteria;
 import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.service.movement.TravelPeopleService;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -66,7 +67,7 @@ public class TravelPeopleController {
       @PathVariable String comp_id,
       @PathVariable String job_id,
       @PathVariable String user_id,
-      @RequestBody List<CrupdateTravelPeople> toWrite) {
+      @Valid @RequestBody List<CrupdateTravelPeople> toWrite) {
     List<com.example.demo.model.movement.TravelPeople> saved =
         travelPeopleService.createOrUpdateAll(
             toWrite.stream().map(travelPeopleMapper::toDomain).toList());

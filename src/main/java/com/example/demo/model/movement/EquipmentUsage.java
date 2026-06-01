@@ -4,6 +4,7 @@ import com.example.demo.model.CreatAndUpdateEntity;
 import com.example.demo.model.Job;
 import com.example.demo.model.User;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
@@ -34,28 +35,34 @@ public class EquipmentUsage extends CreatAndUpdateEntity implements Serializable
 
   @Id private String id;
 
+  @NotNull
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "equipment_id")
   private Equipment equipment;
 
+  @NotNull
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "job_id")
   private Job job;
 
+  @NotNull
   @Column(name = "start_time")
   private Instant startTime;
 
   @Column(name = "end_time")
   private Instant endTime;
 
+  @NotNull
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "source_location")
   private Warehouse sourceLocation;
 
+  @NotNull
   @Enumerated(EnumType.STRING)
   @Column(name = "usage_status")
   private UsageStatus usageStatus;
 
+  @NotNull
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "used_by")
   private User usedBy;

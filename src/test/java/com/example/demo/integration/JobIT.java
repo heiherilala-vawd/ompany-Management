@@ -161,16 +161,18 @@ class JobIT {
   }
 
   @Test
-  void admin_cannot_create_job_without_company() {
+  @DirtiesContext
+  void admin_can_create_job_without_company_in_body() throws Exception {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     JobApi api = new JobApi(adminClient);
 
-    CrupdateJob invalidJob = someCreatableJob();
-    invalidJob.setCompanyId(null);
+    CrupdateJob job = someCreatableJob();
+    job.setCompanyId(null);
 
-    assertThrowsApiException(
-        "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Job must be associated with a company\"}",
-        () -> api.crupdateJobs(COMPANY1_ID, List.of(invalidJob)));
+    List<Job> created = api.crupdateJobs(COMPANY1_ID, List.of(job));
+
+    assertEquals(1, created.size());
+    assertEquals(job.getId(), created.get(0).getId());
   }
 
   @Test

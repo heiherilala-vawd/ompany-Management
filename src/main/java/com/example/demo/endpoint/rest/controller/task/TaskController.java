@@ -8,6 +8,7 @@ import com.example.demo.model.PageFromOne;
 import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.model.task.TaskAssignment;
 import com.example.demo.service.task.TaskService;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -38,9 +39,10 @@ public class TaskController {
   @PutMapping("/companies/{comp_id}/tasks")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<Task> crupdateTasks(
-      @PathVariable String comp_id, @RequestBody List<CrupdateTask> toWrite) {
+      @PathVariable String comp_id, @Valid @RequestBody List<CrupdateTask> toWrite) {
     List<com.example.demo.model.task.Task> tasks =
-        taskService.createOrUpdateAll(toWrite.stream().map(taskMapper::toDomain).toList());
+        taskService.createOrUpdateAll(
+            toWrite.stream().map(rest -> taskMapper.toDomain(rest, comp_id)).toList());
     for (int i = 0; i < toWrite.size(); i++) {
       CrupdateTask rest = toWrite.get(i);
       com.example.demo.model.task.Task task = tasks.get(i);

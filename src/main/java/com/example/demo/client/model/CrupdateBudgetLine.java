@@ -44,7 +44,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   CrupdateBudgetLine.JSON_PROPERTY_DESCRIPTION,
   CrupdateBudgetLine.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-30T17:19:15.606578257+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-01T18:19:40.950295941+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdateBudgetLine {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -135,9 +135,9 @@ public class CrupdateBudgetLine {
    * Get category
    * @return category
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_CATEGORY)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getCategory() {
     return category;
@@ -145,7 +145,7 @@ public class CrupdateBudgetLine {
 
 
   @JsonProperty(JSON_PROPERTY_CATEGORY)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setCategory(String category) {
     this.category = category;
   }
@@ -158,11 +158,12 @@ public class CrupdateBudgetLine {
 
    /**
    * Get plannedAmount
+   * minimum: 0
    * @return plannedAmount
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_PLANNED_AMOUNT)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public BigDecimal getPlannedAmount() {
     return plannedAmount;
@@ -170,7 +171,7 @@ public class CrupdateBudgetLine {
 
 
   @JsonProperty(JSON_PROPERTY_PLANNED_AMOUNT)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setPlannedAmount(BigDecimal plannedAmount) {
     this.plannedAmount = plannedAmount;
   }
@@ -183,11 +184,12 @@ public class CrupdateBudgetLine {
 
    /**
    * Get actualAmount
+   * minimum: 0
    * @return actualAmount
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_ACTUAL_AMOUNT)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public BigDecimal getActualAmount() {
     return actualAmount;
@@ -195,7 +197,7 @@ public class CrupdateBudgetLine {
 
 
   @JsonProperty(JSON_PROPERTY_ACTUAL_AMOUNT)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setActualAmount(BigDecimal actualAmount) {
     this.actualAmount = actualAmount;
   }
@@ -210,9 +212,9 @@ public class CrupdateBudgetLine {
    * Get periodStart
    * @return periodStart
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_PERIOD_START)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public java.time.LocalDate getPeriodStart() {
     return periodStart;
@@ -220,7 +222,7 @@ public class CrupdateBudgetLine {
 
 
   @JsonProperty(JSON_PROPERTY_PERIOD_START)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setPeriodStart(java.time.LocalDate periodStart) {
     this.periodStart = periodStart;
   }
@@ -235,9 +237,9 @@ public class CrupdateBudgetLine {
    * Get periodEnd
    * @return periodEnd
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_PERIOD_END)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public java.time.LocalDate getPeriodEnd() {
     return periodEnd;
@@ -245,7 +247,7 @@ public class CrupdateBudgetLine {
 
 
   @JsonProperty(JSON_PROPERTY_PERIOD_END)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setPeriodEnd(java.time.LocalDate periodEnd) {
     this.periodEnd = periodEnd;
   }

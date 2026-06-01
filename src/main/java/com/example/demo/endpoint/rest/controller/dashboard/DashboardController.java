@@ -280,6 +280,7 @@ public class DashboardController {
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public TimeSeriesResponse getReceivablesTimeSeries(
       @PathVariable("comp_id") String companyId,
+      @RequestParam(name = "job_id", required = false) String jobId,
       @RequestParam(name = "date_from", required = false)
           @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
           LocalDate dateFrom,
@@ -287,7 +288,7 @@ public class DashboardController {
           @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
           LocalDate dateTo,
       @RequestParam(name = "granularity", defaultValue = "month") String granularity) {
-    return dashboardTimeSeriesService.receivables(companyId, dateFrom, dateTo, granularity);
+    return dashboardTimeSeriesService.receivables(companyId, jobId, dateFrom, dateTo, granularity);
   }
 
   @GetMapping("/companies/{comp_id}/dashboard/monetary/budget")
@@ -304,10 +305,11 @@ public class DashboardController {
     return dashboardTimeSeriesService.budget(companyId, dateFrom, dateTo, granularity);
   }
 
-  @GetMapping("/companies/{comp_id}/dashboard/monetary/expense-breakdown")
+  @GetMapping("/companies/{comp_id}/dashboard/monetary/expense_breakdown")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public TimeSeriesResponse getExpenseBreakdownTimeSeries(
       @PathVariable("comp_id") String companyId,
+      @RequestParam(name = "job_id", required = false) String jobId,
       @RequestParam(name = "date_from", required = false)
           @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
           LocalDate dateFrom,
@@ -315,6 +317,7 @@ public class DashboardController {
           @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
           LocalDate dateTo,
       @RequestParam(name = "granularity", defaultValue = "month") String granularity) {
-    return dashboardTimeSeriesService.expenseBreakdown(companyId, dateFrom, dateTo, granularity);
+    return dashboardTimeSeriesService.expenseBreakdown(
+        companyId, jobId, dateFrom, dateTo, granularity);
   }
 }

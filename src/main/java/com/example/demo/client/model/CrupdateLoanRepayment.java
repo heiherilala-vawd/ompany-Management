@@ -38,9 +38,11 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   CrupdateLoanRepayment.JSON_PROPERTY_PAYMENT_DATE,
   CrupdateLoanRepayment.JSON_PROPERTY_AMOUNT,
   CrupdateLoanRepayment.JSON_PROPERTY_LOAN_ID,
+  CrupdateLoanRepayment.JSON_PROPERTY_PRINCIPAL_PORTION,
+  CrupdateLoanRepayment.JSON_PROPERTY_INTEREST_PORTION,
   CrupdateLoanRepayment.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-30T17:19:15.606578257+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-01T18:19:40.950295941+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdateLoanRepayment {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -53,6 +55,12 @@ public class CrupdateLoanRepayment {
 
   public static final String JSON_PROPERTY_LOAN_ID = "loan_id";
   private String loanId;
+
+  public static final String JSON_PROPERTY_PRINCIPAL_PORTION = "principal_portion";
+  private BigDecimal principalPortion;
+
+  public static final String JSON_PROPERTY_INTEREST_PORTION = "interest_portion";
+  private BigDecimal interestPortion;
 
   public static final String JSON_PROPERTY_COMMENT = "comment";
   private String comment;
@@ -94,9 +102,9 @@ public class CrupdateLoanRepayment {
    * Get paymentDate
    * @return paymentDate
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_PAYMENT_DATE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public java.time.LocalDate getPaymentDate() {
     return paymentDate;
@@ -104,7 +112,7 @@ public class CrupdateLoanRepayment {
 
 
   @JsonProperty(JSON_PROPERTY_PAYMENT_DATE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setPaymentDate(java.time.LocalDate paymentDate) {
     this.paymentDate = paymentDate;
   }
@@ -117,11 +125,12 @@ public class CrupdateLoanRepayment {
 
    /**
    * Total repayment amount
+   * minimum: 0
    * @return amount
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_AMOUNT)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public BigDecimal getAmount() {
     return amount;
@@ -129,7 +138,7 @@ public class CrupdateLoanRepayment {
 
 
   @JsonProperty(JSON_PROPERTY_AMOUNT)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setAmount(BigDecimal amount) {
     this.amount = amount;
   }
@@ -144,9 +153,9 @@ public class CrupdateLoanRepayment {
    * ID of the loan this repayment is related to
    * @return loanId
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_LOAN_ID)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getLoanId() {
     return loanId;
@@ -154,9 +163,61 @@ public class CrupdateLoanRepayment {
 
 
   @JsonProperty(JSON_PROPERTY_LOAN_ID)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setLoanId(String loanId) {
     this.loanId = loanId;
+  }
+
+
+  public CrupdateLoanRepayment principalPortion(BigDecimal principalPortion) {
+    this.principalPortion = principalPortion;
+    return this;
+  }
+
+   /**
+   * Portion of the payment that goes to principal (auto-calculated)
+   * minimum: 0
+   * @return principalPortion
+  **/
+  @jakarta.annotation.Nonnull
+  @JsonProperty(JSON_PROPERTY_PRINCIPAL_PORTION)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+
+  public BigDecimal getPrincipalPortion() {
+    return principalPortion;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_PRINCIPAL_PORTION)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setPrincipalPortion(BigDecimal principalPortion) {
+    this.principalPortion = principalPortion;
+  }
+
+
+  public CrupdateLoanRepayment interestPortion(BigDecimal interestPortion) {
+    this.interestPortion = interestPortion;
+    return this;
+  }
+
+   /**
+   * Portion of the payment that goes to interest (auto-calculated)
+   * minimum: 0
+   * @return interestPortion
+  **/
+  @jakarta.annotation.Nonnull
+  @JsonProperty(JSON_PROPERTY_INTEREST_PORTION)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+
+  public BigDecimal getInterestPortion() {
+    return interestPortion;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_INTEREST_PORTION)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setInterestPortion(BigDecimal interestPortion) {
+    this.interestPortion = interestPortion;
   }
 
 
@@ -201,12 +262,14 @@ public class CrupdateLoanRepayment {
         Objects.equals(this.paymentDate, crupdateLoanRepayment.paymentDate) &&
         Objects.equals(this.amount, crupdateLoanRepayment.amount) &&
         Objects.equals(this.loanId, crupdateLoanRepayment.loanId) &&
+        Objects.equals(this.principalPortion, crupdateLoanRepayment.principalPortion) &&
+        Objects.equals(this.interestPortion, crupdateLoanRepayment.interestPortion) &&
         Objects.equals(this.comment, crupdateLoanRepayment.comment);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, paymentDate, amount, loanId, comment);
+    return Objects.hash(id, paymentDate, amount, loanId, principalPortion, interestPortion, comment);
   }
 
   @Override
@@ -217,6 +280,8 @@ public class CrupdateLoanRepayment {
     sb.append("    paymentDate: ").append(toIndentedString(paymentDate)).append("\n");
     sb.append("    amount: ").append(toIndentedString(amount)).append("\n");
     sb.append("    loanId: ").append(toIndentedString(loanId)).append("\n");
+    sb.append("    principalPortion: ").append(toIndentedString(principalPortion)).append("\n");
+    sb.append("    interestPortion: ").append(toIndentedString(interestPortion)).append("\n");
     sb.append("    comment: ").append(toIndentedString(comment)).append("\n");
     sb.append("}");
     return sb.toString();
@@ -283,6 +348,16 @@ public class CrupdateLoanRepayment {
     // add `loan_id` to the URL query string
     if (getLoanId() != null) {
       joiner.add(String.format("%sloan_id%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getLoanId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `principal_portion` to the URL query string
+    if (getPrincipalPortion() != null) {
+      joiner.add(String.format("%sprincipal_portion%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getPrincipalPortion()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `interest_portion` to the URL query string
+    if (getInterestPortion() != null) {
+      joiner.add(String.format("%sinterest_portion%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getInterestPortion()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `comment` to the URL query string

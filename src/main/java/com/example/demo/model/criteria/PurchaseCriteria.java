@@ -7,6 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PurchaseCriteria {
+  private String sourceWarehouseId;
   private String supplierId;
   private Boolean isEquipment;
   private LocalDate invoiceDateFrom;

@@ -68,7 +68,8 @@ public class PurchaseService {
   }
 
   private Specification<Purchase> toSpecification(PurchaseCriteria criteria) {
-    return Specification.<Purchase>where(equal(criteria.getSupplierId(), "supplier", "id"))
+    return Specification.<Purchase>where(
+            equal(criteria.getSourceWarehouseId(), "sourceWarehouse", "id"))
         .and(equal(criteria.getIsEquipment(), "isEquipment"))
         .and(
             (root, query, cb) -> {

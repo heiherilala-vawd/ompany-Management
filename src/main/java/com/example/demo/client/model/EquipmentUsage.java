@@ -20,6 +20,7 @@ import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
 import com.example.demo.client.model.AuditUser;
+import com.example.demo.client.model.UsageStatus;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -47,7 +48,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   EquipmentUsage.JSON_PROPERTY_UPDATED_BY,
   EquipmentUsage.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-30T17:19:15.606578257+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-01T18:19:40.950295941+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class EquipmentUsage {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -68,7 +69,7 @@ public class EquipmentUsage {
   private String sourceLocation;
 
   public static final String JSON_PROPERTY_USAGE_STATUS = "usage_status";
-  private String usageStatus;
+  private UsageStatus usageStatus;
 
   public static final String JSON_PROPERTY_USED_BY = "used_by";
   private String usedBy;
@@ -241,7 +242,7 @@ public class EquipmentUsage {
   }
 
 
-  public EquipmentUsage usageStatus(String usageStatus) {
+  public EquipmentUsage usageStatus(UsageStatus usageStatus) {
     this.usageStatus = usageStatus;
     return this;
   }
@@ -254,14 +255,14 @@ public class EquipmentUsage {
   @JsonProperty(JSON_PROPERTY_USAGE_STATUS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getUsageStatus() {
+  public UsageStatus getUsageStatus() {
     return usageStatus;
   }
 
 
   @JsonProperty(JSON_PROPERTY_USAGE_STATUS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setUsageStatus(String usageStatus) {
+  public void setUsageStatus(UsageStatus usageStatus) {
     this.usageStatus = usageStatus;
   }
 

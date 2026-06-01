@@ -44,7 +44,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   CrupdateLoan.JSON_PROPERTY_DESCRIPTION,
   CrupdateLoan.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-30T17:19:15.606578257+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-01T18:19:40.950295941+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdateLoan {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -110,9 +110,9 @@ public class CrupdateLoan {
    * Get lender
    * @return lender
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_LENDER)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getLender() {
     return lender;
@@ -120,7 +120,7 @@ public class CrupdateLoan {
 
 
   @JsonProperty(JSON_PROPERTY_LENDER)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setLender(String lender) {
     this.lender = lender;
   }
@@ -133,11 +133,12 @@ public class CrupdateLoan {
 
    /**
    * Annual interest rate in basis points (e.g., 1200 &#x3D; 12%)
+   * minimum: 0
    * @return interestRate
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_INTEREST_RATE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public Integer getInterestRate() {
     return interestRate;
@@ -145,7 +146,7 @@ public class CrupdateLoan {
 
 
   @JsonProperty(JSON_PROPERTY_INTEREST_RATE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setInterestRate(Integer interestRate) {
     this.interestRate = interestRate;
   }
@@ -160,9 +161,9 @@ public class CrupdateLoan {
    * Get startDate
    * @return startDate
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_START_DATE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public java.time.LocalDate getStartDate() {
     return startDate;
@@ -170,7 +171,7 @@ public class CrupdateLoan {
 
 
   @JsonProperty(JSON_PROPERTY_START_DATE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setStartDate(java.time.LocalDate startDate) {
     this.startDate = startDate;
   }
@@ -185,9 +186,9 @@ public class CrupdateLoan {
    * Due date of the loan. If null, the loan has no fixed term.
    * @return dueDate
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_DUE_DATE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public java.time.LocalDate getDueDate() {
     return dueDate;
@@ -195,7 +196,7 @@ public class CrupdateLoan {
 
 
   @JsonProperty(JSON_PROPERTY_DUE_DATE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setDueDate(java.time.LocalDate dueDate) {
     this.dueDate = dueDate;
   }
@@ -210,9 +211,9 @@ public class CrupdateLoan {
    * ID of the job this loan is related to
    * @return jobId
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_JOB_ID)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getJobId() {
     return jobId;
@@ -220,7 +221,7 @@ public class CrupdateLoan {
 
 
   @JsonProperty(JSON_PROPERTY_JOB_ID)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setJobId(String jobId) {
     this.jobId = jobId;
   }
@@ -233,11 +234,12 @@ public class CrupdateLoan {
 
    /**
    * Get amount
+   * minimum: 0
    * @return amount
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_AMOUNT)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public BigDecimal getAmount() {
     return amount;
@@ -245,7 +247,7 @@ public class CrupdateLoan {
 
 
   @JsonProperty(JSON_PROPERTY_AMOUNT)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setAmount(BigDecimal amount) {
     this.amount = amount;
   }

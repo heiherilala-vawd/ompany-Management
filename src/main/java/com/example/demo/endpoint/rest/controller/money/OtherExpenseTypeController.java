@@ -5,6 +5,7 @@ import com.example.demo.client.model.OtherExpenseType;
 import com.example.demo.endpoint.rest.mapper.money.OtherExpenseTypeMapper;
 import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.service.money.OtherExpenseTypeService;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -43,10 +44,10 @@ public class OtherExpenseTypeController {
   @PutMapping("/companies/{comp_id}/other_expense_types")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<OtherExpenseType> crupdateOtherExpenseTypes(
-      @PathVariable String comp_id, @RequestBody List<CrupdateOtherExpenseType> toWrite) {
+      @PathVariable String comp_id, @Valid @RequestBody List<CrupdateOtherExpenseType> toWrite) {
     return otherExpenseTypeMapper.toRestOtherExpenseTypes(
         otherExpenseTypeService.createOrUpdateAll(
-            toWrite.stream().map(otherExpenseTypeMapper::toDomain).toList()));
+            toWrite.stream().map(rest -> otherExpenseTypeMapper.toDomain(rest, comp_id)).toList()));
   }
 
   @DeleteMapping("/companies/{comp_id}/other_expense_types/{id}")

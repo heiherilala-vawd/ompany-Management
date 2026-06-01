@@ -51,7 +51,10 @@ public class TravelExpenseMapper {
 
     return com.example.demo.model.money.TravelExpense.builder()
         .id(restTravelExpense.getId())
-        .expense(expenseMoneyMapper.toDomain(restTravelExpense.getExpense()))
+        .expense(
+            restTravelExpense.getExpenseId() != null
+                ? expenseMoneyService.findById(restTravelExpense.getExpenseId()).orElse(null)
+                : null)
         .departureLocation(
             restTravelExpense.getDepartureLocation() != null
                     && restTravelExpense.getDepartureLocation().getId() != null
@@ -95,7 +98,10 @@ public class TravelExpenseMapper {
 
     return new CrupdateTravelExpense()
         .id(domainTravelExpense.getId())
-        .expense(expenseMoneyMapper.toRestCrupdateExpense(domainTravelExpense.getExpense()))
+        .expenseId(
+            domainTravelExpense.getExpense() != null
+                ? domainTravelExpense.getExpense().getId()
+                : null)
         .departureLocation(
             warehouseMapper.toRestCrupdateWarehouse(domainTravelExpense.getDepartureLocation()))
         .arrivalLocation(

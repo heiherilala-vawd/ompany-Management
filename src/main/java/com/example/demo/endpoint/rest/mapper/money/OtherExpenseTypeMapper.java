@@ -31,17 +31,14 @@ public class OtherExpenseTypeMapper {
   }
 
   public com.example.demo.model.money.OtherExpenseType toDomain(
-      CrupdateOtherExpenseType restOtherExpenseType) {
+      CrupdateOtherExpenseType restOtherExpenseType, String companyId) {
     if (restOtherExpenseType == null) return null;
 
     return com.example.demo.model.money.OtherExpenseType.builder()
         .id(restOtherExpenseType.getId())
         .name(restOtherExpenseType.getName())
         .description(restOtherExpenseType.getDescription())
-        .company(
-            restOtherExpenseType.getCompanyId() != null
-                ? companyService.findById(restOtherExpenseType.getCompanyId()).orElse(null)
-                : null)
+        .company(companyId != null ? companyService.findById(companyId).orElse(null) : null)
         .comment(restOtherExpenseType.getComment())
         .build();
   }

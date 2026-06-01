@@ -51,7 +51,7 @@ public class MaintenanceService {
   }
 
   @Transactional
-  public List<Maintenance> createOrUpdateAll(String equipmentId, List<Maintenance> maintenances) {
+  public List<Maintenance> createOrUpdateAll(List<Maintenance> maintenances) {
     movementValidator.validateMaintenances(maintenances);
 
     List<ExpenseMoney> expenses =

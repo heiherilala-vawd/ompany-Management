@@ -9,6 +9,7 @@ import com.example.demo.model.movement.MaterialConsumption.ConsumptionStatus;
 import com.example.demo.model.movement.MaterialWarehouse;
 import com.example.demo.model.movement.Warehouse;
 import com.example.demo.repository.movement.MaterialConsumptionRepository;
+import com.example.demo.repository.specification.SpecificationUtils;
 import com.example.demo.service.utils.ModificationUtils;
 import com.example.demo.service.utils.PageUtils;
 import com.example.demo.service.utils.SpecialWarehouseUtils;
@@ -37,9 +38,20 @@ public class MaterialConsumptionService {
     return materialConsumptionRepository.findById(id);
   }
 
-  public Page<MaterialConsumption> findAll(PageFromOne page, BoundedPageSize pageSize) {
+  public Page<MaterialConsumption> findAll(
+      PageFromOne page,
+      BoundedPageSize pageSize,
+      ConsumptionStatus consumptionStatus,
+      String jobId) {
     Pageable pageable = PageUtils.createPageable(page, pageSize);
-    return materialConsumptionRepository.findAll(pageable);
+    var spec =
+        SpecificationUtils.<MaterialConsumption>equal(consumptionStatus, "consumptionStatus")
+            .and(SpecificationUtils.equal(jobId, "job", "id"));
+    return materialConsumptionRepository.findAll(spec, pageable);
+  }
+
+  public Page<MaterialConsumption> findAll(PageFromOne page, BoundedPageSize pageSize) {
+    return findAll(page, pageSize, null, null);
   }
 
   @Transactional

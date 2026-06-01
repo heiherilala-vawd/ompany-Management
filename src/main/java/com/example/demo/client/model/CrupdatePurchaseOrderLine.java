@@ -34,15 +34,19 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  */
 @JsonPropertyOrder({
   CrupdatePurchaseOrderLine.JSON_PROPERTY_ID,
+  CrupdatePurchaseOrderLine.JSON_PROPERTY_PURCHASE_ORDER_ID,
   CrupdatePurchaseOrderLine.JSON_PROPERTY_MATERIAL_ID,
   CrupdatePurchaseOrderLine.JSON_PROPERTY_QUANTITY,
   CrupdatePurchaseOrderLine.JSON_PROPERTY_UNIT_PRICE,
   CrupdatePurchaseOrderLine.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-30T17:19:15.606578257+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-01T18:19:40.950295941+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdatePurchaseOrderLine {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
+
+  public static final String JSON_PROPERTY_PURCHASE_ORDER_ID = "purchase_order_id";
+  private String purchaseOrderId;
 
   public static final String JSON_PROPERTY_MATERIAL_ID = "material_id";
   private String materialId;
@@ -84,6 +88,31 @@ public class CrupdatePurchaseOrderLine {
   }
 
 
+  public CrupdatePurchaseOrderLine purchaseOrderId(String purchaseOrderId) {
+    this.purchaseOrderId = purchaseOrderId;
+    return this;
+  }
+
+   /**
+   * Get purchaseOrderId
+   * @return purchaseOrderId
+  **/
+  @jakarta.annotation.Nonnull
+  @JsonProperty(JSON_PROPERTY_PURCHASE_ORDER_ID)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+
+  public String getPurchaseOrderId() {
+    return purchaseOrderId;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_PURCHASE_ORDER_ID)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setPurchaseOrderId(String purchaseOrderId) {
+    this.purchaseOrderId = purchaseOrderId;
+  }
+
+
   public CrupdatePurchaseOrderLine materialId(String materialId) {
     this.materialId = materialId;
     return this;
@@ -93,9 +122,9 @@ public class CrupdatePurchaseOrderLine {
    * Get materialId
    * @return materialId
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_MATERIAL_ID)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getMaterialId() {
     return materialId;
@@ -103,7 +132,7 @@ public class CrupdatePurchaseOrderLine {
 
 
   @JsonProperty(JSON_PROPERTY_MATERIAL_ID)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setMaterialId(String materialId) {
     this.materialId = materialId;
   }
@@ -116,11 +145,12 @@ public class CrupdatePurchaseOrderLine {
 
    /**
    * Get quantity
+   * minimum: 0
    * @return quantity
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_QUANTITY)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public Integer getQuantity() {
     return quantity;
@@ -128,7 +158,7 @@ public class CrupdatePurchaseOrderLine {
 
 
   @JsonProperty(JSON_PROPERTY_QUANTITY)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setQuantity(Integer quantity) {
     this.quantity = quantity;
   }
@@ -141,11 +171,12 @@ public class CrupdatePurchaseOrderLine {
 
    /**
    * Get unitPrice
+   * minimum: 0
    * @return unitPrice
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_UNIT_PRICE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public BigDecimal getUnitPrice() {
     return unitPrice;
@@ -153,7 +184,7 @@ public class CrupdatePurchaseOrderLine {
 
 
   @JsonProperty(JSON_PROPERTY_UNIT_PRICE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setUnitPrice(BigDecimal unitPrice) {
     this.unitPrice = unitPrice;
   }
@@ -197,6 +228,7 @@ public class CrupdatePurchaseOrderLine {
     }
     CrupdatePurchaseOrderLine crupdatePurchaseOrderLine = (CrupdatePurchaseOrderLine) o;
     return Objects.equals(this.id, crupdatePurchaseOrderLine.id) &&
+        Objects.equals(this.purchaseOrderId, crupdatePurchaseOrderLine.purchaseOrderId) &&
         Objects.equals(this.materialId, crupdatePurchaseOrderLine.materialId) &&
         Objects.equals(this.quantity, crupdatePurchaseOrderLine.quantity) &&
         Objects.equals(this.unitPrice, crupdatePurchaseOrderLine.unitPrice) &&
@@ -205,7 +237,7 @@ public class CrupdatePurchaseOrderLine {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, materialId, quantity, unitPrice, comment);
+    return Objects.hash(id, purchaseOrderId, materialId, quantity, unitPrice, comment);
   }
 
   @Override
@@ -213,6 +245,7 @@ public class CrupdatePurchaseOrderLine {
     StringBuilder sb = new StringBuilder();
     sb.append("class CrupdatePurchaseOrderLine {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    purchaseOrderId: ").append(toIndentedString(purchaseOrderId)).append("\n");
     sb.append("    materialId: ").append(toIndentedString(materialId)).append("\n");
     sb.append("    quantity: ").append(toIndentedString(quantity)).append("\n");
     sb.append("    unitPrice: ").append(toIndentedString(unitPrice)).append("\n");
@@ -267,6 +300,11 @@ public class CrupdatePurchaseOrderLine {
     // add `id` to the URL query string
     if (getId() != null) {
       joiner.add(String.format("%sid%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `purchase_order_id` to the URL query string
+    if (getPurchaseOrderId() != null) {
+      joiner.add(String.format("%spurchase_order_id%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getPurchaseOrderId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `material_id` to the URL query string

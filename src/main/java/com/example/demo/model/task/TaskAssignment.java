@@ -3,6 +3,7 @@ package com.example.demo.model.task;
 import com.example.demo.model.CreatAndUpdateEntity;
 import com.example.demo.model.User;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Objects;
 import lombok.AllArgsConstructor;
@@ -25,10 +26,12 @@ public class TaskAssignment extends CreatAndUpdateEntity implements Serializable
 
   @Id private String id;
 
+  @NotNull
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "task_id")
   private Task task;
 
+  @NotNull
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id")
   private User user;

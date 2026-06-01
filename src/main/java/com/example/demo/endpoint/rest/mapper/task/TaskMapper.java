@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 public class TaskMapper {
 
-  public com.example.demo.model.task.Task toDomain(CrupdateTask rest) {
+  public com.example.demo.model.task.Task toDomain(CrupdateTask rest, String companyId) {
     if (rest == null) return null;
     return com.example.demo.model.task.Task.builder()
         .id(rest.getId())
@@ -25,8 +25,7 @@ public class TaskMapper {
         .priority(
             rest.getPriority() != null ? TaskPriority.valueOf(rest.getPriority().getValue()) : null)
         .completed(rest.getCompleted() != null ? rest.getCompleted() : false)
-        .company(
-            rest.getCompanyId() != null ? Company.builder().id(rest.getCompanyId()).build() : null)
+        .company(companyId != null ? Company.builder().id(companyId).build() : null)
         .build();
   }
 

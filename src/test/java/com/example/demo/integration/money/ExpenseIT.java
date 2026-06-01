@@ -167,7 +167,7 @@ class ExpenseIT {
     invalidExpense.setAmount(BigDecimal.valueOf(-1000));
 
     assertThrowsApiException(
-        "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Amount must be positive\"}",
+        "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Amount must be non-negative\"}",
         () -> api.crupdateExpenses(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(invalidExpense)));
   }
 

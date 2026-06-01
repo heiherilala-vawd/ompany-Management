@@ -3,6 +3,7 @@ package com.example.demo.service.money;
 import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.model.money.PurchaseOrder;
 import com.example.demo.repository.money.PurchaseOrderRepository;
+import com.example.demo.repository.specification.SpecificationUtils;
 import com.example.demo.service.utils.ModificationUtils;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +25,17 @@ public class PurchaseOrderService {
         .orElseThrow(() -> new NotFoundException("PurchaseOrder with id " + id + " not found"));
   }
 
+  public List<PurchaseOrder> findByCompanyId(String companyId, String jobId) {
+    if (jobId == null) {
+      return purchaseOrderRepository.findByCompany_Id(companyId);
+    }
+    return purchaseOrderRepository.findAll(
+        SpecificationUtils.<PurchaseOrder>equal(companyId, "company", "id")
+            .and(SpecificationUtils.<PurchaseOrder>equal(jobId, "job", "id")));
+  }
+
   public List<PurchaseOrder> findByCompanyId(String companyId) {
-    return purchaseOrderRepository.findByCompany_Id(companyId);
+    return findByCompanyId(companyId, null);
   }
 
   @Transactional

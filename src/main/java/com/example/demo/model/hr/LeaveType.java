@@ -3,6 +3,7 @@ package com.example.demo.model.hr;
 import com.example.demo.model.Company;
 import com.example.demo.model.CreatAndUpdateEntity;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
 import lombok.AllArgsConstructor;
@@ -25,20 +26,25 @@ public class LeaveType extends CreatAndUpdateEntity implements Serializable {
 
   @Id private String id;
 
+  @NotBlank
+  @Size(max = 255)
   private String name;
 
   @Column(columnDefinition = "TEXT")
   private String description;
 
-  private Boolean paid;
+  @NotNull private Boolean paid;
 
-  private Boolean deductFromBalance;
+  @NotNull private Boolean deductFromBalance;
 
   @Column(length = 7)
   private String color;
 
+  @NotNull
+  @Min(0)
   private Integer daysPerYear;
 
+  @NotNull
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "company_id")
   private Company company;
