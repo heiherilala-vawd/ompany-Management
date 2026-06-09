@@ -60,7 +60,7 @@ class SupplierIT {
   @Test
   void admin_can_get_supplier_by_id() throws Exception {
     SupplierApi api = new SupplierApi(anApiClient(ADMIN_TOKEN));
-    Supplier actual = api.getSupplierById(COMPANY1_ID, SUPPLIER1_ID);
+    Supplier actual = api.getSupplierById(ADMIN_ID, COMPANY1_ID, SUPPLIER1_ID);
     actual.setCreatedAt(null);
     actual.setUpdatedAt(null);
     actual.setCreatedBy(null);
@@ -71,13 +71,14 @@ class SupplierIT {
   @Test
   void user_with_bad_token_cannot_get_supplier() {
     SupplierApi api = new SupplierApi(anApiClient(BAD_TOKEN));
-    assertThrowsNotAuthorizedException(() -> api.getSupplierById(COMPANY1_ID, SUPPLIER1_ID));
+    assertThrowsNotAuthorizedException(
+        () -> api.getSupplierById(ADMIN_ID, COMPANY1_ID, SUPPLIER1_ID));
   }
 
   @Test
   void admin_can_get_all_suppliers() throws Exception {
     SupplierApi api = new SupplierApi(anApiClient(ADMIN_TOKEN));
-    List<Supplier> suppliers = api.getSuppliers(COMPANY1_ID);
+    List<Supplier> suppliers = api.getSuppliers(ADMIN_ID, COMPANY1_ID);
     assertEquals(2, suppliers.size());
     assertTrue(suppliers.stream().anyMatch(s -> SUPPLIER1_ID.equals(s.getId())));
     assertTrue(suppliers.stream().anyMatch(s -> SUPPLIER2_ID.equals(s.getId())));
@@ -86,7 +87,7 @@ class SupplierIT {
   @Test
   void employee_cannot_get_suppliers() {
     SupplierApi api = new SupplierApi(anApiClient(EMPLOYEE_TOKEN));
-    assertThrowsForbiddenException(() -> api.getSuppliers(COMPANY1_ID));
+    assertThrowsForbiddenException(() -> api.getSuppliers(EMPLOYEE_ID, COMPANY1_ID));
   }
 
   @Test
@@ -94,7 +95,7 @@ class SupplierIT {
   void admin_can_create_supplier() throws Exception {
     SupplierApi api = new SupplierApi(anApiClient(ADMIN_TOKEN));
     CrupdateSupplier toCreate = someCreatableSupplier();
-    List<Supplier> created = api.crupdateSuppliers(COMPANY1_ID, List.of(toCreate));
+    List<Supplier> created = api.crupdateSuppliers(ADMIN_ID, COMPANY1_ID, List.of(toCreate));
     assertEquals(1, created.size());
     assertEquals(toCreate.getName(), created.get(0).getName());
   }
@@ -105,7 +106,7 @@ class SupplierIT {
     SupplierApi api = new SupplierApi(anApiClient(ADMIN_TOKEN));
     CrupdateSupplier toUpdate = supplierToCrupdateSupplier(supplier1());
     toUpdate.setName("Fournitures Pro Modifié");
-    List<Supplier> updated = api.crupdateSuppliers(COMPANY1_ID, List.of(toUpdate));
+    List<Supplier> updated = api.crupdateSuppliers(ADMIN_ID, COMPANY1_ID, List.of(toUpdate));
     assertEquals(1, updated.size());
     assertEquals(SUPPLIER1_ID, updated.get(0).getId());
     assertEquals("Fournitures Pro Modifié", updated.get(0).getName());
@@ -115,7 +116,7 @@ class SupplierIT {
   void employee_cannot_create_supplier() {
     SupplierApi api = new SupplierApi(anApiClient(EMPLOYEE_TOKEN));
     assertThrowsForbiddenException(
-        () -> api.crupdateSuppliers(COMPANY1_ID, List.of(someCreatableSupplier())));
+        () -> api.crupdateSuppliers(EMPLOYEE_ID, COMPANY1_ID, List.of(someCreatableSupplier())));
   }
 
   @Test
@@ -123,19 +124,20 @@ class SupplierIT {
   void admin_can_delete_supplier() throws Exception {
     SupplierApi api = new SupplierApi(anApiClient(ADMIN_TOKEN));
     CrupdateSupplier toDelete = someCreatableSupplier();
-    api.crupdateSuppliers(COMPANY1_ID, List.of(toDelete));
-    api.deleteSupplierById(COMPANY1_ID, toDelete.getId());
+    api.crupdateSuppliers(ADMIN_ID, COMPANY1_ID, List.of(toDelete));
+    api.deleteSupplierById(ADMIN_ID, COMPANY1_ID, toDelete.getId());
     assertThrowsApiException(
         "{\"type\":\"404 NOT_FOUND\",\"message\":\"Supplier with id "
             + toDelete.getId()
             + " not found\"}",
-        () -> api.getSupplierById(COMPANY1_ID, toDelete.getId()));
+        () -> api.getSupplierById(ADMIN_ID, COMPANY1_ID, toDelete.getId()));
   }
 
   @Test
   void administration_cannot_delete_supplier() {
     SupplierApi api = new SupplierApi(anApiClient(ADMINISTRATION_TOKEN));
-    assertThrowsForbiddenException(() -> api.deleteSupplierById(COMPANY1_ID, SUPPLIER1_ID));
+    assertThrowsForbiddenException(
+        () -> api.deleteSupplierById(ADMIN_ID, COMPANY1_ID, SUPPLIER1_ID));
   }
 
   static class ContextInitializer extends AbstractContextInitializer {

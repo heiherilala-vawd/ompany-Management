@@ -25,9 +25,7 @@ import org.hibernate.Hibernate;
 @NoArgsConstructor
 public class ExpenseMoney extends MonetaryMovement implements Serializable {
 
-  @Id
-  @Getter
-  private String id;
+  @Id @Getter private String id;
 
   @OneToOne(mappedBy = "expense")
   @JsonBackReference

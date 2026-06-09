@@ -50,7 +50,7 @@ public final class TestNotificationFixtures {
     return n;
   }
 
-  static CrupdateNotification someCreatableNotification() {
+  public static CrupdateNotification someCreatableNotification() {
     CrupdateNotification n = new CrupdateNotification();
     n.setId(UUID.randomUUID().toString());
     n.setTitle("Nouvelle notification");

@@ -54,7 +54,7 @@ class JobIT {
     ApiClient employeeClient = anApiClient(EMPLOYEE_TOKEN);
     JobApi api = new JobApi(employeeClient);
 
-    Job actual = api.getJobById(COMPANY1_ID, JOB1_ID);
+    Job actual = api.getJobById(EMPLOYEE_ID, COMPANY1_ID, JOB1_ID);
     Job expected = job1();
     expected.setCreatedAt(actual.getCreatedAt());
     expected.setUpdatedAt(actual.getUpdatedAt());
@@ -70,7 +70,7 @@ class JobIT {
     ApiClient badClient = anApiClient(BAD_TOKEN);
     JobApi api = new JobApi(badClient);
 
-    assertThrowsNotAuthorizedException(() -> api.getJobById(COMPANY1_ID, JOB1_ID));
+    assertThrowsNotAuthorizedException(() -> api.getJobById(ADMIN_ID, COMPANY1_ID, JOB1_ID));
   }
 
   @Test
@@ -78,7 +78,7 @@ class JobIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     JobApi api = new JobApi(adminClient);
 
-    List<Job> jobs = api.getJobs(COMPANY1_ID, 1, 100, null, null);
+    List<Job> jobs = api.getJobs(ADMIN_ID, COMPANY1_ID, 1, 100, null, null);
 
     assertEquals(1, jobs.size());
     assertEquals(JOB1_ID, jobs.get(0).getId());
@@ -89,7 +89,7 @@ class JobIT {
     ApiClient employeeClient = anApiClient(EMPLOYEE_TOKEN);
     JobApi api = new JobApi(employeeClient);
 
-    assertThrowsForbiddenException(() -> api.getJobs(COMPANY1_ID, 1, 100, null, null));
+    assertThrowsForbiddenException(() -> api.getJobs(EMPLOYEE_ID, COMPANY1_ID, 1, 100, null, null));
   }
 
   @Test
@@ -97,7 +97,7 @@ class JobIT {
     ApiClient warehouseClient = anApiClient(WAREHOUSE_TOKEN);
     JobApi api = new JobApi(warehouseClient);
 
-    List<Job> jobs = api.getJobs(COMPANY1_ID, 1, 100, JobStatus.IN_PROGRESS, null);
+    List<Job> jobs = api.getJobs(WAREHOUSE_ID, COMPANY1_ID, 1, 100, JobStatus.IN_PROGRESS, null);
 
     assertEquals(1, jobs.size());
     assertEquals(JOB1_ID, jobs.get(0).getId());
@@ -108,7 +108,7 @@ class JobIT {
     ApiClient administrationClient = anApiClient(ADMINISTRATION_TOKEN);
     JobApi api = new JobApi(administrationClient);
 
-    List<Job> jobs = api.getJobs(COMPANY2_ID, 1, 100, null, null);
+    List<Job> jobs = api.getJobs(ADMIN_ID, COMPANY2_ID, 1, 100, null, null);
 
     assertEquals(1, jobs.size());
     assertEquals(JOB2_ID, jobs.get(0).getId());
@@ -119,7 +119,7 @@ class JobIT {
     ApiClient administrationClient = anApiClient(ADMINISTRATION_TOKEN);
     JobApi api = new JobApi(administrationClient);
 
-    List<Job> jobs = api.getJobs(COMPANY1_ID, 1, 100, null, "bâtiment A");
+    List<Job> jobs = api.getJobs(ADMIN_ID, COMPANY1_ID, 1, 100, null, "bâtiment A");
 
     assertEquals(1, jobs.size());
     assertEquals(JOB1_ID, jobs.get(0).getId());
@@ -134,7 +134,7 @@ class JobIT {
     CrupdateJob jobToUpdate = jobToCrupdateJob(job1());
     jobToUpdate.setDescription("Construction du batiment A mise a jour");
 
-    List<Job> updatedJobs = api.crupdateJobs(COMPANY1_ID, List.of(jobToUpdate));
+    List<Job> updatedJobs = api.crupdateJobs(ADMIN_ID, COMPANY1_ID, List.of(jobToUpdate));
     Job updatedJob = updatedJobs.get(0);
 
     assertEquals(1, updatedJobs.size());
@@ -149,7 +149,7 @@ class JobIT {
     JobApi api = new JobApi(warehouseClient);
 
     assertThrowsForbiddenException(
-        () -> api.crupdateJobs(COMPANY1_ID, List.of(someCreatableJob())));
+        () -> api.crupdateJobs(WAREHOUSE_ID, COMPANY1_ID, List.of(someCreatableJob())));
   }
 
   @Test
@@ -157,7 +157,7 @@ class JobIT {
     ApiClient administrationClient = anApiClient(ADMINISTRATION_TOKEN);
     JobApi api = new JobApi(administrationClient);
 
-    assertThrowsForbiddenException(() -> api.deleteJobById(COMPANY1_ID, JOB1_ID));
+    assertThrowsForbiddenException(() -> api.deleteJobById(ADMIN_ID, COMPANY1_ID, JOB1_ID));
   }
 
   @Test
@@ -169,7 +169,7 @@ class JobIT {
     CrupdateJob job = someCreatableJob();
     job.setCompanyId(null);
 
-    List<Job> created = api.crupdateJobs(COMPANY1_ID, List.of(job));
+    List<Job> created = api.crupdateJobs(ADMIN_ID, COMPANY1_ID, List.of(job));
 
     assertEquals(1, created.size());
     assertEquals(job.getId(), created.get(0).getId());
@@ -183,13 +183,13 @@ class JobIT {
 
     CrupdateJob toCreate = someCreatableJob();
     String newJobId = toCreate.getId();
-    api.crupdateJobs(COMPANY1_ID, List.of(toCreate));
+    api.crupdateJobs(ADMIN_ID, COMPANY1_ID, List.of(toCreate));
 
-    api.deleteJobById(COMPANY1_ID, newJobId);
+    api.deleteJobById(ADMIN_ID, COMPANY1_ID, newJobId);
 
     assertThrowsApiException(
         "{\"type\":\"404 NOT_FOUND\",\"message\":\"Job with id " + newJobId + " not found\"}",
-        () -> api.getJobById(COMPANY1_ID, newJobId));
+        () -> api.getJobById(ADMIN_ID, COMPANY1_ID, newJobId));
   }
 
   @Test
@@ -198,9 +198,9 @@ class JobIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     JobApi api = new JobApi(adminClient);
 
-    api.assignUserToJob(COMPANY1_ID, JOB1_ID, USER1_ID);
+    api.assignUserToJob(ADMIN_ID, COMPANY1_ID, JOB1_ID);
 
-    List<User> users = api.getJobResponsibleUsers(COMPANY1_ID, JOB1_ID);
+    List<User> users = api.getJobResponsibleUsers(ADMIN_ID, COMPANY1_ID, JOB1_ID);
     assertTrue(users.stream().anyMatch(u -> USER1_ID.equals(u.getId())));
   }
 
@@ -209,7 +209,7 @@ class JobIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     JobApi api = new JobApi(adminClient);
 
-    List<User> users = api.getJobResponsibleUsers(COMPANY1_ID, JOB1_ID);
+    List<User> users = api.getJobResponsibleUsers(ADMIN_ID, COMPANY1_ID, JOB1_ID);
     assertNotNull(users);
   }
 
@@ -219,12 +219,12 @@ class JobIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     JobApi api = new JobApi(adminClient);
 
-    api.assignUserToJob(COMPANY1_ID, JOB1_ID, USER1_ID);
-    List<User> usersAfterAssign = api.getJobResponsibleUsers(COMPANY1_ID, JOB1_ID);
+    api.assignUserToJob(ADMIN_ID, COMPANY1_ID, JOB1_ID);
+    List<User> usersAfterAssign = api.getJobResponsibleUsers(ADMIN_ID, COMPANY1_ID, JOB1_ID);
     assertTrue(usersAfterAssign.stream().anyMatch(u -> USER1_ID.equals(u.getId())));
 
-    api.unassignUserFromJob(COMPANY1_ID, JOB1_ID, USER1_ID);
-    List<User> usersAfterUnassign = api.getJobResponsibleUsers(COMPANY1_ID, JOB1_ID);
+    api.unassignUserFromJob(ADMIN_ID, COMPANY1_ID, JOB1_ID);
+    List<User> usersAfterUnassign = api.getJobResponsibleUsers(ADMIN_ID, COMPANY1_ID, JOB1_ID);
     assertTrue(usersAfterUnassign.stream().noneMatch(u -> USER1_ID.equals(u.getId())));
   }
 
@@ -239,7 +239,7 @@ class JobIT {
 
     assertThrowsApiException(
         "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Job end date cannot be before start date\"}",
-        () -> api.crupdateJobs(COMPANY1_ID, List.of(invalidJob)));
+        () -> api.crupdateJobs(ADMIN_ID, COMPANY1_ID, List.of(invalidJob)));
   }
 
   static class ContextInitializer extends AbstractContextInitializer {

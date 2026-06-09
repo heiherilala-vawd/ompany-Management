@@ -51,7 +51,7 @@ class DepartmentIT {
   void administration_can_get_department_by_id() throws Exception {
     DepartmentApi api = new DepartmentApi(anApiClient(ADMINISTRATION_TOKEN));
 
-    Department actual = api.getDepartmentById(COMPANY1_ID, DEPARTMENT1_ID);
+    Department actual = api.getDepartmentById(ADMIN_ID, COMPANY1_ID, DEPARTMENT1_ID);
     Department expected = department1();
     expected.setCreatedAt(actual.getCreatedAt());
     expected.setUpdatedAt(actual.getUpdatedAt());
@@ -66,7 +66,8 @@ class DepartmentIT {
   void user_with_bad_token_cannot_get_department_by_id() {
     DepartmentApi api = new DepartmentApi(anApiClient(BAD_TOKEN));
 
-    assertThrowsNotAuthorizedException(() -> api.getDepartmentById(COMPANY1_ID, DEPARTMENT1_ID));
+    assertThrowsNotAuthorizedException(
+        () -> api.getDepartmentById(ADMIN_ID, COMPANY1_ID, DEPARTMENT1_ID));
   }
 
   @Test
@@ -95,7 +96,7 @@ class DepartmentIT {
     CrupdateDepartment toUpdate = departmentToCrupdateDepartment(department1());
     toUpdate.setName("Génie Civil - mis à jour");
 
-    List<Department> updated = api.crupdateDepartments(COMPANY1_ID, List.of(toUpdate));
+    List<Department> updated = api.crupdateDepartments(ADMIN_ID, COMPANY1_ID, List.of(toUpdate));
 
     assertEquals(1, updated.size());
     assertEquals(DEPARTMENT1_ID, updated.get(0).getId());
@@ -107,14 +108,16 @@ class DepartmentIT {
     DepartmentApi api = new DepartmentApi(anApiClient(EMPLOYEE_TOKEN));
 
     assertThrowsForbiddenException(
-        () -> api.crupdateDepartments(COMPANY1_ID, List.of(someCreatableDepartment())));
+        () ->
+            api.crupdateDepartments(EMPLOYEE_ID, COMPANY1_ID, List.of(someCreatableDepartment())));
   }
 
   @Test
   void administration_cannot_delete_department() {
     DepartmentApi api = new DepartmentApi(anApiClient(ADMINISTRATION_TOKEN));
 
-    assertThrowsForbiddenException(() -> api.deleteDepartmentById(COMPANY1_ID, DEPARTMENT1_ID));
+    assertThrowsForbiddenException(
+        () -> api.deleteDepartmentById(ADMIN_ID, COMPANY1_ID, DEPARTMENT1_ID));
   }
 
   @Test
@@ -122,7 +125,7 @@ class DepartmentIT {
   void admin_can_delete_department() throws Exception {
     DepartmentApi api = new DepartmentApi(anApiClient(ADMIN_TOKEN));
 
-    api.deleteDepartmentById(COMPANY1_ID, DEPARTMENT1_ID);
+    api.deleteDepartmentById(ADMIN_ID, COMPANY1_ID, DEPARTMENT1_ID);
 
     List<Department> departments = api.getDepartments(ADMIN_ID, COMPANY1_ID, 1, 100);
     assertEquals(1, departments.size());
@@ -135,7 +138,7 @@ class DepartmentIT {
 
     assertThrowsApiException(
         "{\"type\":\"404 NOT_FOUND\",\"message\":\"Department with id nonexistent_dept not found\"}",
-        () -> api.getDepartmentById(COMPANY1_ID, "nonexistent_dept"));
+        () -> api.getDepartmentById(ADMIN_ID, COMPANY1_ID, "nonexistent_dept"));
   }
 
   static class ContextInitializer extends AbstractContextInitializer {

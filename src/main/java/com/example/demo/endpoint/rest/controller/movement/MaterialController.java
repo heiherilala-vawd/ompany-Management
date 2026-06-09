@@ -34,7 +34,8 @@ public class MaterialController {
 
   @GetMapping("/users/{userId}/companies/{companyId}/materials/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
-  public Material getMaterialById(@PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
+  public Material getMaterialById(
+      @PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     return materialMapper.toRestMaterial(
         materialService
             .findById(id)
@@ -67,7 +68,9 @@ public class MaterialController {
   @PutMapping("/users/{userId}/companies/{companyId}/materials")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public List<Material> crupdateMaterials(
-      @PathVariable String userId, @PathVariable String companyId, @Valid @RequestBody List<CrupdateMaterial> toWrite) {
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @Valid @RequestBody List<CrupdateMaterial> toWrite) {
     List<com.example.demo.model.movement.Material> saved =
         materialService.createOrUpdateAll(
             toWrite.stream().map(m -> materialMapper.toDomain(m, companyId)).toList());
@@ -76,7 +79,8 @@ public class MaterialController {
 
   @DeleteMapping("/users/{userId}/companies/{companyId}/materials/{id}")
   @PreAuthorize("hasAnyRole('ADMIN')")
-  public void deleteMaterialById(@PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
+  public void deleteMaterialById(
+      @PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     materialService.deleteById(id);
   }
 
@@ -104,7 +108,9 @@ public class MaterialController {
   @PutMapping("/users/{userId}/companies/{companyId}/material_warehouse")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public List<MaterialWarehouseInfo> crupdateMaterialWarehouses(
-      @PathVariable String userId, @PathVariable String companyId, @Valid @RequestBody List<CrupdateMaterialWarehouse> toWrite) {
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @Valid @RequestBody List<CrupdateMaterialWarehouse> toWrite) {
     List<com.example.demo.model.movement.MaterialWarehouse> domainList =
         toWrite.stream()
             .map(

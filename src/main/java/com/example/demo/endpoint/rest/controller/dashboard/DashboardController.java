@@ -42,7 +42,8 @@ public class DashboardController {
   @GetMapping("/users/{userId}/companies/{companyId}/dashboard/materials")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public MaterialDashboardResponse getMaterialDashboard(
-      @PathVariable String userId, @PathVariable String companyId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
       @RequestParam(name = "job_id", required = false) String jobId,
       @RequestParam(name = "date_from", required = false)
           @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
@@ -56,7 +57,8 @@ public class DashboardController {
   @GetMapping("/users/{userId}/companies/{companyId}/dashboard/equipment")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public EquipmentDashboardResponse getEquipmentDashboard(
-      @PathVariable String userId, @PathVariable String companyId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
       @RequestParam(name = "job_id", required = false) String jobId,
       @RequestParam(name = "date_from", required = false)
           @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
@@ -70,7 +72,8 @@ public class DashboardController {
   @GetMapping("/users/{userId}/companies/{companyId}/dashboard/hr")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public HrDashboardResponse getHrDashboard(
-      @PathVariable String userId, @PathVariable String companyId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
       @RequestParam(name = "job_id", required = false) String jobId,
       @RequestParam(name = "date_from", required = false)
           @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
@@ -84,7 +87,8 @@ public class DashboardController {
   @GetMapping("/users/{userId}/companies/{companyId}/dashboard/monetary")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public MonetaryDashboardResponse getMonetaryDashboard(
-      @PathVariable String userId, @PathVariable String companyId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
       @RequestParam(name = "job_id", required = false) String jobId,
       @RequestParam(name = "date_from", required = false)
           @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
@@ -100,7 +104,8 @@ public class DashboardController {
   @GetMapping("/users/{userId}/companies/{companyId}/dashboard/hr/summary")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public HrSummaryResponse getHrSummary(
-      @PathVariable String userId, @PathVariable String companyId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
       @RequestParam(name = "job_id", required = false) String jobId,
       @RequestParam(name = "date_from", required = false)
           @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
@@ -114,7 +119,8 @@ public class DashboardController {
   @GetMapping("/users/{userId}/companies/{companyId}/dashboard/hr/breakdown")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public HrBreakdownResponse getHrBreakdown(
-      @PathVariable String userId, @PathVariable String companyId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
       @RequestParam(name = "job_id", required = false) String jobId,
       @RequestParam(name = "date_from", required = false)
           @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
@@ -130,7 +136,8 @@ public class DashboardController {
   @GetMapping("/users/{userId}/companies/{companyId}/dashboard/equipment/summary")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public EquipmentSummaryResponse getEquipmentSummary(
-      @PathVariable String userId, @PathVariable String companyId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
       @RequestParam(name = "job_id", required = false) String jobId,
       @RequestParam(name = "date_from", required = false)
           @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
@@ -144,7 +151,8 @@ public class DashboardController {
   @GetMapping("/users/{userId}/companies/{companyId}/dashboard/equipment/breakdown")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public EquipmentBreakdownResponse getEquipmentBreakdown(
-      @PathVariable String userId, @PathVariable String companyId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
       @RequestParam(name = "job_id", required = false) String jobId,
       @RequestParam(name = "date_from", required = false)
           @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
@@ -160,7 +168,8 @@ public class DashboardController {
   @GetMapping("/users/{userId}/companies/{companyId}/dashboard/materials/summary")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public MaterialSummaryResponse getMaterialSummary(
-      @PathVariable String userId, @PathVariable String companyId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
       @RequestParam(name = "job_id", required = false) String jobId,
       @RequestParam(name = "date_from", required = false)
           @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
@@ -174,7 +183,8 @@ public class DashboardController {
   @GetMapping("/users/{userId}/companies/{companyId}/dashboard/materials/breakdown")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public MaterialBreakdownResponse getMaterialBreakdown(
-      @PathVariable String userId, @PathVariable String companyId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
       @RequestParam(name = "job_id", required = false) String jobId,
       @RequestParam(name = "date_from", required = false)
           @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
@@ -190,7 +200,8 @@ public class DashboardController {
   @GetMapping("/users/{userId}/companies/{companyId}/dashboard/monetary/summary")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public MonetarySummaryResponse getMonetarySummary(
-      @PathVariable String userId, @PathVariable String companyId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
       @RequestParam(name = "job_id", required = false) String jobId,
       @RequestParam(name = "date_from", required = false)
           @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
@@ -204,7 +215,8 @@ public class DashboardController {
   @GetMapping("/users/{userId}/companies/{companyId}/dashboard/monetary/breakdown")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public MonetaryBreakdownResponse getMonetaryBreakdown(
-      @PathVariable String userId, @PathVariable String companyId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
       @RequestParam(name = "job_id", required = false) String jobId,
       @RequestParam(name = "date_from", required = false)
           @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
@@ -220,7 +232,8 @@ public class DashboardController {
   @GetMapping("/users/{userId}/companies/{companyId}/dashboard/monetary/revenue")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public TimeSeriesResponse getRevenueTimeSeries(
-      @PathVariable String userId, @PathVariable String companyId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
       @RequestParam(name = "job_id", required = false) String jobId,
       @RequestParam(name = "date_from", required = false)
           @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
@@ -235,7 +248,8 @@ public class DashboardController {
   @GetMapping("/users/{userId}/companies/{companyId}/dashboard/monetary/expenses")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public TimeSeriesResponse getExpensesTimeSeries(
-      @PathVariable String userId, @PathVariable String companyId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
       @RequestParam(name = "job_id", required = false) String jobId,
       @RequestParam(name = "date_from", required = false)
           @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
@@ -250,7 +264,8 @@ public class DashboardController {
   @GetMapping("/users/{userId}/companies/{companyId}/dashboard/monetary/cashflow")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public TimeSeriesResponse getCashFlowTimeSeries(
-      @PathVariable String userId, @PathVariable String companyId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
       @RequestParam(name = "date_from", required = false)
           @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
           LocalDate dateFrom,
@@ -264,7 +279,8 @@ public class DashboardController {
   @GetMapping("/users/{userId}/companies/{companyId}/dashboard/monetary/profit")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public TimeSeriesResponse getProfitTimeSeries(
-      @PathVariable String userId, @PathVariable String companyId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
       @RequestParam(name = "job_id", required = false) String jobId,
       @RequestParam(name = "date_from", required = false)
           @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
@@ -279,7 +295,8 @@ public class DashboardController {
   @GetMapping("/users/{userId}/companies/{companyId}/dashboard/monetary/receivables")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public TimeSeriesResponse getReceivablesTimeSeries(
-      @PathVariable String userId, @PathVariable String companyId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
       @RequestParam(name = "job_id", required = false) String jobId,
       @RequestParam(name = "date_from", required = false)
           @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
@@ -294,7 +311,8 @@ public class DashboardController {
   @GetMapping("/users/{userId}/companies/{companyId}/dashboard/monetary/budget")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public TimeSeriesResponse getBudgetTimeSeries(
-      @PathVariable String userId, @PathVariable String companyId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
       @RequestParam(name = "date_from", required = false)
           @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
           LocalDate dateFrom,
@@ -308,7 +326,8 @@ public class DashboardController {
   @GetMapping("/users/{userId}/companies/{companyId}/dashboard/monetary/expense_breakdown")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public TimeSeriesResponse getExpenseBreakdownTimeSeries(
-      @PathVariable String userId, @PathVariable String companyId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
       @RequestParam(name = "job_id", required = false) String jobId,
       @RequestParam(name = "date_from", required = false)
           @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)

@@ -23,7 +23,10 @@ public class CashTransactionController {
   @GetMapping("/users/{userId}/companies/{companyId}/cash_accounts/{account_id}/transactions/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public CashTransaction getCashTransactionById(
-      @PathVariable String userId, @PathVariable String companyId, @PathVariable String account_id, @PathVariable String id) {
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @PathVariable String account_id,
+      @PathVariable String id) {
     return cashTransactionMapper.toRestCashTransaction(
         cashTransactionService
             .findById(id)
@@ -34,7 +37,8 @@ public class CashTransactionController {
   @GetMapping("/users/{userId}/companies/{companyId}/cash_accounts/{account_id}/transactions")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<CashTransaction> getCashTransactions(
-      @PathVariable String userId, @PathVariable String companyId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
       @PathVariable String account_id,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize) {
@@ -45,7 +49,8 @@ public class CashTransactionController {
   @PutMapping("/users/{userId}/companies/{companyId}/cash_accounts/{account_id}/transactions")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<CashTransaction> crupdateCashTransactions(
-      @PathVariable String userId, @PathVariable String companyId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
       @PathVariable String account_id,
       @Valid @RequestBody List<CrupdateCashTransaction> toWrite) {
     List<com.example.demo.model.money.CashTransaction> saved =
@@ -54,10 +59,14 @@ public class CashTransactionController {
     return cashTransactionMapper.toRestCashTransactions(saved);
   }
 
-  @DeleteMapping("/users/{userId}/companies/{companyId}/cash_accounts/{account_id}/transactions/{id}")
+  @DeleteMapping(
+      "/users/{userId}/companies/{companyId}/cash_accounts/{account_id}/transactions/{id}")
   @PreAuthorize("hasRole('ADMIN')")
   public void deleteCashTransactionById(
-      @PathVariable String userId, @PathVariable String companyId, @PathVariable String account_id, @PathVariable String id) {
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @PathVariable String account_id,
+      @PathVariable String id) {
     cashTransactionService.deleteById(id);
   }
 }

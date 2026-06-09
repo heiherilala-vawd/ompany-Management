@@ -24,7 +24,8 @@ public class LeaveController {
 
   @GetMapping("/users/{userId}/companies/{companyId}/leaves/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'EMPLOYEE')")
-  public Leave getLeaveById(@PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
+  public Leave getLeaveById(
+      @PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     return leaveMapper.toRestLeave(
         leaveService
             .findById(id)
@@ -34,7 +35,8 @@ public class LeaveController {
   @GetMapping("/users/{userId}/companies/{companyId}/leaves")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<Leave> getLeaves(
-      @PathVariable String userId, @PathVariable String companyId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
       @RequestParam(name = "user_id", required = false) String filterUserId,
       @RequestParam(name = "leave_type_id", required = false) String leaveTypeId,
       @RequestParam(name = "status", required = false) LeaveStatus status,
@@ -43,7 +45,9 @@ public class LeaveController {
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize) {
     com.example.demo.model.hr.Leave.LeaveStatus domainStatus =
         status != null ? com.example.demo.model.hr.Leave.LeaveStatus.valueOf(status.name()) : null;
-    return leaveService.findAll(page, pageSize, filterUserId, leaveTypeId, domainStatus, year).stream()
+    return leaveService
+        .findAll(page, pageSize, filterUserId, leaveTypeId, domainStatus, year)
+        .stream()
         .map(leaveMapper::toRestLeave)
         .toList();
   }
@@ -51,7 +55,9 @@ public class LeaveController {
   @PutMapping("/users/{userId}/companies/{companyId}/leaves")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<Leave> crupdateLeaves(
-      @PathVariable String userId, @PathVariable String companyId, @Valid @RequestBody List<CrupdateLeave> toWrite) {
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @Valid @RequestBody List<CrupdateLeave> toWrite) {
     List<com.example.demo.model.hr.Leave> saved =
         leaveService.createOrUpdateAll(toWrite.stream().map(leaveMapper::toDomain).toList());
     return saved.stream().map(leaveMapper::toRestLeave).toList();
@@ -59,14 +65,17 @@ public class LeaveController {
 
   @DeleteMapping("/users/{userId}/companies/{companyId}/leaves/{id}")
   @PreAuthorize("hasAnyRole('ADMIN')")
-  public void deleteLeaveById(@PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
+  public void deleteLeaveById(
+      @PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     leaveService.deleteById(id);
   }
 
   @GetMapping("/users/{userId}/companies/{companyId}/leave_balances")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'EMPLOYEE')")
   public List<LeaveBalance> getLeaveBalances(
-      @PathVariable String userId, @PathVariable String companyId, @RequestParam(name = "year") Integer year) {
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @RequestParam(name = "year") Integer year) {
     return leaveService.computeBalancesByCompany(companyId, year).stream()
         .map(this::toRestLeaveBalance)
         .toList();
@@ -75,7 +84,9 @@ public class LeaveController {
   @GetMapping("/users/{userId}/companies/{companyId}/leave_balances/employees_without_leave")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<CrupdateUser> getEmployeesWithoutLeave(
-      @PathVariable String userId, @PathVariable String companyId, @RequestParam(name = "year") Integer year) {
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @RequestParam(name = "year") Integer year) {
     return leaveService.findEmployeesWithoutLeave(companyId, year).stream()
         .map(
             u ->

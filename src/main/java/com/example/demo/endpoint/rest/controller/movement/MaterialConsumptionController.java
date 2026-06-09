@@ -35,7 +35,8 @@ public class MaterialConsumptionController {
   @GetMapping("/users/{userId}/companies/{companyId}/material_consumption")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public List<MaterialConsumption> getMaterialConsumptions(
-      @PathVariable String userId, @PathVariable String companyId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
       @RequestParam(name = "consumption_status", required = false) String consumptionStatus,
@@ -49,7 +50,9 @@ public class MaterialConsumptionController {
   @PutMapping("/users/{userId}/companies/{companyId}/material_consumption")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public List<MaterialConsumption> crupdateMaterialConsumptions(
-      @PathVariable String userId, @PathVariable String companyId, @Valid @RequestBody List<CrupdateMaterialConsumption> toWrite) {
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @Valid @RequestBody List<CrupdateMaterialConsumption> toWrite) {
     List<com.example.demo.model.movement.MaterialConsumption> saved =
         materialConsumptionService.createOrUpdateAll(
             toWrite.stream().map(materialConsumptionMapper::toDomain).toList());
@@ -67,7 +70,8 @@ public class MaterialConsumptionController {
   @PutMapping("/users/{userId}/companies/{companyId}/material_consumption/{id}/return")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public MaterialConsumption returnMaterials(
-      @PathVariable String userId, @PathVariable String companyId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
       @PathVariable String id,
       @RequestParam(name = "quantity") int quantity) {
     return materialConsumptionMapper.toRestMaterialConsumption(
@@ -76,7 +80,8 @@ public class MaterialConsumptionController {
 
   @DeleteMapping("/users/{userId}/companies/{companyId}/material_consumption/{id}")
   @PreAuthorize("hasRole('ADMIN')")
-  public void deleteMaterialConsumptionById(@PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
+  public void deleteMaterialConsumptionById(
+      @PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     materialConsumptionService.deleteById(id);
   }
 }

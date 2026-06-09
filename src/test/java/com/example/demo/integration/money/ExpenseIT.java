@@ -53,7 +53,7 @@ class ExpenseIT {
     ApiClient administrationClient = anApiClient(ADMINISTRATION_TOKEN);
     ExpenseApi api = new ExpenseApi(administrationClient);
 
-    ExpenseMoney actual = api.getExpenseById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID);
+    ExpenseMoney actual = api.getExpenseById(ADMIN_ID, COMPANY1_ID, JOB1_ID, EXPENSE1_ID);
     ExpenseMoney expected = expense1();
     expected.setCreatedAt(actual.getCreatedAt());
     expected.setUpdatedAt(actual.getUpdatedAt());
@@ -70,7 +70,7 @@ class ExpenseIT {
     ExpenseApi api = new ExpenseApi(badClient);
 
     assertThrowsNotAuthorizedException(
-        () -> api.getExpenseById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID));
+        () -> api.getExpenseById(ADMIN_ID, COMPANY1_ID, JOB1_ID, EXPENSE1_ID));
   }
 
   @Test
@@ -79,7 +79,7 @@ class ExpenseIT {
     ExpenseApi api = new ExpenseApi(adminClient);
 
     List<ExpenseMoney> expenses =
-        api.getExpenses(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, null);
+        api.getExpenses(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null);
 
     assertEquals(2, expenses.size());
     assertTrue(expenses.stream().anyMatch(expense -> EXPENSE1_ID.equals(expense.getId())));
@@ -92,7 +92,7 @@ class ExpenseIT {
     ExpenseApi api = new ExpenseApi(employeeClient);
 
     assertThrowsForbiddenException(
-        () -> api.getExpenses(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, null));
+        () -> api.getExpenses(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null));
   }
 
   @Test
@@ -101,7 +101,7 @@ class ExpenseIT {
     ExpenseApi api = new ExpenseApi(adminClient);
 
     List<ExpenseMoney> expenses =
-        api.getExpenses(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, "sous-traitant", null);
+        api.getExpenses(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, "sous-traitant", null);
 
     assertEquals(1, expenses.size());
     assertEquals(EXPENSE2_ID, expenses.get(0).getId());
@@ -113,7 +113,7 @@ class ExpenseIT {
     ExpenseApi api = new ExpenseApi(adminClient);
 
     List<ExpenseMoney> expenses =
-        api.getExpenses(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, BigDecimal.valueOf(45000));
+        api.getExpenses(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, BigDecimal.valueOf(45000));
 
     assertEquals(1, expenses.size());
     assertEquals(EXPENSE1_ID, expenses.get(0).getId());
@@ -129,7 +129,7 @@ class ExpenseIT {
     expenseToUpdate.setDescription("Achat materiaux chantier A ajuste");
 
     List<ExpenseMoney> updatedExpenses =
-        api.crupdateExpenses(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(expenseToUpdate));
+        api.crupdateExpenses(ADMIN_ID, COMPANY1_ID, JOB1_ID, List.of(expenseToUpdate));
     ExpenseMoney updatedExpense = updatedExpenses.get(0);
 
     assertEquals(1, updatedExpenses.size());
@@ -145,8 +145,7 @@ class ExpenseIT {
 
     assertThrowsForbiddenException(
         () ->
-            api.crupdateExpenses(
-                COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(someCreatableExpense())));
+            api.crupdateExpenses(ADMIN_ID, COMPANY1_ID, JOB1_ID, List.of(someCreatableExpense())));
   }
 
   @Test
@@ -155,7 +154,7 @@ class ExpenseIT {
     ExpenseApi api = new ExpenseApi(administrationClient);
 
     assertThrowsForbiddenException(
-        () -> api.deleteExpenseById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EXPENSE1_ID));
+        () -> api.deleteExpenseById(ADMIN_ID, COMPANY1_ID, JOB1_ID, EXPENSE1_ID));
   }
 
   @Test
@@ -168,7 +167,7 @@ class ExpenseIT {
 
     assertThrowsApiException(
         "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Amount must be non-negative\"}",
-        () -> api.crupdateExpenses(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(invalidExpense)));
+        () -> api.crupdateExpenses(ADMIN_ID, COMPANY1_ID, JOB1_ID, List.of(invalidExpense)));
   }
 
   @Test
@@ -179,15 +178,15 @@ class ExpenseIT {
 
     CrupdateExpenseMoney toCreate = someCreatableExpense();
     String newExpenseId = toCreate.getId();
-    api.crupdateExpenses(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(toCreate));
+    api.crupdateExpenses(ADMIN_ID, COMPANY1_ID, JOB1_ID, List.of(toCreate));
 
-    api.deleteExpenseById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, newExpenseId);
+    api.deleteExpenseById(ADMIN_ID, COMPANY1_ID, JOB1_ID, newExpenseId);
 
     assertThrowsApiException(
         "{\"type\":\"404 NOT_FOUND\",\"message\":\"Expense with id "
             + newExpenseId
             + " not found\"}",
-        () -> api.getExpenseById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, newExpenseId));
+        () -> api.getExpenseById(ADMIN_ID, COMPANY1_ID, JOB1_ID, newExpenseId));
   }
 
   @Test
@@ -200,7 +199,7 @@ class ExpenseIT {
 
     assertThrowsApiException(
         "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Expense must be associated with a job\"}",
-        () -> api.crupdateExpenses(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(expense)));
+        () -> api.crupdateExpenses(ADMIN_ID, COMPANY1_ID, JOB1_ID, List.of(expense)));
   }
 
   static class ContextInitializer extends AbstractContextInitializer {

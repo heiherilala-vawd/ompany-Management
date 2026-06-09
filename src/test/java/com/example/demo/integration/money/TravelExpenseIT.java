@@ -52,7 +52,7 @@ class TravelExpenseIT {
     TravelExpenseApi api = new TravelExpenseApi(anApiClient(EMPLOYEE_TOKEN));
 
     TravelExpense actual =
-        api.getTravelExpenseById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, TRAVEL_EXPENSE1_ID);
+        api.getTravelExpenseById(ADMIN_ID, COMPANY1_ID, JOB1_ID, TRAVEL_EXPENSE1_ID);
 
     assertEquals(travelExpense1(), actual);
   }
@@ -62,7 +62,7 @@ class TravelExpenseIT {
     TravelExpenseApi api = new TravelExpenseApi(anApiClient(BAD_TOKEN));
 
     assertThrowsNotAuthorizedException(
-        () -> api.getTravelExpenseById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, TRAVEL_EXPENSE1_ID));
+        () -> api.getTravelExpenseById(ADMIN_ID, COMPANY1_ID, JOB1_ID, TRAVEL_EXPENSE1_ID));
   }
 
   @Test
@@ -70,7 +70,7 @@ class TravelExpenseIT {
     TravelExpenseApi api = new TravelExpenseApi(anApiClient(ADMIN_TOKEN));
 
     List<TravelExpense> travelExpenses =
-        api.getTravelExpenses(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, null);
+        api.getTravelExpenses(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null);
 
     assertEquals(2, travelExpenses.size());
     assertTrue(
@@ -86,7 +86,7 @@ class TravelExpenseIT {
     TravelExpenseApi api = new TravelExpenseApi(anApiClient(ADMIN_TOKEN));
 
     List<TravelExpense> travelExpenses =
-        api.getTravelExpenses(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, WAREHOUSE1_ID, null);
+        api.getTravelExpenses(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, WAREHOUSE1_ID, null);
 
     assertEquals(1, travelExpenses.size());
     assertEquals(TRAVEL_EXPENSE1_ID, travelExpenses.get(0).getId());
@@ -97,7 +97,7 @@ class TravelExpenseIT {
     TravelExpenseApi api = new TravelExpenseApi(anApiClient(ADMIN_TOKEN));
 
     List<TravelExpense> travelExpenses =
-        api.getTravelExpenses(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, WAREHOUSE1_ID);
+        api.getTravelExpenses(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, WAREHOUSE1_ID);
 
     assertEquals(1, travelExpenses.size());
     assertEquals(TRAVEL_EXPENSE2_ID, travelExpenses.get(0).getId());
@@ -113,8 +113,7 @@ class TravelExpenseIT {
     travelExpenseToUpdate.setArrivalLocation(warehouseToCrupdateWarehouse(warehouse2()));
 
     List<TravelExpense> updatedTravelExpenses =
-        api.crupdateTravelExpenses(
-            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(travelExpenseToUpdate));
+        api.crupdateTravelExpenses(ADMIN_ID, COMPANY1_ID, JOB1_ID, List.of(travelExpenseToUpdate));
 
     assertEquals(1, updatedTravelExpenses.size());
     assertEquals(TRAVEL_EXPENSE1_ID, updatedTravelExpenses.get(0).getId());
@@ -128,7 +127,7 @@ class TravelExpenseIT {
     assertThrowsForbiddenException(
         () ->
             api.crupdateTravelExpenses(
-                COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(someCreatableTravelExpense())));
+                ADMIN_ID, COMPANY1_ID, JOB1_ID, List.of(someCreatableTravelExpense())));
   }
 
   @Test
@@ -140,8 +139,7 @@ class TravelExpenseIT {
 
     assertThrowsApiException(
         "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Departure location is mandatory\"}",
-        () ->
-            api.crupdateTravelExpenses(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(invalidTravel)));
+        () -> api.crupdateTravelExpenses(ADMIN_ID, COMPANY1_ID, JOB1_ID, List.of(invalidTravel)));
   }
 
   @Test
@@ -153,8 +151,7 @@ class TravelExpenseIT {
 
     assertThrowsApiException(
         "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Arrival location is mandatory\"}",
-        () ->
-            api.crupdateTravelExpenses(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(invalidTravel)));
+        () -> api.crupdateTravelExpenses(ADMIN_ID, COMPANY1_ID, JOB1_ID, List.of(invalidTravel)));
   }
 
   @Test
@@ -167,8 +164,7 @@ class TravelExpenseIT {
 
     assertThrowsApiException(
         "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Departure date cannot be after arrival date\"}",
-        () ->
-            api.crupdateTravelExpenses(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(invalidTravel)));
+        () -> api.crupdateTravelExpenses(ADMIN_ID, COMPANY1_ID, JOB1_ID, List.of(invalidTravel)));
   }
 
   @Test
@@ -176,7 +172,7 @@ class TravelExpenseIT {
     TravelExpenseApi api = new TravelExpenseApi(anApiClient(ADMINISTRATION_TOKEN));
 
     assertThrowsForbiddenException(
-        () -> api.deleteTravelExpenseById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, TRAVEL_EXPENSE1_ID));
+        () -> api.deleteTravelExpenseById(ADMIN_ID, COMPANY1_ID, JOB1_ID, TRAVEL_EXPENSE1_ID));
   }
 
   static class ContextInitializer extends AbstractContextInitializer {

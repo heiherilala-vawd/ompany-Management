@@ -36,6 +36,7 @@ public class Supplier extends CreatAndUpdateEntity implements Serializable {
 
   @NotBlank
   @Size(max = 255)
+  @Column(name = "company_registration_number")
   private String siret;
 
   @Column(columnDefinition = "TEXT")

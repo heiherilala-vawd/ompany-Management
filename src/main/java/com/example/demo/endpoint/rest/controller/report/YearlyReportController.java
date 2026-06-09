@@ -17,7 +17,8 @@ public class YearlyReportController {
   @GetMapping("/users/{userId}/companies/{companyId}/yearly_report")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public YearlyReport getYearlyReport(
-      @PathVariable String userId, @PathVariable String companyId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
       @RequestParam Integer year,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize) {

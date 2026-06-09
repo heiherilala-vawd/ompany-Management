@@ -54,9 +54,9 @@ class UserIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     UsersApi api = new UsersApi(adminClient);
 
-    User admin = api.getUserById(COMPANY1_ID, ADMIN_ID);
-    User employee = api.getUserById(COMPANY1_ID, EMPLOYEE_ID);
-    User warehouse = api.getUserById(COMPANY1_ID, WAREHOUSE_ID);
+    User admin = api.getUserById(ADMIN_ID, COMPANY1_ID, ADMIN_ID);
+    User employee = api.getUserById(ADMIN_ID, COMPANY1_ID, EMPLOYEE_ID);
+    User warehouse = api.getUserById(ADMIN_ID, COMPANY1_ID, WAREHOUSE_ID);
 
     assertEquals(admin1(), admin);
     assertEquals(employee1(), employee);
@@ -68,11 +68,11 @@ class UserIT {
     ApiClient employeeClient = anApiClient(EMPLOYEE_TOKEN);
     UsersApi api = new UsersApi(employeeClient);
 
-    User ownUser = api.getUserById(COMPANY1_ID, EMPLOYEE_ID);
+    User ownUser = api.getUserById(EMPLOYEE_ID, COMPANY1_ID, EMPLOYEE_ID);
     assertEquals(employee1(), ownUser);
 
-    assertThrowsForbiddenException(() -> api.getUserById(COMPANY1_ID, ADMIN_ID));
-    assertThrowsForbiddenException(() -> api.getUserById(COMPANY1_ID, WAREHOUSE_ID));
+    assertThrowsForbiddenException(() -> api.getUserById(EMPLOYEE_ID, COMPANY1_ID, ADMIN_ID));
+    assertThrowsForbiddenException(() -> api.getUserById(EMPLOYEE_ID, COMPANY1_ID, WAREHOUSE_ID));
   }
 
   @Test
@@ -80,7 +80,7 @@ class UserIT {
     ApiClient badClient = anApiClient(BAD_TOKEN);
     UsersApi api = new UsersApi(badClient);
 
-    assertThrowsNotAuthorizedException(() -> api.getUserById(COMPANY1_ID, ADMIN_ID));
+    assertThrowsNotAuthorizedException(() -> api.getUserById(ADMIN_ID, COMPANY1_ID, ADMIN_ID));
   }
 
   @Test
@@ -88,7 +88,7 @@ class UserIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     UsersApi api = new UsersApi(adminClient);
 
-    List<User> users = api.getUsers(COMPANY1_ID, 1, 100, null, null, null, null);
+    List<User> users = api.getUsers(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null, null);
 
     assertTrue(users.size() >= 7);
     assertTrue(users.contains(admin1()));
@@ -100,7 +100,8 @@ class UserIT {
     ApiClient employeeClient = anApiClient(EMPLOYEE_TOKEN);
     UsersApi api = new UsersApi(employeeClient);
 
-    assertThrowsForbiddenException(() -> api.getUsers(COMPANY1_ID, 1, 100, null, null, null, null));
+    assertThrowsForbiddenException(
+        () -> api.getUsers(EMPLOYEE_ID, COMPANY1_ID, 1, 100, null, null, null, null));
   }
 
   @Test
@@ -120,7 +121,8 @@ class UserIT {
     User newAdmin1 = admin1();
     newAdmin1.setLastName("new last name");
 
-    List<User> created = api.crupdateUsers(COMPANY1_ID, List.of(newUser1, newUser2, newUser3));
+    List<User> created =
+        api.crupdateUsers(ADMIN_ID, COMPANY1_ID, List.of(newUser1, newUser2, newUser3));
     User user =
         created.stream().filter(u -> ADMIN_EMAIL.equals(u.getEmail())).findFirst().orElse(null);
     newAdmin1.setUpdatedAt(user.getUpdatedAt());
@@ -137,7 +139,7 @@ class UserIT {
     UsersApi api = new UsersApi(employeeClient);
 
     assertThrowsForbiddenException(
-        () -> api.crupdateUsers(COMPANY1_ID, List.of(someCreatableUser())));
+        () -> api.crupdateUsers(EMPLOYEE_ID, COMPANY1_ID, List.of(someCreatableUser())));
   }
 
   @Test
@@ -145,7 +147,7 @@ class UserIT {
     ApiClient employeeClient = anApiClient(EMPLOYEE_TOKEN);
     UsersApi api = new UsersApi(employeeClient);
 
-    assertThrowsForbiddenException(() -> api.deleteUserById(COMPANY1_ID, USER1_ID));
+    assertThrowsForbiddenException(() -> api.deleteUserById(EMPLOYEE_ID, COMPANY1_ID, USER1_ID));
   }
 
   @Test
@@ -153,7 +155,7 @@ class UserIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     UsersApi api = new UsersApi(adminClient);
 
-    List<User> users = api.getUsers(COMPANY1_ID, 1, 100, "Alice", null, null, null);
+    List<User> users = api.getUsers(ADMIN_ID, COMPANY1_ID, 1, 100, "Alice", null, null, null);
 
     assertEquals(1, users.size());
     assertEquals(user1(), users.get(0));
@@ -164,7 +166,7 @@ class UserIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     UsersApi api = new UsersApi(adminClient);
 
-    List<User> users = api.getUsers(COMPANY1_ID, 1, 100, null, null, null, Role.EMPLOYEE);
+    List<User> users = api.getUsers(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null, Role.EMPLOYEE);
 
     assertTrue(users.stream().allMatch(u -> u.getRole() == Role.EMPLOYEE));
   }
@@ -174,7 +176,7 @@ class UserIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     UsersApi api = new UsersApi(adminClient);
 
-    List<User> users = api.getUsers(COMPANY1_ID, 1, 100, null, "Martin", null, null);
+    List<User> users = api.getUsers(ADMIN_ID, COMPANY1_ID, 1, 100, null, "Martin", null, null);
 
     assertEquals(1, users.size());
     assertEquals(USER1_ID, users.get(0).getId());
@@ -185,7 +187,7 @@ class UserIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     UsersApi api = new UsersApi(adminClient);
 
-    List<User> users = api.getUsers(COMPANY1_ID, 1, 100, null, null, USER1_EMAIL, null);
+    List<User> users = api.getUsers(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, USER1_EMAIL, null);
 
     assertEquals(1, users.size());
     assertEquals(USER1_ID, users.get(0).getId());

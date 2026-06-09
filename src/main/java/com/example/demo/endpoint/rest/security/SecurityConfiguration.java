@@ -2,10 +2,10 @@ package com.example.demo.endpoint.rest.security;
 
 import static org.springframework.http.HttpMethod.*;
 
+import com.example.demo.endpoint.rest.security.jwt.CompanyScopedFilter;
 import com.example.demo.endpoint.rest.security.jwt.JwtAccessDeniedHandler;
 import com.example.demo.endpoint.rest.security.jwt.JwtAuthenticationEntryPoint;
 import com.example.demo.endpoint.rest.security.jwt.JwtAuthenticationFilter;
-import com.example.demo.endpoint.rest.security.jwt.CompanyScopedFilter;
 import com.example.demo.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -59,7 +59,8 @@ public class SecurityConfiguration {
                     // =========================
                     // USERS
                     // =========================
-                    .requestMatchers(GET, "/users/*/companies/*/users", "/users/*/companies/*/users/*")
+                    .requestMatchers(
+                        GET, "/users/*/companies/*/users", "/users/*/companies/*/users/*")
                     .authenticated()
                     .requestMatchers(PUT, "/users/*/companies/*/users")
                     .authenticated()
@@ -84,7 +85,8 @@ public class SecurityConfiguration {
                     // =========================
                     // JOB
                     // =========================
-                    .requestMatchers(GET, "/users/*/companies/*/jobs", "/users/*/companies/*/jobs/*")
+                    .requestMatchers(
+                        GET, "/users/*/companies/*/jobs", "/users/*/companies/*/jobs/*")
                     .authenticated()
                     .requestMatchers(GET, "/users/*/companies/*/jobs/*/users")
                     .authenticated()
@@ -101,7 +103,8 @@ public class SecurityConfiguration {
                     // =========================
                     // WAREHOUSE
                     // =========================
-                    .requestMatchers(GET, "/users/*/companies/*/warehouses", "/users/*/companies/*/warehouses/*")
+                    .requestMatchers(
+                        GET, "/users/*/companies/*/warehouses", "/users/*/companies/*/warehouses/*")
                     .authenticated()
                     .requestMatchers(PUT, "/users/*/companies/*/warehouses")
                     .authenticated()
@@ -112,7 +115,8 @@ public class SecurityConfiguration {
                     // =========================
                     // EQUIPMENT
                     // =========================
-                    .requestMatchers(GET, "/users/*/companies/*/equipment", "/users/*/companies/*/equipment/*")
+                    .requestMatchers(
+                        GET, "/users/*/companies/*/equipment", "/users/*/companies/*/equipment/*")
                     .authenticated()
                     .requestMatchers(PUT, "/users/*/companies/*/equipment")
                     .authenticated()
@@ -123,7 +127,8 @@ public class SecurityConfiguration {
                     // =========================
                     // MATERIAL
                     // =========================
-                    .requestMatchers(GET, "/users/*/companies/*/materials", "/users/*/companies/*/materials/*")
+                    .requestMatchers(
+                        GET, "/users/*/companies/*/materials", "/users/*/companies/*/materials/*")
                     .authenticated()
                     // PUT /materials - ADMIN, ADMINISTRATION, WAREHOUSE_WORKER
                     .requestMatchers(PUT, "/users/*/companies/*/materials")
@@ -186,7 +191,9 @@ public class SecurityConfiguration {
                     // INCOME TYPE
                     // =========================
                     .requestMatchers(
-                        GET, "/users/*/companies/*/income_types", "/users/*/companies/*/income_types/*")
+                        GET,
+                        "/users/*/companies/*/income_types",
+                        "/users/*/companies/*/income_types/*")
                     .authenticated()
                     .requestMatchers(PUT, "/users/*/companies/*/income_types")
                     .authenticated()
@@ -325,7 +332,9 @@ public class SecurityConfiguration {
                     // LOAN
                     // =========================
                     .requestMatchers(
-                        GET, "/users/*/companies/*/jobs/*/loans", "/users/*/companies/*/jobs/*/loans/*")
+                        GET,
+                        "/users/*/companies/*/jobs/*/loans",
+                        "/users/*/companies/*/jobs/*/loans/*")
                     .authenticated()
                     .requestMatchers(PUT, "/users/*/companies/*/jobs/*/loans")
                     .authenticated()
@@ -350,7 +359,9 @@ public class SecurityConfiguration {
                     // MAINTENANCE
                     // =========================
                     .requestMatchers(
-                        GET, "/users/*/companies/*/maintenances", "/users/*/companies/*/maintenances/*")
+                        GET,
+                        "/users/*/companies/*/maintenances",
+                        "/users/*/companies/*/maintenances/*")
                     .authenticated()
                     .requestMatchers(PUT, "/users/*/companies/*/maintenances")
                     .authenticated()
@@ -360,7 +371,10 @@ public class SecurityConfiguration {
                     // =========================
                     // COMPANY FIXED COST
                     // =========================
-                    .requestMatchers(GET, "/users/*/companies/*/fixed_costs", "/users/*/companies/*/fixed_costs/*")
+                    .requestMatchers(
+                        GET,
+                        "/users/*/companies/*/fixed_costs",
+                        "/users/*/companies/*/fixed_costs/*")
                     .authenticated()
                     .requestMatchers(PUT, "/users/*/companies/*/fixed_costs")
                     .authenticated()
@@ -370,7 +384,8 @@ public class SecurityConfiguration {
                     // =========================
                     // TASK
                     // =========================
-                    .requestMatchers(GET, "/users/*/companies/*/tasks", "/users/*/companies/*/tasks/*")
+                    .requestMatchers(
+                        GET, "/users/*/companies/*/tasks", "/users/*/companies/*/tasks/*")
                     .authenticated()
                     .requestMatchers(PUT, "/users/*/companies/*/tasks")
                     .authenticated()
@@ -381,7 +396,9 @@ public class SecurityConfiguration {
                     // TASK SCHEDULE
                     // =========================
                     .requestMatchers(
-                        GET, "/users/*/companies/*/task_schedules", "/users/*/companies/*/task_schedules/*")
+                        GET,
+                        "/users/*/companies/*/task_schedules",
+                        "/users/*/companies/*/task_schedules/*")
                     .authenticated()
                     .requestMatchers(PUT, "/users/*/companies/*/task_schedules")
                     .authenticated()
@@ -428,7 +445,10 @@ public class SecurityConfiguration {
                     // =========================
                     // DEPARTMENT
                     // =========================
-                    .requestMatchers(GET, "/users/*/companies/*/departments", "/users/*/companies/*/departments/*")
+                    .requestMatchers(
+                        GET,
+                        "/users/*/companies/*/departments",
+                        "/users/*/companies/*/departments/*")
                     .authenticated()
                     .requestMatchers(PUT, "/users/*/companies/*/departments")
                     .authenticated()
@@ -439,7 +459,9 @@ public class SecurityConfiguration {
                     // CASH ACCOUNT
                     // =========================
                     .requestMatchers(
-                        GET, "/users/*/companies/*/cash_accounts", "/users/*/companies/*/cash_accounts/*")
+                        GET,
+                        "/users/*/companies/*/cash_accounts",
+                        "/users/*/companies/*/cash_accounts/*")
                     .authenticated()
                     .requestMatchers(PUT, "/users/*/companies/*/cash_accounts")
                     .authenticated()
@@ -463,7 +485,9 @@ public class SecurityConfiguration {
                     // BUDGET LINE
                     // =========================
                     .requestMatchers(
-                        GET, "/users/*/companies/*/budget_lines", "/users/*/companies/*/budget_lines/*")
+                        GET,
+                        "/users/*/companies/*/budget_lines",
+                        "/users/*/companies/*/budget_lines/*")
                     .authenticated()
                     .requestMatchers(PUT, "/users/*/companies/*/budget_lines")
                     .authenticated()
@@ -474,7 +498,9 @@ public class SecurityConfiguration {
                     // EQUIPMENT USAGE
                     // =========================
                     .requestMatchers(
-                        GET, "/users/*/companies/*/equipment_usage", "/users/*/companies/*/equipment_usage/*")
+                        GET,
+                        "/users/*/companies/*/equipment_usage",
+                        "/users/*/companies/*/equipment_usage/*")
                     .authenticated()
                     .requestMatchers(PUT, "/users/*/companies/*/equipment_usage")
                     .authenticated()
@@ -503,7 +529,8 @@ public class SecurityConfiguration {
                     // =========================
                     // TEAM
                     // =========================
-                    .requestMatchers(GET, "/users/*/companies/*/teams", "/users/*/companies/*/teams/*")
+                    .requestMatchers(
+                        GET, "/users/*/companies/*/teams", "/users/*/companies/*/teams/*")
                     .authenticated()
                     .requestMatchers(PUT, "/users/*/companies/*/teams")
                     .authenticated()
@@ -513,7 +540,8 @@ public class SecurityConfiguration {
                     // =========================
                     // SUPPLIER
                     // =========================
-                    .requestMatchers(GET, "/users/*/companies/*/suppliers", "/users/*/companies/*/suppliers/*")
+                    .requestMatchers(
+                        GET, "/users/*/companies/*/suppliers", "/users/*/companies/*/suppliers/*")
                     .authenticated()
                     .requestMatchers(PUT, "/users/*/companies/*/suppliers")
                     .authenticated()
@@ -524,7 +552,9 @@ public class SecurityConfiguration {
                     // PURCHASE ORDER
                     // =========================
                     .requestMatchers(
-                        GET, "/users/*/companies/*/purchase_orders", "/users/*/companies/*/purchase_orders/*")
+                        GET,
+                        "/users/*/companies/*/purchase_orders",
+                        "/users/*/companies/*/purchase_orders/*")
                     .authenticated()
                     .requestMatchers(PUT, "/users/*/companies/*/purchase_orders")
                     .authenticated()
@@ -544,7 +574,6 @@ public class SecurityConfiguration {
                     .denyAll());
 
     http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-    http.addFilterAfter(companyScopedFilter, JwtAuthenticationFilter.class);
 
     return http.build();
   }

@@ -23,7 +23,8 @@ public class WarehouseController {
 
   @GetMapping("/users/{userId}/companies/{companyId}/warehouses/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
-  public Warehouse getWarehouseById(@PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
+  public Warehouse getWarehouseById(
+      @PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     return warehouseMapper.toRestWarehouse(
         warehouseService
             .findById(id)
@@ -33,7 +34,8 @@ public class WarehouseController {
   @GetMapping("/users/{userId}/companies/{companyId}/warehouses")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public List<Warehouse> getWarehouses(
-      @PathVariable String userId, @PathVariable String companyId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
       @RequestParam(name = "job_id", required = false) String jobId,
@@ -52,7 +54,9 @@ public class WarehouseController {
   @PutMapping("/users/{userId}/companies/{companyId}/warehouses")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public List<Warehouse> crupdateWarehouses(
-      @PathVariable String userId, @PathVariable String companyId, @Valid @RequestBody List<CrupdateWarehouse> toWrite) {
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @Valid @RequestBody List<CrupdateWarehouse> toWrite) {
     List<com.example.demo.model.movement.Warehouse> saved =
         warehouseService.createOrUpdateAll(
             toWrite.stream().map(warehouseMapper::toDomain).toList());
@@ -61,7 +65,8 @@ public class WarehouseController {
 
   @DeleteMapping("/users/{userId}/companies/{companyId}/warehouses/{id}")
   @PreAuthorize("hasAnyRole('ADMIN')")
-  public void deleteWarehouseById(@PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
+  public void deleteWarehouseById(
+      @PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     warehouseService.deleteById(id);
   }
 }

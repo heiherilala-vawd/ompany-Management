@@ -72,7 +72,7 @@ class TaskScheduleIT {
     toCreate.setScheduledDate(LocalDate.of(2020, 1, 1));
     toCreate.setCompanyId(COMPANY1_ID);
     toCreate.setAssignedUserIds(List.of(ADMIN_ID, EMPLOYEE_ID));
-    api.crupdateTaskSchedules(COMPANY1_ID, List.of(toCreate));
+    api.crupdateTaskSchedules(ADMIN_ID, COMPANY1_ID, List.of(toCreate));
 
     Thread.sleep(10000);
 

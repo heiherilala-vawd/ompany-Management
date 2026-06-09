@@ -22,7 +22,8 @@ public class DepartmentController {
 
   @GetMapping("/users/{userId}/companies/{companyId}/departments/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
-  public Department getDepartmentById(@PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
+  public Department getDepartmentById(
+      @PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     return departmentMapper.toRestDepartment(
         departmentService
             .findById(id)
@@ -32,7 +33,8 @@ public class DepartmentController {
   @GetMapping("/users/{userId}/companies/{companyId}/departments")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<Department> getDepartments(
-      @PathVariable String userId, @PathVariable String companyId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize) {
     return departmentMapper.toRestDepartments(
@@ -42,7 +44,9 @@ public class DepartmentController {
   @PutMapping("/users/{userId}/companies/{companyId}/departments")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<Department> crupdateDepartments(
-      @PathVariable String userId, @PathVariable String companyId, @Valid @RequestBody List<CrupdateDepartment> toWrite) {
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @Valid @RequestBody List<CrupdateDepartment> toWrite) {
     List<com.example.demo.model.core.Department> saved =
         departmentService.createOrUpdateAll(
             toWrite.stream().map(d -> departmentMapper.toDomain(d, companyId)).toList());
@@ -51,7 +55,8 @@ public class DepartmentController {
 
   @DeleteMapping("/users/{userId}/companies/{companyId}/departments/{id}")
   @PreAuthorize("hasRole('ADMIN')")
-  public void deleteDepartmentById(@PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
+  public void deleteDepartmentById(
+      @PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     departmentService.deleteById(id);
   }
 }

@@ -53,7 +53,7 @@ class EmployeePaymentIT {
     EmployeePaymentApi api = new EmployeePaymentApi(anApiClient(EMPLOYEE_TOKEN));
 
     EmployeePayment actual =
-        api.getEmployeePaymentById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EMPLOYEE_PAYMENT1_ID);
+        api.getEmployeePaymentById(ADMIN_ID, COMPANY1_ID, JOB1_ID, EMPLOYEE_PAYMENT1_ID);
 
     assertEquals(employeePayment1(), actual);
   }
@@ -63,7 +63,7 @@ class EmployeePaymentIT {
     EmployeePaymentApi api = new EmployeePaymentApi(anApiClient(BAD_TOKEN));
 
     assertThrowsNotAuthorizedException(
-        () -> api.getEmployeePaymentById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EMPLOYEE_PAYMENT1_ID));
+        () -> api.getEmployeePaymentById(ADMIN_ID, COMPANY1_ID, JOB1_ID, EMPLOYEE_PAYMENT1_ID));
   }
 
   @Test
@@ -71,7 +71,7 @@ class EmployeePaymentIT {
     EmployeePaymentApi api = new EmployeePaymentApi(anApiClient(ADMIN_TOKEN));
 
     List<EmployeePayment> employeePayments =
-        api.getEmployeePayments(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, null, null);
+        api.getEmployeePayments(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, null);
 
     assertEquals(2, employeePayments.size());
     assertTrue(
@@ -88,7 +88,7 @@ class EmployeePaymentIT {
 
     List<EmployeePayment> employeePayments =
         api.getEmployeePayments(
-            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, List.of(USER1_ID), null, null);
+            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, List.of(USER1_ID), null, null);
 
     assertEquals(1, employeePayments.size());
     assertEquals(EMPLOYEE_PAYMENT2_ID, employeePayments.get(0).getId());
@@ -99,7 +99,7 @@ class EmployeePaymentIT {
     EmployeePaymentApi api = new EmployeePaymentApi(anApiClient(ADMIN_TOKEN));
 
     List<EmployeePayment> employeePayments =
-        api.getEmployeePayments(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, "mensuel", null);
+        api.getEmployeePayments(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, "mensuel", null);
 
     assertEquals(1, employeePayments.size());
     assertEquals(EMPLOYEE_PAYMENT2_ID, employeePayments.get(0).getId());
@@ -111,7 +111,7 @@ class EmployeePaymentIT {
 
     List<EmployeePayment> employeePayments =
         api.getEmployeePayments(
-            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, null, PaymentType.ADVANCE);
+            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, PaymentType.ADVANCE);
 
     assertEquals(1, employeePayments.size());
     assertEquals(EMPLOYEE_PAYMENT1_ID, employeePayments.get(0).getId());
@@ -127,7 +127,7 @@ class EmployeePaymentIT {
     paymentToUpdate.setPaymentDescription("Avance salaire chantier A verifiee");
 
     List<EmployeePayment> updatedPayments =
-        api.crupdateEmployeePayments(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(paymentToUpdate));
+        api.crupdateEmployeePayments(ADMIN_ID, COMPANY1_ID, JOB1_ID, List.of(paymentToUpdate));
 
     assertEquals(1, updatedPayments.size());
     assertEquals(EMPLOYEE_PAYMENT1_ID, updatedPayments.get(0).getId());
@@ -142,7 +142,7 @@ class EmployeePaymentIT {
     assertThrowsForbiddenException(
         () ->
             api.crupdateEmployeePayments(
-                COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(someCreatableEmployeePayment())));
+                ADMIN_ID, COMPANY1_ID, JOB1_ID, List.of(someCreatableEmployeePayment())));
   }
 
   @Test
@@ -150,8 +150,7 @@ class EmployeePaymentIT {
     EmployeePaymentApi api = new EmployeePaymentApi(anApiClient(EMPLOYEE_TOKEN));
 
     assertThrowsForbiddenException(
-        () ->
-            api.deleteEmployeePaymentById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EMPLOYEE_PAYMENT1_ID));
+        () -> api.deleteEmployeePaymentById(ADMIN_ID, COMPANY1_ID, JOB1_ID, EMPLOYEE_PAYMENT1_ID));
   }
 
   @Test
@@ -165,8 +164,7 @@ class EmployeePaymentIT {
     assertThrowsApiException(
         "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Payment type is mandatory\"}",
         () ->
-            api.crupdateEmployeePayments(
-                COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(invalidPayment)));
+            api.crupdateEmployeePayments(ADMIN_ID, COMPANY1_ID, JOB1_ID, List.of(invalidPayment)));
   }
 
   @Test
@@ -180,8 +178,7 @@ class EmployeePaymentIT {
     assertThrowsApiException(
         "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Payment description is mandatory\"}",
         () ->
-            api.crupdateEmployeePayments(
-                COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(invalidPayment)));
+            api.crupdateEmployeePayments(ADMIN_ID, COMPANY1_ID, JOB1_ID, List.of(invalidPayment)));
   }
 
   @Test
@@ -189,13 +186,13 @@ class EmployeePaymentIT {
   void admin_can_delete_employee_payment() throws Exception {
     EmployeePaymentApi api = new EmployeePaymentApi(anApiClient(ADMIN_TOKEN));
 
-    api.deleteEmployeePaymentById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EMPLOYEE_PAYMENT2_ID);
+    api.deleteEmployeePaymentById(ADMIN_ID, COMPANY1_ID, JOB1_ID, EMPLOYEE_PAYMENT2_ID);
 
     assertThrowsApiException(
         "{\"type\":\"404 NOT_FOUND\",\"message\":\"EmployeePayment with id "
             + EMPLOYEE_PAYMENT2_ID
             + " not found\"}",
-        () -> api.getEmployeePaymentById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, EMPLOYEE_PAYMENT2_ID));
+        () -> api.getEmployeePaymentById(ADMIN_ID, COMPANY1_ID, JOB1_ID, EMPLOYEE_PAYMENT2_ID));
   }
 
   static class ContextInitializer extends AbstractContextInitializer {

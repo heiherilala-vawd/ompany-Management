@@ -11,7 +11,6 @@ import com.example.demo.repository.UserRepository;
 import com.example.demo.service.HistoryService;
 import com.example.demo.service.UserService;
 import java.time.Instant;
-import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;

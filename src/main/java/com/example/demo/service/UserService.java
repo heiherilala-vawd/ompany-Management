@@ -75,7 +75,12 @@ public class UserService {
   }
 
   private Specification<User> toSpecification(UserCriteria criteria) {
-    return Specification.<User>where(equal(criteria.getCompanyId(), "company", "id"))
+    return Specification.<User>where(
+            (root, query, cb) -> {
+              if (criteria.getCompanyId() == null) return cb.conjunction();
+              var join = root.join("companies");
+              return cb.equal(join.get("id"), criteria.getCompanyId());
+            })
         .and(containsIgnoreCase(criteria.getFirstName(), "firstName"))
         .and(containsIgnoreCase(criteria.getLastName(), "lastName"))
         .and(containsIgnoreCase(criteria.getEmail(), "email"))

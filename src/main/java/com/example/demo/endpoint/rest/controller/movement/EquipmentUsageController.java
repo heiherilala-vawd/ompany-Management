@@ -34,7 +34,8 @@ public class EquipmentUsageController {
   @GetMapping("/users/{userId}/companies/{companyId}/equipment_usage")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public List<EquipmentUsage> getEquipmentUsages(
-      @PathVariable String userId, @PathVariable String companyId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
       @RequestParam(name = "job_id", required = false) String jobId) {
@@ -45,7 +46,9 @@ public class EquipmentUsageController {
   @PutMapping("/users/{userId}/companies/{companyId}/equipment_usage")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public List<EquipmentUsage> crupdateEquipmentUsages(
-      @PathVariable String userId, @PathVariable String companyId, @Valid @RequestBody List<CrupdateEquipmentUsage> toWrite) {
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @Valid @RequestBody List<CrupdateEquipmentUsage> toWrite) {
     List<com.example.demo.model.movement.EquipmentUsage> saved =
         equipmentUsageService.createOrUpdateAll(
             toWrite.stream().map(equipmentUsageMapper::toDomain).toList());
@@ -55,7 +58,8 @@ public class EquipmentUsageController {
   @PutMapping("/users/{userId}/companies/{companyId}/equipment_usage/{id}/return")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public EquipmentUsage returnEquipment(
-      @PathVariable String userId, @PathVariable String companyId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
       @PathVariable String id,
       @RequestParam(name = "status") String status) {
     com.example.demo.model.movement.EquipmentUsage.UsageStatus usageStatus =
@@ -66,7 +70,8 @@ public class EquipmentUsageController {
 
   @DeleteMapping("/users/{userId}/companies/{companyId}/equipment_usage/{id}")
   @PreAuthorize("hasRole('ADMIN')")
-  public void deleteEquipmentUsageById(@PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
+  public void deleteEquipmentUsageById(
+      @PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     equipmentUsageService.deleteById(id);
   }
 }

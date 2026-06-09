@@ -36,7 +36,8 @@ public class OtherExpenseTypeController {
 
   @GetMapping("/users/{userId}/companies/{companyId}/other_expense_types")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
-  public List<OtherExpenseType> getOtherExpenseTypes(@PathVariable String userId, @PathVariable String companyId) {
+  public List<OtherExpenseType> getOtherExpenseTypes(
+      @PathVariable String userId, @PathVariable String companyId) {
     return otherExpenseTypeMapper.toRestOtherExpenseTypes(
         otherExpenseTypeService.findAllByCompanyId(companyId));
   }
@@ -44,15 +45,20 @@ public class OtherExpenseTypeController {
   @PutMapping("/users/{userId}/companies/{companyId}/other_expense_types")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<OtherExpenseType> crupdateOtherExpenseTypes(
-      @PathVariable String userId, @PathVariable String companyId, @Valid @RequestBody List<CrupdateOtherExpenseType> toWrite) {
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @Valid @RequestBody List<CrupdateOtherExpenseType> toWrite) {
     return otherExpenseTypeMapper.toRestOtherExpenseTypes(
         otherExpenseTypeService.createOrUpdateAll(
-            toWrite.stream().map(rest -> otherExpenseTypeMapper.toDomain(rest, companyId)).toList()));
+            toWrite.stream()
+                .map(rest -> otherExpenseTypeMapper.toDomain(rest, companyId))
+                .toList()));
   }
 
   @DeleteMapping("/users/{userId}/companies/{companyId}/other_expense_types/{id}")
   @PreAuthorize("hasRole('ADMIN')")
-  public void deleteOtherExpenseTypeById(@PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
+  public void deleteOtherExpenseTypeById(
+      @PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     otherExpenseTypeService.deleteById(id);
   }
 }

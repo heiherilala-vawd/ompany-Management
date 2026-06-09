@@ -23,7 +23,8 @@ public class EquipmentController {
 
   @GetMapping("/users/{userId}/companies/{companyId}/equipment/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER', 'EMPLOYEE')")
-  public Equipment getEquipmentById(@PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
+  public Equipment getEquipmentById(
+      @PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     return equipmentMapper.toRestEquipment(
         equipmentService
             .findById(id)
@@ -33,7 +34,8 @@ public class EquipmentController {
   @GetMapping("/users/{userId}/companies/{companyId}/equipment")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER', 'EMPLOYEE')")
   public List<Equipment> getEquipment(
-      @PathVariable String userId, @PathVariable String companyId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
       @RequestParam(name = "warehouse_id", required = false) String warehouseId,
@@ -58,7 +60,9 @@ public class EquipmentController {
   @PutMapping("/users/{userId}/companies/{companyId}/equipment")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public List<Equipment> crupdateEquipment(
-      @PathVariable String userId, @PathVariable String companyId, @Valid @RequestBody List<CrupdateEquipment> toWrite) {
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @Valid @RequestBody List<CrupdateEquipment> toWrite) {
     System.out.println("----------------------------------------");
     System.out.println(toWrite.toString());
     System.out.println("----------------------------------------");
@@ -70,7 +74,8 @@ public class EquipmentController {
 
   @DeleteMapping("/users/{userId}/companies/{companyId}/equipment/{id}")
   @PreAuthorize("hasAnyRole('ADMIN')")
-  public void deleteEquipmentById(@PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
+  public void deleteEquipmentById(
+      @PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     equipmentService.deleteById(id);
   }
 }

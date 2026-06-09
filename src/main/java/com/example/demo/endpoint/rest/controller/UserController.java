@@ -23,7 +23,9 @@ public class UserController {
   @PutMapping("/users/{userId}/companies/{companyId}/users")
   @PreAuthorize("hasAnyRole(\"ADMIN\", \"ADMINISTRATION\")\n")
   public List<User> crupdateUsers(
-      @PathVariable String userId, @PathVariable String companyId, @Valid @RequestBody List<CrupdateUser> toWrite) {
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @Valid @RequestBody List<CrupdateUser> toWrite) {
     List<com.example.demo.model.User> saved =
         userService.updateExistingUsers(
             toWrite.stream().map(u -> userMapper.toDomain(u, companyId)).toList());
@@ -32,14 +34,16 @@ public class UserController {
 
   @GetMapping("/users/{userId}/companies/{companyId}/users/{id}")
   @PreAuthorize("hasAnyRole('ADMIN') or #id == authentication.principal.id")
-  public User getUserById(@PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
+  public User getUserById(
+      @PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     return userMapper.toRestUser(userService.getById(id));
   }
 
   @GetMapping("/users/{userId}/companies/{companyId}/users")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public List<User> getUsers(
-      @PathVariable String userId, @PathVariable String companyId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
       @RequestParam(name = "first_name", required = false, defaultValue = "") String firstName,
@@ -62,7 +66,8 @@ public class UserController {
 
   @DeleteMapping("/users/{userId}/companies/{companyId}/users/{id}")
   @PreAuthorize("hasAnyRole('ADMIN')")
-  public void deleteUserById(@PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
+  public void deleteUserById(
+      @PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     userService.deleteById(id);
   }
 }

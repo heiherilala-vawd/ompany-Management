@@ -53,7 +53,7 @@ class CompanyIT {
     ApiClient employeeClient = anApiClient(EMPLOYEE_TOKEN);
     CompanyApi api = new CompanyApi(employeeClient);
 
-    Company actual = api.getCompanyById(COMPANY1_ID);
+    Company actual = api.getCompanyById(ADMIN_ID, COMPANY1_ID);
     Company expected = company1();
     expected.setCreatedAt(actual.getCreatedAt());
     expected.setUpdatedAt(actual.getUpdatedAt());
@@ -69,7 +69,7 @@ class CompanyIT {
     ApiClient badClient = anApiClient(BAD_TOKEN);
     CompanyApi api = new CompanyApi(badClient);
 
-    assertThrowsNotAuthorizedException(() -> api.getCompanyById(COMPANY1_ID));
+    assertThrowsNotAuthorizedException(() -> api.getCompanyById(ADMIN_ID, COMPANY1_ID));
   }
 
   @Test
@@ -168,7 +168,7 @@ class CompanyIT {
     ApiClient administrationClient = anApiClient(ADMINISTRATION_TOKEN);
     CompanyApi api = new CompanyApi(administrationClient);
 
-    assertThrowsForbiddenException(() -> api.deleteCompanyById(COMPANY1_ID));
+    assertThrowsForbiddenException(() -> api.deleteCompanyById(ADMIN_ID, COMPANY1_ID));
   }
 
   static class ContextInitializer extends AbstractContextInitializer {

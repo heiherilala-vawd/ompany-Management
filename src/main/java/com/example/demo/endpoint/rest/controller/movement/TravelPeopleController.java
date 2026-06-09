@@ -24,7 +24,9 @@ public class TravelPeopleController {
   @GetMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/travel_people/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION') or #userId == authentication.principal.id")
   public TravelPeople getTravelPeopleById(
-      @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @PathVariable String jobId,
       @PathVariable String id) {
     return travelPeopleMapper.toRestTravelPeople(
         travelPeopleService
@@ -35,7 +37,9 @@ public class TravelPeopleController {
   @GetMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/travel_people")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION') or #userId == authentication.principal.id")
   public List<TravelPeople> getTravelPeople(
-      @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @PathVariable String jobId,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
       @RequestParam(name = "travel_id", required = false) String travelId,
@@ -60,7 +64,9 @@ public class TravelPeopleController {
   @PutMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/travel_people")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION') or #userId == authentication.principal.id")
   public List<TravelPeople> crupdateTravelPeople(
-      @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @PathVariable String jobId,
       @Valid @RequestBody List<CrupdateTravelPeople> toWrite) {
     List<com.example.demo.model.movement.TravelPeople> saved =
         travelPeopleService.createOrUpdateAll(
@@ -71,7 +77,9 @@ public class TravelPeopleController {
   @DeleteMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/travel_people/{id}")
   @PreAuthorize("hasAnyRole('ADMIN')")
   public void deleteTravelPeopleById(
-      @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @PathVariable String jobId,
       @PathVariable String id) {
     travelPeopleService.deleteById(id);
   }

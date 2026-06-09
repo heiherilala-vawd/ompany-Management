@@ -51,7 +51,7 @@ class PurchaseIT {
   void warehouse_worker_can_get_purchase_by_id() throws Exception {
     PurchaseApi api = new PurchaseApi(anApiClient(WAREHOUSE_TOKEN));
 
-    Purchase actual = api.getPurchaseById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, PURCHASE1_ID);
+    Purchase actual = api.getPurchaseById(ADMIN_ID, COMPANY1_ID, JOB1_ID, PURCHASE1_ID);
 
     assertEquals(purchase1(), actual);
   }
@@ -61,7 +61,7 @@ class PurchaseIT {
     PurchaseApi api = new PurchaseApi(anApiClient(BAD_TOKEN));
 
     assertThrowsNotAuthorizedException(
-        () -> api.getPurchaseById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, PURCHASE1_ID));
+        () -> api.getPurchaseById(ADMIN_ID, COMPANY1_ID, JOB1_ID, PURCHASE1_ID));
   }
 
   @Test
@@ -70,7 +70,7 @@ class PurchaseIT {
 
     List<Purchase> purchases =
         api.getPurchases(
-            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, null, null, null, null, null);
+            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, null, null, null, null);
 
     assertEquals(2, purchases.size());
     assertTrue(purchases.stream().anyMatch(purchase -> PURCHASE1_ID.equals(purchase.getId())));
@@ -83,7 +83,7 @@ class PurchaseIT {
 
     List<Purchase> purchases =
         api.getPurchases(
-            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, WAREHOUSE1_ID, null, null, null, null, null);
+            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, WAREHOUSE1_ID, null, null, null, null, null);
 
     assertEquals(1, purchases.size());
     assertEquals(PURCHASE1_ID, purchases.get(0).getId());
@@ -95,7 +95,7 @@ class PurchaseIT {
 
     List<Purchase> purchases =
         api.getPurchases(
-            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, null, false, null, null, null);
+            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, false, null, null, null);
 
     assertEquals(1, purchases.size());
     assertEquals(PURCHASE2_ID, purchases.get(0).getId());
@@ -110,7 +110,7 @@ class PurchaseIT {
     purchaseToUpdate.setQuantity(5);
 
     List<Purchase> updatedPurchases =
-        api.crupdatePurchases(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(purchaseToUpdate));
+        api.crupdatePurchases(ADMIN_ID, COMPANY1_ID, JOB1_ID, List.of(purchaseToUpdate));
 
     assertEquals(1, updatedPurchases.size());
     assertEquals(PURCHASE1_ID, updatedPurchases.get(0).getId());
@@ -124,7 +124,7 @@ class PurchaseIT {
     assertThrowsForbiddenException(
         () ->
             api.crupdatePurchases(
-                COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(someCreatablePurchase())));
+                ADMIN_ID, COMPANY1_ID, JOB1_ID, List.of(someCreatablePurchase())));
   }
 
   @Test
@@ -132,7 +132,7 @@ class PurchaseIT {
     PurchaseApi api = new PurchaseApi(anApiClient(ADMINISTRATION_TOKEN));
 
     assertThrowsForbiddenException(
-        () -> api.deletePurchaseById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, PURCHASE1_ID));
+        () -> api.deletePurchaseById(ADMIN_ID, COMPANY1_ID, JOB1_ID, PURCHASE1_ID));
   }
 
   @Test
@@ -144,7 +144,7 @@ class PurchaseIT {
 
     assertThrowsApiException(
         "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Quantity must be positive\"}",
-        () -> api.crupdatePurchases(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(invalidPurchase)));
+        () -> api.crupdatePurchases(ADMIN_ID, COMPANY1_ID, JOB1_ID, List.of(invalidPurchase)));
   }
 
   @Test
@@ -156,7 +156,7 @@ class PurchaseIT {
 
     assertThrowsApiException(
         "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Source warehouse is mandatory for purchase\"}",
-        () -> api.crupdatePurchases(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(invalidPurchase)));
+        () -> api.crupdatePurchases(ADMIN_ID, COMPANY1_ID, JOB1_ID, List.of(invalidPurchase)));
   }
 
   @Test
@@ -164,13 +164,13 @@ class PurchaseIT {
   void admin_can_delete_purchase() throws Exception {
     PurchaseApi api = new PurchaseApi(anApiClient(ADMIN_TOKEN));
 
-    api.deletePurchaseById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, PURCHASE2_ID);
+    api.deletePurchaseById(ADMIN_ID, COMPANY1_ID, JOB1_ID, PURCHASE2_ID);
 
     assertThrowsApiException(
         "{\"type\":\"404 NOT_FOUND\",\"message\":\"Purchase with id "
             + PURCHASE2_ID
             + " not found\"}",
-        () -> api.getPurchaseById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, PURCHASE2_ID));
+        () -> api.getPurchaseById(ADMIN_ID, COMPANY1_ID, JOB1_ID, PURCHASE2_ID));
   }
 
   static class ContextInitializer extends AbstractContextInitializer {

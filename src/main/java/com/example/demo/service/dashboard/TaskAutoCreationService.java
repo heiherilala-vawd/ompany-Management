@@ -67,11 +67,12 @@ public class TaskAutoCreationService {
               .completed(false)
               .company(income.getJob() != null ? income.getJob().getCompany() : null)
               .build();
-      modificationUtils.createOrUpdateModel(task, null, task.getId(), modificationUtils.takePrimaryUser());
+      modificationUtils.createOrUpdateModel(
+          task, null, task.getId(), modificationUtils.takePrimaryUser());
       taskRepository.save(task);
 
-      var admins = userRepository.findAll().stream()
-          .filter(u -> u.getRole() == User.Role.ADMIN).toList();
+      var admins =
+          userRepository.findAll().stream().filter(u -> u.getRole() == User.Role.ADMIN).toList();
       for (var admin : admins) {
         notificationService.createForUser(
             admin,
@@ -105,16 +106,19 @@ public class TaskAutoCreationService {
                 .completed(false)
                 .company(job.getCompany())
                 .build();
-        modificationUtils.createOrUpdateModel(task, null, task.getId(), modificationUtils.takePrimaryUser());
+        modificationUtils.createOrUpdateModel(
+            task, null, task.getId(), modificationUtils.takePrimaryUser());
         taskRepository.save(task);
 
-        var admins = userRepository.findAll().stream()
-            .filter(u -> u.getRole() == User.Role.ADMIN).toList();
+        var admins =
+            userRepository.findAll().stream().filter(u -> u.getRole() == User.Role.ADMIN).toList();
         for (var admin : admins) {
           notificationService.createForUser(
               admin,
               title,
-              "Les travaux '" + job.getDescription() + "' sont terminés mais aucune facture n'a été émise.",
+              "Les travaux '"
+                  + job.getDescription()
+                  + "' sont terminés mais aucune facture n'a été émise.",
               task,
               modificationUtils.takePrimaryUser());
         }

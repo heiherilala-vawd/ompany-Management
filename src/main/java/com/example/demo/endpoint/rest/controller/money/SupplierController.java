@@ -38,7 +38,8 @@ public class SupplierController {
   @PutMapping("/users/{userId}/companies/{companyId}/suppliers")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<Supplier> crupdateSuppliers(
-      @PathVariable String userId, @PathVariable String companyId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
       @Valid @RequestBody List<CrupdateSupplier> toWrite) {
     var domains = toWrite.stream().map(s -> supplierMapper.toDomain(s, companyId)).toList();
     return supplierService.createOrUpdateAll(domains).stream().map(supplierMapper::toRest).toList();

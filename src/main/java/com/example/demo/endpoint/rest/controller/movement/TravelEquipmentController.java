@@ -25,7 +25,9 @@ public class TravelEquipmentController {
   @GetMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/travel_equipment/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION') or #userId == authentication.principal.id")
   public TravelEquipment getTravelEquipmentById(
-      @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @PathVariable String jobId,
       @PathVariable String id) {
     return travelEquipmentMapper.toRestTravelEquipment(
         travelEquipmentService
@@ -37,7 +39,9 @@ public class TravelEquipmentController {
   @GetMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/travel_equipment")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION') or #userId == authentication.principal.id")
   public List<TravelEquipment> getTravelEquipment(
-      @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @PathVariable String jobId,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
       @RequestParam(name = "travel_id", required = false) String travelId,
@@ -69,7 +73,9 @@ public class TravelEquipmentController {
   @PutMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/travel_equipment")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION') or #userId == authentication.principal.id")
   public List<TravelEquipment> crupdateTravelEquipment(
-      @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @PathVariable String jobId,
       @Valid @RequestBody List<CrupdateTravelEquipment> toWrite) {
     List<com.example.demo.model.movement.TravelEquipment> saved =
         toWrite.stream().map(travelEquipmentMapper::toDomain).toList();
@@ -80,7 +86,9 @@ public class TravelEquipmentController {
   @DeleteMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/travel_equipment/{id}")
   @PreAuthorize("hasAnyRole('ADMIN')")
   public void deleteTravelEquipmentById(
-      @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @PathVariable String jobId,
       @PathVariable String id) {
     travelEquipmentService.deleteById(id);
   }

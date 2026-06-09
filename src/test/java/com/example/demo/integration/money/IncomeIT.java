@@ -54,7 +54,7 @@ class IncomeIT {
     ApiClient administrationClient = anApiClient(ADMINISTRATION_TOKEN);
     IncomeApi api = new IncomeApi(administrationClient);
 
-    IncomeMoney actual = api.getIncomeById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, INCOME1_ID);
+    IncomeMoney actual = api.getIncomeById(ADMIN_ID, COMPANY1_ID, JOB1_ID, INCOME1_ID);
     IncomeMoney expected = income1();
     expected.setCreatedAt(actual.getCreatedAt());
     expected.setUpdatedAt(actual.getUpdatedAt());
@@ -90,7 +90,7 @@ class IncomeIT {
     IncomeApi api = new IncomeApi(badClient);
 
     assertThrowsNotAuthorizedException(
-        () -> api.getIncomeById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, INCOME1_ID));
+        () -> api.getIncomeById(ADMIN_ID, COMPANY1_ID, JOB1_ID, INCOME1_ID));
   }
 
   @Test
@@ -99,8 +99,7 @@ class IncomeIT {
     IncomeApi api = new IncomeApi(adminClient);
 
     List<IncomeMoney> incomes =
-        api.getIncomes(
-            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, null, null, null, null, null);
+        api.getIncomes(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, null, null, null, null);
 
     assertEquals(7, incomes.size());
     assertTrue(incomes.stream().anyMatch(income -> INCOME1_ID.equals(income.getId())));
@@ -118,7 +117,7 @@ class IncomeIT {
     assertThrowsForbiddenException(
         () ->
             api.getIncomes(
-                COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, null, null, null, null, null));
+                ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, null, null, null, null));
   }
 
   @Test
@@ -128,7 +127,7 @@ class IncomeIT {
 
     List<IncomeMoney> incomes =
         api.getIncomes(
-            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, "Alpha", null, null, null, null, null);
+            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, "Alpha", null, null, null, null, null);
 
     assertEquals(1, incomes.size());
     assertEquals(INCOME1_ID, incomes.get(0).getId());
@@ -141,17 +140,7 @@ class IncomeIT {
 
     List<IncomeMoney> incomes =
         api.getIncomes(
-            COMPANY1_ID,
-            JOB1_ID,
-            EMPLOYEE_ID,
-            1,
-            100,
-            null,
-            "INV-2024-002",
-            null,
-            null,
-            null,
-            null);
+            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, "INV-2024-002", null, null, null, null);
 
     assertEquals(1, incomes.size());
     assertEquals(INCOME2_ID, incomes.get(0).getId());
@@ -164,7 +153,7 @@ class IncomeIT {
 
     List<IncomeMoney> incomes =
         api.getIncomes(
-            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, null, "chantier A", null, null, null);
+            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, "chantier A", null, null, null);
 
     assertEquals(1, incomes.size());
     assertEquals(INCOME1_ID, incomes.get(0).getId());
@@ -177,9 +166,9 @@ class IncomeIT {
 
     List<IncomeMoney> incomes =
         api.getIncomes(
+            ADMIN_ID,
             COMPANY1_ID,
             JOB1_ID,
-            EMPLOYEE_ID,
             1,
             100,
             null,
@@ -200,17 +189,7 @@ class IncomeIT {
 
     List<IncomeMoney> incomes =
         api.getIncomes(
-            COMPANY1_ID,
-            JOB1_ID,
-            EMPLOYEE_ID,
-            1,
-            100,
-            null,
-            null,
-            null,
-            null,
-            INCOME_TYPE2_ID,
-            null);
+            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, null, null, INCOME_TYPE2_ID, null);
 
     assertEquals(1, incomes.size());
     assertEquals(INCOME3_ID, incomes.get(0).getId());
@@ -222,8 +201,7 @@ class IncomeIT {
     IncomeApi api = new IncomeApi(adminClient);
 
     List<IncomeMoney> incomes =
-        api.getIncomes(
-            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, null, null, null, null, false);
+        api.getIncomes(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, null, null, null, false);
 
     assertEquals(2, incomes.size());
     assertTrue(incomes.stream().anyMatch(i -> INCOME3_ID.equals(i.getId())));
@@ -236,8 +214,7 @@ class IncomeIT {
     IncomeApi api = new IncomeApi(adminClient);
 
     List<IncomeMoney> incomes =
-        api.getIncomes(
-            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, null, null, null, null, true);
+        api.getIncomes(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, null, null, null, true);
 
     assertEquals(5, incomes.size());
     assertTrue(incomes.stream().anyMatch(i -> INCOME1_ID.equals(i.getId())));
@@ -257,7 +234,7 @@ class IncomeIT {
     incomeToUpdate.setDescription("Paiement initial chantier A valide");
 
     List<IncomeMoney> updatedIncomes =
-        api.crupdateIncomes(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(incomeToUpdate));
+        api.crupdateIncomes(ADMIN_ID, COMPANY1_ID, JOB1_ID, List.of(incomeToUpdate));
     IncomeMoney updatedIncome = updatedIncomes.get(0);
 
     assertEquals(1, updatedIncomes.size());
@@ -279,7 +256,7 @@ class IncomeIT {
     income.setPaymentTerms("NET-60");
 
     List<IncomeMoney> created =
-        api.crupdateIncomes(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(income));
+        api.crupdateIncomes(ADMIN_ID, COMPANY1_ID, JOB1_ID, List.of(income));
 
     assertEquals(1, created.size());
     assertEquals(LocalDate.of(2024, 6, 30), created.get(0).getDueDate());
@@ -297,7 +274,7 @@ class IncomeIT {
 
     assertThrowsApiException(
         "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Due date cannot be before facturation date\"}",
-        () -> api.crupdateIncomes(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(income)));
+        () -> api.crupdateIncomes(ADMIN_ID, COMPANY1_ID, JOB1_ID, List.of(income)));
   }
 
   @Test
@@ -306,8 +283,7 @@ class IncomeIT {
     IncomeApi api = new IncomeApi(employeeClient);
 
     assertThrowsForbiddenException(
-        () ->
-            api.crupdateIncomes(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(someCreatableIncome())));
+        () -> api.crupdateIncomes(ADMIN_ID, COMPANY1_ID, JOB1_ID, List.of(someCreatableIncome())));
   }
 
   @Test
@@ -316,7 +292,7 @@ class IncomeIT {
     IncomeApi api = new IncomeApi(administrationClient);
 
     assertThrowsForbiddenException(
-        () -> api.deleteIncomeById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, INCOME1_ID));
+        () -> api.deleteIncomeById(ADMIN_ID, COMPANY1_ID, JOB1_ID, INCOME1_ID));
   }
 
   @Test
@@ -329,7 +305,7 @@ class IncomeIT {
 
     assertThrowsApiException(
         "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Amount must be non-negative\"}",
-        () -> api.crupdateIncomes(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(invalidIncome)));
+        () -> api.crupdateIncomes(ADMIN_ID, COMPANY1_ID, JOB1_ID, List.of(invalidIncome)));
   }
 
   @Test
@@ -342,7 +318,7 @@ class IncomeIT {
 
     assertThrowsApiException(
         "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Source organization is mandatory for income\"}",
-        () -> api.crupdateIncomes(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(invalidIncome)));
+        () -> api.crupdateIncomes(ADMIN_ID, COMPANY1_ID, JOB1_ID, List.of(invalidIncome)));
   }
 
   @Test
@@ -351,8 +327,7 @@ class IncomeIT {
     IncomeApi api = new IncomeApi(adminClient);
 
     List<IncomeMoney> incomes =
-        api.getIncomes(
-            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, null, null, null, null, false);
+        api.getIncomes(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, null, null, null, false);
 
     assertTrue(incomes.stream().anyMatch(i -> INCOME5_ID.equals(i.getId())));
     IncomeMoney income =
@@ -367,11 +342,11 @@ class IncomeIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     IncomeApi api = new IncomeApi(adminClient);
 
-    api.deleteIncomeById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, INCOME3_ID);
+    api.deleteIncomeById(ADMIN_ID, COMPANY1_ID, JOB1_ID, INCOME3_ID);
 
     assertThrowsApiException(
         "{\"type\":\"404 NOT_FOUND\",\"message\":\"Income with id " + INCOME3_ID + " not found\"}",
-        () -> api.getIncomeById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, INCOME3_ID));
+        () -> api.getIncomeById(ADMIN_ID, COMPANY1_ID, JOB1_ID, INCOME3_ID));
   }
 
   @Test
@@ -379,7 +354,7 @@ class IncomeIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     IncomeApi api = new IncomeApi(adminClient);
 
-    IncomeMoney actual = api.getIncomeById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, INCOME7_ID);
+    IncomeMoney actual = api.getIncomeById(ADMIN_ID, COMPANY1_ID, JOB1_ID, INCOME7_ID);
     IncomeMoney expected = income7();
     expected.setCreatedAt(actual.getCreatedAt());
     expected.setUpdatedAt(actual.getUpdatedAt());

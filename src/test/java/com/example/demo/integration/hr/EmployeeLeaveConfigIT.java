@@ -51,7 +51,7 @@ class EmployeeLeaveConfigIT {
   void administration_can_get_all_configs() throws Exception {
     HrApi api = new HrApi(anApiClient(ADMINISTRATION_TOKEN));
 
-    List<EmployeeLeaveConfig> configs = api.getEmployeeLeaveConfigs(COMPANY1_ID);
+    List<EmployeeLeaveConfig> configs = api.getEmployeeLeaveConfigs(ADMIN_ID, COMPANY1_ID);
 
     assertEquals(2, configs.size());
   }
@@ -60,7 +60,7 @@ class EmployeeLeaveConfigIT {
   void user_with_bad_token_cannot_get_configs() {
     HrApi api = new HrApi(anApiClient(BAD_TOKEN));
 
-    assertThrowsNotAuthorizedException(() -> api.getEmployeeLeaveConfigs(COMPANY1_ID));
+    assertThrowsNotAuthorizedException(() -> api.getEmployeeLeaveConfigs(ADMIN_ID, COMPANY1_ID));
   }
 
   @Test
@@ -69,7 +69,7 @@ class EmployeeLeaveConfigIT {
     HrApi api = new HrApi(anApiClient(ADMIN_TOKEN));
 
     List<EmployeeLeaveConfig> updated =
-        api.crupdateEmployeeLeaveConfigs(COMPANY1_ID, List.of(someCreatableConfig()));
+        api.crupdateEmployeeLeaveConfigs(ADMIN_ID, COMPANY1_ID, List.of(someCreatableConfig()));
 
     assertEquals(1, updated.size());
     assertNotNull(updated.get(0).getId());
@@ -80,7 +80,9 @@ class EmployeeLeaveConfigIT {
     HrApi api = new HrApi(anApiClient(EMPLOYEE_TOKEN));
 
     assertThrowsForbiddenException(
-        () -> api.crupdateEmployeeLeaveConfigs(COMPANY1_ID, List.of(someCreatableConfig())));
+        () ->
+            api.crupdateEmployeeLeaveConfigs(
+                ADMIN_ID, COMPANY1_ID, List.of(someCreatableConfig())));
   }
 
   static class ContextInitializer extends AbstractContextInitializer {

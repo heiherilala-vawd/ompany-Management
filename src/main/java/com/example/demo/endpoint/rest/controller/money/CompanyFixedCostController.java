@@ -36,7 +36,8 @@ public class CompanyFixedCostController {
 
   @GetMapping("/users/{userId}/companies/{companyId}/fixed_costs")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
-  public List<CompanyFixedCost> getCompanyFixedCosts(@PathVariable String userId, @PathVariable String companyId) {
+  public List<CompanyFixedCost> getCompanyFixedCosts(
+      @PathVariable String userId, @PathVariable String companyId) {
     return companyFixedCostMapper.toRestCompanyFixedCosts(
         companyFixedCostService.findAllByCompanyId(companyId));
   }
@@ -44,15 +45,20 @@ public class CompanyFixedCostController {
   @PutMapping("/users/{userId}/companies/{companyId}/fixed_costs")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<CompanyFixedCost> crupdateCompanyFixedCosts(
-      @PathVariable String userId, @PathVariable String companyId, @Valid @RequestBody List<CrupdateCompanyFixedCost> toWrite) {
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @Valid @RequestBody List<CrupdateCompanyFixedCost> toWrite) {
     return companyFixedCostMapper.toRestCompanyFixedCosts(
         companyFixedCostService.createOrUpdateAll(
-            toWrite.stream().map(rest -> companyFixedCostMapper.toDomain(rest, companyId)).toList()));
+            toWrite.stream()
+                .map(rest -> companyFixedCostMapper.toDomain(rest, companyId))
+                .toList()));
   }
 
   @DeleteMapping("/users/{userId}/companies/{companyId}/fixed_costs/{id}")
   @PreAuthorize("hasRole('ADMIN')")
-  public void deleteCompanyFixedCostById(@PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
+  public void deleteCompanyFixedCostById(
+      @PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     companyFixedCostService.deleteById(id);
   }
 }

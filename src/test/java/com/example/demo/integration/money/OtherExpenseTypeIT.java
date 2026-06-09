@@ -52,7 +52,8 @@ class OtherExpenseTypeIT {
   void administration_can_get_other_expense_type_by_id() throws Exception {
     OtherExpenseTypeApi api = new OtherExpenseTypeApi(anApiClient(ADMINISTRATION_TOKEN));
 
-    OtherExpenseType actual = api.getOtherExpenseTypeById(COMPANY1_ID, OTHER_EXPENSE_TYPE1_ID);
+    OtherExpenseType actual =
+        api.getOtherExpenseTypeById(ADMIN_ID, COMPANY1_ID, OTHER_EXPENSE_TYPE1_ID);
     OtherExpenseType expected = otherExpenseType1();
     expected.setCreatedAt(actual.getCreatedAt());
     expected.setUpdatedAt(actual.getUpdatedAt());
@@ -68,14 +69,14 @@ class OtherExpenseTypeIT {
     OtherExpenseTypeApi api = new OtherExpenseTypeApi(anApiClient(BAD_TOKEN));
 
     assertThrowsNotAuthorizedException(
-        () -> api.getOtherExpenseTypeById(COMPANY1_ID, OTHER_EXPENSE_TYPE1_ID));
+        () -> api.getOtherExpenseTypeById(ADMIN_ID, COMPANY1_ID, OTHER_EXPENSE_TYPE1_ID));
   }
 
   @Test
   void administration_can_get_all_other_expense_types() throws Exception {
     OtherExpenseTypeApi api = new OtherExpenseTypeApi(anApiClient(ADMINISTRATION_TOKEN));
 
-    List<OtherExpenseType> types = api.getOtherExpenseTypes(COMPANY1_ID);
+    List<OtherExpenseType> types = api.getOtherExpenseTypes(ADMIN_ID, COMPANY1_ID);
 
     assertEquals(2, types.size());
     assertTrue(types.stream().anyMatch(t -> OTHER_EXPENSE_TYPE1_ID.equals(t.getId())));
@@ -90,7 +91,8 @@ class OtherExpenseTypeIT {
         otherExpenseTypeToCrupdateOtherExpenseType(otherExpenseType1());
     toUpdate.setDescription("Frais logistiques et transport ajustes");
 
-    List<OtherExpenseType> updated = api.crupdateOtherExpenseTypes(COMPANY1_ID, List.of(toUpdate));
+    List<OtherExpenseType> updated =
+        api.crupdateOtherExpenseTypes(ADMIN_ID, COMPANY1_ID, List.of(toUpdate));
 
     assertEquals(1, updated.size());
     assertEquals(OTHER_EXPENSE_TYPE1_ID, updated.get(0).getId());
@@ -102,7 +104,9 @@ class OtherExpenseTypeIT {
     OtherExpenseTypeApi api = new OtherExpenseTypeApi(anApiClient(EMPLOYEE_TOKEN));
 
     assertThrowsForbiddenException(
-        () -> api.crupdateOtherExpenseTypes(COMPANY1_ID, List.of(someCreatableOtherExpenseType())));
+        () ->
+            api.crupdateOtherExpenseTypes(
+                EMPLOYEE_ID, COMPANY1_ID, List.of(someCreatableOtherExpenseType())));
   }
 
   @Test
@@ -110,7 +114,7 @@ class OtherExpenseTypeIT {
     OtherExpenseTypeApi api = new OtherExpenseTypeApi(anApiClient(ADMINISTRATION_TOKEN));
 
     assertThrowsForbiddenException(
-        () -> api.deleteOtherExpenseTypeById(COMPANY1_ID, OTHER_EXPENSE_TYPE1_ID));
+        () -> api.deleteOtherExpenseTypeById(ADMIN_ID, COMPANY1_ID, OTHER_EXPENSE_TYPE1_ID));
   }
 
   @Test
@@ -121,7 +125,7 @@ class OtherExpenseTypeIT {
 
     assertThrowsApiException(
         "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Other expense type name is mandatory\"}",
-        () -> api.crupdateOtherExpenseTypes(COMPANY1_ID, List.of(invalid)));
+        () -> api.crupdateOtherExpenseTypes(ADMIN_ID, COMPANY1_ID, List.of(invalid)));
   }
 
   static class ContextInitializer extends AbstractContextInitializer {

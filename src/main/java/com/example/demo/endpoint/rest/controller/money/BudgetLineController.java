@@ -22,7 +22,8 @@ public class BudgetLineController {
 
   @GetMapping("/users/{userId}/companies/{companyId}/budget_lines/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
-  public BudgetLine getBudgetLineById(@PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
+  public BudgetLine getBudgetLineById(
+      @PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     return budgetLineMapper.toRestBudgetLine(
         budgetLineService
             .findById(id)
@@ -32,7 +33,8 @@ public class BudgetLineController {
   @GetMapping("/users/{userId}/companies/{companyId}/budget_lines")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<BudgetLine> getBudgetLines(
-      @PathVariable String userId, @PathVariable String companyId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize) {
     return budgetLineMapper.toRestBudgetLines(
@@ -42,7 +44,9 @@ public class BudgetLineController {
   @PutMapping("/users/{userId}/companies/{companyId}/budget_lines")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<BudgetLine> crupdateBudgetLines(
-      @PathVariable String userId, @PathVariable String companyId, @Valid @RequestBody List<CrupdateBudgetLine> toWrite) {
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @Valid @RequestBody List<CrupdateBudgetLine> toWrite) {
     List<com.example.demo.model.money.BudgetLine> saved =
         budgetLineService.createOrUpdateAll(
             toWrite.stream().map(rest -> budgetLineMapper.toDomain(rest, companyId)).toList());
@@ -51,7 +55,8 @@ public class BudgetLineController {
 
   @DeleteMapping("/users/{userId}/companies/{companyId}/budget_lines/{id}")
   @PreAuthorize("hasRole('ADMIN')")
-  public void deleteBudgetLineById(@PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
+  public void deleteBudgetLineById(
+      @PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     budgetLineService.deleteById(id);
   }
 }

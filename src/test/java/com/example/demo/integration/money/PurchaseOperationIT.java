@@ -112,12 +112,12 @@ class PurchaseOperationIT {
             .arrivalDate(Instant.parse("2024-04-01T12:00:00Z"))
             .fee(BigDecimal.valueOf(3500)));
 
-    api.createPurchaseOperation(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, request);
+    api.createPurchaseOperation(ADMIN_ID, COMPANY1_ID, JOB1_ID, request);
 
     PurchaseApi purchaseApi = new PurchaseApi(anApiClient(ADMIN_TOKEN));
     List<Purchase> equipmentPurchases =
         purchaseApi.getPurchases(
-            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, null, true, null, null, null);
+            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, true, null, null, null);
 
     assertTrue(
         equipmentPurchases.stream()
@@ -132,7 +132,7 @@ class PurchaseOperationIT {
 
     List<Purchase> materialPurchases =
         purchaseApi.getPurchases(
-            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, null, false, null, null, null);
+            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, false, null, null, null);
 
     assertEquals(2, materialPurchases.size());
     assertEquals("purchase_operation_material_purchase_1", materialPurchases.get(1).getId());
@@ -212,7 +212,7 @@ class PurchaseOperationIT {
 
     EquipmentApi equipmentApi = new EquipmentApi(anApiClient(EMPLOYEE_TOKEN));
     Equipment updatedEquipment =
-        equipmentApi.getEquipmentById(COMPANY1_ID, "purchase_operation_equipment_1");
+        equipmentApi.getEquipmentById(EMPLOYEE_ID, COMPANY1_ID, "purchase_operation_equipment_1");
     assertNotNull(updatedEquipment.getWarehouse());
     assertEquals(AT_SELLER_WAREHOUSE_ID, updatedEquipment.getWarehouse().getId());
     assertEquals(
@@ -226,7 +226,7 @@ class PurchaseOperationIT {
     assertEquals(
         "purchase_operation_arrival_warehouse_1",
         warehouseApi
-            .getWarehouseById(COMPANY1_ID, "purchase_operation_arrival_warehouse_1")
+            .getWarehouseById(ADMIN_ID, COMPANY1_ID, "purchase_operation_arrival_warehouse_1")
             .getId());
   }
 
@@ -249,11 +249,11 @@ class PurchaseOperationIT {
                 .quantity(6)
                 .unitPrice(BigDecimal.valueOf(1100))));
 
-    api.createPurchaseOperation(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, request);
+    api.createPurchaseOperation(ADMIN_ID, COMPANY1_ID, JOB1_ID, request);
 
     MaterialApi materialApi = new MaterialApi(anApiClient(WAREHOUSE_TOKEN));
     Material createdMaterial =
-        materialApi.getMaterialById(COMPANY1_ID, "purchase_operation_material_new_1");
+        materialApi.getMaterialById(WAREHOUSE_ID, COMPANY1_ID, "purchase_operation_material_new_1");
     assertEquals("purchase_operation_material_new_1", createdMaterial.getId());
 
     assertEquals(
@@ -301,7 +301,7 @@ class PurchaseOperationIT {
             .departureDate(Instant.parse("2024-04-03T08:00:00Z"))
             .arrivalDate(Instant.parse("2024-04-03T10:00:00Z")));
 
-    api.createPurchaseOperation(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, request);
+    api.createPurchaseOperation(ADMIN_ID, COMPANY1_ID, JOB1_ID, request);
 
     TravelEquipmentApi travelEquipmentApi = new TravelEquipmentApi(anApiClient(ADMIN_TOKEN));
     List<TravelEquipment> createdTravelEquipment =
@@ -375,19 +375,19 @@ class PurchaseOperationIT {
             .arrivalDate(Instant.parse("2024-04-02T18:00:00Z"))
             .fee(BigDecimal.valueOf(2500)));
 
-    api.createPurchaseOperation(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, request);
+    api.createPurchaseOperation(ADMIN_ID, COMPANY1_ID, JOB1_ID, request);
 
     EquipmentApi equipmentApi = new EquipmentApi(anApiClient(EMPLOYEE_TOKEN));
     assertEquals(
         ROUTE_WAREHOUSE_ID,
         equipmentApi
-            .getEquipmentById(COMPANY1_ID, "purchase_operation_equipment_3")
+            .getEquipmentById(EMPLOYEE_ID, COMPANY1_ID, "purchase_operation_equipment_3")
             .getWarehouse()
             .getId());
     assertEquals(
         ROUTE_WAREHOUSE_ID,
         equipmentApi
-            .getEquipmentById(COMPANY1_ID, "purchase_operation_equipment_4")
+            .getEquipmentById(EMPLOYEE_ID, COMPANY1_ID, "purchase_operation_equipment_4")
             .getWarehouse()
             .getId());
   }
@@ -406,7 +406,7 @@ class PurchaseOperationIT {
                 .unitPrice(BigDecimal.valueOf(7000))));
 
     // Should succeed - warehouse will be updated
-    api.createPurchaseOperation(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, request);
+    api.createPurchaseOperation(ADMIN_ID, COMPANY1_ID, JOB1_ID, request);
   }
 
   @Test
@@ -426,7 +426,7 @@ class PurchaseOperationIT {
                 .unitPrice(BigDecimal.valueOf(5000))));
 
     assertThrowsForbiddenException(
-        () -> api.createPurchaseOperation(COMPANY1_ID, JOB1_ID, USER1_ID, request));
+        () -> api.createPurchaseOperation(ADMIN_ID, COMPANY1_ID, JOB1_ID, request));
   }
 
   static class ContextInitializer extends AbstractContextInitializer {
@@ -447,7 +447,7 @@ class PurchaseOperationIT {
     equipment.setWarehouseId(AT_SELLER_WAREHOUSE_ID); // Must have a warehouse
     equipment.setFloorNumber(1);
     equipment.setStorageNumber(1);
-    equipmentApi.crupdateEquipment(COMPANY1_ID, List.of(equipment));
+    equipmentApi.crupdateEquipment(ADMIN_ID, COMPANY1_ID, List.of(equipment));
   }
 
   private CrupdateEquipment equipmentRef(String equipmentId) {
