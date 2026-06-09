@@ -23,10 +23,10 @@ public class OtherExpenseTypeController {
   private final OtherExpenseTypeService otherExpenseTypeService;
   private final OtherExpenseTypeMapper otherExpenseTypeMapper;
 
-  @GetMapping("/companies/{comp_id}/other_expense_types/{id}")
+  @GetMapping("/users/{userId}/companies/{companyId}/other_expense_types/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public OtherExpenseType getOtherExpenseTypeById(
-      @PathVariable String comp_id, @PathVariable String id) {
+      @PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     return otherExpenseTypeMapper.toRestOtherExpenseType(
         otherExpenseTypeService
             .findById(id)
@@ -34,25 +34,25 @@ public class OtherExpenseTypeController {
                 () -> new NotFoundException("OtherExpenseType with id " + id + " not found")));
   }
 
-  @GetMapping("/companies/{comp_id}/other_expense_types")
+  @GetMapping("/users/{userId}/companies/{companyId}/other_expense_types")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
-  public List<OtherExpenseType> getOtherExpenseTypes(@PathVariable String comp_id) {
+  public List<OtherExpenseType> getOtherExpenseTypes(@PathVariable String userId, @PathVariable String companyId) {
     return otherExpenseTypeMapper.toRestOtherExpenseTypes(
-        otherExpenseTypeService.findAllByCompanyId(comp_id));
+        otherExpenseTypeService.findAllByCompanyId(companyId));
   }
 
-  @PutMapping("/companies/{comp_id}/other_expense_types")
+  @PutMapping("/users/{userId}/companies/{companyId}/other_expense_types")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<OtherExpenseType> crupdateOtherExpenseTypes(
-      @PathVariable String comp_id, @Valid @RequestBody List<CrupdateOtherExpenseType> toWrite) {
+      @PathVariable String userId, @PathVariable String companyId, @Valid @RequestBody List<CrupdateOtherExpenseType> toWrite) {
     return otherExpenseTypeMapper.toRestOtherExpenseTypes(
         otherExpenseTypeService.createOrUpdateAll(
-            toWrite.stream().map(rest -> otherExpenseTypeMapper.toDomain(rest, comp_id)).toList()));
+            toWrite.stream().map(rest -> otherExpenseTypeMapper.toDomain(rest, companyId)).toList()));
   }
 
-  @DeleteMapping("/companies/{comp_id}/other_expense_types/{id}")
+  @DeleteMapping("/users/{userId}/companies/{companyId}/other_expense_types/{id}")
   @PreAuthorize("hasRole('ADMIN')")
-  public void deleteOtherExpenseTypeById(@PathVariable String comp_id, @PathVariable String id) {
+  public void deleteOtherExpenseTypeById(@PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     otherExpenseTypeService.deleteById(id);
   }
 }

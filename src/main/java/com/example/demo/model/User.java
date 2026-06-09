@@ -52,9 +52,12 @@ public class User extends CreatAndUpdateEntity implements Serializable, UserDeta
   @NotBlank(message = "Password is mandatory")
   private String password;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "company_id")
-  private Company company;
+  @ManyToMany
+  @JoinTable(
+      name = "users_companies",
+      joinColumns = @JoinColumn(name = "user_id"),
+      inverseJoinColumns = @JoinColumn(name = "company_id"))
+  private Set<Company> companies = new HashSet<>();
 
   @ManyToMany(mappedBy = "responsibleUsers", fetch = FetchType.LAZY)
   private List<Job> assignedJobs = new ArrayList<>();
@@ -84,6 +87,11 @@ public class User extends CreatAndUpdateEntity implements Serializable, UserDeta
   @Override
   public int hashCode() {
     return Objects.hash(getId());
+  }
+
+  @Override
+  public String getPassword() {
+    return password;
   }
 
   @Override

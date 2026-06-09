@@ -50,7 +50,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-09T12:36:49.757496465+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-09T15:19:37.891340015+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class TeamApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -90,26 +90,28 @@ public class TeamApi {
   /**
    * Create new teams or update existing teams
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param crupdateTeam  (required)
    * @return List&lt;Team&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<Team> crupdateTeams(String compId, List<CrupdateTeam> crupdateTeam) throws ApiException {
-    ApiResponse<List<Team>> localVarResponse = crupdateTeamsWithHttpInfo(compId, crupdateTeam);
+  public List<Team> crupdateTeams(String userId, String companyId, List<CrupdateTeam> crupdateTeam) throws ApiException {
+    ApiResponse<List<Team>> localVarResponse = crupdateTeamsWithHttpInfo(userId, companyId, crupdateTeam);
     return localVarResponse.getData();
   }
 
   /**
    * Create new teams or update existing teams
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param crupdateTeam  (required)
    * @return ApiResponse&lt;List&lt;Team&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<Team>> crupdateTeamsWithHttpInfo(String compId, List<CrupdateTeam> crupdateTeam) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = crupdateTeamsRequestBuilder(compId, crupdateTeam);
+  public ApiResponse<List<Team>> crupdateTeamsWithHttpInfo(String userId, String companyId, List<CrupdateTeam> crupdateTeam) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = crupdateTeamsRequestBuilder(userId, companyId, crupdateTeam);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -137,10 +139,14 @@ public class TeamApi {
     }
   }
 
-  private HttpRequest.Builder crupdateTeamsRequestBuilder(String compId, List<CrupdateTeam> crupdateTeam) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling crupdateTeams");
+  private HttpRequest.Builder crupdateTeamsRequestBuilder(String userId, String companyId, List<CrupdateTeam> crupdateTeam) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling crupdateTeams");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling crupdateTeams");
     }
     // verify the required parameter 'crupdateTeam' is set
     if (crupdateTeam == null) {
@@ -149,8 +155,9 @@ public class TeamApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/teams"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()));
+    String localVarPath = "/users/{userId}/companies/{companyId}/teams"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
@@ -175,24 +182,26 @@ public class TeamApi {
   /**
    * Delete team by identifier
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param id  (required)
    * @throws ApiException if fails to make API call
    */
-  public void deleteTeamById(String compId, String id) throws ApiException {
-    deleteTeamByIdWithHttpInfo(compId, id);
+  public void deleteTeamById(String userId, String companyId, String id) throws ApiException {
+    deleteTeamByIdWithHttpInfo(userId, companyId, id);
   }
 
   /**
    * Delete team by identifier
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param id  (required)
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Void> deleteTeamByIdWithHttpInfo(String compId, String id) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = deleteTeamByIdRequestBuilder(compId, id);
+  public ApiResponse<Void> deleteTeamByIdWithHttpInfo(String userId, String companyId, String id) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = deleteTeamByIdRequestBuilder(userId, companyId, id);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -225,10 +234,14 @@ public class TeamApi {
     }
   }
 
-  private HttpRequest.Builder deleteTeamByIdRequestBuilder(String compId, String id) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling deleteTeamById");
+  private HttpRequest.Builder deleteTeamByIdRequestBuilder(String userId, String companyId, String id) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling deleteTeamById");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling deleteTeamById");
     }
     // verify the required parameter 'id' is set
     if (id == null) {
@@ -237,8 +250,9 @@ public class TeamApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/teams/{id}"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()))
+    String localVarPath = "/users/{userId}/companies/{companyId}/teams/{id}"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()))
         .replace("{id}", ApiClient.urlEncode(id.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
@@ -258,26 +272,28 @@ public class TeamApi {
   /**
    * Get team by identifier
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param id  (required)
    * @return Team
    * @throws ApiException if fails to make API call
    */
-  public Team getTeamById(String compId, String id) throws ApiException {
-    ApiResponse<Team> localVarResponse = getTeamByIdWithHttpInfo(compId, id);
+  public Team getTeamById(String userId, String companyId, String id) throws ApiException {
+    ApiResponse<Team> localVarResponse = getTeamByIdWithHttpInfo(userId, companyId, id);
     return localVarResponse.getData();
   }
 
   /**
    * Get team by identifier
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param id  (required)
    * @return ApiResponse&lt;Team&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Team> getTeamByIdWithHttpInfo(String compId, String id) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getTeamByIdRequestBuilder(compId, id);
+  public ApiResponse<Team> getTeamByIdWithHttpInfo(String userId, String companyId, String id) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getTeamByIdRequestBuilder(userId, companyId, id);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -305,10 +321,14 @@ public class TeamApi {
     }
   }
 
-  private HttpRequest.Builder getTeamByIdRequestBuilder(String compId, String id) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling getTeamById");
+  private HttpRequest.Builder getTeamByIdRequestBuilder(String userId, String companyId, String id) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling getTeamById");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling getTeamById");
     }
     // verify the required parameter 'id' is set
     if (id == null) {
@@ -317,8 +337,9 @@ public class TeamApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/teams/{id}"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()))
+    String localVarPath = "/users/{userId}/companies/{companyId}/teams/{id}"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()))
         .replace("{id}", ApiClient.urlEncode(id.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
@@ -338,28 +359,30 @@ public class TeamApi {
   /**
    * Get all teams
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param page  (optional)
    * @param pageSize  (optional)
    * @return List&lt;Team&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<Team> getTeams(String compId, Integer page, Integer pageSize) throws ApiException {
-    ApiResponse<List<Team>> localVarResponse = getTeamsWithHttpInfo(compId, page, pageSize);
+  public List<Team> getTeams(String userId, String companyId, Integer page, Integer pageSize) throws ApiException {
+    ApiResponse<List<Team>> localVarResponse = getTeamsWithHttpInfo(userId, companyId, page, pageSize);
     return localVarResponse.getData();
   }
 
   /**
    * Get all teams
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param page  (optional)
    * @param pageSize  (optional)
    * @return ApiResponse&lt;List&lt;Team&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<Team>> getTeamsWithHttpInfo(String compId, Integer page, Integer pageSize) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getTeamsRequestBuilder(compId, page, pageSize);
+  public ApiResponse<List<Team>> getTeamsWithHttpInfo(String userId, String companyId, Integer page, Integer pageSize) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getTeamsRequestBuilder(userId, companyId, page, pageSize);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -387,16 +410,21 @@ public class TeamApi {
     }
   }
 
-  private HttpRequest.Builder getTeamsRequestBuilder(String compId, Integer page, Integer pageSize) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling getTeams");
+  private HttpRequest.Builder getTeamsRequestBuilder(String userId, String companyId, Integer page, Integer pageSize) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling getTeams");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling getTeams");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/teams"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()));
+    String localVarPath = "/users/{userId}/companies/{companyId}/teams"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()));
 
     List<Pair> localVarQueryParams = new ArrayList<>();
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");

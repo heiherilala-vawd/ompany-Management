@@ -21,10 +21,10 @@ public class MaterialConsumptionController {
   private final MaterialConsumptionService materialConsumptionService;
   private final MaterialConsumptionMapper materialConsumptionMapper;
 
-  @GetMapping("/companies/{comp_id}/material_consumption/{id}")
+  @GetMapping("/users/{userId}/companies/{companyId}/material_consumption/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public MaterialConsumption getMaterialConsumptionById(
-      @PathVariable String comp_id, @PathVariable String id) {
+      @PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     return materialConsumptionMapper.toRestMaterialConsumption(
         materialConsumptionService
             .findById(id)
@@ -32,10 +32,10 @@ public class MaterialConsumptionController {
                 () -> new NotFoundException("MaterialConsumption with id " + id + " not found")));
   }
 
-  @GetMapping("/companies/{comp_id}/material_consumption")
+  @GetMapping("/users/{userId}/companies/{companyId}/material_consumption")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public List<MaterialConsumption> getMaterialConsumptions(
-      @PathVariable String comp_id,
+      @PathVariable String userId, @PathVariable String companyId,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
       @RequestParam(name = "consumption_status", required = false) String consumptionStatus,
@@ -46,37 +46,37 @@ public class MaterialConsumptionController {
         materialConsumptionService.findAll(page, pageSize, status, jobId).getContent());
   }
 
-  @PutMapping("/companies/{comp_id}/material_consumption")
+  @PutMapping("/users/{userId}/companies/{companyId}/material_consumption")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public List<MaterialConsumption> crupdateMaterialConsumptions(
-      @PathVariable String comp_id, @Valid @RequestBody List<CrupdateMaterialConsumption> toWrite) {
+      @PathVariable String userId, @PathVariable String companyId, @Valid @RequestBody List<CrupdateMaterialConsumption> toWrite) {
     List<com.example.demo.model.movement.MaterialConsumption> saved =
         materialConsumptionService.createOrUpdateAll(
             toWrite.stream().map(materialConsumptionMapper::toDomain).toList());
     return materialConsumptionMapper.toRestMaterialConsumptions(saved);
   }
 
-  @PutMapping("/companies/{comp_id}/material_consumption/{id}/complete")
+  @PutMapping("/users/{userId}/companies/{companyId}/material_consumption/{id}/complete")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public MaterialConsumption completeMaterialConsumption(
-      @PathVariable String comp_id, @PathVariable String id) {
+      @PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     return materialConsumptionMapper.toRestMaterialConsumption(
         materialConsumptionService.completeConsumption(id));
   }
 
-  @PutMapping("/companies/{comp_id}/material_consumption/{id}/return")
+  @PutMapping("/users/{userId}/companies/{companyId}/material_consumption/{id}/return")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public MaterialConsumption returnMaterials(
-      @PathVariable String comp_id,
+      @PathVariable String userId, @PathVariable String companyId,
       @PathVariable String id,
       @RequestParam(name = "quantity") int quantity) {
     return materialConsumptionMapper.toRestMaterialConsumption(
         materialConsumptionService.returnMaterials(id, quantity));
   }
 
-  @DeleteMapping("/companies/{comp_id}/material_consumption/{id}")
+  @DeleteMapping("/users/{userId}/companies/{companyId}/material_consumption/{id}")
   @PreAuthorize("hasRole('ADMIN')")
-  public void deleteMaterialConsumptionById(@PathVariable String comp_id, @PathVariable String id) {
+  public void deleteMaterialConsumptionById(@PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     materialConsumptionService.deleteById(id);
   }
 }

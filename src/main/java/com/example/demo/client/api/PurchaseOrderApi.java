@@ -50,7 +50,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-09T12:36:49.757496465+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-09T15:19:37.891340015+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class PurchaseOrderApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -90,26 +90,28 @@ public class PurchaseOrderApi {
   /**
    * Create or update purchase orders (crupdate)
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param crupdatePurchaseOrder  (required)
    * @return List&lt;PurchaseOrder&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<PurchaseOrder> crupdatePurchaseOrders(String compId, List<CrupdatePurchaseOrder> crupdatePurchaseOrder) throws ApiException {
-    ApiResponse<List<PurchaseOrder>> localVarResponse = crupdatePurchaseOrdersWithHttpInfo(compId, crupdatePurchaseOrder);
+  public List<PurchaseOrder> crupdatePurchaseOrders(String userId, String companyId, List<CrupdatePurchaseOrder> crupdatePurchaseOrder) throws ApiException {
+    ApiResponse<List<PurchaseOrder>> localVarResponse = crupdatePurchaseOrdersWithHttpInfo(userId, companyId, crupdatePurchaseOrder);
     return localVarResponse.getData();
   }
 
   /**
    * Create or update purchase orders (crupdate)
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param crupdatePurchaseOrder  (required)
    * @return ApiResponse&lt;List&lt;PurchaseOrder&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<PurchaseOrder>> crupdatePurchaseOrdersWithHttpInfo(String compId, List<CrupdatePurchaseOrder> crupdatePurchaseOrder) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = crupdatePurchaseOrdersRequestBuilder(compId, crupdatePurchaseOrder);
+  public ApiResponse<List<PurchaseOrder>> crupdatePurchaseOrdersWithHttpInfo(String userId, String companyId, List<CrupdatePurchaseOrder> crupdatePurchaseOrder) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = crupdatePurchaseOrdersRequestBuilder(userId, companyId, crupdatePurchaseOrder);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -137,10 +139,14 @@ public class PurchaseOrderApi {
     }
   }
 
-  private HttpRequest.Builder crupdatePurchaseOrdersRequestBuilder(String compId, List<CrupdatePurchaseOrder> crupdatePurchaseOrder) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling crupdatePurchaseOrders");
+  private HttpRequest.Builder crupdatePurchaseOrdersRequestBuilder(String userId, String companyId, List<CrupdatePurchaseOrder> crupdatePurchaseOrder) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling crupdatePurchaseOrders");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling crupdatePurchaseOrders");
     }
     // verify the required parameter 'crupdatePurchaseOrder' is set
     if (crupdatePurchaseOrder == null) {
@@ -149,8 +155,9 @@ public class PurchaseOrderApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/purchase_orders"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()));
+    String localVarPath = "/users/{userId}/companies/{companyId}/purchase_orders"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
@@ -175,24 +182,26 @@ public class PurchaseOrderApi {
   /**
    * Delete a purchase order
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param id  (required)
    * @throws ApiException if fails to make API call
    */
-  public void deletePurchaseOrderById(String compId, String id) throws ApiException {
-    deletePurchaseOrderByIdWithHttpInfo(compId, id);
+  public void deletePurchaseOrderById(String userId, String companyId, String id) throws ApiException {
+    deletePurchaseOrderByIdWithHttpInfo(userId, companyId, id);
   }
 
   /**
    * Delete a purchase order
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param id  (required)
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Void> deletePurchaseOrderByIdWithHttpInfo(String compId, String id) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = deletePurchaseOrderByIdRequestBuilder(compId, id);
+  public ApiResponse<Void> deletePurchaseOrderByIdWithHttpInfo(String userId, String companyId, String id) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = deletePurchaseOrderByIdRequestBuilder(userId, companyId, id);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -225,10 +234,14 @@ public class PurchaseOrderApi {
     }
   }
 
-  private HttpRequest.Builder deletePurchaseOrderByIdRequestBuilder(String compId, String id) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling deletePurchaseOrderById");
+  private HttpRequest.Builder deletePurchaseOrderByIdRequestBuilder(String userId, String companyId, String id) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling deletePurchaseOrderById");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling deletePurchaseOrderById");
     }
     // verify the required parameter 'id' is set
     if (id == null) {
@@ -237,8 +250,9 @@ public class PurchaseOrderApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/purchase_orders/{id}"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()))
+    String localVarPath = "/users/{userId}/companies/{companyId}/purchase_orders/{id}"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()))
         .replace("{id}", ApiClient.urlEncode(id.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
@@ -258,26 +272,28 @@ public class PurchaseOrderApi {
   /**
    * Get purchase order by ID
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param id  (required)
    * @return PurchaseOrder
    * @throws ApiException if fails to make API call
    */
-  public PurchaseOrder getPurchaseOrderById(String compId, String id) throws ApiException {
-    ApiResponse<PurchaseOrder> localVarResponse = getPurchaseOrderByIdWithHttpInfo(compId, id);
+  public PurchaseOrder getPurchaseOrderById(String userId, String companyId, String id) throws ApiException {
+    ApiResponse<PurchaseOrder> localVarResponse = getPurchaseOrderByIdWithHttpInfo(userId, companyId, id);
     return localVarResponse.getData();
   }
 
   /**
    * Get purchase order by ID
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param id  (required)
    * @return ApiResponse&lt;PurchaseOrder&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<PurchaseOrder> getPurchaseOrderByIdWithHttpInfo(String compId, String id) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getPurchaseOrderByIdRequestBuilder(compId, id);
+  public ApiResponse<PurchaseOrder> getPurchaseOrderByIdWithHttpInfo(String userId, String companyId, String id) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getPurchaseOrderByIdRequestBuilder(userId, companyId, id);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -305,10 +321,14 @@ public class PurchaseOrderApi {
     }
   }
 
-  private HttpRequest.Builder getPurchaseOrderByIdRequestBuilder(String compId, String id) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling getPurchaseOrderById");
+  private HttpRequest.Builder getPurchaseOrderByIdRequestBuilder(String userId, String companyId, String id) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling getPurchaseOrderById");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling getPurchaseOrderById");
     }
     // verify the required parameter 'id' is set
     if (id == null) {
@@ -317,8 +337,9 @@ public class PurchaseOrderApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/purchase_orders/{id}"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()))
+    String localVarPath = "/users/{userId}/companies/{companyId}/purchase_orders/{id}"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()))
         .replace("{id}", ApiClient.urlEncode(id.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
@@ -338,26 +359,28 @@ public class PurchaseOrderApi {
   /**
    * Get all purchase orders for a company
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param jobId  (optional)
    * @return List&lt;PurchaseOrder&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<PurchaseOrder> getPurchaseOrders(String compId, String jobId) throws ApiException {
-    ApiResponse<List<PurchaseOrder>> localVarResponse = getPurchaseOrdersWithHttpInfo(compId, jobId);
+  public List<PurchaseOrder> getPurchaseOrders(String userId, String companyId, String jobId) throws ApiException {
+    ApiResponse<List<PurchaseOrder>> localVarResponse = getPurchaseOrdersWithHttpInfo(userId, companyId, jobId);
     return localVarResponse.getData();
   }
 
   /**
    * Get all purchase orders for a company
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param jobId  (optional)
    * @return ApiResponse&lt;List&lt;PurchaseOrder&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<PurchaseOrder>> getPurchaseOrdersWithHttpInfo(String compId, String jobId) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getPurchaseOrdersRequestBuilder(compId, jobId);
+  public ApiResponse<List<PurchaseOrder>> getPurchaseOrdersWithHttpInfo(String userId, String companyId, String jobId) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getPurchaseOrdersRequestBuilder(userId, companyId, jobId);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -385,16 +408,21 @@ public class PurchaseOrderApi {
     }
   }
 
-  private HttpRequest.Builder getPurchaseOrdersRequestBuilder(String compId, String jobId) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling getPurchaseOrders");
+  private HttpRequest.Builder getPurchaseOrdersRequestBuilder(String userId, String companyId, String jobId) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling getPurchaseOrders");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling getPurchaseOrders");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/purchase_orders"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()));
+    String localVarPath = "/users/{userId}/companies/{companyId}/purchase_orders"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()));
 
     List<Pair> localVarQueryParams = new ArrayList<>();
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");

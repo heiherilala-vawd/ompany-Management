@@ -26,8 +26,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
@@ -42,13 +44,13 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   CrupdateUser.JSON_PROPERTY_SEX,
   CrupdateUser.JSON_PROPERTY_EMAIL,
   CrupdateUser.JSON_PROPERTY_PASSWORD,
-  CrupdateUser.JSON_PROPERTY_COMPANY_ID,
+  CrupdateUser.JSON_PROPERTY_COMPANY_IDS,
   CrupdateUser.JSON_PROPERTY_BIRTH_DATE,
   CrupdateUser.JSON_PROPERTY_MANAGER_ID,
   CrupdateUser.JSON_PROPERTY_DEPARTMENT_ID,
   CrupdateUser.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-09T12:36:49.757496465+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-09T15:19:37.891340015+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdateUser {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -71,8 +73,8 @@ public class CrupdateUser {
   public static final String JSON_PROPERTY_PASSWORD = "password";
   private String password;
 
-  public static final String JSON_PROPERTY_COMPANY_ID = "company_id";
-  private String companyId;
+  public static final String JSON_PROPERTY_COMPANY_IDS = "company_ids";
+  private List<String> companyIds = new ArrayList<>();
 
   public static final String JSON_PROPERTY_BIRTH_DATE = "birth_date";
   private java.time.LocalDate birthDate;
@@ -264,28 +266,36 @@ public class CrupdateUser {
   }
 
 
-  public CrupdateUser companyId(String companyId) {
-    this.companyId = companyId;
+  public CrupdateUser companyIds(List<String> companyIds) {
+    this.companyIds = companyIds;
+    return this;
+  }
+
+  public CrupdateUser addCompanyIdsItem(String companyIdsItem) {
+    if (this.companyIds == null) {
+      this.companyIds = new ArrayList<>();
+    }
+    this.companyIds.add(companyIdsItem);
     return this;
   }
 
    /**
-   * Get companyId
-   * @return companyId
+   * Get companyIds
+   * @return companyIds
   **/
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_COMPANY_ID)
+  @JsonProperty(JSON_PROPERTY_COMPANY_IDS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getCompanyId() {
-    return companyId;
+  public List<String> getCompanyIds() {
+    return companyIds;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_COMPANY_ID)
+  @JsonProperty(JSON_PROPERTY_COMPANY_IDS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setCompanyId(String companyId) {
-    this.companyId = companyId;
+  public void setCompanyIds(List<String> companyIds) {
+    this.companyIds = companyIds;
   }
 
 
@@ -408,7 +418,7 @@ public class CrupdateUser {
         Objects.equals(this.sex, crupdateUser.sex) &&
         Objects.equals(this.email, crupdateUser.email) &&
         Objects.equals(this.password, crupdateUser.password) &&
-        Objects.equals(this.companyId, crupdateUser.companyId) &&
+        Objects.equals(this.companyIds, crupdateUser.companyIds) &&
         Objects.equals(this.birthDate, crupdateUser.birthDate) &&
         Objects.equals(this.managerId, crupdateUser.managerId) &&
         Objects.equals(this.departmentId, crupdateUser.departmentId) &&
@@ -417,7 +427,7 @@ public class CrupdateUser {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, role, firstName, lastName, sex, email, password, companyId, birthDate, managerId, departmentId, comment);
+    return Objects.hash(id, role, firstName, lastName, sex, email, password, companyIds, birthDate, managerId, departmentId, comment);
   }
 
   @Override
@@ -431,7 +441,7 @@ public class CrupdateUser {
     sb.append("    sex: ").append(toIndentedString(sex)).append("\n");
     sb.append("    email: ").append(toIndentedString(email)).append("\n");
     sb.append("    password: ").append(toIndentedString(password)).append("\n");
-    sb.append("    companyId: ").append(toIndentedString(companyId)).append("\n");
+    sb.append("    companyIds: ").append(toIndentedString(companyIds)).append("\n");
     sb.append("    birthDate: ").append(toIndentedString(birthDate)).append("\n");
     sb.append("    managerId: ").append(toIndentedString(managerId)).append("\n");
     sb.append("    departmentId: ").append(toIndentedString(departmentId)).append("\n");

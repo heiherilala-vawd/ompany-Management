@@ -20,24 +20,24 @@ public class TaskScheduleController {
   private final TaskScheduleService taskScheduleService;
   private final TaskScheduleMapper taskScheduleMapper;
 
-  @GetMapping("/companies/{comp_id}/task_schedules")
+  @GetMapping("/users/{userId}/companies/{companyId}/task_schedules")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<TaskSchedule> getTaskSchedules(
-      @PathVariable String comp_id,
+      @PathVariable String userId, @PathVariable String companyId,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize) {
-    return taskScheduleService.findAll(page, pageSize, comp_id).stream()
+    return taskScheduleService.findAll(page, pageSize, companyId).stream()
         .map(taskScheduleMapper::toRestTaskSchedule)
         .toList();
   }
 
-  @PutMapping("/companies/{comp_id}/task_schedules")
+  @PutMapping("/users/{userId}/companies/{companyId}/task_schedules")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<TaskSchedule> crupdateTaskSchedules(
-      @PathVariable String comp_id, @Valid @RequestBody List<CrupdateTaskSchedule> toWrite) {
+      @PathVariable String userId, @PathVariable String companyId, @Valid @RequestBody List<CrupdateTaskSchedule> toWrite) {
     List<com.example.demo.model.task.TaskSchedule> schedules =
         taskScheduleService.createOrUpdateAll(
-            toWrite.stream().map(rest -> taskScheduleMapper.toDomain(rest, comp_id)).toList());
+            toWrite.stream().map(rest -> taskScheduleMapper.toDomain(rest, companyId)).toList());
     for (int i = 0; i < toWrite.size(); i++) {
       CrupdateTaskSchedule rest = toWrite.get(i);
       com.example.demo.model.task.TaskSchedule schedule = schedules.get(i);
@@ -48,9 +48,9 @@ public class TaskScheduleController {
     return schedules.stream().map(taskScheduleMapper::toRestTaskSchedule).toList();
   }
 
-  @GetMapping("/companies/{comp_id}/task_schedules/{id}")
+  @GetMapping("/users/{userId}/companies/{companyId}/task_schedules/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
-  public TaskSchedule getTaskScheduleById(@PathVariable String comp_id, @PathVariable String id) {
+  public TaskSchedule getTaskScheduleById(@PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     com.example.demo.model.task.TaskSchedule schedule =
         taskScheduleService
             .findById(id)
@@ -58,9 +58,9 @@ public class TaskScheduleController {
     return taskScheduleMapper.toRestTaskSchedule(schedule);
   }
 
-  @DeleteMapping("/companies/{comp_id}/task_schedules/{id}")
+  @DeleteMapping("/users/{userId}/companies/{companyId}/task_schedules/{id}")
   @PreAuthorize("hasRole('ADMIN')")
-  public void deleteTaskScheduleById(@PathVariable String comp_id, @PathVariable String id) {
+  public void deleteTaskScheduleById(@PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     taskScheduleService.deleteById(id);
   }
 }

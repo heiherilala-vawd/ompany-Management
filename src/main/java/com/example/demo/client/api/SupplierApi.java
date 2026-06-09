@@ -50,7 +50,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-09T12:36:49.757496465+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-09T15:19:37.891340015+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class SupplierApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -90,26 +90,28 @@ public class SupplierApi {
   /**
    * Create or update suppliers (crupdate)
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param crupdateSupplier  (required)
    * @return List&lt;Supplier&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<Supplier> crupdateSuppliers(String compId, List<CrupdateSupplier> crupdateSupplier) throws ApiException {
-    ApiResponse<List<Supplier>> localVarResponse = crupdateSuppliersWithHttpInfo(compId, crupdateSupplier);
+  public List<Supplier> crupdateSuppliers(String userId, String companyId, List<CrupdateSupplier> crupdateSupplier) throws ApiException {
+    ApiResponse<List<Supplier>> localVarResponse = crupdateSuppliersWithHttpInfo(userId, companyId, crupdateSupplier);
     return localVarResponse.getData();
   }
 
   /**
    * Create or update suppliers (crupdate)
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param crupdateSupplier  (required)
    * @return ApiResponse&lt;List&lt;Supplier&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<Supplier>> crupdateSuppliersWithHttpInfo(String compId, List<CrupdateSupplier> crupdateSupplier) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = crupdateSuppliersRequestBuilder(compId, crupdateSupplier);
+  public ApiResponse<List<Supplier>> crupdateSuppliersWithHttpInfo(String userId, String companyId, List<CrupdateSupplier> crupdateSupplier) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = crupdateSuppliersRequestBuilder(userId, companyId, crupdateSupplier);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -137,10 +139,14 @@ public class SupplierApi {
     }
   }
 
-  private HttpRequest.Builder crupdateSuppliersRequestBuilder(String compId, List<CrupdateSupplier> crupdateSupplier) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling crupdateSuppliers");
+  private HttpRequest.Builder crupdateSuppliersRequestBuilder(String userId, String companyId, List<CrupdateSupplier> crupdateSupplier) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling crupdateSuppliers");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling crupdateSuppliers");
     }
     // verify the required parameter 'crupdateSupplier' is set
     if (crupdateSupplier == null) {
@@ -149,8 +155,9 @@ public class SupplierApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/suppliers"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()));
+    String localVarPath = "/users/{userId}/companies/{companyId}/suppliers"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
@@ -175,24 +182,26 @@ public class SupplierApi {
   /**
    * Delete a supplier
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param id  (required)
    * @throws ApiException if fails to make API call
    */
-  public void deleteSupplierById(String compId, String id) throws ApiException {
-    deleteSupplierByIdWithHttpInfo(compId, id);
+  public void deleteSupplierById(String userId, String companyId, String id) throws ApiException {
+    deleteSupplierByIdWithHttpInfo(userId, companyId, id);
   }
 
   /**
    * Delete a supplier
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param id  (required)
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Void> deleteSupplierByIdWithHttpInfo(String compId, String id) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = deleteSupplierByIdRequestBuilder(compId, id);
+  public ApiResponse<Void> deleteSupplierByIdWithHttpInfo(String userId, String companyId, String id) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = deleteSupplierByIdRequestBuilder(userId, companyId, id);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -225,10 +234,14 @@ public class SupplierApi {
     }
   }
 
-  private HttpRequest.Builder deleteSupplierByIdRequestBuilder(String compId, String id) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling deleteSupplierById");
+  private HttpRequest.Builder deleteSupplierByIdRequestBuilder(String userId, String companyId, String id) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling deleteSupplierById");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling deleteSupplierById");
     }
     // verify the required parameter 'id' is set
     if (id == null) {
@@ -237,8 +250,9 @@ public class SupplierApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/suppliers/{id}"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()))
+    String localVarPath = "/users/{userId}/companies/{companyId}/suppliers/{id}"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()))
         .replace("{id}", ApiClient.urlEncode(id.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
@@ -258,26 +272,28 @@ public class SupplierApi {
   /**
    * Get supplier by ID
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param id  (required)
    * @return Supplier
    * @throws ApiException if fails to make API call
    */
-  public Supplier getSupplierById(String compId, String id) throws ApiException {
-    ApiResponse<Supplier> localVarResponse = getSupplierByIdWithHttpInfo(compId, id);
+  public Supplier getSupplierById(String userId, String companyId, String id) throws ApiException {
+    ApiResponse<Supplier> localVarResponse = getSupplierByIdWithHttpInfo(userId, companyId, id);
     return localVarResponse.getData();
   }
 
   /**
    * Get supplier by ID
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param id  (required)
    * @return ApiResponse&lt;Supplier&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Supplier> getSupplierByIdWithHttpInfo(String compId, String id) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getSupplierByIdRequestBuilder(compId, id);
+  public ApiResponse<Supplier> getSupplierByIdWithHttpInfo(String userId, String companyId, String id) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getSupplierByIdRequestBuilder(userId, companyId, id);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -305,10 +321,14 @@ public class SupplierApi {
     }
   }
 
-  private HttpRequest.Builder getSupplierByIdRequestBuilder(String compId, String id) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling getSupplierById");
+  private HttpRequest.Builder getSupplierByIdRequestBuilder(String userId, String companyId, String id) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling getSupplierById");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling getSupplierById");
     }
     // verify the required parameter 'id' is set
     if (id == null) {
@@ -317,8 +337,9 @@ public class SupplierApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/suppliers/{id}"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()))
+    String localVarPath = "/users/{userId}/companies/{companyId}/suppliers/{id}"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()))
         .replace("{id}", ApiClient.urlEncode(id.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
@@ -338,24 +359,26 @@ public class SupplierApi {
   /**
    * Get all suppliers for a company
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @return List&lt;Supplier&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<Supplier> getSuppliers(String compId) throws ApiException {
-    ApiResponse<List<Supplier>> localVarResponse = getSuppliersWithHttpInfo(compId);
+  public List<Supplier> getSuppliers(String userId, String companyId) throws ApiException {
+    ApiResponse<List<Supplier>> localVarResponse = getSuppliersWithHttpInfo(userId, companyId);
     return localVarResponse.getData();
   }
 
   /**
    * Get all suppliers for a company
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @return ApiResponse&lt;List&lt;Supplier&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<Supplier>> getSuppliersWithHttpInfo(String compId) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getSuppliersRequestBuilder(compId);
+  public ApiResponse<List<Supplier>> getSuppliersWithHttpInfo(String userId, String companyId) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getSuppliersRequestBuilder(userId, companyId);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -383,16 +406,21 @@ public class SupplierApi {
     }
   }
 
-  private HttpRequest.Builder getSuppliersRequestBuilder(String compId) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling getSuppliers");
+  private HttpRequest.Builder getSuppliersRequestBuilder(String userId, String companyId) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling getSuppliers");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling getSuppliers");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/suppliers"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()));
+    String localVarPath = "/users/{userId}/companies/{companyId}/suppliers"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 

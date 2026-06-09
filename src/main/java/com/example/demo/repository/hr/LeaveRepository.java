@@ -28,7 +28,7 @@ public interface LeaveRepository
   BigDecimal sumTakenDaysByUserAndYear(@Param("userId") String userId, @Param("year") int year);
 
   @Query(
-      "SELECT l FROM Leave l WHERE l.user.company.id = :companyId"
+      "SELECT l FROM Leave l JOIN l.user u JOIN u.companies c WHERE c.id = :companyId"
           + " AND l.status = :status AND l.startDate >= :from AND l.endDate <= :to")
   List<Leave> findByCompanyIdAndStatusAndDateRange(
       @Param("companyId") String companyId,

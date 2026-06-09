@@ -51,7 +51,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   MonetaryDashboardResponse.JSON_PROPERTY_REVENUE_BY_JOB,
   MonetaryDashboardResponse.JSON_PROPERTY_EXPENSE_BY_JOB
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-09T12:36:49.757496465+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-09T15:19:37.891340015+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class MonetaryDashboardResponse {
   public static final String JSON_PROPERTY_TOTAL_REVENUE = "total_revenue";
   private BigDecimal totalRevenue;

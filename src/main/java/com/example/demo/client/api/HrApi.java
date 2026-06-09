@@ -56,7 +56,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-09T12:36:49.757496465+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-09T15:19:37.891340015+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class HrApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -96,26 +96,28 @@ public class HrApi {
   /**
    * Create or update employee leave configs
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param crupdateEmployeeLeaveConfig  (required)
    * @return List&lt;EmployeeLeaveConfig&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<EmployeeLeaveConfig> crupdateEmployeeLeaveConfigs(String compId, List<CrupdateEmployeeLeaveConfig> crupdateEmployeeLeaveConfig) throws ApiException {
-    ApiResponse<List<EmployeeLeaveConfig>> localVarResponse = crupdateEmployeeLeaveConfigsWithHttpInfo(compId, crupdateEmployeeLeaveConfig);
+  public List<EmployeeLeaveConfig> crupdateEmployeeLeaveConfigs(String userId, String companyId, List<CrupdateEmployeeLeaveConfig> crupdateEmployeeLeaveConfig) throws ApiException {
+    ApiResponse<List<EmployeeLeaveConfig>> localVarResponse = crupdateEmployeeLeaveConfigsWithHttpInfo(userId, companyId, crupdateEmployeeLeaveConfig);
     return localVarResponse.getData();
   }
 
   /**
    * Create or update employee leave configs
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param crupdateEmployeeLeaveConfig  (required)
    * @return ApiResponse&lt;List&lt;EmployeeLeaveConfig&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<EmployeeLeaveConfig>> crupdateEmployeeLeaveConfigsWithHttpInfo(String compId, List<CrupdateEmployeeLeaveConfig> crupdateEmployeeLeaveConfig) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = crupdateEmployeeLeaveConfigsRequestBuilder(compId, crupdateEmployeeLeaveConfig);
+  public ApiResponse<List<EmployeeLeaveConfig>> crupdateEmployeeLeaveConfigsWithHttpInfo(String userId, String companyId, List<CrupdateEmployeeLeaveConfig> crupdateEmployeeLeaveConfig) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = crupdateEmployeeLeaveConfigsRequestBuilder(userId, companyId, crupdateEmployeeLeaveConfig);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -143,10 +145,14 @@ public class HrApi {
     }
   }
 
-  private HttpRequest.Builder crupdateEmployeeLeaveConfigsRequestBuilder(String compId, List<CrupdateEmployeeLeaveConfig> crupdateEmployeeLeaveConfig) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling crupdateEmployeeLeaveConfigs");
+  private HttpRequest.Builder crupdateEmployeeLeaveConfigsRequestBuilder(String userId, String companyId, List<CrupdateEmployeeLeaveConfig> crupdateEmployeeLeaveConfig) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling crupdateEmployeeLeaveConfigs");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling crupdateEmployeeLeaveConfigs");
     }
     // verify the required parameter 'crupdateEmployeeLeaveConfig' is set
     if (crupdateEmployeeLeaveConfig == null) {
@@ -155,8 +161,9 @@ public class HrApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/leave_configs"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()));
+    String localVarPath = "/users/{userId}/companies/{companyId}/leave_configs"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
@@ -181,26 +188,28 @@ public class HrApi {
   /**
    * Create or update leave types
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param crupdateLeaveType  (required)
    * @return List&lt;LeaveType&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<LeaveType> crupdateLeaveTypes(String compId, List<CrupdateLeaveType> crupdateLeaveType) throws ApiException {
-    ApiResponse<List<LeaveType>> localVarResponse = crupdateLeaveTypesWithHttpInfo(compId, crupdateLeaveType);
+  public List<LeaveType> crupdateLeaveTypes(String userId, String companyId, List<CrupdateLeaveType> crupdateLeaveType) throws ApiException {
+    ApiResponse<List<LeaveType>> localVarResponse = crupdateLeaveTypesWithHttpInfo(userId, companyId, crupdateLeaveType);
     return localVarResponse.getData();
   }
 
   /**
    * Create or update leave types
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param crupdateLeaveType  (required)
    * @return ApiResponse&lt;List&lt;LeaveType&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<LeaveType>> crupdateLeaveTypesWithHttpInfo(String compId, List<CrupdateLeaveType> crupdateLeaveType) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = crupdateLeaveTypesRequestBuilder(compId, crupdateLeaveType);
+  public ApiResponse<List<LeaveType>> crupdateLeaveTypesWithHttpInfo(String userId, String companyId, List<CrupdateLeaveType> crupdateLeaveType) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = crupdateLeaveTypesRequestBuilder(userId, companyId, crupdateLeaveType);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -228,10 +237,14 @@ public class HrApi {
     }
   }
 
-  private HttpRequest.Builder crupdateLeaveTypesRequestBuilder(String compId, List<CrupdateLeaveType> crupdateLeaveType) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling crupdateLeaveTypes");
+  private HttpRequest.Builder crupdateLeaveTypesRequestBuilder(String userId, String companyId, List<CrupdateLeaveType> crupdateLeaveType) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling crupdateLeaveTypes");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling crupdateLeaveTypes");
     }
     // verify the required parameter 'crupdateLeaveType' is set
     if (crupdateLeaveType == null) {
@@ -240,8 +253,9 @@ public class HrApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/leave_types"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()));
+    String localVarPath = "/users/{userId}/companies/{companyId}/leave_types"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
@@ -266,26 +280,28 @@ public class HrApi {
   /**
    * Create or update leaves
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param crupdateLeave  (required)
    * @return List&lt;Leave&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<Leave> crupdateLeaves(String compId, List<CrupdateLeave> crupdateLeave) throws ApiException {
-    ApiResponse<List<Leave>> localVarResponse = crupdateLeavesWithHttpInfo(compId, crupdateLeave);
+  public List<Leave> crupdateLeaves(String userId, String companyId, List<CrupdateLeave> crupdateLeave) throws ApiException {
+    ApiResponse<List<Leave>> localVarResponse = crupdateLeavesWithHttpInfo(userId, companyId, crupdateLeave);
     return localVarResponse.getData();
   }
 
   /**
    * Create or update leaves
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param crupdateLeave  (required)
    * @return ApiResponse&lt;List&lt;Leave&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<Leave>> crupdateLeavesWithHttpInfo(String compId, List<CrupdateLeave> crupdateLeave) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = crupdateLeavesRequestBuilder(compId, crupdateLeave);
+  public ApiResponse<List<Leave>> crupdateLeavesWithHttpInfo(String userId, String companyId, List<CrupdateLeave> crupdateLeave) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = crupdateLeavesRequestBuilder(userId, companyId, crupdateLeave);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -313,10 +329,14 @@ public class HrApi {
     }
   }
 
-  private HttpRequest.Builder crupdateLeavesRequestBuilder(String compId, List<CrupdateLeave> crupdateLeave) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling crupdateLeaves");
+  private HttpRequest.Builder crupdateLeavesRequestBuilder(String userId, String companyId, List<CrupdateLeave> crupdateLeave) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling crupdateLeaves");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling crupdateLeaves");
     }
     // verify the required parameter 'crupdateLeave' is set
     if (crupdateLeave == null) {
@@ -325,8 +345,9 @@ public class HrApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/leaves"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()));
+    String localVarPath = "/users/{userId}/companies/{companyId}/leaves"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
@@ -351,24 +372,26 @@ public class HrApi {
   /**
    * Delete leave by identifier
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param id  (required)
    * @throws ApiException if fails to make API call
    */
-  public void deleteLeaveById(String compId, String id) throws ApiException {
-    deleteLeaveByIdWithHttpInfo(compId, id);
+  public void deleteLeaveById(String userId, String companyId, String id) throws ApiException {
+    deleteLeaveByIdWithHttpInfo(userId, companyId, id);
   }
 
   /**
    * Delete leave by identifier
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param id  (required)
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Void> deleteLeaveByIdWithHttpInfo(String compId, String id) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = deleteLeaveByIdRequestBuilder(compId, id);
+  public ApiResponse<Void> deleteLeaveByIdWithHttpInfo(String userId, String companyId, String id) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = deleteLeaveByIdRequestBuilder(userId, companyId, id);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -401,10 +424,14 @@ public class HrApi {
     }
   }
 
-  private HttpRequest.Builder deleteLeaveByIdRequestBuilder(String compId, String id) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling deleteLeaveById");
+  private HttpRequest.Builder deleteLeaveByIdRequestBuilder(String userId, String companyId, String id) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling deleteLeaveById");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling deleteLeaveById");
     }
     // verify the required parameter 'id' is set
     if (id == null) {
@@ -413,8 +440,9 @@ public class HrApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/leaves/{id}"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()))
+    String localVarPath = "/users/{userId}/companies/{companyId}/leaves/{id}"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()))
         .replace("{id}", ApiClient.urlEncode(id.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
@@ -434,26 +462,28 @@ public class HrApi {
   /**
    * Get a leave config by id
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param id  (required)
    * @return EmployeeLeaveConfig
    * @throws ApiException if fails to make API call
    */
-  public EmployeeLeaveConfig getEmployeeLeaveConfigById(String compId, String id) throws ApiException {
-    ApiResponse<EmployeeLeaveConfig> localVarResponse = getEmployeeLeaveConfigByIdWithHttpInfo(compId, id);
+  public EmployeeLeaveConfig getEmployeeLeaveConfigById(String userId, String companyId, String id) throws ApiException {
+    ApiResponse<EmployeeLeaveConfig> localVarResponse = getEmployeeLeaveConfigByIdWithHttpInfo(userId, companyId, id);
     return localVarResponse.getData();
   }
 
   /**
    * Get a leave config by id
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param id  (required)
    * @return ApiResponse&lt;EmployeeLeaveConfig&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<EmployeeLeaveConfig> getEmployeeLeaveConfigByIdWithHttpInfo(String compId, String id) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getEmployeeLeaveConfigByIdRequestBuilder(compId, id);
+  public ApiResponse<EmployeeLeaveConfig> getEmployeeLeaveConfigByIdWithHttpInfo(String userId, String companyId, String id) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getEmployeeLeaveConfigByIdRequestBuilder(userId, companyId, id);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -481,10 +511,14 @@ public class HrApi {
     }
   }
 
-  private HttpRequest.Builder getEmployeeLeaveConfigByIdRequestBuilder(String compId, String id) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling getEmployeeLeaveConfigById");
+  private HttpRequest.Builder getEmployeeLeaveConfigByIdRequestBuilder(String userId, String companyId, String id) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling getEmployeeLeaveConfigById");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling getEmployeeLeaveConfigById");
     }
     // verify the required parameter 'id' is set
     if (id == null) {
@@ -493,8 +527,9 @@ public class HrApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/leave_configs/{id}"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()))
+    String localVarPath = "/users/{userId}/companies/{companyId}/leave_configs/{id}"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()))
         .replace("{id}", ApiClient.urlEncode(id.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
@@ -514,24 +549,26 @@ public class HrApi {
   /**
    * Get all employee leave configs
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @return List&lt;EmployeeLeaveConfig&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<EmployeeLeaveConfig> getEmployeeLeaveConfigs(String compId) throws ApiException {
-    ApiResponse<List<EmployeeLeaveConfig>> localVarResponse = getEmployeeLeaveConfigsWithHttpInfo(compId);
+  public List<EmployeeLeaveConfig> getEmployeeLeaveConfigs(String userId, String companyId) throws ApiException {
+    ApiResponse<List<EmployeeLeaveConfig>> localVarResponse = getEmployeeLeaveConfigsWithHttpInfo(userId, companyId);
     return localVarResponse.getData();
   }
 
   /**
    * Get all employee leave configs
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @return ApiResponse&lt;List&lt;EmployeeLeaveConfig&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<EmployeeLeaveConfig>> getEmployeeLeaveConfigsWithHttpInfo(String compId) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getEmployeeLeaveConfigsRequestBuilder(compId);
+  public ApiResponse<List<EmployeeLeaveConfig>> getEmployeeLeaveConfigsWithHttpInfo(String userId, String companyId) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getEmployeeLeaveConfigsRequestBuilder(userId, companyId);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -559,16 +596,21 @@ public class HrApi {
     }
   }
 
-  private HttpRequest.Builder getEmployeeLeaveConfigsRequestBuilder(String compId) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling getEmployeeLeaveConfigs");
+  private HttpRequest.Builder getEmployeeLeaveConfigsRequestBuilder(String userId, String companyId) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling getEmployeeLeaveConfigs");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling getEmployeeLeaveConfigs");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/leave_configs"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()));
+    String localVarPath = "/users/{userId}/companies/{companyId}/leave_configs"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
@@ -587,26 +629,28 @@ public class HrApi {
   /**
    * Get employees who haven&#39;t taken any leave
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param year  (required)
    * @return List&lt;CrupdateUser&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<CrupdateUser> getEmployeesWithoutLeave(String compId, Integer year) throws ApiException {
-    ApiResponse<List<CrupdateUser>> localVarResponse = getEmployeesWithoutLeaveWithHttpInfo(compId, year);
+  public List<CrupdateUser> getEmployeesWithoutLeave(String userId, String companyId, Integer year) throws ApiException {
+    ApiResponse<List<CrupdateUser>> localVarResponse = getEmployeesWithoutLeaveWithHttpInfo(userId, companyId, year);
     return localVarResponse.getData();
   }
 
   /**
    * Get employees who haven&#39;t taken any leave
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param year  (required)
    * @return ApiResponse&lt;List&lt;CrupdateUser&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<CrupdateUser>> getEmployeesWithoutLeaveWithHttpInfo(String compId, Integer year) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getEmployeesWithoutLeaveRequestBuilder(compId, year);
+  public ApiResponse<List<CrupdateUser>> getEmployeesWithoutLeaveWithHttpInfo(String userId, String companyId, Integer year) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getEmployeesWithoutLeaveRequestBuilder(userId, companyId, year);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -634,10 +678,14 @@ public class HrApi {
     }
   }
 
-  private HttpRequest.Builder getEmployeesWithoutLeaveRequestBuilder(String compId, Integer year) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling getEmployeesWithoutLeave");
+  private HttpRequest.Builder getEmployeesWithoutLeaveRequestBuilder(String userId, String companyId, Integer year) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling getEmployeesWithoutLeave");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling getEmployeesWithoutLeave");
     }
     // verify the required parameter 'year' is set
     if (year == null) {
@@ -646,8 +694,9 @@ public class HrApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/leave_balances/employees_without_leave"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()));
+    String localVarPath = "/users/{userId}/companies/{companyId}/leave_balances/employees_without_leave"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()));
 
     List<Pair> localVarQueryParams = new ArrayList<>();
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
@@ -681,26 +730,28 @@ public class HrApi {
   /**
    * Get leave balances for all employees in a company
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param year  (required)
    * @return List&lt;LeaveBalance&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<LeaveBalance> getLeaveBalances(String compId, Integer year) throws ApiException {
-    ApiResponse<List<LeaveBalance>> localVarResponse = getLeaveBalancesWithHttpInfo(compId, year);
+  public List<LeaveBalance> getLeaveBalances(String userId, String companyId, Integer year) throws ApiException {
+    ApiResponse<List<LeaveBalance>> localVarResponse = getLeaveBalancesWithHttpInfo(userId, companyId, year);
     return localVarResponse.getData();
   }
 
   /**
    * Get leave balances for all employees in a company
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param year  (required)
    * @return ApiResponse&lt;List&lt;LeaveBalance&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<LeaveBalance>> getLeaveBalancesWithHttpInfo(String compId, Integer year) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getLeaveBalancesRequestBuilder(compId, year);
+  public ApiResponse<List<LeaveBalance>> getLeaveBalancesWithHttpInfo(String userId, String companyId, Integer year) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getLeaveBalancesRequestBuilder(userId, companyId, year);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -728,10 +779,14 @@ public class HrApi {
     }
   }
 
-  private HttpRequest.Builder getLeaveBalancesRequestBuilder(String compId, Integer year) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling getLeaveBalances");
+  private HttpRequest.Builder getLeaveBalancesRequestBuilder(String userId, String companyId, Integer year) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling getLeaveBalances");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling getLeaveBalances");
     }
     // verify the required parameter 'year' is set
     if (year == null) {
@@ -740,8 +795,9 @@ public class HrApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/leave_balances"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()));
+    String localVarPath = "/users/{userId}/companies/{companyId}/leave_balances"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()));
 
     List<Pair> localVarQueryParams = new ArrayList<>();
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
@@ -775,26 +831,28 @@ public class HrApi {
   /**
    * Get leave by identifier
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param id  (required)
    * @return Leave
    * @throws ApiException if fails to make API call
    */
-  public Leave getLeaveById(String compId, String id) throws ApiException {
-    ApiResponse<Leave> localVarResponse = getLeaveByIdWithHttpInfo(compId, id);
+  public Leave getLeaveById(String userId, String companyId, String id) throws ApiException {
+    ApiResponse<Leave> localVarResponse = getLeaveByIdWithHttpInfo(userId, companyId, id);
     return localVarResponse.getData();
   }
 
   /**
    * Get leave by identifier
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param id  (required)
    * @return ApiResponse&lt;Leave&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Leave> getLeaveByIdWithHttpInfo(String compId, String id) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getLeaveByIdRequestBuilder(compId, id);
+  public ApiResponse<Leave> getLeaveByIdWithHttpInfo(String userId, String companyId, String id) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getLeaveByIdRequestBuilder(userId, companyId, id);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -822,10 +880,14 @@ public class HrApi {
     }
   }
 
-  private HttpRequest.Builder getLeaveByIdRequestBuilder(String compId, String id) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling getLeaveById");
+  private HttpRequest.Builder getLeaveByIdRequestBuilder(String userId, String companyId, String id) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling getLeaveById");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling getLeaveById");
     }
     // verify the required parameter 'id' is set
     if (id == null) {
@@ -834,8 +896,9 @@ public class HrApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/leaves/{id}"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()))
+    String localVarPath = "/users/{userId}/companies/{companyId}/leaves/{id}"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()))
         .replace("{id}", ApiClient.urlEncode(id.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
@@ -855,26 +918,28 @@ public class HrApi {
   /**
    * Get a leave type by id
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param id  (required)
    * @return LeaveType
    * @throws ApiException if fails to make API call
    */
-  public LeaveType getLeaveTypeById(String compId, String id) throws ApiException {
-    ApiResponse<LeaveType> localVarResponse = getLeaveTypeByIdWithHttpInfo(compId, id);
+  public LeaveType getLeaveTypeById(String userId, String companyId, String id) throws ApiException {
+    ApiResponse<LeaveType> localVarResponse = getLeaveTypeByIdWithHttpInfo(userId, companyId, id);
     return localVarResponse.getData();
   }
 
   /**
    * Get a leave type by id
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param id  (required)
    * @return ApiResponse&lt;LeaveType&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<LeaveType> getLeaveTypeByIdWithHttpInfo(String compId, String id) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getLeaveTypeByIdRequestBuilder(compId, id);
+  public ApiResponse<LeaveType> getLeaveTypeByIdWithHttpInfo(String userId, String companyId, String id) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getLeaveTypeByIdRequestBuilder(userId, companyId, id);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -902,10 +967,14 @@ public class HrApi {
     }
   }
 
-  private HttpRequest.Builder getLeaveTypeByIdRequestBuilder(String compId, String id) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling getLeaveTypeById");
+  private HttpRequest.Builder getLeaveTypeByIdRequestBuilder(String userId, String companyId, String id) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling getLeaveTypeById");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling getLeaveTypeById");
     }
     // verify the required parameter 'id' is set
     if (id == null) {
@@ -914,8 +983,9 @@ public class HrApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/leave_types/{id}"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()))
+    String localVarPath = "/users/{userId}/companies/{companyId}/leave_types/{id}"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()))
         .replace("{id}", ApiClient.urlEncode(id.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
@@ -935,24 +1005,26 @@ public class HrApi {
   /**
    * Get all leave types
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @return List&lt;LeaveType&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<LeaveType> getLeaveTypes(String compId) throws ApiException {
-    ApiResponse<List<LeaveType>> localVarResponse = getLeaveTypesWithHttpInfo(compId);
+  public List<LeaveType> getLeaveTypes(String userId, String companyId) throws ApiException {
+    ApiResponse<List<LeaveType>> localVarResponse = getLeaveTypesWithHttpInfo(userId, companyId);
     return localVarResponse.getData();
   }
 
   /**
    * Get all leave types
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @return ApiResponse&lt;List&lt;LeaveType&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<LeaveType>> getLeaveTypesWithHttpInfo(String compId) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getLeaveTypesRequestBuilder(compId);
+  public ApiResponse<List<LeaveType>> getLeaveTypesWithHttpInfo(String userId, String companyId) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getLeaveTypesRequestBuilder(userId, companyId);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -980,16 +1052,21 @@ public class HrApi {
     }
   }
 
-  private HttpRequest.Builder getLeaveTypesRequestBuilder(String compId) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling getLeaveTypes");
+  private HttpRequest.Builder getLeaveTypesRequestBuilder(String userId, String companyId) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling getLeaveTypes");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling getLeaveTypes");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/leave_types"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()));
+    String localVarPath = "/users/{userId}/companies/{companyId}/leave_types"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
@@ -1008,8 +1085,9 @@ public class HrApi {
   /**
    * Get all leaves
    * 
-   * @param compId  (required)
-   * @param userId  (optional)
+   * @param userId  (required)
+   * @param companyId  (required)
+   * @param userId2  (optional)
    * @param leaveTypeId  (optional)
    * @param status  (optional)
    * @param year  (optional)
@@ -1018,16 +1096,17 @@ public class HrApi {
    * @return List&lt;Leave&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<Leave> getLeaves(String compId, String userId, String leaveTypeId, String status, Integer year, Integer page, Integer pageSize) throws ApiException {
-    ApiResponse<List<Leave>> localVarResponse = getLeavesWithHttpInfo(compId, userId, leaveTypeId, status, year, page, pageSize);
+  public List<Leave> getLeaves(String userId, String companyId, String userId2, String leaveTypeId, String status, Integer year, Integer page, Integer pageSize) throws ApiException {
+    ApiResponse<List<Leave>> localVarResponse = getLeavesWithHttpInfo(userId, companyId, userId2, leaveTypeId, status, year, page, pageSize);
     return localVarResponse.getData();
   }
 
   /**
    * Get all leaves
    * 
-   * @param compId  (required)
-   * @param userId  (optional)
+   * @param userId  (required)
+   * @param companyId  (required)
+   * @param userId2  (optional)
    * @param leaveTypeId  (optional)
    * @param status  (optional)
    * @param year  (optional)
@@ -1036,8 +1115,8 @@ public class HrApi {
    * @return ApiResponse&lt;List&lt;Leave&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<Leave>> getLeavesWithHttpInfo(String compId, String userId, String leaveTypeId, String status, Integer year, Integer page, Integer pageSize) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getLeavesRequestBuilder(compId, userId, leaveTypeId, status, year, page, pageSize);
+  public ApiResponse<List<Leave>> getLeavesWithHttpInfo(String userId, String companyId, String userId2, String leaveTypeId, String status, Integer year, Integer page, Integer pageSize) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getLeavesRequestBuilder(userId, companyId, userId2, leaveTypeId, status, year, page, pageSize);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -1065,22 +1144,27 @@ public class HrApi {
     }
   }
 
-  private HttpRequest.Builder getLeavesRequestBuilder(String compId, String userId, String leaveTypeId, String status, Integer year, Integer page, Integer pageSize) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling getLeaves");
+  private HttpRequest.Builder getLeavesRequestBuilder(String userId, String companyId, String userId2, String leaveTypeId, String status, Integer year, Integer page, Integer pageSize) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling getLeaves");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling getLeaves");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/leaves"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()));
+    String localVarPath = "/users/{userId}/companies/{companyId}/leaves"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()));
 
     List<Pair> localVarQueryParams = new ArrayList<>();
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
     localVarQueryParameterBaseName = "user_id";
-    localVarQueryParams.addAll(ApiClient.parameterToPairs("user_id", userId));
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("user_id", userId2));
     localVarQueryParameterBaseName = "leave_type_id";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("leave_type_id", leaveTypeId));
     localVarQueryParameterBaseName = "status";

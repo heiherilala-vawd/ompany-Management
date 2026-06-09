@@ -50,7 +50,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-09T12:36:49.757496465+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-09T15:19:37.891340015+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CompanyFixedCostApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -90,26 +90,28 @@ public class CompanyFixedCostApi {
   /**
    * Create new fixed costs or update existing ones
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param crupdateCompanyFixedCost  (required)
    * @return List&lt;CompanyFixedCost&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<CompanyFixedCost> crupdateCompanyFixedCosts(String compId, List<CrupdateCompanyFixedCost> crupdateCompanyFixedCost) throws ApiException {
-    ApiResponse<List<CompanyFixedCost>> localVarResponse = crupdateCompanyFixedCostsWithHttpInfo(compId, crupdateCompanyFixedCost);
+  public List<CompanyFixedCost> crupdateCompanyFixedCosts(String userId, String companyId, List<CrupdateCompanyFixedCost> crupdateCompanyFixedCost) throws ApiException {
+    ApiResponse<List<CompanyFixedCost>> localVarResponse = crupdateCompanyFixedCostsWithHttpInfo(userId, companyId, crupdateCompanyFixedCost);
     return localVarResponse.getData();
   }
 
   /**
    * Create new fixed costs or update existing ones
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param crupdateCompanyFixedCost  (required)
    * @return ApiResponse&lt;List&lt;CompanyFixedCost&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<CompanyFixedCost>> crupdateCompanyFixedCostsWithHttpInfo(String compId, List<CrupdateCompanyFixedCost> crupdateCompanyFixedCost) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = crupdateCompanyFixedCostsRequestBuilder(compId, crupdateCompanyFixedCost);
+  public ApiResponse<List<CompanyFixedCost>> crupdateCompanyFixedCostsWithHttpInfo(String userId, String companyId, List<CrupdateCompanyFixedCost> crupdateCompanyFixedCost) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = crupdateCompanyFixedCostsRequestBuilder(userId, companyId, crupdateCompanyFixedCost);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -137,10 +139,14 @@ public class CompanyFixedCostApi {
     }
   }
 
-  private HttpRequest.Builder crupdateCompanyFixedCostsRequestBuilder(String compId, List<CrupdateCompanyFixedCost> crupdateCompanyFixedCost) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling crupdateCompanyFixedCosts");
+  private HttpRequest.Builder crupdateCompanyFixedCostsRequestBuilder(String userId, String companyId, List<CrupdateCompanyFixedCost> crupdateCompanyFixedCost) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling crupdateCompanyFixedCosts");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling crupdateCompanyFixedCosts");
     }
     // verify the required parameter 'crupdateCompanyFixedCost' is set
     if (crupdateCompanyFixedCost == null) {
@@ -149,8 +155,9 @@ public class CompanyFixedCostApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/fixed_costs"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()));
+    String localVarPath = "/users/{userId}/companies/{companyId}/fixed_costs"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
@@ -175,24 +182,26 @@ public class CompanyFixedCostApi {
   /**
    * Delete a fixed cost by identifier
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param id  (required)
    * @throws ApiException if fails to make API call
    */
-  public void deleteCompanyFixedCostById(String compId, String id) throws ApiException {
-    deleteCompanyFixedCostByIdWithHttpInfo(compId, id);
+  public void deleteCompanyFixedCostById(String userId, String companyId, String id) throws ApiException {
+    deleteCompanyFixedCostByIdWithHttpInfo(userId, companyId, id);
   }
 
   /**
    * Delete a fixed cost by identifier
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param id  (required)
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Void> deleteCompanyFixedCostByIdWithHttpInfo(String compId, String id) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = deleteCompanyFixedCostByIdRequestBuilder(compId, id);
+  public ApiResponse<Void> deleteCompanyFixedCostByIdWithHttpInfo(String userId, String companyId, String id) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = deleteCompanyFixedCostByIdRequestBuilder(userId, companyId, id);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -225,10 +234,14 @@ public class CompanyFixedCostApi {
     }
   }
 
-  private HttpRequest.Builder deleteCompanyFixedCostByIdRequestBuilder(String compId, String id) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling deleteCompanyFixedCostById");
+  private HttpRequest.Builder deleteCompanyFixedCostByIdRequestBuilder(String userId, String companyId, String id) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling deleteCompanyFixedCostById");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling deleteCompanyFixedCostById");
     }
     // verify the required parameter 'id' is set
     if (id == null) {
@@ -237,8 +250,9 @@ public class CompanyFixedCostApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/fixed_costs/{id}"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()))
+    String localVarPath = "/users/{userId}/companies/{companyId}/fixed_costs/{id}"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()))
         .replace("{id}", ApiClient.urlEncode(id.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
@@ -258,26 +272,28 @@ public class CompanyFixedCostApi {
   /**
    * Get a fixed cost by identifier
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param id  (required)
    * @return CompanyFixedCost
    * @throws ApiException if fails to make API call
    */
-  public CompanyFixedCost getCompanyFixedCostById(String compId, String id) throws ApiException {
-    ApiResponse<CompanyFixedCost> localVarResponse = getCompanyFixedCostByIdWithHttpInfo(compId, id);
+  public CompanyFixedCost getCompanyFixedCostById(String userId, String companyId, String id) throws ApiException {
+    ApiResponse<CompanyFixedCost> localVarResponse = getCompanyFixedCostByIdWithHttpInfo(userId, companyId, id);
     return localVarResponse.getData();
   }
 
   /**
    * Get a fixed cost by identifier
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param id  (required)
    * @return ApiResponse&lt;CompanyFixedCost&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<CompanyFixedCost> getCompanyFixedCostByIdWithHttpInfo(String compId, String id) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getCompanyFixedCostByIdRequestBuilder(compId, id);
+  public ApiResponse<CompanyFixedCost> getCompanyFixedCostByIdWithHttpInfo(String userId, String companyId, String id) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getCompanyFixedCostByIdRequestBuilder(userId, companyId, id);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -305,10 +321,14 @@ public class CompanyFixedCostApi {
     }
   }
 
-  private HttpRequest.Builder getCompanyFixedCostByIdRequestBuilder(String compId, String id) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling getCompanyFixedCostById");
+  private HttpRequest.Builder getCompanyFixedCostByIdRequestBuilder(String userId, String companyId, String id) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling getCompanyFixedCostById");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling getCompanyFixedCostById");
     }
     // verify the required parameter 'id' is set
     if (id == null) {
@@ -317,8 +337,9 @@ public class CompanyFixedCostApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/fixed_costs/{id}"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()))
+    String localVarPath = "/users/{userId}/companies/{companyId}/fixed_costs/{id}"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()))
         .replace("{id}", ApiClient.urlEncode(id.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
@@ -338,24 +359,26 @@ public class CompanyFixedCostApi {
   /**
    * Get all fixed costs for a company
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @return List&lt;CompanyFixedCost&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<CompanyFixedCost> getCompanyFixedCosts(String compId) throws ApiException {
-    ApiResponse<List<CompanyFixedCost>> localVarResponse = getCompanyFixedCostsWithHttpInfo(compId);
+  public List<CompanyFixedCost> getCompanyFixedCosts(String userId, String companyId) throws ApiException {
+    ApiResponse<List<CompanyFixedCost>> localVarResponse = getCompanyFixedCostsWithHttpInfo(userId, companyId);
     return localVarResponse.getData();
   }
 
   /**
    * Get all fixed costs for a company
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @return ApiResponse&lt;List&lt;CompanyFixedCost&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<CompanyFixedCost>> getCompanyFixedCostsWithHttpInfo(String compId) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getCompanyFixedCostsRequestBuilder(compId);
+  public ApiResponse<List<CompanyFixedCost>> getCompanyFixedCostsWithHttpInfo(String userId, String companyId) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getCompanyFixedCostsRequestBuilder(userId, companyId);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -383,16 +406,21 @@ public class CompanyFixedCostApi {
     }
   }
 
-  private HttpRequest.Builder getCompanyFixedCostsRequestBuilder(String compId) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling getCompanyFixedCosts");
+  private HttpRequest.Builder getCompanyFixedCostsRequestBuilder(String userId, String companyId) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling getCompanyFixedCosts");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling getCompanyFixedCosts");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/fixed_costs"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()));
+    String localVarPath = "/users/{userId}/companies/{companyId}/fixed_costs"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 

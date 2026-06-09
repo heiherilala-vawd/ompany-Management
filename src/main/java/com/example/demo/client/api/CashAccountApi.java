@@ -50,7 +50,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-09T12:36:49.757496465+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-09T15:19:37.891340015+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CashAccountApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -90,26 +90,28 @@ public class CashAccountApi {
   /**
    * Create new cash accounts or update existing ones
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param crupdateCashAccount  (required)
    * @return List&lt;CashAccount&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<CashAccount> crupdateCashAccounts(String compId, List<CrupdateCashAccount> crupdateCashAccount) throws ApiException {
-    ApiResponse<List<CashAccount>> localVarResponse = crupdateCashAccountsWithHttpInfo(compId, crupdateCashAccount);
+  public List<CashAccount> crupdateCashAccounts(String userId, String companyId, List<CrupdateCashAccount> crupdateCashAccount) throws ApiException {
+    ApiResponse<List<CashAccount>> localVarResponse = crupdateCashAccountsWithHttpInfo(userId, companyId, crupdateCashAccount);
     return localVarResponse.getData();
   }
 
   /**
    * Create new cash accounts or update existing ones
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param crupdateCashAccount  (required)
    * @return ApiResponse&lt;List&lt;CashAccount&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<CashAccount>> crupdateCashAccountsWithHttpInfo(String compId, List<CrupdateCashAccount> crupdateCashAccount) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = crupdateCashAccountsRequestBuilder(compId, crupdateCashAccount);
+  public ApiResponse<List<CashAccount>> crupdateCashAccountsWithHttpInfo(String userId, String companyId, List<CrupdateCashAccount> crupdateCashAccount) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = crupdateCashAccountsRequestBuilder(userId, companyId, crupdateCashAccount);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -137,10 +139,14 @@ public class CashAccountApi {
     }
   }
 
-  private HttpRequest.Builder crupdateCashAccountsRequestBuilder(String compId, List<CrupdateCashAccount> crupdateCashAccount) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling crupdateCashAccounts");
+  private HttpRequest.Builder crupdateCashAccountsRequestBuilder(String userId, String companyId, List<CrupdateCashAccount> crupdateCashAccount) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling crupdateCashAccounts");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling crupdateCashAccounts");
     }
     // verify the required parameter 'crupdateCashAccount' is set
     if (crupdateCashAccount == null) {
@@ -149,8 +155,9 @@ public class CashAccountApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/cash_accounts"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()));
+    String localVarPath = "/users/{userId}/companies/{companyId}/cash_accounts"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
@@ -175,24 +182,26 @@ public class CashAccountApi {
   /**
    * Delete a cash account by identifier
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param id  (required)
    * @throws ApiException if fails to make API call
    */
-  public void deleteCashAccountById(String compId, String id) throws ApiException {
-    deleteCashAccountByIdWithHttpInfo(compId, id);
+  public void deleteCashAccountById(String userId, String companyId, String id) throws ApiException {
+    deleteCashAccountByIdWithHttpInfo(userId, companyId, id);
   }
 
   /**
    * Delete a cash account by identifier
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param id  (required)
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Void> deleteCashAccountByIdWithHttpInfo(String compId, String id) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = deleteCashAccountByIdRequestBuilder(compId, id);
+  public ApiResponse<Void> deleteCashAccountByIdWithHttpInfo(String userId, String companyId, String id) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = deleteCashAccountByIdRequestBuilder(userId, companyId, id);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -225,10 +234,14 @@ public class CashAccountApi {
     }
   }
 
-  private HttpRequest.Builder deleteCashAccountByIdRequestBuilder(String compId, String id) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling deleteCashAccountById");
+  private HttpRequest.Builder deleteCashAccountByIdRequestBuilder(String userId, String companyId, String id) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling deleteCashAccountById");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling deleteCashAccountById");
     }
     // verify the required parameter 'id' is set
     if (id == null) {
@@ -237,8 +250,9 @@ public class CashAccountApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/cash_accounts/{id}"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()))
+    String localVarPath = "/users/{userId}/companies/{companyId}/cash_accounts/{id}"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()))
         .replace("{id}", ApiClient.urlEncode(id.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
@@ -258,26 +272,28 @@ public class CashAccountApi {
   /**
    * Get a cash account by identifier
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param id  (required)
    * @return CashAccount
    * @throws ApiException if fails to make API call
    */
-  public CashAccount getCashAccountById(String compId, String id) throws ApiException {
-    ApiResponse<CashAccount> localVarResponse = getCashAccountByIdWithHttpInfo(compId, id);
+  public CashAccount getCashAccountById(String userId, String companyId, String id) throws ApiException {
+    ApiResponse<CashAccount> localVarResponse = getCashAccountByIdWithHttpInfo(userId, companyId, id);
     return localVarResponse.getData();
   }
 
   /**
    * Get a cash account by identifier
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param id  (required)
    * @return ApiResponse&lt;CashAccount&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<CashAccount> getCashAccountByIdWithHttpInfo(String compId, String id) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getCashAccountByIdRequestBuilder(compId, id);
+  public ApiResponse<CashAccount> getCashAccountByIdWithHttpInfo(String userId, String companyId, String id) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getCashAccountByIdRequestBuilder(userId, companyId, id);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -305,10 +321,14 @@ public class CashAccountApi {
     }
   }
 
-  private HttpRequest.Builder getCashAccountByIdRequestBuilder(String compId, String id) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling getCashAccountById");
+  private HttpRequest.Builder getCashAccountByIdRequestBuilder(String userId, String companyId, String id) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling getCashAccountById");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling getCashAccountById");
     }
     // verify the required parameter 'id' is set
     if (id == null) {
@@ -317,8 +337,9 @@ public class CashAccountApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/cash_accounts/{id}"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()))
+    String localVarPath = "/users/{userId}/companies/{companyId}/cash_accounts/{id}"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()))
         .replace("{id}", ApiClient.urlEncode(id.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
@@ -338,28 +359,30 @@ public class CashAccountApi {
   /**
    * Get all cash accounts
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param page  (optional)
    * @param pageSize  (optional)
    * @return List&lt;CashAccount&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<CashAccount> getCashAccounts(String compId, Integer page, Integer pageSize) throws ApiException {
-    ApiResponse<List<CashAccount>> localVarResponse = getCashAccountsWithHttpInfo(compId, page, pageSize);
+  public List<CashAccount> getCashAccounts(String userId, String companyId, Integer page, Integer pageSize) throws ApiException {
+    ApiResponse<List<CashAccount>> localVarResponse = getCashAccountsWithHttpInfo(userId, companyId, page, pageSize);
     return localVarResponse.getData();
   }
 
   /**
    * Get all cash accounts
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param page  (optional)
    * @param pageSize  (optional)
    * @return ApiResponse&lt;List&lt;CashAccount&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<CashAccount>> getCashAccountsWithHttpInfo(String compId, Integer page, Integer pageSize) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getCashAccountsRequestBuilder(compId, page, pageSize);
+  public ApiResponse<List<CashAccount>> getCashAccountsWithHttpInfo(String userId, String companyId, Integer page, Integer pageSize) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getCashAccountsRequestBuilder(userId, companyId, page, pageSize);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -387,16 +410,21 @@ public class CashAccountApi {
     }
   }
 
-  private HttpRequest.Builder getCashAccountsRequestBuilder(String compId, Integer page, Integer pageSize) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling getCashAccounts");
+  private HttpRequest.Builder getCashAccountsRequestBuilder(String userId, String companyId, Integer page, Integer pageSize) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling getCashAccounts");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling getCashAccounts");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/cash_accounts"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()));
+    String localVarPath = "/users/{userId}/companies/{companyId}/cash_accounts"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()));
 
     List<Pair> localVarQueryParams = new ArrayList<>();
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");

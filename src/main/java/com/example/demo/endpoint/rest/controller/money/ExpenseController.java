@@ -22,12 +22,10 @@ public class ExpenseController {
   private final ExpenseMoneyService expenseMoneyService;
   private final ExpenseMoneyMapper expenseMoneyMapper;
 
-  @GetMapping("/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{id}")
+  @GetMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/expenses/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public ExpenseMoney getExpenseById(
-      @PathVariable String comp_id,
-      @PathVariable String job_id,
-      @PathVariable String user_id,
+      @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId,
       @PathVariable String id) {
     return expenseMoneyMapper.toRestExpense(
         expenseMoneyService
@@ -35,12 +33,10 @@ public class ExpenseController {
             .orElseThrow(() -> new NotFoundException("Expense with id " + id + " not found")));
   }
 
-  @GetMapping("/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses")
+  @GetMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/expenses")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<ExpenseMoney> getExpenses(
-      @PathVariable String comp_id,
-      @PathVariable String job_id,
-      @PathVariable String user_id,
+      @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
       @RequestParam(name = "description", required = false) String description,
@@ -48,19 +44,17 @@ public class ExpenseController {
     ExpenseMoneyCriteria criteria = new ExpenseMoneyCriteria();
     criteria.setDescription(description);
     criteria.setAmount(amount);
-    criteria.setJobId(job_id);
+    criteria.setJobId(jobId);
 
     return expenseMoneyService.findAll(page, pageSize, criteria).stream()
         .map(expenseMoneyMapper::toRestExpense)
         .toList();
   }
 
-  @PutMapping("/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses")
+  @PutMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/expenses")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<ExpenseMoney> crupdateExpenses(
-      @PathVariable String comp_id,
-      @PathVariable String job_id,
-      @PathVariable String user_id,
+      @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId,
       @Valid @RequestBody List<CrupdateExpenseMoney> toWrite) {
     List<com.example.demo.model.money.ExpenseMoney> saved =
         expenseMoneyService.createOrUpdateAll(
@@ -68,12 +62,10 @@ public class ExpenseController {
     return saved.stream().map(expenseMoneyMapper::toRestExpense).toList();
   }
 
-  @DeleteMapping("/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{id}")
+  @DeleteMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/expenses/{id}")
   @PreAuthorize("hasAnyRole('ADMIN')")
   public void deleteExpenseById(
-      @PathVariable String comp_id,
-      @PathVariable String job_id,
-      @PathVariable String user_id,
+      @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId,
       @PathVariable String id) {
     expenseMoneyService.deleteById(id);
   }

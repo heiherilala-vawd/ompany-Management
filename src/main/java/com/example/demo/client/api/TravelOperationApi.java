@@ -50,7 +50,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-09T12:36:49.757496465+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-09T15:19:37.891340015+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class TravelOperationApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -90,30 +90,30 @@ public class TravelOperationApi {
   /**
    * Register a travel operation for equipment, materials or people
    * 
-   * @param compId  (required)
-   * @param jobId  (required)
    * @param userId  (required)
+   * @param companyId  (required)
+   * @param jobId  (required)
    * @param travelOperationRequest  (required)
    * @return TravelExpense
    * @throws ApiException if fails to make API call
    */
-  public TravelExpense createTravelOperation(String compId, String jobId, String userId, TravelOperationRequest travelOperationRequest) throws ApiException {
-    ApiResponse<TravelExpense> localVarResponse = createTravelOperationWithHttpInfo(compId, jobId, userId, travelOperationRequest);
+  public TravelExpense createTravelOperation(String userId, String companyId, String jobId, TravelOperationRequest travelOperationRequest) throws ApiException {
+    ApiResponse<TravelExpense> localVarResponse = createTravelOperationWithHttpInfo(userId, companyId, jobId, travelOperationRequest);
     return localVarResponse.getData();
   }
 
   /**
    * Register a travel operation for equipment, materials or people
    * 
-   * @param compId  (required)
-   * @param jobId  (required)
    * @param userId  (required)
+   * @param companyId  (required)
+   * @param jobId  (required)
    * @param travelOperationRequest  (required)
    * @return ApiResponse&lt;TravelExpense&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<TravelExpense> createTravelOperationWithHttpInfo(String compId, String jobId, String userId, TravelOperationRequest travelOperationRequest) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = createTravelOperationRequestBuilder(compId, jobId, userId, travelOperationRequest);
+  public ApiResponse<TravelExpense> createTravelOperationWithHttpInfo(String userId, String companyId, String jobId, TravelOperationRequest travelOperationRequest) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = createTravelOperationRequestBuilder(userId, companyId, jobId, travelOperationRequest);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -141,18 +141,18 @@ public class TravelOperationApi {
     }
   }
 
-  private HttpRequest.Builder createTravelOperationRequestBuilder(String compId, String jobId, String userId, TravelOperationRequest travelOperationRequest) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling createTravelOperation");
+  private HttpRequest.Builder createTravelOperationRequestBuilder(String userId, String companyId, String jobId, TravelOperationRequest travelOperationRequest) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling createTravelOperation");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling createTravelOperation");
     }
     // verify the required parameter 'jobId' is set
     if (jobId == null) {
       throw new ApiException(400, "Missing the required parameter 'jobId' when calling createTravelOperation");
-    }
-    // verify the required parameter 'userId' is set
-    if (userId == null) {
-      throw new ApiException(400, "Missing the required parameter 'userId' when calling createTravelOperation");
     }
     // verify the required parameter 'travelOperationRequest' is set
     if (travelOperationRequest == null) {
@@ -161,10 +161,10 @@ public class TravelOperationApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/job/{job_id}/user/{user_id}/travel_operations"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()))
-        .replace("{job_id}", ApiClient.urlEncode(jobId.toString()))
-        .replace("{user_id}", ApiClient.urlEncode(userId.toString()));
+    String localVarPath = "/users/{userId}/companies/{companyId}/jobs/{jobId}/travel_operations"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()))
+        .replace("{jobId}", ApiClient.urlEncode(jobId.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 

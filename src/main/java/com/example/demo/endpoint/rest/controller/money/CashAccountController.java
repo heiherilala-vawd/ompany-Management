@@ -20,38 +20,38 @@ public class CashAccountController {
   private final CashAccountService cashAccountService;
   private final CashAccountMapper cashAccountMapper;
 
-  @GetMapping("/companies/{comp_id}/cash_accounts/{id}")
+  @GetMapping("/users/{userId}/companies/{companyId}/cash_accounts/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
-  public CashAccount getCashAccountById(@PathVariable String comp_id, @PathVariable String id) {
+  public CashAccount getCashAccountById(@PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     return cashAccountMapper.toRestCashAccount(
         cashAccountService
             .findById(id)
             .orElseThrow(() -> new NotFoundException("CashAccount with id " + id + " not found")));
   }
 
-  @GetMapping("/companies/{comp_id}/cash_accounts")
+  @GetMapping("/users/{userId}/companies/{companyId}/cash_accounts")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<CashAccount> getCashAccounts(
-      @PathVariable String comp_id,
+      @PathVariable String userId, @PathVariable String companyId,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize) {
     return cashAccountMapper.toRestCashAccounts(
         cashAccountService.findAll(page, pageSize).getContent());
   }
 
-  @PutMapping("/companies/{comp_id}/cash_accounts")
+  @PutMapping("/users/{userId}/companies/{companyId}/cash_accounts")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<CashAccount> crupdateCashAccounts(
-      @PathVariable String comp_id, @Valid @RequestBody List<CrupdateCashAccount> toWrite) {
+      @PathVariable String userId, @PathVariable String companyId, @Valid @RequestBody List<CrupdateCashAccount> toWrite) {
     List<com.example.demo.model.money.CashAccount> saved =
         cashAccountService.createOrUpdateAll(
-            toWrite.stream().map(rest -> cashAccountMapper.toDomain(rest, comp_id)).toList());
+            toWrite.stream().map(rest -> cashAccountMapper.toDomain(rest, companyId)).toList());
     return cashAccountMapper.toRestCashAccounts(saved);
   }
 
-  @DeleteMapping("/companies/{comp_id}/cash_accounts/{id}")
+  @DeleteMapping("/users/{userId}/companies/{companyId}/cash_accounts/{id}")
   @PreAuthorize("hasRole('ADMIN')")
-  public void deleteCashAccountById(@PathVariable String comp_id, @PathVariable String id) {
+  public void deleteCashAccountById(@PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     cashAccountService.deleteById(id);
   }
 }

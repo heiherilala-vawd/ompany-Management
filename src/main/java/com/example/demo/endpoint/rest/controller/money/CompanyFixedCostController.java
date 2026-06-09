@@ -23,10 +23,10 @@ public class CompanyFixedCostController {
   private final CompanyFixedCostService companyFixedCostService;
   private final CompanyFixedCostMapper companyFixedCostMapper;
 
-  @GetMapping("/companies/{comp_id}/fixed_costs/{id}")
+  @GetMapping("/users/{userId}/companies/{companyId}/fixed_costs/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public CompanyFixedCost getCompanyFixedCostById(
-      @PathVariable String comp_id, @PathVariable String id) {
+      @PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     return companyFixedCostMapper.toRestCompanyFixedCost(
         companyFixedCostService
             .findById(id)
@@ -34,25 +34,25 @@ public class CompanyFixedCostController {
                 () -> new NotFoundException("CompanyFixedCost with id " + id + " not found")));
   }
 
-  @GetMapping("/companies/{comp_id}/fixed_costs")
+  @GetMapping("/users/{userId}/companies/{companyId}/fixed_costs")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
-  public List<CompanyFixedCost> getCompanyFixedCosts(@PathVariable String comp_id) {
+  public List<CompanyFixedCost> getCompanyFixedCosts(@PathVariable String userId, @PathVariable String companyId) {
     return companyFixedCostMapper.toRestCompanyFixedCosts(
-        companyFixedCostService.findAllByCompanyId(comp_id));
+        companyFixedCostService.findAllByCompanyId(companyId));
   }
 
-  @PutMapping("/companies/{comp_id}/fixed_costs")
+  @PutMapping("/users/{userId}/companies/{companyId}/fixed_costs")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<CompanyFixedCost> crupdateCompanyFixedCosts(
-      @PathVariable String comp_id, @Valid @RequestBody List<CrupdateCompanyFixedCost> toWrite) {
+      @PathVariable String userId, @PathVariable String companyId, @Valid @RequestBody List<CrupdateCompanyFixedCost> toWrite) {
     return companyFixedCostMapper.toRestCompanyFixedCosts(
         companyFixedCostService.createOrUpdateAll(
-            toWrite.stream().map(rest -> companyFixedCostMapper.toDomain(rest, comp_id)).toList()));
+            toWrite.stream().map(rest -> companyFixedCostMapper.toDomain(rest, companyId)).toList()));
   }
 
-  @DeleteMapping("/companies/{comp_id}/fixed_costs/{id}")
+  @DeleteMapping("/users/{userId}/companies/{companyId}/fixed_costs/{id}")
   @PreAuthorize("hasRole('ADMIN')")
-  public void deleteCompanyFixedCostById(@PathVariable String comp_id, @PathVariable String id) {
+  public void deleteCompanyFixedCostById(@PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     companyFixedCostService.deleteById(id);
   }
 }

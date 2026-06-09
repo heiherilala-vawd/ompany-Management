@@ -50,7 +50,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-09T12:36:49.757496465+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-09T15:19:37.891340015+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class LoanRepaymentApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -90,32 +90,32 @@ public class LoanRepaymentApi {
   /**
    * Create new loan repayments or update existing ones
    * 
-   * @param compId  (required)
-   * @param jobId  (required)
    * @param userId  (required)
+   * @param companyId  (required)
+   * @param jobId  (required)
    * @param crupdateLoanRepayment  (required)
    * @param loanId  (optional)
    * @return List&lt;LoanRepayment&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<LoanRepayment> crupdateLoanRepayments(String compId, String jobId, String userId, List<CrupdateLoanRepayment> crupdateLoanRepayment, String loanId) throws ApiException {
-    ApiResponse<List<LoanRepayment>> localVarResponse = crupdateLoanRepaymentsWithHttpInfo(compId, jobId, userId, crupdateLoanRepayment, loanId);
+  public List<LoanRepayment> crupdateLoanRepayments(String userId, String companyId, String jobId, List<CrupdateLoanRepayment> crupdateLoanRepayment, String loanId) throws ApiException {
+    ApiResponse<List<LoanRepayment>> localVarResponse = crupdateLoanRepaymentsWithHttpInfo(userId, companyId, jobId, crupdateLoanRepayment, loanId);
     return localVarResponse.getData();
   }
 
   /**
    * Create new loan repayments or update existing ones
    * 
-   * @param compId  (required)
-   * @param jobId  (required)
    * @param userId  (required)
+   * @param companyId  (required)
+   * @param jobId  (required)
    * @param crupdateLoanRepayment  (required)
    * @param loanId  (optional)
    * @return ApiResponse&lt;List&lt;LoanRepayment&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<LoanRepayment>> crupdateLoanRepaymentsWithHttpInfo(String compId, String jobId, String userId, List<CrupdateLoanRepayment> crupdateLoanRepayment, String loanId) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = crupdateLoanRepaymentsRequestBuilder(compId, jobId, userId, crupdateLoanRepayment, loanId);
+  public ApiResponse<List<LoanRepayment>> crupdateLoanRepaymentsWithHttpInfo(String userId, String companyId, String jobId, List<CrupdateLoanRepayment> crupdateLoanRepayment, String loanId) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = crupdateLoanRepaymentsRequestBuilder(userId, companyId, jobId, crupdateLoanRepayment, loanId);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -143,18 +143,18 @@ public class LoanRepaymentApi {
     }
   }
 
-  private HttpRequest.Builder crupdateLoanRepaymentsRequestBuilder(String compId, String jobId, String userId, List<CrupdateLoanRepayment> crupdateLoanRepayment, String loanId) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling crupdateLoanRepayments");
+  private HttpRequest.Builder crupdateLoanRepaymentsRequestBuilder(String userId, String companyId, String jobId, List<CrupdateLoanRepayment> crupdateLoanRepayment, String loanId) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling crupdateLoanRepayments");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling crupdateLoanRepayments");
     }
     // verify the required parameter 'jobId' is set
     if (jobId == null) {
       throw new ApiException(400, "Missing the required parameter 'jobId' when calling crupdateLoanRepayments");
-    }
-    // verify the required parameter 'userId' is set
-    if (userId == null) {
-      throw new ApiException(400, "Missing the required parameter 'userId' when calling crupdateLoanRepayments");
     }
     // verify the required parameter 'crupdateLoanRepayment' is set
     if (crupdateLoanRepayment == null) {
@@ -163,10 +163,10 @@ public class LoanRepaymentApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/job/{job_id}/user/{user_id}/loans_repayment"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()))
-        .replace("{job_id}", ApiClient.urlEncode(jobId.toString()))
-        .replace("{user_id}", ApiClient.urlEncode(userId.toString()));
+    String localVarPath = "/users/{userId}/companies/{companyId}/jobs/{jobId}/loan_repayments"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()))
+        .replace("{jobId}", ApiClient.urlEncode(jobId.toString()));
 
     List<Pair> localVarQueryParams = new ArrayList<>();
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
@@ -206,30 +206,30 @@ public class LoanRepaymentApi {
   /**
    * Delete loan repayment by identifier
    * 
-   * @param compId  (required)
-   * @param jobId  (required)
    * @param userId  (required)
+   * @param companyId  (required)
+   * @param jobId  (required)
    * @param id  (required)
    * @param loanId  (optional)
    * @throws ApiException if fails to make API call
    */
-  public void deleteLoanRepaymentById(String compId, String jobId, String userId, String id, String loanId) throws ApiException {
-    deleteLoanRepaymentByIdWithHttpInfo(compId, jobId, userId, id, loanId);
+  public void deleteLoanRepaymentById(String userId, String companyId, String jobId, String id, String loanId) throws ApiException {
+    deleteLoanRepaymentByIdWithHttpInfo(userId, companyId, jobId, id, loanId);
   }
 
   /**
    * Delete loan repayment by identifier
    * 
-   * @param compId  (required)
-   * @param jobId  (required)
    * @param userId  (required)
+   * @param companyId  (required)
+   * @param jobId  (required)
    * @param id  (required)
    * @param loanId  (optional)
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Void> deleteLoanRepaymentByIdWithHttpInfo(String compId, String jobId, String userId, String id, String loanId) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = deleteLoanRepaymentByIdRequestBuilder(compId, jobId, userId, id, loanId);
+  public ApiResponse<Void> deleteLoanRepaymentByIdWithHttpInfo(String userId, String companyId, String jobId, String id, String loanId) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = deleteLoanRepaymentByIdRequestBuilder(userId, companyId, jobId, id, loanId);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -262,18 +262,18 @@ public class LoanRepaymentApi {
     }
   }
 
-  private HttpRequest.Builder deleteLoanRepaymentByIdRequestBuilder(String compId, String jobId, String userId, String id, String loanId) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling deleteLoanRepaymentById");
+  private HttpRequest.Builder deleteLoanRepaymentByIdRequestBuilder(String userId, String companyId, String jobId, String id, String loanId) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling deleteLoanRepaymentById");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling deleteLoanRepaymentById");
     }
     // verify the required parameter 'jobId' is set
     if (jobId == null) {
       throw new ApiException(400, "Missing the required parameter 'jobId' when calling deleteLoanRepaymentById");
-    }
-    // verify the required parameter 'userId' is set
-    if (userId == null) {
-      throw new ApiException(400, "Missing the required parameter 'userId' when calling deleteLoanRepaymentById");
     }
     // verify the required parameter 'id' is set
     if (id == null) {
@@ -282,10 +282,10 @@ public class LoanRepaymentApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/job/{job_id}/user/{user_id}/loans_repayment/{id}"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()))
-        .replace("{job_id}", ApiClient.urlEncode(jobId.toString()))
-        .replace("{user_id}", ApiClient.urlEncode(userId.toString()))
+    String localVarPath = "/users/{userId}/companies/{companyId}/jobs/{jobId}/loan_repayments/{id}"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()))
+        .replace("{jobId}", ApiClient.urlEncode(jobId.toString()))
         .replace("{id}", ApiClient.urlEncode(id.toString()));
 
     List<Pair> localVarQueryParams = new ArrayList<>();
@@ -320,32 +320,32 @@ public class LoanRepaymentApi {
   /**
    * Get loan repayment by identifier
    * 
-   * @param compId  (required)
-   * @param jobId  (required)
    * @param userId  (required)
+   * @param companyId  (required)
+   * @param jobId  (required)
    * @param id  (required)
    * @param loanId  (optional)
    * @return LoanRepayment
    * @throws ApiException if fails to make API call
    */
-  public LoanRepayment getLoanRepaymentById(String compId, String jobId, String userId, String id, String loanId) throws ApiException {
-    ApiResponse<LoanRepayment> localVarResponse = getLoanRepaymentByIdWithHttpInfo(compId, jobId, userId, id, loanId);
+  public LoanRepayment getLoanRepaymentById(String userId, String companyId, String jobId, String id, String loanId) throws ApiException {
+    ApiResponse<LoanRepayment> localVarResponse = getLoanRepaymentByIdWithHttpInfo(userId, companyId, jobId, id, loanId);
     return localVarResponse.getData();
   }
 
   /**
    * Get loan repayment by identifier
    * 
-   * @param compId  (required)
-   * @param jobId  (required)
    * @param userId  (required)
+   * @param companyId  (required)
+   * @param jobId  (required)
    * @param id  (required)
    * @param loanId  (optional)
    * @return ApiResponse&lt;LoanRepayment&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<LoanRepayment> getLoanRepaymentByIdWithHttpInfo(String compId, String jobId, String userId, String id, String loanId) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getLoanRepaymentByIdRequestBuilder(compId, jobId, userId, id, loanId);
+  public ApiResponse<LoanRepayment> getLoanRepaymentByIdWithHttpInfo(String userId, String companyId, String jobId, String id, String loanId) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getLoanRepaymentByIdRequestBuilder(userId, companyId, jobId, id, loanId);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -373,18 +373,18 @@ public class LoanRepaymentApi {
     }
   }
 
-  private HttpRequest.Builder getLoanRepaymentByIdRequestBuilder(String compId, String jobId, String userId, String id, String loanId) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling getLoanRepaymentById");
+  private HttpRequest.Builder getLoanRepaymentByIdRequestBuilder(String userId, String companyId, String jobId, String id, String loanId) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling getLoanRepaymentById");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling getLoanRepaymentById");
     }
     // verify the required parameter 'jobId' is set
     if (jobId == null) {
       throw new ApiException(400, "Missing the required parameter 'jobId' when calling getLoanRepaymentById");
-    }
-    // verify the required parameter 'userId' is set
-    if (userId == null) {
-      throw new ApiException(400, "Missing the required parameter 'userId' when calling getLoanRepaymentById");
     }
     // verify the required parameter 'id' is set
     if (id == null) {
@@ -393,10 +393,10 @@ public class LoanRepaymentApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/job/{job_id}/user/{user_id}/loans_repayment/{id}"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()))
-        .replace("{job_id}", ApiClient.urlEncode(jobId.toString()))
-        .replace("{user_id}", ApiClient.urlEncode(userId.toString()))
+    String localVarPath = "/users/{userId}/companies/{companyId}/jobs/{jobId}/loan_repayments/{id}"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()))
+        .replace("{jobId}", ApiClient.urlEncode(jobId.toString()))
         .replace("{id}", ApiClient.urlEncode(id.toString()));
 
     List<Pair> localVarQueryParams = new ArrayList<>();
@@ -431,34 +431,34 @@ public class LoanRepaymentApi {
   /**
    * Get all loan repayments
    * 
-   * @param compId  (required)
-   * @param jobId  (required)
    * @param userId  (required)
+   * @param companyId  (required)
+   * @param jobId  (required)
    * @param loanId  (optional)
    * @param page  (optional)
    * @param pageSize  (optional)
    * @return List&lt;LoanRepayment&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<LoanRepayment> getLoanRepayments(String compId, String jobId, String userId, String loanId, Integer page, Integer pageSize) throws ApiException {
-    ApiResponse<List<LoanRepayment>> localVarResponse = getLoanRepaymentsWithHttpInfo(compId, jobId, userId, loanId, page, pageSize);
+  public List<LoanRepayment> getLoanRepayments(String userId, String companyId, String jobId, String loanId, Integer page, Integer pageSize) throws ApiException {
+    ApiResponse<List<LoanRepayment>> localVarResponse = getLoanRepaymentsWithHttpInfo(userId, companyId, jobId, loanId, page, pageSize);
     return localVarResponse.getData();
   }
 
   /**
    * Get all loan repayments
    * 
-   * @param compId  (required)
-   * @param jobId  (required)
    * @param userId  (required)
+   * @param companyId  (required)
+   * @param jobId  (required)
    * @param loanId  (optional)
    * @param page  (optional)
    * @param pageSize  (optional)
    * @return ApiResponse&lt;List&lt;LoanRepayment&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<LoanRepayment>> getLoanRepaymentsWithHttpInfo(String compId, String jobId, String userId, String loanId, Integer page, Integer pageSize) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getLoanRepaymentsRequestBuilder(compId, jobId, userId, loanId, page, pageSize);
+  public ApiResponse<List<LoanRepayment>> getLoanRepaymentsWithHttpInfo(String userId, String companyId, String jobId, String loanId, Integer page, Integer pageSize) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getLoanRepaymentsRequestBuilder(userId, companyId, jobId, loanId, page, pageSize);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -486,26 +486,26 @@ public class LoanRepaymentApi {
     }
   }
 
-  private HttpRequest.Builder getLoanRepaymentsRequestBuilder(String compId, String jobId, String userId, String loanId, Integer page, Integer pageSize) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling getLoanRepayments");
+  private HttpRequest.Builder getLoanRepaymentsRequestBuilder(String userId, String companyId, String jobId, String loanId, Integer page, Integer pageSize) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling getLoanRepayments");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling getLoanRepayments");
     }
     // verify the required parameter 'jobId' is set
     if (jobId == null) {
       throw new ApiException(400, "Missing the required parameter 'jobId' when calling getLoanRepayments");
     }
-    // verify the required parameter 'userId' is set
-    if (userId == null) {
-      throw new ApiException(400, "Missing the required parameter 'userId' when calling getLoanRepayments");
-    }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/job/{job_id}/user/{user_id}/loans_repayment"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()))
-        .replace("{job_id}", ApiClient.urlEncode(jobId.toString()))
-        .replace("{user_id}", ApiClient.urlEncode(userId.toString()));
+    String localVarPath = "/users/{userId}/companies/{companyId}/jobs/{jobId}/loan_repayments"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()))
+        .replace("{jobId}", ApiClient.urlEncode(jobId.toString()));
 
     List<Pair> localVarQueryParams = new ArrayList<>();
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");

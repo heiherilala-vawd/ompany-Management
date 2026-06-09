@@ -50,7 +50,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-09T12:36:49.757496465+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-09T15:19:37.891340015+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class MaterialConsumptionApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -90,26 +90,28 @@ public class MaterialConsumptionApi {
   /**
    * Complete a material consumption
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param id  (required)
    * @return MaterialConsumption
    * @throws ApiException if fails to make API call
    */
-  public MaterialConsumption completeMaterialConsumption(String compId, String id) throws ApiException {
-    ApiResponse<MaterialConsumption> localVarResponse = completeMaterialConsumptionWithHttpInfo(compId, id);
+  public MaterialConsumption completeMaterialConsumption(String userId, String companyId, String id) throws ApiException {
+    ApiResponse<MaterialConsumption> localVarResponse = completeMaterialConsumptionWithHttpInfo(userId, companyId, id);
     return localVarResponse.getData();
   }
 
   /**
    * Complete a material consumption
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param id  (required)
    * @return ApiResponse&lt;MaterialConsumption&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<MaterialConsumption> completeMaterialConsumptionWithHttpInfo(String compId, String id) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = completeMaterialConsumptionRequestBuilder(compId, id);
+  public ApiResponse<MaterialConsumption> completeMaterialConsumptionWithHttpInfo(String userId, String companyId, String id) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = completeMaterialConsumptionRequestBuilder(userId, companyId, id);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -137,10 +139,14 @@ public class MaterialConsumptionApi {
     }
   }
 
-  private HttpRequest.Builder completeMaterialConsumptionRequestBuilder(String compId, String id) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling completeMaterialConsumption");
+  private HttpRequest.Builder completeMaterialConsumptionRequestBuilder(String userId, String companyId, String id) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling completeMaterialConsumption");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling completeMaterialConsumption");
     }
     // verify the required parameter 'id' is set
     if (id == null) {
@@ -149,8 +155,9 @@ public class MaterialConsumptionApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/material_consumption/{id}/complete"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()))
+    String localVarPath = "/users/{userId}/companies/{companyId}/material_consumptions/{id}/complete"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()))
         .replace("{id}", ApiClient.urlEncode(id.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
@@ -170,26 +177,28 @@ public class MaterialConsumptionApi {
   /**
    * Create new material consumption records or update existing ones
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param crupdateMaterialConsumption  (required)
    * @return List&lt;MaterialConsumption&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<MaterialConsumption> crupdateMaterialConsumptions(String compId, List<CrupdateMaterialConsumption> crupdateMaterialConsumption) throws ApiException {
-    ApiResponse<List<MaterialConsumption>> localVarResponse = crupdateMaterialConsumptionsWithHttpInfo(compId, crupdateMaterialConsumption);
+  public List<MaterialConsumption> crupdateMaterialConsumptions(String userId, String companyId, List<CrupdateMaterialConsumption> crupdateMaterialConsumption) throws ApiException {
+    ApiResponse<List<MaterialConsumption>> localVarResponse = crupdateMaterialConsumptionsWithHttpInfo(userId, companyId, crupdateMaterialConsumption);
     return localVarResponse.getData();
   }
 
   /**
    * Create new material consumption records or update existing ones
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param crupdateMaterialConsumption  (required)
    * @return ApiResponse&lt;List&lt;MaterialConsumption&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<MaterialConsumption>> crupdateMaterialConsumptionsWithHttpInfo(String compId, List<CrupdateMaterialConsumption> crupdateMaterialConsumption) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = crupdateMaterialConsumptionsRequestBuilder(compId, crupdateMaterialConsumption);
+  public ApiResponse<List<MaterialConsumption>> crupdateMaterialConsumptionsWithHttpInfo(String userId, String companyId, List<CrupdateMaterialConsumption> crupdateMaterialConsumption) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = crupdateMaterialConsumptionsRequestBuilder(userId, companyId, crupdateMaterialConsumption);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -217,10 +226,14 @@ public class MaterialConsumptionApi {
     }
   }
 
-  private HttpRequest.Builder crupdateMaterialConsumptionsRequestBuilder(String compId, List<CrupdateMaterialConsumption> crupdateMaterialConsumption) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling crupdateMaterialConsumptions");
+  private HttpRequest.Builder crupdateMaterialConsumptionsRequestBuilder(String userId, String companyId, List<CrupdateMaterialConsumption> crupdateMaterialConsumption) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling crupdateMaterialConsumptions");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling crupdateMaterialConsumptions");
     }
     // verify the required parameter 'crupdateMaterialConsumption' is set
     if (crupdateMaterialConsumption == null) {
@@ -229,8 +242,9 @@ public class MaterialConsumptionApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/material_consumption"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()));
+    String localVarPath = "/users/{userId}/companies/{companyId}/material_consumptions"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
@@ -255,24 +269,26 @@ public class MaterialConsumptionApi {
   /**
    * Delete a material consumption record by identifier
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param id  (required)
    * @throws ApiException if fails to make API call
    */
-  public void deleteMaterialConsumptionById(String compId, String id) throws ApiException {
-    deleteMaterialConsumptionByIdWithHttpInfo(compId, id);
+  public void deleteMaterialConsumptionById(String userId, String companyId, String id) throws ApiException {
+    deleteMaterialConsumptionByIdWithHttpInfo(userId, companyId, id);
   }
 
   /**
    * Delete a material consumption record by identifier
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param id  (required)
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Void> deleteMaterialConsumptionByIdWithHttpInfo(String compId, String id) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = deleteMaterialConsumptionByIdRequestBuilder(compId, id);
+  public ApiResponse<Void> deleteMaterialConsumptionByIdWithHttpInfo(String userId, String companyId, String id) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = deleteMaterialConsumptionByIdRequestBuilder(userId, companyId, id);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -305,10 +321,14 @@ public class MaterialConsumptionApi {
     }
   }
 
-  private HttpRequest.Builder deleteMaterialConsumptionByIdRequestBuilder(String compId, String id) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling deleteMaterialConsumptionById");
+  private HttpRequest.Builder deleteMaterialConsumptionByIdRequestBuilder(String userId, String companyId, String id) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling deleteMaterialConsumptionById");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling deleteMaterialConsumptionById");
     }
     // verify the required parameter 'id' is set
     if (id == null) {
@@ -317,8 +337,9 @@ public class MaterialConsumptionApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/material_consumption/{id}"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()))
+    String localVarPath = "/users/{userId}/companies/{companyId}/material_consumptions/{id}"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()))
         .replace("{id}", ApiClient.urlEncode(id.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
@@ -338,26 +359,28 @@ public class MaterialConsumptionApi {
   /**
    * Get a material consumption record by identifier
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param id  (required)
    * @return MaterialConsumption
    * @throws ApiException if fails to make API call
    */
-  public MaterialConsumption getMaterialConsumptionById(String compId, String id) throws ApiException {
-    ApiResponse<MaterialConsumption> localVarResponse = getMaterialConsumptionByIdWithHttpInfo(compId, id);
+  public MaterialConsumption getMaterialConsumptionById(String userId, String companyId, String id) throws ApiException {
+    ApiResponse<MaterialConsumption> localVarResponse = getMaterialConsumptionByIdWithHttpInfo(userId, companyId, id);
     return localVarResponse.getData();
   }
 
   /**
    * Get a material consumption record by identifier
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param id  (required)
    * @return ApiResponse&lt;MaterialConsumption&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<MaterialConsumption> getMaterialConsumptionByIdWithHttpInfo(String compId, String id) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getMaterialConsumptionByIdRequestBuilder(compId, id);
+  public ApiResponse<MaterialConsumption> getMaterialConsumptionByIdWithHttpInfo(String userId, String companyId, String id) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getMaterialConsumptionByIdRequestBuilder(userId, companyId, id);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -385,10 +408,14 @@ public class MaterialConsumptionApi {
     }
   }
 
-  private HttpRequest.Builder getMaterialConsumptionByIdRequestBuilder(String compId, String id) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling getMaterialConsumptionById");
+  private HttpRequest.Builder getMaterialConsumptionByIdRequestBuilder(String userId, String companyId, String id) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling getMaterialConsumptionById");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling getMaterialConsumptionById");
     }
     // verify the required parameter 'id' is set
     if (id == null) {
@@ -397,8 +424,9 @@ public class MaterialConsumptionApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/material_consumption/{id}"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()))
+    String localVarPath = "/users/{userId}/companies/{companyId}/material_consumptions/{id}"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()))
         .replace("{id}", ApiClient.urlEncode(id.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
@@ -418,7 +446,8 @@ public class MaterialConsumptionApi {
   /**
    * Get all material consumption records
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param page  (optional)
    * @param pageSize  (optional)
    * @param consumptionStatus  (optional)
@@ -426,15 +455,16 @@ public class MaterialConsumptionApi {
    * @return List&lt;MaterialConsumption&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<MaterialConsumption> getMaterialConsumptions(String compId, Integer page, Integer pageSize, String consumptionStatus, String jobId) throws ApiException {
-    ApiResponse<List<MaterialConsumption>> localVarResponse = getMaterialConsumptionsWithHttpInfo(compId, page, pageSize, consumptionStatus, jobId);
+  public List<MaterialConsumption> getMaterialConsumptions(String userId, String companyId, Integer page, Integer pageSize, String consumptionStatus, String jobId) throws ApiException {
+    ApiResponse<List<MaterialConsumption>> localVarResponse = getMaterialConsumptionsWithHttpInfo(userId, companyId, page, pageSize, consumptionStatus, jobId);
     return localVarResponse.getData();
   }
 
   /**
    * Get all material consumption records
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param page  (optional)
    * @param pageSize  (optional)
    * @param consumptionStatus  (optional)
@@ -442,8 +472,8 @@ public class MaterialConsumptionApi {
    * @return ApiResponse&lt;List&lt;MaterialConsumption&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<MaterialConsumption>> getMaterialConsumptionsWithHttpInfo(String compId, Integer page, Integer pageSize, String consumptionStatus, String jobId) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getMaterialConsumptionsRequestBuilder(compId, page, pageSize, consumptionStatus, jobId);
+  public ApiResponse<List<MaterialConsumption>> getMaterialConsumptionsWithHttpInfo(String userId, String companyId, Integer page, Integer pageSize, String consumptionStatus, String jobId) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getMaterialConsumptionsRequestBuilder(userId, companyId, page, pageSize, consumptionStatus, jobId);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -471,16 +501,21 @@ public class MaterialConsumptionApi {
     }
   }
 
-  private HttpRequest.Builder getMaterialConsumptionsRequestBuilder(String compId, Integer page, Integer pageSize, String consumptionStatus, String jobId) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling getMaterialConsumptions");
+  private HttpRequest.Builder getMaterialConsumptionsRequestBuilder(String userId, String companyId, Integer page, Integer pageSize, String consumptionStatus, String jobId) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling getMaterialConsumptions");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling getMaterialConsumptions");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/material_consumption"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()));
+    String localVarPath = "/users/{userId}/companies/{companyId}/material_consumptions"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()));
 
     List<Pair> localVarQueryParams = new ArrayList<>();
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
@@ -520,28 +555,30 @@ public class MaterialConsumptionApi {
   /**
    * Return materials from a consumption
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param id  (required)
    * @param quantity  (required)
    * @return MaterialConsumption
    * @throws ApiException if fails to make API call
    */
-  public MaterialConsumption returnMaterialsFromConsumption(String compId, String id, Integer quantity) throws ApiException {
-    ApiResponse<MaterialConsumption> localVarResponse = returnMaterialsFromConsumptionWithHttpInfo(compId, id, quantity);
+  public MaterialConsumption returnMaterialsFromConsumption(String userId, String companyId, String id, Integer quantity) throws ApiException {
+    ApiResponse<MaterialConsumption> localVarResponse = returnMaterialsFromConsumptionWithHttpInfo(userId, companyId, id, quantity);
     return localVarResponse.getData();
   }
 
   /**
    * Return materials from a consumption
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param id  (required)
    * @param quantity  (required)
    * @return ApiResponse&lt;MaterialConsumption&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<MaterialConsumption> returnMaterialsFromConsumptionWithHttpInfo(String compId, String id, Integer quantity) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = returnMaterialsFromConsumptionRequestBuilder(compId, id, quantity);
+  public ApiResponse<MaterialConsumption> returnMaterialsFromConsumptionWithHttpInfo(String userId, String companyId, String id, Integer quantity) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = returnMaterialsFromConsumptionRequestBuilder(userId, companyId, id, quantity);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -569,10 +606,14 @@ public class MaterialConsumptionApi {
     }
   }
 
-  private HttpRequest.Builder returnMaterialsFromConsumptionRequestBuilder(String compId, String id, Integer quantity) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling returnMaterialsFromConsumption");
+  private HttpRequest.Builder returnMaterialsFromConsumptionRequestBuilder(String userId, String companyId, String id, Integer quantity) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling returnMaterialsFromConsumption");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling returnMaterialsFromConsumption");
     }
     // verify the required parameter 'id' is set
     if (id == null) {
@@ -585,8 +626,9 @@ public class MaterialConsumptionApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/material_consumption/{id}/return"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()))
+    String localVarPath = "/users/{userId}/companies/{companyId}/material_consumptions/{id}/return"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()))
         .replace("{id}", ApiClient.urlEncode(id.toString()));
 
     List<Pair> localVarQueryParams = new ArrayList<>();

@@ -22,29 +22,29 @@ public class SupplierController {
   private final SupplierService supplierService;
   private final SupplierMapper supplierMapper;
 
-  @GetMapping("/companies/{comp_id}/suppliers")
+  @GetMapping("/users/{userId}/companies/{companyId}/suppliers")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
-  public List<Supplier> getSuppliers(@PathVariable("comp_id") String companyId) {
+  public List<Supplier> getSuppliers(@PathVariable String userId, @PathVariable String companyId) {
     return supplierService.findByCompanyId(companyId).stream().map(supplierMapper::toRest).toList();
   }
 
-  @GetMapping("/companies/{comp_id}/suppliers/{id}")
+  @GetMapping("/users/{userId}/companies/{companyId}/suppliers/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public Supplier getSupplierById(
-      @PathVariable("comp_id") String companyId, @PathVariable String id) {
+      @PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     return supplierMapper.toRest(supplierService.findById(id));
   }
 
-  @PutMapping("/companies/{comp_id}/suppliers")
+  @PutMapping("/users/{userId}/companies/{companyId}/suppliers")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<Supplier> crupdateSuppliers(
-      @PathVariable("comp_id") String companyId,
+      @PathVariable String userId, @PathVariable String companyId,
       @Valid @RequestBody List<CrupdateSupplier> toWrite) {
     var domains = toWrite.stream().map(s -> supplierMapper.toDomain(s, companyId)).toList();
     return supplierService.createOrUpdateAll(domains).stream().map(supplierMapper::toRest).toList();
   }
 
-  @DeleteMapping("/companies/{comp_id}/suppliers/{id}")
+  @DeleteMapping("/users/{userId}/companies/{companyId}/suppliers/{id}")
   @PreAuthorize("hasAnyRole('ADMIN')")
   public void deleteSupplierById(@PathVariable String id) {
     supplierService.deleteById(id);

@@ -7,6 +7,7 @@ import com.example.demo.client.model.User;
 import com.example.demo.model.Company;
 import com.example.demo.model.core.Department;
 import java.util.List;
+import java.util.Set;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -50,7 +51,7 @@ public class UserMapper {
                     ? Department.builder().id(restUser.getDepartmentId()).build()
                     : null);
     if (companyId != null) {
-      builder.company(Company.builder().id(companyId).build());
+      builder.companies(Set.of(Company.builder().id(companyId).build()));
     }
     return builder.build();
   }
@@ -63,7 +64,10 @@ public class UserMapper {
     restUser.setFirstName(domainUser.getFirstName());
     restUser.setSex(EnumMapper.mapEnum(domainUser.getSex(), Sex.class));
     restUser.setEmail(domainUser.getEmail());
-    restUser.setCompanyId(domainUser.getCompany() != null ? domainUser.getCompany().getId() : null);
+    restUser.setCompanyId(
+        domainUser.getCompanies() != null && !domainUser.getCompanies().isEmpty()
+            ? domainUser.getCompanies().iterator().next().getId()
+            : null);
     restUser.setBirthDate(domainUser.getBirthDate());
     restUser.setManagerId(domainUser.getManager() != null ? domainUser.getManager().getId() : null);
     restUser.setDepartmentId(
@@ -81,6 +85,23 @@ public class UserMapper {
 
   public List<User> toRestUsers(List<com.example.demo.model.User> domainUsers) {
     return domainUsers.stream().map(this::toRestUser).collect(java.util.stream.Collectors.toList());
+  }
+
+  public CrupdateUser toRestCrupdateUser(com.example.demo.model.User domainUser) {
+    if (domainUser == null) return null;
+    CrupdateUser rest = new CrupdateUser();
+    rest.setId(domainUser.getId());
+    rest.setRole(EnumMapper.mapEnum(domainUser.getRole(), Role.class));
+    rest.setLastName(domainUser.getLastName());
+    rest.setFirstName(domainUser.getFirstName());
+    rest.setSex(EnumMapper.mapEnum(domainUser.getSex(), Sex.class));
+    rest.setEmail(domainUser.getEmail());
+    rest.setCompanyIds(
+        domainUser.getCompanies() != null && !domainUser.getCompanies().isEmpty()
+            ? domainUser.getCompanies().stream().map(Company::getId).toList()
+            : null);
+    rest.setBirthDate(domainUser.getBirthDate());
+    return rest;
   }
 
   public List<com.example.demo.model.User> toDomain(List<User> restUsers) {

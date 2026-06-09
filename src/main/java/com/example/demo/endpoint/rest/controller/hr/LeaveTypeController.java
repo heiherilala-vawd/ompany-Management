@@ -19,30 +19,30 @@ public class LeaveTypeController {
   private final com.example.demo.service.hr.LeaveTypeService leaveTypeService;
   private final LeaveTypeMapper leaveTypeMapper;
 
-  @GetMapping("/companies/{comp_id}/leave_types")
+  @GetMapping("/users/{userId}/companies/{companyId}/leave_types")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<LeaveType> getLeaveTypes(
-      @PathVariable String comp_id,
+      @PathVariable String userId, @PathVariable String companyId,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize) {
-    return leaveTypeService.findAll(page, pageSize, comp_id).stream()
+    return leaveTypeService.findAll(page, pageSize, companyId).stream()
         .map(leaveTypeMapper::toRestLeaveType)
         .toList();
   }
 
-  @PutMapping("/companies/{comp_id}/leave_types")
+  @PutMapping("/users/{userId}/companies/{companyId}/leave_types")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<LeaveType> crupdateLeaveTypes(
-      @PathVariable String comp_id, @Valid @RequestBody List<CrupdateLeaveType> toWrite) {
+      @PathVariable String userId, @PathVariable String companyId, @Valid @RequestBody List<CrupdateLeaveType> toWrite) {
     List<com.example.demo.model.hr.LeaveType> saved =
         leaveTypeService.createOrUpdateAll(
-            toWrite.stream().map(rest -> leaveTypeMapper.toDomain(rest, comp_id)).toList());
+            toWrite.stream().map(rest -> leaveTypeMapper.toDomain(rest, companyId)).toList());
     return saved.stream().map(leaveTypeMapper::toRestLeaveType).toList();
   }
 
-  @GetMapping("/companies/{comp_id}/leave_types/{id}")
+  @GetMapping("/users/{userId}/companies/{companyId}/leave_types/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
-  public LeaveType getLeaveTypeById(@PathVariable String comp_id, @PathVariable String id) {
+  public LeaveType getLeaveTypeById(@PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     return leaveTypeMapper.toRestLeaveType(
         leaveTypeService
             .findById(id)

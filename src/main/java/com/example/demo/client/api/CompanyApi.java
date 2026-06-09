@@ -51,7 +51,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-09T12:36:49.757496465+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-09T15:19:37.891340015+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CompanyApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -169,22 +169,24 @@ public class CompanyApi {
   /**
    * Delete a company by identifier
    * 
-   * @param id  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @throws ApiException if fails to make API call
    */
-  public void deleteCompanyById(String id) throws ApiException {
-    deleteCompanyByIdWithHttpInfo(id);
+  public void deleteCompanyById(String userId, String companyId) throws ApiException {
+    deleteCompanyByIdWithHttpInfo(userId, companyId);
   }
 
   /**
    * Delete a company by identifier
    * 
-   * @param id  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Void> deleteCompanyByIdWithHttpInfo(String id) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = deleteCompanyByIdRequestBuilder(id);
+  public ApiResponse<Void> deleteCompanyByIdWithHttpInfo(String userId, String companyId) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = deleteCompanyByIdRequestBuilder(userId, companyId);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -217,16 +219,21 @@ public class CompanyApi {
     }
   }
 
-  private HttpRequest.Builder deleteCompanyByIdRequestBuilder(String id) throws ApiException {
-    // verify the required parameter 'id' is set
-    if (id == null) {
-      throw new ApiException(400, "Missing the required parameter 'id' when calling deleteCompanyById");
+  private HttpRequest.Builder deleteCompanyByIdRequestBuilder(String userId, String companyId) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling deleteCompanyById");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling deleteCompanyById");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{id}"
-        .replace("{id}", ApiClient.urlEncode(id.toString()));
+    String localVarPath = "/users/{userId}/companies/{companyId}"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
@@ -348,24 +355,26 @@ public class CompanyApi {
   /**
    * Get company by identifier
    * 
-   * @param id  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @return Company
    * @throws ApiException if fails to make API call
    */
-  public Company getCompanyById(String id) throws ApiException {
-    ApiResponse<Company> localVarResponse = getCompanyByIdWithHttpInfo(id);
+  public Company getCompanyById(String userId, String companyId) throws ApiException {
+    ApiResponse<Company> localVarResponse = getCompanyByIdWithHttpInfo(userId, companyId);
     return localVarResponse.getData();
   }
 
   /**
    * Get company by identifier
    * 
-   * @param id  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @return ApiResponse&lt;Company&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Company> getCompanyByIdWithHttpInfo(String id) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getCompanyByIdRequestBuilder(id);
+  public ApiResponse<Company> getCompanyByIdWithHttpInfo(String userId, String companyId) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getCompanyByIdRequestBuilder(userId, companyId);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -393,16 +402,21 @@ public class CompanyApi {
     }
   }
 
-  private HttpRequest.Builder getCompanyByIdRequestBuilder(String id) throws ApiException {
-    // verify the required parameter 'id' is set
-    if (id == null) {
-      throw new ApiException(400, "Missing the required parameter 'id' when calling getCompanyById");
+  private HttpRequest.Builder getCompanyByIdRequestBuilder(String userId, String companyId) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling getCompanyById");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling getCompanyById");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{id}"
-        .replace("{id}", ApiClient.urlEncode(id.toString()));
+    String localVarPath = "/users/{userId}/companies/{companyId}"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 

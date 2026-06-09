@@ -21,15 +21,15 @@ public class TravelOperationController {
   private final TravelOperationService travelOperationService;
   private final TravelExpenseMapper travelExpenseMapper;
 
-  @PostMapping("/companies/{comp_id}/job/{job_id}/user/{user_id}/travel_operations")
+  @PostMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/travel_operations")
   @PreAuthorize(
-      "hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER') or #user_id == authentication.principal.id")
+      "hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER') or #userId == authentication.principal.id")
   public TravelExpense createTravelOperation(
-      @PathVariable String comp_id,
-      @PathVariable String job_id,
-      @PathVariable String user_id,
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @PathVariable String jobId,
       @Valid @RequestBody TravelOperationRequest request) {
     return travelExpenseMapper.toRestTravelExpense(
-        travelOperationService.create(travelOperationMapper.toAggregate(job_id, user_id, request)));
+        travelOperationService.create(travelOperationMapper.toAggregate(jobId, userId, request)));
   }
 }
