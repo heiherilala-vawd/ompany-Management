@@ -22,13 +22,13 @@ public class CompanyController {
   private final CompanyService companyService;
   private final CompanyMapper companyMapper;
 
-  @GetMapping("/companies/{id}")
+  @GetMapping("/users/{userId}/companies/{companyId}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER', 'EMPLOYEE')")
-  public Company getCompanyById(@PathVariable String id) {
+  public Company getCompanyById(@PathVariable String userId, @PathVariable String companyId) {
     return companyMapper.toRestCompany(
         companyService
-            .findById(id)
-            .orElseThrow(() -> new NotFoundException("Company with id " + id + " not found")));
+            .findById(companyId)
+            .orElseThrow(() -> new NotFoundException("Company with id " + companyId + " not found")));
   }
 
   @GetMapping("/companies")
@@ -62,15 +62,15 @@ public class CompanyController {
     return saved.stream().map(companyMapper::toRestCompany).toList();
   }
 
-  @DeleteMapping("/companies/{id}")
+  @DeleteMapping("/users/{userId}/companies/{companyId}")
   @PreAuthorize("hasAnyRole('ADMIN')")
-  public Company deleteCompanyById(@PathVariable String id) {
+  public Company deleteCompanyById(@PathVariable String userId, @PathVariable String companyId) {
     Company entity =
         companyMapper.toRestCompany(
             companyService
-                .findById(id)
-                .orElseThrow(() -> new NotFoundException("Company " + id + " not found")));
-    companyService.deleteById(id);
+                .findById(companyId)
+                .orElseThrow(() -> new NotFoundException("Company " + companyId + " not found")));
+    companyService.deleteById(companyId);
     return entity;
   }
 }

@@ -53,6 +53,11 @@ public class AuthService {
     authResponse.setType("Bearer");
     authResponse.setRole(user.getRole().name());
     authResponse.setToken(jwt);
+    var companies = user.getCompanies();
+    if (companies != null && !companies.isEmpty()) {
+      authResponse.setCompanyIds(
+          companies.stream().map(Company::getId).collect(Collectors.toList()));
+    }
 
     return authResponse;
   }
@@ -80,6 +85,11 @@ public class AuthService {
     authResponse.setType("Bearer");
     authResponse.setRole(savedUser.getRole().name());
     authResponse.setToken(jwt);
+    var companies = savedUser.getCompanies();
+    if (companies != null && !companies.isEmpty()) {
+      authResponse.setCompanyIds(
+          companies.stream().map(Company::getId).collect(Collectors.toList()));
+    }
 
     return authResponse;
   }
@@ -102,6 +112,11 @@ public class AuthService {
     authResponse.setType("Bearer");
     authResponse.setRole(user.getRole().name());
     authResponse.setToken(token);
+    var companies = user.getCompanies();
+    if (companies != null && !companies.isEmpty()) {
+      authResponse.setCompanyIds(
+          companies.stream().map(Company::getId).collect(Collectors.toList()));
+    }
 
     return authResponse;
   }

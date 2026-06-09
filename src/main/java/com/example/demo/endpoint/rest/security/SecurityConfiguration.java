@@ -5,8 +5,10 @@ import static org.springframework.http.HttpMethod.*;
 import com.example.demo.endpoint.rest.security.jwt.JwtAccessDeniedHandler;
 import com.example.demo.endpoint.rest.security.jwt.JwtAuthenticationEntryPoint;
 import com.example.demo.endpoint.rest.security.jwt.JwtAuthenticationFilter;
+import com.example.demo.endpoint.rest.security.jwt.CompanyScopedFilter;
 import com.example.demo.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -29,6 +31,7 @@ public class SecurityConfiguration {
   private final JwtAuthenticationFilter jwtAuthenticationFilter;
   private final JwtAuthenticationEntryPoint unauthorizedHandler;
   private final JwtAccessDeniedHandler accessDeniedHandler;
+  private final CompanyScopedFilter companyScopedFilter;
   private final UserService userService;
 
   @Bean
@@ -68,12 +71,14 @@ public class SecurityConfiguration {
                     // =========================
                     // COMPANY
                     // =========================
-                    .requestMatchers(GET, "/companies", "/companies/*")
+                    .requestMatchers(GET, "/users/*/companies/*")
+                    .authenticated()
+                    .requestMatchers(GET, "/companies")
                     .authenticated()
                     .requestMatchers(PUT, "/companies")
                     .authenticated()
                     // DELETE /companies - ADMIN uniquement
-                    .requestMatchers(DELETE, "/companies/*")
+                    .requestMatchers(DELETE, "/users/*/companies/*")
                     .hasRole("ADMIN")
 
                     // =========================
@@ -539,8 +544,17 @@ public class SecurityConfiguration {
                     .denyAll());
 
     http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+    http.addFilterAfter(companyScopedFilter, JwtAuthenticationFilter.class);
 
     return http.build();
+  }
+
+  @Bean
+  public FilterRegistrationBean<CompanyScopedFilter> companyScopedFilterRegistration(
+      CompanyScopedFilter filter) {
+    FilterRegistrationBean<CompanyScopedFilter> registration = new FilterRegistrationBean<>(filter);
+    registration.setEnabled(false);
+    return registration;
   }
 
   @Bean
