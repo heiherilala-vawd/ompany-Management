@@ -24,7 +24,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
@@ -36,9 +38,10 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   AuthResponse.JSON_PROPERTY_TYPE,
   AuthResponse.JSON_PROPERTY_ID,
   AuthResponse.JSON_PROPERTY_EMAIL,
-  AuthResponse.JSON_PROPERTY_ROLE
+  AuthResponse.JSON_PROPERTY_ROLE,
+  AuthResponse.JSON_PROPERTY_COMPANY_IDS
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-09T15:19:37.891340015+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-09T16:25:55.938344943+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class AuthResponse {
   public static final String JSON_PROPERTY_TOKEN = "token";
   private String token;
@@ -54,6 +57,9 @@ public class AuthResponse {
 
   public static final String JSON_PROPERTY_ROLE = "role";
   private String role;
+
+  public static final String JSON_PROPERTY_COMPANY_IDS = "company_ids";
+  private List<String> companyIds = new ArrayList<>();
 
   public AuthResponse() { 
   }
@@ -183,6 +189,39 @@ public class AuthResponse {
   }
 
 
+  public AuthResponse companyIds(List<String> companyIds) {
+    this.companyIds = companyIds;
+    return this;
+  }
+
+  public AuthResponse addCompanyIdsItem(String companyIdsItem) {
+    if (this.companyIds == null) {
+      this.companyIds = new ArrayList<>();
+    }
+    this.companyIds.add(companyIdsItem);
+    return this;
+  }
+
+   /**
+   * Get companyIds
+   * @return companyIds
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_COMPANY_IDS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public List<String> getCompanyIds() {
+    return companyIds;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_COMPANY_IDS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setCompanyIds(List<String> companyIds) {
+    this.companyIds = companyIds;
+  }
+
+
   /**
    * Return true if this AuthResponse object is equal to o.
    */
@@ -199,12 +238,13 @@ public class AuthResponse {
         Objects.equals(this.type, authResponse.type) &&
         Objects.equals(this.id, authResponse.id) &&
         Objects.equals(this.email, authResponse.email) &&
-        Objects.equals(this.role, authResponse.role);
+        Objects.equals(this.role, authResponse.role) &&
+        Objects.equals(this.companyIds, authResponse.companyIds);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(token, type, id, email, role);
+    return Objects.hash(token, type, id, email, role, companyIds);
   }
 
   @Override
@@ -216,6 +256,7 @@ public class AuthResponse {
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    email: ").append(toIndentedString(email)).append("\n");
     sb.append("    role: ").append(toIndentedString(role)).append("\n");
+    sb.append("    companyIds: ").append(toIndentedString(companyIds)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -286,6 +327,15 @@ public class AuthResponse {
     // add `role` to the URL query string
     if (getRole() != null) {
       joiner.add(String.format("%srole%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getRole()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `company_ids` to the URL query string
+    if (getCompanyIds() != null) {
+      for (int i = 0; i < getCompanyIds().size(); i++) {
+        joiner.add(String.format("%scompany_ids%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+            URLEncoder.encode(String.valueOf(getCompanyIds().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      }
     }
 
     return joiner.toString();

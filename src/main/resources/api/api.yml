@@ -14269,6 +14269,11 @@ components:
         role:
           type: string
           example: "EMPLOYEE"
+        company_ids:
+          type: array
+          items:
+            type: string
+          example: ["comp_btp001", "comp_btp002"]
 
     # =========================
     # LoginRequest
