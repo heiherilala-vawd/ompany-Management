@@ -21,12 +21,10 @@ public class TravelExpenseController {
   private final TravelExpenseService travelExpenseService;
   private final TravelExpenseMapper travelExpenseMapper;
 
-  @GetMapping("/companies/{comp_id}/job/{job_id}/user/{user_id}/travel_expenses/{id}")
-  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION') or #user_id == authentication.principal.id")
+  @GetMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/travel_expenses/{id}")
+  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION') or #userId == authentication.principal.id")
   public TravelExpense getTravelExpenseById(
-      @PathVariable String comp_id,
-      @PathVariable String job_id,
-      @PathVariable String user_id,
+      @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId,
       @PathVariable String id) {
     return travelExpenseMapper.toRestTravelExpense(
         travelExpenseService
@@ -35,12 +33,10 @@ public class TravelExpenseController {
                 () -> new NotFoundException("TravelExpense with id " + id + " not found")));
   }
 
-  @GetMapping("/companies/{comp_id}/job/{job_id}/user/{user_id}/travel_expenses")
-  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION') or #user_id == authentication.principal.id")
+  @GetMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/travel_expenses")
+  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION') or #userId == authentication.principal.id")
   public List<TravelExpense> getTravelExpenses(
-      @PathVariable String comp_id,
-      @PathVariable String job_id,
-      @PathVariable String user_id,
+      @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
       @RequestParam(name = "departure_location", required = false) String departureLocation,
@@ -56,12 +52,10 @@ public class TravelExpenseController {
         .toList();
   }
 
-  @PutMapping("/companies/{comp_id}/job/{job_id}/user/{user_id}/travel_expenses")
-  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION') or #user_id == authentication.principal.id")
+  @PutMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/travel_expenses")
+  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION') or #userId == authentication.principal.id")
   public List<TravelExpense> crupdateTravelExpenses(
-      @PathVariable String comp_id,
-      @PathVariable String job_id,
-      @PathVariable String user_id,
+      @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId,
       @Valid @RequestBody List<CrupdateTravelExpense> toWrite) {
     List<com.example.demo.model.money.TravelExpense> saved =
         travelExpenseService.createOrUpdateAll(
@@ -69,12 +63,10 @@ public class TravelExpenseController {
     return saved.stream().map(travelExpenseMapper::toRestTravelExpense).toList();
   }
 
-  @DeleteMapping("/companies/{comp_id}/job/{job_id}/user/{user_id}/travel_expenses/{id}")
+  @DeleteMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/travel_expenses/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'WAREHOUSE_WORKER')")
   public void deleteTravelExpenseById(
-      @PathVariable String comp_id,
-      @PathVariable String job_id,
-      @PathVariable String user_id,
+      @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId,
       @PathVariable String id) {
     travelExpenseService.deleteById(id);
   }

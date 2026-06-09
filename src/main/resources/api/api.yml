@@ -160,14 +160,22 @@ paths:
   # ║  1. FEATURES (CRUD)                                           ║
   # ╚══════════════════════════════════════════════════════════╝
 
-  /companies/{comp_id}/leaves:
+  /users/{userId}/companies/{companyId}/leaves:
     get:
       tags:
         - HR
       summary: Get all leaves
       operationId: getLeaves
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -228,7 +236,15 @@ paths:
       summary: Create or update leaves
       operationId: crupdateLeaves
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -262,14 +278,22 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  /companies/{comp_id}/leaves/{id}:
+  /users/{userId}/companies/{companyId}/leaves/{id}:
     get:
       tags:
         - HR
       summary: Get leave by identifier
       operationId: getLeaveById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -304,7 +328,15 @@ paths:
       summary: Delete leave by identifier
       operationId: deleteLeaveById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -442,14 +474,22 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  '/companies/{comp_id}/users/{id}':
+  '/users/{userId}/companies/{companyId}/users/{id}':
     get:
       tags:
         - Users
       summary: Get user by identifier
       operationId: getUserById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -508,7 +548,15 @@ paths:
       summary: Delete a user by identifier
       operationId: deleteUserById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -534,14 +582,22 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  '/companies/{comp_id}/users':
+  '/users/{userId}/companies/{companyId}/users':
     get:
       tags:
         - Users
       summary: Get all users
       operationId: getUsers
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -654,7 +710,15 @@ paths:
       description: Update users when `id` are provided, create them otherwise.
       operationId: crupdateUsers
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -751,14 +815,22 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  '/companies/{id}':
+  '/users/{userId}/companies/{companyId}':
     get:
       tags:
         - Company
       summary: Get company by identifier
       operationId: getCompanyById
       parameters:
-        - name: id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -810,7 +882,15 @@ paths:
       summary: Delete a company by identifier
       operationId: deleteCompanyById
       parameters:
-        - name: id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -1025,14 +1105,22 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  '/companies/{comp_id}/teams/{id}':
+  '/users/{userId}/companies/{companyId}/teams/{id}':
     get:
       tags:
         - Team
       summary: Get team by identifier
       operationId: getTeamById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -1067,7 +1155,15 @@ paths:
       summary: Delete team by identifier
       operationId: deleteTeamById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -1093,14 +1189,22 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  /companies/{comp_id}/teams:
+  /users/{userId}/companies/{companyId}/teams:
     get:
       tags:
         - Team
       summary: Get all teams
       operationId: getTeams
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -1143,7 +1247,15 @@ paths:
       summary: Create new teams or update existing teams
       operationId: crupdateTeams
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -1177,14 +1289,22 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  '/companies/{comp_id}/jobs/{id}':
+  '/users/{userId}/companies/{companyId}/jobs/{id}':
     get:
       tags:
         - Job
       summary: Get job by identifier
       operationId: getJobById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -1249,7 +1369,15 @@ paths:
       summary: Delete a job by identifier
       operationId: deleteJobById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -1275,14 +1403,22 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  /companies/{comp_id}/jobs:
+  /users/{userId}/companies/{companyId}/jobs:
     get:
       tags:
         - Job
       summary: Get all jobs
       operationId: getJobs
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -1393,7 +1529,15 @@ paths:
       summary: Create new jobs or update existing jobs
       operationId: crupdateJobs
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -1502,31 +1646,33 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  '/companies/{comp_id}/jobs/{job_id}/users/{user_id}':
+  '/users/{userId}/companies/{companyId}/jobs/{jobId}/users/{userId}':
     put:
       tags:
         - Job
       summary: Assign a user to a job
       operationId: assignUserToJob
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
             type: string
           example: "comp_btp001"
-        - name: job_id
+        - name: jobId
           in: path
           required: true
           schema:
             type: string
           example: "job_001"
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "usr_123456"
       responses:
         '200':
           description: User assigned to job successfully
@@ -1546,24 +1692,26 @@ paths:
       summary: Unassign a user from a job
       operationId: unassignUserFromJob
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
             type: string
           example: "comp_btp001"
-        - name: job_id
+        - name: jobId
           in: path
           required: true
           schema:
             type: string
           example: "job_001"
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "usr_123456"
       responses:
         '204':
           description: User unassigned from job successfully
@@ -1578,20 +1726,28 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  /companies/{comp_id}/jobs/{job_id}/users:
+  /users/{userId}/companies/{companyId}/jobs/{jobId}/users:
     get:
       tags:
         - Job
       summary: Get responsible users for a job
       operationId: getJobResponsibleUsers
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
             type: string
           example: "comp_btp001"
-        - name: job_id
+        - name: jobId
           in: path
           required: true
           schema:
@@ -1664,14 +1820,22 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  '/companies/{comp_id}/warehouses/{id}':
+  '/users/{userId}/companies/{companyId}/warehouses/{id}':
     get:
       tags:
         - Warehouse
       summary: Get warehouse by identifier
       operationId: getWarehouseById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -1735,7 +1899,15 @@ paths:
       summary: Delete a warehouse by identifier
       operationId: deleteWarehouseById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -1761,14 +1933,22 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  /companies/{comp_id}/warehouses:
+  /users/{userId}/companies/{companyId}/warehouses:
     get:
       tags:
         - Warehouse
       summary: Get all warehouses
       operationId: getWarehouses
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -1875,7 +2055,15 @@ paths:
       summary: Create new warehouses or update existing warehouses
       operationId: crupdateWarehouses
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -1968,14 +2156,22 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  '/companies/{comp_id}/equipment/{id}':
+  '/users/{userId}/companies/{companyId}/equipments/{id}':
     get:
       tags:
         - Equipment
       summary: Get equipment by identifier
       operationId: getEquipmentById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -2037,7 +2233,15 @@ paths:
       summary: Delete equipment by identifier
       operationId: deleteEquipmentById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -2063,14 +2267,22 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  /companies/{comp_id}/equipment:
+  /users/{userId}/companies/{companyId}/equipments:
     get:
       tags:
         - Equipment
       summary: Get all equipment
       operationId: getEquipment
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -2195,7 +2407,15 @@ paths:
       summary: Create new equipment or update existing equipment
       operationId: crupdateEquipment
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -2294,14 +2514,22 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  '/companies/{comp_id}/maintenances/{id}':
+  '/users/{userId}/companies/{companyId}/maintenances/{id}':
     get:
       tags:
         - Maintenance
       summary: Get maintenance by identifier
       operationId: getMaintenanceById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -2350,7 +2578,15 @@ paths:
       summary: Delete maintenance by identifier
       operationId: deleteMaintenanceById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -2382,14 +2618,22 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  '/companies/{comp_id}/maintenances':
+  '/users/{userId}/companies/{companyId}/maintenances':
     get:
       tags:
         - Maintenance
       summary: Get all maintenances
       operationId: getMaintenances
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -2450,7 +2694,15 @@ paths:
       summary: Create new maintenances or update existing ones
       operationId: crupdateMaintenances
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -2499,14 +2751,22 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  '/companies/{comp_id}/materials/{id}':
+  '/users/{userId}/companies/{companyId}/materials/{id}':
     get:
       tags:
         - Material
       summary: Get material by identifier
       operationId: getMaterialById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -2563,7 +2823,15 @@ paths:
       summary: Delete material by identifier
       operationId: deleteMaterialById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -2589,14 +2857,22 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  '/companies/{comp_id}/materials':
+  '/users/{userId}/companies/{companyId}/materials':
     get:
       tags:
         - Material
       summary: Get all materials
       operationId: getMaterials
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -2724,7 +3000,15 @@ paths:
       summary: Create new materials or update existing materials
       operationId: crupdateMaterials
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -2811,14 +3095,22 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  '/companies/{comp_id}/material_warehouse':
+  '/users/{userId}/companies/{companyId}/material_warehouse':
     get:
       tags:
         - MaterialWarehouse
       summary: Get all material warehouse stock records
       operationId: getMaterialWarehouses
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -2877,7 +3169,15 @@ paths:
       summary: Create or update material warehouse stock
       operationId: crupdateMaterialWarehouses
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -2911,31 +3211,33 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  '/companies/{comp_id}/job/{job_id}/user/{user_id}/expenses/{id}':
+  '/users/{userId}/companies/{companyId}/jobs/{jobId}/expenses/{id}':
     get:
       tags:
         - Expense
       summary: Get expense by identifier
       operationId: getExpenseById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
             type: string
           example: "comp_btp001"
-        - name: job_id
+        - name: jobId
           in: path
           required: true
           schema:
             type: string
           example: "job_001"
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "usr_123456"
         - name: id
           in: path
           required: true
@@ -2990,24 +3292,26 @@ paths:
       summary: Delete expense by identifier
       operationId: deleteExpenseById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
             type: string
           example: "comp_btp001"
-        - name: job_id
+        - name: jobId
           in: path
           required: true
           schema:
             type: string
           example: "job_001"
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "usr_123456"
         - name: id
           in: path
           required: true
@@ -3028,31 +3332,33 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  /companies/{comp_id}/job/{job_id}/user/{user_id}/expenses:
+  /users/{userId}/companies/{companyId}/jobs/{jobId}/expenses:
     get:
       tags:
         - Expense
       summary: Get all expenses
       operationId: getExpenses
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
             type: string
           example: "comp_btp001"
-        - name: job_id
+        - name: jobId
           in: path
           required: true
           schema:
             type: string
           example: "job_001"
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "usr_123456"
         - name: page
           in: query
           schema:
@@ -3146,24 +3452,26 @@ paths:
       summary: Create new expenses or update existing ones
       operationId: crupdateExpenses
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
             type: string
           example: "comp_btp001"
-        - name: job_id
+        - name: jobId
           in: path
           required: true
           schema:
             type: string
           example: "job_001"
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "usr_123456"
       requestBody:
         required: true
         content:
@@ -3249,31 +3557,33 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  '/companies/{comp_id}/job/{job_id}/user/{user_id}/incomes/{id}':
+  '/users/{userId}/companies/{companyId}/jobs/{jobId}/incomes/{id}':
     get:
       tags:
         - Income
       summary: Get income by identifier
       operationId: getIncomeById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
             type: string
           example: "comp_btp001"
-        - name: job_id
+        - name: jobId
           in: path
           required: true
           schema:
             type: string
           example: "job_001"
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "usr_123456"
         - name: id
           in: path
           required: true
@@ -3336,24 +3646,26 @@ paths:
       summary: Delete income by identifier
       operationId: deleteIncomeById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
             type: string
           example: "comp_btp001"
-        - name: job_id
+        - name: jobId
           in: path
           required: true
           schema:
             type: string
           example: "job_001"
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "usr_123456"
         - name: id
           in: path
           required: true
@@ -3374,31 +3686,33 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  /companies/{comp_id}/job/{job_id}/user/{user_id}/incomes:
+  /users/{userId}/companies/{companyId}/jobs/{jobId}/incomes:
     get:
       tags:
         - Income
       summary: Get all incomes
       operationId: getIncomes
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
             type: string
           example: "comp_btp001"
-        - name: job_id
+        - name: jobId
           in: path
           required: true
           schema:
             type: string
           example: "job_001"
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "usr_123456"
         - name: page
           in: query
           schema:
@@ -3532,24 +3846,26 @@ paths:
       summary: Create new incomes or update existing ones
       operationId: crupdateIncomes
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
             type: string
           example: "comp_btp001"
-        - name: job_id
+        - name: jobId
           in: path
           required: true
           schema:
             type: string
           example: "job_001"
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "usr_123456"
       requestBody:
         required: true
         content:
@@ -3659,31 +3975,33 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  '/companies/{comp_id}/job/{job_id}/user/{user_id}/loans/{id}':
+  '/users/{userId}/companies/{companyId}/jobs/{jobId}/loans/{id}':
     get:
       tags:
         - Loan
       summary: Get loan by identifier
       operationId: getLoanById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
             type: string
           example: "comp_btp001"
-        - name: job_id
+        - name: jobId
           in: path
           required: true
           schema:
             type: string
           example: "job_001"
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "usr_123456"
         - name: id
           in: path
           required: true
@@ -3713,24 +4031,26 @@ paths:
       summary: Delete loan by identifier
       operationId: deleteLoanById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
             type: string
           example: "comp_btp001"
-        - name: job_id
+        - name: jobId
           in: path
           required: true
           schema:
             type: string
           example: "job_001"
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "usr_123456"
         - name: id
           in: path
           required: true
@@ -3751,31 +4071,33 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  '/companies/{comp_id}/job/{job_id}/user/{user_id}/loans':
+  '/users/{userId}/companies/{companyId}/jobs/{jobId}/loans':
     get:
       tags:
         - Loan
       summary: Get all loans
       operationId: getLoans
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
             type: string
           example: "comp_btp001"
-        - name: job_id
+        - name: jobId
           in: path
           required: true
           schema:
             type: string
           example: "job_001"
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "usr_123456"
         - name: page
           in: query
           schema:
@@ -3828,24 +4150,26 @@ paths:
       summary: Create new loans or update existing ones
       operationId: crupdateLoans
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
             type: string
           example: "comp_btp001"
-        - name: job_id
+        - name: jobId
           in: path
           required: true
           schema:
             type: string
           example: "job_001"
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "usr_123456"
       requestBody:
         required: true
         content:
@@ -3874,31 +4198,33 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  '/companies/{comp_id}/job/{job_id}/user/{user_id}/loans_repayment/{id}':
+  '/users/{userId}/companies/{companyId}/jobs/{jobId}/loan_repayments/{id}':
     get:
       tags:
         - LoanRepayment
       summary: Get loan repayment by identifier
       operationId: getLoanRepaymentById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
             type: string
           example: "comp_btp001"
-        - name: job_id
+        - name: jobId
           in: path
           required: true
           schema:
             type: string
           example: "job_001"
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "usr_123456"
         - name: id
           in: path
           required: true
@@ -3934,24 +4260,26 @@ paths:
       summary: Delete loan repayment by identifier
       operationId: deleteLoanRepaymentById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
             type: string
           example: "comp_btp001"
-        - name: job_id
+        - name: jobId
           in: path
           required: true
           schema:
             type: string
           example: "job_001"
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "usr_123456"
         - name: id
           in: path
           required: true
@@ -3978,31 +4306,33 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  '/companies/{comp_id}/job/{job_id}/user/{user_id}/loans_repayment':
+  '/users/{userId}/companies/{companyId}/jobs/{jobId}/loan_repayments':
     get:
       tags:
         - LoanRepayment
       summary: Get all loan repayments
       operationId: getLoanRepayments
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
             type: string
           example: "comp_btp001"
-        - name: job_id
+        - name: jobId
           in: path
           required: true
           schema:
             type: string
           example: "job_001"
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "usr_123456"
         - name: loan_id
           in: query
           required: false
@@ -4044,24 +4374,26 @@ paths:
       summary: Create new loan repayments or update existing ones
       operationId: crupdateLoanRepayments
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
             type: string
           example: "comp_btp001"
-        - name: job_id
+        - name: jobId
           in: path
           required: true
           schema:
             type: string
           example: "job_001"
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "usr_123456"
         - name: loan_id
           in: query
           required: false
@@ -4096,31 +4428,33 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  '/companies/{comp_id}/job/{job_id}/user/{user_id}/travel_expenses/{id}':
+  '/users/{userId}/companies/{companyId}/jobs/{jobId}/travel_expenses/{id}':
     get:
       tags:
         - TravelExpense
       summary: Get travel expense by identifier
       operationId: getTravelExpenseById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
             type: string
           example: "comp_btp001"
-        - name: job_id
+        - name: jobId
           in: path
           required: true
           schema:
             type: string
           example: "job_001"
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "usr_123456"
         - name: id
           in: path
           required: true
@@ -4165,24 +4499,26 @@ paths:
       summary: Delete travel expense by identifier
       operationId: deleteTravelExpenseById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
             type: string
           example: "comp_btp001"
-        - name: job_id
+        - name: jobId
           in: path
           required: true
           schema:
             type: string
           example: "job_001"
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "usr_123456"
         - name: id
           in: path
           required: true
@@ -4203,31 +4539,33 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  /companies/{comp_id}/job/{job_id}/user/{user_id}/travel_expenses:
+  /users/{userId}/companies/{companyId}/jobs/{jobId}/travel_expenses:
     get:
       tags:
         - TravelExpense
       summary: Get all travel expenses
       operationId: getTravelExpenses
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
             type: string
           example: "comp_btp001"
-        - name: job_id
+        - name: jobId
           in: path
           required: true
           schema:
             type: string
           example: "job_001"
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "usr_123456"
         - name: page
           in: query
           schema:
@@ -4289,24 +4627,26 @@ paths:
       summary: Create new travel expenses or update existing ones
       operationId: crupdateTravelExpenses
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
             type: string
           example: "comp_btp001"
-        - name: job_id
+        - name: jobId
           in: path
           required: true
           schema:
             type: string
           example: "job_001"
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "usr_123456"
       requestBody:
         required: true
         content:
@@ -4363,31 +4703,33 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  '/companies/{comp_id}/job/{job_id}/user/{user_id}/purchases/{id}':
+  '/users/{userId}/companies/{companyId}/jobs/{jobId}/purchases/{id}':
     get:
       tags:
         - Purchase
       summary: Get purchase by identifier
       operationId: getPurchaseById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
             type: string
           example: "comp_btp001"
-        - name: job_id
+        - name: jobId
           in: path
           required: true
           schema:
             type: string
           example: "job_001"
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "usr_123456"
         - name: id
           in: path
           required: true
@@ -4433,24 +4775,26 @@ paths:
       summary: Delete purchase by identifier
       operationId: deletePurchaseById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
             type: string
           example: "comp_btp001"
-        - name: job_id
+        - name: jobId
           in: path
           required: true
           schema:
             type: string
           example: "job_001"
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "usr_123456"
         - name: id
           in: path
           required: true
@@ -4471,31 +4815,33 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  /companies/{comp_id}/job/{job_id}/user/{user_id}/purchases:
+  /users/{userId}/companies/{companyId}/jobs/{jobId}/purchases:
     get:
       tags:
         - Purchase
       summary: Get all purchases
       operationId: getPurchases
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
             type: string
           example: "comp_btp001"
-        - name: job_id
+        - name: jobId
           in: path
           required: true
           schema:
             type: string
           example: "job_001"
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "usr_123456"
         - name: page
           in: query
           schema:
@@ -4605,24 +4951,26 @@ paths:
       summary: Create new purchases or update existing ones
       operationId: crupdatePurchases
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
             type: string
           example: "comp_btp001"
-        - name: job_id
+        - name: jobId
           in: path
           required: true
           schema:
             type: string
           example: "job_001"
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "usr_123456"
       requestBody:
         required: true
         content:
@@ -4681,31 +5029,33 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  '/companies/{comp_id}/job/{job_id}/user/{user_id}/bank_fees/{id}':
+  '/users/{userId}/companies/{companyId}/jobs/{jobId}/bank_fees/{id}':
     get:
       tags:
         - BankFee
       summary: Get bank fee by identifier
       operationId: getBankFeeById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
             type: string
           example: "comp_btp001"
-        - name: job_id
+        - name: jobId
           in: path
           required: true
           schema:
             type: string
           example: "job_001"
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "usr_123456"
         - name: id
           in: path
           required: true
@@ -4743,24 +5093,26 @@ paths:
       summary: Delete bank fee by identifier
       operationId: deleteBankFeeById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
             type: string
           example: "comp_btp001"
-        - name: job_id
+        - name: jobId
           in: path
           required: true
           schema:
             type: string
           example: "job_001"
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "usr_123456"
         - name: id
           in: path
           required: true
@@ -4781,31 +5133,33 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  /companies/{comp_id}/job/{job_id}/user/{user_id}/bank_fees:
+  /users/{userId}/companies/{companyId}/jobs/{jobId}/bank_fees:
     get:
       tags:
         - BankFee
       summary: Get all bank fees
       operationId: getBankFees
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
             type: string
           example: "comp_btp001"
-        - name: job_id
+        - name: jobId
           in: path
           required: true
           schema:
             type: string
           example: "job_001"
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "usr_123456"
         - name: page
           in: query
           schema:
@@ -4861,24 +5215,26 @@ paths:
       summary: Create new bank fees or update existing ones
       operationId: crupdateBankFees
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
             type: string
           example: "comp_btp001"
-        - name: job_id
+        - name: jobId
           in: path
           required: true
           schema:
             type: string
           example: "job_001"
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "usr_123456"
       requestBody:
         required: true
         content:
@@ -4923,31 +5279,33 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  '/companies/{comp_id}/job/{job_id}/user/{user_id}/other_expenses/{id}':
+  '/users/{userId}/companies/{companyId}/jobs/{jobId}/other_expenses/{id}':
     get:
       tags:
         - OtherExpense
       summary: Get other expense by identifier
       operationId: getOtherExpenseById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
             type: string
           example: "comp_btp001"
-        - name: job_id
+        - name: jobId
           in: path
           required: true
           schema:
             type: string
           example: "job_001"
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "usr_123456"
         - name: id
           in: path
           required: true
@@ -4984,24 +5342,26 @@ paths:
       summary: Delete other expense by identifier
       operationId: deleteOtherExpenseById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
             type: string
           example: "comp_btp001"
-        - name: job_id
+        - name: jobId
           in: path
           required: true
           schema:
             type: string
           example: "job_001"
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "usr_123456"
         - name: id
           in: path
           required: true
@@ -5022,31 +5382,33 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  /companies/{comp_id}/job/{job_id}/user/{user_id}/other_expenses:
+  /users/{userId}/companies/{companyId}/jobs/{jobId}/other_expenses:
     get:
       tags:
         - OtherExpense
       summary: Get all other expenses
       operationId: getOtherExpenses
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
             type: string
           example: "comp_btp001"
-        - name: job_id
+        - name: jobId
           in: path
           required: true
           schema:
             type: string
           example: "job_001"
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "usr_123456"
         - name: page
           in: query
           schema:
@@ -5095,24 +5457,26 @@ paths:
       summary: Create new other expenses or update existing ones
       operationId: crupdateOtherExpenses
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
             type: string
           example: "comp_btp001"
-        - name: job_id
+        - name: jobId
           in: path
           required: true
           schema:
             type: string
           example: "job_001"
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "usr_123456"
       requestBody:
         required: true
         content:
@@ -5155,31 +5519,33 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  '/companies/{comp_id}/job/{job_id}/user/{user_id}/employee_payments/{id}':
+  '/users/{userId}/companies/{companyId}/jobs/{jobId}/employee_payments/{id}':
     get:
       tags:
         - EmployeePayment
       summary: Get employee payment by identifier
       operationId: getEmployeePaymentById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
             type: string
           example: "comp_btp001"
-        - name: job_id
+        - name: jobId
           in: path
           required: true
           schema:
             type: string
           example: "job_001"
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "usr_123456"
         - name: id
           in: path
           required: true
@@ -5223,24 +5589,26 @@ paths:
       summary: Delete employee payment by identifier
       operationId: deleteEmployeePaymentById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
             type: string
           example: "comp_btp001"
-        - name: job_id
+        - name: jobId
           in: path
           required: true
           schema:
             type: string
           example: "job_001"
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "usr_123456"
         - name: id
           in: path
           required: true
@@ -5261,31 +5629,33 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  /companies/{comp_id}/job/{job_id}/user/{user_id}/employee_payments:
+  /users/{userId}/companies/{companyId}/jobs/{jobId}/employee_payments:
     get:
       tags:
         - EmployeePayment
       summary: Get all employee payments
       operationId: getEmployeePayments
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
             type: string
           example: "comp_btp001"
-        - name: job_id
+        - name: jobId
           in: path
           required: true
           schema:
             type: string
           example: "job_001"
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "usr_123456"
         - name: page
           in: query
           schema:
@@ -5363,24 +5733,26 @@ paths:
       summary: Create new employee payments or update existing ones
       operationId: crupdateEmployeePayments
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
             type: string
           example: "comp_btp001"
-        - name: job_id
+        - name: jobId
           in: path
           required: true
           schema:
             type: string
           example: "job_001"
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "usr_123456"
       requestBody:
         required: true
         content:
@@ -5431,31 +5803,33 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  '/companies/{comp_id}/job/{job_id}/user/{user_id}/travel_people/{id}':
+  '/users/{userId}/companies/{companyId}/jobs/{jobId}/travel_people/{id}':
     get:
       tags:
         - TravelPeople
       summary: Get travel people by identifier
       operationId: getTravelPeopleById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
             type: string
           example: "comp_btp001"
-        - name: job_id
+        - name: jobId
           in: path
           required: true
           schema:
             type: string
           example: "job_001"
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "usr_123456"
         - name: id
           in: path
           required: true
@@ -5511,24 +5885,26 @@ paths:
       summary: Delete travel people by identifier
       operationId: deleteTravelPeopleById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
             type: string
           example: "comp_btp001"
-        - name: job_id
+        - name: jobId
           in: path
           required: true
           schema:
             type: string
           example: "job_001"
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "usr_123456"
         - name: id
           in: path
           required: true
@@ -5549,31 +5925,33 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  /companies/{comp_id}/job/{job_id}/user/{user_id}/travel_people:
+  /users/{userId}/companies/{companyId}/jobs/{jobId}/travel_people:
     get:
       tags:
         - TravelPeople
       summary: Get all travel people
       operationId: getTravelPeople
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
             type: string
           example: "comp_btp001"
-        - name: job_id
+        - name: jobId
           in: path
           required: true
           schema:
             type: string
           example: "job_001"
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "usr_123456"
         - name: page
           in: query
           schema:
@@ -5695,24 +6073,26 @@ paths:
       summary: Create new travel people or update existing ones
       operationId: crupdateTravelPeople
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
             type: string
           example: "comp_btp001"
-        - name: job_id
+        - name: jobId
           in: path
           required: true
           schema:
             type: string
           example: "job_001"
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "usr_123456"
       requestBody:
         required: true
         content:
@@ -5798,31 +6178,33 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  '/companies/{comp_id}/job/{job_id}/user/{user_id}/travel_materials/{id}':
+  '/users/{userId}/companies/{companyId}/jobs/{jobId}/travel_materials/{id}':
     get:
       tags:
         - TravelMaterials
       summary: Get travel materials by identifier
       operationId: getTravelMaterialsById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
             type: string
           example: "comp_btp001"
-        - name: job_id
+        - name: jobId
           in: path
           required: true
           schema:
             type: string
           example: "job_001"
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "usr_123456"
         - name: id
           in: path
           required: true
@@ -5878,24 +6260,26 @@ paths:
       summary: Delete travel materials by identifier
       operationId: deleteTravelMaterialsById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
             type: string
           example: "comp_btp001"
-        - name: job_id
+        - name: jobId
           in: path
           required: true
           schema:
             type: string
           example: "job_001"
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "usr_123456"
         - name: id
           in: path
           required: true
@@ -5916,31 +6300,33 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  /companies/{comp_id}/job/{job_id}/user/{user_id}/travel_materials:
+  /users/{userId}/companies/{companyId}/jobs/{jobId}/travel_materials:
     get:
       tags:
         - TravelMaterials
       summary: Get all travel materials
       operationId: getTravelMaterials
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
             type: string
           example: "comp_btp001"
-        - name: job_id
+        - name: jobId
           in: path
           required: true
           schema:
             type: string
           example: "job_001"
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "usr_123456"
         - name: page
           in: query
           schema:
@@ -6073,24 +6459,26 @@ paths:
       summary: Create new travel materials or update existing ones
       operationId: crupdateTravelMaterials
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
             type: string
           example: "comp_btp001"
-        - name: job_id
+        - name: jobId
           in: path
           required: true
           schema:
             type: string
           example: "job_001"
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "usr_123456"
       requestBody:
         required: true
         content:
@@ -6237,31 +6625,33 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  '/companies/{comp_id}/job/{job_id}/user/{user_id}/travel_equipment/{id}':
+  '/users/{userId}/companies/{companyId}/jobs/{jobId}/travel_equipments/{id}':
     get:
       tags:
         - TravelEquipment
       summary: Get travel equipment by identifier
       operationId: getTravelEquipmentById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
             type: string
           example: "comp_btp001"
-        - name: job_id
+        - name: jobId
           in: path
           required: true
           schema:
             type: string
           example: "job_001"
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "usr_123456"
         - name: id
           in: path
           required: true
@@ -6317,24 +6707,26 @@ paths:
       summary: Delete travel equipment by identifier
       operationId: deleteTravelEquipmentById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
             type: string
           example: "comp_btp001"
-        - name: job_id
+        - name: jobId
           in: path
           required: true
           schema:
             type: string
           example: "job_001"
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "usr_123456"
         - name: id
           in: path
           required: true
@@ -6355,31 +6747,33 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  /companies/{comp_id}/job/{job_id}/user/{user_id}/travel_equipment:
+  /users/{userId}/companies/{companyId}/jobs/{jobId}/travel_equipments:
     get:
       tags:
         - TravelEquipment
       summary: Get all travel equipment
       operationId: getTravelEquipment
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
             type: string
           example: "comp_btp001"
-        - name: job_id
+        - name: jobId
           in: path
           required: true
           schema:
             type: string
           example: "job_001"
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "usr_123456"
         - name: page
           in: query
           schema:
@@ -6487,24 +6881,26 @@ paths:
       summary: Create new travel equipment or update existing ones
       operationId: crupdateTravelEquipment
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
             type: string
           example: "comp_btp001"
-        - name: job_id
+        - name: jobId
           in: path
           required: true
           schema:
             type: string
           example: "job_001"
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "usr_123456"
       requestBody:
         required: true
         content:
@@ -6566,14 +6962,22 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  /companies/{comp_id}/fixed_costs:
+  /users/{userId}/companies/{companyId}/fixed_costs:
     get:
       tags:
         - CompanyFixedCost
       summary: Get all fixed costs for a company
       operationId: getCompanyFixedCosts
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -6619,7 +7023,15 @@ paths:
       summary: Create new fixed costs or update existing ones
       operationId: crupdateCompanyFixedCosts
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -6669,14 +7081,22 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  '/companies/{comp_id}/fixed_costs/{id}':
+  '/users/{userId}/companies/{companyId}/fixed_costs/{id}':
     get:
       tags:
         - CompanyFixedCost
       summary: Get a fixed cost by identifier
       operationId: getCompanyFixedCostById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -6719,7 +7139,15 @@ paths:
       summary: Delete a fixed cost by identifier
       operationId: deleteCompanyFixedCostById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -6745,14 +7173,22 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  /companies/{comp_id}/suppliers:
+  /users/{userId}/companies/{companyId}/suppliers:
     get:
       tags:
         - Supplier
       summary: Get all suppliers for a company
       operationId: getSuppliers
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -6783,7 +7219,15 @@ paths:
       summary: Create or update suppliers (crupdate)
       operationId: crupdateSuppliers
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -6817,14 +7261,22 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  /companies/{comp_id}/suppliers/{id}:
+  /users/{userId}/companies/{companyId}/suppliers/{id}:
     get:
       tags:
         - Supplier
       summary: Get supplier by ID
       operationId: getSupplierById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -6859,7 +7311,15 @@ paths:
       summary: Delete a supplier
       operationId: deleteSupplierById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -6885,14 +7345,22 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  /companies/{comp_id}/purchase_orders:
+  /users/{userId}/companies/{companyId}/purchase_orders:
     get:
       tags:
         - PurchaseOrder
       summary: Get all purchase orders for a company
       operationId: getPurchaseOrders
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -6929,7 +7397,15 @@ paths:
       summary: Create or update purchase orders (crupdate)
       operationId: crupdatePurchaseOrders
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -6963,14 +7439,22 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  /companies/{comp_id}/purchase_orders/{id}:
+  /users/{userId}/companies/{companyId}/purchase_orders/{id}:
     get:
       tags:
         - PurchaseOrder
       summary: Get purchase order by ID
       operationId: getPurchaseOrderById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -7005,7 +7489,15 @@ paths:
       summary: Delete a purchase order
       operationId: deletePurchaseOrderById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -7031,14 +7523,22 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  /companies/{comp_id}/tasks:
+  /users/{userId}/companies/{companyId}/tasks:
     get:
       tags:
         - Task
       summary: Get all tasks for a company
       operationId: getTasks
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -7069,7 +7569,15 @@ paths:
       summary: Create or update tasks
       operationId: crupdateTasks
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -7103,14 +7611,22 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  /companies/{comp_id}/tasks/{id}:
+  /users/{userId}/companies/{companyId}/tasks/{id}:
     get:
       tags:
         - Task
       summary: Get a task by id
       operationId: getTaskById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -7145,7 +7661,15 @@ paths:
       summary: Delete a task by id
       operationId: deleteTaskById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -7171,14 +7695,22 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  /companies/{comp_id}/task_schedules:
+  /users/{userId}/companies/{companyId}/task_schedules:
     get:
       tags:
         - TaskSchedule
       summary: Get all task schedules
       operationId: getTaskSchedules
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -7209,7 +7741,15 @@ paths:
       summary: Create or update task schedules
       operationId: crupdateTaskSchedules
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -7243,14 +7783,22 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  /companies/{comp_id}/task_schedules/{id}:
+  /users/{userId}/companies/{companyId}/task_schedules/{id}:
     get:
       tags:
         - TaskSchedule
       summary: Get a task schedule by id
       operationId: getTaskScheduleById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -7285,7 +7833,15 @@ paths:
       summary: Delete a task schedule by id
       operationId: deleteTaskScheduleById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -7311,14 +7867,22 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  /companies/{comp_id}/departments:
+  /users/{userId}/companies/{companyId}/departments:
     get:
       tags:
         - Department
       summary: Get all departments
       operationId: getDepartments
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -7361,7 +7925,15 @@ paths:
       summary: Create new departments or update existing ones
       operationId: crupdateDepartments
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -7395,14 +7967,22 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  '/companies/{comp_id}/departments/{id}':
+  '/users/{userId}/companies/{companyId}/departments/{id}':
     get:
       tags:
         - Department
       summary: Get a department by identifier
       operationId: getDepartmentById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -7437,7 +8017,15 @@ paths:
       summary: Delete a department by identifier
       operationId: deleteDepartmentById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -7463,14 +8051,22 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  /companies/{comp_id}/cash_accounts:
+  /users/{userId}/companies/{companyId}/cash_accounts:
     get:
       tags:
         - CashAccount
       summary: Get all cash accounts
       operationId: getCashAccounts
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -7513,7 +8109,15 @@ paths:
       summary: Create new cash accounts or update existing ones
       operationId: crupdateCashAccounts
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -7547,14 +8151,22 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  '/companies/{comp_id}/cash_accounts/{id}':
+  '/users/{userId}/companies/{companyId}/cash_accounts/{id}':
     get:
       tags:
         - CashAccount
       summary: Get a cash account by identifier
       operationId: getCashAccountById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -7589,7 +8201,15 @@ paths:
       summary: Delete a cash account by identifier
       operationId: deleteCashAccountById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -7615,20 +8235,28 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  /companies/{comp_id}/cash_accounts/{account_id}/transactions:
+  /users/{userId}/companies/{companyId}/cash_accounts/{cashAccountId}/transactions:
     get:
       tags:
         - CashTransaction
       summary: Get all cash transactions for an account
       operationId: getCashTransactions
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
             type: string
           example: "comp_btp001"
-        - name: account_id
+        - name: cashAccountId
           in: path
           required: true
           schema:
@@ -7671,13 +8299,21 @@ paths:
       summary: Create new cash transactions or update existing ones
       operationId: crupdateCashTransactions
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
             type: string
           example: "comp_btp001"
-        - name: account_id
+        - name: cashAccountId
           in: path
           required: true
           schema:
@@ -7711,20 +8347,28 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  '/companies/{comp_id}/cash_accounts/{account_id}/transactions/{id}':
+  '/users/{userId}/companies/{companyId}/cash_accounts/{cashAccountId}/transactions/{id}':
     get:
       tags:
         - CashTransaction
       summary: Get a cash transaction by identifier
       operationId: getCashTransactionById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
             type: string
           example: "comp_btp001"
-        - name: account_id
+        - name: cashAccountId
           in: path
           required: true
           schema:
@@ -7759,13 +8403,21 @@ paths:
       summary: Delete a cash transaction by identifier
       operationId: deleteCashTransactionById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
             type: string
           example: "comp_btp001"
-        - name: account_id
+        - name: cashAccountId
           in: path
           required: true
           schema:
@@ -7791,14 +8443,22 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  /companies/{comp_id}/budget_lines:
+  /users/{userId}/companies/{companyId}/budget_lines:
     get:
       tags:
         - BudgetLine
       summary: Get all budget lines
       operationId: getBudgetLines
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -7841,7 +8501,15 @@ paths:
       summary: Create new budget lines or update existing ones
       operationId: crupdateBudgetLines
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -7875,14 +8543,22 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  '/companies/{comp_id}/budget_lines/{id}':
+  '/users/{userId}/companies/{companyId}/budget_lines/{id}':
     get:
       tags:
         - BudgetLine
       summary: Get a budget line by identifier
       operationId: getBudgetLineById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -7917,7 +8593,15 @@ paths:
       summary: Delete a budget line by identifier
       operationId: deleteBudgetLineById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -7943,14 +8627,22 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  /companies/{comp_id}/equipment_usage:
+  /users/{userId}/companies/{companyId}/equipment_usages:
     get:
       tags:
         - EquipmentUsage
       summary: Get all equipment usage records
       operationId: getEquipmentUsages
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -7999,7 +8691,15 @@ paths:
       summary: Create new equipment usage records or update existing ones
       operationId: crupdateEquipmentUsages
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -8033,14 +8733,22 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  '/companies/{comp_id}/equipment_usage/{id}':
+  '/users/{userId}/companies/{companyId}/equipment_usages/{id}':
     get:
       tags:
         - EquipmentUsage
       summary: Get an equipment usage record by identifier
       operationId: getEquipmentUsageById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -8075,7 +8783,15 @@ paths:
       summary: Delete an equipment usage record by identifier
       operationId: deleteEquipmentUsageById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -8101,14 +8817,22 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  /companies/{comp_id}/material_consumption:
+  /users/{userId}/companies/{companyId}/material_consumptions:
     get:
       tags:
         - MaterialConsumption
       summary: Get all material consumption records
       operationId: getMaterialConsumptions
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -8163,7 +8887,15 @@ paths:
       summary: Create new material consumption records or update existing ones
       operationId: crupdateMaterialConsumptions
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -8197,14 +8929,22 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  '/companies/{comp_id}/material_consumption/{id}':
+  '/users/{userId}/companies/{companyId}/material_consumptions/{id}':
     get:
       tags:
         - MaterialConsumption
       summary: Get a material consumption record by identifier
       operationId: getMaterialConsumptionById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -8239,7 +8979,15 @@ paths:
       summary: Delete a material consumption record by identifier
       operationId: deleteMaterialConsumptionById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -8269,14 +9017,22 @@ paths:
   # ║  2. TYPES & CONFIG (CRUD)                                     ║
   # ╚══════════════════════════════════════════════════════════╝
 
-  /companies/{comp_id}/leave_types:
+  /users/{userId}/companies/{companyId}/leave_types:
     get:
       tags:
         - HR
       summary: Get all leave types
       operationId: getLeaveTypes
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -8307,7 +9063,15 @@ paths:
       summary: Create or update leave types
       operationId: crupdateLeaveTypes
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -8341,14 +9105,22 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  /companies/{comp_id}/leave_types/{id}:
+  /users/{userId}/companies/{companyId}/leave_types/{id}:
     get:
       tags:
         - HR
       summary: Get a leave type by id
       operationId: getLeaveTypeById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -8378,14 +9150,22 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  /companies/{comp_id}/leave_configs:
+  /users/{userId}/companies/{companyId}/leave_configs:
     get:
       tags:
         - HR
       summary: Get all employee leave configs
       operationId: getEmployeeLeaveConfigs
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -8416,7 +9196,15 @@ paths:
       summary: Create or update employee leave configs
       operationId: crupdateEmployeeLeaveConfigs
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -8450,14 +9238,22 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  /companies/{comp_id}/leave_configs/{id}:
+  /users/{userId}/companies/{companyId}/leave_configs/{id}:
     get:
       tags:
         - HR
       summary: Get a leave config by id
       operationId: getEmployeeLeaveConfigById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -8487,14 +9283,22 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  /companies/{comp_id}/income_types:
+  /users/{userId}/companies/{companyId}/income_types:
     get:
       tags:
         - IncomeType
       summary: Get all income types for a company
       operationId: getIncomeTypes
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -8534,7 +9338,15 @@ paths:
       summary: Create new income types or update existing ones
       operationId: crupdateIncomeTypes
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -8578,14 +9390,22 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  '/companies/{comp_id}/income_types/{id}':
+  '/users/{userId}/companies/{companyId}/income_types/{id}':
     get:
       tags:
         - IncomeType
       summary: Get an income type by identifier
       operationId: getIncomeTypeById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -8625,7 +9445,15 @@ paths:
       summary: Delete an income type by identifier
       operationId: deleteIncomeTypeById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -8651,14 +9479,22 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  /companies/{comp_id}/other_expense_types:
+  /users/{userId}/companies/{companyId}/other_expense_types:
     get:
       tags:
         - OtherExpenseType
       summary: Get all other expense types for a company
       operationId: getOtherExpenseTypes
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -8698,7 +9534,15 @@ paths:
       summary: Create new other expense types or update existing ones
       operationId: crupdateOtherExpenseTypes
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -8742,14 +9586,22 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  '/companies/{comp_id}/other_expense_types/{id}':
+  '/users/{userId}/companies/{companyId}/other_expense_types/{id}':
     get:
       tags:
         - OtherExpenseType
       summary: Get an other expense type by identifier
       operationId: getOtherExpenseTypeById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -8789,7 +9641,15 @@ paths:
       summary: Delete an other expense type by identifier
       operationId: deleteOtherExpenseTypeById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -8815,31 +9675,33 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  '/companies/{comp_id}/job/{job_id}/user/{user_id}/incomes_receipts/{id}':
+  '/users/{userId}/companies/{companyId}/jobs/{jobId}/incomes_receipts/{id}':
     get:
       tags:
         - IncomeReceipt
       summary: Get income receipt by identifier
       operationId: getIncomeReceiptById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
             type: string
           example: "comp_btp001"
-        - name: job_id
+        - name: jobId
           in: path
           required: true
           schema:
             type: string
           example: "job_001"
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "usr_123456"
         - name: id
           in: path
           required: true
@@ -8875,24 +9737,26 @@ paths:
       summary: Delete income receipt by identifier
       operationId: deleteIncomeReceiptById
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
             type: string
           example: "comp_btp001"
-        - name: job_id
+        - name: jobId
           in: path
           required: true
           schema:
             type: string
           example: "job_001"
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "usr_123456"
         - name: id
           in: path
           required: true
@@ -8919,31 +9783,33 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  '/companies/{comp_id}/job/{job_id}/user/{user_id}/incomes_receipts':
+  '/users/{userId}/companies/{companyId}/jobs/{jobId}/incomes_receipts':
     get:
       tags:
         - IncomeReceipt
       summary: Get all income receipts
       operationId: getIncomeReceipts
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
             type: string
           example: "comp_btp001"
-        - name: job_id
+        - name: jobId
           in: path
           required: true
           schema:
             type: string
           example: "job_001"
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "usr_123456"
         - name: income_id
           in: query
           required: false
@@ -8985,24 +9851,26 @@ paths:
       summary: Create new income receipts or update existing ones
       operationId: crupdateIncomeReceipts
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
             type: string
           example: "comp_btp001"
-        - name: job_id
+        - name: jobId
           in: path
           required: true
           schema:
             type: string
           example: "job_001"
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "usr_123456"
         - name: income_id
           in: query
           required: false
@@ -9041,31 +9909,33 @@ paths:
   # ║  3. ACTIONS                                                   ║
   # ╚══════════════════════════════════════════════════════════╝
 
-  /companies/{comp_id}/job/{job_id}/user/{user_id}/incomes/excel:
+  /users/{userId}/companies/{companyId}/jobs/{jobId}/incomes/excel:
     get:
       tags:
         - Income
       summary: Export incomes to Excel
       operationId: getIncomesExcel
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
             type: string
           example: "comp_btp001"
-        - name: job_id
+        - name: jobId
           in: path
           required: true
           schema:
             type: string
           example: "job_001"
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "usr_123456"
       responses:
         '200':
           description: Excel file with incomes data
@@ -9085,31 +9955,33 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  /companies/{comp_id}/job/{job_id}/user/{user_id}/purchase_operations:
+  /users/{userId}/companies/{companyId}/jobs/{jobId}/purchase_operations:
     post:
       tags:
         - PurchaseOperation
       summary: Register a purchase operation with optional travel
       operationId: createPurchaseOperation
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
             type: string
           example: "comp_btp001"
-        - name: job_id
+        - name: jobId
           in: path
           required: true
           schema:
             type: string
           example: "job_001"
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "usr_123456"
       requestBody:
         required: true
         content:
@@ -9182,31 +10054,33 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  /companies/{comp_id}/job/{job_id}/user/{user_id}/travel_operations:
+  /users/{userId}/companies/{companyId}/jobs/{jobId}/travel_operations:
     post:
       tags:
         - TravelOperation
       summary: Register a travel operation for equipment, materials or people
       operationId: createTravelOperation
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
             type: string
           example: "comp_btp001"
-        - name: job_id
+        - name: jobId
           in: path
           required: true
           schema:
             type: string
           example: "job_001"
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "usr_123456"
       requestBody:
         required: true
         content:
@@ -9276,14 +10150,22 @@ paths:
   # ║  4. DASHBOARD & REPORTING                                     ║
   # ╚══════════════════════════════════════════════════════════╝
 
-  /companies/{comp_id}/leave_balances:
+  /users/{userId}/companies/{companyId}/leave_balances:
     get:
       tags:
         - HR
       summary: Get leave balances for all employees in a company
       operationId: getLeaveBalances
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -9315,14 +10197,22 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  /companies/{comp_id}/leave_balances/employees_without_leave:
+  /users/{userId}/companies/{companyId}/leave_balances/employees_without_leave:
     get:
       tags:
         - HR
       summary: Get employees who haven't taken any leave
       operationId: getEmployeesWithoutLeave
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -9354,14 +10244,22 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  /companies/{comp_id}/yearly_report:
+  /users/{userId}/companies/{companyId}/yearly_report:
     get:
       tags:
         - Report
       summary: Get yearly report with job financials
       description: Returns all jobs for the specified year with their income/expense details, including ongoing (IN_PROGRESS) jobs
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -9424,14 +10322,22 @@ paths:
   # ║  EQUIPMENT USAGE ACTIONS                                       ║
   # ╚══════════════════════════════════════════════════════════╝
 
-  /companies/{comp_id}/equipment_usage/{id}/return:
+  /users/{userId}/companies/{companyId}/equipment_usages/{id}/return:
     put:
       tags:
         - EquipmentUsage
       summary: Return equipment from usage
       operationId: returnEquipment
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -9470,14 +10376,22 @@ paths:
   # ║  MATERIAL CONSUMPTION ACTIONS                                    ║
   # ╚══════════════════════════════════════════════════════════╝
 
-  /companies/{comp_id}/material_consumption/{id}/complete:
+  /users/{userId}/companies/{companyId}/material_consumptions/{id}/complete:
     put:
       tags:
         - MaterialConsumption
       summary: Complete a material consumption
       operationId: completeMaterialConsumption
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -9507,14 +10421,22 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  /companies/{comp_id}/material_consumption/{id}/return:
+  /users/{userId}/companies/{companyId}/material_consumptions/{id}/return:
     put:
       tags:
         - MaterialConsumption
       summary: Return materials from a consumption
       operationId: returnMaterialsFromConsumption
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -9555,14 +10477,22 @@ paths:
   # ║  DASHBOARD                                                    ║
   # ╚══════════════════════════════════════════════════════════╝
 
-  /companies/{comp_id}/dashboard/materials:
+  /users/{userId}/companies/{companyId}/dashboard/materials:
     get:
       tags:
         - Report
       summary: Get material dashboard
       operationId: getMaterialDashboard
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -9592,14 +10522,22 @@ paths:
               schema:
                 $ref: '#/components/schemas/MaterialDashboardResponse'
 
-  /companies/{comp_id}/dashboard/materials/summary:
+  /users/{userId}/companies/{companyId}/dashboard/materials/summary:
     get:
       tags:
         - Report
       summary: Get material dashboard summary
       operationId: getMaterialDashboardSummary
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -9629,14 +10567,22 @@ paths:
               schema:
                 $ref: '#/components/schemas/MaterialSummaryResponse'
 
-  /companies/{comp_id}/dashboard/materials/breakdown:
+  /users/{userId}/companies/{companyId}/dashboard/materials/breakdown:
     get:
       tags:
         - Report
       summary: Get material dashboard breakdown
       operationId: getMaterialDashboardBreakdown
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -9666,14 +10612,22 @@ paths:
               schema:
                 $ref: '#/components/schemas/MaterialBreakdownResponse'
 
-  /companies/{comp_id}/dashboard/equipment:
+  /users/{userId}/companies/{companyId}/dashboard/equipment:
     get:
       tags:
         - Report
       summary: Get equipment dashboard
       operationId: getEquipmentDashboard
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -9703,14 +10657,22 @@ paths:
               schema:
                 $ref: '#/components/schemas/EquipmentDashboardResponse'
 
-  /companies/{comp_id}/dashboard/equipment/summary:
+  /users/{userId}/companies/{companyId}/dashboard/equipment/summary:
     get:
       tags:
         - Report
       summary: Get equipment dashboard summary
       operationId: getEquipmentDashboardSummary
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -9740,14 +10702,22 @@ paths:
               schema:
                 $ref: '#/components/schemas/EquipmentSummaryResponse'
 
-  /companies/{comp_id}/dashboard/equipment/breakdown:
+  /users/{userId}/companies/{companyId}/dashboard/equipment/breakdown:
     get:
       tags:
         - Report
       summary: Get equipment dashboard breakdown
       operationId: getEquipmentDashboardBreakdown
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -9777,14 +10747,22 @@ paths:
               schema:
                 $ref: '#/components/schemas/EquipmentBreakdownResponse'
 
-  /companies/{comp_id}/dashboard/hr:
+  /users/{userId}/companies/{companyId}/dashboard/hr:
     get:
       tags:
         - Report
       summary: Get HR dashboard
       operationId: getHrDashboard
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -9814,14 +10792,22 @@ paths:
               schema:
                 $ref: '#/components/schemas/HrDashboardResponse'
 
-  /companies/{comp_id}/dashboard/hr/summary:
+  /users/{userId}/companies/{companyId}/dashboard/hr/summary:
     get:
       tags:
         - Report
       summary: Get HR dashboard summary
       operationId: getHrDashboardSummary
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -9851,14 +10837,22 @@ paths:
               schema:
                 $ref: '#/components/schemas/HrSummaryResponse'
 
-  /companies/{comp_id}/dashboard/hr/breakdown:
+  /users/{userId}/companies/{companyId}/dashboard/hr/breakdown:
     get:
       tags:
         - Report
       summary: Get HR dashboard breakdown
       operationId: getHrDashboardBreakdown
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -9888,14 +10882,22 @@ paths:
               schema:
                 $ref: '#/components/schemas/HrBreakdownResponse'
 
-  /companies/{comp_id}/dashboard/monetary:
+  /users/{userId}/companies/{companyId}/dashboard/monetary:
     get:
       tags:
         - Report
       summary: Get monetary dashboard
       operationId: getMonetaryDashboard
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -9925,14 +10927,22 @@ paths:
               schema:
                 $ref: '#/components/schemas/MonetaryDashboardResponse'
 
-  /companies/{comp_id}/dashboard/monetary/summary:
+  /users/{userId}/companies/{companyId}/dashboard/monetary/summary:
     get:
       tags:
         - Report
       summary: Get monetary dashboard summary
       operationId: getMonetaryDashboardSummary
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -9962,14 +10972,22 @@ paths:
               schema:
                 $ref: '#/components/schemas/MonetarySummaryResponse'
 
-  /companies/{comp_id}/dashboard/monetary/breakdown:
+  /users/{userId}/companies/{companyId}/dashboard/monetary/breakdown:
     get:
       tags:
         - Report
       summary: Get monetary dashboard breakdown
       operationId: getMonetaryDashboardBreakdown
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -9999,14 +11017,22 @@ paths:
               schema:
                 $ref: '#/components/schemas/MonetaryBreakdownResponse'
 
-  /companies/{comp_id}/dashboard/monetary/revenue:
+  /users/{userId}/companies/{companyId}/dashboard/monetary/revenue:
     get:
       tags:
         - Report
       summary: Get revenue time series
       operationId: getRevenueTimeSeries
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -10042,14 +11068,22 @@ paths:
               schema:
                 $ref: '#/components/schemas/TimeSeriesResponse'
 
-  /companies/{comp_id}/dashboard/monetary/expenses:
+  /users/{userId}/companies/{companyId}/dashboard/monetary/expenses:
     get:
       tags:
         - Report
       summary: Get expenses time series
       operationId: getExpensesTimeSeries
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -10085,14 +11119,22 @@ paths:
               schema:
                 $ref: '#/components/schemas/TimeSeriesResponse'
 
-  /companies/{comp_id}/dashboard/monetary/cashflow:
+  /users/{userId}/companies/{companyId}/dashboard/monetary/cashflow:
     get:
       tags:
         - Report
       summary: Get cash flow time series
       operationId: getCashFlowTimeSeries
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -10123,14 +11165,22 @@ paths:
               schema:
                 $ref: '#/components/schemas/TimeSeriesResponse'
 
-  /companies/{comp_id}/dashboard/monetary/profit:
+  /users/{userId}/companies/{companyId}/dashboard/monetary/profit:
     get:
       tags:
         - Report
       summary: Get profit time series
       operationId: getProfitTimeSeries
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -10166,14 +11216,22 @@ paths:
               schema:
                 $ref: '#/components/schemas/TimeSeriesResponse'
 
-  /companies/{comp_id}/dashboard/monetary/receivables:
+  /users/{userId}/companies/{companyId}/dashboard/monetary/receivables:
     get:
       tags:
         - Report
       summary: Get receivables time series
       operationId: getReceivablesTimeSeries
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -10209,14 +11267,22 @@ paths:
               schema:
                 $ref: '#/components/schemas/TimeSeriesResponse'
 
-  /companies/{comp_id}/dashboard/monetary/budget:
+  /users/{userId}/companies/{companyId}/dashboard/monetary/budget:
     get:
       tags:
         - Report
       summary: Get budget time series
       operationId: getBudgetTimeSeries
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -10247,14 +11313,22 @@ paths:
               schema:
                 $ref: '#/components/schemas/TimeSeriesResponse'
 
-  /companies/{comp_id}/dashboard/monetary/expense_breakdown:
+  /users/{userId}/companies/{companyId}/dashboard/monetary/expense_breakdown:
     get:
       tags:
         - Report
       summary: Get expense breakdown time series
       operationId: getExpenseBreakdownTimeSeries
       parameters:
-        - name: comp_id
+
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+
+        - name: companyId
           in: path
           required: true
           schema:
@@ -10294,20 +11368,20 @@ paths:
   # ║  NOTIFICATIONS                                          ║
   # ╚══════════════════════════════════════════════════════════╝
 
-  '/users/{us_id}/companies/{comp_id}/notifications/unread_count':
+  '/users/{userId}/companies/{companyId}/notifications/unread_count':
     get:
       tags:
         - Notification
       summary: Get unread notification count for the current user
       operationId: getUnreadNotificationCount
       parameters:
-        - name: us_id
+        - name: userId
           in: path
           required: true
           schema:
             type: string
           example: "user_123456"
-        - name: comp_id
+        - name: companyId
           in: path
           required: true
           schema:
@@ -10329,20 +11403,20 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  '/users/{us_id}/companies/{comp_id}/notifications':
+  '/users/{userId}/companies/{companyId}/notifications':
     get:
       tags:
         - Notification
       summary: Get all notifications for the current user
       operationId: getNotifications
       parameters:
-        - name: us_id
+        - name: userId
           in: path
           required: true
           schema:
             type: string
           example: "user_123456"
-        - name: comp_id
+        - name: companyId
           in: path
           required: true
           schema:
@@ -10391,13 +11465,13 @@ paths:
       summary: Create or update notifications
       operationId: crupdateNotifications
       parameters:
-        - name: us_id
+        - name: userId
           in: path
           required: true
           schema:
             type: string
           example: "user_123456"
-        - name: comp_id
+        - name: companyId
           in: path
           required: true
           schema:
@@ -10429,20 +11503,20 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  '/users/{us_id}/companies/{comp_id}/notifications/{id}':
+  '/users/{userId}/companies/{companyId}/notifications/{id}':
     get:
       tags:
         - Notification
       summary: Get notification by identifier
       operationId: getNotificationById
       parameters:
-        - name: us_id
+        - name: userId
           in: path
           required: true
           schema:
             type: string
           example: "user_123456"
-        - name: comp_id
+        - name: companyId
           in: path
           required: true
           schema:
@@ -10477,13 +11551,13 @@ paths:
       summary: Delete notification by identifier
       operationId: deleteNotificationById
       parameters:
-        - name: us_id
+        - name: userId
           in: path
           required: true
           schema:
             type: string
           example: "user_123456"
-        - name: comp_id
+        - name: companyId
           in: path
           required: true
           schema:
@@ -10509,20 +11583,20 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  '/users/{us_id}/companies/{comp_id}/notifications/{id}/read':
+  '/users/{userId}/companies/{companyId}/notifications/{id}/read':
     put:
       tags:
         - Notification
       summary: Mark notification as read
       operationId: markNotificationAsRead
       parameters:
-        - name: us_id
+        - name: userId
           in: path
           required: true
           schema:
             type: string
           example: "user_123456"
-        - name: comp_id
+        - name: companyId
           in: path
           required: true
           schema:
@@ -10552,20 +11626,20 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  '/users/{us_id}/companies/{comp_id}/notifications/{id}/complete':
+  '/users/{userId}/companies/{companyId}/notifications/{id}/complete':
     put:
       tags:
         - Notification
       summary: Mark notification as completed
       operationId: markNotificationAsCompleted
       parameters:
-        - name: us_id
+        - name: userId
           in: path
           required: true
           schema:
             type: string
           example: "user_123456"
-        - name: comp_id
+        - name: companyId
           in: path
           required: true
           schema:
@@ -11221,9 +12295,11 @@ components:
           minLength: 8
           maxLength: 128
           example: "securePassword123"
-        company_id:
-          type: string
-          example: "comp_001"
+        company_ids:
+          type: array
+          items:
+            type: string
+          example: ["comp_001"]
         birth_date:
           type: string
           format: date

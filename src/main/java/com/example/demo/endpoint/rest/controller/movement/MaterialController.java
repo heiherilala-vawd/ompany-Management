@@ -32,19 +32,20 @@ public class MaterialController {
   private final MaterialWarehouseService materialWarehouseService;
   private final WarehouseService warehouseService;
 
-  @GetMapping("/companies/{comp_id}/materials/{id}")
+  @GetMapping("/users/{userId}/companies/{companyId}/materials/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
-  public Material getMaterialById(@PathVariable String comp_id, @PathVariable String id) {
+  public Material getMaterialById(@PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     return materialMapper.toRestMaterial(
         materialService
             .findById(id)
             .orElseThrow(() -> new NotFoundException("Material with id " + id + " not found")));
   }
 
-  @GetMapping("/companies/{comp_id}/materials")
+  @GetMapping("/users/{userId}/companies/{companyId}/materials")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public List<Material> getMaterials(
-      @PathVariable String comp_id,
+      @PathVariable String userId,
+      @PathVariable String companyId,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
       @RequestParam(name = "name", required = false) String name,
@@ -52,7 +53,7 @@ public class MaterialController {
       @RequestParam(name = "unit", required = false) MaterialUnit unit,
       @RequestParam(name = "not_arrived", required = false) Boolean notArrived) {
     MaterialCriteria criteria = new MaterialCriteria();
-    criteria.setCompanyId(comp_id);
+    criteria.setCompanyId(companyId);
     criteria.setName(name);
     criteria.setDescription(description);
     criteria.setUnit(EnumMapper.mapEnum(unit, com.example.demo.model.movement.Material.Unit.class));
@@ -63,26 +64,27 @@ public class MaterialController {
         .toList();
   }
 
-  @PutMapping("/companies/{comp_id}/materials")
+  @PutMapping("/users/{userId}/companies/{companyId}/materials")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public List<Material> crupdateMaterials(
-      @PathVariable String comp_id, @Valid @RequestBody List<CrupdateMaterial> toWrite) {
+      @PathVariable String userId, @PathVariable String companyId, @Valid @RequestBody List<CrupdateMaterial> toWrite) {
     List<com.example.demo.model.movement.Material> saved =
         materialService.createOrUpdateAll(
-            toWrite.stream().map(m -> materialMapper.toDomain(m, comp_id)).toList());
+            toWrite.stream().map(m -> materialMapper.toDomain(m, companyId)).toList());
     return saved.stream().map(materialMapper::toRestMaterial).toList();
   }
 
-  @DeleteMapping("/companies/{comp_id}/materials/{id}")
+  @DeleteMapping("/users/{userId}/companies/{companyId}/materials/{id}")
   @PreAuthorize("hasAnyRole('ADMIN')")
-  public void deleteMaterialById(@PathVariable String comp_id, @PathVariable String id) {
+  public void deleteMaterialById(@PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     materialService.deleteById(id);
   }
 
-  @GetMapping("/companies/{comp_id}/material_warehouse")
+  @GetMapping("/users/{userId}/companies/{companyId}/material_warehouse")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public List<MaterialWarehouseView> getMaterialWarehouses(
-      @PathVariable String comp_id,
+      @PathVariable String userId,
+      @PathVariable String companyId,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
       @RequestParam(name = "material_id", required = false) String materialId,
@@ -99,10 +101,10 @@ public class MaterialController {
         materialWarehouseService.findAll(page, pageSize, criteria).getContent());
   }
 
-  @PutMapping("/companies/{comp_id}/material_warehouse")
+  @PutMapping("/users/{userId}/companies/{companyId}/material_warehouse")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public List<MaterialWarehouseInfo> crupdateMaterialWarehouses(
-      @PathVariable String comp_id, @Valid @RequestBody List<CrupdateMaterialWarehouse> toWrite) {
+      @PathVariable String userId, @PathVariable String companyId, @Valid @RequestBody List<CrupdateMaterialWarehouse> toWrite) {
     List<com.example.demo.model.movement.MaterialWarehouse> domainList =
         toWrite.stream()
             .map(

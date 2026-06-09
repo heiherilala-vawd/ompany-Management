@@ -17,28 +17,28 @@ public class EmployeeLeaveConfigController {
   private final com.example.demo.service.hr.EmployeeLeaveConfigService employeeLeaveConfigService;
   private final EmployeeLeaveConfigMapper employeeLeaveConfigMapper;
 
-  @GetMapping("/companies/{comp_id}/leave_configs")
+  @GetMapping("/users/{userId}/companies/{companyId}/leave_configs")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
-  public List<EmployeeLeaveConfig> getEmployeeLeaveConfigs(@PathVariable String comp_id) {
-    return employeeLeaveConfigService.findByCompanyId(comp_id).stream()
+  public List<EmployeeLeaveConfig> getEmployeeLeaveConfigs(@PathVariable String userId, @PathVariable String companyId) {
+    return employeeLeaveConfigService.findByCompanyId(companyId).stream()
         .map(employeeLeaveConfigMapper::toRestEmployeeLeaveConfig)
         .toList();
   }
 
-  @PutMapping("/companies/{comp_id}/leave_configs")
+  @PutMapping("/users/{userId}/companies/{companyId}/leave_configs")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<EmployeeLeaveConfig> crupdateEmployeeLeaveConfigs(
-      @PathVariable String comp_id, @Valid @RequestBody List<CrupdateEmployeeLeaveConfig> toWrite) {
+      @PathVariable String userId, @PathVariable String companyId, @Valid @RequestBody List<CrupdateEmployeeLeaveConfig> toWrite) {
     List<com.example.demo.model.hr.EmployeeLeaveConfig> saved =
         employeeLeaveConfigService.createOrUpdateAll(
-            toWrite.stream().map(dto -> employeeLeaveConfigMapper.toDomain(dto, comp_id)).toList());
+            toWrite.stream().map(dto -> employeeLeaveConfigMapper.toDomain(dto, companyId)).toList());
     return saved.stream().map(employeeLeaveConfigMapper::toRestEmployeeLeaveConfig).toList();
   }
 
-  @GetMapping("/companies/{comp_id}/leave_configs/{id}")
+  @GetMapping("/users/{userId}/companies/{companyId}/leave_configs/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public EmployeeLeaveConfig getEmployeeLeaveConfigById(
-      @PathVariable String comp_id, @PathVariable String id) {
+      @PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     return employeeLeaveConfigMapper.toRestEmployeeLeaveConfig(
         employeeLeaveConfigService
             .findById(id)

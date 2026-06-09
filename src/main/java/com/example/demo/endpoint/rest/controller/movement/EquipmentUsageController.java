@@ -20,10 +20,10 @@ public class EquipmentUsageController {
   private final EquipmentUsageService equipmentUsageService;
   private final EquipmentUsageMapper equipmentUsageMapper;
 
-  @GetMapping("/companies/{comp_id}/equipment_usage/{id}")
+  @GetMapping("/users/{userId}/companies/{companyId}/equipment_usage/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public EquipmentUsage getEquipmentUsageById(
-      @PathVariable String comp_id, @PathVariable String id) {
+      @PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     return equipmentUsageMapper.toRestEquipmentUsage(
         equipmentUsageService
             .findById(id)
@@ -31,10 +31,10 @@ public class EquipmentUsageController {
                 () -> new NotFoundException("EquipmentUsage with id " + id + " not found")));
   }
 
-  @GetMapping("/companies/{comp_id}/equipment_usage")
+  @GetMapping("/users/{userId}/companies/{companyId}/equipment_usage")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public List<EquipmentUsage> getEquipmentUsages(
-      @PathVariable String comp_id,
+      @PathVariable String userId, @PathVariable String companyId,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
       @RequestParam(name = "job_id", required = false) String jobId) {
@@ -42,20 +42,20 @@ public class EquipmentUsageController {
         equipmentUsageService.findAll(page, pageSize, jobId).getContent());
   }
 
-  @PutMapping("/companies/{comp_id}/equipment_usage")
+  @PutMapping("/users/{userId}/companies/{companyId}/equipment_usage")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public List<EquipmentUsage> crupdateEquipmentUsages(
-      @PathVariable String comp_id, @Valid @RequestBody List<CrupdateEquipmentUsage> toWrite) {
+      @PathVariable String userId, @PathVariable String companyId, @Valid @RequestBody List<CrupdateEquipmentUsage> toWrite) {
     List<com.example.demo.model.movement.EquipmentUsage> saved =
         equipmentUsageService.createOrUpdateAll(
             toWrite.stream().map(equipmentUsageMapper::toDomain).toList());
     return equipmentUsageMapper.toRestEquipmentUsages(saved);
   }
 
-  @PutMapping("/companies/{comp_id}/equipment_usage/{id}/return")
+  @PutMapping("/users/{userId}/companies/{companyId}/equipment_usage/{id}/return")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public EquipmentUsage returnEquipment(
-      @PathVariable String comp_id,
+      @PathVariable String userId, @PathVariable String companyId,
       @PathVariable String id,
       @RequestParam(name = "status") String status) {
     com.example.demo.model.movement.EquipmentUsage.UsageStatus usageStatus =
@@ -64,9 +64,9 @@ public class EquipmentUsageController {
         equipmentUsageService.returnEquipment(id, usageStatus));
   }
 
-  @DeleteMapping("/companies/{comp_id}/equipment_usage/{id}")
+  @DeleteMapping("/users/{userId}/companies/{companyId}/equipment_usage/{id}")
   @PreAuthorize("hasRole('ADMIN')")
-  public void deleteEquipmentUsageById(@PathVariable String comp_id, @PathVariable String id) {
+  public void deleteEquipmentUsageById(@PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     equipmentUsageService.deleteById(id);
   }
 }

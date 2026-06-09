@@ -23,33 +23,33 @@ public class IncomeTypeController {
   private final IncomeTypeService incomeTypeService;
   private final IncomeTypeMapper incomeTypeMapper;
 
-  @GetMapping("/companies/{comp_id}/income_types/{id}")
+  @GetMapping("/users/{userId}/companies/{companyId}/income_types/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
-  public IncomeType getIncomeTypeById(@PathVariable String comp_id, @PathVariable String id) {
+  public IncomeType getIncomeTypeById(@PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     return incomeTypeMapper.toRestIncomeType(
         incomeTypeService
             .findById(id)
             .orElseThrow(() -> new NotFoundException("IncomeType with id " + id + " not found")));
   }
 
-  @GetMapping("/companies/{comp_id}/income_types")
+  @GetMapping("/users/{userId}/companies/{companyId}/income_types")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
-  public List<IncomeType> getIncomeTypes(@PathVariable String comp_id) {
-    return incomeTypeMapper.toRestIncomeTypes(incomeTypeService.findAllByCompanyId(comp_id));
+  public List<IncomeType> getIncomeTypes(@PathVariable String userId, @PathVariable String companyId) {
+    return incomeTypeMapper.toRestIncomeTypes(incomeTypeService.findAllByCompanyId(companyId));
   }
 
-  @PutMapping("/companies/{comp_id}/income_types")
+  @PutMapping("/users/{userId}/companies/{companyId}/income_types")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<IncomeType> crupdateIncomeTypes(
-      @PathVariable String comp_id, @Valid @RequestBody List<CrupdateIncomeType> toWrite) {
+      @PathVariable String userId, @PathVariable String companyId, @Valid @RequestBody List<CrupdateIncomeType> toWrite) {
     return incomeTypeMapper.toRestIncomeTypes(
         incomeTypeService.createOrUpdateAll(
-            toWrite.stream().map(rest -> incomeTypeMapper.toDomain(rest, comp_id)).toList()));
+            toWrite.stream().map(rest -> incomeTypeMapper.toDomain(rest, companyId)).toList()));
   }
 
-  @DeleteMapping("/companies/{comp_id}/income_types/{id}")
+  @DeleteMapping("/users/{userId}/companies/{companyId}/income_types/{id}")
   @PreAuthorize("hasRole('ADMIN')")
-  public void deleteIncomeTypeById(@PathVariable String comp_id, @PathVariable String id) {
+  public void deleteIncomeTypeById(@PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     incomeTypeService.deleteById(id);
   }
 }

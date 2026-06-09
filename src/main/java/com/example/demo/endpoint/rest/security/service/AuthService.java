@@ -3,6 +3,7 @@ package com.example.demo.endpoint.rest.security.service;
 import com.example.demo.client.model.AuthResponse;
 import com.example.demo.client.model.LoginRequest;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
+import com.example.demo.model.Company;
 import com.example.demo.model.User;
 import com.example.demo.model.exception.BadRequestException;
 import com.example.demo.model.exception.NotFoundException;
@@ -10,6 +11,8 @@ import com.example.demo.repository.UserRepository;
 import com.example.demo.service.HistoryService;
 import com.example.demo.service.UserService;
 import java.time.Instant;
+import java.util.Set;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -99,6 +102,7 @@ public class AuthService {
     authResponse.setType("Bearer");
     authResponse.setRole(user.getRole().name());
     authResponse.setToken(token);
+
     return authResponse;
   }
 }

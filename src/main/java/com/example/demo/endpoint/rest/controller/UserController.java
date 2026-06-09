@@ -20,26 +20,26 @@ public class UserController {
   private final UserService userService;
   private final UserMapper userMapper;
 
-  @PutMapping("/companies/{comp_id}/users")
+  @PutMapping("/users/{userId}/companies/{companyId}/users")
   @PreAuthorize("hasAnyRole(\"ADMIN\", \"ADMINISTRATION\")\n")
   public List<User> crupdateUsers(
-      @PathVariable String comp_id, @Valid @RequestBody List<CrupdateUser> toWrite) {
+      @PathVariable String userId, @PathVariable String companyId, @Valid @RequestBody List<CrupdateUser> toWrite) {
     List<com.example.demo.model.User> saved =
         userService.updateExistingUsers(
-            toWrite.stream().map(u -> userMapper.toDomain(u, comp_id)).toList());
+            toWrite.stream().map(u -> userMapper.toDomain(u, companyId)).toList());
     return saved.stream().map(userMapper::toRestUser).toList();
   }
 
-  @GetMapping("/companies/{comp_id}/users/{id}")
+  @GetMapping("/users/{userId}/companies/{companyId}/users/{id}")
   @PreAuthorize("hasAnyRole('ADMIN') or #id == authentication.principal.id")
-  public User getUserById(@PathVariable String comp_id, @PathVariable String id) {
+  public User getUserById(@PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     return userMapper.toRestUser(userService.getById(id));
   }
 
-  @GetMapping("/companies/{comp_id}/users")
+  @GetMapping("/users/{userId}/companies/{companyId}/users")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public List<User> getUsers(
-      @PathVariable String comp_id,
+      @PathVariable String userId, @PathVariable String companyId,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
       @RequestParam(name = "first_name", required = false, defaultValue = "") String firstName,
@@ -48,7 +48,7 @@ public class UserController {
       @RequestParam(name = "role", required = false) com.example.demo.model.User.Role role,
       @RequestParam(name = "without_leave_config", required = false) Boolean withoutLeaveConfig) {
     UserCriteria criteria = new UserCriteria();
-    criteria.setCompanyId(comp_id);
+    criteria.setCompanyId(companyId);
     criteria.setFirstName(firstName);
     criteria.setLastName(lastName);
     criteria.setEmail(email);
@@ -60,9 +60,9 @@ public class UserController {
         .collect(Collectors.toList());
   }
 
-  @DeleteMapping("/companies/{comp_id}/users/{id}")
+  @DeleteMapping("/users/{userId}/companies/{companyId}/users/{id}")
   @PreAuthorize("hasAnyRole('ADMIN')")
-  public void deleteUserById(@PathVariable String comp_id, @PathVariable String id) {
+  public void deleteUserById(@PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     userService.deleteById(id);
   }
 }

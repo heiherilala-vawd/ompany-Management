@@ -21,12 +21,10 @@ public class BankFeeController {
   private final BankFeeService bankFeeService;
   private final BankFeeMapper bankFeeMapper;
 
-  @GetMapping("/companies/{comp_id}/job/{job_id}/user/{user_id}/bank_fees/{id}")
+  @GetMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/bank_fees/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public BankFee getBankFeeById(
-      @PathVariable String comp_id,
-      @PathVariable String job_id,
-      @PathVariable String user_id,
+      @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId,
       @PathVariable String id) {
     return bankFeeMapper.toRestBankFee(
         bankFeeService
@@ -34,12 +32,10 @@ public class BankFeeController {
             .orElseThrow(() -> new NotFoundException("BankFee with id " + id + " not found")));
   }
 
-  @GetMapping("/companies/{comp_id}/job/{job_id}/user/{user_id}/bank_fees")
+  @GetMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/bank_fees")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<BankFee> getBankFees(
-      @PathVariable String comp_id,
-      @PathVariable String job_id,
-      @PathVariable String user_id,
+      @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
       @RequestParam(name = "bank_name", required = false) String bankName,
@@ -53,24 +49,20 @@ public class BankFeeController {
         .toList();
   }
 
-  @PutMapping("/companies/{comp_id}/job/{job_id}/user/{user_id}/bank_fees")
+  @PutMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/bank_fees")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<BankFee> crupdateBankFees(
-      @PathVariable String comp_id,
-      @PathVariable String job_id,
-      @PathVariable String user_id,
+      @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId,
       @Valid @RequestBody List<CrupdateBankFee> toWrite) {
     List<com.example.demo.model.money.BankFee> saved =
         bankFeeService.createOrUpdateAll(toWrite.stream().map(bankFeeMapper::toDomain).toList());
     return saved.stream().map(bankFeeMapper::toRestBankFee).toList();
   }
 
-  @DeleteMapping("/companies/{comp_id}/job/{job_id}/user/{user_id}/bank_fees/{id}")
+  @DeleteMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/bank_fees/{id}")
   @PreAuthorize("hasAnyRole('ADMIN')")
   public void deleteBankFeeById(
-      @PathVariable String comp_id,
-      @PathVariable String job_id,
-      @PathVariable String user_id,
+      @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId,
       @PathVariable String id) {
     bankFeeService.deleteById(id);
   }

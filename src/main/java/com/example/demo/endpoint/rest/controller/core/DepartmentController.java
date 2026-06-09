@@ -20,38 +20,38 @@ public class DepartmentController {
   private final DepartmentService departmentService;
   private final DepartmentMapper departmentMapper;
 
-  @GetMapping("/companies/{comp_id}/departments/{id}")
+  @GetMapping("/users/{userId}/companies/{companyId}/departments/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
-  public Department getDepartmentById(@PathVariable String comp_id, @PathVariable String id) {
+  public Department getDepartmentById(@PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     return departmentMapper.toRestDepartment(
         departmentService
             .findById(id)
             .orElseThrow(() -> new NotFoundException("Department with id " + id + " not found")));
   }
 
-  @GetMapping("/companies/{comp_id}/departments")
+  @GetMapping("/users/{userId}/companies/{companyId}/departments")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<Department> getDepartments(
-      @PathVariable String comp_id,
+      @PathVariable String userId, @PathVariable String companyId,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize) {
     return departmentMapper.toRestDepartments(
         departmentService.findAll(page, pageSize).getContent());
   }
 
-  @PutMapping("/companies/{comp_id}/departments")
+  @PutMapping("/users/{userId}/companies/{companyId}/departments")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<Department> crupdateDepartments(
-      @PathVariable String comp_id, @Valid @RequestBody List<CrupdateDepartment> toWrite) {
+      @PathVariable String userId, @PathVariable String companyId, @Valid @RequestBody List<CrupdateDepartment> toWrite) {
     List<com.example.demo.model.core.Department> saved =
         departmentService.createOrUpdateAll(
-            toWrite.stream().map(d -> departmentMapper.toDomain(d, comp_id)).toList());
+            toWrite.stream().map(d -> departmentMapper.toDomain(d, companyId)).toList());
     return departmentMapper.toRestDepartments(saved);
   }
 
-  @DeleteMapping("/companies/{comp_id}/departments/{id}")
+  @DeleteMapping("/users/{userId}/companies/{companyId}/departments/{id}")
   @PreAuthorize("hasRole('ADMIN')")
-  public void deleteDepartmentById(@PathVariable String comp_id, @PathVariable String id) {
+  public void deleteDepartmentById(@PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     departmentService.deleteById(id);
   }
 }

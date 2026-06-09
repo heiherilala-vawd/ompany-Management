@@ -13,6 +13,8 @@ public interface MaintenanceScheduleRepository
         JpaSpecificationExecutor<MaintenanceSchedule> {
   List<MaintenanceSchedule> findByEquipmentId(String equipmentId);
 
+  List<MaintenanceSchedule> findByCompanyId(String companyId);
+
   List<MaintenanceSchedule> findByCompanyIdAndScheduledDateAfter(String companyId, LocalDate date);
 
   List<MaintenanceSchedule> findByCompanyIdAndStatus(

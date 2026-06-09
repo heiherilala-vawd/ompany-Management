@@ -20,38 +20,38 @@ public class BudgetLineController {
   private final BudgetLineService budgetLineService;
   private final BudgetLineMapper budgetLineMapper;
 
-  @GetMapping("/companies/{comp_id}/budget_lines/{id}")
+  @GetMapping("/users/{userId}/companies/{companyId}/budget_lines/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
-  public BudgetLine getBudgetLineById(@PathVariable String comp_id, @PathVariable String id) {
+  public BudgetLine getBudgetLineById(@PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     return budgetLineMapper.toRestBudgetLine(
         budgetLineService
             .findById(id)
             .orElseThrow(() -> new NotFoundException("BudgetLine with id " + id + " not found")));
   }
 
-  @GetMapping("/companies/{comp_id}/budget_lines")
+  @GetMapping("/users/{userId}/companies/{companyId}/budget_lines")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<BudgetLine> getBudgetLines(
-      @PathVariable String comp_id,
+      @PathVariable String userId, @PathVariable String companyId,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize) {
     return budgetLineMapper.toRestBudgetLines(
         budgetLineService.findAll(page, pageSize).getContent());
   }
 
-  @PutMapping("/companies/{comp_id}/budget_lines")
+  @PutMapping("/users/{userId}/companies/{companyId}/budget_lines")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<BudgetLine> crupdateBudgetLines(
-      @PathVariable String comp_id, @Valid @RequestBody List<CrupdateBudgetLine> toWrite) {
+      @PathVariable String userId, @PathVariable String companyId, @Valid @RequestBody List<CrupdateBudgetLine> toWrite) {
     List<com.example.demo.model.money.BudgetLine> saved =
         budgetLineService.createOrUpdateAll(
-            toWrite.stream().map(rest -> budgetLineMapper.toDomain(rest, comp_id)).toList());
+            toWrite.stream().map(rest -> budgetLineMapper.toDomain(rest, companyId)).toList());
     return budgetLineMapper.toRestBudgetLines(saved);
   }
 
-  @DeleteMapping("/companies/{comp_id}/budget_lines/{id}")
+  @DeleteMapping("/users/{userId}/companies/{companyId}/budget_lines/{id}")
   @PreAuthorize("hasRole('ADMIN')")
-  public void deleteBudgetLineById(@PathVariable String comp_id, @PathVariable String id) {
+  public void deleteBudgetLineById(@PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     budgetLineService.deleteById(id);
   }
 }

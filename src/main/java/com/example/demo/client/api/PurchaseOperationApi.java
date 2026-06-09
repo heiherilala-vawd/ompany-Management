@@ -50,7 +50,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-09T12:36:49.757496465+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-09T15:19:37.891340015+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class PurchaseOperationApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -90,30 +90,30 @@ public class PurchaseOperationApi {
   /**
    * Register a purchase operation with optional travel
    * 
-   * @param compId  (required)
-   * @param jobId  (required)
    * @param userId  (required)
+   * @param companyId  (required)
+   * @param jobId  (required)
    * @param purchaseOperationRequest  (required)
    * @return List&lt;Purchase&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<Purchase> createPurchaseOperation(String compId, String jobId, String userId, PurchaseOperationRequest purchaseOperationRequest) throws ApiException {
-    ApiResponse<List<Purchase>> localVarResponse = createPurchaseOperationWithHttpInfo(compId, jobId, userId, purchaseOperationRequest);
+  public List<Purchase> createPurchaseOperation(String userId, String companyId, String jobId, PurchaseOperationRequest purchaseOperationRequest) throws ApiException {
+    ApiResponse<List<Purchase>> localVarResponse = createPurchaseOperationWithHttpInfo(userId, companyId, jobId, purchaseOperationRequest);
     return localVarResponse.getData();
   }
 
   /**
    * Register a purchase operation with optional travel
    * 
-   * @param compId  (required)
-   * @param jobId  (required)
    * @param userId  (required)
+   * @param companyId  (required)
+   * @param jobId  (required)
    * @param purchaseOperationRequest  (required)
    * @return ApiResponse&lt;List&lt;Purchase&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<Purchase>> createPurchaseOperationWithHttpInfo(String compId, String jobId, String userId, PurchaseOperationRequest purchaseOperationRequest) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = createPurchaseOperationRequestBuilder(compId, jobId, userId, purchaseOperationRequest);
+  public ApiResponse<List<Purchase>> createPurchaseOperationWithHttpInfo(String userId, String companyId, String jobId, PurchaseOperationRequest purchaseOperationRequest) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = createPurchaseOperationRequestBuilder(userId, companyId, jobId, purchaseOperationRequest);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -141,18 +141,18 @@ public class PurchaseOperationApi {
     }
   }
 
-  private HttpRequest.Builder createPurchaseOperationRequestBuilder(String compId, String jobId, String userId, PurchaseOperationRequest purchaseOperationRequest) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling createPurchaseOperation");
+  private HttpRequest.Builder createPurchaseOperationRequestBuilder(String userId, String companyId, String jobId, PurchaseOperationRequest purchaseOperationRequest) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling createPurchaseOperation");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling createPurchaseOperation");
     }
     // verify the required parameter 'jobId' is set
     if (jobId == null) {
       throw new ApiException(400, "Missing the required parameter 'jobId' when calling createPurchaseOperation");
-    }
-    // verify the required parameter 'userId' is set
-    if (userId == null) {
-      throw new ApiException(400, "Missing the required parameter 'userId' when calling createPurchaseOperation");
     }
     // verify the required parameter 'purchaseOperationRequest' is set
     if (purchaseOperationRequest == null) {
@@ -161,10 +161,10 @@ public class PurchaseOperationApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/job/{job_id}/user/{user_id}/purchase_operations"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()))
-        .replace("{job_id}", ApiClient.urlEncode(jobId.toString()))
-        .replace("{user_id}", ApiClient.urlEncode(userId.toString()));
+    String localVarPath = "/users/{userId}/companies/{companyId}/jobs/{jobId}/purchase_operations"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()))
+        .replace("{jobId}", ApiClient.urlEncode(jobId.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 

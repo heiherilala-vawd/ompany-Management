@@ -22,16 +22,14 @@ public class PurchaseOperationController {
   private final PurchaseOperationService purchaseOperationService;
   private final PurchaseMapper purchaseMapper;
 
-  @PostMapping("/companies/{comp_id}/job/{job_id}/user/{user_id}/purchase_operations")
+  @PostMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/purchase_operations")
   @PreAuthorize(
-      "hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER') or #user_id == authentication.principal.id")
+      "hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER') or #userId == authentication.principal.id")
   public List<Purchase> createPurchaseOperation(
-      @PathVariable String comp_id,
-      @PathVariable String job_id,
-      @PathVariable String user_id,
+      @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId,
       @Valid @RequestBody PurchaseOperationRequest request) {
     return purchaseMapper.toRestPurchases(
         purchaseOperationService.create(
-            purchaseOperationMapper.toAggregate(job_id, user_id, request)));
+            purchaseOperationMapper.toAggregate(jobId, userId, request)));
   }
 }

@@ -51,7 +51,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-09T12:36:49.757496465+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-09T15:19:37.891340015+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class EquipmentUsageApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -91,26 +91,28 @@ public class EquipmentUsageApi {
   /**
    * Create new equipment usage records or update existing ones
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param crupdateEquipmentUsage  (required)
    * @return List&lt;EquipmentUsage&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<EquipmentUsage> crupdateEquipmentUsages(String compId, List<CrupdateEquipmentUsage> crupdateEquipmentUsage) throws ApiException {
-    ApiResponse<List<EquipmentUsage>> localVarResponse = crupdateEquipmentUsagesWithHttpInfo(compId, crupdateEquipmentUsage);
+  public List<EquipmentUsage> crupdateEquipmentUsages(String userId, String companyId, List<CrupdateEquipmentUsage> crupdateEquipmentUsage) throws ApiException {
+    ApiResponse<List<EquipmentUsage>> localVarResponse = crupdateEquipmentUsagesWithHttpInfo(userId, companyId, crupdateEquipmentUsage);
     return localVarResponse.getData();
   }
 
   /**
    * Create new equipment usage records or update existing ones
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param crupdateEquipmentUsage  (required)
    * @return ApiResponse&lt;List&lt;EquipmentUsage&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<EquipmentUsage>> crupdateEquipmentUsagesWithHttpInfo(String compId, List<CrupdateEquipmentUsage> crupdateEquipmentUsage) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = crupdateEquipmentUsagesRequestBuilder(compId, crupdateEquipmentUsage);
+  public ApiResponse<List<EquipmentUsage>> crupdateEquipmentUsagesWithHttpInfo(String userId, String companyId, List<CrupdateEquipmentUsage> crupdateEquipmentUsage) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = crupdateEquipmentUsagesRequestBuilder(userId, companyId, crupdateEquipmentUsage);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -138,10 +140,14 @@ public class EquipmentUsageApi {
     }
   }
 
-  private HttpRequest.Builder crupdateEquipmentUsagesRequestBuilder(String compId, List<CrupdateEquipmentUsage> crupdateEquipmentUsage) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling crupdateEquipmentUsages");
+  private HttpRequest.Builder crupdateEquipmentUsagesRequestBuilder(String userId, String companyId, List<CrupdateEquipmentUsage> crupdateEquipmentUsage) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling crupdateEquipmentUsages");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling crupdateEquipmentUsages");
     }
     // verify the required parameter 'crupdateEquipmentUsage' is set
     if (crupdateEquipmentUsage == null) {
@@ -150,8 +156,9 @@ public class EquipmentUsageApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/equipment_usage"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()));
+    String localVarPath = "/users/{userId}/companies/{companyId}/equipment_usages"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
@@ -176,24 +183,26 @@ public class EquipmentUsageApi {
   /**
    * Delete an equipment usage record by identifier
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param id  (required)
    * @throws ApiException if fails to make API call
    */
-  public void deleteEquipmentUsageById(String compId, String id) throws ApiException {
-    deleteEquipmentUsageByIdWithHttpInfo(compId, id);
+  public void deleteEquipmentUsageById(String userId, String companyId, String id) throws ApiException {
+    deleteEquipmentUsageByIdWithHttpInfo(userId, companyId, id);
   }
 
   /**
    * Delete an equipment usage record by identifier
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param id  (required)
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Void> deleteEquipmentUsageByIdWithHttpInfo(String compId, String id) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = deleteEquipmentUsageByIdRequestBuilder(compId, id);
+  public ApiResponse<Void> deleteEquipmentUsageByIdWithHttpInfo(String userId, String companyId, String id) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = deleteEquipmentUsageByIdRequestBuilder(userId, companyId, id);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -226,10 +235,14 @@ public class EquipmentUsageApi {
     }
   }
 
-  private HttpRequest.Builder deleteEquipmentUsageByIdRequestBuilder(String compId, String id) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling deleteEquipmentUsageById");
+  private HttpRequest.Builder deleteEquipmentUsageByIdRequestBuilder(String userId, String companyId, String id) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling deleteEquipmentUsageById");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling deleteEquipmentUsageById");
     }
     // verify the required parameter 'id' is set
     if (id == null) {
@@ -238,8 +251,9 @@ public class EquipmentUsageApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/equipment_usage/{id}"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()))
+    String localVarPath = "/users/{userId}/companies/{companyId}/equipment_usages/{id}"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()))
         .replace("{id}", ApiClient.urlEncode(id.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
@@ -259,26 +273,28 @@ public class EquipmentUsageApi {
   /**
    * Get an equipment usage record by identifier
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param id  (required)
    * @return EquipmentUsage
    * @throws ApiException if fails to make API call
    */
-  public EquipmentUsage getEquipmentUsageById(String compId, String id) throws ApiException {
-    ApiResponse<EquipmentUsage> localVarResponse = getEquipmentUsageByIdWithHttpInfo(compId, id);
+  public EquipmentUsage getEquipmentUsageById(String userId, String companyId, String id) throws ApiException {
+    ApiResponse<EquipmentUsage> localVarResponse = getEquipmentUsageByIdWithHttpInfo(userId, companyId, id);
     return localVarResponse.getData();
   }
 
   /**
    * Get an equipment usage record by identifier
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param id  (required)
    * @return ApiResponse&lt;EquipmentUsage&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<EquipmentUsage> getEquipmentUsageByIdWithHttpInfo(String compId, String id) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getEquipmentUsageByIdRequestBuilder(compId, id);
+  public ApiResponse<EquipmentUsage> getEquipmentUsageByIdWithHttpInfo(String userId, String companyId, String id) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getEquipmentUsageByIdRequestBuilder(userId, companyId, id);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -306,10 +322,14 @@ public class EquipmentUsageApi {
     }
   }
 
-  private HttpRequest.Builder getEquipmentUsageByIdRequestBuilder(String compId, String id) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling getEquipmentUsageById");
+  private HttpRequest.Builder getEquipmentUsageByIdRequestBuilder(String userId, String companyId, String id) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling getEquipmentUsageById");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling getEquipmentUsageById");
     }
     // verify the required parameter 'id' is set
     if (id == null) {
@@ -318,8 +338,9 @@ public class EquipmentUsageApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/equipment_usage/{id}"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()))
+    String localVarPath = "/users/{userId}/companies/{companyId}/equipment_usages/{id}"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()))
         .replace("{id}", ApiClient.urlEncode(id.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
@@ -339,30 +360,32 @@ public class EquipmentUsageApi {
   /**
    * Get all equipment usage records
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param page  (optional)
    * @param pageSize  (optional)
    * @param jobId  (optional)
    * @return List&lt;EquipmentUsage&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<EquipmentUsage> getEquipmentUsages(String compId, Integer page, Integer pageSize, String jobId) throws ApiException {
-    ApiResponse<List<EquipmentUsage>> localVarResponse = getEquipmentUsagesWithHttpInfo(compId, page, pageSize, jobId);
+  public List<EquipmentUsage> getEquipmentUsages(String userId, String companyId, Integer page, Integer pageSize, String jobId) throws ApiException {
+    ApiResponse<List<EquipmentUsage>> localVarResponse = getEquipmentUsagesWithHttpInfo(userId, companyId, page, pageSize, jobId);
     return localVarResponse.getData();
   }
 
   /**
    * Get all equipment usage records
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param page  (optional)
    * @param pageSize  (optional)
    * @param jobId  (optional)
    * @return ApiResponse&lt;List&lt;EquipmentUsage&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<EquipmentUsage>> getEquipmentUsagesWithHttpInfo(String compId, Integer page, Integer pageSize, String jobId) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getEquipmentUsagesRequestBuilder(compId, page, pageSize, jobId);
+  public ApiResponse<List<EquipmentUsage>> getEquipmentUsagesWithHttpInfo(String userId, String companyId, Integer page, Integer pageSize, String jobId) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getEquipmentUsagesRequestBuilder(userId, companyId, page, pageSize, jobId);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -390,16 +413,21 @@ public class EquipmentUsageApi {
     }
   }
 
-  private HttpRequest.Builder getEquipmentUsagesRequestBuilder(String compId, Integer page, Integer pageSize, String jobId) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling getEquipmentUsages");
+  private HttpRequest.Builder getEquipmentUsagesRequestBuilder(String userId, String companyId, Integer page, Integer pageSize, String jobId) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling getEquipmentUsages");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling getEquipmentUsages");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/equipment_usage"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()));
+    String localVarPath = "/users/{userId}/companies/{companyId}/equipment_usages"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()));
 
     List<Pair> localVarQueryParams = new ArrayList<>();
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
@@ -437,28 +465,30 @@ public class EquipmentUsageApi {
   /**
    * Return equipment from usage
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param id  (required)
    * @param status  (required)
    * @return EquipmentUsage
    * @throws ApiException if fails to make API call
    */
-  public EquipmentUsage returnEquipment(String compId, String id, UsageStatus status) throws ApiException {
-    ApiResponse<EquipmentUsage> localVarResponse = returnEquipmentWithHttpInfo(compId, id, status);
+  public EquipmentUsage returnEquipment(String userId, String companyId, String id, UsageStatus status) throws ApiException {
+    ApiResponse<EquipmentUsage> localVarResponse = returnEquipmentWithHttpInfo(userId, companyId, id, status);
     return localVarResponse.getData();
   }
 
   /**
    * Return equipment from usage
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param id  (required)
    * @param status  (required)
    * @return ApiResponse&lt;EquipmentUsage&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<EquipmentUsage> returnEquipmentWithHttpInfo(String compId, String id, UsageStatus status) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = returnEquipmentRequestBuilder(compId, id, status);
+  public ApiResponse<EquipmentUsage> returnEquipmentWithHttpInfo(String userId, String companyId, String id, UsageStatus status) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = returnEquipmentRequestBuilder(userId, companyId, id, status);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -486,10 +516,14 @@ public class EquipmentUsageApi {
     }
   }
 
-  private HttpRequest.Builder returnEquipmentRequestBuilder(String compId, String id, UsageStatus status) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling returnEquipment");
+  private HttpRequest.Builder returnEquipmentRequestBuilder(String userId, String companyId, String id, UsageStatus status) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling returnEquipment");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling returnEquipment");
     }
     // verify the required parameter 'id' is set
     if (id == null) {
@@ -502,8 +536,9 @@ public class EquipmentUsageApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/equipment_usage/{id}/return"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()))
+    String localVarPath = "/users/{userId}/companies/{companyId}/equipment_usages/{id}/return"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()))
         .replace("{id}", ApiClient.urlEncode(id.toString()));
 
     List<Pair> localVarQueryParams = new ArrayList<>();

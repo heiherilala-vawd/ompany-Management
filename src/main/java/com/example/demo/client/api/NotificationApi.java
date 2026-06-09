@@ -51,7 +51,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-09T12:36:49.757496465+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-09T15:19:37.891340015+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class NotificationApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -91,28 +91,28 @@ public class NotificationApi {
   /**
    * Create or update notifications
    * 
-   * @param usId  (required)
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param crupdateNotification  (required)
    * @return List&lt;Notification&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<Notification> crupdateNotifications(String usId, String compId, List<CrupdateNotification> crupdateNotification) throws ApiException {
-    ApiResponse<List<Notification>> localVarResponse = crupdateNotificationsWithHttpInfo(usId, compId, crupdateNotification);
+  public List<Notification> crupdateNotifications(String userId, String companyId, List<CrupdateNotification> crupdateNotification) throws ApiException {
+    ApiResponse<List<Notification>> localVarResponse = crupdateNotificationsWithHttpInfo(userId, companyId, crupdateNotification);
     return localVarResponse.getData();
   }
 
   /**
    * Create or update notifications
    * 
-   * @param usId  (required)
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param crupdateNotification  (required)
    * @return ApiResponse&lt;List&lt;Notification&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<Notification>> crupdateNotificationsWithHttpInfo(String usId, String compId, List<CrupdateNotification> crupdateNotification) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = crupdateNotificationsRequestBuilder(usId, compId, crupdateNotification);
+  public ApiResponse<List<Notification>> crupdateNotificationsWithHttpInfo(String userId, String companyId, List<CrupdateNotification> crupdateNotification) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = crupdateNotificationsRequestBuilder(userId, companyId, crupdateNotification);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -140,14 +140,14 @@ public class NotificationApi {
     }
   }
 
-  private HttpRequest.Builder crupdateNotificationsRequestBuilder(String usId, String compId, List<CrupdateNotification> crupdateNotification) throws ApiException {
-    // verify the required parameter 'usId' is set
-    if (usId == null) {
-      throw new ApiException(400, "Missing the required parameter 'usId' when calling crupdateNotifications");
+  private HttpRequest.Builder crupdateNotificationsRequestBuilder(String userId, String companyId, List<CrupdateNotification> crupdateNotification) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling crupdateNotifications");
     }
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling crupdateNotifications");
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling crupdateNotifications");
     }
     // verify the required parameter 'crupdateNotification' is set
     if (crupdateNotification == null) {
@@ -156,9 +156,9 @@ public class NotificationApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/users/{us_id}/companies/{comp_id}/notifications"
-        .replace("{us_id}", ApiClient.urlEncode(usId.toString()))
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()));
+    String localVarPath = "/users/{userId}/companies/{companyId}/notifications"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
@@ -183,26 +183,26 @@ public class NotificationApi {
   /**
    * Delete notification by identifier
    * 
-   * @param usId  (required)
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param id  (required)
    * @throws ApiException if fails to make API call
    */
-  public void deleteNotificationById(String usId, String compId, String id) throws ApiException {
-    deleteNotificationByIdWithHttpInfo(usId, compId, id);
+  public void deleteNotificationById(String userId, String companyId, String id) throws ApiException {
+    deleteNotificationByIdWithHttpInfo(userId, companyId, id);
   }
 
   /**
    * Delete notification by identifier
    * 
-   * @param usId  (required)
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param id  (required)
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Void> deleteNotificationByIdWithHttpInfo(String usId, String compId, String id) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = deleteNotificationByIdRequestBuilder(usId, compId, id);
+  public ApiResponse<Void> deleteNotificationByIdWithHttpInfo(String userId, String companyId, String id) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = deleteNotificationByIdRequestBuilder(userId, companyId, id);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -235,14 +235,14 @@ public class NotificationApi {
     }
   }
 
-  private HttpRequest.Builder deleteNotificationByIdRequestBuilder(String usId, String compId, String id) throws ApiException {
-    // verify the required parameter 'usId' is set
-    if (usId == null) {
-      throw new ApiException(400, "Missing the required parameter 'usId' when calling deleteNotificationById");
+  private HttpRequest.Builder deleteNotificationByIdRequestBuilder(String userId, String companyId, String id) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling deleteNotificationById");
     }
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling deleteNotificationById");
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling deleteNotificationById");
     }
     // verify the required parameter 'id' is set
     if (id == null) {
@@ -251,9 +251,9 @@ public class NotificationApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/users/{us_id}/companies/{comp_id}/notifications/{id}"
-        .replace("{us_id}", ApiClient.urlEncode(usId.toString()))
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()))
+    String localVarPath = "/users/{userId}/companies/{companyId}/notifications/{id}"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()))
         .replace("{id}", ApiClient.urlEncode(id.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
@@ -273,28 +273,28 @@ public class NotificationApi {
   /**
    * Get notification by identifier
    * 
-   * @param usId  (required)
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param id  (required)
    * @return Notification
    * @throws ApiException if fails to make API call
    */
-  public Notification getNotificationById(String usId, String compId, String id) throws ApiException {
-    ApiResponse<Notification> localVarResponse = getNotificationByIdWithHttpInfo(usId, compId, id);
+  public Notification getNotificationById(String userId, String companyId, String id) throws ApiException {
+    ApiResponse<Notification> localVarResponse = getNotificationByIdWithHttpInfo(userId, companyId, id);
     return localVarResponse.getData();
   }
 
   /**
    * Get notification by identifier
    * 
-   * @param usId  (required)
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param id  (required)
    * @return ApiResponse&lt;Notification&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Notification> getNotificationByIdWithHttpInfo(String usId, String compId, String id) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getNotificationByIdRequestBuilder(usId, compId, id);
+  public ApiResponse<Notification> getNotificationByIdWithHttpInfo(String userId, String companyId, String id) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getNotificationByIdRequestBuilder(userId, companyId, id);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -322,14 +322,14 @@ public class NotificationApi {
     }
   }
 
-  private HttpRequest.Builder getNotificationByIdRequestBuilder(String usId, String compId, String id) throws ApiException {
-    // verify the required parameter 'usId' is set
-    if (usId == null) {
-      throw new ApiException(400, "Missing the required parameter 'usId' when calling getNotificationById");
+  private HttpRequest.Builder getNotificationByIdRequestBuilder(String userId, String companyId, String id) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling getNotificationById");
     }
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling getNotificationById");
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling getNotificationById");
     }
     // verify the required parameter 'id' is set
     if (id == null) {
@@ -338,9 +338,9 @@ public class NotificationApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/users/{us_id}/companies/{comp_id}/notifications/{id}"
-        .replace("{us_id}", ApiClient.urlEncode(usId.toString()))
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()))
+    String localVarPath = "/users/{userId}/companies/{companyId}/notifications/{id}"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()))
         .replace("{id}", ApiClient.urlEncode(id.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
@@ -360,8 +360,8 @@ public class NotificationApi {
   /**
    * Get all notifications for the current user
    * 
-   * @param usId  (required)
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param page  (optional)
    * @param pageSize  (optional)
    * @param read  (optional)
@@ -369,16 +369,16 @@ public class NotificationApi {
    * @return List&lt;Notification&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<Notification> getNotifications(String usId, String compId, Integer page, Integer pageSize, Boolean read, Boolean completed) throws ApiException {
-    ApiResponse<List<Notification>> localVarResponse = getNotificationsWithHttpInfo(usId, compId, page, pageSize, read, completed);
+  public List<Notification> getNotifications(String userId, String companyId, Integer page, Integer pageSize, Boolean read, Boolean completed) throws ApiException {
+    ApiResponse<List<Notification>> localVarResponse = getNotificationsWithHttpInfo(userId, companyId, page, pageSize, read, completed);
     return localVarResponse.getData();
   }
 
   /**
    * Get all notifications for the current user
    * 
-   * @param usId  (required)
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param page  (optional)
    * @param pageSize  (optional)
    * @param read  (optional)
@@ -386,8 +386,8 @@ public class NotificationApi {
    * @return ApiResponse&lt;List&lt;Notification&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<Notification>> getNotificationsWithHttpInfo(String usId, String compId, Integer page, Integer pageSize, Boolean read, Boolean completed) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getNotificationsRequestBuilder(usId, compId, page, pageSize, read, completed);
+  public ApiResponse<List<Notification>> getNotificationsWithHttpInfo(String userId, String companyId, Integer page, Integer pageSize, Boolean read, Boolean completed) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getNotificationsRequestBuilder(userId, companyId, page, pageSize, read, completed);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -415,21 +415,21 @@ public class NotificationApi {
     }
   }
 
-  private HttpRequest.Builder getNotificationsRequestBuilder(String usId, String compId, Integer page, Integer pageSize, Boolean read, Boolean completed) throws ApiException {
-    // verify the required parameter 'usId' is set
-    if (usId == null) {
-      throw new ApiException(400, "Missing the required parameter 'usId' when calling getNotifications");
+  private HttpRequest.Builder getNotificationsRequestBuilder(String userId, String companyId, Integer page, Integer pageSize, Boolean read, Boolean completed) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling getNotifications");
     }
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling getNotifications");
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling getNotifications");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/users/{us_id}/companies/{comp_id}/notifications"
-        .replace("{us_id}", ApiClient.urlEncode(usId.toString()))
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()));
+    String localVarPath = "/users/{userId}/companies/{companyId}/notifications"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()));
 
     List<Pair> localVarQueryParams = new ArrayList<>();
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
@@ -469,26 +469,26 @@ public class NotificationApi {
   /**
    * Get unread notification count for the current user
    * 
-   * @param usId  (required)
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @return UnreadNotificationCountResponse
    * @throws ApiException if fails to make API call
    */
-  public UnreadNotificationCountResponse getUnreadNotificationCount(String usId, String compId) throws ApiException {
-    ApiResponse<UnreadNotificationCountResponse> localVarResponse = getUnreadNotificationCountWithHttpInfo(usId, compId);
+  public UnreadNotificationCountResponse getUnreadNotificationCount(String userId, String companyId) throws ApiException {
+    ApiResponse<UnreadNotificationCountResponse> localVarResponse = getUnreadNotificationCountWithHttpInfo(userId, companyId);
     return localVarResponse.getData();
   }
 
   /**
    * Get unread notification count for the current user
    * 
-   * @param usId  (required)
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @return ApiResponse&lt;UnreadNotificationCountResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<UnreadNotificationCountResponse> getUnreadNotificationCountWithHttpInfo(String usId, String compId) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getUnreadNotificationCountRequestBuilder(usId, compId);
+  public ApiResponse<UnreadNotificationCountResponse> getUnreadNotificationCountWithHttpInfo(String userId, String companyId) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getUnreadNotificationCountRequestBuilder(userId, companyId);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -516,21 +516,21 @@ public class NotificationApi {
     }
   }
 
-  private HttpRequest.Builder getUnreadNotificationCountRequestBuilder(String usId, String compId) throws ApiException {
-    // verify the required parameter 'usId' is set
-    if (usId == null) {
-      throw new ApiException(400, "Missing the required parameter 'usId' when calling getUnreadNotificationCount");
+  private HttpRequest.Builder getUnreadNotificationCountRequestBuilder(String userId, String companyId) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling getUnreadNotificationCount");
     }
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling getUnreadNotificationCount");
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling getUnreadNotificationCount");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/users/{us_id}/companies/{comp_id}/notifications/unread_count"
-        .replace("{us_id}", ApiClient.urlEncode(usId.toString()))
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()));
+    String localVarPath = "/users/{userId}/companies/{companyId}/notifications/unread_count"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
@@ -549,28 +549,28 @@ public class NotificationApi {
   /**
    * Mark notification as completed
    * 
-   * @param usId  (required)
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param id  (required)
    * @return Notification
    * @throws ApiException if fails to make API call
    */
-  public Notification markNotificationAsCompleted(String usId, String compId, String id) throws ApiException {
-    ApiResponse<Notification> localVarResponse = markNotificationAsCompletedWithHttpInfo(usId, compId, id);
+  public Notification markNotificationAsCompleted(String userId, String companyId, String id) throws ApiException {
+    ApiResponse<Notification> localVarResponse = markNotificationAsCompletedWithHttpInfo(userId, companyId, id);
     return localVarResponse.getData();
   }
 
   /**
    * Mark notification as completed
    * 
-   * @param usId  (required)
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param id  (required)
    * @return ApiResponse&lt;Notification&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Notification> markNotificationAsCompletedWithHttpInfo(String usId, String compId, String id) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = markNotificationAsCompletedRequestBuilder(usId, compId, id);
+  public ApiResponse<Notification> markNotificationAsCompletedWithHttpInfo(String userId, String companyId, String id) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = markNotificationAsCompletedRequestBuilder(userId, companyId, id);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -598,14 +598,14 @@ public class NotificationApi {
     }
   }
 
-  private HttpRequest.Builder markNotificationAsCompletedRequestBuilder(String usId, String compId, String id) throws ApiException {
-    // verify the required parameter 'usId' is set
-    if (usId == null) {
-      throw new ApiException(400, "Missing the required parameter 'usId' when calling markNotificationAsCompleted");
+  private HttpRequest.Builder markNotificationAsCompletedRequestBuilder(String userId, String companyId, String id) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling markNotificationAsCompleted");
     }
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling markNotificationAsCompleted");
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling markNotificationAsCompleted");
     }
     // verify the required parameter 'id' is set
     if (id == null) {
@@ -614,9 +614,9 @@ public class NotificationApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/users/{us_id}/companies/{comp_id}/notifications/{id}/complete"
-        .replace("{us_id}", ApiClient.urlEncode(usId.toString()))
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()))
+    String localVarPath = "/users/{userId}/companies/{companyId}/notifications/{id}/complete"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()))
         .replace("{id}", ApiClient.urlEncode(id.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
@@ -636,28 +636,28 @@ public class NotificationApi {
   /**
    * Mark notification as read
    * 
-   * @param usId  (required)
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param id  (required)
    * @return Notification
    * @throws ApiException if fails to make API call
    */
-  public Notification markNotificationAsRead(String usId, String compId, String id) throws ApiException {
-    ApiResponse<Notification> localVarResponse = markNotificationAsReadWithHttpInfo(usId, compId, id);
+  public Notification markNotificationAsRead(String userId, String companyId, String id) throws ApiException {
+    ApiResponse<Notification> localVarResponse = markNotificationAsReadWithHttpInfo(userId, companyId, id);
     return localVarResponse.getData();
   }
 
   /**
    * Mark notification as read
    * 
-   * @param usId  (required)
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param id  (required)
    * @return ApiResponse&lt;Notification&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Notification> markNotificationAsReadWithHttpInfo(String usId, String compId, String id) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = markNotificationAsReadRequestBuilder(usId, compId, id);
+  public ApiResponse<Notification> markNotificationAsReadWithHttpInfo(String userId, String companyId, String id) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = markNotificationAsReadRequestBuilder(userId, companyId, id);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -685,14 +685,14 @@ public class NotificationApi {
     }
   }
 
-  private HttpRequest.Builder markNotificationAsReadRequestBuilder(String usId, String compId, String id) throws ApiException {
-    // verify the required parameter 'usId' is set
-    if (usId == null) {
-      throw new ApiException(400, "Missing the required parameter 'usId' when calling markNotificationAsRead");
+  private HttpRequest.Builder markNotificationAsReadRequestBuilder(String userId, String companyId, String id) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling markNotificationAsRead");
     }
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling markNotificationAsRead");
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling markNotificationAsRead");
     }
     // verify the required parameter 'id' is set
     if (id == null) {
@@ -701,9 +701,9 @@ public class NotificationApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/users/{us_id}/companies/{comp_id}/notifications/{id}/read"
-        .replace("{us_id}", ApiClient.urlEncode(usId.toString()))
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()))
+    String localVarPath = "/users/{userId}/companies/{companyId}/notifications/{id}/read"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()))
         .replace("{id}", ApiClient.urlEncode(id.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));

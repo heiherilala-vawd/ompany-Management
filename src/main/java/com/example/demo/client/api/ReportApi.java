@@ -63,7 +63,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-09T12:36:49.757496465+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-09T15:19:37.891340015+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class ReportApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -101,134 +101,34 @@ public class ReportApi {
   }
 
   /**
-   * Get yearly report with job financials
-   * Returns all jobs for the specified year with their income/expense details, including ongoing (IN_PROGRESS) jobs
-   * @param compId  (required)
-   * @param year  (required)
-   * @param page  (optional)
-   * @param pageSize  (optional)
-   * @return YearlyReport
-   * @throws ApiException if fails to make API call
-   */
-  public YearlyReport companiesCompIdYearlyReportGet(String compId, Integer year, Integer page, Integer pageSize) throws ApiException {
-    ApiResponse<YearlyReport> localVarResponse = companiesCompIdYearlyReportGetWithHttpInfo(compId, year, page, pageSize);
-    return localVarResponse.getData();
-  }
-
-  /**
-   * Get yearly report with job financials
-   * Returns all jobs for the specified year with their income/expense details, including ongoing (IN_PROGRESS) jobs
-   * @param compId  (required)
-   * @param year  (required)
-   * @param page  (optional)
-   * @param pageSize  (optional)
-   * @return ApiResponse&lt;YearlyReport&gt;
-   * @throws ApiException if fails to make API call
-   */
-  public ApiResponse<YearlyReport> companiesCompIdYearlyReportGetWithHttpInfo(String compId, Integer year, Integer page, Integer pageSize) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = companiesCompIdYearlyReportGetRequestBuilder(compId, year, page, pageSize);
-    try {
-      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
-          localVarRequestBuilder.build(),
-          HttpResponse.BodyHandlers.ofInputStream());
-      if (memberVarResponseInterceptor != null) {
-        memberVarResponseInterceptor.accept(localVarResponse);
-      }
-      try {
-        if (localVarResponse.statusCode()/ 100 != 2) {
-          throw getApiException("companiesCompIdYearlyReportGet", localVarResponse);
-        }
-        return new ApiResponse<YearlyReport>(
-          localVarResponse.statusCode(),
-          localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<YearlyReport>() {}) // closes the InputStream
-        );
-      } finally {
-      }
-    } catch (IOException e) {
-      throw new ApiException(e);
-    }
-    catch (InterruptedException e) {
-      Thread.currentThread().interrupt();
-      throw new ApiException(e);
-    }
-  }
-
-  private HttpRequest.Builder companiesCompIdYearlyReportGetRequestBuilder(String compId, Integer year, Integer page, Integer pageSize) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling companiesCompIdYearlyReportGet");
-    }
-    // verify the required parameter 'year' is set
-    if (year == null) {
-      throw new ApiException(400, "Missing the required parameter 'year' when calling companiesCompIdYearlyReportGet");
-    }
-
-    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
-
-    String localVarPath = "/companies/{comp_id}/yearly_report"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()));
-
-    List<Pair> localVarQueryParams = new ArrayList<>();
-    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
-    String localVarQueryParameterBaseName;
-    localVarQueryParameterBaseName = "year";
-    localVarQueryParams.addAll(ApiClient.parameterToPairs("year", year));
-    localVarQueryParameterBaseName = "page";
-    localVarQueryParams.addAll(ApiClient.parameterToPairs("page", page));
-    localVarQueryParameterBaseName = "page_size";
-    localVarQueryParams.addAll(ApiClient.parameterToPairs("page_size", pageSize));
-
-    if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
-      StringJoiner queryJoiner = new StringJoiner("&");
-      localVarQueryParams.forEach(p -> queryJoiner.add(p.getName() + '=' + p.getValue()));
-      if (localVarQueryStringJoiner.length() != 0) {
-        queryJoiner.add(localVarQueryStringJoiner.toString());
-      }
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
-    } else {
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
-    }
-
-    localVarRequestBuilder.header("Accept", "application/json");
-
-    localVarRequestBuilder.method("GET", HttpRequest.BodyPublishers.noBody());
-    if (memberVarReadTimeout != null) {
-      localVarRequestBuilder.timeout(memberVarReadTimeout);
-    }
-    if (memberVarInterceptor != null) {
-      memberVarInterceptor.accept(localVarRequestBuilder);
-    }
-    return localVarRequestBuilder;
-  }
-
-  /**
    * Get budget time series
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param dateFrom  (optional)
    * @param dateTo  (optional)
    * @param granularity  (optional, default to month)
    * @return TimeSeriesResponse
    * @throws ApiException if fails to make API call
    */
-  public TimeSeriesResponse getBudgetTimeSeries(String compId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo, String granularity) throws ApiException {
-    ApiResponse<TimeSeriesResponse> localVarResponse = getBudgetTimeSeriesWithHttpInfo(compId, dateFrom, dateTo, granularity);
+  public TimeSeriesResponse getBudgetTimeSeries(String userId, String companyId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo, String granularity) throws ApiException {
+    ApiResponse<TimeSeriesResponse> localVarResponse = getBudgetTimeSeriesWithHttpInfo(userId, companyId, dateFrom, dateTo, granularity);
     return localVarResponse.getData();
   }
 
   /**
    * Get budget time series
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param dateFrom  (optional)
    * @param dateTo  (optional)
    * @param granularity  (optional, default to month)
    * @return ApiResponse&lt;TimeSeriesResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<TimeSeriesResponse> getBudgetTimeSeriesWithHttpInfo(String compId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo, String granularity) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getBudgetTimeSeriesRequestBuilder(compId, dateFrom, dateTo, granularity);
+  public ApiResponse<TimeSeriesResponse> getBudgetTimeSeriesWithHttpInfo(String userId, String companyId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo, String granularity) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getBudgetTimeSeriesRequestBuilder(userId, companyId, dateFrom, dateTo, granularity);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -256,16 +156,21 @@ public class ReportApi {
     }
   }
 
-  private HttpRequest.Builder getBudgetTimeSeriesRequestBuilder(String compId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo, String granularity) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling getBudgetTimeSeries");
+  private HttpRequest.Builder getBudgetTimeSeriesRequestBuilder(String userId, String companyId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo, String granularity) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling getBudgetTimeSeries");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling getBudgetTimeSeries");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/dashboard/monetary/budget"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()));
+    String localVarPath = "/users/{userId}/companies/{companyId}/dashboard/monetary/budget"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()));
 
     List<Pair> localVarQueryParams = new ArrayList<>();
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
@@ -303,30 +208,32 @@ public class ReportApi {
   /**
    * Get cash flow time series
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param dateFrom  (optional)
    * @param dateTo  (optional)
    * @param granularity  (optional, default to month)
    * @return TimeSeriesResponse
    * @throws ApiException if fails to make API call
    */
-  public TimeSeriesResponse getCashFlowTimeSeries(String compId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo, String granularity) throws ApiException {
-    ApiResponse<TimeSeriesResponse> localVarResponse = getCashFlowTimeSeriesWithHttpInfo(compId, dateFrom, dateTo, granularity);
+  public TimeSeriesResponse getCashFlowTimeSeries(String userId, String companyId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo, String granularity) throws ApiException {
+    ApiResponse<TimeSeriesResponse> localVarResponse = getCashFlowTimeSeriesWithHttpInfo(userId, companyId, dateFrom, dateTo, granularity);
     return localVarResponse.getData();
   }
 
   /**
    * Get cash flow time series
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param dateFrom  (optional)
    * @param dateTo  (optional)
    * @param granularity  (optional, default to month)
    * @return ApiResponse&lt;TimeSeriesResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<TimeSeriesResponse> getCashFlowTimeSeriesWithHttpInfo(String compId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo, String granularity) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getCashFlowTimeSeriesRequestBuilder(compId, dateFrom, dateTo, granularity);
+  public ApiResponse<TimeSeriesResponse> getCashFlowTimeSeriesWithHttpInfo(String userId, String companyId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo, String granularity) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getCashFlowTimeSeriesRequestBuilder(userId, companyId, dateFrom, dateTo, granularity);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -354,16 +261,21 @@ public class ReportApi {
     }
   }
 
-  private HttpRequest.Builder getCashFlowTimeSeriesRequestBuilder(String compId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo, String granularity) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling getCashFlowTimeSeries");
+  private HttpRequest.Builder getCashFlowTimeSeriesRequestBuilder(String userId, String companyId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo, String granularity) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling getCashFlowTimeSeries");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling getCashFlowTimeSeries");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/dashboard/monetary/cashflow"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()));
+    String localVarPath = "/users/{userId}/companies/{companyId}/dashboard/monetary/cashflow"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()));
 
     List<Pair> localVarQueryParams = new ArrayList<>();
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
@@ -401,30 +313,32 @@ public class ReportApi {
   /**
    * Get equipment dashboard
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param jobId  (optional)
    * @param dateFrom  (optional)
    * @param dateTo  (optional)
    * @return EquipmentDashboardResponse
    * @throws ApiException if fails to make API call
    */
-  public EquipmentDashboardResponse getEquipmentDashboard(String compId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
-    ApiResponse<EquipmentDashboardResponse> localVarResponse = getEquipmentDashboardWithHttpInfo(compId, jobId, dateFrom, dateTo);
+  public EquipmentDashboardResponse getEquipmentDashboard(String userId, String companyId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
+    ApiResponse<EquipmentDashboardResponse> localVarResponse = getEquipmentDashboardWithHttpInfo(userId, companyId, jobId, dateFrom, dateTo);
     return localVarResponse.getData();
   }
 
   /**
    * Get equipment dashboard
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param jobId  (optional)
    * @param dateFrom  (optional)
    * @param dateTo  (optional)
    * @return ApiResponse&lt;EquipmentDashboardResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<EquipmentDashboardResponse> getEquipmentDashboardWithHttpInfo(String compId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getEquipmentDashboardRequestBuilder(compId, jobId, dateFrom, dateTo);
+  public ApiResponse<EquipmentDashboardResponse> getEquipmentDashboardWithHttpInfo(String userId, String companyId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getEquipmentDashboardRequestBuilder(userId, companyId, jobId, dateFrom, dateTo);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -452,16 +366,21 @@ public class ReportApi {
     }
   }
 
-  private HttpRequest.Builder getEquipmentDashboardRequestBuilder(String compId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling getEquipmentDashboard");
+  private HttpRequest.Builder getEquipmentDashboardRequestBuilder(String userId, String companyId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling getEquipmentDashboard");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling getEquipmentDashboard");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/dashboard/equipment"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()));
+    String localVarPath = "/users/{userId}/companies/{companyId}/dashboard/equipment"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()));
 
     List<Pair> localVarQueryParams = new ArrayList<>();
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
@@ -499,30 +418,32 @@ public class ReportApi {
   /**
    * Get equipment dashboard breakdown
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param jobId  (optional)
    * @param dateFrom  (optional)
    * @param dateTo  (optional)
    * @return EquipmentBreakdownResponse
    * @throws ApiException if fails to make API call
    */
-  public EquipmentBreakdownResponse getEquipmentDashboardBreakdown(String compId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
-    ApiResponse<EquipmentBreakdownResponse> localVarResponse = getEquipmentDashboardBreakdownWithHttpInfo(compId, jobId, dateFrom, dateTo);
+  public EquipmentBreakdownResponse getEquipmentDashboardBreakdown(String userId, String companyId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
+    ApiResponse<EquipmentBreakdownResponse> localVarResponse = getEquipmentDashboardBreakdownWithHttpInfo(userId, companyId, jobId, dateFrom, dateTo);
     return localVarResponse.getData();
   }
 
   /**
    * Get equipment dashboard breakdown
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param jobId  (optional)
    * @param dateFrom  (optional)
    * @param dateTo  (optional)
    * @return ApiResponse&lt;EquipmentBreakdownResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<EquipmentBreakdownResponse> getEquipmentDashboardBreakdownWithHttpInfo(String compId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getEquipmentDashboardBreakdownRequestBuilder(compId, jobId, dateFrom, dateTo);
+  public ApiResponse<EquipmentBreakdownResponse> getEquipmentDashboardBreakdownWithHttpInfo(String userId, String companyId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getEquipmentDashboardBreakdownRequestBuilder(userId, companyId, jobId, dateFrom, dateTo);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -550,16 +471,21 @@ public class ReportApi {
     }
   }
 
-  private HttpRequest.Builder getEquipmentDashboardBreakdownRequestBuilder(String compId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling getEquipmentDashboardBreakdown");
+  private HttpRequest.Builder getEquipmentDashboardBreakdownRequestBuilder(String userId, String companyId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling getEquipmentDashboardBreakdown");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling getEquipmentDashboardBreakdown");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/dashboard/equipment/breakdown"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()));
+    String localVarPath = "/users/{userId}/companies/{companyId}/dashboard/equipment/breakdown"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()));
 
     List<Pair> localVarQueryParams = new ArrayList<>();
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
@@ -597,30 +523,32 @@ public class ReportApi {
   /**
    * Get equipment dashboard summary
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param jobId  (optional)
    * @param dateFrom  (optional)
    * @param dateTo  (optional)
    * @return EquipmentSummaryResponse
    * @throws ApiException if fails to make API call
    */
-  public EquipmentSummaryResponse getEquipmentDashboardSummary(String compId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
-    ApiResponse<EquipmentSummaryResponse> localVarResponse = getEquipmentDashboardSummaryWithHttpInfo(compId, jobId, dateFrom, dateTo);
+  public EquipmentSummaryResponse getEquipmentDashboardSummary(String userId, String companyId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
+    ApiResponse<EquipmentSummaryResponse> localVarResponse = getEquipmentDashboardSummaryWithHttpInfo(userId, companyId, jobId, dateFrom, dateTo);
     return localVarResponse.getData();
   }
 
   /**
    * Get equipment dashboard summary
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param jobId  (optional)
    * @param dateFrom  (optional)
    * @param dateTo  (optional)
    * @return ApiResponse&lt;EquipmentSummaryResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<EquipmentSummaryResponse> getEquipmentDashboardSummaryWithHttpInfo(String compId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getEquipmentDashboardSummaryRequestBuilder(compId, jobId, dateFrom, dateTo);
+  public ApiResponse<EquipmentSummaryResponse> getEquipmentDashboardSummaryWithHttpInfo(String userId, String companyId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getEquipmentDashboardSummaryRequestBuilder(userId, companyId, jobId, dateFrom, dateTo);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -648,16 +576,21 @@ public class ReportApi {
     }
   }
 
-  private HttpRequest.Builder getEquipmentDashboardSummaryRequestBuilder(String compId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling getEquipmentDashboardSummary");
+  private HttpRequest.Builder getEquipmentDashboardSummaryRequestBuilder(String userId, String companyId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling getEquipmentDashboardSummary");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling getEquipmentDashboardSummary");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/dashboard/equipment/summary"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()));
+    String localVarPath = "/users/{userId}/companies/{companyId}/dashboard/equipment/summary"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()));
 
     List<Pair> localVarQueryParams = new ArrayList<>();
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
@@ -695,7 +628,8 @@ public class ReportApi {
   /**
    * Get expense breakdown time series
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param jobId  (optional)
    * @param dateFrom  (optional)
    * @param dateTo  (optional)
@@ -703,15 +637,16 @@ public class ReportApi {
    * @return TimeSeriesResponse
    * @throws ApiException if fails to make API call
    */
-  public TimeSeriesResponse getExpenseBreakdownTimeSeries(String compId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo, String granularity) throws ApiException {
-    ApiResponse<TimeSeriesResponse> localVarResponse = getExpenseBreakdownTimeSeriesWithHttpInfo(compId, jobId, dateFrom, dateTo, granularity);
+  public TimeSeriesResponse getExpenseBreakdownTimeSeries(String userId, String companyId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo, String granularity) throws ApiException {
+    ApiResponse<TimeSeriesResponse> localVarResponse = getExpenseBreakdownTimeSeriesWithHttpInfo(userId, companyId, jobId, dateFrom, dateTo, granularity);
     return localVarResponse.getData();
   }
 
   /**
    * Get expense breakdown time series
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param jobId  (optional)
    * @param dateFrom  (optional)
    * @param dateTo  (optional)
@@ -719,8 +654,8 @@ public class ReportApi {
    * @return ApiResponse&lt;TimeSeriesResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<TimeSeriesResponse> getExpenseBreakdownTimeSeriesWithHttpInfo(String compId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo, String granularity) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getExpenseBreakdownTimeSeriesRequestBuilder(compId, jobId, dateFrom, dateTo, granularity);
+  public ApiResponse<TimeSeriesResponse> getExpenseBreakdownTimeSeriesWithHttpInfo(String userId, String companyId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo, String granularity) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getExpenseBreakdownTimeSeriesRequestBuilder(userId, companyId, jobId, dateFrom, dateTo, granularity);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -748,16 +683,21 @@ public class ReportApi {
     }
   }
 
-  private HttpRequest.Builder getExpenseBreakdownTimeSeriesRequestBuilder(String compId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo, String granularity) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling getExpenseBreakdownTimeSeries");
+  private HttpRequest.Builder getExpenseBreakdownTimeSeriesRequestBuilder(String userId, String companyId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo, String granularity) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling getExpenseBreakdownTimeSeries");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling getExpenseBreakdownTimeSeries");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/dashboard/monetary/expense_breakdown"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()));
+    String localVarPath = "/users/{userId}/companies/{companyId}/dashboard/monetary/expense_breakdown"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()));
 
     List<Pair> localVarQueryParams = new ArrayList<>();
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
@@ -797,7 +737,8 @@ public class ReportApi {
   /**
    * Get expenses time series
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param jobId  (optional)
    * @param dateFrom  (optional)
    * @param dateTo  (optional)
@@ -805,15 +746,16 @@ public class ReportApi {
    * @return TimeSeriesResponse
    * @throws ApiException if fails to make API call
    */
-  public TimeSeriesResponse getExpensesTimeSeries(String compId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo, String granularity) throws ApiException {
-    ApiResponse<TimeSeriesResponse> localVarResponse = getExpensesTimeSeriesWithHttpInfo(compId, jobId, dateFrom, dateTo, granularity);
+  public TimeSeriesResponse getExpensesTimeSeries(String userId, String companyId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo, String granularity) throws ApiException {
+    ApiResponse<TimeSeriesResponse> localVarResponse = getExpensesTimeSeriesWithHttpInfo(userId, companyId, jobId, dateFrom, dateTo, granularity);
     return localVarResponse.getData();
   }
 
   /**
    * Get expenses time series
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param jobId  (optional)
    * @param dateFrom  (optional)
    * @param dateTo  (optional)
@@ -821,8 +763,8 @@ public class ReportApi {
    * @return ApiResponse&lt;TimeSeriesResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<TimeSeriesResponse> getExpensesTimeSeriesWithHttpInfo(String compId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo, String granularity) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getExpensesTimeSeriesRequestBuilder(compId, jobId, dateFrom, dateTo, granularity);
+  public ApiResponse<TimeSeriesResponse> getExpensesTimeSeriesWithHttpInfo(String userId, String companyId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo, String granularity) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getExpensesTimeSeriesRequestBuilder(userId, companyId, jobId, dateFrom, dateTo, granularity);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -850,16 +792,21 @@ public class ReportApi {
     }
   }
 
-  private HttpRequest.Builder getExpensesTimeSeriesRequestBuilder(String compId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo, String granularity) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling getExpensesTimeSeries");
+  private HttpRequest.Builder getExpensesTimeSeriesRequestBuilder(String userId, String companyId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo, String granularity) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling getExpensesTimeSeries");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling getExpensesTimeSeries");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/dashboard/monetary/expenses"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()));
+    String localVarPath = "/users/{userId}/companies/{companyId}/dashboard/monetary/expenses"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()));
 
     List<Pair> localVarQueryParams = new ArrayList<>();
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
@@ -899,30 +846,32 @@ public class ReportApi {
   /**
    * Get HR dashboard
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param jobId  (optional)
    * @param dateFrom  (optional)
    * @param dateTo  (optional)
    * @return HrDashboardResponse
    * @throws ApiException if fails to make API call
    */
-  public HrDashboardResponse getHrDashboard(String compId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
-    ApiResponse<HrDashboardResponse> localVarResponse = getHrDashboardWithHttpInfo(compId, jobId, dateFrom, dateTo);
+  public HrDashboardResponse getHrDashboard(String userId, String companyId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
+    ApiResponse<HrDashboardResponse> localVarResponse = getHrDashboardWithHttpInfo(userId, companyId, jobId, dateFrom, dateTo);
     return localVarResponse.getData();
   }
 
   /**
    * Get HR dashboard
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param jobId  (optional)
    * @param dateFrom  (optional)
    * @param dateTo  (optional)
    * @return ApiResponse&lt;HrDashboardResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<HrDashboardResponse> getHrDashboardWithHttpInfo(String compId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getHrDashboardRequestBuilder(compId, jobId, dateFrom, dateTo);
+  public ApiResponse<HrDashboardResponse> getHrDashboardWithHttpInfo(String userId, String companyId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getHrDashboardRequestBuilder(userId, companyId, jobId, dateFrom, dateTo);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -950,16 +899,21 @@ public class ReportApi {
     }
   }
 
-  private HttpRequest.Builder getHrDashboardRequestBuilder(String compId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling getHrDashboard");
+  private HttpRequest.Builder getHrDashboardRequestBuilder(String userId, String companyId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling getHrDashboard");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling getHrDashboard");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/dashboard/hr"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()));
+    String localVarPath = "/users/{userId}/companies/{companyId}/dashboard/hr"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()));
 
     List<Pair> localVarQueryParams = new ArrayList<>();
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
@@ -997,30 +951,32 @@ public class ReportApi {
   /**
    * Get HR dashboard breakdown
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param jobId  (optional)
    * @param dateFrom  (optional)
    * @param dateTo  (optional)
    * @return HrBreakdownResponse
    * @throws ApiException if fails to make API call
    */
-  public HrBreakdownResponse getHrDashboardBreakdown(String compId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
-    ApiResponse<HrBreakdownResponse> localVarResponse = getHrDashboardBreakdownWithHttpInfo(compId, jobId, dateFrom, dateTo);
+  public HrBreakdownResponse getHrDashboardBreakdown(String userId, String companyId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
+    ApiResponse<HrBreakdownResponse> localVarResponse = getHrDashboardBreakdownWithHttpInfo(userId, companyId, jobId, dateFrom, dateTo);
     return localVarResponse.getData();
   }
 
   /**
    * Get HR dashboard breakdown
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param jobId  (optional)
    * @param dateFrom  (optional)
    * @param dateTo  (optional)
    * @return ApiResponse&lt;HrBreakdownResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<HrBreakdownResponse> getHrDashboardBreakdownWithHttpInfo(String compId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getHrDashboardBreakdownRequestBuilder(compId, jobId, dateFrom, dateTo);
+  public ApiResponse<HrBreakdownResponse> getHrDashboardBreakdownWithHttpInfo(String userId, String companyId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getHrDashboardBreakdownRequestBuilder(userId, companyId, jobId, dateFrom, dateTo);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -1048,16 +1004,21 @@ public class ReportApi {
     }
   }
 
-  private HttpRequest.Builder getHrDashboardBreakdownRequestBuilder(String compId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling getHrDashboardBreakdown");
+  private HttpRequest.Builder getHrDashboardBreakdownRequestBuilder(String userId, String companyId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling getHrDashboardBreakdown");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling getHrDashboardBreakdown");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/dashboard/hr/breakdown"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()));
+    String localVarPath = "/users/{userId}/companies/{companyId}/dashboard/hr/breakdown"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()));
 
     List<Pair> localVarQueryParams = new ArrayList<>();
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
@@ -1095,30 +1056,32 @@ public class ReportApi {
   /**
    * Get HR dashboard summary
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param jobId  (optional)
    * @param dateFrom  (optional)
    * @param dateTo  (optional)
    * @return HrSummaryResponse
    * @throws ApiException if fails to make API call
    */
-  public HrSummaryResponse getHrDashboardSummary(String compId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
-    ApiResponse<HrSummaryResponse> localVarResponse = getHrDashboardSummaryWithHttpInfo(compId, jobId, dateFrom, dateTo);
+  public HrSummaryResponse getHrDashboardSummary(String userId, String companyId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
+    ApiResponse<HrSummaryResponse> localVarResponse = getHrDashboardSummaryWithHttpInfo(userId, companyId, jobId, dateFrom, dateTo);
     return localVarResponse.getData();
   }
 
   /**
    * Get HR dashboard summary
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param jobId  (optional)
    * @param dateFrom  (optional)
    * @param dateTo  (optional)
    * @return ApiResponse&lt;HrSummaryResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<HrSummaryResponse> getHrDashboardSummaryWithHttpInfo(String compId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getHrDashboardSummaryRequestBuilder(compId, jobId, dateFrom, dateTo);
+  public ApiResponse<HrSummaryResponse> getHrDashboardSummaryWithHttpInfo(String userId, String companyId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getHrDashboardSummaryRequestBuilder(userId, companyId, jobId, dateFrom, dateTo);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -1146,16 +1109,21 @@ public class ReportApi {
     }
   }
 
-  private HttpRequest.Builder getHrDashboardSummaryRequestBuilder(String compId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling getHrDashboardSummary");
+  private HttpRequest.Builder getHrDashboardSummaryRequestBuilder(String userId, String companyId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling getHrDashboardSummary");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling getHrDashboardSummary");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/dashboard/hr/summary"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()));
+    String localVarPath = "/users/{userId}/companies/{companyId}/dashboard/hr/summary"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()));
 
     List<Pair> localVarQueryParams = new ArrayList<>();
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
@@ -1193,30 +1161,32 @@ public class ReportApi {
   /**
    * Get material dashboard
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param jobId  (optional)
    * @param dateFrom  (optional)
    * @param dateTo  (optional)
    * @return MaterialDashboardResponse
    * @throws ApiException if fails to make API call
    */
-  public MaterialDashboardResponse getMaterialDashboard(String compId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
-    ApiResponse<MaterialDashboardResponse> localVarResponse = getMaterialDashboardWithHttpInfo(compId, jobId, dateFrom, dateTo);
+  public MaterialDashboardResponse getMaterialDashboard(String userId, String companyId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
+    ApiResponse<MaterialDashboardResponse> localVarResponse = getMaterialDashboardWithHttpInfo(userId, companyId, jobId, dateFrom, dateTo);
     return localVarResponse.getData();
   }
 
   /**
    * Get material dashboard
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param jobId  (optional)
    * @param dateFrom  (optional)
    * @param dateTo  (optional)
    * @return ApiResponse&lt;MaterialDashboardResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<MaterialDashboardResponse> getMaterialDashboardWithHttpInfo(String compId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getMaterialDashboardRequestBuilder(compId, jobId, dateFrom, dateTo);
+  public ApiResponse<MaterialDashboardResponse> getMaterialDashboardWithHttpInfo(String userId, String companyId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getMaterialDashboardRequestBuilder(userId, companyId, jobId, dateFrom, dateTo);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -1244,16 +1214,21 @@ public class ReportApi {
     }
   }
 
-  private HttpRequest.Builder getMaterialDashboardRequestBuilder(String compId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling getMaterialDashboard");
+  private HttpRequest.Builder getMaterialDashboardRequestBuilder(String userId, String companyId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling getMaterialDashboard");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling getMaterialDashboard");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/dashboard/materials"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()));
+    String localVarPath = "/users/{userId}/companies/{companyId}/dashboard/materials"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()));
 
     List<Pair> localVarQueryParams = new ArrayList<>();
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
@@ -1291,30 +1266,32 @@ public class ReportApi {
   /**
    * Get material dashboard breakdown
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param jobId  (optional)
    * @param dateFrom  (optional)
    * @param dateTo  (optional)
    * @return MaterialBreakdownResponse
    * @throws ApiException if fails to make API call
    */
-  public MaterialBreakdownResponse getMaterialDashboardBreakdown(String compId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
-    ApiResponse<MaterialBreakdownResponse> localVarResponse = getMaterialDashboardBreakdownWithHttpInfo(compId, jobId, dateFrom, dateTo);
+  public MaterialBreakdownResponse getMaterialDashboardBreakdown(String userId, String companyId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
+    ApiResponse<MaterialBreakdownResponse> localVarResponse = getMaterialDashboardBreakdownWithHttpInfo(userId, companyId, jobId, dateFrom, dateTo);
     return localVarResponse.getData();
   }
 
   /**
    * Get material dashboard breakdown
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param jobId  (optional)
    * @param dateFrom  (optional)
    * @param dateTo  (optional)
    * @return ApiResponse&lt;MaterialBreakdownResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<MaterialBreakdownResponse> getMaterialDashboardBreakdownWithHttpInfo(String compId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getMaterialDashboardBreakdownRequestBuilder(compId, jobId, dateFrom, dateTo);
+  public ApiResponse<MaterialBreakdownResponse> getMaterialDashboardBreakdownWithHttpInfo(String userId, String companyId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getMaterialDashboardBreakdownRequestBuilder(userId, companyId, jobId, dateFrom, dateTo);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -1342,16 +1319,21 @@ public class ReportApi {
     }
   }
 
-  private HttpRequest.Builder getMaterialDashboardBreakdownRequestBuilder(String compId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling getMaterialDashboardBreakdown");
+  private HttpRequest.Builder getMaterialDashboardBreakdownRequestBuilder(String userId, String companyId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling getMaterialDashboardBreakdown");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling getMaterialDashboardBreakdown");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/dashboard/materials/breakdown"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()));
+    String localVarPath = "/users/{userId}/companies/{companyId}/dashboard/materials/breakdown"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()));
 
     List<Pair> localVarQueryParams = new ArrayList<>();
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
@@ -1389,30 +1371,32 @@ public class ReportApi {
   /**
    * Get material dashboard summary
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param jobId  (optional)
    * @param dateFrom  (optional)
    * @param dateTo  (optional)
    * @return MaterialSummaryResponse
    * @throws ApiException if fails to make API call
    */
-  public MaterialSummaryResponse getMaterialDashboardSummary(String compId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
-    ApiResponse<MaterialSummaryResponse> localVarResponse = getMaterialDashboardSummaryWithHttpInfo(compId, jobId, dateFrom, dateTo);
+  public MaterialSummaryResponse getMaterialDashboardSummary(String userId, String companyId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
+    ApiResponse<MaterialSummaryResponse> localVarResponse = getMaterialDashboardSummaryWithHttpInfo(userId, companyId, jobId, dateFrom, dateTo);
     return localVarResponse.getData();
   }
 
   /**
    * Get material dashboard summary
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param jobId  (optional)
    * @param dateFrom  (optional)
    * @param dateTo  (optional)
    * @return ApiResponse&lt;MaterialSummaryResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<MaterialSummaryResponse> getMaterialDashboardSummaryWithHttpInfo(String compId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getMaterialDashboardSummaryRequestBuilder(compId, jobId, dateFrom, dateTo);
+  public ApiResponse<MaterialSummaryResponse> getMaterialDashboardSummaryWithHttpInfo(String userId, String companyId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getMaterialDashboardSummaryRequestBuilder(userId, companyId, jobId, dateFrom, dateTo);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -1440,16 +1424,21 @@ public class ReportApi {
     }
   }
 
-  private HttpRequest.Builder getMaterialDashboardSummaryRequestBuilder(String compId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling getMaterialDashboardSummary");
+  private HttpRequest.Builder getMaterialDashboardSummaryRequestBuilder(String userId, String companyId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling getMaterialDashboardSummary");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling getMaterialDashboardSummary");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/dashboard/materials/summary"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()));
+    String localVarPath = "/users/{userId}/companies/{companyId}/dashboard/materials/summary"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()));
 
     List<Pair> localVarQueryParams = new ArrayList<>();
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
@@ -1487,30 +1476,32 @@ public class ReportApi {
   /**
    * Get monetary dashboard
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param jobId  (optional)
    * @param dateFrom  (optional)
    * @param dateTo  (optional)
    * @return MonetaryDashboardResponse
    * @throws ApiException if fails to make API call
    */
-  public MonetaryDashboardResponse getMonetaryDashboard(String compId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
-    ApiResponse<MonetaryDashboardResponse> localVarResponse = getMonetaryDashboardWithHttpInfo(compId, jobId, dateFrom, dateTo);
+  public MonetaryDashboardResponse getMonetaryDashboard(String userId, String companyId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
+    ApiResponse<MonetaryDashboardResponse> localVarResponse = getMonetaryDashboardWithHttpInfo(userId, companyId, jobId, dateFrom, dateTo);
     return localVarResponse.getData();
   }
 
   /**
    * Get monetary dashboard
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param jobId  (optional)
    * @param dateFrom  (optional)
    * @param dateTo  (optional)
    * @return ApiResponse&lt;MonetaryDashboardResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<MonetaryDashboardResponse> getMonetaryDashboardWithHttpInfo(String compId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getMonetaryDashboardRequestBuilder(compId, jobId, dateFrom, dateTo);
+  public ApiResponse<MonetaryDashboardResponse> getMonetaryDashboardWithHttpInfo(String userId, String companyId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getMonetaryDashboardRequestBuilder(userId, companyId, jobId, dateFrom, dateTo);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -1538,16 +1529,21 @@ public class ReportApi {
     }
   }
 
-  private HttpRequest.Builder getMonetaryDashboardRequestBuilder(String compId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling getMonetaryDashboard");
+  private HttpRequest.Builder getMonetaryDashboardRequestBuilder(String userId, String companyId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling getMonetaryDashboard");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling getMonetaryDashboard");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/dashboard/monetary"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()));
+    String localVarPath = "/users/{userId}/companies/{companyId}/dashboard/monetary"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()));
 
     List<Pair> localVarQueryParams = new ArrayList<>();
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
@@ -1585,30 +1581,32 @@ public class ReportApi {
   /**
    * Get monetary dashboard breakdown
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param jobId  (optional)
    * @param dateFrom  (optional)
    * @param dateTo  (optional)
    * @return MonetaryBreakdownResponse
    * @throws ApiException if fails to make API call
    */
-  public MonetaryBreakdownResponse getMonetaryDashboardBreakdown(String compId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
-    ApiResponse<MonetaryBreakdownResponse> localVarResponse = getMonetaryDashboardBreakdownWithHttpInfo(compId, jobId, dateFrom, dateTo);
+  public MonetaryBreakdownResponse getMonetaryDashboardBreakdown(String userId, String companyId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
+    ApiResponse<MonetaryBreakdownResponse> localVarResponse = getMonetaryDashboardBreakdownWithHttpInfo(userId, companyId, jobId, dateFrom, dateTo);
     return localVarResponse.getData();
   }
 
   /**
    * Get monetary dashboard breakdown
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param jobId  (optional)
    * @param dateFrom  (optional)
    * @param dateTo  (optional)
    * @return ApiResponse&lt;MonetaryBreakdownResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<MonetaryBreakdownResponse> getMonetaryDashboardBreakdownWithHttpInfo(String compId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getMonetaryDashboardBreakdownRequestBuilder(compId, jobId, dateFrom, dateTo);
+  public ApiResponse<MonetaryBreakdownResponse> getMonetaryDashboardBreakdownWithHttpInfo(String userId, String companyId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getMonetaryDashboardBreakdownRequestBuilder(userId, companyId, jobId, dateFrom, dateTo);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -1636,16 +1634,21 @@ public class ReportApi {
     }
   }
 
-  private HttpRequest.Builder getMonetaryDashboardBreakdownRequestBuilder(String compId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling getMonetaryDashboardBreakdown");
+  private HttpRequest.Builder getMonetaryDashboardBreakdownRequestBuilder(String userId, String companyId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling getMonetaryDashboardBreakdown");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling getMonetaryDashboardBreakdown");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/dashboard/monetary/breakdown"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()));
+    String localVarPath = "/users/{userId}/companies/{companyId}/dashboard/monetary/breakdown"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()));
 
     List<Pair> localVarQueryParams = new ArrayList<>();
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
@@ -1683,30 +1686,32 @@ public class ReportApi {
   /**
    * Get monetary dashboard summary
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param jobId  (optional)
    * @param dateFrom  (optional)
    * @param dateTo  (optional)
    * @return MonetarySummaryResponse
    * @throws ApiException if fails to make API call
    */
-  public MonetarySummaryResponse getMonetaryDashboardSummary(String compId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
-    ApiResponse<MonetarySummaryResponse> localVarResponse = getMonetaryDashboardSummaryWithHttpInfo(compId, jobId, dateFrom, dateTo);
+  public MonetarySummaryResponse getMonetaryDashboardSummary(String userId, String companyId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
+    ApiResponse<MonetarySummaryResponse> localVarResponse = getMonetaryDashboardSummaryWithHttpInfo(userId, companyId, jobId, dateFrom, dateTo);
     return localVarResponse.getData();
   }
 
   /**
    * Get monetary dashboard summary
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param jobId  (optional)
    * @param dateFrom  (optional)
    * @param dateTo  (optional)
    * @return ApiResponse&lt;MonetarySummaryResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<MonetarySummaryResponse> getMonetaryDashboardSummaryWithHttpInfo(String compId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getMonetaryDashboardSummaryRequestBuilder(compId, jobId, dateFrom, dateTo);
+  public ApiResponse<MonetarySummaryResponse> getMonetaryDashboardSummaryWithHttpInfo(String userId, String companyId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getMonetaryDashboardSummaryRequestBuilder(userId, companyId, jobId, dateFrom, dateTo);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -1734,16 +1739,21 @@ public class ReportApi {
     }
   }
 
-  private HttpRequest.Builder getMonetaryDashboardSummaryRequestBuilder(String compId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling getMonetaryDashboardSummary");
+  private HttpRequest.Builder getMonetaryDashboardSummaryRequestBuilder(String userId, String companyId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling getMonetaryDashboardSummary");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling getMonetaryDashboardSummary");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/dashboard/monetary/summary"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()));
+    String localVarPath = "/users/{userId}/companies/{companyId}/dashboard/monetary/summary"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()));
 
     List<Pair> localVarQueryParams = new ArrayList<>();
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
@@ -1781,7 +1791,8 @@ public class ReportApi {
   /**
    * Get profit time series
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param jobId  (optional)
    * @param dateFrom  (optional)
    * @param dateTo  (optional)
@@ -1789,15 +1800,16 @@ public class ReportApi {
    * @return TimeSeriesResponse
    * @throws ApiException if fails to make API call
    */
-  public TimeSeriesResponse getProfitTimeSeries(String compId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo, String granularity) throws ApiException {
-    ApiResponse<TimeSeriesResponse> localVarResponse = getProfitTimeSeriesWithHttpInfo(compId, jobId, dateFrom, dateTo, granularity);
+  public TimeSeriesResponse getProfitTimeSeries(String userId, String companyId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo, String granularity) throws ApiException {
+    ApiResponse<TimeSeriesResponse> localVarResponse = getProfitTimeSeriesWithHttpInfo(userId, companyId, jobId, dateFrom, dateTo, granularity);
     return localVarResponse.getData();
   }
 
   /**
    * Get profit time series
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param jobId  (optional)
    * @param dateFrom  (optional)
    * @param dateTo  (optional)
@@ -1805,8 +1817,8 @@ public class ReportApi {
    * @return ApiResponse&lt;TimeSeriesResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<TimeSeriesResponse> getProfitTimeSeriesWithHttpInfo(String compId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo, String granularity) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getProfitTimeSeriesRequestBuilder(compId, jobId, dateFrom, dateTo, granularity);
+  public ApiResponse<TimeSeriesResponse> getProfitTimeSeriesWithHttpInfo(String userId, String companyId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo, String granularity) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getProfitTimeSeriesRequestBuilder(userId, companyId, jobId, dateFrom, dateTo, granularity);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -1834,16 +1846,21 @@ public class ReportApi {
     }
   }
 
-  private HttpRequest.Builder getProfitTimeSeriesRequestBuilder(String compId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo, String granularity) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling getProfitTimeSeries");
+  private HttpRequest.Builder getProfitTimeSeriesRequestBuilder(String userId, String companyId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo, String granularity) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling getProfitTimeSeries");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling getProfitTimeSeries");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/dashboard/monetary/profit"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()));
+    String localVarPath = "/users/{userId}/companies/{companyId}/dashboard/monetary/profit"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()));
 
     List<Pair> localVarQueryParams = new ArrayList<>();
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
@@ -1883,7 +1900,8 @@ public class ReportApi {
   /**
    * Get receivables time series
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param jobId  (optional)
    * @param dateFrom  (optional)
    * @param dateTo  (optional)
@@ -1891,15 +1909,16 @@ public class ReportApi {
    * @return TimeSeriesResponse
    * @throws ApiException if fails to make API call
    */
-  public TimeSeriesResponse getReceivablesTimeSeries(String compId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo, String granularity) throws ApiException {
-    ApiResponse<TimeSeriesResponse> localVarResponse = getReceivablesTimeSeriesWithHttpInfo(compId, jobId, dateFrom, dateTo, granularity);
+  public TimeSeriesResponse getReceivablesTimeSeries(String userId, String companyId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo, String granularity) throws ApiException {
+    ApiResponse<TimeSeriesResponse> localVarResponse = getReceivablesTimeSeriesWithHttpInfo(userId, companyId, jobId, dateFrom, dateTo, granularity);
     return localVarResponse.getData();
   }
 
   /**
    * Get receivables time series
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param jobId  (optional)
    * @param dateFrom  (optional)
    * @param dateTo  (optional)
@@ -1907,8 +1926,8 @@ public class ReportApi {
    * @return ApiResponse&lt;TimeSeriesResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<TimeSeriesResponse> getReceivablesTimeSeriesWithHttpInfo(String compId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo, String granularity) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getReceivablesTimeSeriesRequestBuilder(compId, jobId, dateFrom, dateTo, granularity);
+  public ApiResponse<TimeSeriesResponse> getReceivablesTimeSeriesWithHttpInfo(String userId, String companyId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo, String granularity) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getReceivablesTimeSeriesRequestBuilder(userId, companyId, jobId, dateFrom, dateTo, granularity);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -1936,16 +1955,21 @@ public class ReportApi {
     }
   }
 
-  private HttpRequest.Builder getReceivablesTimeSeriesRequestBuilder(String compId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo, String granularity) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling getReceivablesTimeSeries");
+  private HttpRequest.Builder getReceivablesTimeSeriesRequestBuilder(String userId, String companyId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo, String granularity) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling getReceivablesTimeSeries");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling getReceivablesTimeSeries");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/dashboard/monetary/receivables"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()));
+    String localVarPath = "/users/{userId}/companies/{companyId}/dashboard/monetary/receivables"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()));
 
     List<Pair> localVarQueryParams = new ArrayList<>();
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
@@ -1985,7 +2009,8 @@ public class ReportApi {
   /**
    * Get revenue time series
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param jobId  (optional)
    * @param dateFrom  (optional)
    * @param dateTo  (optional)
@@ -1993,15 +2018,16 @@ public class ReportApi {
    * @return TimeSeriesResponse
    * @throws ApiException if fails to make API call
    */
-  public TimeSeriesResponse getRevenueTimeSeries(String compId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo, String granularity) throws ApiException {
-    ApiResponse<TimeSeriesResponse> localVarResponse = getRevenueTimeSeriesWithHttpInfo(compId, jobId, dateFrom, dateTo, granularity);
+  public TimeSeriesResponse getRevenueTimeSeries(String userId, String companyId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo, String granularity) throws ApiException {
+    ApiResponse<TimeSeriesResponse> localVarResponse = getRevenueTimeSeriesWithHttpInfo(userId, companyId, jobId, dateFrom, dateTo, granularity);
     return localVarResponse.getData();
   }
 
   /**
    * Get revenue time series
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param jobId  (optional)
    * @param dateFrom  (optional)
    * @param dateTo  (optional)
@@ -2009,8 +2035,8 @@ public class ReportApi {
    * @return ApiResponse&lt;TimeSeriesResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<TimeSeriesResponse> getRevenueTimeSeriesWithHttpInfo(String compId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo, String granularity) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getRevenueTimeSeriesRequestBuilder(compId, jobId, dateFrom, dateTo, granularity);
+  public ApiResponse<TimeSeriesResponse> getRevenueTimeSeriesWithHttpInfo(String userId, String companyId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo, String granularity) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getRevenueTimeSeriesRequestBuilder(userId, companyId, jobId, dateFrom, dateTo, granularity);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -2038,16 +2064,21 @@ public class ReportApi {
     }
   }
 
-  private HttpRequest.Builder getRevenueTimeSeriesRequestBuilder(String compId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo, String granularity) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling getRevenueTimeSeries");
+  private HttpRequest.Builder getRevenueTimeSeriesRequestBuilder(String userId, String companyId, String jobId, java.time.LocalDate dateFrom, java.time.LocalDate dateTo, String granularity) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling getRevenueTimeSeries");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling getRevenueTimeSeries");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/dashboard/monetary/revenue"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()));
+    String localVarPath = "/users/{userId}/companies/{companyId}/dashboard/monetary/revenue"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()));
 
     List<Pair> localVarQueryParams = new ArrayList<>();
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
@@ -2060,6 +2091,115 @@ public class ReportApi {
     localVarQueryParams.addAll(ApiClient.parameterToPairs("date_to", dateTo));
     localVarQueryParameterBaseName = "granularity";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("granularity", granularity));
+
+    if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
+      StringJoiner queryJoiner = new StringJoiner("&");
+      localVarQueryParams.forEach(p -> queryJoiner.add(p.getName() + '=' + p.getValue()));
+      if (localVarQueryStringJoiner.length() != 0) {
+        queryJoiner.add(localVarQueryStringJoiner.toString());
+      }
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
+    } else {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    }
+
+    localVarRequestBuilder.header("Accept", "application/json");
+
+    localVarRequestBuilder.method("GET", HttpRequest.BodyPublishers.noBody());
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
+    }
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
+    }
+    return localVarRequestBuilder;
+  }
+
+  /**
+   * Get yearly report with job financials
+   * Returns all jobs for the specified year with their income/expense details, including ongoing (IN_PROGRESS) jobs
+   * @param userId  (required)
+   * @param companyId  (required)
+   * @param year  (required)
+   * @param page  (optional)
+   * @param pageSize  (optional)
+   * @return YearlyReport
+   * @throws ApiException if fails to make API call
+   */
+  public YearlyReport usersUserIdCompaniesCompanyIdYearlyReportGet(String userId, String companyId, Integer year, Integer page, Integer pageSize) throws ApiException {
+    ApiResponse<YearlyReport> localVarResponse = usersUserIdCompaniesCompanyIdYearlyReportGetWithHttpInfo(userId, companyId, year, page, pageSize);
+    return localVarResponse.getData();
+  }
+
+  /**
+   * Get yearly report with job financials
+   * Returns all jobs for the specified year with their income/expense details, including ongoing (IN_PROGRESS) jobs
+   * @param userId  (required)
+   * @param companyId  (required)
+   * @param year  (required)
+   * @param page  (optional)
+   * @param pageSize  (optional)
+   * @return ApiResponse&lt;YearlyReport&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<YearlyReport> usersUserIdCompaniesCompanyIdYearlyReportGetWithHttpInfo(String userId, String companyId, Integer year, Integer page, Integer pageSize) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = usersUserIdCompaniesCompanyIdYearlyReportGetRequestBuilder(userId, companyId, year, page, pageSize);
+    try {
+      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("usersUserIdCompaniesCompanyIdYearlyReportGet", localVarResponse);
+        }
+        return new ApiResponse<YearlyReport>(
+          localVarResponse.statusCode(),
+          localVarResponse.headers().map(),
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<YearlyReport>() {}) // closes the InputStream
+        );
+      } finally {
+      }
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new ApiException(e);
+    }
+  }
+
+  private HttpRequest.Builder usersUserIdCompaniesCompanyIdYearlyReportGetRequestBuilder(String userId, String companyId, Integer year, Integer page, Integer pageSize) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling usersUserIdCompaniesCompanyIdYearlyReportGet");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling usersUserIdCompaniesCompanyIdYearlyReportGet");
+    }
+    // verify the required parameter 'year' is set
+    if (year == null) {
+      throw new ApiException(400, "Missing the required parameter 'year' when calling usersUserIdCompaniesCompanyIdYearlyReportGet");
+    }
+
+    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
+
+    String localVarPath = "/users/{userId}/companies/{companyId}/yearly_report"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()));
+
+    List<Pair> localVarQueryParams = new ArrayList<>();
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
+    String localVarQueryParameterBaseName;
+    localVarQueryParameterBaseName = "year";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("year", year));
+    localVarQueryParameterBaseName = "page";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("page", page));
+    localVarQueryParameterBaseName = "page_size";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("page_size", pageSize));
 
     if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
       StringJoiner queryJoiner = new StringJoiner("&");

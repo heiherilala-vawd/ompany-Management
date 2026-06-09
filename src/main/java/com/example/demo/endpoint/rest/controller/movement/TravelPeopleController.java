@@ -21,12 +21,10 @@ public class TravelPeopleController {
   private final TravelPeopleService travelPeopleService;
   private final TravelPeopleMapper travelPeopleMapper;
 
-  @GetMapping("/companies/{comp_id}/job/{job_id}/user/{user_id}/travel_people/{id}")
-  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION') or #user_id == authentication.principal.id")
+  @GetMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/travel_people/{id}")
+  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION') or #userId == authentication.principal.id")
   public TravelPeople getTravelPeopleById(
-      @PathVariable String comp_id,
-      @PathVariable String job_id,
-      @PathVariable String user_id,
+      @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId,
       @PathVariable String id) {
     return travelPeopleMapper.toRestTravelPeople(
         travelPeopleService
@@ -34,23 +32,21 @@ public class TravelPeopleController {
             .orElseThrow(() -> new NotFoundException("Travel with id " + id + " not found")));
   }
 
-  @GetMapping("/companies/{comp_id}/job/{job_id}/user/{user_id}/travel_people")
-  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION') or #user_id == authentication.principal.id")
+  @GetMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/travel_people")
+  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION') or #userId == authentication.principal.id")
   public List<TravelPeople> getTravelPeople(
-      @PathVariable String comp_id,
-      @PathVariable String job_id,
-      @PathVariable String user_id,
+      @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
       @RequestParam(name = "travel_id", required = false) String travelId,
-      @RequestParam(name = "user_id", required = false) String userId,
+      @RequestParam(name = "user_id", required = false) String filterUserId,
       @RequestParam(name = "arrival_location", required = false) String arrivalLocation,
       @RequestParam(name = "arrival_date_min", required = false) java.time.Instant arrivalDateMin,
       @RequestParam(name = "arrival_date_max", required = false) java.time.Instant arrivalDateMax,
       @RequestParam(name = "not_arrived", required = false) Boolean notArrived) {
     TravelPeopleCriteria criteria = new TravelPeopleCriteria();
     criteria.setTravelId(travelId);
-    criteria.setUserId(userId);
+    criteria.setUserId(filterUserId);
     criteria.setArrivalLocation(arrivalLocation);
     criteria.setArrivalDateMin(arrivalDateMin);
     criteria.setArrivalDateMax(arrivalDateMax);
@@ -61,12 +57,10 @@ public class TravelPeopleController {
         .toList();
   }
 
-  @PutMapping("/companies/{comp_id}/job/{job_id}/user/{user_id}/travel_people")
-  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION') or #user_id == authentication.principal.id")
+  @PutMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/travel_people")
+  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION') or #userId == authentication.principal.id")
   public List<TravelPeople> crupdateTravelPeople(
-      @PathVariable String comp_id,
-      @PathVariable String job_id,
-      @PathVariable String user_id,
+      @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId,
       @Valid @RequestBody List<CrupdateTravelPeople> toWrite) {
     List<com.example.demo.model.movement.TravelPeople> saved =
         travelPeopleService.createOrUpdateAll(
@@ -74,12 +68,10 @@ public class TravelPeopleController {
     return saved.stream().map(travelPeopleMapper::toRestTravelPeople).toList();
   }
 
-  @DeleteMapping("/companies/{comp_id}/job/{job_id}/user/{user_id}/travel_people/{id}")
+  @DeleteMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/travel_people/{id}")
   @PreAuthorize("hasAnyRole('ADMIN')")
   public void deleteTravelPeopleById(
-      @PathVariable String comp_id,
-      @PathVariable String job_id,
-      @PathVariable String user_id,
+      @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId,
       @PathVariable String id) {
     travelPeopleService.deleteById(id);
   }

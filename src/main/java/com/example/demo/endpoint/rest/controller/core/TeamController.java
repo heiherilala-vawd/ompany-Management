@@ -20,36 +20,36 @@ public class TeamController {
   private final TeamService teamService;
   private final TeamMapper teamMapper;
 
-  @GetMapping("/companies/{comp_id}/teams/{id}")
+  @GetMapping("/users/{userId}/companies/{companyId}/teams/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
-  public Team getTeamById(@PathVariable String comp_id, @PathVariable String id) {
+  public Team getTeamById(@PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     return teamMapper.toRestTeam(
         teamService
             .findById(id)
             .orElseThrow(() -> new NotFoundException("Team with id " + id + " not found")));
   }
 
-  @GetMapping("/companies/{comp_id}/teams")
+  @GetMapping("/users/{userId}/companies/{companyId}/teams")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<Team> getTeams(
-      @PathVariable String comp_id,
+      @PathVariable String userId, @PathVariable String companyId,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize) {
     return teamMapper.toRestTeams(teamService.findAll(page, pageSize).getContent());
   }
 
-  @PutMapping("/companies/{comp_id}/teams")
+  @PutMapping("/users/{userId}/companies/{companyId}/teams")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<Team> crupdateTeams(
-      @PathVariable String comp_id, @Valid @RequestBody List<CrupdateTeam> toWrite) {
+      @PathVariable String userId, @PathVariable String companyId, @Valid @RequestBody List<CrupdateTeam> toWrite) {
     List<com.example.demo.model.core.Team> saved =
         teamService.createOrUpdateAll(teamMapper.toDomain(toWrite));
     return teamMapper.toRestTeams(saved);
   }
 
-  @DeleteMapping("/companies/{comp_id}/teams/{id}")
+  @DeleteMapping("/users/{userId}/companies/{companyId}/teams/{id}")
   @PreAuthorize("hasAnyRole('ADMIN')")
-  public void deleteTeamById(@PathVariable String comp_id, @PathVariable String id) {
+  public void deleteTeamById(@PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     teamService.deleteById(id);
   }
 }

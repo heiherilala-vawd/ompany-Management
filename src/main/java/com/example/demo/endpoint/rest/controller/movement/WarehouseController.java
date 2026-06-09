@@ -21,19 +21,19 @@ public class WarehouseController {
   private final WarehouseService warehouseService;
   private final WarehouseMapper warehouseMapper;
 
-  @GetMapping("/companies/{comp_id}/warehouses/{id}")
+  @GetMapping("/users/{userId}/companies/{companyId}/warehouses/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
-  public Warehouse getWarehouseById(@PathVariable String comp_id, @PathVariable String id) {
+  public Warehouse getWarehouseById(@PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     return warehouseMapper.toRestWarehouse(
         warehouseService
             .findById(id)
             .orElseThrow(() -> new NotFoundException("Warehouse with id " + id + " not found")));
   }
 
-  @GetMapping("/companies/{comp_id}/warehouses")
+  @GetMapping("/users/{userId}/companies/{companyId}/warehouses")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public List<Warehouse> getWarehouses(
-      @PathVariable String comp_id,
+      @PathVariable String userId, @PathVariable String companyId,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
       @RequestParam(name = "job_id", required = false) String jobId,
@@ -49,19 +49,19 @@ public class WarehouseController {
         .toList();
   }
 
-  @PutMapping("/companies/{comp_id}/warehouses")
+  @PutMapping("/users/{userId}/companies/{companyId}/warehouses")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public List<Warehouse> crupdateWarehouses(
-      @PathVariable String comp_id, @Valid @RequestBody List<CrupdateWarehouse> toWrite) {
+      @PathVariable String userId, @PathVariable String companyId, @Valid @RequestBody List<CrupdateWarehouse> toWrite) {
     List<com.example.demo.model.movement.Warehouse> saved =
         warehouseService.createOrUpdateAll(
             toWrite.stream().map(warehouseMapper::toDomain).toList());
     return saved.stream().map(warehouseMapper::toRestWarehouse).toList();
   }
 
-  @DeleteMapping("/companies/{comp_id}/warehouses/{id}")
+  @DeleteMapping("/users/{userId}/companies/{companyId}/warehouses/{id}")
   @PreAuthorize("hasAnyRole('ADMIN')")
-  public void deleteWarehouseById(@PathVariable String comp_id, @PathVariable String id) {
+  public void deleteWarehouseById(@PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     warehouseService.deleteById(id);
   }
 }

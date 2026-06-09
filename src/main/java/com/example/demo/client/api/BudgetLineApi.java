@@ -50,7 +50,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-09T12:36:49.757496465+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-09T15:19:37.891340015+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class BudgetLineApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -90,26 +90,28 @@ public class BudgetLineApi {
   /**
    * Create new budget lines or update existing ones
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param crupdateBudgetLine  (required)
    * @return List&lt;BudgetLine&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<BudgetLine> crupdateBudgetLines(String compId, List<CrupdateBudgetLine> crupdateBudgetLine) throws ApiException {
-    ApiResponse<List<BudgetLine>> localVarResponse = crupdateBudgetLinesWithHttpInfo(compId, crupdateBudgetLine);
+  public List<BudgetLine> crupdateBudgetLines(String userId, String companyId, List<CrupdateBudgetLine> crupdateBudgetLine) throws ApiException {
+    ApiResponse<List<BudgetLine>> localVarResponse = crupdateBudgetLinesWithHttpInfo(userId, companyId, crupdateBudgetLine);
     return localVarResponse.getData();
   }
 
   /**
    * Create new budget lines or update existing ones
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param crupdateBudgetLine  (required)
    * @return ApiResponse&lt;List&lt;BudgetLine&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<BudgetLine>> crupdateBudgetLinesWithHttpInfo(String compId, List<CrupdateBudgetLine> crupdateBudgetLine) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = crupdateBudgetLinesRequestBuilder(compId, crupdateBudgetLine);
+  public ApiResponse<List<BudgetLine>> crupdateBudgetLinesWithHttpInfo(String userId, String companyId, List<CrupdateBudgetLine> crupdateBudgetLine) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = crupdateBudgetLinesRequestBuilder(userId, companyId, crupdateBudgetLine);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -137,10 +139,14 @@ public class BudgetLineApi {
     }
   }
 
-  private HttpRequest.Builder crupdateBudgetLinesRequestBuilder(String compId, List<CrupdateBudgetLine> crupdateBudgetLine) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling crupdateBudgetLines");
+  private HttpRequest.Builder crupdateBudgetLinesRequestBuilder(String userId, String companyId, List<CrupdateBudgetLine> crupdateBudgetLine) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling crupdateBudgetLines");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling crupdateBudgetLines");
     }
     // verify the required parameter 'crupdateBudgetLine' is set
     if (crupdateBudgetLine == null) {
@@ -149,8 +155,9 @@ public class BudgetLineApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/budget_lines"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()));
+    String localVarPath = "/users/{userId}/companies/{companyId}/budget_lines"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
@@ -175,24 +182,26 @@ public class BudgetLineApi {
   /**
    * Delete a budget line by identifier
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param id  (required)
    * @throws ApiException if fails to make API call
    */
-  public void deleteBudgetLineById(String compId, String id) throws ApiException {
-    deleteBudgetLineByIdWithHttpInfo(compId, id);
+  public void deleteBudgetLineById(String userId, String companyId, String id) throws ApiException {
+    deleteBudgetLineByIdWithHttpInfo(userId, companyId, id);
   }
 
   /**
    * Delete a budget line by identifier
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param id  (required)
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Void> deleteBudgetLineByIdWithHttpInfo(String compId, String id) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = deleteBudgetLineByIdRequestBuilder(compId, id);
+  public ApiResponse<Void> deleteBudgetLineByIdWithHttpInfo(String userId, String companyId, String id) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = deleteBudgetLineByIdRequestBuilder(userId, companyId, id);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -225,10 +234,14 @@ public class BudgetLineApi {
     }
   }
 
-  private HttpRequest.Builder deleteBudgetLineByIdRequestBuilder(String compId, String id) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling deleteBudgetLineById");
+  private HttpRequest.Builder deleteBudgetLineByIdRequestBuilder(String userId, String companyId, String id) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling deleteBudgetLineById");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling deleteBudgetLineById");
     }
     // verify the required parameter 'id' is set
     if (id == null) {
@@ -237,8 +250,9 @@ public class BudgetLineApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/budget_lines/{id}"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()))
+    String localVarPath = "/users/{userId}/companies/{companyId}/budget_lines/{id}"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()))
         .replace("{id}", ApiClient.urlEncode(id.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
@@ -258,26 +272,28 @@ public class BudgetLineApi {
   /**
    * Get a budget line by identifier
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param id  (required)
    * @return BudgetLine
    * @throws ApiException if fails to make API call
    */
-  public BudgetLine getBudgetLineById(String compId, String id) throws ApiException {
-    ApiResponse<BudgetLine> localVarResponse = getBudgetLineByIdWithHttpInfo(compId, id);
+  public BudgetLine getBudgetLineById(String userId, String companyId, String id) throws ApiException {
+    ApiResponse<BudgetLine> localVarResponse = getBudgetLineByIdWithHttpInfo(userId, companyId, id);
     return localVarResponse.getData();
   }
 
   /**
    * Get a budget line by identifier
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param id  (required)
    * @return ApiResponse&lt;BudgetLine&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<BudgetLine> getBudgetLineByIdWithHttpInfo(String compId, String id) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getBudgetLineByIdRequestBuilder(compId, id);
+  public ApiResponse<BudgetLine> getBudgetLineByIdWithHttpInfo(String userId, String companyId, String id) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getBudgetLineByIdRequestBuilder(userId, companyId, id);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -305,10 +321,14 @@ public class BudgetLineApi {
     }
   }
 
-  private HttpRequest.Builder getBudgetLineByIdRequestBuilder(String compId, String id) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling getBudgetLineById");
+  private HttpRequest.Builder getBudgetLineByIdRequestBuilder(String userId, String companyId, String id) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling getBudgetLineById");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling getBudgetLineById");
     }
     // verify the required parameter 'id' is set
     if (id == null) {
@@ -317,8 +337,9 @@ public class BudgetLineApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/budget_lines/{id}"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()))
+    String localVarPath = "/users/{userId}/companies/{companyId}/budget_lines/{id}"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()))
         .replace("{id}", ApiClient.urlEncode(id.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
@@ -338,28 +359,30 @@ public class BudgetLineApi {
   /**
    * Get all budget lines
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param page  (optional)
    * @param pageSize  (optional)
    * @return List&lt;BudgetLine&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<BudgetLine> getBudgetLines(String compId, Integer page, Integer pageSize) throws ApiException {
-    ApiResponse<List<BudgetLine>> localVarResponse = getBudgetLinesWithHttpInfo(compId, page, pageSize);
+  public List<BudgetLine> getBudgetLines(String userId, String companyId, Integer page, Integer pageSize) throws ApiException {
+    ApiResponse<List<BudgetLine>> localVarResponse = getBudgetLinesWithHttpInfo(userId, companyId, page, pageSize);
     return localVarResponse.getData();
   }
 
   /**
    * Get all budget lines
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param page  (optional)
    * @param pageSize  (optional)
    * @return ApiResponse&lt;List&lt;BudgetLine&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<BudgetLine>> getBudgetLinesWithHttpInfo(String compId, Integer page, Integer pageSize) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getBudgetLinesRequestBuilder(compId, page, pageSize);
+  public ApiResponse<List<BudgetLine>> getBudgetLinesWithHttpInfo(String userId, String companyId, Integer page, Integer pageSize) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getBudgetLinesRequestBuilder(userId, companyId, page, pageSize);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -387,16 +410,21 @@ public class BudgetLineApi {
     }
   }
 
-  private HttpRequest.Builder getBudgetLinesRequestBuilder(String compId, Integer page, Integer pageSize) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling getBudgetLines");
+  private HttpRequest.Builder getBudgetLinesRequestBuilder(String userId, String companyId, Integer page, Integer pageSize) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling getBudgetLines");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling getBudgetLines");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/budget_lines"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()));
+    String localVarPath = "/users/{userId}/companies/{companyId}/budget_lines"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()));
 
     List<Pair> localVarQueryParams = new ArrayList<>();
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");

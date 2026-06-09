@@ -51,7 +51,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-09T12:36:49.757496465+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-09T15:19:37.891340015+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class MaterialWarehouseApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -91,26 +91,28 @@ public class MaterialWarehouseApi {
   /**
    * Create or update material warehouse stock
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param crupdateMaterialWarehouse  (required)
    * @return List&lt;MaterialWarehouseInfo&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<MaterialWarehouseInfo> crupdateMaterialWarehouses(String compId, List<CrupdateMaterialWarehouse> crupdateMaterialWarehouse) throws ApiException {
-    ApiResponse<List<MaterialWarehouseInfo>> localVarResponse = crupdateMaterialWarehousesWithHttpInfo(compId, crupdateMaterialWarehouse);
+  public List<MaterialWarehouseInfo> crupdateMaterialWarehouses(String userId, String companyId, List<CrupdateMaterialWarehouse> crupdateMaterialWarehouse) throws ApiException {
+    ApiResponse<List<MaterialWarehouseInfo>> localVarResponse = crupdateMaterialWarehousesWithHttpInfo(userId, companyId, crupdateMaterialWarehouse);
     return localVarResponse.getData();
   }
 
   /**
    * Create or update material warehouse stock
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param crupdateMaterialWarehouse  (required)
    * @return ApiResponse&lt;List&lt;MaterialWarehouseInfo&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<MaterialWarehouseInfo>> crupdateMaterialWarehousesWithHttpInfo(String compId, List<CrupdateMaterialWarehouse> crupdateMaterialWarehouse) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = crupdateMaterialWarehousesRequestBuilder(compId, crupdateMaterialWarehouse);
+  public ApiResponse<List<MaterialWarehouseInfo>> crupdateMaterialWarehousesWithHttpInfo(String userId, String companyId, List<CrupdateMaterialWarehouse> crupdateMaterialWarehouse) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = crupdateMaterialWarehousesRequestBuilder(userId, companyId, crupdateMaterialWarehouse);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -138,10 +140,14 @@ public class MaterialWarehouseApi {
     }
   }
 
-  private HttpRequest.Builder crupdateMaterialWarehousesRequestBuilder(String compId, List<CrupdateMaterialWarehouse> crupdateMaterialWarehouse) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling crupdateMaterialWarehouses");
+  private HttpRequest.Builder crupdateMaterialWarehousesRequestBuilder(String userId, String companyId, List<CrupdateMaterialWarehouse> crupdateMaterialWarehouse) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling crupdateMaterialWarehouses");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling crupdateMaterialWarehouses");
     }
     // verify the required parameter 'crupdateMaterialWarehouse' is set
     if (crupdateMaterialWarehouse == null) {
@@ -150,8 +156,9 @@ public class MaterialWarehouseApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/material_warehouse"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()));
+    String localVarPath = "/users/{userId}/companies/{companyId}/material_warehouse"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
@@ -176,7 +183,8 @@ public class MaterialWarehouseApi {
   /**
    * Get all material warehouse stock records
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param page  (optional)
    * @param pageSize  (optional)
    * @param materialId Filter by material ID (optional)
@@ -185,15 +193,16 @@ public class MaterialWarehouseApi {
    * @return List&lt;MaterialWarehouseView&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<MaterialWarehouseView> getMaterialWarehouses(String compId, Integer page, Integer pageSize, String materialId, String warehouseId, Boolean notArrived) throws ApiException {
-    ApiResponse<List<MaterialWarehouseView>> localVarResponse = getMaterialWarehousesWithHttpInfo(compId, page, pageSize, materialId, warehouseId, notArrived);
+  public List<MaterialWarehouseView> getMaterialWarehouses(String userId, String companyId, Integer page, Integer pageSize, String materialId, String warehouseId, Boolean notArrived) throws ApiException {
+    ApiResponse<List<MaterialWarehouseView>> localVarResponse = getMaterialWarehousesWithHttpInfo(userId, companyId, page, pageSize, materialId, warehouseId, notArrived);
     return localVarResponse.getData();
   }
 
   /**
    * Get all material warehouse stock records
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param page  (optional)
    * @param pageSize  (optional)
    * @param materialId Filter by material ID (optional)
@@ -202,8 +211,8 @@ public class MaterialWarehouseApi {
    * @return ApiResponse&lt;List&lt;MaterialWarehouseView&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<MaterialWarehouseView>> getMaterialWarehousesWithHttpInfo(String compId, Integer page, Integer pageSize, String materialId, String warehouseId, Boolean notArrived) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getMaterialWarehousesRequestBuilder(compId, page, pageSize, materialId, warehouseId, notArrived);
+  public ApiResponse<List<MaterialWarehouseView>> getMaterialWarehousesWithHttpInfo(String userId, String companyId, Integer page, Integer pageSize, String materialId, String warehouseId, Boolean notArrived) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getMaterialWarehousesRequestBuilder(userId, companyId, page, pageSize, materialId, warehouseId, notArrived);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -231,16 +240,21 @@ public class MaterialWarehouseApi {
     }
   }
 
-  private HttpRequest.Builder getMaterialWarehousesRequestBuilder(String compId, Integer page, Integer pageSize, String materialId, String warehouseId, Boolean notArrived) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling getMaterialWarehouses");
+  private HttpRequest.Builder getMaterialWarehousesRequestBuilder(String userId, String companyId, Integer page, Integer pageSize, String materialId, String warehouseId, Boolean notArrived) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling getMaterialWarehouses");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling getMaterialWarehouses");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/material_warehouse"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()));
+    String localVarPath = "/users/{userId}/companies/{companyId}/material_warehouse"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()));
 
     List<Pair> localVarQueryParams = new ArrayList<>();
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");

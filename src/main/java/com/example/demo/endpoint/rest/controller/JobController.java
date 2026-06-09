@@ -24,19 +24,19 @@ public class JobController {
   private final JobMapper jobMapper;
   private final UserMapper userMapper;
 
-  @GetMapping("/companies/{comp_id}/jobs/{id}")
+  @GetMapping("/users/{userId}/companies/{companyId}/jobs/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER', 'EMPLOYEE')")
-  public Job getJobById(@PathVariable String comp_id, @PathVariable String id) {
+  public Job getJobById(@PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     return jobMapper.toRestJob(
         jobService
             .findById(id)
             .orElseThrow(() -> new NotFoundException("Job with id " + id + " not found")));
   }
 
-  @GetMapping("/companies/{comp_id}/jobs")
+  @GetMapping("/users/{userId}/companies/{companyId}/jobs")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public List<Job> getJobs(
-      @PathVariable String comp_id,
+      @PathVariable String userId, @PathVariable String companyId,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
       @RequestParam(name = "status", required = false) JobStatus status,
@@ -44,25 +44,25 @@ public class JobController {
     JobCriteria criteria = new JobCriteria();
     criteria.setStatus(
         status != null ? com.example.demo.model.Job.JobStatus.valueOf(status.name()) : null);
-    criteria.setCompanyId(comp_id);
+    criteria.setCompanyId(companyId);
     criteria.setDescription(description);
 
     return jobService.findAll(page, pageSize, criteria).stream().map(jobMapper::toRestJob).toList();
   }
 
-  @PutMapping("/companies/{comp_id}/jobs")
+  @PutMapping("/users/{userId}/companies/{companyId}/jobs")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<Job> crupdateJobs(
-      @PathVariable String comp_id, @Valid @RequestBody List<CrupdateJob> toWrite) {
+      @PathVariable String userId, @PathVariable String companyId, @Valid @RequestBody List<CrupdateJob> toWrite) {
     List<com.example.demo.model.Job> saved =
         jobService.createOrUpdateAll(
-            toWrite.stream().map(rest -> jobMapper.toDomain(rest, comp_id)).toList());
+            toWrite.stream().map(rest -> jobMapper.toDomain(rest, companyId)).toList());
     return saved.stream().map(jobMapper::toRestJob).toList();
   }
 
-  @DeleteMapping("/companies/{comp_id}/jobs/{id}")
+  @DeleteMapping("/users/{userId}/companies/{companyId}/jobs/{id}")
   @PreAuthorize("hasAnyRole('ADMIN')")
-  public Job deleteJobById(@PathVariable String comp_id, @PathVariable String id) {
+  public Job deleteJobById(@PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     Job entity =
         jobMapper.toRestJob(
             jobService
@@ -72,24 +72,24 @@ public class JobController {
     return entity;
   }
 
-  @GetMapping("/companies/{comp_id}/jobs/{job_id}/users")
+  @GetMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/users")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<com.example.demo.client.model.User> getJobResponsibleUsers(
-      @PathVariable String comp_id, @PathVariable String job_id) {
-    return jobService.getJobResponsibleUsers(job_id).stream().map(userMapper::toRestUser).toList();
+      @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId) {
+    return jobService.getJobResponsibleUsers(jobId).stream().map(userMapper::toRestUser).toList();
   }
 
-  @PutMapping("/companies/{comp_id}/jobs/{job_id}/users/{user_id}")
+  @PutMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/users")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public void assignUserToJob(
-      @PathVariable String comp_id, @PathVariable String job_id, @PathVariable String user_id) {
-    jobService.assignUserToJob(job_id, user_id);
+      @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId) {
+    jobService.assignUserToJob(jobId, userId);
   }
 
-  @DeleteMapping("/companies/{comp_id}/jobs/{job_id}/users/{user_id}")
+  @DeleteMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/users")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public void unassignUserFromJob(
-      @PathVariable String comp_id, @PathVariable String job_id, @PathVariable String user_id) {
-    jobService.unassignUserFromJob(job_id, user_id);
+      @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId) {
+    jobService.unassignUserFromJob(jobId, userId);
   }
 }

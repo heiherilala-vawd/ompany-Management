@@ -25,7 +25,9 @@ public class AuthController {
 
   @PostMapping("/register")
   public AuthResponse registerUser(@Valid @RequestBody CrupdateUser user) {
-    com.example.demo.model.User modelUser = userMapper.toDomain(user, user.getCompanyId());
+    String companyId = user.getCompanyIds() != null && !user.getCompanyIds().isEmpty()
+        ? user.getCompanyIds().get(0) : null;
+    com.example.demo.model.User modelUser = userMapper.toDomain(user, companyId);
     String noEncodedPassword = user.getPassword();
 
     return authService.registerUser(modelUser, noEncodedPassword);

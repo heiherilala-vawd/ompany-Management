@@ -50,7 +50,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-09T12:36:49.757496465+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-09T15:19:37.891340015+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class TaskApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -90,26 +90,28 @@ public class TaskApi {
   /**
    * Create or update tasks
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param crupdateTask  (required)
    * @return List&lt;Task&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<Task> crupdateTasks(String compId, List<CrupdateTask> crupdateTask) throws ApiException {
-    ApiResponse<List<Task>> localVarResponse = crupdateTasksWithHttpInfo(compId, crupdateTask);
+  public List<Task> crupdateTasks(String userId, String companyId, List<CrupdateTask> crupdateTask) throws ApiException {
+    ApiResponse<List<Task>> localVarResponse = crupdateTasksWithHttpInfo(userId, companyId, crupdateTask);
     return localVarResponse.getData();
   }
 
   /**
    * Create or update tasks
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param crupdateTask  (required)
    * @return ApiResponse&lt;List&lt;Task&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<Task>> crupdateTasksWithHttpInfo(String compId, List<CrupdateTask> crupdateTask) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = crupdateTasksRequestBuilder(compId, crupdateTask);
+  public ApiResponse<List<Task>> crupdateTasksWithHttpInfo(String userId, String companyId, List<CrupdateTask> crupdateTask) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = crupdateTasksRequestBuilder(userId, companyId, crupdateTask);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -137,10 +139,14 @@ public class TaskApi {
     }
   }
 
-  private HttpRequest.Builder crupdateTasksRequestBuilder(String compId, List<CrupdateTask> crupdateTask) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling crupdateTasks");
+  private HttpRequest.Builder crupdateTasksRequestBuilder(String userId, String companyId, List<CrupdateTask> crupdateTask) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling crupdateTasks");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling crupdateTasks");
     }
     // verify the required parameter 'crupdateTask' is set
     if (crupdateTask == null) {
@@ -149,8 +155,9 @@ public class TaskApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/tasks"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()));
+    String localVarPath = "/users/{userId}/companies/{companyId}/tasks"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
@@ -175,24 +182,26 @@ public class TaskApi {
   /**
    * Delete a task by id
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param id  (required)
    * @throws ApiException if fails to make API call
    */
-  public void deleteTaskById(String compId, String id) throws ApiException {
-    deleteTaskByIdWithHttpInfo(compId, id);
+  public void deleteTaskById(String userId, String companyId, String id) throws ApiException {
+    deleteTaskByIdWithHttpInfo(userId, companyId, id);
   }
 
   /**
    * Delete a task by id
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param id  (required)
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Void> deleteTaskByIdWithHttpInfo(String compId, String id) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = deleteTaskByIdRequestBuilder(compId, id);
+  public ApiResponse<Void> deleteTaskByIdWithHttpInfo(String userId, String companyId, String id) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = deleteTaskByIdRequestBuilder(userId, companyId, id);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -225,10 +234,14 @@ public class TaskApi {
     }
   }
 
-  private HttpRequest.Builder deleteTaskByIdRequestBuilder(String compId, String id) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling deleteTaskById");
+  private HttpRequest.Builder deleteTaskByIdRequestBuilder(String userId, String companyId, String id) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling deleteTaskById");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling deleteTaskById");
     }
     // verify the required parameter 'id' is set
     if (id == null) {
@@ -237,8 +250,9 @@ public class TaskApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/tasks/{id}"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()))
+    String localVarPath = "/users/{userId}/companies/{companyId}/tasks/{id}"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()))
         .replace("{id}", ApiClient.urlEncode(id.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
@@ -258,26 +272,28 @@ public class TaskApi {
   /**
    * Get a task by id
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param id  (required)
    * @return Task
    * @throws ApiException if fails to make API call
    */
-  public Task getTaskById(String compId, String id) throws ApiException {
-    ApiResponse<Task> localVarResponse = getTaskByIdWithHttpInfo(compId, id);
+  public Task getTaskById(String userId, String companyId, String id) throws ApiException {
+    ApiResponse<Task> localVarResponse = getTaskByIdWithHttpInfo(userId, companyId, id);
     return localVarResponse.getData();
   }
 
   /**
    * Get a task by id
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param id  (required)
    * @return ApiResponse&lt;Task&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Task> getTaskByIdWithHttpInfo(String compId, String id) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getTaskByIdRequestBuilder(compId, id);
+  public ApiResponse<Task> getTaskByIdWithHttpInfo(String userId, String companyId, String id) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getTaskByIdRequestBuilder(userId, companyId, id);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -305,10 +321,14 @@ public class TaskApi {
     }
   }
 
-  private HttpRequest.Builder getTaskByIdRequestBuilder(String compId, String id) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling getTaskById");
+  private HttpRequest.Builder getTaskByIdRequestBuilder(String userId, String companyId, String id) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling getTaskById");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling getTaskById");
     }
     // verify the required parameter 'id' is set
     if (id == null) {
@@ -317,8 +337,9 @@ public class TaskApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/tasks/{id}"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()))
+    String localVarPath = "/users/{userId}/companies/{companyId}/tasks/{id}"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()))
         .replace("{id}", ApiClient.urlEncode(id.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
@@ -338,24 +359,26 @@ public class TaskApi {
   /**
    * Get all tasks for a company
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @return List&lt;Task&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<Task> getTasks(String compId) throws ApiException {
-    ApiResponse<List<Task>> localVarResponse = getTasksWithHttpInfo(compId);
+  public List<Task> getTasks(String userId, String companyId) throws ApiException {
+    ApiResponse<List<Task>> localVarResponse = getTasksWithHttpInfo(userId, companyId);
     return localVarResponse.getData();
   }
 
   /**
    * Get all tasks for a company
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @return ApiResponse&lt;List&lt;Task&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<Task>> getTasksWithHttpInfo(String compId) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getTasksRequestBuilder(compId);
+  public ApiResponse<List<Task>> getTasksWithHttpInfo(String userId, String companyId) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getTasksRequestBuilder(userId, companyId);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -383,16 +406,21 @@ public class TaskApi {
     }
   }
 
-  private HttpRequest.Builder getTasksRequestBuilder(String compId) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling getTasks");
+  private HttpRequest.Builder getTasksRequestBuilder(String userId, String companyId) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling getTasks");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling getTasks");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/tasks"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()));
+    String localVarPath = "/users/{userId}/companies/{companyId}/tasks"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 

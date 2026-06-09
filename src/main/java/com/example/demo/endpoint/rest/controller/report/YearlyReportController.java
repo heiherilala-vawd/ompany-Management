@@ -14,13 +14,13 @@ public class YearlyReportController {
 
   private final YearlyReportService yearlyReportService;
 
-  @GetMapping("/companies/{comp_id}/yearly_report")
+  @GetMapping("/users/{userId}/companies/{companyId}/yearly_report")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public YearlyReport getYearlyReport(
-      @PathVariable String comp_id,
+      @PathVariable String userId, @PathVariable String companyId,
       @RequestParam Integer year,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize) {
-    return yearlyReportService.generateReport(comp_id, year, page, pageSize);
+    return yearlyReportService.generateReport(companyId, year, page, pageSize);
   }
 }

@@ -23,27 +23,27 @@ public class PurchaseOrderController {
   private final PurchaseOrderService purchaseOrderService;
   private final PurchaseOrderMapper purchaseOrderMapper;
 
-  @GetMapping("/companies/{comp_id}/purchase_orders")
+  @GetMapping("/users/{userId}/companies/{companyId}/purchase_orders")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<PurchaseOrder> getPurchaseOrders(
-      @PathVariable("comp_id") String companyId,
+      @PathVariable String userId, @PathVariable String companyId,
       @RequestParam(name = "job_id", required = false) String jobId) {
     return purchaseOrderService.findByCompanyId(companyId, jobId).stream()
         .map(purchaseOrderMapper::toRest)
         .toList();
   }
 
-  @GetMapping("/companies/{comp_id}/purchase_orders/{id}")
+  @GetMapping("/users/{userId}/companies/{companyId}/purchase_orders/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public PurchaseOrder getPurchaseOrderById(
-      @PathVariable("comp_id") String companyId, @PathVariable String id) {
+      @PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     return purchaseOrderMapper.toRest(purchaseOrderService.findById(id));
   }
 
-  @PutMapping("/companies/{comp_id}/purchase_orders")
+  @PutMapping("/users/{userId}/companies/{companyId}/purchase_orders")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<PurchaseOrder> crupdatePurchaseOrders(
-      @PathVariable("comp_id") String companyId,
+      @PathVariable String userId, @PathVariable String companyId,
       @Valid @RequestBody List<CrupdatePurchaseOrder> toWrite) {
     var domains = toWrite.stream().map(po -> purchaseOrderMapper.toDomain(po, companyId)).toList();
     return purchaseOrderService.createOrUpdateAll(domains).stream()
@@ -51,7 +51,7 @@ public class PurchaseOrderController {
         .toList();
   }
 
-  @DeleteMapping("/companies/{comp_id}/purchase_orders/{id}")
+  @DeleteMapping("/users/{userId}/companies/{companyId}/purchase_orders/{id}")
   @PreAuthorize("hasAnyRole('ADMIN')")
   public void deletePurchaseOrderById(@PathVariable String id) {
     purchaseOrderService.deleteById(id);

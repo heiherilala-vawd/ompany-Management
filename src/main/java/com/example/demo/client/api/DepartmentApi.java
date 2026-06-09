@@ -50,7 +50,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-09T12:36:49.757496465+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-09T15:19:37.891340015+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class DepartmentApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -90,26 +90,28 @@ public class DepartmentApi {
   /**
    * Create new departments or update existing ones
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param crupdateDepartment  (required)
    * @return List&lt;Department&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<Department> crupdateDepartments(String compId, List<CrupdateDepartment> crupdateDepartment) throws ApiException {
-    ApiResponse<List<Department>> localVarResponse = crupdateDepartmentsWithHttpInfo(compId, crupdateDepartment);
+  public List<Department> crupdateDepartments(String userId, String companyId, List<CrupdateDepartment> crupdateDepartment) throws ApiException {
+    ApiResponse<List<Department>> localVarResponse = crupdateDepartmentsWithHttpInfo(userId, companyId, crupdateDepartment);
     return localVarResponse.getData();
   }
 
   /**
    * Create new departments or update existing ones
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param crupdateDepartment  (required)
    * @return ApiResponse&lt;List&lt;Department&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<Department>> crupdateDepartmentsWithHttpInfo(String compId, List<CrupdateDepartment> crupdateDepartment) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = crupdateDepartmentsRequestBuilder(compId, crupdateDepartment);
+  public ApiResponse<List<Department>> crupdateDepartmentsWithHttpInfo(String userId, String companyId, List<CrupdateDepartment> crupdateDepartment) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = crupdateDepartmentsRequestBuilder(userId, companyId, crupdateDepartment);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -137,10 +139,14 @@ public class DepartmentApi {
     }
   }
 
-  private HttpRequest.Builder crupdateDepartmentsRequestBuilder(String compId, List<CrupdateDepartment> crupdateDepartment) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling crupdateDepartments");
+  private HttpRequest.Builder crupdateDepartmentsRequestBuilder(String userId, String companyId, List<CrupdateDepartment> crupdateDepartment) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling crupdateDepartments");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling crupdateDepartments");
     }
     // verify the required parameter 'crupdateDepartment' is set
     if (crupdateDepartment == null) {
@@ -149,8 +155,9 @@ public class DepartmentApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/departments"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()));
+    String localVarPath = "/users/{userId}/companies/{companyId}/departments"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
@@ -175,24 +182,26 @@ public class DepartmentApi {
   /**
    * Delete a department by identifier
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param id  (required)
    * @throws ApiException if fails to make API call
    */
-  public void deleteDepartmentById(String compId, String id) throws ApiException {
-    deleteDepartmentByIdWithHttpInfo(compId, id);
+  public void deleteDepartmentById(String userId, String companyId, String id) throws ApiException {
+    deleteDepartmentByIdWithHttpInfo(userId, companyId, id);
   }
 
   /**
    * Delete a department by identifier
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param id  (required)
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Void> deleteDepartmentByIdWithHttpInfo(String compId, String id) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = deleteDepartmentByIdRequestBuilder(compId, id);
+  public ApiResponse<Void> deleteDepartmentByIdWithHttpInfo(String userId, String companyId, String id) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = deleteDepartmentByIdRequestBuilder(userId, companyId, id);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -225,10 +234,14 @@ public class DepartmentApi {
     }
   }
 
-  private HttpRequest.Builder deleteDepartmentByIdRequestBuilder(String compId, String id) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling deleteDepartmentById");
+  private HttpRequest.Builder deleteDepartmentByIdRequestBuilder(String userId, String companyId, String id) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling deleteDepartmentById");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling deleteDepartmentById");
     }
     // verify the required parameter 'id' is set
     if (id == null) {
@@ -237,8 +250,9 @@ public class DepartmentApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/departments/{id}"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()))
+    String localVarPath = "/users/{userId}/companies/{companyId}/departments/{id}"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()))
         .replace("{id}", ApiClient.urlEncode(id.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
@@ -258,26 +272,28 @@ public class DepartmentApi {
   /**
    * Get a department by identifier
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param id  (required)
    * @return Department
    * @throws ApiException if fails to make API call
    */
-  public Department getDepartmentById(String compId, String id) throws ApiException {
-    ApiResponse<Department> localVarResponse = getDepartmentByIdWithHttpInfo(compId, id);
+  public Department getDepartmentById(String userId, String companyId, String id) throws ApiException {
+    ApiResponse<Department> localVarResponse = getDepartmentByIdWithHttpInfo(userId, companyId, id);
     return localVarResponse.getData();
   }
 
   /**
    * Get a department by identifier
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param id  (required)
    * @return ApiResponse&lt;Department&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Department> getDepartmentByIdWithHttpInfo(String compId, String id) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getDepartmentByIdRequestBuilder(compId, id);
+  public ApiResponse<Department> getDepartmentByIdWithHttpInfo(String userId, String companyId, String id) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getDepartmentByIdRequestBuilder(userId, companyId, id);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -305,10 +321,14 @@ public class DepartmentApi {
     }
   }
 
-  private HttpRequest.Builder getDepartmentByIdRequestBuilder(String compId, String id) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling getDepartmentById");
+  private HttpRequest.Builder getDepartmentByIdRequestBuilder(String userId, String companyId, String id) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling getDepartmentById");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling getDepartmentById");
     }
     // verify the required parameter 'id' is set
     if (id == null) {
@@ -317,8 +337,9 @@ public class DepartmentApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/departments/{id}"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()))
+    String localVarPath = "/users/{userId}/companies/{companyId}/departments/{id}"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()))
         .replace("{id}", ApiClient.urlEncode(id.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
@@ -338,28 +359,30 @@ public class DepartmentApi {
   /**
    * Get all departments
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param page  (optional)
    * @param pageSize  (optional)
    * @return List&lt;Department&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<Department> getDepartments(String compId, Integer page, Integer pageSize) throws ApiException {
-    ApiResponse<List<Department>> localVarResponse = getDepartmentsWithHttpInfo(compId, page, pageSize);
+  public List<Department> getDepartments(String userId, String companyId, Integer page, Integer pageSize) throws ApiException {
+    ApiResponse<List<Department>> localVarResponse = getDepartmentsWithHttpInfo(userId, companyId, page, pageSize);
     return localVarResponse.getData();
   }
 
   /**
    * Get all departments
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param page  (optional)
    * @param pageSize  (optional)
    * @return ApiResponse&lt;List&lt;Department&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<Department>> getDepartmentsWithHttpInfo(String compId, Integer page, Integer pageSize) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getDepartmentsRequestBuilder(compId, page, pageSize);
+  public ApiResponse<List<Department>> getDepartmentsWithHttpInfo(String userId, String companyId, Integer page, Integer pageSize) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getDepartmentsRequestBuilder(userId, companyId, page, pageSize);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -387,16 +410,21 @@ public class DepartmentApi {
     }
   }
 
-  private HttpRequest.Builder getDepartmentsRequestBuilder(String compId, Integer page, Integer pageSize) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling getDepartments");
+  private HttpRequest.Builder getDepartmentsRequestBuilder(String userId, String companyId, Integer page, Integer pageSize) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling getDepartments");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling getDepartments");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/departments"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()));
+    String localVarPath = "/users/{userId}/companies/{companyId}/departments"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()));
 
     List<Pair> localVarQueryParams = new ArrayList<>();
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");

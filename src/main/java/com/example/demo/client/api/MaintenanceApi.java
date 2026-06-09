@@ -50,7 +50,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-09T12:36:49.757496465+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-09T15:19:37.891340015+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class MaintenanceApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -90,26 +90,28 @@ public class MaintenanceApi {
   /**
    * Create new maintenances or update existing ones
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param crupdateMaintenance  (required)
    * @return List&lt;Maintenance&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<Maintenance> crupdateMaintenances(String compId, List<CrupdateMaintenance> crupdateMaintenance) throws ApiException {
-    ApiResponse<List<Maintenance>> localVarResponse = crupdateMaintenancesWithHttpInfo(compId, crupdateMaintenance);
+  public List<Maintenance> crupdateMaintenances(String userId, String companyId, List<CrupdateMaintenance> crupdateMaintenance) throws ApiException {
+    ApiResponse<List<Maintenance>> localVarResponse = crupdateMaintenancesWithHttpInfo(userId, companyId, crupdateMaintenance);
     return localVarResponse.getData();
   }
 
   /**
    * Create new maintenances or update existing ones
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param crupdateMaintenance  (required)
    * @return ApiResponse&lt;List&lt;Maintenance&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<Maintenance>> crupdateMaintenancesWithHttpInfo(String compId, List<CrupdateMaintenance> crupdateMaintenance) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = crupdateMaintenancesRequestBuilder(compId, crupdateMaintenance);
+  public ApiResponse<List<Maintenance>> crupdateMaintenancesWithHttpInfo(String userId, String companyId, List<CrupdateMaintenance> crupdateMaintenance) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = crupdateMaintenancesRequestBuilder(userId, companyId, crupdateMaintenance);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -137,10 +139,14 @@ public class MaintenanceApi {
     }
   }
 
-  private HttpRequest.Builder crupdateMaintenancesRequestBuilder(String compId, List<CrupdateMaintenance> crupdateMaintenance) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling crupdateMaintenances");
+  private HttpRequest.Builder crupdateMaintenancesRequestBuilder(String userId, String companyId, List<CrupdateMaintenance> crupdateMaintenance) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling crupdateMaintenances");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling crupdateMaintenances");
     }
     // verify the required parameter 'crupdateMaintenance' is set
     if (crupdateMaintenance == null) {
@@ -149,8 +155,9 @@ public class MaintenanceApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/maintenances"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()));
+    String localVarPath = "/users/{userId}/companies/{companyId}/maintenances"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
@@ -175,26 +182,28 @@ public class MaintenanceApi {
   /**
    * Delete maintenance by identifier
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param id  (required)
    * @param equipmentId  (optional)
    * @throws ApiException if fails to make API call
    */
-  public void deleteMaintenanceById(String compId, String id, String equipmentId) throws ApiException {
-    deleteMaintenanceByIdWithHttpInfo(compId, id, equipmentId);
+  public void deleteMaintenanceById(String userId, String companyId, String id, String equipmentId) throws ApiException {
+    deleteMaintenanceByIdWithHttpInfo(userId, companyId, id, equipmentId);
   }
 
   /**
    * Delete maintenance by identifier
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param id  (required)
    * @param equipmentId  (optional)
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Void> deleteMaintenanceByIdWithHttpInfo(String compId, String id, String equipmentId) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = deleteMaintenanceByIdRequestBuilder(compId, id, equipmentId);
+  public ApiResponse<Void> deleteMaintenanceByIdWithHttpInfo(String userId, String companyId, String id, String equipmentId) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = deleteMaintenanceByIdRequestBuilder(userId, companyId, id, equipmentId);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -227,10 +236,14 @@ public class MaintenanceApi {
     }
   }
 
-  private HttpRequest.Builder deleteMaintenanceByIdRequestBuilder(String compId, String id, String equipmentId) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling deleteMaintenanceById");
+  private HttpRequest.Builder deleteMaintenanceByIdRequestBuilder(String userId, String companyId, String id, String equipmentId) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling deleteMaintenanceById");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling deleteMaintenanceById");
     }
     // verify the required parameter 'id' is set
     if (id == null) {
@@ -239,8 +252,9 @@ public class MaintenanceApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/maintenances/{id}"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()))
+    String localVarPath = "/users/{userId}/companies/{companyId}/maintenances/{id}"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()))
         .replace("{id}", ApiClient.urlEncode(id.toString()));
 
     List<Pair> localVarQueryParams = new ArrayList<>();
@@ -275,28 +289,30 @@ public class MaintenanceApi {
   /**
    * Get maintenance by identifier
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param id  (required)
    * @param equipmentId  (optional)
    * @return Maintenance
    * @throws ApiException if fails to make API call
    */
-  public Maintenance getMaintenanceById(String compId, String id, String equipmentId) throws ApiException {
-    ApiResponse<Maintenance> localVarResponse = getMaintenanceByIdWithHttpInfo(compId, id, equipmentId);
+  public Maintenance getMaintenanceById(String userId, String companyId, String id, String equipmentId) throws ApiException {
+    ApiResponse<Maintenance> localVarResponse = getMaintenanceByIdWithHttpInfo(userId, companyId, id, equipmentId);
     return localVarResponse.getData();
   }
 
   /**
    * Get maintenance by identifier
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param id  (required)
    * @param equipmentId  (optional)
    * @return ApiResponse&lt;Maintenance&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Maintenance> getMaintenanceByIdWithHttpInfo(String compId, String id, String equipmentId) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getMaintenanceByIdRequestBuilder(compId, id, equipmentId);
+  public ApiResponse<Maintenance> getMaintenanceByIdWithHttpInfo(String userId, String companyId, String id, String equipmentId) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getMaintenanceByIdRequestBuilder(userId, companyId, id, equipmentId);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -324,10 +340,14 @@ public class MaintenanceApi {
     }
   }
 
-  private HttpRequest.Builder getMaintenanceByIdRequestBuilder(String compId, String id, String equipmentId) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling getMaintenanceById");
+  private HttpRequest.Builder getMaintenanceByIdRequestBuilder(String userId, String companyId, String id, String equipmentId) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling getMaintenanceById");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling getMaintenanceById");
     }
     // verify the required parameter 'id' is set
     if (id == null) {
@@ -336,8 +356,9 @@ public class MaintenanceApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/maintenances/{id}"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()))
+    String localVarPath = "/users/{userId}/companies/{companyId}/maintenances/{id}"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()))
         .replace("{id}", ApiClient.urlEncode(id.toString()));
 
     List<Pair> localVarQueryParams = new ArrayList<>();
@@ -372,7 +393,8 @@ public class MaintenanceApi {
   /**
    * Get all maintenances
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param equipmentId  (optional)
    * @param page  (optional)
    * @param pageSize  (optional)
@@ -380,15 +402,16 @@ public class MaintenanceApi {
    * @return List&lt;Maintenance&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<Maintenance> getMaintenances(String compId, String equipmentId, Integer page, Integer pageSize, String description) throws ApiException {
-    ApiResponse<List<Maintenance>> localVarResponse = getMaintenancesWithHttpInfo(compId, equipmentId, page, pageSize, description);
+  public List<Maintenance> getMaintenances(String userId, String companyId, String equipmentId, Integer page, Integer pageSize, String description) throws ApiException {
+    ApiResponse<List<Maintenance>> localVarResponse = getMaintenancesWithHttpInfo(userId, companyId, equipmentId, page, pageSize, description);
     return localVarResponse.getData();
   }
 
   /**
    * Get all maintenances
    * 
-   * @param compId  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param equipmentId  (optional)
    * @param page  (optional)
    * @param pageSize  (optional)
@@ -396,8 +419,8 @@ public class MaintenanceApi {
    * @return ApiResponse&lt;List&lt;Maintenance&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<Maintenance>> getMaintenancesWithHttpInfo(String compId, String equipmentId, Integer page, Integer pageSize, String description) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getMaintenancesRequestBuilder(compId, equipmentId, page, pageSize, description);
+  public ApiResponse<List<Maintenance>> getMaintenancesWithHttpInfo(String userId, String companyId, String equipmentId, Integer page, Integer pageSize, String description) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getMaintenancesRequestBuilder(userId, companyId, equipmentId, page, pageSize, description);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -425,16 +448,21 @@ public class MaintenanceApi {
     }
   }
 
-  private HttpRequest.Builder getMaintenancesRequestBuilder(String compId, String equipmentId, Integer page, Integer pageSize, String description) throws ApiException {
-    // verify the required parameter 'compId' is set
-    if (compId == null) {
-      throw new ApiException(400, "Missing the required parameter 'compId' when calling getMaintenances");
+  private HttpRequest.Builder getMaintenancesRequestBuilder(String userId, String companyId, String equipmentId, Integer page, Integer pageSize, String description) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling getMaintenances");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling getMaintenances");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies/{comp_id}/maintenances"
-        .replace("{comp_id}", ApiClient.urlEncode(compId.toString()));
+    String localVarPath = "/users/{userId}/companies/{companyId}/maintenances"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()));
 
     List<Pair> localVarQueryParams = new ArrayList<>();
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");

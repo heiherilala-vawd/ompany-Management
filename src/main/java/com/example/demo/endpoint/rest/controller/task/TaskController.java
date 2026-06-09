@@ -26,13 +26,13 @@ public class TaskController {
   private final NotificationService notificationService;
   private final ModificationUtils modificationUtils;
 
-  @GetMapping("/companies/{comp_id}/tasks")
+  @GetMapping("/users/{userId}/companies/{companyId}/tasks")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<Task> getTasks(
-      @PathVariable String comp_id,
+      @PathVariable String userId, @PathVariable String companyId,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize) {
-    return taskService.findAll(page, pageSize, comp_id).stream()
+    return taskService.findAll(page, pageSize, companyId).stream()
         .map(
             t -> {
               List<TaskAssignment> assignments = taskService.getAssignments(t.getId());
@@ -41,22 +41,22 @@ public class TaskController {
         .toList();
   }
 
-  @PutMapping("/companies/{comp_id}/tasks")
+  @PutMapping("/users/{userId}/companies/{companyId}/tasks")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<Task> crupdateTasks(
-      @PathVariable String comp_id, @Valid @RequestBody List<CrupdateTask> toWrite) {
+      @PathVariable String userId, @PathVariable String companyId, @Valid @RequestBody List<CrupdateTask> toWrite) {
     List<com.example.demo.model.task.Task> tasks =
         taskService.createOrUpdateAll(
-            toWrite.stream().map(rest -> taskMapper.toDomain(rest, comp_id)).toList());
+            toWrite.stream().map(rest -> taskMapper.toDomain(rest, companyId)).toList());
     User currentUser = modificationUtils.takePrimaryUser();
     for (int i = 0; i < toWrite.size(); i++) {
       CrupdateTask rest = toWrite.get(i);
       com.example.demo.model.task.Task task = tasks.get(i);
       if (rest.getAssignedUserIds() != null) {
         taskService.syncAssignments(task.getId(), rest.getAssignedUserIds());
-        for (String userId : rest.getAssignedUserIds()) {
+        for (String assignedUserId : rest.getAssignedUserIds()) {
           notificationService.createForUser(
-              User.builder().id(userId).build(),
+              User.builder().id(assignedUserId).build(),
               "Nouvelle tâche : " + task.getTitle(),
               "Vous avez été assigné à la tâche '" + task.getTitle() + "'",
               task,
@@ -73,9 +73,9 @@ public class TaskController {
         .toList();
   }
 
-  @GetMapping("/companies/{comp_id}/tasks/{id}")
+  @GetMapping("/users/{userId}/companies/{companyId}/tasks/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
-  public Task getTaskById(@PathVariable String comp_id, @PathVariable String id) {
+  public Task getTaskById(@PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     com.example.demo.model.task.Task task =
         taskService
             .findById(id)
@@ -84,9 +84,9 @@ public class TaskController {
     return taskMapper.toRestTask(task, assignments);
   }
 
-  @DeleteMapping("/companies/{comp_id}/tasks/{id}")
+  @DeleteMapping("/users/{userId}/companies/{companyId}/tasks/{id}")
   @PreAuthorize("hasRole('ADMIN')")
-  public void deleteTaskById(@PathVariable String comp_id, @PathVariable String id) {
+  public void deleteTaskById(@PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     taskService.deleteById(id);
   }
 }
