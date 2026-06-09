@@ -19,7 +19,8 @@ public class EmployeeLeaveConfigController {
 
   @GetMapping("/users/{userId}/companies/{companyId}/leave_configs")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
-  public List<EmployeeLeaveConfig> getEmployeeLeaveConfigs(@PathVariable String userId, @PathVariable String companyId) {
+  public List<EmployeeLeaveConfig> getEmployeeLeaveConfigs(
+      @PathVariable String userId, @PathVariable String companyId) {
     return employeeLeaveConfigService.findByCompanyId(companyId).stream()
         .map(employeeLeaveConfigMapper::toRestEmployeeLeaveConfig)
         .toList();
@@ -28,10 +29,14 @@ public class EmployeeLeaveConfigController {
   @PutMapping("/users/{userId}/companies/{companyId}/leave_configs")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<EmployeeLeaveConfig> crupdateEmployeeLeaveConfigs(
-      @PathVariable String userId, @PathVariable String companyId, @Valid @RequestBody List<CrupdateEmployeeLeaveConfig> toWrite) {
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @Valid @RequestBody List<CrupdateEmployeeLeaveConfig> toWrite) {
     List<com.example.demo.model.hr.EmployeeLeaveConfig> saved =
         employeeLeaveConfigService.createOrUpdateAll(
-            toWrite.stream().map(dto -> employeeLeaveConfigMapper.toDomain(dto, companyId)).toList());
+            toWrite.stream()
+                .map(dto -> employeeLeaveConfigMapper.toDomain(dto, companyId))
+                .toList());
     return saved.stream().map(employeeLeaveConfigMapper::toRestEmployeeLeaveConfig).toList();
   }
 

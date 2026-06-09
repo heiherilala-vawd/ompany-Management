@@ -52,7 +52,7 @@ class CompanyFixedCostIT {
   void administration_can_get_fixed_cost_by_id() throws Exception {
     CompanyFixedCostApi api = new CompanyFixedCostApi(anApiClient(ADMINISTRATION_TOKEN));
 
-    CompanyFixedCost actual = api.getCompanyFixedCostById(COMPANY1_ID, FIXED_COST1_ID);
+    CompanyFixedCost actual = api.getCompanyFixedCostById(ADMIN_ID, COMPANY1_ID, FIXED_COST1_ID);
     CompanyFixedCost expected = companyFixedCost1();
     expected.setCreatedAt(actual.getCreatedAt());
     expected.setUpdatedAt(actual.getUpdatedAt());
@@ -68,14 +68,14 @@ class CompanyFixedCostIT {
     CompanyFixedCostApi api = new CompanyFixedCostApi(anApiClient(BAD_TOKEN));
 
     assertThrowsNotAuthorizedException(
-        () -> api.getCompanyFixedCostById(COMPANY1_ID, FIXED_COST1_ID));
+        () -> api.getCompanyFixedCostById(ADMIN_ID, COMPANY1_ID, FIXED_COST1_ID));
   }
 
   @Test
   void administration_can_get_all_fixed_costs() throws Exception {
     CompanyFixedCostApi api = new CompanyFixedCostApi(anApiClient(ADMINISTRATION_TOKEN));
 
-    List<CompanyFixedCost> costs = api.getCompanyFixedCosts(COMPANY1_ID);
+    List<CompanyFixedCost> costs = api.getCompanyFixedCosts(ADMIN_ID, COMPANY1_ID);
 
     assertEquals(2, costs.size());
     assertTrue(costs.stream().anyMatch(c -> FIXED_COST1_ID.equals(c.getId())));
@@ -90,7 +90,8 @@ class CompanyFixedCostIT {
         companyFixedCostToCrupdateCompanyFixedCost(companyFixedCost1());
     toUpdate.setDescription("Loyer mensuel ajuste");
 
-    List<CompanyFixedCost> updated = api.crupdateCompanyFixedCosts(COMPANY1_ID, List.of(toUpdate));
+    List<CompanyFixedCost> updated =
+        api.crupdateCompanyFixedCosts(ADMIN_ID, COMPANY1_ID, List.of(toUpdate));
 
     assertEquals(1, updated.size());
     assertEquals(FIXED_COST1_ID, updated.get(0).getId());
@@ -102,7 +103,9 @@ class CompanyFixedCostIT {
     CompanyFixedCostApi api = new CompanyFixedCostApi(anApiClient(EMPLOYEE_TOKEN));
 
     assertThrowsForbiddenException(
-        () -> api.crupdateCompanyFixedCosts(COMPANY1_ID, List.of(someCreatableCompanyFixedCost())));
+        () ->
+            api.crupdateCompanyFixedCosts(
+                EMPLOYEE_ID, COMPANY1_ID, List.of(someCreatableCompanyFixedCost())));
   }
 
   @Test
@@ -110,7 +113,7 @@ class CompanyFixedCostIT {
     CompanyFixedCostApi api = new CompanyFixedCostApi(anApiClient(ADMINISTRATION_TOKEN));
 
     assertThrowsForbiddenException(
-        () -> api.deleteCompanyFixedCostById(COMPANY1_ID, FIXED_COST1_ID));
+        () -> api.deleteCompanyFixedCostById(ADMIN_ID, COMPANY1_ID, FIXED_COST1_ID));
   }
 
   @Test
@@ -121,7 +124,7 @@ class CompanyFixedCostIT {
 
     assertThrowsApiException(
         "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Company fixed cost name is mandatory\"}",
-        () -> api.crupdateCompanyFixedCosts(COMPANY1_ID, List.of(invalid)));
+        () -> api.crupdateCompanyFixedCosts(ADMIN_ID, COMPANY1_ID, List.of(invalid)));
   }
 
   @Test
@@ -132,7 +135,7 @@ class CompanyFixedCostIT {
 
     assertThrowsApiException(
         "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Company fixed cost amount must be non-negative\"}",
-        () -> api.crupdateCompanyFixedCosts(COMPANY1_ID, List.of(invalid)));
+        () -> api.crupdateCompanyFixedCosts(ADMIN_ID, COMPANY1_ID, List.of(invalid)));
   }
 
   @Test
@@ -143,7 +146,7 @@ class CompanyFixedCostIT {
 
     assertThrowsApiException(
         "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Company fixed cost start date is mandatory\"}",
-        () -> api.crupdateCompanyFixedCosts(COMPANY1_ID, List.of(invalid)));
+        () -> api.crupdateCompanyFixedCosts(ADMIN_ID, COMPANY1_ID, List.of(invalid)));
   }
 
   @Test
@@ -155,7 +158,7 @@ class CompanyFixedCostIT {
 
     assertThrowsApiException(
         "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Company fixed cost end date cannot be before start date\"}",
-        () -> api.crupdateCompanyFixedCosts(COMPANY1_ID, List.of(invalid)));
+        () -> api.crupdateCompanyFixedCosts(ADMIN_ID, COMPANY1_ID, List.of(invalid)));
   }
 
   static class ContextInitializer extends AbstractContextInitializer {

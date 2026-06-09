@@ -26,7 +26,9 @@ public class PurchaseController {
   @GetMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/purchases/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public Purchase getPurchaseById(
-      @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @PathVariable String jobId,
       @PathVariable String id) {
     return purchaseMapper.toRestPurchase(
         purchaseService
@@ -37,7 +39,9 @@ public class PurchaseController {
   @GetMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/purchases")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public List<Purchase> getPurchases(
-      @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @PathVariable String jobId,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
       @RequestParam(name = "source_warehouse_id", required = false) String sourceWarehouseId,
@@ -66,7 +70,9 @@ public class PurchaseController {
   @PutMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/purchases")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public List<Purchase> crupdatePurchases(
-      @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @PathVariable String jobId,
       @Valid @RequestBody List<CrupdatePurchase> toWrite) {
     List<com.example.demo.model.money.Purchase> saved =
         purchaseService.createOrUpdateAll(toWrite.stream().map(purchaseMapper::toDomain).toList());
@@ -76,7 +82,9 @@ public class PurchaseController {
   @DeleteMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/purchases/{id}")
   @PreAuthorize("hasAnyRole('ADMIN')")
   public void deletePurchaseById(
-      @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @PathVariable String jobId,
       @PathVariable String id) {
     purchaseService.deleteById(id);
   }

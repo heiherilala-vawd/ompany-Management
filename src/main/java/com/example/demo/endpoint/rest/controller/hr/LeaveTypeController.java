@@ -22,7 +22,8 @@ public class LeaveTypeController {
   @GetMapping("/users/{userId}/companies/{companyId}/leave_types")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<LeaveType> getLeaveTypes(
-      @PathVariable String userId, @PathVariable String companyId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize) {
     return leaveTypeService.findAll(page, pageSize, companyId).stream()
@@ -33,7 +34,9 @@ public class LeaveTypeController {
   @PutMapping("/users/{userId}/companies/{companyId}/leave_types")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<LeaveType> crupdateLeaveTypes(
-      @PathVariable String userId, @PathVariable String companyId, @Valid @RequestBody List<CrupdateLeaveType> toWrite) {
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @Valid @RequestBody List<CrupdateLeaveType> toWrite) {
     List<com.example.demo.model.hr.LeaveType> saved =
         leaveTypeService.createOrUpdateAll(
             toWrite.stream().map(rest -> leaveTypeMapper.toDomain(rest, companyId)).toList());
@@ -42,7 +45,8 @@ public class LeaveTypeController {
 
   @GetMapping("/users/{userId}/companies/{companyId}/leave_types/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
-  public LeaveType getLeaveTypeById(@PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
+  public LeaveType getLeaveTypeById(
+      @PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     return leaveTypeMapper.toRestLeaveType(
         leaveTypeService
             .findById(id)

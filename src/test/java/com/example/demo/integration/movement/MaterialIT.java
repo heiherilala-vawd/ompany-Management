@@ -53,7 +53,7 @@ class MaterialIT {
     ApiClient warehouseClient = anApiClient(WAREHOUSE_TOKEN);
     MaterialApi api = new MaterialApi(warehouseClient);
 
-    Material actual = api.getMaterialById(COMPANY1_ID, MATERIAL1_ID);
+    Material actual = api.getMaterialById(ADMIN_ID, COMPANY1_ID, MATERIAL1_ID);
     Material expected = material1();
     expected.setCreatedAt(actual.getCreatedAt());
     expected.setUpdatedAt(actual.getUpdatedAt());
@@ -86,7 +86,8 @@ class MaterialIT {
     ApiClient badClient = anApiClient(BAD_TOKEN);
     MaterialApi api = new MaterialApi(badClient);
 
-    assertThrowsNotAuthorizedException(() -> api.getMaterialById(COMPANY1_ID, MATERIAL1_ID));
+    assertThrowsNotAuthorizedException(
+        () -> api.getMaterialById(ADMIN_ID, COMPANY1_ID, MATERIAL1_ID));
   }
 
   @Test
@@ -94,7 +95,8 @@ class MaterialIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     MaterialApi api = new MaterialApi(adminClient);
 
-    List<Material> materials = api.getMaterials(COMPANY1_ID, 1, 100, null, null, null, null);
+    List<Material> materials =
+        api.getMaterials(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null, null);
 
     assertEquals(3, materials.size());
     assertTrue(materials.stream().anyMatch(material -> MATERIAL1_ID.equals(material.getId())));
@@ -108,7 +110,7 @@ class MaterialIT {
     MaterialApi api = new MaterialApi(employeeClient);
 
     assertThrowsForbiddenException(
-        () -> api.getMaterials(COMPANY1_ID, 1, 100, null, null, null, null));
+        () -> api.getMaterials(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null, null));
   }
 
   @Test
@@ -117,7 +119,7 @@ class MaterialIT {
     MaterialApi api = new MaterialApi(administrationClient);
 
     List<Material> materials =
-        api.getMaterials(COMPANY1_ID, 1, 100, null, null, MaterialUnit.L, null);
+        api.getMaterials(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, MaterialUnit.L, null);
 
     assertEquals(1, materials.size());
     assertEquals(MATERIAL3_ID, materials.get(0).getId());
@@ -128,7 +130,8 @@ class MaterialIT {
     ApiClient administrationClient = anApiClient(ADMINISTRATION_TOKEN);
     MaterialApi api = new MaterialApi(administrationClient);
 
-    List<Material> materials = api.getMaterials(COMPANY1_ID, 1, 100, "Brique", null, null, null);
+    List<Material> materials =
+        api.getMaterials(ADMIN_ID, COMPANY1_ID, 1, 100, "Brique", null, null, null);
 
     assertEquals(1, materials.size());
     assertEquals(MATERIAL2_ID, materials.get(0).getId());
@@ -139,7 +142,8 @@ class MaterialIT {
     ApiClient administrationClient = anApiClient(ADMINISTRATION_TOKEN);
     MaterialApi api = new MaterialApi(administrationClient);
 
-    List<Material> materials = api.getMaterials(COMPANY1_ID, 1, 100, null, "blanche", null, null);
+    List<Material> materials =
+        api.getMaterials(ADMIN_ID, COMPANY1_ID, 1, 100, null, "blanche", null, null);
 
     assertEquals(1, materials.size());
     assertEquals(MATERIAL3_ID, materials.get(0).getId());
@@ -151,7 +155,7 @@ class MaterialIT {
     MaterialApi api = new MaterialApi(administrationClient);
 
     List<Material> materials =
-        api.getMaterials(COMPANY1_ID, 1, 100, "Ciment", "35kg", MaterialUnit.SAC, null);
+        api.getMaterials(ADMIN_ID, COMPANY1_ID, 1, 100, "Ciment", "35kg", MaterialUnit.SAC, null);
 
     assertEquals(1, materials.size());
     assertEquals(MATERIAL1_ID, materials.get(0).getId());
@@ -166,7 +170,8 @@ class MaterialIT {
     CrupdateMaterial materialToUpdate = materialToCrupdateMaterial(material1());
     materialToUpdate.setDescription("Ciment Portland 35kg premium");
 
-    List<Material> updatedMaterials = api.crupdateMaterials(COMPANY1_ID, List.of(materialToUpdate));
+    List<Material> updatedMaterials =
+        api.crupdateMaterials(ADMIN_ID, COMPANY1_ID, List.of(materialToUpdate));
     Material updated = updatedMaterials.get(0);
 
     assertEquals(1, updatedMaterials.size());
@@ -181,7 +186,7 @@ class MaterialIT {
     MaterialApi api = new MaterialApi(employeeClient);
 
     assertThrowsForbiddenException(
-        () -> api.crupdateMaterials(COMPANY1_ID, List.of(someCreatableMaterial())));
+        () -> api.crupdateMaterials(ADMIN_ID, COMPANY1_ID, List.of(someCreatableMaterial())));
   }
 
   @Test
@@ -190,13 +195,13 @@ class MaterialIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     MaterialApi api = new MaterialApi(adminClient);
 
-    api.deleteMaterialById(COMPANY1_ID, MATERIAL3_ID);
+    api.deleteMaterialById(ADMIN_ID, COMPANY1_ID, MATERIAL3_ID);
 
     assertThrowsApiException(
         "{\"type\":\"404 NOT_FOUND\",\"message\":\"Material with id "
             + MATERIAL3_ID
             + " not found\"}",
-        () -> api.getMaterialById(COMPANY1_ID, MATERIAL3_ID));
+        () -> api.getMaterialById(ADMIN_ID, COMPANY1_ID, MATERIAL3_ID));
   }
 
   @Test
@@ -204,7 +209,8 @@ class MaterialIT {
     ApiClient administrationClient = anApiClient(ADMINISTRATION_TOKEN);
     MaterialApi api = new MaterialApi(administrationClient);
 
-    assertThrowsForbiddenException(() -> api.deleteMaterialById(COMPANY1_ID, MATERIAL1_ID));
+    assertThrowsForbiddenException(
+        () -> api.deleteMaterialById(ADMIN_ID, COMPANY1_ID, MATERIAL1_ID));
   }
 
   @Test
@@ -217,7 +223,7 @@ class MaterialIT {
 
     assertThrowsApiException(
         "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Material name is mandatory\"}",
-        () -> api.crupdateMaterials(COMPANY1_ID, List.of(invalidMaterial)));
+        () -> api.crupdateMaterials(ADMIN_ID, COMPANY1_ID, List.of(invalidMaterial)));
   }
 
   @Test
@@ -230,7 +236,7 @@ class MaterialIT {
 
     assertThrowsApiException(
         "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Material unit is mandatory\"}",
-        () -> api.crupdateMaterials(COMPANY1_ID, List.of(invalidMaterial)));
+        () -> api.crupdateMaterials(ADMIN_ID, COMPANY1_ID, List.of(invalidMaterial)));
   }
 
   @Test
@@ -239,7 +245,7 @@ class MaterialIT {
     MaterialApi api = new MaterialApi(adminClient);
 
     List<Material> notArrivedMaterials =
-        api.getMaterials(COMPANY1_ID, 1, 100, null, null, null, true);
+        api.getMaterials(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null, true);
 
     assertEquals(2, notArrivedMaterials.size());
     assertTrue(notArrivedMaterials.stream().anyMatch(m -> MATERIAL1_ID.equals(m.getId())));
@@ -252,7 +258,8 @@ class MaterialIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     MaterialApi api = new MaterialApi(adminClient);
 
-    List<Material> materials = api.getMaterials(COMPANY1_ID, 1, 100, null, null, null, false);
+    List<Material> materials =
+        api.getMaterials(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null, false);
 
     assertEquals(3, materials.size());
   }

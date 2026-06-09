@@ -24,7 +24,9 @@ public class OtherExpenseController {
   @GetMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/other_expenses/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION') or #userId == authentication.principal.id")
   public OtherExpense getOtherExpenseById(
-      @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @PathVariable String jobId,
       @PathVariable String id) {
     return otherExpenseMapper.toRestOtherExpense(
         otherExpenseService
@@ -35,7 +37,9 @@ public class OtherExpenseController {
   @GetMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/other_expenses")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION') or #userId == authentication.principal.id")
   public List<OtherExpense> getOtherExpenses(
-      @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @PathVariable String jobId,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
       @RequestParam(name = "description", required = false) String description) {
@@ -50,7 +54,9 @@ public class OtherExpenseController {
   @PutMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/other_expenses")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION') or #userId == authentication.principal.id")
   public List<OtherExpense> crupdateOtherExpenses(
-      @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @PathVariable String jobId,
       @Valid @RequestBody List<CrupdateOtherExpense> toWrite) {
     List<com.example.demo.model.money.OtherExpense> saved =
         otherExpenseService.createOrUpdateAll(
@@ -61,7 +67,9 @@ public class OtherExpenseController {
   @DeleteMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/other_expenses/{id}")
   @PreAuthorize("hasAnyRole('ADMIN')")
   public void deleteOtherExpenseById(
-      @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @PathVariable String jobId,
       @PathVariable String id) {
     otherExpenseService.deleteById(id);
   }

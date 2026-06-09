@@ -52,7 +52,7 @@ class CashTransactionIT {
     CashTransactionApi api = new CashTransactionApi(anApiClient(ADMINISTRATION_TOKEN));
 
     CashTransaction actual =
-        api.getCashTransactionById(COMPANY1_ID, CASH_ACCOUNT1_ID, CASH_TXN1_ID);
+        api.getCashTransactionById(ADMIN_ID, COMPANY1_ID, CASH_ACCOUNT1_ID, CASH_TXN1_ID);
     CashTransaction expected = cashTransaction1();
     expected.setCreatedAt(actual.getCreatedAt());
     expected.setUpdatedAt(actual.getUpdatedAt());
@@ -68,7 +68,7 @@ class CashTransactionIT {
     CashTransactionApi api = new CashTransactionApi(anApiClient(BAD_TOKEN));
 
     assertThrowsNotAuthorizedException(
-        () -> api.getCashTransactionById(COMPANY1_ID, CASH_ACCOUNT1_ID, CASH_TXN1_ID));
+        () -> api.getCashTransactionById(ADMIN_ID, COMPANY1_ID, CASH_ACCOUNT1_ID, CASH_TXN1_ID));
   }
 
   @Test
@@ -100,7 +100,7 @@ class CashTransactionIT {
     toUpdate.setDescription("Achat matériel bureau - mis à jour");
 
     List<CashTransaction> updated =
-        api.crupdateCashTransactions(COMPANY1_ID, CASH_ACCOUNT1_ID, List.of(toUpdate));
+        api.crupdateCashTransactions(ADMIN_ID, COMPANY1_ID, CASH_ACCOUNT1_ID, List.of(toUpdate));
 
     assertEquals(1, updated.size());
     assertEquals(CASH_TXN1_ID, updated.get(0).getId());
@@ -114,7 +114,10 @@ class CashTransactionIT {
     assertThrowsForbiddenException(
         () ->
             api.crupdateCashTransactions(
-                COMPANY1_ID, CASH_ACCOUNT1_ID, List.of(someCreatableCashTransaction())));
+                EMPLOYEE_ID,
+                COMPANY1_ID,
+                CASH_ACCOUNT1_ID,
+                List.of(someCreatableCashTransaction())));
   }
 
   @Test
@@ -122,7 +125,7 @@ class CashTransactionIT {
     CashTransactionApi api = new CashTransactionApi(anApiClient(ADMINISTRATION_TOKEN));
 
     assertThrowsForbiddenException(
-        () -> api.deleteCashTransactionById(COMPANY1_ID, CASH_ACCOUNT1_ID, CASH_TXN1_ID));
+        () -> api.deleteCashTransactionById(ADMIN_ID, COMPANY1_ID, CASH_ACCOUNT1_ID, CASH_TXN1_ID));
   }
 
   @Test
@@ -130,7 +133,7 @@ class CashTransactionIT {
   void admin_can_delete_cash_transaction() throws Exception {
     CashTransactionApi api = new CashTransactionApi(anApiClient(ADMIN_TOKEN));
 
-    api.deleteCashTransactionById(COMPANY1_ID, CASH_ACCOUNT1_ID, CASH_TXN1_ID);
+    api.deleteCashTransactionById(ADMIN_ID, COMPANY1_ID, CASH_ACCOUNT1_ID, CASH_TXN1_ID);
 
     List<CashTransaction> transactions =
         api.getCashTransactions(ADMIN_ID, COMPANY1_ID, CASH_ACCOUNT1_ID, 1, 100);
@@ -144,7 +147,8 @@ class CashTransactionIT {
 
     assertThrowsApiException(
         "{\"type\":\"404 NOT_FOUND\",\"message\":\"CashTransaction with id nonexistent_txn not found\"}",
-        () -> api.getCashTransactionById(COMPANY1_ID, CASH_ACCOUNT1_ID, "nonexistent_txn"));
+        () ->
+            api.getCashTransactionById(ADMIN_ID, COMPANY1_ID, CASH_ACCOUNT1_ID, "nonexistent_txn"));
   }
 
   static class ContextInitializer extends AbstractContextInitializer {

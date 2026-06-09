@@ -52,7 +52,7 @@ class WarehouseIT {
     ApiClient warehouseClient = anApiClient(WAREHOUSE_TOKEN);
     WarehouseApi api = new WarehouseApi(warehouseClient);
 
-    Warehouse actual = api.getWarehouseById(COMPANY1_ID, WAREHOUSE1_ID);
+    Warehouse actual = api.getWarehouseById(ADMIN_ID, COMPANY1_ID, WAREHOUSE1_ID);
     Warehouse expected = warehouse1();
     expected.setCreatedAt(actual.getCreatedAt());
     expected.setUpdatedAt(actual.getUpdatedAt());
@@ -68,7 +68,8 @@ class WarehouseIT {
     ApiClient badClient = anApiClient(BAD_TOKEN);
     WarehouseApi api = new WarehouseApi(badClient);
 
-    assertThrowsNotAuthorizedException(() -> api.getWarehouseById(COMPANY1_ID, WAREHOUSE1_ID));
+    assertThrowsNotAuthorizedException(
+        () -> api.getWarehouseById(ADMIN_ID, COMPANY1_ID, WAREHOUSE1_ID));
   }
 
   @Test
@@ -76,7 +77,7 @@ class WarehouseIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     WarehouseApi api = new WarehouseApi(adminClient);
 
-    List<Warehouse> warehouses = api.getWarehouses(COMPANY1_ID, 1, 100, null, null, null);
+    List<Warehouse> warehouses = api.getWarehouses(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null);
 
     assertEquals(6, warehouses.size());
     assertTrue(warehouses.stream().anyMatch(warehouse -> WAREHOUSE1_ID.equals(warehouse.getId())));
@@ -98,7 +99,8 @@ class WarehouseIT {
     ApiClient employeeClient = anApiClient(EMPLOYEE_TOKEN);
     WarehouseApi api = new WarehouseApi(employeeClient);
 
-    assertThrowsForbiddenException(() -> api.getWarehouses(COMPANY1_ID, 1, 100, null, null, null));
+    assertThrowsForbiddenException(
+        () -> api.getWarehouses(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null));
   }
 
   @Test
@@ -106,7 +108,8 @@ class WarehouseIT {
     ApiClient administrationClient = anApiClient(ADMINISTRATION_TOKEN);
     WarehouseApi api = new WarehouseApi(administrationClient);
 
-    List<Warehouse> warehouses = api.getWarehouses(COMPANY1_ID, 1, 100, JOB2_ID, null, null);
+    List<Warehouse> warehouses =
+        api.getWarehouses(ADMIN_ID, COMPANY1_ID, 1, 100, JOB2_ID, null, null);
 
     assertEquals(1, warehouses.size());
     assertEquals(WAREHOUSE2_ID, warehouses.get(0).getId());
@@ -117,7 +120,8 @@ class WarehouseIT {
     ApiClient administrationClient = anApiClient(ADMINISTRATION_TOKEN);
     WarehouseApi api = new WarehouseApi(administrationClient);
 
-    List<Warehouse> warehouses = api.getWarehouses(COMPANY1_ID, 1, 100, null, "Nord", null);
+    List<Warehouse> warehouses =
+        api.getWarehouses(ADMIN_ID, COMPANY1_ID, 1, 100, null, "Nord", null);
 
     assertEquals(1, warehouses.size());
     assertEquals(WAREHOUSE1_ID, warehouses.get(0).getId());
@@ -128,7 +132,8 @@ class WarehouseIT {
     ApiClient administrationClient = anApiClient(ADMINISTRATION_TOKEN);
     WarehouseApi api = new WarehouseApi(administrationClient);
 
-    List<Warehouse> warehouses = api.getWarehouses(COMPANY1_ID, 1, 100, null, null, "équipements");
+    List<Warehouse> warehouses =
+        api.getWarehouses(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, "équipements");
 
     assertEquals(5, warehouses.size());
     assertTrue(warehouses.stream().anyMatch(warehouse -> WAREHOUSE2_ID.equals(warehouse.getId())));
@@ -144,7 +149,7 @@ class WarehouseIT {
     warehouseToUpdate.setDescription("Stockage materiaux lourds mis a jour");
 
     List<Warehouse> updatedWarehouses =
-        api.crupdateWarehouses(COMPANY1_ID, List.of(warehouseToUpdate));
+        api.crupdateWarehouses(ADMIN_ID, COMPANY1_ID, List.of(warehouseToUpdate));
     Warehouse updatedWarehouse = updatedWarehouses.get(0);
 
     assertEquals(1, updatedWarehouses.size());
@@ -159,7 +164,7 @@ class WarehouseIT {
     WarehouseApi api = new WarehouseApi(employeeClient);
 
     assertThrowsForbiddenException(
-        () -> api.crupdateWarehouses(COMPANY1_ID, List.of(someCreatableWarehouse())));
+        () -> api.crupdateWarehouses(ADMIN_ID, COMPANY1_ID, List.of(someCreatableWarehouse())));
   }
 
   @Test
@@ -168,13 +173,13 @@ class WarehouseIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     WarehouseApi api = new WarehouseApi(adminClient);
 
-    api.deleteWarehouseById(COMPANY1_ID, UNFINDABLE_WAREHOUSE_ID);
+    api.deleteWarehouseById(ADMIN_ID, COMPANY1_ID, UNFINDABLE_WAREHOUSE_ID);
 
     assertThrowsApiException(
         "{\"type\":\"404 NOT_FOUND\",\"message\":\"Warehouse with id "
             + UNFINDABLE_WAREHOUSE_ID
             + " not found\"}",
-        () -> api.getWarehouseById(COMPANY1_ID, UNFINDABLE_WAREHOUSE_ID));
+        () -> api.getWarehouseById(ADMIN_ID, COMPANY1_ID, UNFINDABLE_WAREHOUSE_ID));
   }
 
   @Test
@@ -182,7 +187,8 @@ class WarehouseIT {
     ApiClient administrationClient = anApiClient(ADMINISTRATION_TOKEN);
     WarehouseApi api = new WarehouseApi(administrationClient);
 
-    assertThrowsForbiddenException(() -> api.deleteWarehouseById(COMPANY1_ID, WAREHOUSE1_ID));
+    assertThrowsForbiddenException(
+        () -> api.deleteWarehouseById(ADMIN_ID, COMPANY1_ID, WAREHOUSE1_ID));
   }
 
   @Test
@@ -195,7 +201,7 @@ class WarehouseIT {
 
     assertThrowsApiException(
         "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Warehouse name is mandatory\"}",
-        () -> api.crupdateWarehouses(COMPANY1_ID, List.of(invalidWarehouse)));
+        () -> api.crupdateWarehouses(ADMIN_ID, COMPANY1_ID, List.of(invalidWarehouse)));
   }
 
   static class ContextInitializer extends AbstractContextInitializer {

@@ -26,7 +26,9 @@ public class PurchaseOperationController {
   @PreAuthorize(
       "hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER') or #userId == authentication.principal.id")
   public List<Purchase> createPurchaseOperation(
-      @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @PathVariable String jobId,
       @Valid @RequestBody PurchaseOperationRequest request) {
     return purchaseMapper.toRestPurchases(
         purchaseOperationService.create(

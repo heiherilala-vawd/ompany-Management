@@ -23,7 +23,8 @@ public class TaskScheduleController {
   @GetMapping("/users/{userId}/companies/{companyId}/task_schedules")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<TaskSchedule> getTaskSchedules(
-      @PathVariable String userId, @PathVariable String companyId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize) {
     return taskScheduleService.findAll(page, pageSize, companyId).stream()
@@ -34,7 +35,9 @@ public class TaskScheduleController {
   @PutMapping("/users/{userId}/companies/{companyId}/task_schedules")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<TaskSchedule> crupdateTaskSchedules(
-      @PathVariable String userId, @PathVariable String companyId, @Valid @RequestBody List<CrupdateTaskSchedule> toWrite) {
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @Valid @RequestBody List<CrupdateTaskSchedule> toWrite) {
     List<com.example.demo.model.task.TaskSchedule> schedules =
         taskScheduleService.createOrUpdateAll(
             toWrite.stream().map(rest -> taskScheduleMapper.toDomain(rest, companyId)).toList());
@@ -50,7 +53,8 @@ public class TaskScheduleController {
 
   @GetMapping("/users/{userId}/companies/{companyId}/task_schedules/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
-  public TaskSchedule getTaskScheduleById(@PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
+  public TaskSchedule getTaskScheduleById(
+      @PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     com.example.demo.model.task.TaskSchedule schedule =
         taskScheduleService
             .findById(id)
@@ -60,7 +64,8 @@ public class TaskScheduleController {
 
   @DeleteMapping("/users/{userId}/companies/{companyId}/task_schedules/{id}")
   @PreAuthorize("hasRole('ADMIN')")
-  public void deleteTaskScheduleById(@PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
+  public void deleteTaskScheduleById(
+      @PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     taskScheduleService.deleteById(id);
   }
 }

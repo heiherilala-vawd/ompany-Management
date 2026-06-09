@@ -54,7 +54,7 @@ class LeaveIT {
   void administration_can_get_leave_by_id() throws Exception {
     HrApi api = new HrApi(anApiClient(ADMINISTRATION_TOKEN));
 
-    Leave actual = api.getLeaveById(COMPANY1_ID, LEAVE1_ID);
+    Leave actual = api.getLeaveById(ADMIN_ID, COMPANY1_ID, LEAVE1_ID);
 
     assertEquals(LEAVE1_ID, actual.getId());
     assertNotNull(actual.getUser());
@@ -65,14 +65,14 @@ class LeaveIT {
   void user_with_bad_token_cannot_get_leave_by_id() {
     HrApi api = new HrApi(anApiClient(BAD_TOKEN));
 
-    assertThrowsNotAuthorizedException(() -> api.getLeaveById(COMPANY1_ID, LEAVE1_ID));
+    assertThrowsNotAuthorizedException(() -> api.getLeaveById(ADMIN_ID, COMPANY1_ID, LEAVE1_ID));
   }
 
   @Test
   void administration_can_get_all_leaves() throws Exception {
     HrApi api = new HrApi(anApiClient(ADMINISTRATION_TOKEN));
 
-    List<Leave> leaves = api.getLeaves(COMPANY1_ID, null, null, null, null, null, null);
+    List<Leave> leaves = api.getLeaves(ADMIN_ID, COMPANY1_ID, null, null, null, null, null, null);
 
     assertEquals(2, leaves.size());
   }
@@ -81,7 +81,8 @@ class LeaveIT {
   void administration_can_filter_leaves_by_user() throws Exception {
     HrApi api = new HrApi(anApiClient(ADMINISTRATION_TOKEN));
 
-    List<Leave> leaves = api.getLeaves(COMPANY1_ID, EMPLOYEE_ID, null, null, null, null, null);
+    List<Leave> leaves =
+        api.getLeaves(ADMIN_ID, COMPANY1_ID, EMPLOYEE_ID, null, null, null, null, null);
 
     assertEquals(2, leaves.size());
   }
@@ -91,7 +92,8 @@ class LeaveIT {
     HrApi api = new HrApi(anApiClient(ADMINISTRATION_TOKEN));
 
     List<Leave> leaves =
-        api.getLeaves(COMPANY1_ID, null, null, LeaveStatus.APPROVED.getValue(), null, null, null);
+        api.getLeaves(
+            ADMIN_ID, COMPANY1_ID, null, null, LeaveStatus.APPROVED.getValue(), null, null, null);
 
     assertEquals(1, leaves.size());
     assertEquals(LeaveStatus.APPROVED, leaves.get(0).getStatus());
@@ -104,7 +106,7 @@ class LeaveIT {
     CrupdateLeave toUpdate = leaveToCrupdateLeave(leave1());
     toUpdate.setReason("Updated reason");
 
-    List<Leave> updated = api.crupdateLeaves(COMPANY1_ID, List.of(toUpdate));
+    List<Leave> updated = api.crupdateLeaves(ADMIN_ID, COMPANY1_ID, List.of(toUpdate));
 
     assertEquals(1, updated.size());
     assertEquals(LEAVE1_ID, updated.get(0).getId());
@@ -116,7 +118,7 @@ class LeaveIT {
     HrApi api = new HrApi(anApiClient(EMPLOYEE_TOKEN));
 
     assertThrowsForbiddenException(
-        () -> api.crupdateLeaves(COMPANY1_ID, List.of(someCreatableLeave())));
+        () -> api.crupdateLeaves(ADMIN_ID, COMPANY1_ID, List.of(someCreatableLeave())));
   }
 
   @Test
@@ -124,9 +126,9 @@ class LeaveIT {
   void admin_can_delete_leave() throws Exception {
     HrApi api = new HrApi(anApiClient(ADMIN_TOKEN));
 
-    api.deleteLeaveById(COMPANY1_ID, LEAVE1_ID);
+    api.deleteLeaveById(ADMIN_ID, COMPANY1_ID, LEAVE1_ID);
 
-    List<Leave> leaves = api.getLeaves(COMPANY1_ID, null, null, null, null, null, null);
+    List<Leave> leaves = api.getLeaves(ADMIN_ID, COMPANY1_ID, null, null, null, null, null, null);
     assertEquals(1, leaves.size());
   }
 
@@ -134,14 +136,14 @@ class LeaveIT {
   void administration_cannot_delete_leave() {
     HrApi api = new HrApi(anApiClient(ADMINISTRATION_TOKEN));
 
-    assertThrowsForbiddenException(() -> api.deleteLeaveById(COMPANY1_ID, LEAVE1_ID));
+    assertThrowsForbiddenException(() -> api.deleteLeaveById(ADMIN_ID, COMPANY1_ID, LEAVE1_ID));
   }
 
   @Test
   void administration_can_get_leave_balances() throws Exception {
     HrApi api = new HrApi(anApiClient(ADMINISTRATION_TOKEN));
 
-    List<LeaveBalance> balances = api.getLeaveBalances(COMPANY1_ID, 2026);
+    List<LeaveBalance> balances = api.getLeaveBalances(ADMIN_ID, COMPANY1_ID, 2026);
 
     assertNotNull(balances);
   }
@@ -150,7 +152,7 @@ class LeaveIT {
   void administration_can_get_employees_without_leave() throws Exception {
     HrApi api = new HrApi(anApiClient(ADMINISTRATION_TOKEN));
 
-    var employees = api.getEmployeesWithoutLeave(COMPANY1_ID, 2026);
+    var employees = api.getEmployeesWithoutLeave(ADMIN_ID, COMPANY1_ID, 2026);
 
     assertNotNull(employees);
   }
@@ -163,7 +165,7 @@ class LeaveIT {
 
     assertThrowsApiException(
         "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Start date is mandatory\"}",
-        () -> api.crupdateLeaves(COMPANY1_ID, List.of(invalid)));
+        () -> api.crupdateLeaves(ADMIN_ID, COMPANY1_ID, List.of(invalid)));
   }
 
   static class ContextInitializer extends AbstractContextInitializer {

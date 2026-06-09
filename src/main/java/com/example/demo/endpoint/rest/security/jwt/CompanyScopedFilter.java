@@ -59,9 +59,11 @@ public class CompanyScopedFilter extends OncePerRequestFilter {
     }
 
     if (!user.getId().equals(pathUserId)) {
-      log.warn("User ID mismatch: principal={}, path={}", user.getId(), pathUserId);
-      sendForbidden(response, "User ID mismatch");
-      return;
+      if (user.getRole() != User.Role.ADMIN && user.getRole() != User.Role.ADMINISTRATION) {
+        log.warn("User ID mismatch: principal={}, path={}", user.getId(), pathUserId);
+        sendForbidden(response, "User ID mismatch");
+        return;
+      }
     }
 
     Matcher companyMatcher = COMPANY_PATH_PATTERN.matcher(path);

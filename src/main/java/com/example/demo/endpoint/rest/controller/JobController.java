@@ -26,7 +26,8 @@ public class JobController {
 
   @GetMapping("/users/{userId}/companies/{companyId}/jobs/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER', 'EMPLOYEE')")
-  public Job getJobById(@PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
+  public Job getJobById(
+      @PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     return jobMapper.toRestJob(
         jobService
             .findById(id)
@@ -36,7 +37,8 @@ public class JobController {
   @GetMapping("/users/{userId}/companies/{companyId}/jobs")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public List<Job> getJobs(
-      @PathVariable String userId, @PathVariable String companyId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
       @RequestParam(name = "status", required = false) JobStatus status,
@@ -53,7 +55,9 @@ public class JobController {
   @PutMapping("/users/{userId}/companies/{companyId}/jobs")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<Job> crupdateJobs(
-      @PathVariable String userId, @PathVariable String companyId, @Valid @RequestBody List<CrupdateJob> toWrite) {
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @Valid @RequestBody List<CrupdateJob> toWrite) {
     List<com.example.demo.model.Job> saved =
         jobService.createOrUpdateAll(
             toWrite.stream().map(rest -> jobMapper.toDomain(rest, companyId)).toList());
@@ -62,7 +66,8 @@ public class JobController {
 
   @DeleteMapping("/users/{userId}/companies/{companyId}/jobs/{id}")
   @PreAuthorize("hasAnyRole('ADMIN')")
-  public Job deleteJobById(@PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
+  public Job deleteJobById(
+      @PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     Job entity =
         jobMapper.toRestJob(
             jobService

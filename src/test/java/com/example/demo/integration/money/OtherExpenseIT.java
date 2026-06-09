@@ -52,7 +52,7 @@ class OtherExpenseIT {
     OtherExpenseApi api = new OtherExpenseApi(anApiClient(EMPLOYEE_TOKEN));
 
     OtherExpense actual =
-        api.getOtherExpenseById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, OTHER_EXPENSE1_ID);
+        api.getOtherExpenseById(ADMIN_ID, COMPANY1_ID, JOB1_ID, OTHER_EXPENSE1_ID);
 
     assertEquals(otherExpense1(), actual);
   }
@@ -62,7 +62,7 @@ class OtherExpenseIT {
     OtherExpenseApi api = new OtherExpenseApi(anApiClient(BAD_TOKEN));
 
     assertThrowsNotAuthorizedException(
-        () -> api.getOtherExpenseById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, OTHER_EXPENSE1_ID));
+        () -> api.getOtherExpenseById(ADMIN_ID, COMPANY1_ID, JOB1_ID, OTHER_EXPENSE1_ID));
   }
 
   @Test
@@ -70,7 +70,7 @@ class OtherExpenseIT {
     OtherExpenseApi api = new OtherExpenseApi(anApiClient(ADMIN_TOKEN));
 
     List<OtherExpense> otherExpenses =
-        api.getOtherExpenses(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null);
+        api.getOtherExpenses(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null);
 
     assertEquals(2, otherExpenses.size());
     assertTrue(
@@ -86,7 +86,7 @@ class OtherExpenseIT {
     OtherExpenseApi api = new OtherExpenseApi(anApiClient(ADMIN_TOKEN));
 
     List<OtherExpense> otherExpenses =
-        api.getOtherExpenses(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, "administratifs");
+        api.getOtherExpenses(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, "administratifs");
 
     assertEquals(1, otherExpenses.size());
     assertEquals(OTHER_EXPENSE1_ID, otherExpenses.get(0).getId());
@@ -101,7 +101,7 @@ class OtherExpenseIT {
     otherExpenseToUpdate.setDescription("Frais administratifs chantier A ajustes");
 
     List<OtherExpense> updatedOtherExpenses =
-        api.crupdateOtherExpenses(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(otherExpenseToUpdate));
+        api.crupdateOtherExpenses(ADMIN_ID, COMPANY1_ID, JOB1_ID, List.of(otherExpenseToUpdate));
 
     assertEquals(1, updatedOtherExpenses.size());
     assertEquals(OTHER_EXPENSE1_ID, updatedOtherExpenses.get(0).getId());
@@ -116,7 +116,7 @@ class OtherExpenseIT {
     assertThrowsForbiddenException(
         () ->
             api.crupdateOtherExpenses(
-                COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(someCreatableOtherExpense())));
+                ADMIN_ID, COMPANY1_ID, JOB1_ID, List.of(someCreatableOtherExpense())));
   }
 
   @Test
@@ -124,7 +124,7 @@ class OtherExpenseIT {
     OtherExpenseApi api = new OtherExpenseApi(anApiClient(EMPLOYEE_TOKEN));
 
     assertThrowsForbiddenException(
-        () -> api.deleteOtherExpenseById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, OTHER_EXPENSE1_ID));
+        () -> api.deleteOtherExpenseById(ADMIN_ID, COMPANY1_ID, JOB1_ID, OTHER_EXPENSE1_ID));
   }
 
   @Test
@@ -132,13 +132,13 @@ class OtherExpenseIT {
   void admin_can_delete_other_expense() throws Exception {
     OtherExpenseApi api = new OtherExpenseApi(anApiClient(ADMIN_TOKEN));
 
-    api.deleteOtherExpenseById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, OTHER_EXPENSE2_ID);
+    api.deleteOtherExpenseById(ADMIN_ID, COMPANY1_ID, JOB1_ID, OTHER_EXPENSE2_ID);
 
     assertThrowsApiException(
         "{\"type\":\"404 NOT_FOUND\",\"message\":\"OtherExpense with id "
             + OTHER_EXPENSE2_ID
             + " not found\"}",
-        () -> api.getOtherExpenseById(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, OTHER_EXPENSE2_ID));
+        () -> api.getOtherExpenseById(ADMIN_ID, COMPANY1_ID, JOB1_ID, OTHER_EXPENSE2_ID));
   }
 
   @Test
@@ -152,7 +152,7 @@ class OtherExpenseIT {
         "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Description is mandatory for other expense\"}",
         () ->
             api.crupdateOtherExpenses(
-                COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, List.of(invalidOtherExpense)));
+                ADMIN_ID, COMPANY1_ID, JOB1_ID, List.of(invalidOtherExpense)));
   }
 
   static class ContextInitializer extends AbstractContextInitializer {

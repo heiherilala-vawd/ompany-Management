@@ -51,7 +51,7 @@ class TeamIT {
   void admin_can_get_team_by_id() throws Exception {
     TeamApi api = new TeamApi(anApiClient(ADMIN_TOKEN));
 
-    Team actual = api.getTeamById(COMPANY1_ID, TEAM1_ID);
+    Team actual = api.getTeamById(ADMIN_ID, COMPANY1_ID, TEAM1_ID);
     Team expected = team1();
     expected.setCreatedAt(actual.getCreatedAt());
     expected.setUpdatedAt(actual.getUpdatedAt());
@@ -66,14 +66,14 @@ class TeamIT {
   void user_with_bad_token_cannot_get_team_by_id() {
     TeamApi api = new TeamApi(anApiClient(BAD_TOKEN));
 
-    assertThrowsNotAuthorizedException(() -> api.getTeamById(COMPANY1_ID, TEAM1_ID));
+    assertThrowsNotAuthorizedException(() -> api.getTeamById(ADMIN_ID, COMPANY1_ID, TEAM1_ID));
   }
 
   @Test
   void administration_can_get_all_teams() throws Exception {
     TeamApi api = new TeamApi(anApiClient(ADMINISTRATION_TOKEN));
 
-    List<Team> teams = api.getTeams(COMPANY1_ID, 1, 100);
+    List<Team> teams = api.getTeams(ADMIN_ID, COMPANY1_ID, 1, 100);
 
     assertEquals(2, teams.size());
     assertTrue(teams.stream().anyMatch(t -> TEAM1_ID.equals(t.getId())));
@@ -84,7 +84,7 @@ class TeamIT {
   void employee_cannot_get_all_teams() {
     TeamApi api = new TeamApi(anApiClient(EMPLOYEE_TOKEN));
 
-    assertThrowsForbiddenException(() -> api.getTeams(COMPANY1_ID, 1, 100));
+    assertThrowsForbiddenException(() -> api.getTeams(EMPLOYEE_ID, COMPANY1_ID, 1, 100));
   }
 
   @Test
@@ -95,7 +95,7 @@ class TeamIT {
     CrupdateTeam toUpdate = teamToCrupdateTeam(team1());
     toUpdate.setName("Équipe chantier A mis à jour");
 
-    List<Team> updated = api.crupdateTeams(COMPANY1_ID, List.of(toUpdate));
+    List<Team> updated = api.crupdateTeams(ADMIN_ID, COMPANY1_ID, List.of(toUpdate));
 
     assertEquals(1, updated.size());
     assertEquals(TEAM1_ID, updated.get(0).getId());
@@ -107,14 +107,14 @@ class TeamIT {
     TeamApi api = new TeamApi(anApiClient(EMPLOYEE_TOKEN));
 
     assertThrowsForbiddenException(
-        () -> api.crupdateTeams(COMPANY1_ID, List.of(someCreatableTeam())));
+        () -> api.crupdateTeams(EMPLOYEE_ID, COMPANY1_ID, List.of(someCreatableTeam())));
   }
 
   @Test
   void administration_cannot_delete_team() {
     TeamApi api = new TeamApi(anApiClient(ADMINISTRATION_TOKEN));
 
-    assertThrowsForbiddenException(() -> api.deleteTeamById(COMPANY1_ID, TEAM1_ID));
+    assertThrowsForbiddenException(() -> api.deleteTeamById(ADMIN_ID, COMPANY1_ID, TEAM1_ID));
   }
 
   @Test
@@ -122,9 +122,9 @@ class TeamIT {
   void admin_can_delete_team() throws Exception {
     TeamApi api = new TeamApi(anApiClient(ADMIN_TOKEN));
 
-    api.deleteTeamById(COMPANY1_ID, TEAM1_ID);
+    api.deleteTeamById(ADMIN_ID, COMPANY1_ID, TEAM1_ID);
 
-    List<Team> teams = api.getTeams(COMPANY1_ID, 1, 100);
+    List<Team> teams = api.getTeams(ADMIN_ID, COMPANY1_ID, 1, 100);
     assertEquals(1, teams.size());
     assertEquals(TEAM2_ID, teams.get(0).getId());
   }
@@ -135,7 +135,7 @@ class TeamIT {
 
     assertThrowsApiException(
         "{\"type\":\"404 NOT_FOUND\",\"message\":\"Team with id nonexistent_team not found\"}",
-        () -> api.getTeamById(COMPANY1_ID, "nonexistent_team"));
+        () -> api.getTeamById(ADMIN_ID, COMPANY1_ID, "nonexistent_team"));
   }
 
   static class ContextInitializer extends AbstractContextInitializer {

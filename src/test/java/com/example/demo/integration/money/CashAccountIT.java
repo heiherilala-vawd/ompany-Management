@@ -51,7 +51,7 @@ class CashAccountIT {
   void administration_can_get_cash_account_by_id() throws Exception {
     CashAccountApi api = new CashAccountApi(anApiClient(ADMINISTRATION_TOKEN));
 
-    CashAccount actual = api.getCashAccountById(COMPANY1_ID, CASH_ACCOUNT1_ID);
+    CashAccount actual = api.getCashAccountById(ADMIN_ID, COMPANY1_ID, CASH_ACCOUNT1_ID);
     CashAccount expected = cashAccount1();
     expected.setCreatedAt(actual.getCreatedAt());
     expected.setUpdatedAt(actual.getUpdatedAt());
@@ -66,7 +66,8 @@ class CashAccountIT {
   void user_with_bad_token_cannot_get_cash_account_by_id() {
     CashAccountApi api = new CashAccountApi(anApiClient(BAD_TOKEN));
 
-    assertThrowsNotAuthorizedException(() -> api.getCashAccountById(COMPANY1_ID, CASH_ACCOUNT1_ID));
+    assertThrowsNotAuthorizedException(
+        () -> api.getCashAccountById(ADMIN_ID, COMPANY1_ID, CASH_ACCOUNT1_ID));
   }
 
   @Test
@@ -95,7 +96,7 @@ class CashAccountIT {
     CrupdateCashAccount toUpdate = cashAccountToCrupdateCashAccount(cashAccount1());
     toUpdate.setName("Compte bancaire principal - mis à jour");
 
-    List<CashAccount> updated = api.crupdateCashAccounts(COMPANY1_ID, List.of(toUpdate));
+    List<CashAccount> updated = api.crupdateCashAccounts(ADMIN_ID, COMPANY1_ID, List.of(toUpdate));
 
     assertEquals(1, updated.size());
     assertEquals(CASH_ACCOUNT1_ID, updated.get(0).getId());
@@ -107,14 +108,17 @@ class CashAccountIT {
     CashAccountApi api = new CashAccountApi(anApiClient(EMPLOYEE_TOKEN));
 
     assertThrowsForbiddenException(
-        () -> api.crupdateCashAccounts(COMPANY1_ID, List.of(someCreatableCashAccount())));
+        () ->
+            api.crupdateCashAccounts(
+                EMPLOYEE_ID, COMPANY1_ID, List.of(someCreatableCashAccount())));
   }
 
   @Test
   void administration_cannot_delete_cash_account() {
     CashAccountApi api = new CashAccountApi(anApiClient(ADMINISTRATION_TOKEN));
 
-    assertThrowsForbiddenException(() -> api.deleteCashAccountById(COMPANY1_ID, CASH_ACCOUNT1_ID));
+    assertThrowsForbiddenException(
+        () -> api.deleteCashAccountById(ADMIN_ID, COMPANY1_ID, CASH_ACCOUNT1_ID));
   }
 
   @Test
@@ -122,7 +126,7 @@ class CashAccountIT {
   void admin_can_delete_cash_account_without_transactions() throws Exception {
     CashAccountApi api = new CashAccountApi(anApiClient(ADMIN_TOKEN));
 
-    api.deleteCashAccountById(COMPANY1_ID, CASH_ACCOUNT2_ID);
+    api.deleteCashAccountById(ADMIN_ID, COMPANY1_ID, CASH_ACCOUNT2_ID);
 
     List<CashAccount> accounts = api.getCashAccounts(ADMIN_ID, COMPANY1_ID, 1, 100);
     assertEquals(1, accounts.size());
@@ -135,7 +139,7 @@ class CashAccountIT {
 
     assertThrowsApiException(
         "{\"type\":\"404 NOT_FOUND\",\"message\":\"CashAccount with id nonexistent_ca not found\"}",
-        () -> api.getCashAccountById(COMPANY1_ID, "nonexistent_ca"));
+        () -> api.getCashAccountById(ADMIN_ID, COMPANY1_ID, "nonexistent_ca"));
   }
 
   static class ContextInitializer extends AbstractContextInitializer {

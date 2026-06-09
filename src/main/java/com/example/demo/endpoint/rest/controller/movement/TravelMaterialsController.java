@@ -24,7 +24,9 @@ public class TravelMaterialsController {
   @GetMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/travel_materials/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION') or #userId == authentication.principal.id")
   public TravelMaterials getTravelMaterialsById(
-      @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @PathVariable String jobId,
       @PathVariable String id) {
     return travelMaterialsMapper.toRestTravelMaterials(
         travelMaterialsService
@@ -36,7 +38,9 @@ public class TravelMaterialsController {
   @GetMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/travel_materials")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION') or #userId == authentication.principal.id")
   public List<TravelMaterials> getTravelMaterials(
-      @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @PathVariable String jobId,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
       @RequestParam(name = "travel_id", required = false) String travelId,
@@ -65,7 +69,9 @@ public class TravelMaterialsController {
   @PutMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/travel_materials")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION') or #userId == authentication.principal.id")
   public List<TravelMaterials> crupdateTravelMaterials(
-      @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @PathVariable String jobId,
       @Valid @RequestBody List<CrupdateTravelMaterials> toWrite) {
     List<com.example.demo.model.movement.TravelMaterials> saved =
         travelMaterialsService.createOrUpdateAll(
@@ -76,7 +82,9 @@ public class TravelMaterialsController {
   @DeleteMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/travel_materials/{id}")
   @PreAuthorize("hasAnyRole('ADMIN')")
   public void deleteTravelMaterialsById(
-      @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @PathVariable String jobId,
       @PathVariable String id) {
     travelMaterialsService.deleteById(id);
   }

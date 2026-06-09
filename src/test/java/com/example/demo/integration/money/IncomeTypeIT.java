@@ -52,7 +52,7 @@ class IncomeTypeIT {
   void administration_can_get_income_type_by_id() throws Exception {
     IncomeTypeApi api = new IncomeTypeApi(anApiClient(ADMINISTRATION_TOKEN));
 
-    IncomeType actual = api.getIncomeTypeById(COMPANY1_ID, INCOME_TYPE1_ID);
+    IncomeType actual = api.getIncomeTypeById(ADMIN_ID, COMPANY1_ID, INCOME_TYPE1_ID);
     IncomeType expected = incomeType1();
     expected.setCreatedAt(actual.getCreatedAt());
     expected.setUpdatedAt(actual.getUpdatedAt());
@@ -67,14 +67,15 @@ class IncomeTypeIT {
   void user_with_bad_token_cannot_get_income_type_by_id() {
     IncomeTypeApi api = new IncomeTypeApi(anApiClient(BAD_TOKEN));
 
-    assertThrowsNotAuthorizedException(() -> api.getIncomeTypeById(COMPANY1_ID, INCOME_TYPE1_ID));
+    assertThrowsNotAuthorizedException(
+        () -> api.getIncomeTypeById(ADMIN_ID, COMPANY1_ID, INCOME_TYPE1_ID));
   }
 
   @Test
   void administration_can_get_all_income_types() throws Exception {
     IncomeTypeApi api = new IncomeTypeApi(anApiClient(ADMINISTRATION_TOKEN));
 
-    List<IncomeType> incomeTypes = api.getIncomeTypes(COMPANY1_ID);
+    List<IncomeType> incomeTypes = api.getIncomeTypes(ADMIN_ID, COMPANY1_ID);
 
     assertEquals(2, incomeTypes.size());
     assertTrue(
@@ -90,7 +91,7 @@ class IncomeTypeIT {
     CrupdateIncomeType toUpdate = incomeTypeToCrupdateIncomeType(incomeType1());
     toUpdate.setDescription("Revenus contractuels client");
 
-    List<IncomeType> updated = api.crupdateIncomeTypes(COMPANY1_ID, List.of(toUpdate));
+    List<IncomeType> updated = api.crupdateIncomeTypes(ADMIN_ID, COMPANY1_ID, List.of(toUpdate));
 
     assertEquals(1, updated.size());
     assertEquals(INCOME_TYPE1_ID, updated.get(0).getId());
@@ -102,14 +103,16 @@ class IncomeTypeIT {
     IncomeTypeApi api = new IncomeTypeApi(anApiClient(EMPLOYEE_TOKEN));
 
     assertThrowsForbiddenException(
-        () -> api.crupdateIncomeTypes(COMPANY1_ID, List.of(someCreatableIncomeType())));
+        () ->
+            api.crupdateIncomeTypes(EMPLOYEE_ID, COMPANY1_ID, List.of(someCreatableIncomeType())));
   }
 
   @Test
   void administration_cannot_delete_income_type() {
     IncomeTypeApi api = new IncomeTypeApi(anApiClient(ADMINISTRATION_TOKEN));
 
-    assertThrowsForbiddenException(() -> api.deleteIncomeTypeById(COMPANY1_ID, INCOME_TYPE1_ID));
+    assertThrowsForbiddenException(
+        () -> api.deleteIncomeTypeById(ADMIN_ID, COMPANY1_ID, INCOME_TYPE1_ID));
   }
 
   @Test
@@ -120,7 +123,7 @@ class IncomeTypeIT {
 
     assertThrowsApiException(
         "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Income type name is mandatory\"}",
-        () -> api.crupdateIncomeTypes(COMPANY1_ID, List.of(invalid)));
+        () -> api.crupdateIncomeTypes(ADMIN_ID, COMPANY1_ID, List.of(invalid)));
   }
 
   static class ContextInitializer extends AbstractContextInitializer {

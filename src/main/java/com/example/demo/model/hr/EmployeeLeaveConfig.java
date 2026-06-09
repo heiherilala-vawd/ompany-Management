@@ -33,8 +33,6 @@ public class EmployeeLeaveConfig extends CreatAndUpdateEntity implements Seriali
   @JoinColumn(name = "company_id")
   private Company company;
 
-  @NotNull private LocalDate hireDate;
-
   @NotBlank
   @Size(max = 255)
   private String contractType;
@@ -44,8 +42,9 @@ public class EmployeeLeaveConfig extends CreatAndUpdateEntity implements Seriali
   @Column(name = "vacation_days_per_month")
   private BigDecimal vacationDaysPerMonth;
 
-  @Column(name = "end_date")
-  private LocalDate endDate;
+  @Transient private LocalDate hireDate;
+
+  @Transient private LocalDate endDate;
 
   @NotNull
   @Min(0)

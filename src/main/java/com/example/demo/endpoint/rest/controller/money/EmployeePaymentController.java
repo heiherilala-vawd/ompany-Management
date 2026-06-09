@@ -25,7 +25,9 @@ public class EmployeePaymentController {
   @GetMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/employee_payments/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION') or #userId == authentication.principal.id")
   public EmployeePayment getEmployeePaymentById(
-      @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @PathVariable String jobId,
       @PathVariable String id) {
     return employeePaymentMapper.toRestPayment(
         employeePaymentService
@@ -37,7 +39,9 @@ public class EmployeePaymentController {
   @GetMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/employee_payments")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION') or #userId == authentication.principal.id")
   public List<EmployeePayment> getEmployeePayments(
-      @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @PathVariable String jobId,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
       @RequestParam(name = "user_ids", required = false) List<String> userIds,
@@ -59,7 +63,9 @@ public class EmployeePaymentController {
   @PutMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/employee_payments")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION') or #userId == authentication.principal.id")
   public List<EmployeePayment> crupdateEmployeePayments(
-      @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @PathVariable String jobId,
       @Valid @RequestBody List<CrupdateEmployeePayment> toWrite) {
     List<com.example.demo.model.money.EmployeePayment> saved =
         employeePaymentService.createOrUpdateAll(
@@ -70,7 +76,9 @@ public class EmployeePaymentController {
   @DeleteMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/employee_payments/{id}")
   @PreAuthorize("hasAnyRole('ADMIN')")
   public void deleteEmployeePaymentById(
-      @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @PathVariable String jobId,
       @PathVariable String id) {
     employeePaymentService.deleteById(id);
   }

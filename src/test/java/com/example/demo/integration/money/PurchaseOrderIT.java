@@ -61,7 +61,7 @@ class PurchaseOrderIT {
   @Test
   void admin_can_get_purchase_order_by_id() throws Exception {
     PurchaseOrderApi api = new PurchaseOrderApi(anApiClient(ADMIN_TOKEN));
-    PurchaseOrder actual = api.getPurchaseOrderById(COMPANY1_ID, PO1_ID);
+    PurchaseOrder actual = api.getPurchaseOrderById(ADMIN_ID, COMPANY1_ID, PO1_ID);
     actual.setCreatedAt(null);
     actual.setUpdatedAt(null);
     actual.setCreatedBy(null);
@@ -72,13 +72,14 @@ class PurchaseOrderIT {
   @Test
   void user_with_bad_token_cannot_get_purchase_order() {
     PurchaseOrderApi api = new PurchaseOrderApi(anApiClient(BAD_TOKEN));
-    assertThrowsNotAuthorizedException(() -> api.getPurchaseOrderById(COMPANY1_ID, PO1_ID));
+    assertThrowsNotAuthorizedException(
+        () -> api.getPurchaseOrderById(ADMIN_ID, COMPANY1_ID, PO1_ID));
   }
 
   @Test
   void admin_can_get_all_purchase_orders() throws Exception {
     PurchaseOrderApi api = new PurchaseOrderApi(anApiClient(ADMIN_TOKEN));
-    List<PurchaseOrder> orders = api.getPurchaseOrders(COMPANY1_ID, null);
+    List<PurchaseOrder> orders = api.getPurchaseOrders(ADMIN_ID, COMPANY1_ID, null);
     assertEquals(2, orders.size());
     assertTrue(orders.stream().anyMatch(po -> PO1_ID.equals(po.getId())));
     assertTrue(orders.stream().anyMatch(po -> PO2_ID.equals(po.getId())));
@@ -88,7 +89,7 @@ class PurchaseOrderIT {
   void admin_can_filter_purchase_orders_by_job_id() throws Exception {
     PurchaseOrderApi api = new PurchaseOrderApi(anApiClient(ADMIN_TOKEN));
 
-    List<PurchaseOrder> result = api.getPurchaseOrders(COMPANY1_ID, JOB1_ID);
+    List<PurchaseOrder> result = api.getPurchaseOrders(ADMIN_ID, COMPANY1_ID, JOB1_ID);
 
     assertEquals(2, result.size());
     assertTrue(result.stream().allMatch(po -> JOB1_ID.equals(po.getJobId())));
@@ -97,7 +98,7 @@ class PurchaseOrderIT {
   @Test
   void employee_cannot_get_purchase_orders() {
     PurchaseOrderApi api = new PurchaseOrderApi(anApiClient(EMPLOYEE_TOKEN));
-    assertThrowsForbiddenException(() -> api.getPurchaseOrders(COMPANY1_ID, null));
+    assertThrowsForbiddenException(() -> api.getPurchaseOrders(EMPLOYEE_ID, COMPANY1_ID, null));
   }
 
   @Test
@@ -105,7 +106,8 @@ class PurchaseOrderIT {
   void admin_can_create_purchase_order() throws Exception {
     PurchaseOrderApi api = new PurchaseOrderApi(anApiClient(ADMIN_TOKEN));
     CrupdatePurchaseOrder toCreate = someCreatablePurchaseOrder();
-    List<PurchaseOrder> created = api.crupdatePurchaseOrders(COMPANY1_ID, List.of(toCreate));
+    List<PurchaseOrder> created =
+        api.crupdatePurchaseOrders(ADMIN_ID, COMPANY1_ID, List.of(toCreate));
     assertEquals(1, created.size());
     assertEquals(toCreate.getTotalAmount(), created.get(0).getTotalAmount());
     assertEquals(toCreate.getSupplierId(), created.get(0).getSupplierId());
@@ -117,7 +119,8 @@ class PurchaseOrderIT {
     PurchaseOrderApi api = new PurchaseOrderApi(anApiClient(ADMIN_TOKEN));
     CrupdatePurchaseOrder toUpdate = purchaseOrderToCrupdatePurchaseOrder(purchaseOrder2());
     toUpdate.setStatus(PurchaseOrderStatus.VALIDATED);
-    List<PurchaseOrder> updated = api.crupdatePurchaseOrders(COMPANY1_ID, List.of(toUpdate));
+    List<PurchaseOrder> updated =
+        api.crupdatePurchaseOrders(ADMIN_ID, COMPANY1_ID, List.of(toUpdate));
     assertEquals(1, updated.size());
     assertEquals(PO2_ID, updated.get(0).getId());
     assertEquals(PurchaseOrderStatus.VALIDATED, updated.get(0).getStatus());
@@ -127,7 +130,9 @@ class PurchaseOrderIT {
   void employee_cannot_create_purchase_order() {
     PurchaseOrderApi api = new PurchaseOrderApi(anApiClient(EMPLOYEE_TOKEN));
     assertThrowsForbiddenException(
-        () -> api.crupdatePurchaseOrders(COMPANY1_ID, List.of(someCreatablePurchaseOrder())));
+        () ->
+            api.crupdatePurchaseOrders(
+                EMPLOYEE_ID, COMPANY1_ID, List.of(someCreatablePurchaseOrder())));
   }
 
   @Test
@@ -135,19 +140,20 @@ class PurchaseOrderIT {
   void admin_can_delete_purchase_order() throws Exception {
     PurchaseOrderApi api = new PurchaseOrderApi(anApiClient(ADMIN_TOKEN));
     CrupdatePurchaseOrder toDelete = someCreatablePurchaseOrder();
-    api.crupdatePurchaseOrders(COMPANY1_ID, List.of(toDelete));
-    api.deletePurchaseOrderById(COMPANY1_ID, toDelete.getId());
+    api.crupdatePurchaseOrders(ADMIN_ID, COMPANY1_ID, List.of(toDelete));
+    api.deletePurchaseOrderById(ADMIN_ID, COMPANY1_ID, toDelete.getId());
     assertThrowsApiException(
         "{\"type\":\"404 NOT_FOUND\",\"message\":\"PurchaseOrder with id "
             + toDelete.getId()
             + " not found\"}",
-        () -> api.getPurchaseOrderById(COMPANY1_ID, toDelete.getId()));
+        () -> api.getPurchaseOrderById(ADMIN_ID, COMPANY1_ID, toDelete.getId()));
   }
 
   @Test
   void administration_cannot_delete_purchase_order() {
     PurchaseOrderApi api = new PurchaseOrderApi(anApiClient(ADMINISTRATION_TOKEN));
-    assertThrowsForbiddenException(() -> api.deletePurchaseOrderById(COMPANY1_ID, PO1_ID));
+    assertThrowsForbiddenException(
+        () -> api.deletePurchaseOrderById(ADMIN_ID, COMPANY1_ID, PO1_ID));
   }
 
   static class ContextInitializer extends AbstractContextInitializer {

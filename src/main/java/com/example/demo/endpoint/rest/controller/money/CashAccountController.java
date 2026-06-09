@@ -22,7 +22,8 @@ public class CashAccountController {
 
   @GetMapping("/users/{userId}/companies/{companyId}/cash_accounts/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
-  public CashAccount getCashAccountById(@PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
+  public CashAccount getCashAccountById(
+      @PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     return cashAccountMapper.toRestCashAccount(
         cashAccountService
             .findById(id)
@@ -32,7 +33,8 @@ public class CashAccountController {
   @GetMapping("/users/{userId}/companies/{companyId}/cash_accounts")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<CashAccount> getCashAccounts(
-      @PathVariable String userId, @PathVariable String companyId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize) {
     return cashAccountMapper.toRestCashAccounts(
@@ -42,7 +44,9 @@ public class CashAccountController {
   @PutMapping("/users/{userId}/companies/{companyId}/cash_accounts")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<CashAccount> crupdateCashAccounts(
-      @PathVariable String userId, @PathVariable String companyId, @Valid @RequestBody List<CrupdateCashAccount> toWrite) {
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @Valid @RequestBody List<CrupdateCashAccount> toWrite) {
     List<com.example.demo.model.money.CashAccount> saved =
         cashAccountService.createOrUpdateAll(
             toWrite.stream().map(rest -> cashAccountMapper.toDomain(rest, companyId)).toList());
@@ -51,7 +55,8 @@ public class CashAccountController {
 
   @DeleteMapping("/users/{userId}/companies/{companyId}/cash_accounts/{id}")
   @PreAuthorize("hasRole('ADMIN')")
-  public void deleteCashAccountById(@PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
+  public void deleteCashAccountById(
+      @PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     cashAccountService.deleteById(id);
   }
 }

@@ -29,7 +29,8 @@ public class TaskController {
   @GetMapping("/users/{userId}/companies/{companyId}/tasks")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<Task> getTasks(
-      @PathVariable String userId, @PathVariable String companyId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize) {
     return taskService.findAll(page, pageSize, companyId).stream()
@@ -44,7 +45,9 @@ public class TaskController {
   @PutMapping("/users/{userId}/companies/{companyId}/tasks")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<Task> crupdateTasks(
-      @PathVariable String userId, @PathVariable String companyId, @Valid @RequestBody List<CrupdateTask> toWrite) {
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @Valid @RequestBody List<CrupdateTask> toWrite) {
     List<com.example.demo.model.task.Task> tasks =
         taskService.createOrUpdateAll(
             toWrite.stream().map(rest -> taskMapper.toDomain(rest, companyId)).toList());
@@ -75,7 +78,8 @@ public class TaskController {
 
   @GetMapping("/users/{userId}/companies/{companyId}/tasks/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
-  public Task getTaskById(@PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
+  public Task getTaskById(
+      @PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     com.example.demo.model.task.Task task =
         taskService
             .findById(id)
@@ -86,7 +90,8 @@ public class TaskController {
 
   @DeleteMapping("/users/{userId}/companies/{companyId}/tasks/{id}")
   @PreAuthorize("hasRole('ADMIN')")
-  public void deleteTaskById(@PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
+  public void deleteTaskById(
+      @PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     taskService.deleteById(id);
   }
 }

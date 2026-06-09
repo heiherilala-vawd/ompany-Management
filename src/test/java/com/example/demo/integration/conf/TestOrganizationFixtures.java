@@ -3,11 +3,13 @@ package com.example.demo.integration.conf;
 import com.example.demo.client.model.Company;
 import com.example.demo.client.model.CompanyType;
 import com.example.demo.client.model.CrupdateCompany;
+import com.example.demo.client.model.CrupdateDepartment;
 import com.example.demo.client.model.CrupdateEquipment;
 import com.example.demo.client.model.CrupdateJob;
 import com.example.demo.client.model.CrupdateMaterial;
 import com.example.demo.client.model.CrupdateTeam;
 import com.example.demo.client.model.CrupdateWarehouse;
+import com.example.demo.client.model.Department;
 import com.example.demo.client.model.Equipment;
 import com.example.demo.client.model.Job;
 import com.example.demo.client.model.JobStatus;
@@ -343,5 +345,42 @@ final class TestOrganizationFixtures {
     team.setLeaderId(TestUtils.EMPLOYEE_ID);
     team.setMemberIds(List.of(TestUtils.EMPLOYEE_ID, TestUtils.USER1_ID));
     return team;
+  }
+
+  static Department department1() {
+    Department department = new Department();
+    department.setId(TestUtils.DEPARTMENT1_ID);
+    department.setName("Genie Civil");
+    department.setDescription("Departement de genie civil et construction");
+    department.setCompanyId(TestUtils.COMPANY1_ID);
+    return department;
+  }
+
+  static Department department2() {
+    Department department = new Department();
+    department.setId(TestUtils.DEPARTMENT2_ID);
+    department.setName("Administration");
+    department.setDescription("Departement administratif et financier");
+    department.setCompanyId(TestUtils.COMPANY1_ID);
+    return department;
+  }
+
+  static CrupdateDepartment departmentToCrupdateDepartment(Department department) {
+    CrupdateDepartment crupdate = new CrupdateDepartment();
+    crupdate.setId(department.getId());
+    crupdate.setName(department.getName());
+    crupdate.setDescription(department.getDescription());
+    crupdate.setCompanyId(department.getCompanyId());
+    crupdate.setComment(department.getComment());
+    return crupdate;
+  }
+
+  static CrupdateDepartment someCreatableDepartment() {
+    CrupdateDepartment department = new CrupdateDepartment();
+    department.setId(UUID.randomUUID().toString());
+    department.setName("Nouveau departement");
+    department.setDescription("Description du nouveau departement");
+    department.setCompanyId(TestUtils.COMPANY1_ID);
+    return department;
   }
 }

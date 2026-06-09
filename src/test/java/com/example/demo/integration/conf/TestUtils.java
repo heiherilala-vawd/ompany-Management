@@ -7,11 +7,18 @@ import static org.mockito.Mockito.when;
 
 import com.example.demo.client.invoker.ApiException;
 import com.example.demo.client.model.BankFee;
+import com.example.demo.client.model.BudgetLine;
+import com.example.demo.client.model.CashAccount;
+import com.example.demo.client.model.CashTransaction;
 import com.example.demo.client.model.Company;
 import com.example.demo.client.model.CompanyFixedCost;
 import com.example.demo.client.model.CrupdateBankFee;
+import com.example.demo.client.model.CrupdateBudgetLine;
+import com.example.demo.client.model.CrupdateCashAccount;
+import com.example.demo.client.model.CrupdateCashTransaction;
 import com.example.demo.client.model.CrupdateCompany;
 import com.example.demo.client.model.CrupdateCompanyFixedCost;
+import com.example.demo.client.model.CrupdateDepartment;
 import com.example.demo.client.model.CrupdateEmployeeLeaveConfig;
 import com.example.demo.client.model.CrupdateEmployeePayment;
 import com.example.demo.client.model.CrupdateEquipment;
@@ -41,6 +48,7 @@ import com.example.demo.client.model.CrupdateTravelMaterials;
 import com.example.demo.client.model.CrupdateTravelPeople;
 import com.example.demo.client.model.CrupdateUser;
 import com.example.demo.client.model.CrupdateWarehouse;
+import com.example.demo.client.model.Department;
 import com.example.demo.client.model.EmployeeLeaveConfig;
 import com.example.demo.client.model.EmployeePayment;
 import com.example.demo.client.model.Equipment;
@@ -142,6 +150,14 @@ public class TestUtils {
   public static final String EQUIP_USAGE2_ID = "equip_usage2_id";
   public static final String USED_WAREHOUSE_ID = "warehouse_used_id";
 
+  public static final String DEPARTMENT1_ID = "department1_id";
+  public static final String DEPARTMENT2_ID = "department2_id";
+  public static final String BUDGET_LINE1_ID = "budget_line1_id";
+  public static final String BUDGET_LINE2_ID = "budget_line2_id";
+  public static final String CASH_ACCOUNT1_ID = "cash_account1_id";
+  public static final String CASH_ACCOUNT2_ID = "cash_account2_id";
+  public static final String CASH_TXN1_ID = "cash_txn1_id";
+  public static final String CASH_TXN2_ID = "cash_txn2_id";
   public static final String SUPPLIER1_ID = "supplier1_id";
   public static final String SUPPLIER2_ID = "supplier2_id";
   public static final String PO1_ID = "po1_id";
@@ -572,6 +588,55 @@ public class TestUtils {
     return TestMoneyFixtures.someCreatableCompanyFixedCost();
   }
 
+  public static CashAccount cashAccount1() {
+    return TestMoneyFixtures.cashAccount1();
+  }
+
+  public static CashAccount cashAccount2() {
+    return TestMoneyFixtures.cashAccount2();
+  }
+
+  public static CrupdateCashAccount cashAccountToCrupdateCashAccount(CashAccount cashAccount) {
+    return TestMoneyFixtures.cashAccountToCrupdateCashAccount(cashAccount);
+  }
+
+  public static CrupdateCashAccount someCreatableCashAccount() {
+    return TestMoneyFixtures.someCreatableCashAccount();
+  }
+
+  public static BudgetLine budgetLine1() {
+    return TestMoneyFixtures.budgetLine1();
+  }
+
+  public static BudgetLine budgetLine2() {
+    return TestMoneyFixtures.budgetLine2();
+  }
+
+  public static CrupdateBudgetLine budgetLineToCrupdateBudgetLine(BudgetLine budgetLine) {
+    return TestMoneyFixtures.budgetLineToCrupdateBudgetLine(budgetLine);
+  }
+
+  public static CrupdateBudgetLine someCreatableBudgetLine() {
+    return TestMoneyFixtures.someCreatableBudgetLine();
+  }
+
+  public static CashTransaction cashTransaction1() {
+    return TestMoneyFixtures.cashTransaction1();
+  }
+
+  public static CashTransaction cashTransaction2() {
+    return TestMoneyFixtures.cashTransaction2();
+  }
+
+  public static CrupdateCashTransaction cashTransactionToCrupdateCashTransaction(
+      CashTransaction cashTransaction) {
+    return TestMoneyFixtures.cashTransactionToCrupdateCashTransaction(cashTransaction);
+  }
+
+  public static CrupdateCashTransaction someCreatableCashTransaction() {
+    return TestMoneyFixtures.someCreatableCashTransaction();
+  }
+
   public static LeaveType leaveType1() {
     return TestHrFixtures.leaveType1();
   }
@@ -650,6 +715,22 @@ public class TestUtils {
 
   public static CrupdateTeam someCreatableTeam() {
     return TestOrganizationFixtures.someCreatableTeam();
+  }
+
+  public static Department department1() {
+    return TestOrganizationFixtures.department1();
+  }
+
+  public static Department department2() {
+    return TestOrganizationFixtures.department2();
+  }
+
+  public static CrupdateDepartment departmentToCrupdateDepartment(Department department) {
+    return TestOrganizationFixtures.departmentToCrupdateDepartment(department);
+  }
+
+  public static CrupdateDepartment someCreatableDepartment() {
+    return TestOrganizationFixtures.someCreatableDepartment();
   }
 
   public static Purchase purchase1() {

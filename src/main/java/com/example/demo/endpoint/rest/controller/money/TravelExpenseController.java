@@ -24,7 +24,9 @@ public class TravelExpenseController {
   @GetMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/travel_expenses/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION') or #userId == authentication.principal.id")
   public TravelExpense getTravelExpenseById(
-      @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @PathVariable String jobId,
       @PathVariable String id) {
     return travelExpenseMapper.toRestTravelExpense(
         travelExpenseService
@@ -36,7 +38,9 @@ public class TravelExpenseController {
   @GetMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/travel_expenses")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION') or #userId == authentication.principal.id")
   public List<TravelExpense> getTravelExpenses(
-      @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @PathVariable String jobId,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
       @RequestParam(name = "departure_location", required = false) String departureLocation,
@@ -55,7 +59,9 @@ public class TravelExpenseController {
   @PutMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/travel_expenses")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION') or #userId == authentication.principal.id")
   public List<TravelExpense> crupdateTravelExpenses(
-      @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @PathVariable String jobId,
       @Valid @RequestBody List<CrupdateTravelExpense> toWrite) {
     List<com.example.demo.model.money.TravelExpense> saved =
         travelExpenseService.createOrUpdateAll(
@@ -66,7 +72,9 @@ public class TravelExpenseController {
   @DeleteMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/travel_expenses/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'WAREHOUSE_WORKER')")
   public void deleteTravelExpenseById(
-      @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @PathVariable String jobId,
       @PathVariable String id) {
     travelExpenseService.deleteById(id);
   }

@@ -3,8 +3,15 @@ package com.example.demo.integration.conf;
 import static com.example.demo.integration.conf.TestOrganizationFixtures.warehouse1;
 
 import com.example.demo.client.model.BankFee;
+import com.example.demo.client.model.BudgetLine;
+import com.example.demo.client.model.CashAccount;
+import com.example.demo.client.model.CashTransaction;
+import com.example.demo.client.model.CashTransactionType;
 import com.example.demo.client.model.CompanyFixedCost;
 import com.example.demo.client.model.CrupdateBankFee;
+import com.example.demo.client.model.CrupdateBudgetLine;
+import com.example.demo.client.model.CrupdateCashAccount;
+import com.example.demo.client.model.CrupdateCashTransaction;
 import com.example.demo.client.model.CrupdateCompanyFixedCost;
 import com.example.demo.client.model.CrupdateEmployeePayment;
 import com.example.demo.client.model.CrupdateExpenseMoney;
@@ -902,5 +909,145 @@ final class TestMoneyFixtures {
     cost.setStartDate(java.time.LocalDate.of(2024, 6, 1));
     cost.setEndDate(null);
     return cost;
+  }
+
+  static CashAccount cashAccount1() {
+    CashAccount cashAccount = new CashAccount();
+    cashAccount.setId(TestUtils.CASH_ACCOUNT1_ID);
+    cashAccount.setName("Compte bancaire principal");
+    cashAccount.setBalance(new java.math.BigDecimal("100000.00"));
+    cashAccount.setDescription("Compte principal BNI");
+    cashAccount.setCompanyId(TestUtils.COMPANY1_ID);
+    return cashAccount;
+  }
+
+  static CashAccount cashAccount2() {
+    CashAccount cashAccount = new CashAccount();
+    cashAccount.setId(TestUtils.CASH_ACCOUNT2_ID);
+    cashAccount.setName("Caisse");
+    cashAccount.setBalance(new java.math.BigDecimal("50000.00"));
+    cashAccount.setDescription("Caisse especes bureau");
+    cashAccount.setCompanyId(TestUtils.COMPANY1_ID);
+    return cashAccount;
+  }
+
+  static CrupdateCashAccount cashAccountToCrupdateCashAccount(CashAccount cashAccount) {
+    CrupdateCashAccount crupdate = new CrupdateCashAccount();
+    crupdate.setId(cashAccount.getId());
+    crupdate.setName(cashAccount.getName());
+    crupdate.setBalance(cashAccount.getBalance());
+    crupdate.setDescription(cashAccount.getDescription());
+    crupdate.setCompanyId(cashAccount.getCompanyId());
+    crupdate.setComment(cashAccount.getComment());
+    return crupdate;
+  }
+
+  static CrupdateCashAccount someCreatableCashAccount() {
+    CrupdateCashAccount cashAccount = new CrupdateCashAccount();
+    cashAccount.setId(UUID.randomUUID().toString());
+    cashAccount.setName("Nouveau compte");
+    cashAccount.setBalance(new java.math.BigDecimal("10000.00"));
+    cashAccount.setDescription("Nouveau compte bancaire");
+    cashAccount.setCompanyId(TestUtils.COMPANY1_ID);
+    return cashAccount;
+  }
+
+  static BudgetLine budgetLine1() {
+    BudgetLine budgetLine = new BudgetLine();
+    budgetLine.setId(TestUtils.BUDGET_LINE1_ID);
+    budgetLine.setCompanyId(TestUtils.COMPANY1_ID);
+    budgetLine.setCategory("Materiaux");
+    budgetLine.setPlannedAmount(new java.math.BigDecimal("50000.00"));
+    budgetLine.setActualAmount(new java.math.BigDecimal("45000.00"));
+    budgetLine.setPeriodStart(java.time.LocalDate.of(2024, 1, 1));
+    budgetLine.setPeriodEnd(java.time.LocalDate.of(2024, 12, 31));
+    budgetLine.setDescription("Budget materiaux construction");
+    return budgetLine;
+  }
+
+  static BudgetLine budgetLine2() {
+    BudgetLine budgetLine = new BudgetLine();
+    budgetLine.setId(TestUtils.BUDGET_LINE2_ID);
+    budgetLine.setCompanyId(TestUtils.COMPANY1_ID);
+    budgetLine.setCategory("Main-d'oeuvre");
+    budgetLine.setPlannedAmount(new java.math.BigDecimal("80000.00"));
+    budgetLine.setActualAmount(new java.math.BigDecimal("75000.00"));
+    budgetLine.setPeriodStart(java.time.LocalDate.of(2024, 1, 1));
+    budgetLine.setPeriodEnd(java.time.LocalDate.of(2024, 12, 31));
+    budgetLine.setDescription("Budget main-d'oeuvre");
+    return budgetLine;
+  }
+
+  static CrupdateBudgetLine budgetLineToCrupdateBudgetLine(BudgetLine budgetLine) {
+    CrupdateBudgetLine crupdate = new CrupdateBudgetLine();
+    crupdate.setId(budgetLine.getId());
+    crupdate.setCompanyId(budgetLine.getCompanyId());
+    crupdate.setCategory(budgetLine.getCategory());
+    crupdate.setPlannedAmount(budgetLine.getPlannedAmount());
+    crupdate.setActualAmount(budgetLine.getActualAmount());
+    crupdate.setPeriodStart(budgetLine.getPeriodStart());
+    crupdate.setPeriodEnd(budgetLine.getPeriodEnd());
+    crupdate.setDescription(budgetLine.getDescription());
+    crupdate.setComment(budgetLine.getComment());
+    return crupdate;
+  }
+
+  static CrupdateBudgetLine someCreatableBudgetLine() {
+    CrupdateBudgetLine budgetLine = new CrupdateBudgetLine();
+    budgetLine.setId(UUID.randomUUID().toString());
+    budgetLine.setCompanyId(TestUtils.COMPANY1_ID);
+    budgetLine.setCategory("Transport");
+    budgetLine.setPlannedAmount(new java.math.BigDecimal("30000.00"));
+    budgetLine.setActualAmount(new java.math.BigDecimal("0.00"));
+    budgetLine.setPeriodStart(java.time.LocalDate.of(2024, 1, 1));
+    budgetLine.setPeriodEnd(java.time.LocalDate.of(2024, 12, 31));
+    budgetLine.setDescription("Budget transport");
+    return budgetLine;
+  }
+
+  static CashTransaction cashTransaction1() {
+    CashTransaction cashTransaction = new CashTransaction();
+    cashTransaction.setId(TestUtils.CASH_TXN1_ID);
+    cashTransaction.setCashAccountId(TestUtils.CASH_ACCOUNT1_ID);
+    cashTransaction.setAmount(new java.math.BigDecimal("1500.00"));
+    cashTransaction.setTransactionDate(java.time.LocalDate.of(2024, 1, 15));
+    cashTransaction.setDescription("Achat materiel bureau");
+    cashTransaction.setType(CashTransactionType.DEBIT);
+    return cashTransaction;
+  }
+
+  static CashTransaction cashTransaction2() {
+    CashTransaction cashTransaction = new CashTransaction();
+    cashTransaction.setId(TestUtils.CASH_TXN2_ID);
+    cashTransaction.setCashAccountId(TestUtils.CASH_ACCOUNT1_ID);
+    cashTransaction.setAmount(new java.math.BigDecimal("25000.00"));
+    cashTransaction.setTransactionDate(java.time.LocalDate.of(2024, 2, 1));
+    cashTransaction.setDescription("Paiement fournisseur");
+    cashTransaction.setType(CashTransactionType.CREDIT);
+    return cashTransaction;
+  }
+
+  static CrupdateCashTransaction cashTransactionToCrupdateCashTransaction(
+      CashTransaction cashTransaction) {
+    CrupdateCashTransaction crupdate = new CrupdateCashTransaction();
+    crupdate.setId(cashTransaction.getId());
+    crupdate.setCashAccountId(cashTransaction.getCashAccountId());
+    crupdate.setAmount(cashTransaction.getAmount());
+    crupdate.setTransactionDate(cashTransaction.getTransactionDate());
+    crupdate.setDescription(cashTransaction.getDescription());
+    crupdate.setType(cashTransaction.getType());
+    crupdate.setComment(cashTransaction.getComment());
+    return crupdate;
+  }
+
+  static CrupdateCashTransaction someCreatableCashTransaction() {
+    CrupdateCashTransaction cashTransaction = new CrupdateCashTransaction();
+    cashTransaction.setId(UUID.randomUUID().toString());
+    cashTransaction.setCashAccountId(TestUtils.CASH_ACCOUNT1_ID);
+    cashTransaction.setAmount(new java.math.BigDecimal("5000.00"));
+    cashTransaction.setTransactionDate(java.time.LocalDate.of(2024, 3, 1));
+    cashTransaction.setDescription("Achat fournitures");
+    cashTransaction.setType(CashTransactionType.DEBIT);
+    return cashTransaction;
   }
 }

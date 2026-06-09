@@ -53,7 +53,7 @@ class MaterialWarehouseIT {
     MaterialWarehouseApi api = new MaterialWarehouseApi(client);
 
     List<MaterialWarehouseView> records =
-        api.getMaterialWarehouses(COMPANY1_ID, 1, 100, null, null, null);
+        api.getMaterialWarehouses(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null);
 
     assertEquals(4, records.size());
   }
@@ -64,7 +64,7 @@ class MaterialWarehouseIT {
     MaterialWarehouseApi api = new MaterialWarehouseApi(badClient);
 
     assertThrowsNotAuthorizedException(
-        () -> api.getMaterialWarehouses(COMPANY1_ID, 1, 100, null, null, null));
+        () -> api.getMaterialWarehouses(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null));
   }
 
   @Test
@@ -73,7 +73,7 @@ class MaterialWarehouseIT {
     MaterialWarehouseApi api = new MaterialWarehouseApi(employeeClient);
 
     assertThrowsForbiddenException(
-        () -> api.getMaterialWarehouses(COMPANY1_ID, 1, 100, null, null, null));
+        () -> api.getMaterialWarehouses(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null));
   }
 
   @Test
@@ -82,7 +82,7 @@ class MaterialWarehouseIT {
     MaterialWarehouseApi api = new MaterialWarehouseApi(client);
 
     List<MaterialWarehouseView> records =
-        api.getMaterialWarehouses(COMPANY1_ID, 1, 100, MATERIAL1_ID, null, null);
+        api.getMaterialWarehouses(ADMIN_ID, COMPANY1_ID, 1, 100, MATERIAL1_ID, null, null);
 
     assertEquals(2, records.size());
     assertTrue(records.stream().allMatch(r -> MATERIAL1_ID.equals(r.getMaterial().getId())));
@@ -94,7 +94,7 @@ class MaterialWarehouseIT {
     MaterialWarehouseApi api = new MaterialWarehouseApi(client);
 
     List<MaterialWarehouseView> records =
-        api.getMaterialWarehouses(COMPANY1_ID, 1, 100, null, WAREHOUSE1_ID, null);
+        api.getMaterialWarehouses(ADMIN_ID, COMPANY1_ID, 1, 100, null, WAREHOUSE1_ID, null);
 
     assertEquals(1, records.size());
     assertEquals(WAREHOUSE1_ID, records.get(0).getWarehouse().getId());
@@ -106,7 +106,7 @@ class MaterialWarehouseIT {
     MaterialWarehouseApi api = new MaterialWarehouseApi(client);
 
     List<MaterialWarehouseView> records =
-        api.getMaterialWarehouses(COMPANY1_ID, 1, 100, null, null, true);
+        api.getMaterialWarehouses(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, true);
 
     assertEquals(2, records.size());
     assertTrue(records.stream().allMatch(r -> r.getQuantity() > 0));
@@ -118,7 +118,7 @@ class MaterialWarehouseIT {
     MaterialWarehouseApi api = new MaterialWarehouseApi(client);
 
     List<MaterialWarehouseView> records =
-        api.getMaterialWarehouses(COMPANY1_ID, 1, 100, MATERIAL1_ID, null, true);
+        api.getMaterialWarehouses(ADMIN_ID, COMPANY1_ID, 1, 100, MATERIAL1_ID, null, true);
 
     assertEquals(1, records.size());
     assertEquals(MATERIAL1_ID, records.get(0).getMaterial().getId());
@@ -135,14 +135,14 @@ class MaterialWarehouseIT {
     mw.setWarehouseId(WAREHOUSE2_ID);
     mw.setQuantity(200);
 
-    var saved = api.crupdateMaterialWarehouses(COMPANY1_ID, List.of(mw));
+    var saved = api.crupdateMaterialWarehouses(ADMIN_ID, COMPANY1_ID, List.of(mw));
 
     assertEquals(1, saved.size());
     assertEquals(WAREHOUSE2_ID, saved.get(0).getWarehouse().getId());
     assertEquals(200, saved.get(0).getQuantity());
 
     List<MaterialWarehouseView> all =
-        api.getMaterialWarehouses(COMPANY1_ID, 1, 100, null, null, null);
+        api.getMaterialWarehouses(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null);
     assertEquals(5, all.size());
   }
 
@@ -156,7 +156,8 @@ class MaterialWarehouseIT {
     mw.setWarehouseId(WAREHOUSE2_ID);
     mw.setQuantity(50);
 
-    assertThrowsForbiddenException(() -> api.crupdateMaterialWarehouses(COMPANY1_ID, List.of(mw)));
+    assertThrowsForbiddenException(
+        () -> api.crupdateMaterialWarehouses(ADMIN_ID, COMPANY1_ID, List.of(mw)));
   }
 
   static class ContextInitializer extends AbstractContextInitializer {

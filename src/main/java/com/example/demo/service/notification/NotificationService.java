@@ -159,9 +159,7 @@ public class NotificationService {
   public boolean isEffectiveCompleted(Notification notification) {
     if (Boolean.TRUE.equals(notification.getCompleted())) return true;
     if (notification.getTask() == null) return false;
-    return taskRepository
-        .findCompletedById(notification.getTask().getId())
-        .orElse(false);
+    return taskRepository.findCompletedById(notification.getTask().getId()).orElse(false);
   }
 
   @Transactional

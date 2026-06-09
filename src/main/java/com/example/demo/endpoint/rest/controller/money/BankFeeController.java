@@ -24,7 +24,9 @@ public class BankFeeController {
   @GetMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/bank_fees/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public BankFee getBankFeeById(
-      @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @PathVariable String jobId,
       @PathVariable String id) {
     return bankFeeMapper.toRestBankFee(
         bankFeeService
@@ -35,7 +37,9 @@ public class BankFeeController {
   @GetMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/bank_fees")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<BankFee> getBankFees(
-      @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @PathVariable String jobId,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
       @RequestParam(name = "bank_name", required = false) String bankName,
@@ -52,7 +56,9 @@ public class BankFeeController {
   @PutMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/bank_fees")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<BankFee> crupdateBankFees(
-      @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @PathVariable String jobId,
       @Valid @RequestBody List<CrupdateBankFee> toWrite) {
     List<com.example.demo.model.money.BankFee> saved =
         bankFeeService.createOrUpdateAll(toWrite.stream().map(bankFeeMapper::toDomain).toList());
@@ -62,7 +68,9 @@ public class BankFeeController {
   @DeleteMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/bank_fees/{id}")
   @PreAuthorize("hasAnyRole('ADMIN')")
   public void deleteBankFeeById(
-      @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @PathVariable String jobId,
       @PathVariable String id) {
     bankFeeService.deleteById(id);
   }

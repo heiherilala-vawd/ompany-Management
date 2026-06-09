@@ -107,13 +107,13 @@ class TravelOperationIT {
                 .userId(USER1_ID)
                 .comment("Moving user 1")));
 
-    api.createTravelOperation(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, request);
+    api.createTravelOperation(ADMIN_ID, COMPANY1_ID, JOB1_ID, request);
 
     // Verify TravelExpense
     TravelExpenseApi travelExpenseApi = new TravelExpenseApi(anApiClient(ADMIN_TOKEN));
     List<TravelExpense> createdTravelExpenses =
         travelExpenseApi.getTravelExpenses(
-            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, departureWarehouseId, arrivalWarehouseId);
+            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, departureWarehouseId, arrivalWarehouseId);
     assertEquals(1, createdTravelExpenses.size());
     TravelExpense createdTravel = createdTravelExpenses.get(0);
     assertEquals(travelId, createdTravel.getId());
@@ -126,9 +126,9 @@ class TravelOperationIT {
     TravelEquipmentApi travelEquipmentApi = new TravelEquipmentApi(anApiClient(ADMIN_TOKEN));
     List<TravelEquipment> createdTravelEquipment =
         travelEquipmentApi.getTravelEquipment(
+            ADMIN_ID,
             COMPANY1_ID,
             JOB1_ID,
-            EMPLOYEE_ID,
             1,
             100,
             travelId,
@@ -147,9 +147,9 @@ class TravelOperationIT {
     TravelMaterialsApi travelMaterialsApi = new TravelMaterialsApi(anApiClient(ADMIN_TOKEN));
     List<TravelMaterials> createdTravelMaterials =
         travelMaterialsApi.getTravelMaterials(
+            ADMIN_ID,
             COMPANY1_ID,
             JOB1_ID,
-            EMPLOYEE_ID,
             1,
             100,
             travelId,
@@ -168,7 +168,7 @@ class TravelOperationIT {
     TravelPeopleApi travelPeopleApi = new TravelPeopleApi(anApiClient(ADMIN_TOKEN));
     List<TravelPeople> createdTravelPeople =
         travelPeopleApi.getTravelPeople(
-            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, travelId, USER1_ID, null, null, null, null);
+            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, travelId, USER1_ID, null, null, null, null);
     assertEquals(1, createdTravelPeople.size());
     assertEquals(travelPeopleId, createdTravelPeople.get(0).getId());
     assertEquals(USER1_ID, createdTravelPeople.get(0).getUser().getId());
@@ -199,12 +199,12 @@ class TravelOperationIT {
                 .userId(USER2_ID)
                 .comment("Only moving this person")));
 
-    api.createTravelOperation(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, request);
+    api.createTravelOperation(ADMIN_ID, COMPANY1_ID, JOB1_ID, request);
 
     TravelPeopleApi travelPeopleApi = new TravelPeopleApi(anApiClient(ADMIN_TOKEN));
     List<TravelPeople> createdTravelPeople =
         travelPeopleApi.getTravelPeople(
-            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, travelId, USER2_ID, null, null, null, null);
+            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, travelId, USER2_ID, null, null, null, null);
     assertEquals(1, createdTravelPeople.size());
     assertEquals(travelPeopleId, createdTravelPeople.get(0).getId());
     assertEquals(USER2_ID, createdTravelPeople.get(0).getUser().getId());
@@ -213,9 +213,9 @@ class TravelOperationIT {
     TravelEquipmentApi travelEquipmentApi = new TravelEquipmentApi(anApiClient(ADMIN_TOKEN));
     List<TravelEquipment> equipmentList =
         travelEquipmentApi.getTravelEquipment(
+            ADMIN_ID,
             COMPANY1_ID,
             JOB1_ID,
-            EMPLOYEE_ID,
             1,
             100,
             travelId,
@@ -231,9 +231,9 @@ class TravelOperationIT {
     TravelMaterialsApi travelMaterialsApi = new TravelMaterialsApi(anApiClient(ADMIN_TOKEN));
     List<TravelMaterials> materialsList =
         travelMaterialsApi.getTravelMaterials(
+            ADMIN_ID,
             COMPANY1_ID,
             JOB1_ID,
-            EMPLOYEE_ID,
             1,
             100,
             travelId,
@@ -274,14 +274,14 @@ class TravelOperationIT {
     request.setPeopleLines(
         List.of(new TravelOperationPeopleLine().id(travelPeopleId).userId(USER1_ID)));
 
-    api.createTravelOperation(COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, request);
+    api.createTravelOperation(ADMIN_ID, COMPANY1_ID, JOB1_ID, request);
 
     TravelEquipmentApi travelEquipmentApi = new TravelEquipmentApi(anApiClient(ADMIN_TOKEN));
     List<TravelEquipment> equipmentList =
         travelEquipmentApi.getTravelEquipment(
+            ADMIN_ID,
             COMPANY1_ID,
             JOB1_ID,
-            EMPLOYEE_ID,
             1,
             100,
             travelId,
@@ -298,7 +298,7 @@ class TravelOperationIT {
     TravelPeopleApi travelPeopleApi = new TravelPeopleApi(anApiClient(ADMIN_TOKEN));
     List<TravelPeople> peopleList =
         travelPeopleApi.getTravelPeople(
-            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, travelId, USER1_ID, null, null, null, null);
+            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, travelId, USER1_ID, null, null, null, null);
     assertEquals(1, peopleList.size());
     assertEquals(travelPeopleId, peopleList.get(0).getId());
   }
@@ -321,7 +321,7 @@ class TravelOperationIT {
 
     // Attempting to create for USER1_ID (another user) should fail
     assertThrowsForbiddenException(
-        () -> api.createTravelOperation(COMPANY1_ID, JOB1_ID, USER1_ID, request));
+        () -> api.createTravelOperation(ADMIN_ID, COMPANY1_ID, JOB1_ID, request));
   }
 
   static class ContextInitializer extends AbstractContextInitializer {

@@ -74,7 +74,7 @@ class EquipmentUsageIT {
     ApiClient warehouseClient = anApiClient(WAREHOUSE_TOKEN);
     EquipmentUsageApi api = new EquipmentUsageApi(warehouseClient);
 
-    EquipmentUsage actual = api.getEquipmentUsageById(COMPANY1_ID, EQUIP_USAGE1_ID);
+    EquipmentUsage actual = api.getEquipmentUsageById(ADMIN_ID, COMPANY1_ID, EQUIP_USAGE1_ID);
     EquipmentUsage expected = equipmentUsage1();
     expected.setCreatedAt(actual.getCreatedAt());
     expected.setUpdatedAt(actual.getUpdatedAt());
@@ -91,7 +91,7 @@ class EquipmentUsageIT {
     EquipmentUsageApi api = new EquipmentUsageApi(badClient);
 
     assertThrowsNotAuthorizedException(
-        () -> api.getEquipmentUsageById(COMPANY1_ID, EQUIP_USAGE1_ID));
+        () -> api.getEquipmentUsageById(ADMIN_ID, COMPANY1_ID, EQUIP_USAGE1_ID));
   }
 
   @Test
@@ -99,7 +99,7 @@ class EquipmentUsageIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     EquipmentUsageApi api = new EquipmentUsageApi(adminClient);
 
-    List<EquipmentUsage> usages = api.getEquipmentUsages(COMPANY1_ID, 1, 100, null);
+    List<EquipmentUsage> usages = api.getEquipmentUsages(ADMIN_ID, COMPANY1_ID, 1, 100, null);
 
     assertEquals(2, usages.size());
     assertTrue(usages.stream().anyMatch(eu -> EQUIP_USAGE1_ID.equals(eu.getId())));
@@ -111,7 +111,7 @@ class EquipmentUsageIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     EquipmentUsageApi api = new EquipmentUsageApi(adminClient);
 
-    List<EquipmentUsage> result = api.getEquipmentUsages(COMPANY1_ID, 1, 100, JOB1_ID);
+    List<EquipmentUsage> result = api.getEquipmentUsages(ADMIN_ID, COMPANY1_ID, 1, 100, JOB1_ID);
 
     assertEquals(2, result.size());
     assertTrue(result.stream().allMatch(eu -> JOB1_ID.equals(eu.getJobId())));
@@ -122,7 +122,8 @@ class EquipmentUsageIT {
     ApiClient employeeClient = anApiClient(EMPLOYEE_TOKEN);
     EquipmentUsageApi api = new EquipmentUsageApi(employeeClient);
 
-    assertThrowsForbiddenException(() -> api.getEquipmentUsages(COMPANY1_ID, 1, 100, null));
+    assertThrowsForbiddenException(
+        () -> api.getEquipmentUsages(ADMIN_ID, COMPANY1_ID, 1, 100, null));
   }
 
   @Test
@@ -134,7 +135,8 @@ class EquipmentUsageIT {
     CrupdateEquipmentUsage toUpdate = equipmentUsageToCrupdateEquipmentUsage(equipmentUsage1());
     toUpdate.setComment("Mis \u00e0 jour");
 
-    List<EquipmentUsage> updated = api.crupdateEquipmentUsages(COMPANY1_ID, List.of(toUpdate));
+    List<EquipmentUsage> updated =
+        api.crupdateEquipmentUsages(ADMIN_ID, COMPANY1_ID, List.of(toUpdate));
     EquipmentUsage result = updated.get(0);
 
     assertEquals(1, updated.size());
@@ -150,7 +152,8 @@ class EquipmentUsageIT {
 
     CrupdateEquipmentUsage creatable = someCreatableEquipmentUsage();
 
-    List<EquipmentUsage> created = api.crupdateEquipmentUsages(COMPANY1_ID, List.of(creatable));
+    List<EquipmentUsage> created =
+        api.crupdateEquipmentUsages(ADMIN_ID, COMPANY1_ID, List.of(creatable));
 
     assertEquals(1, created.size());
     EquipmentUsage result = created.get(0);
@@ -165,15 +168,15 @@ class EquipmentUsageIT {
     EquipmentUsageApi api = new EquipmentUsageApi(adminClient);
 
     CrupdateEquipmentUsage toDelete = someCreatableEquipmentUsage();
-    api.crupdateEquipmentUsages(COMPANY1_ID, List.of(toDelete));
+    api.crupdateEquipmentUsages(ADMIN_ID, COMPANY1_ID, List.of(toDelete));
 
-    api.deleteEquipmentUsageById(COMPANY1_ID, toDelete.getId());
+    api.deleteEquipmentUsageById(ADMIN_ID, COMPANY1_ID, toDelete.getId());
 
     assertThrowsApiException(
         "{\"type\":\"404 NOT_FOUND\",\"message\":\"EquipmentUsage with id "
             + toDelete.getId()
             + " not found\"}",
-        () -> api.getEquipmentUsageById(COMPANY1_ID, toDelete.getId()));
+        () -> api.getEquipmentUsageById(ADMIN_ID, COMPANY1_ID, toDelete.getId()));
   }
 
   @Test
@@ -182,7 +185,9 @@ class EquipmentUsageIT {
     EquipmentUsageApi api = new EquipmentUsageApi(employeeClient);
 
     assertThrowsForbiddenException(
-        () -> api.crupdateEquipmentUsages(COMPANY1_ID, List.of(someCreatableEquipmentUsage())));
+        () ->
+            api.crupdateEquipmentUsages(
+                ADMIN_ID, COMPANY1_ID, List.of(someCreatableEquipmentUsage())));
   }
 
   @Test
@@ -193,7 +198,8 @@ class EquipmentUsageIT {
 
     CrupdateEquipmentUsage creatable = someCreatableEquipmentUsage();
     creatable.setUsageStatus("IN_USE");
-    List<EquipmentUsage> created = api.crupdateEquipmentUsages(COMPANY1_ID, List.of(creatable));
+    List<EquipmentUsage> created =
+        api.crupdateEquipmentUsages(ADMIN_ID, COMPANY1_ID, List.of(creatable));
     String newId = created.get(0).getId();
 
     HttpResponse<String> response =
@@ -212,7 +218,8 @@ class EquipmentUsageIT {
 
     CrupdateEquipmentUsage creatable = someCreatableEquipmentUsage();
     creatable.setUsageStatus("IN_USE");
-    List<EquipmentUsage> created = api.crupdateEquipmentUsages(COMPANY1_ID, List.of(creatable));
+    List<EquipmentUsage> created =
+        api.crupdateEquipmentUsages(ADMIN_ID, COMPANY1_ID, List.of(creatable));
     String newId = created.get(0).getId();
 
     HttpResponse<String> response =
@@ -231,7 +238,8 @@ class EquipmentUsageIT {
 
     CrupdateEquipmentUsage creatable = someCreatableEquipmentUsage();
     creatable.setUsageStatus("IN_USE");
-    List<EquipmentUsage> created = api.crupdateEquipmentUsages(COMPANY1_ID, List.of(creatable));
+    List<EquipmentUsage> created =
+        api.crupdateEquipmentUsages(ADMIN_ID, COMPANY1_ID, List.of(creatable));
     String newId = created.get(0).getId();
 
     HttpResponse<String> response =
@@ -266,7 +274,7 @@ class EquipmentUsageIT {
 
     assertThrowsApiException(
         "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Equipment is mandatory\"}",
-        () -> api.crupdateEquipmentUsages(COMPANY1_ID, List.of(invalid)));
+        () -> api.crupdateEquipmentUsages(ADMIN_ID, COMPANY1_ID, List.of(invalid)));
   }
 
   static class ContextInitializer extends AbstractContextInitializer {

@@ -28,7 +28,8 @@ public class CompanyController {
     return companyMapper.toRestCompany(
         companyService
             .findById(companyId)
-            .orElseThrow(() -> new NotFoundException("Company with id " + companyId + " not found")));
+            .orElseThrow(
+                () -> new NotFoundException("Company with id " + companyId + " not found")));
   }
 
   @GetMapping("/companies")

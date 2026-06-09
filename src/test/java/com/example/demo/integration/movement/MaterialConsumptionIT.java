@@ -73,7 +73,8 @@ class MaterialConsumptionIT {
     ApiClient warehouseClient = anApiClient(WAREHOUSE_TOKEN);
     MaterialConsumptionApi api = new MaterialConsumptionApi(warehouseClient);
 
-    MaterialConsumption actual = api.getMaterialConsumptionById(COMPANY1_ID, MAT_CONSUMPTION1_ID);
+    MaterialConsumption actual =
+        api.getMaterialConsumptionById(ADMIN_ID, COMPANY1_ID, MAT_CONSUMPTION1_ID);
     MaterialConsumption expected = materialConsumption1();
     expected.setCreatedAt(actual.getCreatedAt());
     expected.setUpdatedAt(actual.getUpdatedAt());
@@ -90,7 +91,7 @@ class MaterialConsumptionIT {
     MaterialConsumptionApi api = new MaterialConsumptionApi(badClient);
 
     assertThrowsNotAuthorizedException(
-        () -> api.getMaterialConsumptionById(COMPANY1_ID, MAT_CONSUMPTION1_ID));
+        () -> api.getMaterialConsumptionById(ADMIN_ID, COMPANY1_ID, MAT_CONSUMPTION1_ID));
   }
 
   @Test
@@ -99,7 +100,7 @@ class MaterialConsumptionIT {
     MaterialConsumptionApi api = new MaterialConsumptionApi(adminClient);
 
     List<MaterialConsumption> consumptions =
-        api.getMaterialConsumptions(COMPANY1_ID, 1, 100, null, null);
+        api.getMaterialConsumptions(ADMIN_ID, COMPANY1_ID, 1, 100, null, null);
 
     assertEquals(2, consumptions.size());
     assertTrue(consumptions.stream().anyMatch(mc -> MAT_CONSUMPTION1_ID.equals(mc.getId())));
@@ -112,13 +113,13 @@ class MaterialConsumptionIT {
     MaterialConsumptionApi api = new MaterialConsumptionApi(adminClient);
 
     List<MaterialConsumption> completed =
-        api.getMaterialConsumptions(COMPANY1_ID, 1, 100, "COMPLETED", null);
+        api.getMaterialConsumptions(ADMIN_ID, COMPANY1_ID, 1, 100, "COMPLETED", null);
 
     assertEquals(2, completed.size());
     assertTrue(completed.stream().allMatch(mc -> "COMPLETED".equals(mc.getConsumptionStatus())));
 
     List<MaterialConsumption> inProgress =
-        api.getMaterialConsumptions(COMPANY1_ID, 1, 100, "IN_PROGRESS", null);
+        api.getMaterialConsumptions(ADMIN_ID, COMPANY1_ID, 1, 100, "IN_PROGRESS", null);
 
     assertTrue(inProgress.isEmpty());
   }
@@ -129,7 +130,7 @@ class MaterialConsumptionIT {
     MaterialConsumptionApi api = new MaterialConsumptionApi(adminClient);
 
     List<MaterialConsumption> result =
-        api.getMaterialConsumptions(COMPANY1_ID, 1, 100, null, JOB1_ID);
+        api.getMaterialConsumptions(ADMIN_ID, COMPANY1_ID, 1, 100, null, JOB1_ID);
 
     assertEquals(2, result.size());
     assertTrue(result.stream().allMatch(mc -> JOB1_ID.equals(mc.getJobId())));
@@ -141,7 +142,7 @@ class MaterialConsumptionIT {
     MaterialConsumptionApi api = new MaterialConsumptionApi(employeeClient);
 
     assertThrowsForbiddenException(
-        () -> api.getMaterialConsumptions(COMPANY1_ID, 1, 100, null, null));
+        () -> api.getMaterialConsumptions(ADMIN_ID, COMPANY1_ID, 1, 100, null, null));
   }
 
   @Test
@@ -155,7 +156,7 @@ class MaterialConsumptionIT {
     toUpdate.setReason("Reason modifi\u00e9e");
 
     List<MaterialConsumption> updated =
-        api.crupdateMaterialConsumptions(COMPANY1_ID, List.of(toUpdate));
+        api.crupdateMaterialConsumptions(ADMIN_ID, COMPANY1_ID, List.of(toUpdate));
     MaterialConsumption result = updated.get(0);
 
     assertEquals(1, updated.size());
@@ -172,7 +173,7 @@ class MaterialConsumptionIT {
     CrupdateMaterialConsumption creatable = someCreatableMaterialConsumption();
 
     List<MaterialConsumption> created =
-        api.crupdateMaterialConsumptions(COMPANY1_ID, List.of(creatable));
+        api.crupdateMaterialConsumptions(ADMIN_ID, COMPANY1_ID, List.of(creatable));
 
     assertEquals(1, created.size());
     MaterialConsumption result = created.get(0);
@@ -187,15 +188,15 @@ class MaterialConsumptionIT {
     MaterialConsumptionApi api = new MaterialConsumptionApi(adminClient);
 
     CrupdateMaterialConsumption toDelete = someCreatableMaterialConsumption();
-    api.crupdateMaterialConsumptions(COMPANY1_ID, List.of(toDelete));
+    api.crupdateMaterialConsumptions(ADMIN_ID, COMPANY1_ID, List.of(toDelete));
 
-    api.deleteMaterialConsumptionById(COMPANY1_ID, toDelete.getId());
+    api.deleteMaterialConsumptionById(ADMIN_ID, COMPANY1_ID, toDelete.getId());
 
     assertThrowsApiException(
         "{\"type\":\"404 NOT_FOUND\",\"message\":\"MaterialConsumption with id "
             + toDelete.getId()
             + " not found\"}",
-        () -> api.getMaterialConsumptionById(COMPANY1_ID, toDelete.getId()));
+        () -> api.getMaterialConsumptionById(ADMIN_ID, COMPANY1_ID, toDelete.getId()));
   }
 
   @Test
@@ -206,7 +207,7 @@ class MaterialConsumptionIT {
     assertThrowsForbiddenException(
         () ->
             api.crupdateMaterialConsumptions(
-                COMPANY1_ID, List.of(someCreatableMaterialConsumption())));
+                ADMIN_ID, COMPANY1_ID, List.of(someCreatableMaterialConsumption())));
   }
 
   @Test
@@ -233,7 +234,7 @@ class MaterialConsumptionIT {
     CrupdateMaterialConsumption creatable = someCreatableMaterialConsumption();
     creatable.setConsumptionStatus("IN_PROGRESS");
     List<MaterialConsumption> created =
-        api.crupdateMaterialConsumptions(COMPANY1_ID, List.of(creatable));
+        api.crupdateMaterialConsumptions(ADMIN_ID, COMPANY1_ID, List.of(creatable));
     String newId = created.get(0).getId();
 
     HttpResponse<String> completeResponse =
@@ -254,7 +255,7 @@ class MaterialConsumptionIT {
     creatable.setConsumptionStatus("IN_PROGRESS");
     creatable.setQuantity(10);
     List<MaterialConsumption> created =
-        api.crupdateMaterialConsumptions(COMPANY1_ID, List.of(creatable));
+        api.crupdateMaterialConsumptions(ADMIN_ID, COMPANY1_ID, List.of(creatable));
     String newId = created.get(0).getId();
 
     authenticatedPut(
@@ -306,7 +307,7 @@ class MaterialConsumptionIT {
 
     assertThrowsApiException(
         "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Material is mandatory\"}",
-        () -> api.crupdateMaterialConsumptions(COMPANY1_ID, List.of(invalid)));
+        () -> api.crupdateMaterialConsumptions(ADMIN_ID, COMPANY1_ID, List.of(invalid)));
   }
 
   @Test
@@ -319,7 +320,7 @@ class MaterialConsumptionIT {
 
     assertThrowsApiException(
         "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Quantity is mandatory\"}",
-        () -> api.crupdateMaterialConsumptions(COMPANY1_ID, List.of(invalid)));
+        () -> api.crupdateMaterialConsumptions(ADMIN_ID, COMPANY1_ID, List.of(invalid)));
   }
 
   static class ContextInitializer extends AbstractContextInitializer {

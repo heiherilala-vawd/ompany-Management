@@ -25,7 +25,9 @@ public class ExpenseController {
   @GetMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/expenses/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public ExpenseMoney getExpenseById(
-      @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @PathVariable String jobId,
       @PathVariable String id) {
     return expenseMoneyMapper.toRestExpense(
         expenseMoneyService
@@ -36,7 +38,9 @@ public class ExpenseController {
   @GetMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/expenses")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<ExpenseMoney> getExpenses(
-      @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @PathVariable String jobId,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
       @RequestParam(name = "description", required = false) String description,
@@ -54,7 +58,9 @@ public class ExpenseController {
   @PutMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/expenses")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<ExpenseMoney> crupdateExpenses(
-      @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @PathVariable String jobId,
       @Valid @RequestBody List<CrupdateExpenseMoney> toWrite) {
     List<com.example.demo.model.money.ExpenseMoney> saved =
         expenseMoneyService.createOrUpdateAll(
@@ -65,7 +71,9 @@ public class ExpenseController {
   @DeleteMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/expenses/{id}")
   @PreAuthorize("hasAnyRole('ADMIN')")
   public void deleteExpenseById(
-      @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @PathVariable String jobId,
       @PathVariable String id) {
     expenseMoneyService.deleteById(id);
   }

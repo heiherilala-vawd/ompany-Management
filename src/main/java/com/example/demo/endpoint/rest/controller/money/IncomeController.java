@@ -36,7 +36,9 @@ public class IncomeController {
   @GetMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/incomes/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public IncomeMoney getIncomeById(
-      @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @PathVariable String jobId,
       @PathVariable String id) {
     return incomeMoneyMapper.toRestIncomeWithDetails(
         incomeMoneyService
@@ -47,7 +49,9 @@ public class IncomeController {
   @GetMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/incomes")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<IncomeMoney> getIncomes(
-      @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @PathVariable String jobId,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
       @RequestParam(name = "source_organization", required = false) String sourceOrganization,
@@ -73,7 +77,9 @@ public class IncomeController {
   @GetMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/incomes/excel")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public ResponseEntity<byte[]> getIncomesExcel(
-      @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @PathVariable String jobId,
       @RequestParam(name = "source_organization", required = false) String sourceOrganization,
       @RequestParam(name = "invoice_reference", required = false) String invoiceReference,
       @RequestParam(name = "description", required = false) String description,
@@ -106,7 +112,9 @@ public class IncomeController {
   @PutMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/incomes")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<IncomeMoney> crupdateIncomes(
-      @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @PathVariable String jobId,
       @Valid @RequestBody List<CrupdateIncomeMoney> toWrite) {
     List<com.example.demo.model.money.IncomeMoney> saved =
         incomeMoneyService.createOrUpdateAll(
@@ -117,7 +125,9 @@ public class IncomeController {
   @DeleteMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/incomes/{id}")
   @PreAuthorize("hasAnyRole('ADMIN')")
   public void deleteIncomeById(
-      @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @PathVariable String jobId,
       @PathVariable String id) {
     incomeMoneyService.deleteById(id);
   }
@@ -125,7 +135,9 @@ public class IncomeController {
   @GetMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/incomes_receipts/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public IncomeReceipt getIncomeReceiptById(
-      @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @PathVariable String jobId,
       @PathVariable String id) {
     return incomeReceiptMapper.toRestIncomeReceipt(
         incomeReceiptService
@@ -137,7 +149,9 @@ public class IncomeController {
   @GetMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/incomes_receipts")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<IncomeReceipt> getIncomeReceipts(
-      @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @PathVariable String jobId,
       @RequestParam(required = false) String income_id,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize) {
@@ -152,7 +166,9 @@ public class IncomeController {
   @PutMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/incomes_receipts")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<IncomeReceipt> crupdateIncomeReceipts(
-      @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @PathVariable String jobId,
       @Valid @RequestBody List<CrupdateIncomeReceipt> toWrite) {
     List<com.example.demo.model.money.IncomeReceipt> saved =
         incomeReceiptService.createOrUpdateAll(
@@ -163,7 +179,9 @@ public class IncomeController {
   @DeleteMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/incomes_receipts/{id}")
   @PreAuthorize("hasAnyRole('ADMIN')")
   public void deleteIncomeReceiptById(
-      @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @PathVariable String jobId,
       @PathVariable String id) {
     incomeReceiptService.deleteById(id);
   }

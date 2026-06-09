@@ -26,7 +26,8 @@ public class PurchaseOrderController {
   @GetMapping("/users/{userId}/companies/{companyId}/purchase_orders")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<PurchaseOrder> getPurchaseOrders(
-      @PathVariable String userId, @PathVariable String companyId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
       @RequestParam(name = "job_id", required = false) String jobId) {
     return purchaseOrderService.findByCompanyId(companyId, jobId).stream()
         .map(purchaseOrderMapper::toRest)
@@ -43,7 +44,8 @@ public class PurchaseOrderController {
   @PutMapping("/users/{userId}/companies/{companyId}/purchase_orders")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<PurchaseOrder> crupdatePurchaseOrders(
-      @PathVariable String userId, @PathVariable String companyId,
+      @PathVariable String userId,
+      @PathVariable String companyId,
       @Valid @RequestBody List<CrupdatePurchaseOrder> toWrite) {
     var domains = toWrite.stream().map(po -> purchaseOrderMapper.toDomain(po, companyId)).toList();
     return purchaseOrderService.createOrUpdateAll(domains).stream()

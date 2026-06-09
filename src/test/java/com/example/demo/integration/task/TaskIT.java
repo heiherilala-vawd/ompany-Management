@@ -51,7 +51,7 @@ class TaskIT {
   @Test
   void administration_can_get_all_tasks() throws Exception {
     TaskApi api = new TaskApi(anApiClient(ADMINISTRATION_TOKEN));
-    List<Task> tasks = api.getTasks(COMPANY1_ID);
+    List<Task> tasks = api.getTasks(ADMIN_ID, COMPANY1_ID);
     assertEquals(2, tasks.size());
     assertTrue(tasks.stream().anyMatch(t -> "task1_id".equals(t.getId())));
     assertTrue(tasks.stream().anyMatch(t -> "task2_id".equals(t.getId())));
@@ -60,13 +60,13 @@ class TaskIT {
   @Test
   void user_with_bad_token_cannot_get_tasks() {
     TaskApi api = new TaskApi(anApiClient(BAD_TOKEN));
-    assertThrowsNotAuthorizedException(() -> api.getTasks(COMPANY1_ID));
+    assertThrowsNotAuthorizedException(() -> api.getTasks(ADMIN_ID, COMPANY1_ID));
   }
 
   @Test
   void administration_can_get_task_by_id() throws Exception {
     TaskApi api = new TaskApi(anApiClient(ADMINISTRATION_TOKEN));
-    Task task = api.getTaskById(COMPANY1_ID, "task1_id");
+    Task task = api.getTaskById(ADMIN_ID, COMPANY1_ID, "task1_id");
     assertEquals("task1_id", task.getId());
     assertEquals("Vérifier le matériel", task.getTitle());
     assertEquals(2, task.getAssignedUserIds().size());
@@ -80,7 +80,7 @@ class TaskIT {
     CrupdateTask toUpdate = someCreatableTask();
     toUpdate.setId("task1_id");
     toUpdate.setTitle("Updated title");
-    List<Task> updated = api.crupdateTasks(COMPANY1_ID, List.of(toUpdate));
+    List<Task> updated = api.crupdateTasks(ADMIN_ID, COMPANY1_ID, List.of(toUpdate));
     assertEquals(1, updated.size());
     assertEquals("task1_id", updated.get(0).getId());
     assertEquals("Updated title", updated.get(0).getTitle());
@@ -90,15 +90,15 @@ class TaskIT {
   void employee_cannot_create_tasks() {
     TaskApi api = new TaskApi(anApiClient(EMPLOYEE_TOKEN));
     assertThrowsForbiddenException(
-        () -> api.crupdateTasks(COMPANY1_ID, List.of(someCreatableTask())));
+        () -> api.crupdateTasks(EMPLOYEE_ID, COMPANY1_ID, List.of(someCreatableTask())));
   }
 
   @Test
   @DirtiesContext
   void admin_can_delete_task() throws Exception {
     TaskApi api = new TaskApi(anApiClient(ADMIN_TOKEN));
-    api.deleteTaskById(COMPANY1_ID, "task1_id");
-    List<Task> tasks = api.getTasks(COMPANY1_ID);
+    api.deleteTaskById(ADMIN_ID, COMPANY1_ID, "task1_id");
+    List<Task> tasks = api.getTasks(ADMIN_ID, COMPANY1_ID);
     assertEquals(1, tasks.size());
   }
 

@@ -25,7 +25,8 @@ public class IncomeTypeController {
 
   @GetMapping("/users/{userId}/companies/{companyId}/income_types/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
-  public IncomeType getIncomeTypeById(@PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
+  public IncomeType getIncomeTypeById(
+      @PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     return incomeTypeMapper.toRestIncomeType(
         incomeTypeService
             .findById(id)
@@ -34,14 +35,17 @@ public class IncomeTypeController {
 
   @GetMapping("/users/{userId}/companies/{companyId}/income_types")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
-  public List<IncomeType> getIncomeTypes(@PathVariable String userId, @PathVariable String companyId) {
+  public List<IncomeType> getIncomeTypes(
+      @PathVariable String userId, @PathVariable String companyId) {
     return incomeTypeMapper.toRestIncomeTypes(incomeTypeService.findAllByCompanyId(companyId));
   }
 
   @PutMapping("/users/{userId}/companies/{companyId}/income_types")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<IncomeType> crupdateIncomeTypes(
-      @PathVariable String userId, @PathVariable String companyId, @Valid @RequestBody List<CrupdateIncomeType> toWrite) {
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @Valid @RequestBody List<CrupdateIncomeType> toWrite) {
     return incomeTypeMapper.toRestIncomeTypes(
         incomeTypeService.createOrUpdateAll(
             toWrite.stream().map(rest -> incomeTypeMapper.toDomain(rest, companyId)).toList()));
@@ -49,7 +53,8 @@ public class IncomeTypeController {
 
   @DeleteMapping("/users/{userId}/companies/{companyId}/income_types/{id}")
   @PreAuthorize("hasRole('ADMIN')")
-  public void deleteIncomeTypeById(@PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
+  public void deleteIncomeTypeById(
+      @PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     incomeTypeService.deleteById(id);
   }
 }

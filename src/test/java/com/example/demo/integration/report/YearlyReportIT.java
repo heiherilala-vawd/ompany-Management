@@ -70,7 +70,8 @@ class YearlyReportIT {
   void admin_can_get_yearly_report() throws Exception {
     ReportApi api = new ReportApi(anApiClient(ADMIN_TOKEN));
 
-    YearlyReport report = api.companiesCompIdYearlyReportGet(COMPANY1_ID, 2024, 1, 100);
+    YearlyReport report =
+        api.usersUserIdCompaniesCompanyIdYearlyReportGet(ADMIN_ID, COMPANY1_ID, 2024, 1, 100);
 
     assertNotNull(report);
     assertEquals(2024, report.getYear());
@@ -83,7 +84,8 @@ class YearlyReportIT {
   void admin_can_get_yearly_report_with_pagination() throws Exception {
     ReportApi api = new ReportApi(anApiClient(ADMIN_TOKEN));
 
-    YearlyReport report = api.companiesCompIdYearlyReportGet(COMPANY1_ID, 2024, 1, 2);
+    YearlyReport report =
+        api.usersUserIdCompaniesCompanyIdYearlyReportGet(ADMIN_ID, COMPANY1_ID, 2024, 1, 2);
 
     assertNotNull(report);
     assertEquals(2024, report.getYear());
@@ -94,7 +96,8 @@ class YearlyReportIT {
   void administration_can_get_yearly_report() throws Exception {
     ReportApi api = new ReportApi(anApiClient(ADMINISTRATION_TOKEN));
 
-    YearlyReport report = api.companiesCompIdYearlyReportGet(COMPANY1_ID, 2024, null, null);
+    YearlyReport report =
+        api.usersUserIdCompaniesCompanyIdYearlyReportGet(ADMIN_ID, COMPANY1_ID, 2024, null, null);
 
     assertNotNull(report);
     assertEquals(2024, report.getYear());
@@ -105,7 +108,9 @@ class YearlyReportIT {
     ReportApi api = new ReportApi(anApiClient(EMPLOYEE_TOKEN));
 
     assertThrowsForbiddenException(
-        () -> api.companiesCompIdYearlyReportGet(COMPANY1_ID, 2024, null, null));
+        () ->
+            api.usersUserIdCompaniesCompanyIdYearlyReportGet(
+                EMPLOYEE_ID, COMPANY1_ID, 2024, null, null));
   }
 
   @Test
@@ -113,14 +118,17 @@ class YearlyReportIT {
     ReportApi api = new ReportApi(anApiClient(WAREHOUSE_TOKEN));
 
     assertThrowsForbiddenException(
-        () -> api.companiesCompIdYearlyReportGet(COMPANY1_ID, 2024, null, null));
+        () ->
+            api.usersUserIdCompaniesCompanyIdYearlyReportGet(
+                WAREHOUSE_ID, COMPANY1_ID, 2024, null, null));
   }
 
   @Test
   void report_contains_financial_data() throws Exception {
     ReportApi api = new ReportApi(anApiClient(ADMIN_TOKEN));
 
-    YearlyReport report = api.companiesCompIdYearlyReportGet(COMPANY1_ID, 2024, null, null);
+    YearlyReport report =
+        api.usersUserIdCompaniesCompanyIdYearlyReportGet(ADMIN_ID, COMPANY1_ID, 2024, null, null);
 
     assertNotNull(report);
     assertNotNull(report.getJobsWithFinancials());
@@ -136,7 +144,8 @@ class YearlyReportIT {
   void report_summary_is_correct() throws Exception {
     ReportApi api = new ReportApi(anApiClient(ADMIN_TOKEN));
 
-    YearlyReport report = api.companiesCompIdYearlyReportGet(COMPANY1_ID, 2024, null, null);
+    YearlyReport report =
+        api.usersUserIdCompaniesCompanyIdYearlyReportGet(ADMIN_ID, COMPANY1_ID, 2024, null, null);
 
     assertNotNull(report);
     assertNotNull(report.getSummary());

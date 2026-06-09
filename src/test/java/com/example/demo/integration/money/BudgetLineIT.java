@@ -51,7 +51,7 @@ class BudgetLineIT {
   void administration_can_get_budget_line_by_id() throws Exception {
     BudgetLineApi api = new BudgetLineApi(anApiClient(ADMINISTRATION_TOKEN));
 
-    BudgetLine actual = api.getBudgetLineById(COMPANY1_ID, BUDGET_LINE1_ID);
+    BudgetLine actual = api.getBudgetLineById(ADMIN_ID, COMPANY1_ID, BUDGET_LINE1_ID);
     BudgetLine expected = budgetLine1();
     expected.setCreatedAt(actual.getCreatedAt());
     expected.setUpdatedAt(actual.getUpdatedAt());
@@ -66,7 +66,8 @@ class BudgetLineIT {
   void user_with_bad_token_cannot_get_budget_line_by_id() {
     BudgetLineApi api = new BudgetLineApi(anApiClient(BAD_TOKEN));
 
-    assertThrowsNotAuthorizedException(() -> api.getBudgetLineById(COMPANY1_ID, BUDGET_LINE1_ID));
+    assertThrowsNotAuthorizedException(
+        () -> api.getBudgetLineById(ADMIN_ID, COMPANY1_ID, BUDGET_LINE1_ID));
   }
 
   @Test
@@ -95,7 +96,7 @@ class BudgetLineIT {
     CrupdateBudgetLine toUpdate = budgetLineToCrupdateBudgetLine(budgetLine1());
     toUpdate.setDescription("Budget matériaux construction - révisé");
 
-    List<BudgetLine> updated = api.crupdateBudgetLines(COMPANY1_ID, List.of(toUpdate));
+    List<BudgetLine> updated = api.crupdateBudgetLines(ADMIN_ID, COMPANY1_ID, List.of(toUpdate));
 
     assertEquals(1, updated.size());
     assertEquals(BUDGET_LINE1_ID, updated.get(0).getId());
@@ -107,14 +108,16 @@ class BudgetLineIT {
     BudgetLineApi api = new BudgetLineApi(anApiClient(EMPLOYEE_TOKEN));
 
     assertThrowsForbiddenException(
-        () -> api.crupdateBudgetLines(COMPANY1_ID, List.of(someCreatableBudgetLine())));
+        () ->
+            api.crupdateBudgetLines(EMPLOYEE_ID, COMPANY1_ID, List.of(someCreatableBudgetLine())));
   }
 
   @Test
   void administration_cannot_delete_budget_line() {
     BudgetLineApi api = new BudgetLineApi(anApiClient(ADMINISTRATION_TOKEN));
 
-    assertThrowsForbiddenException(() -> api.deleteBudgetLineById(COMPANY1_ID, BUDGET_LINE1_ID));
+    assertThrowsForbiddenException(
+        () -> api.deleteBudgetLineById(ADMIN_ID, COMPANY1_ID, BUDGET_LINE1_ID));
   }
 
   @Test
@@ -122,7 +125,7 @@ class BudgetLineIT {
   void admin_can_delete_budget_line() throws Exception {
     BudgetLineApi api = new BudgetLineApi(anApiClient(ADMIN_TOKEN));
 
-    api.deleteBudgetLineById(COMPANY1_ID, BUDGET_LINE1_ID);
+    api.deleteBudgetLineById(ADMIN_ID, COMPANY1_ID, BUDGET_LINE1_ID);
 
     List<BudgetLine> lines = api.getBudgetLines(ADMIN_ID, COMPANY1_ID, 1, 100);
     assertEquals(1, lines.size());
@@ -135,7 +138,7 @@ class BudgetLineIT {
 
     assertThrowsApiException(
         "{\"type\":\"404 NOT_FOUND\",\"message\":\"BudgetLine with id nonexistent_bl not found\"}",
-        () -> api.getBudgetLineById(COMPANY1_ID, "nonexistent_bl"));
+        () -> api.getBudgetLineById(ADMIN_ID, COMPANY1_ID, "nonexistent_bl"));
   }
 
   static class ContextInitializer extends AbstractContextInitializer {

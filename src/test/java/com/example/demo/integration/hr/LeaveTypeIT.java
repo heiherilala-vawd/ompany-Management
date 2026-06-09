@@ -52,7 +52,7 @@ class LeaveTypeIT {
   void administration_can_get_all_leave_types() throws Exception {
     HrApi api = new HrApi(anApiClient(ADMINISTRATION_TOKEN));
 
-    List<LeaveType> leaveTypes = api.getLeaveTypes(COMPANY1_ID);
+    List<LeaveType> leaveTypes = api.getLeaveTypes(ADMIN_ID, COMPANY1_ID);
 
     assertEquals(2, leaveTypes.size());
     assertTrue(leaveTypes.stream().anyMatch(lt -> LEAVE_TYPE1_ID.equals(lt.getId())));
@@ -63,7 +63,7 @@ class LeaveTypeIT {
   void user_with_bad_token_cannot_get_leave_types() {
     HrApi api = new HrApi(anApiClient(BAD_TOKEN));
 
-    assertThrowsNotAuthorizedException(() -> api.getLeaveTypes(COMPANY1_ID));
+    assertThrowsNotAuthorizedException(() -> api.getLeaveTypes(ADMIN_ID, COMPANY1_ID));
   }
 
   @Test
@@ -73,7 +73,7 @@ class LeaveTypeIT {
     CrupdateLeaveType toUpdate = leaveTypeToCrupdateLeaveType(leaveType1());
     toUpdate.setDescription("Updated description");
 
-    List<LeaveType> updated = api.crupdateLeaveTypes(COMPANY1_ID, List.of(toUpdate));
+    List<LeaveType> updated = api.crupdateLeaveTypes(ADMIN_ID, COMPANY1_ID, List.of(toUpdate));
 
     assertEquals(1, updated.size());
     assertEquals(LEAVE_TYPE1_ID, updated.get(0).getId());
@@ -85,7 +85,7 @@ class LeaveTypeIT {
     HrApi api = new HrApi(anApiClient(EMPLOYEE_TOKEN));
 
     assertThrowsForbiddenException(
-        () -> api.crupdateLeaveTypes(COMPANY1_ID, List.of(someCreatableLeaveType())));
+        () -> api.crupdateLeaveTypes(ADMIN_ID, COMPANY1_ID, List.of(someCreatableLeaveType())));
   }
 
   static class ContextInitializer extends AbstractContextInitializer {
