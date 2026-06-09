@@ -7,6 +7,7 @@ import com.example.demo.repository.UserRepository;
 import com.example.demo.repository.task.TaskAssignmentRepository;
 import com.example.demo.repository.task.TaskRepository;
 import com.example.demo.repository.task.TaskScheduleRepository;
+import com.example.demo.service.notification.NotificationService;
 import com.example.demo.service.utils.ModificationUtils;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ public class TaskSchedulerService {
   private final TaskAssignmentRepository taskAssignmentRepository;
   private final ModificationUtils modificationUtils;
   private final UserRepository userRepository;
+  private final NotificationService notificationService;
 
   @Transactional
   @Scheduled(cron = "${task.scheduler.cron:0 0 2 * * ?}")
@@ -69,6 +71,15 @@ public class TaskSchedulerService {
       assignments.add(assignment);
     }
     taskAssignmentRepository.saveAll(assignments);
+
+    for (TaskAssignment assignment : assignments) {
+      notificationService.createForUser(
+          assignment.getUser(),
+          "Nouvelle tâche planifiée : " + task.getTitle(),
+          "Une tâche planifiée '" + task.getTitle() + "' vous a été assignée",
+          task,
+          systemUser);
+    }
 
     schedule.setStatus(ScheduleStatus.GENERATED);
     taskScheduleRepository.save(schedule);

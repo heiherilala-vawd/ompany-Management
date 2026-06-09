@@ -2,6 +2,7 @@ package com.example.demo.model.task;
 
 import com.example.demo.model.Company;
 import com.example.demo.model.CreatAndUpdateEntity;
+import com.example.demo.model.movement.MaintenanceSchedule;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -56,6 +57,16 @@ public class Task extends CreatAndUpdateEntity implements Serializable {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "company_id")
   private Company company;
+
+  @Column(name = "feature_name")
+  private String featureName;
+
+  @Column(name = "feature_id")
+  private String featureId;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "maintenance_schedule_id")
+  private MaintenanceSchedule maintenanceSchedule;
 
   @Override
   public boolean equals(Object o) {

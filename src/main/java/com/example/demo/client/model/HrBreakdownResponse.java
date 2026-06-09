@@ -42,7 +42,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   HrBreakdownResponse.JSON_PROPERTY_PAYROLL_BY_TYPE,
   HrBreakdownResponse.JSON_PROPERTY_LEAVE_BALANCES
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-01T18:19:40.950295941+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-09T12:36:49.757496465+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class HrBreakdownResponse {
   public static final String JSON_PROPERTY_EMPLOYEES_BY_DEPARTMENT = "employees_by_department";
   private List<Object> employeesByDepartment = new ArrayList<>();
