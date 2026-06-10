@@ -205,7 +205,13 @@ class EquipmentUsageIT {
     HttpResponse<String> response =
         authenticatedPut(
             ADMIN_TOKEN,
-            "/companies/" + COMPANY1_ID + "/equipment_usage/" + newId + "/return?status=RETURNED");
+            "/users/"
+                + ADMIN_ID
+                + "/companies/"
+                + COMPANY1_ID
+                + "/equipment_usages/"
+                + newId
+                + "/return?status=RETURNED");
 
     assertEquals(HttpStatus.OK.value(), response.statusCode());
   }
@@ -225,7 +231,13 @@ class EquipmentUsageIT {
     HttpResponse<String> response =
         authenticatedPut(
             ADMIN_TOKEN,
-            "/companies/" + COMPANY1_ID + "/equipment_usage/" + newId + "/return?status=LOST");
+            "/users/"
+                + ADMIN_ID
+                + "/companies/"
+                + COMPANY1_ID
+                + "/equipment_usages/"
+                + newId
+                + "/return?status=LOST");
 
     assertEquals(HttpStatus.OK.value(), response.statusCode());
   }
@@ -245,7 +257,13 @@ class EquipmentUsageIT {
     HttpResponse<String> response =
         authenticatedPut(
             ADMIN_TOKEN,
-            "/companies/" + COMPANY1_ID + "/equipment_usage/" + newId + "/return?status=BROKEN");
+            "/users/"
+                + ADMIN_ID
+                + "/companies/"
+                + COMPANY1_ID
+                + "/equipment_usages/"
+                + newId
+                + "/return?status=BROKEN");
 
     assertEquals(HttpStatus.OK.value(), response.statusCode());
   }
@@ -255,9 +273,11 @@ class EquipmentUsageIT {
     HttpResponse<String> response =
         authenticatedPut(
             EMPLOYEE_TOKEN,
-            "/companies/"
+            "/users/"
+                + ADMIN_ID
+                + "/companies/"
                 + COMPANY1_ID
-                + "/equipment_usage/"
+                + "/equipment_usages/"
                 + EQUIP_USAGE1_ID
                 + "/return?status=RETURNED");
 

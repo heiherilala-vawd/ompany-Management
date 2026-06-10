@@ -54,7 +54,7 @@ class TravelEquipmentIT {
     TravelEquipmentApi api = new TravelEquipmentApi(anApiClient(EMPLOYEE_TOKEN));
 
     TravelEquipment actual =
-        api.getTravelEquipmentById(ADMIN_ID, COMPANY1_ID, JOB1_ID, TRAVEL_EQUIPMENT1_ID);
+        api.getTravelEquipmentById(EMPLOYEE_ID, COMPANY1_ID, JOB1_ID, TRAVEL_EQUIPMENT1_ID);
 
     TravelEquipment expected = travelEquipment1();
     expected.setCreatedAt(actual.getCreatedAt());
@@ -274,7 +274,7 @@ class TravelEquipmentIT {
     toUpdate.setArrivalDate(java.time.Instant.parse("2024-03-01T18:00:00Z"));
 
     List<TravelEquipment> updated =
-        api.crupdateTravelEquipment(ADMIN_ID, COMPANY1_ID, JOB1_ID, List.of(toUpdate));
+        api.crupdateTravelEquipment(EMPLOYEE_ID, COMPANY1_ID, JOB1_ID, List.of(toUpdate));
 
     assertEquals(1, updated.size());
     assertEquals(TRAVEL_EQUIPMENT1_ID, updated.get(0).getId());

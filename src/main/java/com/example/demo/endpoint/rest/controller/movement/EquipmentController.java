@@ -21,7 +21,7 @@ public class EquipmentController {
   private final EquipmentService equipmentService;
   private final EquipmentMapper equipmentMapper;
 
-  @GetMapping("/users/{userId}/companies/{companyId}/equipment/{id}")
+  @GetMapping("/users/{userId}/companies/{companyId}/equipments/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER', 'EMPLOYEE')")
   public Equipment getEquipmentById(
       @PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
@@ -31,7 +31,7 @@ public class EquipmentController {
             .orElseThrow(() -> new NotFoundException("Equipment with id " + id + " not found")));
   }
 
-  @GetMapping("/users/{userId}/companies/{companyId}/equipment")
+  @GetMapping("/users/{userId}/companies/{companyId}/equipments")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER', 'EMPLOYEE')")
   public List<Equipment> getEquipment(
       @PathVariable String userId,
@@ -57,7 +57,7 @@ public class EquipmentController {
         .toList();
   }
 
-  @PutMapping("/users/{userId}/companies/{companyId}/equipment")
+  @PutMapping("/users/{userId}/companies/{companyId}/equipments")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public List<Equipment> crupdateEquipment(
       @PathVariable String userId,
@@ -72,7 +72,7 @@ public class EquipmentController {
     return saved.stream().map(equipmentMapper::toRestEquipment).toList();
   }
 
-  @DeleteMapping("/users/{userId}/companies/{companyId}/equipment/{id}")
+  @DeleteMapping("/users/{userId}/companies/{companyId}/equipments/{id}")
   @PreAuthorize("hasAnyRole('ADMIN')")
   public void deleteEquipmentById(
       @PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {

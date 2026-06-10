@@ -107,7 +107,7 @@ class TravelOperationIT {
                 .userId(USER1_ID)
                 .comment("Moving user 1")));
 
-    api.createTravelOperation(ADMIN_ID, COMPANY1_ID, JOB1_ID, request);
+    api.createTravelOperation(EMPLOYEE_ID, COMPANY1_ID, JOB1_ID, request);
 
     // Verify TravelExpense
     TravelExpenseApi travelExpenseApi = new TravelExpenseApi(anApiClient(ADMIN_TOKEN));
@@ -199,7 +199,7 @@ class TravelOperationIT {
                 .userId(USER2_ID)
                 .comment("Only moving this person")));
 
-    api.createTravelOperation(ADMIN_ID, COMPANY1_ID, JOB1_ID, request);
+    api.createTravelOperation(EMPLOYEE_ID, COMPANY1_ID, JOB1_ID, request);
 
     TravelPeopleApi travelPeopleApi = new TravelPeopleApi(anApiClient(ADMIN_TOKEN));
     List<TravelPeople> createdTravelPeople =
@@ -274,7 +274,7 @@ class TravelOperationIT {
     request.setPeopleLines(
         List.of(new TravelOperationPeopleLine().id(travelPeopleId).userId(USER1_ID)));
 
-    api.createTravelOperation(ADMIN_ID, COMPANY1_ID, JOB1_ID, request);
+    api.createTravelOperation(EMPLOYEE_ID, COMPANY1_ID, JOB1_ID, request);
 
     TravelEquipmentApi travelEquipmentApi = new TravelEquipmentApi(anApiClient(ADMIN_TOKEN));
     List<TravelEquipment> equipmentList =

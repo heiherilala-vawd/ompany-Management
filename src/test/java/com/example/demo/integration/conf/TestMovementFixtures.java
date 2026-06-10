@@ -74,7 +74,6 @@ final class TestMovementFixtures {
     eu.setJobId(TestUtils.JOB1_ID);
     eu.setStartTime(Instant.parse("2024-06-01T05:00:00Z"));
     eu.setEndTime(Instant.parse("2024-06-01T14:00:00Z"));
-    eu.setSourceLocation(TestUtils.WAREHOUSE1_ID);
     eu.setUsageStatus(UsageStatus.RETURNED);
     eu.setUsedBy(TestUtils.ADMIN_ID);
     return eu;
@@ -87,7 +86,6 @@ final class TestMovementFixtures {
     eu.setJobId(TestUtils.JOB1_ID);
     eu.setStartTime(Instant.parse("2024-06-02T05:00:00Z"));
     eu.setEndTime(Instant.parse("2024-06-02T14:00:00Z"));
-    eu.setSourceLocation(TestUtils.WAREHOUSE1_ID);
     eu.setUsageStatus(UsageStatus.RETURNED);
     eu.setUsedBy(TestUtils.ADMIN_ID);
     return eu;

@@ -52,7 +52,7 @@ class OtherExpenseIT {
     OtherExpenseApi api = new OtherExpenseApi(anApiClient(EMPLOYEE_TOKEN));
 
     OtherExpense actual =
-        api.getOtherExpenseById(ADMIN_ID, COMPANY1_ID, JOB1_ID, OTHER_EXPENSE1_ID);
+        api.getOtherExpenseById(EMPLOYEE_ID, COMPANY1_ID, JOB1_ID, OTHER_EXPENSE1_ID);
 
     assertEquals(otherExpense1(), actual);
   }
@@ -101,7 +101,7 @@ class OtherExpenseIT {
     otherExpenseToUpdate.setDescription("Frais administratifs chantier A ajustes");
 
     List<OtherExpense> updatedOtherExpenses =
-        api.crupdateOtherExpenses(ADMIN_ID, COMPANY1_ID, JOB1_ID, List.of(otherExpenseToUpdate));
+        api.crupdateOtherExpenses(EMPLOYEE_ID, COMPANY1_ID, JOB1_ID, List.of(otherExpenseToUpdate));
 
     assertEquals(1, updatedOtherExpenses.size());
     assertEquals(OTHER_EXPENSE1_ID, updatedOtherExpenses.get(0).getId());

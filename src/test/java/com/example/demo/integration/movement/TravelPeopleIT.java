@@ -53,7 +53,7 @@ class TravelPeopleIT {
     TravelPeopleApi api = new TravelPeopleApi(anApiClient(EMPLOYEE_TOKEN));
 
     TravelPeople actual =
-        api.getTravelPeopleById(ADMIN_ID, COMPANY1_ID, JOB1_ID, TRAVEL_PEOPLE1_ID);
+        api.getTravelPeopleById(EMPLOYEE_ID, COMPANY1_ID, JOB1_ID, TRAVEL_PEOPLE1_ID);
 
     TravelPeople expected = travelPeople1();
     expected.setCreatedAt(actual.getCreatedAt());
@@ -186,7 +186,7 @@ class TravelPeopleIT {
     toUpdate.setArrivalDate(java.time.Instant.parse("2024-03-05T15:00:00Z"));
 
     List<TravelPeople> updated =
-        api.crupdateTravelPeople(ADMIN_ID, COMPANY1_ID, JOB1_ID, List.of(toUpdate));
+        api.crupdateTravelPeople(EMPLOYEE_ID, COMPANY1_ID, JOB1_ID, List.of(toUpdate));
 
     assertEquals(1, updated.size());
     assertEquals(TRAVEL_PEOPLE2_ID, updated.get(0).getId());

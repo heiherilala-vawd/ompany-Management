@@ -52,7 +52,7 @@ class TravelExpenseIT {
     TravelExpenseApi api = new TravelExpenseApi(anApiClient(EMPLOYEE_TOKEN));
 
     TravelExpense actual =
-        api.getTravelExpenseById(ADMIN_ID, COMPANY1_ID, JOB1_ID, TRAVEL_EXPENSE1_ID);
+        api.getTravelExpenseById(EMPLOYEE_ID, COMPANY1_ID, JOB1_ID, TRAVEL_EXPENSE1_ID);
 
     assertEquals(travelExpense1(), actual);
   }
@@ -113,7 +113,8 @@ class TravelExpenseIT {
     travelExpenseToUpdate.setArrivalLocation(warehouseToCrupdateWarehouse(warehouse2()));
 
     List<TravelExpense> updatedTravelExpenses =
-        api.crupdateTravelExpenses(ADMIN_ID, COMPANY1_ID, JOB1_ID, List.of(travelExpenseToUpdate));
+        api.crupdateTravelExpenses(
+            EMPLOYEE_ID, COMPANY1_ID, JOB1_ID, List.of(travelExpenseToUpdate));
 
     assertEquals(1, updatedTravelExpenses.size());
     assertEquals(TRAVEL_EXPENSE1_ID, updatedTravelExpenses.get(0).getId());

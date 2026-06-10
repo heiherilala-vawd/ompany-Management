@@ -37,7 +37,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   CrupdateMonetaryMovement.JSON_PROPERTY_DESCRIPTION,
   CrupdateMonetaryMovement.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-09T19:34:33.963895631+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-10T12:20:55.604879997+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdateMonetaryMovement {
   public static final String JSON_PROPERTY_AMOUNT = "amount";
   private BigDecimal amount;

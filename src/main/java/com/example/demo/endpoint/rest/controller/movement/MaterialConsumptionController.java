@@ -21,7 +21,7 @@ public class MaterialConsumptionController {
   private final MaterialConsumptionService materialConsumptionService;
   private final MaterialConsumptionMapper materialConsumptionMapper;
 
-  @GetMapping("/users/{userId}/companies/{companyId}/material_consumption/{id}")
+  @GetMapping("/users/{userId}/companies/{companyId}/material_consumptions/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public MaterialConsumption getMaterialConsumptionById(
       @PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
@@ -32,7 +32,7 @@ public class MaterialConsumptionController {
                 () -> new NotFoundException("MaterialConsumption with id " + id + " not found")));
   }
 
-  @GetMapping("/users/{userId}/companies/{companyId}/material_consumption")
+  @GetMapping("/users/{userId}/companies/{companyId}/material_consumptions")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public List<MaterialConsumption> getMaterialConsumptions(
       @PathVariable String userId,
@@ -47,7 +47,7 @@ public class MaterialConsumptionController {
         materialConsumptionService.findAll(page, pageSize, status, jobId).getContent());
   }
 
-  @PutMapping("/users/{userId}/companies/{companyId}/material_consumption")
+  @PutMapping("/users/{userId}/companies/{companyId}/material_consumptions")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public List<MaterialConsumption> crupdateMaterialConsumptions(
       @PathVariable String userId,
@@ -59,7 +59,7 @@ public class MaterialConsumptionController {
     return materialConsumptionMapper.toRestMaterialConsumptions(saved);
   }
 
-  @PutMapping("/users/{userId}/companies/{companyId}/material_consumption/{id}/complete")
+  @PutMapping("/users/{userId}/companies/{companyId}/material_consumptions/{id}/complete")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public MaterialConsumption completeMaterialConsumption(
       @PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
@@ -67,7 +67,7 @@ public class MaterialConsumptionController {
         materialConsumptionService.completeConsumption(id));
   }
 
-  @PutMapping("/users/{userId}/companies/{companyId}/material_consumption/{id}/return")
+  @PutMapping("/users/{userId}/companies/{companyId}/material_consumptions/{id}/return")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public MaterialConsumption returnMaterials(
       @PathVariable String userId,
@@ -78,7 +78,7 @@ public class MaterialConsumptionController {
         materialConsumptionService.returnMaterials(id, quantity));
   }
 
-  @DeleteMapping("/users/{userId}/companies/{companyId}/material_consumption/{id}")
+  @DeleteMapping("/users/{userId}/companies/{companyId}/material_consumptions/{id}")
   @PreAuthorize("hasRole('ADMIN')")
   public void deleteMaterialConsumptionById(
       @PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {

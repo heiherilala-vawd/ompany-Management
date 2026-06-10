@@ -1646,7 +1646,7 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  '/users/{userId}/companies/{companyId}/jobs/{jobId}/users/{userId}':
+  '/users/{userId}/companies/{companyId}/jobs/{jobId}/users':
     put:
       tags:
         - Job
@@ -1726,7 +1726,6 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  /users/{userId}/companies/{companyId}/jobs/{jobId}/users:
     get:
       tags:
         - Job

@@ -20,7 +20,7 @@ public class EquipmentUsageController {
   private final EquipmentUsageService equipmentUsageService;
   private final EquipmentUsageMapper equipmentUsageMapper;
 
-  @GetMapping("/users/{userId}/companies/{companyId}/equipment_usage/{id}")
+  @GetMapping("/users/{userId}/companies/{companyId}/equipment_usages/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public EquipmentUsage getEquipmentUsageById(
       @PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
@@ -31,7 +31,7 @@ public class EquipmentUsageController {
                 () -> new NotFoundException("EquipmentUsage with id " + id + " not found")));
   }
 
-  @GetMapping("/users/{userId}/companies/{companyId}/equipment_usage")
+  @GetMapping("/users/{userId}/companies/{companyId}/equipment_usages")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public List<EquipmentUsage> getEquipmentUsages(
       @PathVariable String userId,
@@ -43,7 +43,7 @@ public class EquipmentUsageController {
         equipmentUsageService.findAll(page, pageSize, jobId).getContent());
   }
 
-  @PutMapping("/users/{userId}/companies/{companyId}/equipment_usage")
+  @PutMapping("/users/{userId}/companies/{companyId}/equipment_usages")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public List<EquipmentUsage> crupdateEquipmentUsages(
       @PathVariable String userId,
@@ -55,7 +55,7 @@ public class EquipmentUsageController {
     return equipmentUsageMapper.toRestEquipmentUsages(saved);
   }
 
-  @PutMapping("/users/{userId}/companies/{companyId}/equipment_usage/{id}/return")
+  @PutMapping("/users/{userId}/companies/{companyId}/equipment_usages/{id}/return")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public EquipmentUsage returnEquipment(
       @PathVariable String userId,
@@ -68,7 +68,7 @@ public class EquipmentUsageController {
         equipmentUsageService.returnEquipment(id, usageStatus));
   }
 
-  @DeleteMapping("/users/{userId}/companies/{companyId}/equipment_usage/{id}")
+  @DeleteMapping("/users/{userId}/companies/{companyId}/equipment_usages/{id}")
   @PreAuthorize("hasRole('ADMIN')")
   public void deleteEquipmentUsageById(
       @PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
