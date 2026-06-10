@@ -35,7 +35,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   TooManyRequestsException.JSON_PROPERTY_TYPE,
   TooManyRequestsException.JSON_PROPERTY_MESSAGE
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-09T19:34:33.963895631+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-10T12:20:55.604879997+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class TooManyRequestsException {
   public static final String JSON_PROPERTY_TYPE = "type";
   private String type;

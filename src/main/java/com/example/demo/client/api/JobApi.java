@@ -52,7 +52,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-09T19:34:33.963895631+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-10T12:20:55.604879997+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class JobApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -160,7 +160,7 @@ public class JobApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/users/{userId}/companies/{companyId}/jobs/{jobId}/users/{userId}"
+    String localVarPath = "/users/{userId}/companies/{companyId}/jobs/{jobId}/users"
         .replace("{userId}", ApiClient.urlEncode(userId.toString()))
         .replace("{companyId}", ApiClient.urlEncode(companyId.toString()))
         .replace("{jobId}", ApiClient.urlEncode(jobId.toString()));
@@ -715,7 +715,7 @@ public class JobApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/users/{userId}/companies/{companyId}/jobs/{jobId}/users/{userId}"
+    String localVarPath = "/users/{userId}/companies/{companyId}/jobs/{jobId}/users"
         .replace("{userId}", ApiClient.urlEncode(userId.toString()))
         .replace("{companyId}", ApiClient.urlEncode(companyId.toString()))
         .replace("{jobId}", ApiClient.urlEncode(jobId.toString()));

@@ -72,7 +72,7 @@ class DashboardIT {
   void admin_can_get_hr_summary() throws Exception {
     HrSummaryResponse result =
         get(
-            "/companies/" + COMPANY1_ID + "/dashboard/hr/summary",
+            "/users/" + ADMIN_ID + "/companies/" + COMPANY1_ID + "/dashboard/hr/summary",
             HrSummaryResponse.class,
             ADMIN_TOKEN);
     assertNotNull(result);
@@ -88,7 +88,9 @@ class DashboardIT {
   void admin_can_get_hr_summary_with_filters() throws Exception {
     HrSummaryResponse result =
         get(
-            "/companies/"
+            "/users/"
+                + ADMIN_ID
+                + "/companies/"
                 + COMPANY1_ID
                 + "/dashboard/hr/summary?job_id="
                 + JOB1_ID
@@ -106,7 +108,7 @@ class DashboardIT {
         Exception.class,
         () ->
             get(
-                "/companies/" + COMPANY1_ID + "/dashboard/hr/summary",
+                "/users/" + ADMIN_ID + "/companies/" + COMPANY1_ID + "/dashboard/hr/summary",
                 HrSummaryResponse.class,
                 EMPLOYEE_TOKEN));
   }
@@ -115,7 +117,7 @@ class DashboardIT {
   void admin_can_get_equipment_summary() throws Exception {
     EquipmentSummaryResponse result =
         get(
-            "/companies/" + COMPANY1_ID + "/dashboard/equipment/summary",
+            "/users/" + ADMIN_ID + "/companies/" + COMPANY1_ID + "/dashboard/equipment/summary",
             EquipmentSummaryResponse.class,
             ADMIN_TOKEN);
     assertNotNull(result);
@@ -131,7 +133,12 @@ class DashboardIT {
   void admin_can_get_equipment_summary_with_job_filter() throws Exception {
     EquipmentSummaryResponse result =
         get(
-            "/companies/" + COMPANY1_ID + "/dashboard/equipment/summary?job_id=" + JOB1_ID,
+            "/users/"
+                + ADMIN_ID
+                + "/companies/"
+                + COMPANY1_ID
+                + "/dashboard/equipment/summary?job_id="
+                + JOB1_ID,
             EquipmentSummaryResponse.class,
             ADMIN_TOKEN);
     assertNotNull(result);
@@ -143,7 +150,7 @@ class DashboardIT {
   void warehouse_worker_can_get_equipment_summary() throws Exception {
     EquipmentSummaryResponse result =
         get(
-            "/companies/" + COMPANY1_ID + "/dashboard/equipment/summary",
+            "/users/" + ADMIN_ID + "/companies/" + COMPANY1_ID + "/dashboard/equipment/summary",
             EquipmentSummaryResponse.class,
             WAREHOUSE_TOKEN);
     assertNotNull(result);
@@ -155,7 +162,7 @@ class DashboardIT {
         Exception.class,
         () ->
             get(
-                "/companies/" + COMPANY1_ID + "/dashboard/equipment/summary",
+                "/users/" + ADMIN_ID + "/companies/" + COMPANY1_ID + "/dashboard/equipment/summary",
                 EquipmentSummaryResponse.class,
                 EMPLOYEE_TOKEN));
   }
@@ -164,7 +171,7 @@ class DashboardIT {
   void admin_can_get_material_summary() throws Exception {
     MaterialSummaryResponse result =
         get(
-            "/companies/" + COMPANY1_ID + "/dashboard/materials/summary",
+            "/users/" + ADMIN_ID + "/companies/" + COMPANY1_ID + "/dashboard/materials/summary",
             MaterialSummaryResponse.class,
             ADMIN_TOKEN);
     assertNotNull(result);
@@ -178,7 +185,7 @@ class DashboardIT {
   void warehouse_worker_can_get_material_summary() throws Exception {
     MaterialSummaryResponse result =
         get(
-            "/companies/" + COMPANY1_ID + "/dashboard/materials/summary",
+            "/users/" + ADMIN_ID + "/companies/" + COMPANY1_ID + "/dashboard/materials/summary",
             MaterialSummaryResponse.class,
             WAREHOUSE_TOKEN);
     assertNotNull(result);
@@ -190,7 +197,7 @@ class DashboardIT {
         Exception.class,
         () ->
             get(
-                "/companies/" + COMPANY1_ID + "/dashboard/materials/summary",
+                "/users/" + ADMIN_ID + "/companies/" + COMPANY1_ID + "/dashboard/materials/summary",
                 MaterialSummaryResponse.class,
                 EMPLOYEE_TOKEN));
   }
@@ -199,7 +206,7 @@ class DashboardIT {
   void admin_can_get_monetary_summary() throws Exception {
     MonetarySummaryResponse result =
         get(
-            "/companies/" + COMPANY1_ID + "/dashboard/monetary/summary",
+            "/users/" + ADMIN_ID + "/companies/" + COMPANY1_ID + "/dashboard/monetary/summary",
             MonetarySummaryResponse.class,
             ADMIN_TOKEN);
     assertNotNull(result);
@@ -218,7 +225,12 @@ class DashboardIT {
   void admin_can_get_monetary_summary_with_job_filter() throws Exception {
     MonetarySummaryResponse result =
         get(
-            "/companies/" + COMPANY1_ID + "/dashboard/monetary/summary?job_id=" + JOB1_ID,
+            "/users/"
+                + ADMIN_ID
+                + "/companies/"
+                + COMPANY1_ID
+                + "/dashboard/monetary/summary?job_id="
+                + JOB1_ID,
             MonetarySummaryResponse.class,
             ADMIN_TOKEN);
     assertNotNull(result);
@@ -232,7 +244,7 @@ class DashboardIT {
         Exception.class,
         () ->
             get(
-                "/companies/" + COMPANY1_ID + "/dashboard/monetary/summary",
+                "/users/" + ADMIN_ID + "/companies/" + COMPANY1_ID + "/dashboard/monetary/summary",
                 MonetarySummaryResponse.class,
                 EMPLOYEE_TOKEN));
   }
@@ -243,7 +255,7 @@ class DashboardIT {
   void admin_can_get_hr_breakdown() throws Exception {
     HrBreakdownResponse result =
         get(
-            "/companies/" + COMPANY1_ID + "/dashboard/hr/breakdown",
+            "/users/" + ADMIN_ID + "/companies/" + COMPANY1_ID + "/dashboard/hr/breakdown",
             HrBreakdownResponse.class,
             ADMIN_TOKEN);
     assertNotNull(result);
@@ -262,7 +274,12 @@ class DashboardIT {
   void admin_can_get_hr_breakdown_with_filters() throws Exception {
     HrBreakdownResponse result =
         get(
-            "/companies/" + COMPANY1_ID + "/dashboard/hr/breakdown?job_id=" + JOB1_ID,
+            "/users/"
+                + ADMIN_ID
+                + "/companies/"
+                + COMPANY1_ID
+                + "/dashboard/hr/breakdown?job_id="
+                + JOB1_ID,
             HrBreakdownResponse.class,
             ADMIN_TOKEN);
     assertNotNull(result);
@@ -273,7 +290,7 @@ class DashboardIT {
   void administration_can_get_hr_breakdown() throws Exception {
     HrBreakdownResponse result =
         get(
-            "/companies/" + COMPANY1_ID + "/dashboard/hr/breakdown",
+            "/users/" + ADMIN_ID + "/companies/" + COMPANY1_ID + "/dashboard/hr/breakdown",
             HrBreakdownResponse.class,
             ADMINISTRATION_TOKEN);
     assertNotNull(result);
@@ -285,7 +302,7 @@ class DashboardIT {
         Exception.class,
         () ->
             get(
-                "/companies/" + COMPANY1_ID + "/dashboard/hr/breakdown",
+                "/users/" + ADMIN_ID + "/companies/" + COMPANY1_ID + "/dashboard/hr/breakdown",
                 HrBreakdownResponse.class,
                 WAREHOUSE_TOKEN));
   }
@@ -294,7 +311,7 @@ class DashboardIT {
   void admin_can_get_equipment_breakdown() throws Exception {
     EquipmentBreakdownResponse result =
         get(
-            "/companies/" + COMPANY1_ID + "/dashboard/equipment/breakdown",
+            "/users/" + ADMIN_ID + "/companies/" + COMPANY1_ID + "/dashboard/equipment/breakdown",
             EquipmentBreakdownResponse.class,
             ADMIN_TOKEN);
     assertNotNull(result);
@@ -319,7 +336,7 @@ class DashboardIT {
   void warehouse_worker_can_get_equipment_breakdown() throws Exception {
     EquipmentBreakdownResponse result =
         get(
-            "/companies/" + COMPANY1_ID + "/dashboard/equipment/breakdown",
+            "/users/" + ADMIN_ID + "/companies/" + COMPANY1_ID + "/dashboard/equipment/breakdown",
             EquipmentBreakdownResponse.class,
             WAREHOUSE_TOKEN);
     assertNotNull(result);
@@ -329,7 +346,7 @@ class DashboardIT {
   void admin_can_get_material_breakdown() throws Exception {
     MaterialBreakdownResponse result =
         get(
-            "/companies/" + COMPANY1_ID + "/dashboard/materials/breakdown",
+            "/users/" + ADMIN_ID + "/companies/" + COMPANY1_ID + "/dashboard/materials/breakdown",
             MaterialBreakdownResponse.class,
             ADMIN_TOKEN);
     assertNotNull(result);
@@ -350,7 +367,7 @@ class DashboardIT {
   void warehouse_worker_can_get_material_breakdown() throws Exception {
     MaterialBreakdownResponse result =
         get(
-            "/companies/" + COMPANY1_ID + "/dashboard/materials/breakdown",
+            "/users/" + ADMIN_ID + "/companies/" + COMPANY1_ID + "/dashboard/materials/breakdown",
             MaterialBreakdownResponse.class,
             WAREHOUSE_TOKEN);
     assertNotNull(result);
@@ -360,7 +377,7 @@ class DashboardIT {
   void admin_can_get_monetary_breakdown() throws Exception {
     MonetaryBreakdownResponse result =
         get(
-            "/companies/" + COMPANY1_ID + "/dashboard/monetary/breakdown",
+            "/users/" + ADMIN_ID + "/companies/" + COMPANY1_ID + "/dashboard/monetary/breakdown",
             MonetaryBreakdownResponse.class,
             ADMIN_TOKEN);
     assertNotNull(result);
@@ -389,7 +406,12 @@ class DashboardIT {
   void admin_can_get_monetary_breakdown_with_job_filter() throws Exception {
     MonetaryBreakdownResponse result =
         get(
-            "/companies/" + COMPANY1_ID + "/dashboard/monetary/breakdown?job_id=" + JOB1_ID,
+            "/users/"
+                + ADMIN_ID
+                + "/companies/"
+                + COMPANY1_ID
+                + "/dashboard/monetary/breakdown?job_id="
+                + JOB1_ID,
             MonetaryBreakdownResponse.class,
             ADMIN_TOKEN);
     assertNotNull(result);
@@ -403,7 +425,7 @@ class DashboardIT {
   void administration_can_get_monetary_breakdown() throws Exception {
     MonetaryBreakdownResponse result =
         get(
-            "/companies/" + COMPANY1_ID + "/dashboard/monetary/breakdown",
+            "/users/" + ADMIN_ID + "/companies/" + COMPANY1_ID + "/dashboard/monetary/breakdown",
             MonetaryBreakdownResponse.class,
             ADMINISTRATION_TOKEN);
     assertNotNull(result);
@@ -415,7 +437,7 @@ class DashboardIT {
   void admin_can_get_material_dashboard() throws Exception {
     MaterialDashboardResponse result =
         get(
-            "/companies/" + COMPANY1_ID + "/dashboard/materials",
+            "/users/" + ADMIN_ID + "/companies/" + COMPANY1_ID + "/dashboard/materials",
             MaterialDashboardResponse.class,
             ADMIN_TOKEN);
     assertNotNull(result);
@@ -433,7 +455,7 @@ class DashboardIT {
         Exception.class,
         () ->
             get(
-                "/companies/" + COMPANY1_ID + "/dashboard/materials",
+                "/users/" + ADMIN_ID + "/companies/" + COMPANY1_ID + "/dashboard/materials",
                 MaterialDashboardResponse.class,
                 EMPLOYEE_TOKEN));
   }
@@ -442,7 +464,7 @@ class DashboardIT {
   void warehouse_worker_can_get_material_dashboard() throws Exception {
     MaterialDashboardResponse result =
         get(
-            "/companies/" + COMPANY1_ID + "/dashboard/materials",
+            "/users/" + ADMIN_ID + "/companies/" + COMPANY1_ID + "/dashboard/materials",
             MaterialDashboardResponse.class,
             WAREHOUSE_TOKEN);
     assertNotNull(result);
@@ -454,7 +476,7 @@ class DashboardIT {
   void admin_can_get_equipment_dashboard() throws Exception {
     EquipmentDashboardResponse result =
         get(
-            "/companies/" + COMPANY1_ID + "/dashboard/equipment",
+            "/users/" + ADMIN_ID + "/companies/" + COMPANY1_ID + "/dashboard/equipment",
             EquipmentDashboardResponse.class,
             ADMIN_TOKEN);
     assertNotNull(result);
@@ -471,7 +493,7 @@ class DashboardIT {
         Exception.class,
         () ->
             get(
-                "/companies/" + COMPANY1_ID + "/dashboard/equipment",
+                "/users/" + ADMIN_ID + "/companies/" + COMPANY1_ID + "/dashboard/equipment",
                 EquipmentDashboardResponse.class,
                 EMPLOYEE_TOKEN));
   }
@@ -481,7 +503,10 @@ class DashboardIT {
   @Test
   void admin_can_get_hr_dashboard() throws Exception {
     HrDashboardResponse result =
-        get("/companies/" + COMPANY1_ID + "/dashboard/hr", HrDashboardResponse.class, ADMIN_TOKEN);
+        get(
+            "/users/" + ADMIN_ID + "/companies/" + COMPANY1_ID + "/dashboard/hr",
+            HrDashboardResponse.class,
+            ADMIN_TOKEN);
     assertNotNull(result);
     assertTrue(result.getTotalEmployees() > 0);
     assertNotNull(result.getEmployeesByDepartment());
@@ -494,7 +519,7 @@ class DashboardIT {
         Exception.class,
         () ->
             get(
-                "/companies/" + COMPANY1_ID + "/dashboard/hr",
+                "/users/" + ADMIN_ID + "/companies/" + COMPANY1_ID + "/dashboard/hr",
                 HrDashboardResponse.class,
                 EMPLOYEE_TOKEN));
   }
@@ -505,7 +530,7 @@ class DashboardIT {
   void admin_can_get_monetary_dashboard() throws Exception {
     MonetaryDashboardResponse result =
         get(
-            "/companies/" + COMPANY1_ID + "/dashboard/monetary",
+            "/users/" + ADMIN_ID + "/companies/" + COMPANY1_ID + "/dashboard/monetary",
             MonetaryDashboardResponse.class,
             ADMIN_TOKEN);
     assertNotNull(result);
@@ -522,7 +547,7 @@ class DashboardIT {
         Exception.class,
         () ->
             get(
-                "/companies/" + COMPANY1_ID + "/dashboard/monetary",
+                "/users/" + ADMIN_ID + "/companies/" + COMPANY1_ID + "/dashboard/monetary",
                 MonetaryDashboardResponse.class,
                 EMPLOYEE_TOKEN));
   }
@@ -533,7 +558,11 @@ class DashboardIT {
   void admin_can_get_revenue_time_series() throws Exception {
     TimeSeriesResponse result =
         get(
-            "/companies/" + COMPANY1_ID + "/dashboard/monetary/revenue?granularity=month",
+            "/users/"
+                + ADMIN_ID
+                + "/companies/"
+                + COMPANY1_ID
+                + "/dashboard/monetary/revenue?granularity=month",
             TimeSeriesResponse.class,
             ADMIN_TOKEN);
     assertNotNull(result);
@@ -546,7 +575,11 @@ class DashboardIT {
   void admin_can_get_expenses_time_series() throws Exception {
     TimeSeriesResponse result =
         get(
-            "/companies/" + COMPANY1_ID + "/dashboard/monetary/expenses?granularity=month",
+            "/users/"
+                + ADMIN_ID
+                + "/companies/"
+                + COMPANY1_ID
+                + "/dashboard/monetary/expenses?granularity=month",
             TimeSeriesResponse.class,
             ADMIN_TOKEN);
     assertNotNull(result);
@@ -558,7 +591,11 @@ class DashboardIT {
   void admin_can_get_cashflow_time_series() throws Exception {
     TimeSeriesResponse result =
         get(
-            "/companies/" + COMPANY1_ID + "/dashboard/monetary/cashflow?granularity=month",
+            "/users/"
+                + ADMIN_ID
+                + "/companies/"
+                + COMPANY1_ID
+                + "/dashboard/monetary/cashflow?granularity=month",
             TimeSeriesResponse.class,
             ADMIN_TOKEN);
     assertNotNull(result);
@@ -569,7 +606,11 @@ class DashboardIT {
   void admin_can_get_profit_time_series() throws Exception {
     TimeSeriesResponse result =
         get(
-            "/companies/" + COMPANY1_ID + "/dashboard/monetary/profit?granularity=month",
+            "/users/"
+                + ADMIN_ID
+                + "/companies/"
+                + COMPANY1_ID
+                + "/dashboard/monetary/profit?granularity=month",
             TimeSeriesResponse.class,
             ADMIN_TOKEN);
     assertNotNull(result);
@@ -580,7 +621,11 @@ class DashboardIT {
   void admin_can_get_receivables() throws Exception {
     TimeSeriesResponse result =
         get(
-            "/companies/" + COMPANY1_ID + "/dashboard/monetary/receivables?granularity=month",
+            "/users/"
+                + ADMIN_ID
+                + "/companies/"
+                + COMPANY1_ID
+                + "/dashboard/monetary/receivables?granularity=month",
             TimeSeriesResponse.class,
             ADMIN_TOKEN);
     assertNotNull(result);
@@ -591,7 +636,11 @@ class DashboardIT {
   void admin_can_get_budget_time_series() throws Exception {
     TimeSeriesResponse result =
         get(
-            "/companies/" + COMPANY1_ID + "/dashboard/monetary/budget?granularity=month",
+            "/users/"
+                + ADMIN_ID
+                + "/companies/"
+                + COMPANY1_ID
+                + "/dashboard/monetary/budget?granularity=month",
             TimeSeriesResponse.class,
             ADMIN_TOKEN);
     assertNotNull(result);
@@ -602,7 +651,11 @@ class DashboardIT {
   void admin_can_get_expense_breakdown() throws Exception {
     TimeSeriesResponse result =
         get(
-            "/companies/" + COMPANY1_ID + "/dashboard/monetary/expense_breakdown?granularity=month",
+            "/users/"
+                + ADMIN_ID
+                + "/companies/"
+                + COMPANY1_ID
+                + "/dashboard/monetary/expense_breakdown?granularity=month",
             TimeSeriesResponse.class,
             ADMIN_TOKEN);
     assertNotNull(result);
@@ -613,7 +666,9 @@ class DashboardIT {
   void time_series_with_job_id_filter() throws Exception {
     TimeSeriesResponse result =
         get(
-            "/companies/"
+            "/users/"
+                + ADMIN_ID
+                + "/companies/"
                 + COMPANY1_ID
                 + "/dashboard/monetary/revenue?granularity=month&job_id="
                 + JOB1_ID,
@@ -627,7 +682,9 @@ class DashboardIT {
   void receivables_with_job_id_filter() throws Exception {
     TimeSeriesResponse result =
         get(
-            "/companies/"
+            "/users/"
+                + ADMIN_ID
+                + "/companies/"
                 + COMPANY1_ID
                 + "/dashboard/monetary/receivables?granularity=month&job_id="
                 + JOB1_ID,
@@ -641,7 +698,9 @@ class DashboardIT {
   void expense_breakdown_with_job_id_filter() throws Exception {
     TimeSeriesResponse result =
         get(
-            "/companies/"
+            "/users/"
+                + ADMIN_ID
+                + "/companies/"
                 + COMPANY1_ID
                 + "/dashboard/monetary/expense_breakdown?granularity=month&job_id="
                 + JOB1_ID,
@@ -656,7 +715,12 @@ class DashboardIT {
     for (String g : new String[] {"day", "2day", "week", "month", "quarter", "year"}) {
       TimeSeriesResponse result =
           get(
-              "/companies/" + COMPANY1_ID + "/dashboard/monetary/revenue?granularity=" + g,
+              "/users/"
+                  + ADMIN_ID
+                  + "/companies/"
+                  + COMPANY1_ID
+                  + "/dashboard/monetary/revenue?granularity="
+                  + g,
               TimeSeriesResponse.class,
               ADMIN_TOKEN);
       assertNotNull(result, "granularity=" + g + " failed");

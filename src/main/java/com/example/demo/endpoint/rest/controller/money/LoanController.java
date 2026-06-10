@@ -86,7 +86,7 @@ public class LoanController {
     loanService.deleteById(id);
   }
 
-  @GetMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/loans_repayment/{id}")
+  @GetMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/loan_repayments/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public LoanRepayment getLoanRepaymentById(
       @PathVariable String userId,
@@ -100,7 +100,7 @@ public class LoanController {
                 () -> new NotFoundException("Loan repayment with id " + id + " not found")));
   }
 
-  @GetMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/loans_repayment")
+  @GetMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/loan_repayments")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<LoanRepayment> getLoanRepayments(
       @PathVariable String userId,
@@ -117,7 +117,7 @@ public class LoanController {
         .toList();
   }
 
-  @PutMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/loans_repayment")
+  @PutMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/loan_repayments")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<LoanRepayment> crupdateLoanRepayments(
       @PathVariable String userId,
@@ -130,7 +130,7 @@ public class LoanController {
     return saved.stream().map(loanRepaymentMapper::toRestLoanRepayment).toList();
   }
 
-  @DeleteMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/loans_repayment/{id}")
+  @DeleteMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/loan_repayments/{id}")
   @PreAuthorize("hasAnyRole('ADMIN')")
   public void deleteLoanRepaymentById(
       @PathVariable String userId,

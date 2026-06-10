@@ -216,9 +216,11 @@ class MaterialConsumptionIT {
     HttpResponse<String> response =
         authenticatedPut(
             ADMIN_TOKEN,
-            "/companies/"
+            "/users/"
+                + ADMIN_ID
+                + "/companies/"
                 + COMPANY1_ID
-                + "/material_consumption/"
+                + "/material_consumptions/"
                 + MAT_CONSUMPTION1_ID
                 + "/complete");
 
@@ -240,7 +242,13 @@ class MaterialConsumptionIT {
     HttpResponse<String> completeResponse =
         authenticatedPut(
             ADMIN_TOKEN,
-            "/companies/" + COMPANY1_ID + "/material_consumption/" + newId + "/complete");
+            "/users/"
+                + ADMIN_ID
+                + "/companies/"
+                + COMPANY1_ID
+                + "/material_consumptions/"
+                + newId
+                + "/complete");
 
     assertEquals(HttpStatus.OK.value(), completeResponse.statusCode());
   }
@@ -259,12 +267,25 @@ class MaterialConsumptionIT {
     String newId = created.get(0).getId();
 
     authenticatedPut(
-        ADMIN_TOKEN, "/companies/" + COMPANY1_ID + "/material_consumption/" + newId + "/complete");
+        ADMIN_TOKEN,
+        "/users/"
+            + ADMIN_ID
+            + "/companies/"
+            + COMPANY1_ID
+            + "/material_consumptions/"
+            + newId
+            + "/complete");
 
     HttpResponse<String> returnResponse =
         authenticatedPut(
             ADMIN_TOKEN,
-            "/companies/" + COMPANY1_ID + "/material_consumption/" + newId + "/return?quantity=3");
+            "/users/"
+                + ADMIN_ID
+                + "/companies/"
+                + COMPANY1_ID
+                + "/material_consumptions/"
+                + newId
+                + "/return?quantity=3");
 
     assertEquals(HttpStatus.OK.value(), returnResponse.statusCode());
   }
@@ -274,9 +295,11 @@ class MaterialConsumptionIT {
     HttpResponse<String> response =
         authenticatedPut(
             EMPLOYEE_TOKEN,
-            "/companies/"
+            "/users/"
+                + ADMIN_ID
+                + "/companies/"
                 + COMPANY1_ID
-                + "/material_consumption/"
+                + "/material_consumptions/"
                 + MAT_CONSUMPTION1_ID
                 + "/complete");
 
@@ -288,9 +311,11 @@ class MaterialConsumptionIT {
     HttpResponse<String> response =
         authenticatedPut(
             EMPLOYEE_TOKEN,
-            "/companies/"
+            "/users/"
+                + ADMIN_ID
+                + "/companies/"
                 + COMPANY1_ID
-                + "/material_consumption/"
+                + "/material_consumptions/"
                 + MAT_CONSUMPTION1_ID
                 + "/return?quantity=1");
 

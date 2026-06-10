@@ -53,7 +53,7 @@ class TravelMaterialsIT {
     TravelMaterialsApi api = new TravelMaterialsApi(anApiClient(EMPLOYEE_TOKEN));
 
     TravelMaterials actual =
-        api.getTravelMaterialsById(ADMIN_ID, COMPANY1_ID, JOB1_ID, TRAVEL_MATERIALS1_ID);
+        api.getTravelMaterialsById(EMPLOYEE_ID, COMPANY1_ID, JOB1_ID, TRAVEL_MATERIALS1_ID);
 
     TravelMaterials expected = travelMaterials1();
     expected.setCreatedAt(actual.getCreatedAt());
@@ -272,7 +272,7 @@ class TravelMaterialsIT {
     toUpdate.setArrivalDate(java.time.Instant.parse("2024-03-01T18:00:00Z"));
 
     List<TravelMaterials> updated =
-        api.crupdateTravelMaterials(ADMIN_ID, COMPANY1_ID, JOB1_ID, List.of(toUpdate));
+        api.crupdateTravelMaterials(EMPLOYEE_ID, COMPANY1_ID, JOB1_ID, List.of(toUpdate));
 
     assertEquals(1, updated.size());
     assertEquals(TRAVEL_MATERIALS1_ID, updated.get(0).getId());

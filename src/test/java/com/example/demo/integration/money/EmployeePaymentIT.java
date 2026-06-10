@@ -53,7 +53,7 @@ class EmployeePaymentIT {
     EmployeePaymentApi api = new EmployeePaymentApi(anApiClient(EMPLOYEE_TOKEN));
 
     EmployeePayment actual =
-        api.getEmployeePaymentById(ADMIN_ID, COMPANY1_ID, JOB1_ID, EMPLOYEE_PAYMENT1_ID);
+        api.getEmployeePaymentById(EMPLOYEE_ID, COMPANY1_ID, JOB1_ID, EMPLOYEE_PAYMENT1_ID);
 
     assertEquals(employeePayment1(), actual);
   }
@@ -127,7 +127,7 @@ class EmployeePaymentIT {
     paymentToUpdate.setPaymentDescription("Avance salaire chantier A verifiee");
 
     List<EmployeePayment> updatedPayments =
-        api.crupdateEmployeePayments(ADMIN_ID, COMPANY1_ID, JOB1_ID, List.of(paymentToUpdate));
+        api.crupdateEmployeePayments(EMPLOYEE_ID, COMPANY1_ID, JOB1_ID, List.of(paymentToUpdate));
 
     assertEquals(1, updatedPayments.size());
     assertEquals(EMPLOYEE_PAYMENT1_ID, updatedPayments.get(0).getId());

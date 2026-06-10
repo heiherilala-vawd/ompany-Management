@@ -112,7 +112,7 @@ class PurchaseOperationIT {
             .arrivalDate(Instant.parse("2024-04-01T12:00:00Z"))
             .fee(BigDecimal.valueOf(3500)));
 
-    api.createPurchaseOperation(ADMIN_ID, COMPANY1_ID, JOB1_ID, request);
+    api.createPurchaseOperation(EMPLOYEE_ID, COMPANY1_ID, JOB1_ID, request);
 
     PurchaseApi purchaseApi = new PurchaseApi(anApiClient(ADMIN_TOKEN));
     List<Purchase> equipmentPurchases =
@@ -249,7 +249,7 @@ class PurchaseOperationIT {
                 .quantity(6)
                 .unitPrice(BigDecimal.valueOf(1100))));
 
-    api.createPurchaseOperation(ADMIN_ID, COMPANY1_ID, JOB1_ID, request);
+    api.createPurchaseOperation(EMPLOYEE_ID, COMPANY1_ID, JOB1_ID, request);
 
     MaterialApi materialApi = new MaterialApi(anApiClient(WAREHOUSE_TOKEN));
     Material createdMaterial =
@@ -301,7 +301,7 @@ class PurchaseOperationIT {
             .departureDate(Instant.parse("2024-04-03T08:00:00Z"))
             .arrivalDate(Instant.parse("2024-04-03T10:00:00Z")));
 
-    api.createPurchaseOperation(ADMIN_ID, COMPANY1_ID, JOB1_ID, request);
+    api.createPurchaseOperation(EMPLOYEE_ID, COMPANY1_ID, JOB1_ID, request);
 
     TravelEquipmentApi travelEquipmentApi = new TravelEquipmentApi(anApiClient(ADMIN_TOKEN));
     List<TravelEquipment> createdTravelEquipment =
@@ -375,7 +375,7 @@ class PurchaseOperationIT {
             .arrivalDate(Instant.parse("2024-04-02T18:00:00Z"))
             .fee(BigDecimal.valueOf(2500)));
 
-    api.createPurchaseOperation(ADMIN_ID, COMPANY1_ID, JOB1_ID, request);
+    api.createPurchaseOperation(EMPLOYEE_ID, COMPANY1_ID, JOB1_ID, request);
 
     EquipmentApi equipmentApi = new EquipmentApi(anApiClient(EMPLOYEE_TOKEN));
     assertEquals(
@@ -406,7 +406,7 @@ class PurchaseOperationIT {
                 .unitPrice(BigDecimal.valueOf(7000))));
 
     // Should succeed - warehouse will be updated
-    api.createPurchaseOperation(ADMIN_ID, COMPANY1_ID, JOB1_ID, request);
+    api.createPurchaseOperation(EMPLOYEE_ID, COMPANY1_ID, JOB1_ID, request);
   }
 
   @Test
