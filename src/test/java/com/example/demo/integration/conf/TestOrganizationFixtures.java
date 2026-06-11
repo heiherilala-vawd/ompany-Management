@@ -7,6 +7,7 @@ import com.example.demo.client.model.CrupdateDepartment;
 import com.example.demo.client.model.CrupdateEquipment;
 import com.example.demo.client.model.CrupdateJob;
 import com.example.demo.client.model.CrupdateMaterial;
+import com.example.demo.client.model.CrupdateOrganization;
 import com.example.demo.client.model.CrupdateTeam;
 import com.example.demo.client.model.CrupdateWarehouse;
 import com.example.demo.client.model.Department;
@@ -15,6 +16,7 @@ import com.example.demo.client.model.Job;
 import com.example.demo.client.model.JobStatus;
 import com.example.demo.client.model.Material;
 import com.example.demo.client.model.MaterialWarehouseInfo;
+import com.example.demo.client.model.Organization;
 import com.example.demo.client.model.Warehouse;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -350,8 +352,8 @@ final class TestOrganizationFixtures {
   static Department department1() {
     Department department = new Department();
     department.setId(TestUtils.DEPARTMENT1_ID);
-    department.setName("Genie Civil");
-    department.setDescription("Departement de genie civil et construction");
+    department.setName("Génie Civil");
+    department.setDescription("Département en charge des travaux de génie civil");
     department.setCompanyId(TestUtils.COMPANY1_ID);
     return department;
   }
@@ -359,8 +361,8 @@ final class TestOrganizationFixtures {
   static Department department2() {
     Department department = new Department();
     department.setId(TestUtils.DEPARTMENT2_ID);
-    department.setName("Administration");
-    department.setDescription("Departement administratif et financier");
+    department.setName("Électricité");
+    department.setDescription("Département en charge des installations électriques");
     department.setCompanyId(TestUtils.COMPANY1_ID);
     return department;
   }
@@ -382,5 +384,54 @@ final class TestOrganizationFixtures {
     department.setDescription("Description du nouveau departement");
     department.setCompanyId(TestUtils.COMPANY1_ID);
     return department;
+  }
+
+  static Organization organization1() {
+    Organization org = new Organization();
+    org.setId(TestUtils.ORGANIZATION1_ID);
+    org.setName("BNI Madagascar");
+    org.setAddress("123 Avenue de l'Independance, Antananarivo");
+    org.setEmail("contact@bni.mg");
+    org.setPhone("+261202212345");
+    org.setContactName("Rakotoarisoa Jean");
+    org.setCompanyId(TestUtils.COMPANY1_ID);
+    return org;
+  }
+
+  static Organization organization2() {
+    Organization org = new Organization();
+    org.setId(TestUtils.ORGANIZATION2_ID);
+    org.setName("Client Alpha");
+    org.setAddress("456 Rue Principale, Toamasina");
+    org.setEmail("client.alpha@email.com");
+    org.setPhone("+261320011223");
+    org.setContactName("Marie Claire");
+    org.setCompanyId(TestUtils.COMPANY1_ID);
+    return org;
+  }
+
+  static CrupdateOrganization organizationToCrupdateOrganization(Organization organization) {
+    CrupdateOrganization crupdate = new CrupdateOrganization();
+    crupdate.setId(organization.getId());
+    crupdate.setName(organization.getName());
+    crupdate.setAddress(organization.getAddress());
+    crupdate.setEmail(organization.getEmail());
+    crupdate.setPhone(organization.getPhone());
+    crupdate.setContactName(organization.getContactName());
+    crupdate.setCompanyId(organization.getCompanyId());
+    crupdate.setComment(organization.getComment());
+    return crupdate;
+  }
+
+  static CrupdateOrganization someCreatableOrganization() {
+    CrupdateOrganization org = new CrupdateOrganization();
+    org.setId(java.util.UUID.randomUUID().toString());
+    org.setName("Nouvelle organisation");
+    org.setAddress("789 Rue Test");
+    org.setEmail("test@org.mg");
+    org.setPhone("+261330000000");
+    org.setContactName("Contact Test");
+    org.setCompanyId(TestUtils.COMPANY1_ID);
+    return org;
   }
 }

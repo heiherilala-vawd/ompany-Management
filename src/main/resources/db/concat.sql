@@ -26,6 +26,7 @@ DELETE FROM "purchase";
 DELETE FROM "task_schedule_assigned_user";
 DELETE FROM "task_schedule";
 DELETE FROM "task_assignment";
+DELETE FROM "notification";
 DELETE FROM "task";
 DELETE FROM "employee_payment_users";
 DELETE FROM "employee_payment";
@@ -43,7 +44,10 @@ DELETE FROM "material";
 DELETE FROM "warehouse";
 DELETE FROM "user_job";
 DELETE FROM "job";
+DELETE FROM "leave_accrued_by_month";
+DELETE FROM "users_companies";
 DELETE FROM "users";
+DELETE FROM "organization";
 DELETE FROM "company";
 
 INSERT INTO "company" (id, name, rib, description, company_type, created_at, updated_at)
@@ -54,37 +58,48 @@ VALUES
 -- Mots de passe hashés avec BCrypt (password = "admin123" pour tous)
 -- Pour générer: BCryptPasswordEncoder().encode("admin123")
 
-INSERT INTO "users" (id, role, first_name, last_name, sex, email, password, created_at, updated_at, company_id)
+INSERT INTO "users" (id, role, first_name, last_name, sex, email, password, created_at, updated_at)
 VALUES ('admin1_id', 'ADMIN', 'Admin', 'System', 'M', 'admin@hei.school',
         '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iAt6Z5E',
-        '2024-01-01T00:00:00Z', '2024-01-01T00:00:00Z', 'company1_id');
+        '2024-01-01T00:00:00Z', '2024-01-01T00:00:00Z');
 
-INSERT INTO "users" (id, role, first_name, last_name, sex, email, password, created_at, updated_at, company_id)
+INSERT INTO "users" (id, role, first_name, last_name, sex, email, password, created_at, updated_at)
 VALUES ('warehouse1_id', 'WAREHOUSE_WORKER', 'Warehouse', 'Worker', 'M', 'warehouse@hei.school',
         '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iAt6Z5E',
-        '2024-01-01T00:00:00Z', '2024-01-01T00:00:00Z', 'company1_id');
+        '2024-01-01T00:00:00Z', '2024-01-01T00:00:00Z');
 
-INSERT INTO "users" (id, role, first_name, last_name, sex, email, password, created_at, updated_at, company_id)
+INSERT INTO "users" (id, role, first_name, last_name, sex, email, password, created_at, updated_at)
 VALUES ('employee1_id', 'EMPLOYEE', 'John', 'Doe', 'M', 'employee@hei.school',
         '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iAt6Z5E',
-        '2024-01-01T00:00:00Z', '2024-01-01T00:00:00Z', 'company1_id');
+        '2024-01-01T00:00:00Z', '2024-01-01T00:00:00Z');
 
-INSERT INTO "users" (id, role, first_name, last_name, sex, email, password, created_at, updated_at, company_id)
+INSERT INTO "users" (id, role, first_name, last_name, sex, email, password, created_at, updated_at)
 VALUES ('admin2_id', 'ADMINISTRATION', 'Admin', 'Staff', 'F', 'admin2@hei.school',
         '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iAt6Z5E',
-        '2024-01-01T00:00:00Z', '2024-01-01T00:00:00Z', 'company1_id');
+        '2024-01-01T00:00:00Z', '2024-01-01T00:00:00Z');
 
-INSERT INTO "users" (id, role, first_name, last_name, sex, email, password, created_at, updated_at, company_id)
+INSERT INTO "users" (id, role, first_name, last_name, sex, email, password, created_at, updated_at)
 VALUES
 ('user1_id', 'EMPLOYEE', 'Alice', 'Martin', 'F', 'alice@hei.school',
  '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iAt6Z5E',
- '2024-01-01T00:00:00Z', '2024-01-01T00:00:00Z', 'company1_id'),
+ '2024-01-01T00:00:00Z', '2024-01-01T00:00:00Z'),
 ('user2_id', 'EMPLOYEE', 'Bob', 'Bernard', 'M', 'bob@hei.school',
  '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iAt6Z5E',
- '2024-01-01T00:00:00Z', '2024-01-01T00:00:00Z', 'company1_id'),
+ '2024-01-01T00:00:00Z', '2024-01-01T00:00:00Z'),
 ('user3_id', 'WAREHOUSE_WORKER', 'Charlie', 'Durand', 'M', 'charlie@hei.school',
  '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iAt6Z5E',
- '2024-01-01T00:00:00Z', '2024-01-01T00:00:00Z', 'company1_id');
+ '2024-01-01T00:00:00Z', '2024-01-01T00:00:00Z');
+
+-- Link all users to company1_id via join table
+INSERT INTO users_companies (user_id, company_id)
+VALUES
+('admin1_id', 'company1_id'),
+('warehouse1_id', 'company1_id'),
+('employee1_id', 'company1_id'),
+('admin2_id', 'company1_id'),
+('user1_id', 'company1_id'),
+('user2_id', 'company1_id'),
+('user3_id', 'company1_id');
 
 INSERT INTO "job" (id, company_id, description, contract_signature_date, start_date, end_date, status, created_at, updated_at)
 VALUES
@@ -114,6 +129,11 @@ values
 ('income_type2_id', 'Subvention', 'Aides et subventions recues', 'company1_id', now(), now()),
 ('income_type3_id', 'Don', 'Dons et apports exceptionnels', 'company2_id', now(), now());
 
+INSERT INTO "organization" (id, name, address, email, phone, contact_name, company_id, created_at, updated_at)
+VALUES
+('org1_id', 'BNI Madagascar', '123 Avenue de l''Independance, Antananarivo', 'contact@bni.mg', '+261202212345', 'Rakotoarisoa Jean', 'company1_id', NOW(), NOW()),
+('org2_id', 'Client Alpha', '456 Rue Principale, Toamasina', 'client.alpha@email.com', '+261320011223', 'Marie Claire', 'company1_id', NOW(), NOW());
+
 INSERT INTO "material" (id, name, description, unit, unit_price, created_at, updated_at, company_id)
 VALUES
 ('material1_id', 'Ciment', 'Ciment Portland 35kg', 'SAC', 5000.00, NOW(), NOW(), 'company1_id'),
@@ -122,7 +142,7 @@ VALUES
 
 INSERT INTO "income_money" (
   id,
-  source_organization,
+  organization_id,
   invoice_reference,
   amount,
   description,
@@ -135,10 +155,10 @@ INSERT INTO "income_money" (
   job_id
 )
 VALUES
-('income1_id', 'Client Alpha', 'INV-2024-001', 150000, 'Paiement initial chantier A', DATE '2024-01-15', DATE '2024-02-15', 'NET-30', 'income_type1_id', NOW(), NOW(), 'job1_id'),
-('income2_id', 'Client Beta', 'INV-2024-002', 275000, 'Paiement avance renovation hotel', DATE '2024-02-10', DATE '2024-03-12', 'NET-30', 'income_type1_id', NOW(), NOW(), 'job1_id'),
-('income3_id', 'Etat', 'SUB-2024-001', 100000, 'Subvention travaux publics', DATE '2024-03-01', DATE '2024-06-01', 'NET-90', 'income_type2_id', NOW(), NOW(), 'job1_id'),
-('income4_id', 'Donateur X', 'DON-2024-001', 50000, 'Don exceptionnel', DATE '2024-03-15', NULL, NULL, 'income_type3_id', NOW(), NOW(), 'job1_id');
+('income1_id', 'org2_id', 'INV-2024-001', 150000, 'Paiement initial chantier A', DATE '2024-01-15', DATE '2024-02-15', 'NET-30', 'income_type1_id', NOW(), NOW(), 'job1_id'),
+('income2_id', 'org2_id', 'INV-2024-002', 275000, 'Paiement avance renovation hotel', DATE '2024-02-10', DATE '2024-03-12', 'NET-30', 'income_type1_id', NOW(), NOW(), 'job1_id'),
+('income3_id', 'org2_id', 'SUB-2024-001', 100000, 'Subvention travaux publics', DATE '2024-03-01', DATE '2024-06-01', 'NET-90', 'income_type2_id', NOW(), NOW(), 'job1_id'),
+('income4_id', 'org2_id', 'DON-2024-001', 50000, 'Don exceptionnel', DATE '2024-03-15', NULL, NULL, 'income_type3_id', NOW(), NOW(), 'job1_id');
 
 INSERT INTO "expense_money" (id, amount, description, created_at, updated_at, job_id)
 VALUES
@@ -209,10 +229,10 @@ VALUES ('material1_id', 'warehouse1_id', 100),
        ('material1_id', 'warehouse_route_id', 50),
        ('material2_id', 'warehouse_at_seller_id', 30),
        ('material3_id', 'warehouse_route_id', 0);
-INSERT INTO "loan" (id, amount, description, lender, interest_rate, start_date, due_date, job_id, created_at, updated_at)
+INSERT INTO "loan" (id, amount, description, organization_id, interest_rate, start_date, due_date, job_id, created_at, updated_at)
 VALUES
-('loan1_id', 5000000, 'Emprunt construction entrepot', 'BNI Madagascar', 1200, DATE '2024-02-01', DATE '2026-12-31', 'job1_id', NOW(), NOW()),
-('loan2_id', 3000000, 'Emprunt equipements', 'BOA Madagascar', 1500, DATE '2024-03-01', NULL, 'job1_id', NOW(), NOW());
+('loan1_id', 5000000, 'Emprunt construction entrepot', 'org1_id', 1200, DATE '2024-02-01', DATE '2026-12-31', 'job1_id', NOW(), NOW()),
+('loan2_id', 3000000, 'Emprunt equipements', 'org1_id', 1500, DATE '2024-03-01', NULL, 'job1_id', NOW(), NOW());
 
 INSERT INTO "loan_repayment" (id, payment_date, amount, principal_portion, interest_portion, loan_id, created_at, updated_at)
 VALUES
@@ -232,11 +252,11 @@ VALUES
 ('receipt2_id', DATE '2024-02-15', 275000, 'income2_id', NOW(), NOW()),
 ('receipt3_id', DATE '2024-03-20', 50000, 'income4_id', NOW(), NOW());
 
-INSERT INTO "loan" (id, amount, description, lender, interest_rate, start_date, due_date, job_id, created_at, updated_at)
+INSERT INTO "loan" (id, amount, description, organization_id, interest_rate, start_date, due_date, job_id, created_at, updated_at)
 VALUES
-('loan3_id', 2000000, 'Emprunt rembourse', 'Microcred', 1000, DATE '2024-01-15', NULL, 'job1_id', NOW(), NOW()),
-('loan4_id', 2000000, 'Emprunt en defaut', 'MBC Madagascar', 1000, DATE '2024-03-01', DATE '2024-06-01', 'job1_id', NOW(), NOW()),
-('loan5_id', 2000000, 'Emprunt rembourse avant echeance', 'SIPEM', 1000, DATE '2024-01-01', DATE '2024-06-01', 'job1_id', NOW(), NOW());
+('loan3_id', 2000000, 'Emprunt rembourse', 'org1_id', 1000, DATE '2024-01-15', NULL, 'job1_id', NOW(), NOW()),
+('loan4_id', 2000000, 'Emprunt en defaut', 'org1_id', 1000, DATE '2024-03-01', DATE '2024-06-01', 'job1_id', NOW(), NOW()),
+('loan5_id', 2000000, 'Emprunt rembourse avant echeance', 'org1_id', 1000, DATE '2024-01-01', DATE '2024-06-01', 'job1_id', NOW(), NOW());
 
 INSERT INTO "loan_repayment" (id, payment_date, amount, principal_portion, interest_portion, loan_id, created_at, updated_at)
 VALUES
@@ -245,7 +265,7 @@ VALUES
 
 INSERT INTO "income_money" (
   id,
-  source_organization,
+  organization_id,
   invoice_reference,
   amount,
   description,
@@ -258,9 +278,9 @@ INSERT INTO "income_money" (
   job_id
 )
 VALUES
-('income5_id', 'Client Delta', 'INV-2024-005', 100000, 'Paiement partiel', DATE '2024-04-01', DATE '2024-05-01', 'NET-30', 'income_type1_id', NOW(), NOW(), 'job1_id'),
-('income6_id', 'Client Epsilon', 'INV-2024-006', 100000, 'Paiement en exces', DATE '2024-04-15', DATE '2024-05-15', 'NET-30', 'income_type1_id', NOW(), NOW(), 'job1_id'),
-('income7_id', 'Client Zeta', 'INV-2024-007', 100000, 'Paiement total multiple recus', DATE '2024-05-01', DATE '2024-05-31', 'NET-30', 'income_type1_id', NOW(), NOW(), 'job1_id');
+('income5_id', 'org2_id', 'INV-2024-005', 100000, 'Paiement partiel', DATE '2024-04-01', DATE '2024-05-01', 'NET-30', 'income_type1_id', NOW(), NOW(), 'job1_id'),
+('income6_id', 'org2_id', 'INV-2024-006', 100000, 'Paiement en exces', DATE '2024-04-15', DATE '2024-05-15', 'NET-30', 'income_type1_id', NOW(), NOW(), 'job1_id'),
+('income7_id', 'org2_id', 'INV-2024-007', 100000, 'Paiement total multiple recus', DATE '2024-05-01', DATE '2024-05-31', 'NET-30', 'income_type1_id', NOW(), NOW(), 'job1_id');
 
 INSERT INTO income_receipt (id, payment_date, amount, income_id, created_at, updated_at)
 VALUES
@@ -314,10 +334,10 @@ values
 ('leave_type1_id', 'Congé payé', 'Congés annuels payés', true, true, '#4CAF50', 30, 'company1_id', now(), now()),
 ('leave_type2_id', 'Congé maladie', 'Arrêt maladie', true, false, '#F44336', null, 'company1_id', now(), now());
 
-insert into employee_leave_config (id, company_id, hire_date, contract_type, vacation_days_per_month, created_at, updated_at)
+insert into employee_leave_config (id, company_id, contract_type, vacation_days_per_month, created_at, updated_at)
 values
-('config1_id', 'company1_id', '2023-06-01', 'CDI', 2.5, now(), now()),
-('config2_id', 'company1_id', '2024-01-15', 'CDD', 2.0, now(), now());
+('config1_id', 'company1_id', 'CDI', 2.5, now(), now()),
+('config2_id', 'company1_id', 'CDD', 2.0, now(), now());
 
 insert into "leave" (id, user_id, leave_type_id, start_date, end_date, duration_days, status, reason, created_at, updated_at)
 values
@@ -361,17 +381,17 @@ VALUES
 ('cash_txn1_id', 'cash_account1_id', 50000.00, '2024-06-01', 'Achat matériel bureau', 'DEBIT', NOW(), NOW(), 'admin1_id', 'admin1_id', NULL),
 ('cash_txn2_id', 'cash_account1_id', 200000.00, '2024-06-15', 'Virement client', 'CREDIT', NOW(), NOW(), 'admin1_id', 'admin1_id', NULL);
 
-INSERT INTO equipment_usage (id, equipment_id, job_id, start_time, end_time, source_location, usage_status, used_by, created_at, updated_at, created_by, updated_by, comment)
+INSERT INTO equipment_usage (id, equipment_id, job_id, start_time, end_time, usage_status, used_by, created_at, updated_at, created_by, updated_by, comment)
 VALUES
-('equip_usage1_id', 'equipment1_id', 'job1_id', '2024-06-01 08:00:00+03', '2024-06-01 17:00:00+03', 'warehouse1_id', 'RETURNED', 'admin1_id', NOW(), NOW(), 'admin1_id', 'admin1_id', NULL),
-('equip_usage2_id', 'equipment1_id', 'job1_id', '2024-06-02 08:00:00+03', '2024-06-02 17:00:00+03', 'warehouse1_id', 'RETURNED', 'admin1_id', NOW(), NOW(), 'admin1_id', 'admin1_id', NULL);
+('equip_usage1_id', 'equipment1_id', 'job1_id', '2024-06-01 08:00:00+03', '2024-06-01 17:00:00+03', 'RETURNED', 'admin1_id', NOW(), NOW(), 'admin1_id', 'admin1_id', NULL),
+('equip_usage2_id', 'equipment1_id', 'job1_id', '2024-06-02 08:00:00+03', '2024-06-02 17:00:00+03', 'RETURNED', 'admin1_id', NOW(), NOW(), 'admin1_id', 'admin1_id', NULL);
 
 INSERT INTO material_consumption (id, material_id, warehouse_id, quantity, consumption_date, job_id, reason, consumption_status, created_at, updated_at, created_by, updated_by, comment)
 VALUES
 ('mat_consumption1_id', 'material1_id', 'warehouse1_id', 10, '2024-06-01', 'job1_id', 'Utilisation pour fondation', 'COMPLETED', NOW(), NOW(), 'admin1_id', 'admin1_id', NULL),
 ('mat_consumption2_id', 'material1_id', 'warehouse1_id', 5, '2024-06-15', 'job1_id', 'Utilisation pour réparation', 'COMPLETED', NOW(), NOW(), 'admin1_id', 'admin1_id', NULL);
 
-INSERT INTO "supplier" (id, name, siret, address, email, phone, contact_name, company_id, created_at, updated_at)
+INSERT INTO "supplier" (id, name, company_registration_number, address, email, phone, contact_name, company_id, created_at, updated_at)
 VALUES
 ('supplier1_id', 'Fournitures Pro', '12345678901234', '123 Rue du Commerce, Antananarivo', 'contact@fourniturespro.mg', '+261341234567', 'Jean Rajaonarison', 'company1_id', NOW(), NOW()),
 ('supplier2_id', 'Matériaux BTP', '98765432109876', '456 Avenue de l''Industrie, Toamasina', 'info@materiauxbtp.mg', '+261337654321', 'Marie Randrianarisoa', 'company1_id', NOW(), NOW());
@@ -391,4 +411,21 @@ INSERT INTO "maintenance_schedule" (id, equipment_id, description, scheduled_dat
 VALUES
 ('ms1_id', 'equipment1_id', 'Révision moteur périodique', '2024-07-15', 'MENSUEL', 'PENDING', 'company1_id', NOW(), NOW()),
 ('ms2_id', 'equipment2_id', 'Vidange et contrôle', '2024-08-01', 'TRIMESTRIEL', 'SCHEDULED', 'company1_id', NOW(), NOW());
+
+insert into leave_accrued_by_month (id, user_id, year, month, accrued_days, created_at, updated_at)
+values
+('labm_jan_id', 'employee1_id', 2026, 1, 2.5, now(), now()),
+('labm_feb_id', 'employee1_id', 2026, 2, 2.5, now(), now()),
+('labm_mar_id', 'employee1_id', 2026, 3, 2.5, now(), now()),
+('labm_apr_id', 'employee1_id', 2026, 4, 2.5, now(), now()),
+('labm_may_id', 'employee1_id', 2026, 5, 2.5, now(), now());
+
+insert into notification (id, user_id, task_id, title, message, read, completed, created_at, updated_at)
+values
+('notif_admin_unread', 'admin1_id', null, 'Nouveau rapport', 'Le rapport mensuel est disponible', false, false, now(), now()),
+('notif_admin_read', 'admin1_id', null, 'Rapport consulté', 'Vous avez consulté le rapport', true, false, now(), now()),
+('notif_admin_completed', 'admin1_id', null, 'Tâche terminée', 'La tâche de maintenance est terminée', false, true, now(), now()),
+('notif_admin_task', 'admin1_id', 'task1_id', 'Tâche assignée', 'Vous avez été assigné à une tâche', false, false, now(), now()),
+('notif_employee_unread', 'employee1_id', null, 'Nouvelle mission', 'Une nouvelle mission vous est assignée', false, false, now(), now()),
+('notif_employee_read', 'employee1_id', null, 'Mission consultée', 'Vous avez consulté la mission', true, false, now(), now());
 

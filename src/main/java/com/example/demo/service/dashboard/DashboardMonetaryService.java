@@ -128,7 +128,8 @@ public class DashboardMonetaryService {
                 l ->
                     ActiveLoanItem.builder()
                         .loanId(l.getId())
-                        .lender(l.getLender())
+                        .organizationName(
+                            l.getOrganization() != null ? l.getOrganization().getName() : null)
                         .remainingAmount(l.getAmount())
                         .nextPaymentDate(l.getDueDate() != null ? l.getDueDate().toString() : null)
                         .build())
@@ -317,7 +318,8 @@ public class DashboardMonetaryService {
                 l ->
                     MonetaryBreakdownResponse.ActiveLoanItem.builder()
                         .loanId(l.getId())
-                        .lender(l.getLender())
+                        .organizationName(
+                            l.getOrganization() != null ? l.getOrganization().getName() : null)
                         .remainingAmount(l.getAmount())
                         .nextPaymentDate(l.getDueDate() != null ? l.getDueDate().toString() : null)
                         .build())

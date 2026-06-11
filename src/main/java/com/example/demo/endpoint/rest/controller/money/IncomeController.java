@@ -54,14 +54,14 @@ public class IncomeController {
       @PathVariable String jobId,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
-      @RequestParam(name = "source_organization", required = false) String sourceOrganization,
+      @RequestParam(name = "organization_id", required = false) String organizationId,
       @RequestParam(name = "invoice_reference", required = false) String invoiceReference,
       @RequestParam(name = "description", required = false) String description,
       @RequestParam(name = "amount", required = false) BigDecimal amount,
       @RequestParam(name = "income_type_id", required = false) String incomeTypeId,
       @RequestParam(name = "money_received", required = false) Boolean moneyReceived) {
     IncomeMoneyCriteria criteria = new IncomeMoneyCriteria();
-    criteria.setSourceOrganization(sourceOrganization);
+    criteria.setOrganizationId(organizationId);
     criteria.setInvoiceReference(invoiceReference);
     criteria.setDescription(description);
     criteria.setAmount(amount);
@@ -80,14 +80,14 @@ public class IncomeController {
       @PathVariable String userId,
       @PathVariable String companyId,
       @PathVariable String jobId,
-      @RequestParam(name = "source_organization", required = false) String sourceOrganization,
+      @RequestParam(name = "organization_id", required = false) String organizationId,
       @RequestParam(name = "invoice_reference", required = false) String invoiceReference,
       @RequestParam(name = "description", required = false) String description,
       @RequestParam(name = "amount", required = false) BigDecimal amount,
       @RequestParam(name = "income_type_id", required = false) String incomeTypeId,
       @RequestParam(name = "money_received", required = false) Boolean moneyReceived) {
     IncomeMoneyCriteria criteria = new IncomeMoneyCriteria();
-    criteria.setSourceOrganization(sourceOrganization);
+    criteria.setOrganizationId(organizationId);
     criteria.setInvoiceReference(invoiceReference);
     criteria.setDescription(description);
     criteria.setAmount(amount);

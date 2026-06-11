@@ -9,6 +9,6 @@ import lombok.Setter;
 public class LoanCriteria {
   private String description;
   private BigDecimal amount;
-  private String lender;
+  private String organizationId;
   private String jobId;
 }

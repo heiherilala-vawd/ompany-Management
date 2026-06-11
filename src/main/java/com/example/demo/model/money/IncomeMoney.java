@@ -30,9 +30,9 @@ public class IncomeMoney extends MonetaryMovement implements Serializable {
 
   @Id private String id;
 
-  @NotBlank
-  @Size(max = 255)
-  private String sourceOrganization;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "organization_id")
+  private Organization organization;
 
   @NotBlank
   @Size(max = 255)

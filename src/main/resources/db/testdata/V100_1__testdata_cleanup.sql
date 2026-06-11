@@ -47,4 +47,5 @@ DELETE FROM "job";
 DELETE FROM "leave_accrued_by_month";
 DELETE FROM "users_companies";
 DELETE FROM "users";
+DELETE FROM "organization";
 DELETE FROM "company";

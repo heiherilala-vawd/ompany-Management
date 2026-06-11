@@ -67,9 +67,8 @@ public class LoanService {
       if (criteria.getAmount() != null) {
         predicates.add(cb.equal(root.get("amount"), criteria.getAmount()));
       }
-      if (criteria.getLender() != null && !criteria.getLender().isBlank()) {
-        predicates.add(
-            cb.like(cb.lower(root.get("lender")), "%" + criteria.getLender().toLowerCase() + "%"));
+      if (criteria.getOrganizationId() != null && !criteria.getOrganizationId().isBlank()) {
+        predicates.add(cb.equal(root.get("organization").get("id"), criteria.getOrganizationId()));
       }
       if (criteria.getJobId() != null) {
         predicates.add(cb.equal(root.get("job").get("id"), criteria.getJobId()));

@@ -80,8 +80,8 @@ public class MoneyValidator {
       if (income.getJob() == null || income.getJob().getId() == null) {
         errors.add("Income must be associated with a job");
       }
-      if (income.getSourceOrganization() == null || income.getSourceOrganization().isBlank()) {
-        errors.add("Source organization is mandatory for income");
+      if (income.getOrganization() == null || income.getOrganization().getId() == null) {
+        errors.add("Organization is mandatory for income");
       }
       if (income.getIncomeType() == null || income.getIncomeType().getId() == null) {
         errors.add("Income type is mandatory for income");
@@ -428,8 +428,8 @@ public class MoneyValidator {
       if (loan.getAmount() == null || loan.getAmount().compareTo(BigDecimal.ZERO) < 0) {
         errors.add("Loan amount must be non-negative");
       }
-      if (loan.getLender() == null || loan.getLender().isBlank()) {
-        errors.add("Lender is mandatory for loan");
+      if (loan.getOrganization() == null || loan.getOrganization().getId() == null) {
+        errors.add("Organization is mandatory for loan");
       }
       if (loan.getInterestRate() == null || loan.getInterestRate() < 0) {
         errors.add("Interest rate must be non-negative");

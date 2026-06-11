@@ -30,6 +30,7 @@ x-tagGroups:
       - Material
       - MaterialWarehouse
       - Supplier
+      - Organization
       - PurchaseOrder
       - Task
       - TaskSchedule
@@ -93,6 +94,8 @@ tags:
     description: Material stock per warehouse CRUD
   - name: Supplier
     description: Supplier CRUD
+  - name: Organization
+    description: Organization CRUD
   - name: PurchaseOrder
     description: Purchase order CRUD
   - name: Task
@@ -3722,12 +3725,12 @@ paths:
           schema:
             $ref: '#/components/schemas/PageSize'
           example: 20
-        - name: source_organization
+        - name: organization_id
           in: query
-          description: "Filter incomes by source organization, case is ignored"
+          description: "Filter incomes by organization ID"
           schema:
             type: string
-          example: "Client"
+          example: "org_001"
         - name: invoice_reference
           in: query
           description: "Filter incomes by invoice reference, case is ignored"
@@ -4118,12 +4121,12 @@ paths:
           schema:
             type: number
           example: 5000000
-        - name: lender
+        - name: organization_id
           in: query
-          description: "Filter loans by lender, case is ignored"
+          description: "Filter loans by organization ID"
           schema:
             type: string
-          example: "BNI"
+          example: "org_001"
       responses:
         '200':
           description: List of loans
@@ -7333,6 +7336,170 @@ paths:
       responses:
         '204':
           description: Supplier deleted successfully
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+
+  /users/{userId}/companies/{companyId}/organizations:
+    get:
+      tags:
+        - Organization
+      summary: Get all organizations for a company
+      operationId: getOrganizations
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+        - name: companyId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+      responses:
+        '200':
+          description: List of organizations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Organization'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      tags:
+        - Organization
+      summary: Create or update organizations (crupdate)
+      operationId: crupdateOrganizations
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+        - name: companyId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/CrupdateOrganization'
+      responses:
+        '200':
+          description: Organizations created/updated
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Organization'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+
+  /users/{userId}/companies/{companyId}/organizations/{id}:
+    get:
+      tags:
+        - Organization
+      summary: Get organization by ID
+      operationId: getOrganizationById
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+        - name: companyId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "org_001"
+      responses:
+        '200':
+          description: Organization found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organization'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      tags:
+        - Organization
+      summary: Delete an organization
+      operationId: deleteOrganizationById
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+        - name: companyId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "org_001"
+      responses:
+        '204':
+          description: Organization deleted successfully
         '400':
           $ref: '#/components/responses/400'
         '403':
@@ -11769,6 +11936,7 @@ components:
         - BUDGETLINE
         - EQUIPMENTUSAGE
         - MATERIALCONSUMPTION
+        - ORGANIZATION
       example: JOB
     JobStatus:
       type: string
@@ -12915,9 +13083,9 @@ components:
         id:
           type: string
           example: "inc_001"
-        source_organization:
+        organization_id:
           type: string
-          example: "Client Principal"
+          example: "org_001"
         invoice_reference:
           type: string
           example: "FACT-2024-001"
@@ -12959,7 +13127,7 @@ components:
     CrupdateIncomeMoney:
       required:
         - job_id
-        - source_organization
+        - organization_id
         - income_type_id
       allOf:
         - $ref: '#/components/schemas/CrupdateMonetaryMovement'
@@ -12967,11 +13135,9 @@ components:
         id:
           type: string
           example: "inc_001"
-        source_organization:
+        organization_id:
           type: string
-          minLength: 1
-          maxLength: 255
-          example: "Client Principal"
+          example: "org_001"
         invoice_reference:
           type: string
           example: "FACT-2024-001"
@@ -13065,9 +13231,9 @@ components:
         id:
           type: string
           example: "loan_001"
-        lender:
+        organization_id:
           type: string
-          example: "BNI Madagascar"
+          example: "org_001"
         interest_rate:
           type: integer
           description: "Annual interest rate in basis points (e.g., 1200 = 12%)"
@@ -13099,7 +13265,7 @@ components:
     CrupdateLoan:
       required:
         - amount
-        - lender
+        - organization_id
         - interest_rate
         - start_date
         - due_date
@@ -13110,11 +13276,9 @@ components:
         id:
           type: string
           example: "loan_001"
-        lender:
+        organization_id:
           type: string
-          minLength: 1
-          maxLength: 255
-          example: "BNI Madagascar"
+          example: "org_001"
         interest_rate:
           type: integer
           minimum: 0
@@ -14826,6 +14990,66 @@ components:
         contact_name:
           type: string
           example: "Jean Dupont"
+        comment:
+          type: string
+
+    # =========================
+    # ORGANIZATION
+    # =========================
+    Organization:
+      allOf:
+        - $ref: '#/components/schemas/AuditFields'
+      properties:
+        id:
+          type: string
+          example: "org_001"
+        name:
+          type: string
+          example: "Acme Corp"
+        address:
+          type: string
+          example: "123 Main Street, City"
+        email:
+          type: string
+          example: "contact@acme.com"
+        phone:
+          type: string
+          example: "+261 12 345 6789"
+        contact_name:
+          type: string
+          example: "John Doe"
+        company_id:
+          type: string
+          example: "comp_btp001"
+    CrupdateOrganization:
+      required:
+        - name
+      properties:
+        id:
+          type: string
+          example: "org_001"
+        name:
+          type: string
+          minLength: 1
+          maxLength: 255
+          example: "Acme Corp"
+        address:
+          type: string
+          example: "123 Main Street, City"
+        email:
+          type: string
+          format: email
+          maxLength: 255
+          example: "contact@acme.com"
+        phone:
+          type: string
+          example: "+261 12 345 6789"
+        contact_name:
+          type: string
+          example: "John Doe"
+        company_id:
+          type: string
+          example: "comp_btp001"
         comment:
           type: string
 

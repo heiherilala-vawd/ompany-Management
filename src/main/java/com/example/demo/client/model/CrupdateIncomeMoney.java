@@ -35,7 +35,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  */
 @JsonPropertyOrder({
   CrupdateIncomeMoney.JSON_PROPERTY_ID,
-  CrupdateIncomeMoney.JSON_PROPERTY_SOURCE_ORGANIZATION,
+  CrupdateIncomeMoney.JSON_PROPERTY_ORGANIZATION_ID,
   CrupdateIncomeMoney.JSON_PROPERTY_INVOICE_REFERENCE,
   CrupdateIncomeMoney.JSON_PROPERTY_BILLING_START_DATE,
   CrupdateIncomeMoney.JSON_PROPERTY_FACTURATION_DATE,
@@ -47,13 +47,13 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   CrupdateIncomeMoney.JSON_PROPERTY_DESCRIPTION,
   CrupdateIncomeMoney.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-10T12:20:55.604879997+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-10T20:13:14.321093913+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdateIncomeMoney {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
 
-  public static final String JSON_PROPERTY_SOURCE_ORGANIZATION = "source_organization";
-  private String sourceOrganization;
+  public static final String JSON_PROPERTY_ORGANIZATION_ID = "organization_id";
+  private String organizationId;
 
   public static final String JSON_PROPERTY_INVOICE_REFERENCE = "invoice_reference";
   private String invoiceReference;
@@ -113,28 +113,28 @@ public class CrupdateIncomeMoney {
   }
 
 
-  public CrupdateIncomeMoney sourceOrganization(String sourceOrganization) {
-    this.sourceOrganization = sourceOrganization;
+  public CrupdateIncomeMoney organizationId(String organizationId) {
+    this.organizationId = organizationId;
     return this;
   }
 
    /**
-   * Get sourceOrganization
-   * @return sourceOrganization
+   * Get organizationId
+   * @return organizationId
   **/
   @jakarta.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_SOURCE_ORGANIZATION)
+  @JsonProperty(JSON_PROPERTY_ORGANIZATION_ID)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
-  public String getSourceOrganization() {
-    return sourceOrganization;
+  public String getOrganizationId() {
+    return organizationId;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_SOURCE_ORGANIZATION)
+  @JsonProperty(JSON_PROPERTY_ORGANIZATION_ID)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setSourceOrganization(String sourceOrganization) {
-    this.sourceOrganization = sourceOrganization;
+  public void setOrganizationId(String organizationId) {
+    this.organizationId = organizationId;
   }
 
 
@@ -402,7 +402,7 @@ public class CrupdateIncomeMoney {
     }
     CrupdateIncomeMoney crupdateIncomeMoney = (CrupdateIncomeMoney) o;
     return Objects.equals(this.id, crupdateIncomeMoney.id) &&
-        Objects.equals(this.sourceOrganization, crupdateIncomeMoney.sourceOrganization) &&
+        Objects.equals(this.organizationId, crupdateIncomeMoney.organizationId) &&
         Objects.equals(this.invoiceReference, crupdateIncomeMoney.invoiceReference) &&
         Objects.equals(this.billingStartDate, crupdateIncomeMoney.billingStartDate) &&
         Objects.equals(this.facturationDate, crupdateIncomeMoney.facturationDate) &&
@@ -417,7 +417,7 @@ public class CrupdateIncomeMoney {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, sourceOrganization, invoiceReference, billingStartDate, facturationDate, dueDate, paymentTerms, jobId, incomeTypeId, amount, description, comment);
+    return Objects.hash(id, organizationId, invoiceReference, billingStartDate, facturationDate, dueDate, paymentTerms, jobId, incomeTypeId, amount, description, comment);
   }
 
   @Override
@@ -425,7 +425,7 @@ public class CrupdateIncomeMoney {
     StringBuilder sb = new StringBuilder();
     sb.append("class CrupdateIncomeMoney {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    sourceOrganization: ").append(toIndentedString(sourceOrganization)).append("\n");
+    sb.append("    organizationId: ").append(toIndentedString(organizationId)).append("\n");
     sb.append("    invoiceReference: ").append(toIndentedString(invoiceReference)).append("\n");
     sb.append("    billingStartDate: ").append(toIndentedString(billingStartDate)).append("\n");
     sb.append("    facturationDate: ").append(toIndentedString(facturationDate)).append("\n");

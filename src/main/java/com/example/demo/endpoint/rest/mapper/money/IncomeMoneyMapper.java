@@ -7,6 +7,7 @@ import com.example.demo.endpoint.rest.mapper.JobMapper;
 import com.example.demo.endpoint.rest.mapper.RestAuditMapperUtils;
 import com.example.demo.service.JobService;
 import com.example.demo.service.money.IncomeTypeService;
+import com.example.demo.service.money.OrganizationService;
 import java.math.BigDecimal;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
@@ -20,13 +21,17 @@ public class IncomeMoneyMapper {
   private final JobMapper jobMapper;
   private final IncomeTypeService incomeTypeService;
   private final IncomeTypeMapper incomeTypeMapper;
+  private final OrganizationService organizationService;
 
   public com.example.demo.model.money.IncomeMoney toDomain(IncomeMoney restIncome) {
     if (restIncome == null) return null;
 
     return com.example.demo.model.money.IncomeMoney.builder()
         .id(restIncome.getId())
-        .sourceOrganization(restIncome.getSourceOrganization())
+        .organization(
+            restIncome.getOrganizationId() != null
+                ? organizationService.findById(restIncome.getOrganizationId())
+                : null)
         .invoiceReference(restIncome.getInvoiceReference())
         .billingStartDate(restIncome.getBillingStartDate())
         .facturationDate(restIncome.getFacturationDate())
@@ -51,7 +56,10 @@ public class IncomeMoneyMapper {
 
     return com.example.demo.model.money.IncomeMoney.builder()
         .id(restIncome.getId())
-        .sourceOrganization(restIncome.getSourceOrganization())
+        .organization(
+            restIncome.getOrganizationId() != null
+                ? organizationService.findById(restIncome.getOrganizationId())
+                : null)
         .invoiceReference(restIncome.getInvoiceReference())
         .billingStartDate(restIncome.getBillingStartDate())
         .facturationDate(restIncome.getFacturationDate())
@@ -76,7 +84,8 @@ public class IncomeMoneyMapper {
 
     IncomeMoney restIncome = new IncomeMoney();
     restIncome.setId(domainIncome.getId());
-    restIncome.setSourceOrganization(domainIncome.getSourceOrganization());
+    restIncome.setOrganizationId(
+        domainIncome.getOrganization() != null ? domainIncome.getOrganization().getId() : null);
     restIncome.setInvoiceReference(domainIncome.getInvoiceReference());
     restIncome.setBillingStartDate(domainIncome.getBillingStartDate());
     restIncome.setFacturationDate(domainIncome.getFacturationDate());

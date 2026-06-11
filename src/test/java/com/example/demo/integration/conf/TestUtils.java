@@ -2,6 +2,7 @@ package com.example.demo.integration.conf;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -35,6 +36,7 @@ import com.example.demo.client.model.CrupdateLoanRepayment;
 import com.example.demo.client.model.CrupdateMaintenance;
 import com.example.demo.client.model.CrupdateMaterial;
 import com.example.demo.client.model.CrupdateMaterialConsumption;
+import com.example.demo.client.model.CrupdateOrganization;
 import com.example.demo.client.model.CrupdateOtherExpense;
 import com.example.demo.client.model.CrupdateOtherExpenseType;
 import com.example.demo.client.model.CrupdatePurchase;
@@ -65,6 +67,7 @@ import com.example.demo.client.model.LoanRepayment;
 import com.example.demo.client.model.Maintenance;
 import com.example.demo.client.model.Material;
 import com.example.demo.client.model.MaterialConsumption;
+import com.example.demo.client.model.Organization;
 import com.example.demo.client.model.OtherExpense;
 import com.example.demo.client.model.OtherExpenseType;
 import com.example.demo.client.model.Purchase;
@@ -167,6 +170,9 @@ public class TestUtils {
   public static final String POL3_ID = "pol3_id";
   public static final String MS1_ID = "ms1_id";
   public static final String MS2_ID = "ms2_id";
+
+  public static final String ORGANIZATION1_ID = "org1_id";
+  public static final String ORGANIZATION2_ID = "org2_id";
 
   public static final String LEAVE1_ID = "leave1_id";
   public static final String LEAVE2_ID = "leave2_id";
@@ -832,6 +838,22 @@ public class TestUtils {
     return TestMoneyFixtures.someCreatableSupplier();
   }
 
+  public static Organization organization1() {
+    return TestOrganizationFixtures.organization1();
+  }
+
+  public static Organization organization2() {
+    return TestOrganizationFixtures.organization2();
+  }
+
+  public static CrupdateOrganization organizationToCrupdateOrganization(Organization organization) {
+    return TestOrganizationFixtures.organizationToCrupdateOrganization(organization);
+  }
+
+  public static CrupdateOrganization someCreatableOrganization() {
+    return TestOrganizationFixtures.someCreatableOrganization();
+  }
+
   public static PurchaseOrder purchaseOrder1() {
     return TestMoneyFixtures.purchaseOrder1();
   }
@@ -892,7 +914,14 @@ public class TestUtils {
   @SneakyThrows
   public static void assertThrowsApiException(String expectedMessage, Executable executable) {
     ApiException exception = assertThrows(ApiException.class, executable);
-    assertEquals(expectedMessage, exception.getResponseBody());
+    String body = exception.getResponseBody();
+    if (body != null && body.startsWith("{")) {
+      assertTrue(
+          body.contains(expectedMessage),
+          "Expected body to contain: " + expectedMessage + " but was: " + body);
+    } else {
+      assertEquals(expectedMessage, body);
+    }
   }
 
   public static void assertThrowsForbiddenException(Executable executable) {

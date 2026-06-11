@@ -40,6 +40,16 @@ public final class TestNotificationFixtures {
     return n;
   }
 
+  static Notification notifAdminTask() {
+    Notification n = new Notification();
+    n.setId("notif_admin_task");
+    n.setTitle("Tâche assignée");
+    n.setMessage("Vous avez été assigné à une tâche");
+    n.setRead(false);
+    n.setCompleted(false);
+    return n;
+  }
+
   static Notification notifEmployeeUnread() {
     Notification n = new Notification();
     n.setId("notif_employee_unread");

@@ -41,7 +41,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   EquipmentBreakdownResponse.JSON_PROPERTY_LEASED_EQUIPMENT,
   EquipmentBreakdownResponse.JSON_PROPERTY_SCHEDULED_MAINTENANCES
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-10T12:20:55.604879997+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-10T20:13:14.321093913+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class EquipmentBreakdownResponse {
   public static final String JSON_PROPERTY_CATEGORY_DISTRIBUTION = "category_distribution";
   private List<Object> categoryDistribution = new ArrayList<>();

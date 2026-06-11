@@ -73,11 +73,8 @@ public class IncomeMoneyService {
     return (root, query, cb) -> {
       List<jakarta.persistence.criteria.Predicate> predicates = new java.util.ArrayList<>();
 
-      if (criteria.getSourceOrganization() != null && !criteria.getSourceOrganization().isBlank()) {
-        predicates.add(
-            cb.like(
-                cb.lower(root.get("sourceOrganization")),
-                "%" + criteria.getSourceOrganization().toLowerCase() + "%"));
+      if (criteria.getOrganizationId() != null && !criteria.getOrganizationId().isBlank()) {
+        predicates.add(cb.equal(root.get("organization").get("id"), criteria.getOrganizationId()));
       }
       if (criteria.getInvoiceReference() != null && !criteria.getInvoiceReference().isBlank()) {
         predicates.add(

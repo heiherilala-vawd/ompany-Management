@@ -549,6 +549,19 @@ public class SecurityConfiguration {
                     .hasRole("ADMIN")
 
                     // =========================
+                    // ORGANIZATION
+                    // =========================
+                    .requestMatchers(
+                        GET,
+                        "/users/*/companies/*/organizations",
+                        "/users/*/companies/*/organizations/*")
+                    .authenticated()
+                    .requestMatchers(PUT, "/users/*/companies/*/organizations")
+                    .authenticated()
+                    .requestMatchers(DELETE, "/users/*/companies/*/organizations/*")
+                    .hasRole("ADMIN")
+
+                    // =========================
                     // PURCHASE ORDER
                     // =========================
                     .requestMatchers(

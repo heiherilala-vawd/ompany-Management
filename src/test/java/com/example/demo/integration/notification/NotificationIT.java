@@ -14,6 +14,10 @@ import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
 import com.example.demo.integration.conf.TestDataSqlLoader;
 import com.example.demo.integration.conf.TestUtils;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.List;
 import javax.sql.DataSource;
 import org.junit.jupiter.api.BeforeEach;
@@ -51,6 +55,26 @@ class NotificationIT {
 
   @Test
   void admin_can_get_own_notifications() throws Exception {
+    var client = HttpClient.newHttpClient();
+    var request =
+        HttpRequest.newBuilder()
+            .uri(
+                URI.create(
+                    "http://localhost:"
+                        + ContextInitializer.SERVER_PORT
+                        + "/users/"
+                        + ADMIN_ID
+                        + "/companies/"
+                        + COMPANY1_ID
+                        + "/notifications"))
+            .header("Authorization", "Bearer " + ADMIN_TOKEN)
+            .header("Accept", "application/json")
+            .GET()
+            .build();
+    HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+    System.err.println("RAW JSON: " + response.body());
+    client.close();
+
     NotificationApi api = new NotificationApi(anApiClient(ADMIN_TOKEN));
     List<Notification> notifs = api.getNotifications(ADMIN_ID, COMPANY1_ID, null, null, null, null);
     assertEquals(4, notifs.size());

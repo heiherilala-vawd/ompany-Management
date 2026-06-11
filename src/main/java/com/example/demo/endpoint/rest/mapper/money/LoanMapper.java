@@ -6,6 +6,7 @@ import com.example.demo.client.model.LoanRepayment;
 import com.example.demo.endpoint.rest.mapper.JobMapper;
 import com.example.demo.endpoint.rest.mapper.RestAuditMapperUtils;
 import com.example.demo.service.JobService;
+import com.example.demo.service.money.OrganizationService;
 import java.math.BigDecimal;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
@@ -17,13 +18,17 @@ public class LoanMapper {
 
   private final JobService jobService;
   private final JobMapper jobMapper;
+  private final OrganizationService organizationService;
 
   public com.example.demo.model.money.Loan toDomain(Loan restLoan) {
     if (restLoan == null) return null;
 
     return com.example.demo.model.money.Loan.builder()
         .id(restLoan.getId())
-        .lender(restLoan.getLender())
+        .organization(
+            restLoan.getOrganizationId() != null
+                ? organizationService.findById(restLoan.getOrganizationId())
+                : null)
         .interestRate(restLoan.getInterestRate())
         .startDate(restLoan.getStartDate())
         .dueDate(restLoan.getDueDate())
@@ -42,7 +47,10 @@ public class LoanMapper {
 
     return com.example.demo.model.money.Loan.builder()
         .id(restLoan.getId())
-        .lender(restLoan.getLender())
+        .organization(
+            restLoan.getOrganizationId() != null
+                ? organizationService.findById(restLoan.getOrganizationId())
+                : null)
         .interestRate(restLoan.getInterestRate())
         .startDate(restLoan.getStartDate())
         .dueDate(restLoan.getDueDate())
@@ -61,7 +69,8 @@ public class LoanMapper {
 
     return new CrupdateLoan()
         .id(domainLoan.getId())
-        .lender(domainLoan.getLender())
+        .organizationId(
+            domainLoan.getOrganization() != null ? domainLoan.getOrganization().getId() : null)
         .interestRate(domainLoan.getInterestRate())
         .startDate(domainLoan.getStartDate())
         .dueDate(domainLoan.getDueDate())
@@ -76,7 +85,8 @@ public class LoanMapper {
 
     Loan restLoan = new Loan();
     restLoan.setId(domainLoan.getId());
-    restLoan.setLender(domainLoan.getLender());
+    restLoan.setOrganizationId(
+        domainLoan.getOrganization() != null ? domainLoan.getOrganization().getId() : null);
     restLoan.setInterestRate(domainLoan.getInterestRate());
     restLoan.setStartDate(domainLoan.getStartDate());
     restLoan.setDueDate(domainLoan.getDueDate());
