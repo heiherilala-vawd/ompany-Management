@@ -35,7 +35,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  */
 @JsonPropertyOrder({
   CrupdateLoan.JSON_PROPERTY_ID,
-  CrupdateLoan.JSON_PROPERTY_LENDER,
+  CrupdateLoan.JSON_PROPERTY_ORGANIZATION_ID,
   CrupdateLoan.JSON_PROPERTY_INTEREST_RATE,
   CrupdateLoan.JSON_PROPERTY_START_DATE,
   CrupdateLoan.JSON_PROPERTY_DUE_DATE,
@@ -44,13 +44,13 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   CrupdateLoan.JSON_PROPERTY_DESCRIPTION,
   CrupdateLoan.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-10T12:20:55.604879997+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-10T20:13:14.321093913+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdateLoan {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
 
-  public static final String JSON_PROPERTY_LENDER = "lender";
-  private String lender;
+  public static final String JSON_PROPERTY_ORGANIZATION_ID = "organization_id";
+  private String organizationId;
 
   public static final String JSON_PROPERTY_INTEREST_RATE = "interest_rate";
   private Integer interestRate;
@@ -101,28 +101,28 @@ public class CrupdateLoan {
   }
 
 
-  public CrupdateLoan lender(String lender) {
-    this.lender = lender;
+  public CrupdateLoan organizationId(String organizationId) {
+    this.organizationId = organizationId;
     return this;
   }
 
    /**
-   * Get lender
-   * @return lender
+   * Get organizationId
+   * @return organizationId
   **/
   @jakarta.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_LENDER)
+  @JsonProperty(JSON_PROPERTY_ORGANIZATION_ID)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
-  public String getLender() {
-    return lender;
+  public String getOrganizationId() {
+    return organizationId;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_LENDER)
+  @JsonProperty(JSON_PROPERTY_ORGANIZATION_ID)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setLender(String lender) {
-    this.lender = lender;
+  public void setOrganizationId(String organizationId) {
+    this.organizationId = organizationId;
   }
 
 
@@ -316,7 +316,7 @@ public class CrupdateLoan {
     }
     CrupdateLoan crupdateLoan = (CrupdateLoan) o;
     return Objects.equals(this.id, crupdateLoan.id) &&
-        Objects.equals(this.lender, crupdateLoan.lender) &&
+        Objects.equals(this.organizationId, crupdateLoan.organizationId) &&
         Objects.equals(this.interestRate, crupdateLoan.interestRate) &&
         Objects.equals(this.startDate, crupdateLoan.startDate) &&
         Objects.equals(this.dueDate, crupdateLoan.dueDate) &&
@@ -328,7 +328,7 @@ public class CrupdateLoan {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, lender, interestRate, startDate, dueDate, jobId, amount, description, comment);
+    return Objects.hash(id, organizationId, interestRate, startDate, dueDate, jobId, amount, description, comment);
   }
 
   @Override
@@ -336,7 +336,7 @@ public class CrupdateLoan {
     StringBuilder sb = new StringBuilder();
     sb.append("class CrupdateLoan {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    lender: ").append(toIndentedString(lender)).append("\n");
+    sb.append("    organizationId: ").append(toIndentedString(organizationId)).append("\n");
     sb.append("    interestRate: ").append(toIndentedString(interestRate)).append("\n");
     sb.append("    startDate: ").append(toIndentedString(startDate)).append("\n");
     sb.append("    dueDate: ").append(toIndentedString(dueDate)).append("\n");

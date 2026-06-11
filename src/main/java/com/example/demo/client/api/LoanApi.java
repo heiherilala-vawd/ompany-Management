@@ -51,7 +51,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-10T12:20:55.604879997+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-10T20:13:14.321093913+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class LoanApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -388,12 +388,12 @@ public class LoanApi {
    * @param pageSize  (optional)
    * @param description Filter loans by description, case is ignored (optional)
    * @param amount  (optional)
-   * @param lender Filter loans by lender, case is ignored (optional)
+   * @param organizationId Filter loans by organization ID (optional)
    * @return List&lt;Loan&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<Loan> getLoans(String userId, String companyId, String jobId, Integer page, Integer pageSize, String description, BigDecimal amount, String lender) throws ApiException {
-    ApiResponse<List<Loan>> localVarResponse = getLoansWithHttpInfo(userId, companyId, jobId, page, pageSize, description, amount, lender);
+  public List<Loan> getLoans(String userId, String companyId, String jobId, Integer page, Integer pageSize, String description, BigDecimal amount, String organizationId) throws ApiException {
+    ApiResponse<List<Loan>> localVarResponse = getLoansWithHttpInfo(userId, companyId, jobId, page, pageSize, description, amount, organizationId);
     return localVarResponse.getData();
   }
 
@@ -407,12 +407,12 @@ public class LoanApi {
    * @param pageSize  (optional)
    * @param description Filter loans by description, case is ignored (optional)
    * @param amount  (optional)
-   * @param lender Filter loans by lender, case is ignored (optional)
+   * @param organizationId Filter loans by organization ID (optional)
    * @return ApiResponse&lt;List&lt;Loan&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<Loan>> getLoansWithHttpInfo(String userId, String companyId, String jobId, Integer page, Integer pageSize, String description, BigDecimal amount, String lender) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getLoansRequestBuilder(userId, companyId, jobId, page, pageSize, description, amount, lender);
+  public ApiResponse<List<Loan>> getLoansWithHttpInfo(String userId, String companyId, String jobId, Integer page, Integer pageSize, String description, BigDecimal amount, String organizationId) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getLoansRequestBuilder(userId, companyId, jobId, page, pageSize, description, amount, organizationId);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -440,7 +440,7 @@ public class LoanApi {
     }
   }
 
-  private HttpRequest.Builder getLoansRequestBuilder(String userId, String companyId, String jobId, Integer page, Integer pageSize, String description, BigDecimal amount, String lender) throws ApiException {
+  private HttpRequest.Builder getLoansRequestBuilder(String userId, String companyId, String jobId, Integer page, Integer pageSize, String description, BigDecimal amount, String organizationId) throws ApiException {
     // verify the required parameter 'userId' is set
     if (userId == null) {
       throw new ApiException(400, "Missing the required parameter 'userId' when calling getLoans");
@@ -472,8 +472,8 @@ public class LoanApi {
     localVarQueryParams.addAll(ApiClient.parameterToPairs("description", description));
     localVarQueryParameterBaseName = "amount";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("amount", amount));
-    localVarQueryParameterBaseName = "lender";
-    localVarQueryParams.addAll(ApiClient.parameterToPairs("lender", lender));
+    localVarQueryParameterBaseName = "organization_id";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("organization_id", organizationId));
 
     if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
       StringJoiner queryJoiner = new StringJoiner("&");

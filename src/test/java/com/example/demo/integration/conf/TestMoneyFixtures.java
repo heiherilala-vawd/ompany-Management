@@ -59,7 +59,7 @@ final class TestMoneyFixtures {
     IncomeMoney income = new IncomeMoney();
     income.setId(TestUtils.INCOME1_ID);
     income.setJob(TestOrganizationFixtures.jobToCrupdateJob(TestOrganizationFixtures.job1()));
-    income.setSourceOrganization("Client Alpha");
+    income.setOrganizationId("org2_id");
     income.setInvoiceReference("INV-2024-001");
     income.setBillingStartDate(LocalDate.of(2024, 1, 15));
     income.setDueDate(LocalDate.of(2024, 2, 15));
@@ -80,7 +80,7 @@ final class TestMoneyFixtures {
     IncomeMoney income = new IncomeMoney();
     income.setId(TestUtils.INCOME2_ID);
     income.setJob(TestOrganizationFixtures.jobToCrupdateJob(TestOrganizationFixtures.job1()));
-    income.setSourceOrganization("Client Beta");
+    income.setOrganizationId("org2_id");
     income.setInvoiceReference("INV-2024-002");
     income.setBillingStartDate(LocalDate.of(2024, 2, 10));
     income.setDueDate(LocalDate.of(2024, 3, 12));
@@ -132,7 +132,7 @@ final class TestMoneyFixtures {
     CrupdateIncomeMoney crupdateIncome = new CrupdateIncomeMoney();
     crupdateIncome.setId(income.getId());
     crupdateIncome.setJobId(income.getJob() != null ? income.getJob().getId() : null);
-    crupdateIncome.setSourceOrganization(income.getSourceOrganization());
+    crupdateIncome.setOrganizationId(income.getOrganizationId());
     crupdateIncome.setInvoiceReference(income.getInvoiceReference());
     crupdateIncome.setBillingStartDate(income.getBillingStartDate());
     crupdateIncome.setDueDate(income.getDueDate());
@@ -149,7 +149,7 @@ final class TestMoneyFixtures {
     CrupdateIncomeMoney income = new CrupdateIncomeMoney();
     income.setId(UUID.randomUUID().toString());
     income.setJobId(TestUtils.JOB1_ID);
-    income.setSourceOrganization("Client Gamma");
+    income.setOrganizationId(TestUtils.ORGANIZATION1_ID);
     income.setInvoiceReference("INV-2024-003");
     income.setBillingStartDate(LocalDate.of(2024, 3, 1));
     income.setDueDate(LocalDate.of(2024, 3, 31));
@@ -464,7 +464,7 @@ final class TestMoneyFixtures {
     Loan loan = new Loan();
     loan.setId(TestUtils.LOAN1_ID);
     loan.setJob(TestOrganizationFixtures.jobToCrupdateJob(TestOrganizationFixtures.job1()));
-    loan.setLender("BNI Madagascar");
+    loan.setOrganizationId("org1_id");
     loan.setInterestRate(1200);
     loan.setStartDate(LocalDate.of(2024, 2, 1));
     loan.setDueDate(LocalDate.of(2026, 12, 31));
@@ -492,7 +492,7 @@ final class TestMoneyFixtures {
     Loan loan = new Loan();
     loan.setId(TestUtils.LOAN2_ID);
     loan.setJob(TestOrganizationFixtures.jobToCrupdateJob(TestOrganizationFixtures.job1()));
-    loan.setLender("BOA Madagascar");
+    loan.setOrganizationId("org1_id");
     loan.setInterestRate(1500);
     loan.setStartDate(LocalDate.of(2024, 3, 1));
     loan.setStatus(LoanStatus.ACTIVE);
@@ -505,7 +505,7 @@ final class TestMoneyFixtures {
     CrupdateLoan crupdateLoan = new CrupdateLoan();
     crupdateLoan.setId(loan.getId());
     crupdateLoan.setJobId(loan.getJob() != null ? loan.getJob().getId() : null);
-    crupdateLoan.setLender(loan.getLender());
+    crupdateLoan.setOrganizationId(loan.getOrganizationId());
     crupdateLoan.setInterestRate(loan.getInterestRate());
     crupdateLoan.setStartDate(loan.getStartDate());
     crupdateLoan.setDueDate(loan.getDueDate());
@@ -519,7 +519,7 @@ final class TestMoneyFixtures {
     CrupdateLoan loan = new CrupdateLoan();
     loan.setId(UUID.randomUUID().toString());
     loan.setJobId(TestUtils.JOB1_ID);
-    loan.setLender("MCB Madagascar");
+    loan.setOrganizationId("org1_id");
     loan.setInterestRate(1000);
     loan.setStartDate(LocalDate.of(2024, 6, 1));
     loan.setDueDate(LocalDate.of(2026, 12, 31));
@@ -599,7 +599,7 @@ final class TestMoneyFixtures {
     Loan loan = new Loan();
     loan.setId(TestUtils.LOAN3_ID);
     loan.setJob(TestOrganizationFixtures.jobToCrupdateJob(TestOrganizationFixtures.job1()));
-    loan.setLender("Microcred");
+    loan.setOrganizationId("org1_id");
     loan.setInterestRate(1000);
     loan.setStartDate(LocalDate.of(2024, 1, 15));
     loan.setStatus(LoanStatus.PAID);
@@ -620,7 +620,7 @@ final class TestMoneyFixtures {
     Loan loan = new Loan();
     loan.setId(TestUtils.LOAN4_ID);
     loan.setJob(TestOrganizationFixtures.jobToCrupdateJob(TestOrganizationFixtures.job1()));
-    loan.setLender("MBC Madagascar");
+    loan.setOrganizationId("org1_id");
     loan.setInterestRate(1000);
     loan.setStartDate(LocalDate.of(2024, 3, 1));
     loan.setDueDate(LocalDate.of(2024, 6, 1));
@@ -635,7 +635,7 @@ final class TestMoneyFixtures {
     Loan loan = new Loan();
     loan.setId(TestUtils.LOAN5_ID);
     loan.setJob(TestOrganizationFixtures.jobToCrupdateJob(TestOrganizationFixtures.job1()));
-    loan.setLender("SIPEM");
+    loan.setOrganizationId("org1_id");
     loan.setInterestRate(1000);
     loan.setStartDate(LocalDate.of(2024, 1, 1));
     loan.setDueDate(LocalDate.of(2024, 6, 1));
@@ -657,7 +657,7 @@ final class TestMoneyFixtures {
     IncomeMoney income = new IncomeMoney();
     income.setId(TestUtils.INCOME5_ID);
     income.setJob(TestOrganizationFixtures.jobToCrupdateJob(TestOrganizationFixtures.job1()));
-    income.setSourceOrganization("Client Delta");
+    income.setOrganizationId("org2_id");
     income.setInvoiceReference("INV-2024-005");
     income.setBillingStartDate(LocalDate.of(2024, 4, 1));
     income.setDueDate(LocalDate.of(2024, 5, 1));
@@ -678,7 +678,7 @@ final class TestMoneyFixtures {
     IncomeMoney income = new IncomeMoney();
     income.setId(TestUtils.INCOME6_ID);
     income.setJob(TestOrganizationFixtures.jobToCrupdateJob(TestOrganizationFixtures.job1()));
-    income.setSourceOrganization("Client Epsilon");
+    income.setOrganizationId("org2_id");
     income.setInvoiceReference("INV-2024-006");
     income.setBillingStartDate(LocalDate.of(2024, 4, 15));
     income.setDueDate(LocalDate.of(2024, 5, 15));
@@ -703,7 +703,7 @@ final class TestMoneyFixtures {
     IncomeMoney income = new IncomeMoney();
     income.setId(TestUtils.INCOME7_ID);
     income.setJob(TestOrganizationFixtures.jobToCrupdateJob(TestOrganizationFixtures.job1()));
-    income.setSourceOrganization("Client Zeta");
+    income.setOrganizationId("org2_id");
     income.setInvoiceReference("INV-2024-007");
     income.setBillingStartDate(LocalDate.of(2024, 5, 1));
     income.setDueDate(LocalDate.of(2024, 5, 31));
@@ -915,8 +915,8 @@ final class TestMoneyFixtures {
     CashAccount cashAccount = new CashAccount();
     cashAccount.setId(TestUtils.CASH_ACCOUNT1_ID);
     cashAccount.setName("Compte bancaire principal");
-    cashAccount.setBalance(new java.math.BigDecimal("100000.00"));
-    cashAccount.setDescription("Compte principal BNI");
+    cashAccount.setBalance(new java.math.BigDecimal("1000000.00"));
+    cashAccount.setDescription("Compte courant BNI");
     cashAccount.setCompanyId(TestUtils.COMPANY1_ID);
     return cashAccount;
   }
@@ -925,8 +925,8 @@ final class TestMoneyFixtures {
     CashAccount cashAccount = new CashAccount();
     cashAccount.setId(TestUtils.CASH_ACCOUNT2_ID);
     cashAccount.setName("Caisse");
-    cashAccount.setBalance(new java.math.BigDecimal("50000.00"));
-    cashAccount.setDescription("Caisse especes bureau");
+    cashAccount.setBalance(new java.math.BigDecimal("500000.00"));
+    cashAccount.setDescription("Caisse entreprise");
     cashAccount.setCompanyId(TestUtils.COMPANY1_ID);
     return cashAccount;
   }
@@ -956,12 +956,12 @@ final class TestMoneyFixtures {
     BudgetLine budgetLine = new BudgetLine();
     budgetLine.setId(TestUtils.BUDGET_LINE1_ID);
     budgetLine.setCompanyId(TestUtils.COMPANY1_ID);
-    budgetLine.setCategory("Materiaux");
-    budgetLine.setPlannedAmount(new java.math.BigDecimal("50000.00"));
-    budgetLine.setActualAmount(new java.math.BigDecimal("45000.00"));
+    budgetLine.setCategory("Matériaux");
+    budgetLine.setPlannedAmount(new java.math.BigDecimal("500000.00"));
+    budgetLine.setActualAmount(new java.math.BigDecimal("450000.00"));
     budgetLine.setPeriodStart(java.time.LocalDate.of(2024, 1, 1));
     budgetLine.setPeriodEnd(java.time.LocalDate.of(2024, 12, 31));
-    budgetLine.setDescription("Budget materiaux construction");
+    budgetLine.setDescription("Budget matériaux construction");
     return budgetLine;
   }
 
@@ -969,12 +969,12 @@ final class TestMoneyFixtures {
     BudgetLine budgetLine = new BudgetLine();
     budgetLine.setId(TestUtils.BUDGET_LINE2_ID);
     budgetLine.setCompanyId(TestUtils.COMPANY1_ID);
-    budgetLine.setCategory("Main-d'oeuvre");
-    budgetLine.setPlannedAmount(new java.math.BigDecimal("80000.00"));
-    budgetLine.setActualAmount(new java.math.BigDecimal("75000.00"));
+    budgetLine.setCategory("Main-d'œuvre");
+    budgetLine.setPlannedAmount(new java.math.BigDecimal("300000.00"));
+    budgetLine.setActualAmount(new java.math.BigDecimal("280000.00"));
     budgetLine.setPeriodStart(java.time.LocalDate.of(2024, 1, 1));
     budgetLine.setPeriodEnd(java.time.LocalDate.of(2024, 12, 31));
-    budgetLine.setDescription("Budget main-d'oeuvre");
+    budgetLine.setDescription("Budget main-d'œuvre");
     return budgetLine;
   }
 
@@ -1009,9 +1009,9 @@ final class TestMoneyFixtures {
     CashTransaction cashTransaction = new CashTransaction();
     cashTransaction.setId(TestUtils.CASH_TXN1_ID);
     cashTransaction.setCashAccountId(TestUtils.CASH_ACCOUNT1_ID);
-    cashTransaction.setAmount(new java.math.BigDecimal("1500.00"));
-    cashTransaction.setTransactionDate(java.time.LocalDate.of(2024, 1, 15));
-    cashTransaction.setDescription("Achat materiel bureau");
+    cashTransaction.setAmount(new java.math.BigDecimal("50000.00"));
+    cashTransaction.setTransactionDate(java.time.LocalDate.of(2024, 6, 1));
+    cashTransaction.setDescription("Achat matériel bureau");
     cashTransaction.setType(CashTransactionType.DEBIT);
     return cashTransaction;
   }
@@ -1020,9 +1020,9 @@ final class TestMoneyFixtures {
     CashTransaction cashTransaction = new CashTransaction();
     cashTransaction.setId(TestUtils.CASH_TXN2_ID);
     cashTransaction.setCashAccountId(TestUtils.CASH_ACCOUNT1_ID);
-    cashTransaction.setAmount(new java.math.BigDecimal("25000.00"));
-    cashTransaction.setTransactionDate(java.time.LocalDate.of(2024, 2, 1));
-    cashTransaction.setDescription("Paiement fournisseur");
+    cashTransaction.setAmount(new java.math.BigDecimal("200000.00"));
+    cashTransaction.setTransactionDate(java.time.LocalDate.of(2024, 6, 15));
+    cashTransaction.setDescription("Virement client");
     cashTransaction.setType(CashTransactionType.CREDIT);
     return cashTransaction;
   }

@@ -3,9 +3,7 @@ package com.example.demo.model.money;
 import com.example.demo.model.Job;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
@@ -30,9 +28,9 @@ public class Loan extends MonetaryMovement implements Serializable {
 
   @Id private String id;
 
-  @NotBlank
-  @Size(max = 255)
-  private String lender;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "organization_id")
+  private Organization organization;
 
   @NotNull
   @Min(0)

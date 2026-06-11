@@ -17,8 +17,8 @@ import org.springframework.stereotype.Repository;
 public interface IncomeMoneyRepository
     extends JpaRepository<IncomeMoney, String>, JpaSpecificationExecutor<IncomeMoney> {
 
-  Page<IncomeMoney> findBySourceOrganizationContainingIgnoreCase(
-      String sourceOrganization, Pageable pageable);
+  Page<IncomeMoney> findByOrganizationIdContainingIgnoreCase(
+      String organizationId, Pageable pageable);
 
   Optional<IncomeMoney> findByInvoiceReference(String invoiceReference);
 

@@ -159,8 +159,8 @@ public class MonetaryBreakdownResponse {
     @JsonProperty("loan_id")
     private String loanId;
 
-    @JsonProperty("lender")
-    private String lender;
+    @JsonProperty("organization_name")
+    private String organizationName;
 
     @JsonProperty("remaining_amount")
     private BigDecimal remainingAmount;

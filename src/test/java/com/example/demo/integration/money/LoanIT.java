@@ -118,14 +118,13 @@ class LoanIT {
   }
 
   @Test
-  void admin_can_filter_loans_by_lender() throws Exception {
+  void admin_can_filter_loans_by_organization() throws Exception {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     LoanApi api = new LoanApi(adminClient);
 
-    List<Loan> loans = api.getLoans(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, "BNI");
+    List<Loan> loans = api.getLoans(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, "org1_id");
 
-    assertEquals(1, loans.size());
-    assertEquals(LOAN1_ID, loans.get(0).getId());
+    assertEquals(5, loans.size());
   }
 
   @Test
@@ -192,15 +191,15 @@ class LoanIT {
   }
 
   @Test
-  void admin_cannot_create_loan_without_lender() {
+  void admin_cannot_create_loan_without_organization() {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     LoanApi api = new LoanApi(adminClient);
 
     CrupdateLoan invalidLoan = someCreatableLoan();
-    invalidLoan.setLender(null);
+    invalidLoan.setOrganizationId(null);
 
     assertThrowsApiException(
-        "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Lender is mandatory for loan\"}",
+        "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Organization is mandatory for loan\"}",
         () -> api.crupdateLoans(ADMIN_ID, COMPANY1_ID, JOB1_ID, List.of(invalidLoan)));
   }
 
@@ -301,15 +300,15 @@ class LoanIT {
   }
 
   @Test
-  void admin_cannot_create_loan_with_blank_lender() {
+  void admin_cannot_create_loan_with_invalid_organization_id() {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     LoanApi api = new LoanApi(adminClient);
 
     CrupdateLoan invalidLoan = someCreatableLoan();
-    invalidLoan.setLender("");
+    invalidLoan.setOrganizationId("invalid_org");
 
     assertThrowsApiException(
-        "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Lender is mandatory for loan\"}",
+        "{\"type\":\"404 NOT_FOUND\",\"message\":\"Organization with id invalid_org not found\"}",
         () -> api.crupdateLoans(ADMIN_ID, COMPANY1_ID, JOB1_ID, List.of(invalidLoan)));
   }
 
@@ -497,14 +496,13 @@ class LoanIT {
   }
 
   @Test
-  void admin_can_filter_loans_by_lender_case_insensitive() throws Exception {
+  void admin_can_filter_loans_by_organization_id() throws Exception {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     LoanApi api = new LoanApi(adminClient);
 
-    List<Loan> loans = api.getLoans(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, "bni");
+    List<Loan> loans = api.getLoans(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, "org1_id");
 
-    assertEquals(1, loans.size());
-    assertEquals(LOAN1_ID, loans.get(0).getId());
+    assertEquals(5, loans.size());
   }
 
   @Test
@@ -526,14 +524,7 @@ class LoanIT {
 
     List<Loan> loans =
         api.getLoans(
-            ADMIN_ID,
-            COMPANY1_ID,
-            JOB1_ID,
-            1,
-            100,
-            null,
-            BigDecimal.valueOf(5000000),
-            "BNI Madagascar");
+            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, BigDecimal.valueOf(5000000), "org1_id");
 
     assertEquals(1, loans.size());
     assertEquals(LOAN1_ID, loans.get(0).getId());

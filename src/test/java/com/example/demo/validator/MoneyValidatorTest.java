@@ -202,7 +202,7 @@ class MoneyValidatorTest {
           IncomeMoney.builder()
               .id("inc1")
               .amount(BigDecimal.valueOf(2000))
-              .sourceOrganization("Client Corp")
+              .organization(com.example.demo.model.money.Organization.builder().id("org1").build())
               .job(Job.builder().id("job1").build())
               .incomeType(IncomeType.builder().id("it1").build())
               .build();
@@ -226,7 +226,7 @@ class MoneyValidatorTest {
           IncomeMoney.builder()
               .id("inc1")
               .amount(null)
-              .sourceOrganization("Org")
+              .organization(com.example.demo.model.money.Organization.builder().id("org1").build())
               .job(Job.builder().id("job1").build())
               .incomeType(IncomeType.builder().id("it1").build())
               .build();
@@ -239,7 +239,7 @@ class MoneyValidatorTest {
           IncomeMoney.builder()
               .id("inc1")
               .amount(BigDecimal.valueOf(0))
-              .sourceOrganization("Org")
+              .organization(com.example.demo.model.money.Organization.builder().id("org1").build())
               .job(Job.builder().id("job1").build())
               .incomeType(IncomeType.builder().id("it1").build())
               .build();
@@ -252,7 +252,7 @@ class MoneyValidatorTest {
           IncomeMoney.builder()
               .id("inc1")
               .amount(BigDecimal.valueOf(-1))
-              .sourceOrganization("Org")
+              .organization(com.example.demo.model.money.Organization.builder().id("org1").build())
               .job(Job.builder().id("job1").build())
               .incomeType(IncomeType.builder().id("it1").build())
               .build();
@@ -267,7 +267,7 @@ class MoneyValidatorTest {
           IncomeMoney.builder()
               .id("inc1")
               .amount(BigDecimal.valueOf(2000))
-              .sourceOrganization("Org")
+              .organization(com.example.demo.model.money.Organization.builder().id("org1").build())
               .job(null)
               .incomeType(IncomeType.builder().id("it1").build())
               .build();
@@ -282,7 +282,7 @@ class MoneyValidatorTest {
           IncomeMoney.builder()
               .id("inc1")
               .amount(BigDecimal.valueOf(2000))
-              .sourceOrganization("Org")
+              .organization(com.example.demo.model.money.Organization.builder().id("org1").build())
               .job(new Job())
               .incomeType(IncomeType.builder().id("it1").build())
               .build();
@@ -292,48 +292,48 @@ class MoneyValidatorTest {
     }
 
     @Test
-    void should_throw_when_sourceOrganization_null() {
+    void should_throw_when_organization_null() {
       IncomeMoney i =
           IncomeMoney.builder()
               .id("inc1")
               .amount(BigDecimal.valueOf(2000))
-              .sourceOrganization(null)
+              .organization(null)
               .job(Job.builder().id("job1").build())
               .incomeType(IncomeType.builder().id("it1").build())
               .build();
       assertThatThrownBy(() -> validator.validateIncomeMoney(i))
           .isInstanceOf(BadRequestException.class)
-          .hasMessageContaining("Source organization is mandatory for income");
+          .hasMessageContaining("Organization is mandatory for income");
     }
 
     @Test
-    void should_throw_when_sourceOrganization_empty() {
+    void should_throw_when_organization_without_id() {
       IncomeMoney i =
           IncomeMoney.builder()
               .id("inc1")
               .amount(BigDecimal.valueOf(2000))
-              .sourceOrganization("")
+              .organization(null)
               .job(Job.builder().id("job1").build())
               .incomeType(IncomeType.builder().id("it1").build())
               .build();
       assertThatThrownBy(() -> validator.validateIncomeMoney(i))
           .isInstanceOf(BadRequestException.class)
-          .hasMessageContaining("Source organization is mandatory for income");
+          .hasMessageContaining("Organization is mandatory for income");
     }
 
     @Test
-    void should_throw_when_sourceOrganization_blank() {
+    void should_throw_when_organization_null_in_all_fields_invalid() {
       IncomeMoney i =
           IncomeMoney.builder()
               .id("inc1")
               .amount(BigDecimal.valueOf(2000))
-              .sourceOrganization("   ")
+              .organization(null)
               .job(Job.builder().id("job1").build())
               .incomeType(IncomeType.builder().id("it1").build())
               .build();
       assertThatThrownBy(() -> validator.validateIncomeMoney(i))
           .isInstanceOf(BadRequestException.class)
-          .hasMessageContaining("Source organization is mandatory for income");
+          .hasMessageContaining("Organization is mandatory for income");
     }
 
     @Test
@@ -342,7 +342,7 @@ class MoneyValidatorTest {
           IncomeMoney.builder()
               .id("inc1")
               .amount(BigDecimal.valueOf(2000))
-              .sourceOrganization("Org")
+              .organization(com.example.demo.model.money.Organization.builder().id("org1").build())
               .job(Job.builder().id("job1").build())
               .incomeType(null)
               .build();
@@ -357,7 +357,7 @@ class MoneyValidatorTest {
           IncomeMoney.builder()
               .id("inc1")
               .amount(BigDecimal.valueOf(2000))
-              .sourceOrganization("Org")
+              .organization(com.example.demo.model.money.Organization.builder().id("org1").build())
               .job(Job.builder().id("job1").build())
               .incomeType(new IncomeType())
               .build();
@@ -372,7 +372,7 @@ class MoneyValidatorTest {
           IncomeMoney.builder()
               .id("inc1")
               .amount(BigDecimal.valueOf(2000))
-              .sourceOrganization("Org")
+              .organization(com.example.demo.model.money.Organization.builder().id("org1").build())
               .job(Job.builder().id("job1").build())
               .incomeType(IncomeType.builder().id("it1").build())
               .facturationDate(Instant.parse("2024-06-15T10:00:00Z"))
@@ -389,7 +389,7 @@ class MoneyValidatorTest {
           IncomeMoney.builder()
               .id("inc1")
               .amount(BigDecimal.valueOf(2000))
-              .sourceOrganization("Org")
+              .organization(com.example.demo.model.money.Organization.builder().id("org1").build())
               .job(Job.builder().id("job1").build())
               .incomeType(IncomeType.builder().id("it1").build())
               .facturationDate(Instant.parse("2024-06-01T10:00:00Z"))
@@ -404,7 +404,7 @@ class MoneyValidatorTest {
           IncomeMoney.builder()
               .id("inc1")
               .amount(BigDecimal.valueOf(2000))
-              .sourceOrganization("Org")
+              .organization(com.example.demo.model.money.Organization.builder().id("org1").build())
               .job(Job.builder().id("job1").build())
               .incomeType(IncomeType.builder().id("it1").build())
               .facturationDate(Instant.parse("2024-06-01T10:00:00Z"))
@@ -419,7 +419,7 @@ class MoneyValidatorTest {
           IncomeMoney.builder()
               .id("inc1")
               .amount(BigDecimal.valueOf(2000))
-              .sourceOrganization("Org")
+              .organization(com.example.demo.model.money.Organization.builder().id("org1").build())
               .job(Job.builder().id("job1").build())
               .incomeType(IncomeType.builder().id("it1").build())
               .facturationDate(null)
@@ -434,7 +434,7 @@ class MoneyValidatorTest {
           IncomeMoney.builder()
               .id("inc1")
               .amount(BigDecimal.valueOf(-1))
-              .sourceOrganization(null)
+              .organization(null)
               .job(null)
               .incomeType(null)
               .build();
@@ -442,7 +442,7 @@ class MoneyValidatorTest {
           .isInstanceOf(BadRequestException.class)
           .hasMessageContaining("Amount must be non-negative")
           .hasMessageContaining("Income must be associated with a job")
-          .hasMessageContaining("Source organization is mandatory for income")
+          .hasMessageContaining("Organization is mandatory for income")
           .hasMessageContaining("Income type is mandatory for income");
     }
   }
@@ -1563,7 +1563,7 @@ class MoneyValidatorTest {
           Loan.builder()
               .id("l1")
               .amount(BigDecimal.valueOf(10000))
-              .lender("Bank ABC")
+              .organization(Organization.builder().id("org1").name("Bank ABC").build())
               .interestRate(5)
               .startDate(LocalDate.of(2024, 1, 15))
               .job(Job.builder().id("job1").build())
@@ -1584,7 +1584,7 @@ class MoneyValidatorTest {
           Loan.builder()
               .id("l1")
               .amount(null)
-              .lender("Bank ABC")
+              .organization(Organization.builder().id("org1").name("Bank ABC").build())
               .interestRate(5)
               .startDate(LocalDate.of(2024, 1, 15))
               .job(Job.builder().id("job1").build())
@@ -1600,7 +1600,7 @@ class MoneyValidatorTest {
           Loan.builder()
               .id("l1")
               .amount(BigDecimal.valueOf(0))
-              .lender("Bank ABC")
+              .organization(Organization.builder().id("org1").name("Bank ABC").build())
               .interestRate(5)
               .startDate(LocalDate.of(2024, 1, 15))
               .job(Job.builder().id("job1").build())
@@ -1614,7 +1614,7 @@ class MoneyValidatorTest {
           Loan.builder()
               .id("l1")
               .amount(BigDecimal.valueOf(-1))
-              .lender("Bank ABC")
+              .organization(Organization.builder().id("org1").name("Bank ABC").build())
               .interestRate(5)
               .startDate(LocalDate.of(2024, 1, 15))
               .job(Job.builder().id("job1").build())
@@ -1625,60 +1625,12 @@ class MoneyValidatorTest {
     }
 
     @Test
-    void should_throw_when_lender_null() {
-      Loan loan =
-          Loan.builder()
-              .id("l1")
-              .amount(BigDecimal.valueOf(10000))
-              .lender(null)
-              .interestRate(5)
-              .startDate(LocalDate.of(2024, 1, 15))
-              .job(Job.builder().id("job1").build())
-              .build();
-      assertThatThrownBy(() -> validator.validateLoan(loan))
-          .isInstanceOf(BadRequestException.class)
-          .hasMessageContaining("Lender is mandatory for loan");
-    }
-
-    @Test
-    void should_throw_when_lender_empty() {
-      Loan loan =
-          Loan.builder()
-              .id("l1")
-              .amount(BigDecimal.valueOf(10000))
-              .lender("")
-              .interestRate(5)
-              .startDate(LocalDate.of(2024, 1, 15))
-              .job(Job.builder().id("job1").build())
-              .build();
-      assertThatThrownBy(() -> validator.validateLoan(loan))
-          .isInstanceOf(BadRequestException.class)
-          .hasMessageContaining("Lender is mandatory for loan");
-    }
-
-    @Test
-    void should_throw_when_lender_blank() {
-      Loan loan =
-          Loan.builder()
-              .id("l1")
-              .amount(BigDecimal.valueOf(10000))
-              .lender("   ")
-              .interestRate(5)
-              .startDate(LocalDate.of(2024, 1, 15))
-              .job(Job.builder().id("job1").build())
-              .build();
-      assertThatThrownBy(() -> validator.validateLoan(loan))
-          .isInstanceOf(BadRequestException.class)
-          .hasMessageContaining("Lender is mandatory for loan");
-    }
-
-    @Test
     void should_throw_when_interestRate_null() {
       Loan loan =
           Loan.builder()
               .id("l1")
               .amount(BigDecimal.valueOf(10000))
-              .lender("Bank ABC")
+              .organization(Organization.builder().id("org1").name("Bank ABC").build())
               .interestRate(null)
               .startDate(LocalDate.of(2024, 1, 15))
               .job(Job.builder().id("job1").build())
@@ -1694,7 +1646,7 @@ class MoneyValidatorTest {
           Loan.builder()
               .id("l1")
               .amount(BigDecimal.valueOf(10000))
-              .lender("Bank ABC")
+              .organization(Organization.builder().id("org1").name("Bank ABC").build())
               .interestRate(-1)
               .startDate(LocalDate.of(2024, 1, 15))
               .job(Job.builder().id("job1").build())
@@ -1710,7 +1662,7 @@ class MoneyValidatorTest {
           Loan.builder()
               .id("l1")
               .amount(BigDecimal.valueOf(10000))
-              .lender("Bank ABC")
+              .organization(Organization.builder().id("org1").name("Bank ABC").build())
               .interestRate(0)
               .startDate(LocalDate.of(2024, 1, 15))
               .job(Job.builder().id("job1").build())
@@ -1724,7 +1676,7 @@ class MoneyValidatorTest {
           Loan.builder()
               .id("l1")
               .amount(BigDecimal.valueOf(10000))
-              .lender("Bank ABC")
+              .organization(Organization.builder().id("org1").name("Bank ABC").build())
               .interestRate(5)
               .startDate(null)
               .job(Job.builder().id("job1").build())
@@ -1740,7 +1692,7 @@ class MoneyValidatorTest {
           Loan.builder()
               .id("l1")
               .amount(BigDecimal.valueOf(10000))
-              .lender("Bank ABC")
+              .organization(Organization.builder().id("org1").name("Bank ABC").build())
               .interestRate(5)
               .startDate(LocalDate.of(2024, 1, 15))
               .job(null)
@@ -1756,7 +1708,7 @@ class MoneyValidatorTest {
           Loan.builder()
               .id("l1")
               .amount(BigDecimal.valueOf(10000))
-              .lender("Bank ABC")
+              .organization(Organization.builder().id("org1").name("Bank ABC").build())
               .interestRate(5)
               .startDate(LocalDate.of(2024, 1, 15))
               .job(new Job())
@@ -1772,7 +1724,7 @@ class MoneyValidatorTest {
           Loan.builder()
               .id("l1")
               .amount(null)
-              .lender(null)
+              .organization(null)
               .interestRate(null)
               .startDate(null)
               .job(null)
@@ -1780,7 +1732,7 @@ class MoneyValidatorTest {
       assertThatThrownBy(() -> validator.validateLoan(loan))
           .isInstanceOf(BadRequestException.class)
           .hasMessageContaining("Loan amount must be non-negative")
-          .hasMessageContaining("Lender is mandatory for loan")
+          .hasMessageContaining("Organization is mandatory for loan")
           .hasMessageContaining("Interest rate must be non-negative")
           .hasMessageContaining("Start date is mandatory for loan")
           .hasMessageContaining("Loan must be associated with a job");

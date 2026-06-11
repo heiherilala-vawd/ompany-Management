@@ -52,11 +52,11 @@ public class LoanController {
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
       @RequestParam(name = "description", required = false) String description,
       @RequestParam(name = "amount", required = false) BigDecimal amount,
-      @RequestParam(name = "lender", required = false) String lender) {
+      @RequestParam(name = "organization_id", required = false) String organizationId) {
     LoanCriteria criteria = new LoanCriteria();
     criteria.setDescription(description);
     criteria.setAmount(amount);
-    criteria.setLender(lender);
+    criteria.setOrganizationId(organizationId);
     criteria.setJobId(jobId);
 
     return loanService.findAll(page, pageSize, criteria).stream()

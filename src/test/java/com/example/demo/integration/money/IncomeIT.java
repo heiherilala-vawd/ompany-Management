@@ -121,16 +121,15 @@ class IncomeIT {
   }
 
   @Test
-  void admin_can_filter_incomes_by_source_organization() throws Exception {
+  void admin_can_filter_incomes_by_organization() throws Exception {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     IncomeApi api = new IncomeApi(adminClient);
 
     List<IncomeMoney> incomes =
         api.getIncomes(
-            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, "Alpha", null, null, null, null, null);
+            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, "org2_id", null, null, null, null, null);
 
-    assertEquals(1, incomes.size());
-    assertEquals(INCOME1_ID, incomes.get(0).getId());
+    assertEquals(7, incomes.size());
   }
 
   @Test
@@ -309,15 +308,15 @@ class IncomeIT {
   }
 
   @Test
-  void admin_cannot_create_income_without_source_organization() {
+  void admin_cannot_create_income_without_organization() {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     IncomeApi api = new IncomeApi(adminClient);
 
     CrupdateIncomeMoney invalidIncome = someCreatableIncome();
-    invalidIncome.setSourceOrganization(null);
+    invalidIncome.setOrganizationId(null);
 
     assertThrowsApiException(
-        "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Source organization is mandatory for income\"}",
+        "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Organization is mandatory for income\"}",
         () -> api.crupdateIncomes(ADMIN_ID, COMPANY1_ID, JOB1_ID, List.of(invalidIncome)));
   }
 

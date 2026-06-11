@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class IncomeMoneyCriteria {
-  private String sourceOrganization;
+  private String organizationId;
   private String invoiceReference;
   private String description;
   private BigDecimal amount;

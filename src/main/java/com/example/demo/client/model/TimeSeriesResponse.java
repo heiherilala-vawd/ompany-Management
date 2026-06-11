@@ -45,7 +45,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   TimeSeriesResponse.JSON_PROPERTY_TOTAL,
   TimeSeriesResponse.JSON_PROPERTY_FILTERED_BY_JOB
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-10T12:20:55.604879997+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-10T20:13:14.321093913+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class TimeSeriesResponse {
   public static final String JSON_PROPERTY_SCHEMA = "schema";
   private String schema;
