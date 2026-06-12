@@ -5,6 +5,7 @@ import com.example.demo.model.PageFromOne;
 import com.example.demo.model.User;
 import com.example.demo.model.task.Task;
 import com.example.demo.model.task.TaskAssignment;
+import com.example.demo.repository.notification.NotificationRepository;
 import com.example.demo.repository.task.TaskAssignmentRepository;
 import com.example.demo.repository.task.TaskRepository;
 import com.example.demo.service.utils.ModificationUtils;
@@ -26,6 +27,7 @@ public class TaskService {
 
   private final TaskRepository taskRepository;
   private final TaskAssignmentRepository taskAssignmentRepository;
+  private final NotificationRepository notificationRepository;
   private final ModificationUtils modificationUtils;
 
   public Optional<Task> findById(String id) {
@@ -79,6 +81,7 @@ public class TaskService {
   @Transactional
   public void deleteById(String id) {
     taskAssignmentRepository.deleteByTaskId(id);
+    notificationRepository.deleteByTaskId(id);
     taskRepository.deleteById(id);
   }
 }
