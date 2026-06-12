@@ -198,7 +198,7 @@ class JobIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     JobApi api = new JobApi(adminClient);
 
-    api.assignUserToJob(ADMIN_ID, COMPANY1_ID, JOB1_ID);
+    api.assignUserToJob(USER1_ID, COMPANY1_ID, JOB1_ID);
 
     List<User> users = api.getJobResponsibleUsers(ADMIN_ID, COMPANY1_ID, JOB1_ID);
     assertTrue(users.stream().anyMatch(u -> USER1_ID.equals(u.getId())));
@@ -219,11 +219,11 @@ class JobIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     JobApi api = new JobApi(adminClient);
 
-    api.assignUserToJob(ADMIN_ID, COMPANY1_ID, JOB1_ID);
+    api.assignUserToJob(USER1_ID, COMPANY1_ID, JOB1_ID);
     List<User> usersAfterAssign = api.getJobResponsibleUsers(ADMIN_ID, COMPANY1_ID, JOB1_ID);
     assertTrue(usersAfterAssign.stream().anyMatch(u -> USER1_ID.equals(u.getId())));
 
-    api.unassignUserFromJob(ADMIN_ID, COMPANY1_ID, JOB1_ID);
+    api.unassignUserFromJob(USER1_ID, COMPANY1_ID, JOB1_ID);
     List<User> usersAfterUnassign = api.getJobResponsibleUsers(ADMIN_ID, COMPANY1_ID, JOB1_ID);
     assertTrue(usersAfterUnassign.stream().noneMatch(u -> USER1_ID.equals(u.getId())));
   }

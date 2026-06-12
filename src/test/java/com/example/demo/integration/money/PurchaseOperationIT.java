@@ -143,9 +143,9 @@ class PurchaseOperationIT {
     ExpenseApi expenseApi = new ExpenseApi(anApiClient(ADMIN_TOKEN));
     List<ExpenseMoney> travelExpensesAsMoney =
         expenseApi.getExpenses(
+            ADMIN_ID,
             COMPANY1_ID,
             JOB1_ID,
-            EMPLOYEE_ID,
             1,
             100,
             "Travel expense for purchase operation",
