@@ -282,7 +282,8 @@ dependencies {
 tasks.withType<Test> {
     useJUnitPlatform()
 
-    maxHeapSize = "4g"
+    maxHeapSize = "2g"
+    maxParallelForks = (Runtime.getRuntime().availableProcessors() / 2).coerceAtLeast(1)
 
     // Testcontainers reuse (optionnel)
     systemProperty("testcontainers.reuse.enable", "true")

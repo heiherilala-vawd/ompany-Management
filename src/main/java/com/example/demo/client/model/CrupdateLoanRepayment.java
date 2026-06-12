@@ -42,7 +42,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   CrupdateLoanRepayment.JSON_PROPERTY_INTEREST_PORTION,
   CrupdateLoanRepayment.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-10T20:13:14.321093913+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-12T16:41:28.255481140+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdateLoanRepayment {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
