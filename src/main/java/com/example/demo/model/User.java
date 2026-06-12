@@ -105,10 +105,20 @@ public class User extends CreatAndUpdateEntity implements Serializable, UserDeta
   }
 
   public enum Role {
-    ADMIN,
-    WAREHOUSE_WORKER,
-    EMPLOYEE,
-    ADMINISTRATION
+    ADMIN(4),
+    ADMINISTRATION(3),
+    WAREHOUSE_WORKER(2),
+    EMPLOYEE(1);
+
+    private final int hierarchyLevel;
+
+    Role(int hierarchyLevel) {
+      this.hierarchyLevel = hierarchyLevel;
+    }
+
+    public boolean canAssign(Role targetRole) {
+      return this.hierarchyLevel >= targetRole.hierarchyLevel;
+    }
   }
 
   public enum Sex {

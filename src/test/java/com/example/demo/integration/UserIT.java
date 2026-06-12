@@ -134,6 +134,49 @@ class UserIT {
   }
 
   @Test
+  void administration_cannot_promote_to_admin() {
+    ApiClient adminClient = anApiClient(ADMINISTRATION_TOKEN);
+    UsersApi api = new UsersApi(adminClient);
+
+    CrupdateUser employeeToPromote = userToCrupdateUser(employee1());
+    employeeToPromote.setRole(Role.ADMIN);
+
+    assertThrowsApiException(
+        "\"type\":\"403 FORBIDDEN\"",
+        () -> api.crupdateUsers(ADMINISTRATION_ID, COMPANY1_ID, List.of(employeeToPromote)));
+  }
+
+  @Test
+  void administration_can_change_role_to_lower() throws Exception {
+    ApiClient adminClient = anApiClient(ADMINISTRATION_TOKEN);
+    UsersApi api = new UsersApi(adminClient);
+
+    CrupdateUser employeeToUpdate = userToCrupdateUser(employee1());
+    employeeToUpdate.setRole(Role.WAREHOUSE_WORKER);
+
+    List<User> updated =
+        api.crupdateUsers(ADMINISTRATION_ID, COMPANY1_ID, List.of(employeeToUpdate));
+
+    assertEquals(1, updated.size());
+    assertEquals(Role.WAREHOUSE_WORKER, updated.get(0).getRole());
+  }
+
+  @Test
+  @DirtiesContext
+  void admin_can_create_new_user_via_crupdate() throws Exception {
+    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
+    UsersApi api = new UsersApi(adminClient);
+
+    CrupdateUser newUser = someCreatableUser();
+    List<User> created = api.crupdateUsers(ADMIN_ID, COMPANY1_ID, List.of(newUser));
+
+    assertEquals(1, created.size());
+    assertEquals(newUser.getEmail(), created.get(0).getEmail());
+    assertEquals(newUser.getFirstName(), created.get(0).getFirstName());
+    assertEquals(Role.EMPLOYEE, created.get(0).getRole());
+  }
+
+  @Test
   void employee_cannot_create_users() {
     ApiClient employeeClient = anApiClient(EMPLOYEE_TOKEN);
     UsersApi api = new UsersApi(employeeClient);

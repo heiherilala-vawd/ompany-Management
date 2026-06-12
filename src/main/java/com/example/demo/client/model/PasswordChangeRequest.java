@@ -29,75 +29,75 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
 /**
- * TimeSeriesResponsePeriod
+ * PasswordChangeRequest
  */
 @JsonPropertyOrder({
-  TimeSeriesResponsePeriod.JSON_PROPERTY_FROM,
-  TimeSeriesResponsePeriod.JSON_PROPERTY_TO
+  PasswordChangeRequest.JSON_PROPERTY_OLD_PASSWORD,
+  PasswordChangeRequest.JSON_PROPERTY_NEW_PASSWORD
 })
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-12T23:54:11.411467005+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
-public class TimeSeriesResponsePeriod {
-  public static final String JSON_PROPERTY_FROM = "from";
-  private String from;
+public class PasswordChangeRequest {
+  public static final String JSON_PROPERTY_OLD_PASSWORD = "old_password";
+  private String oldPassword;
 
-  public static final String JSON_PROPERTY_TO = "to";
-  private String to;
+  public static final String JSON_PROPERTY_NEW_PASSWORD = "new_password";
+  private String newPassword;
 
-  public TimeSeriesResponsePeriod() { 
+  public PasswordChangeRequest() { 
   }
 
-  public TimeSeriesResponsePeriod from(String from) {
-    this.from = from;
+  public PasswordChangeRequest oldPassword(String oldPassword) {
+    this.oldPassword = oldPassword;
     return this;
   }
 
    /**
-   * Get from
-   * @return from
+   * Get oldPassword
+   * @return oldPassword
   **/
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_FROM)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @jakarta.annotation.Nonnull
+  @JsonProperty(JSON_PROPERTY_OLD_PASSWORD)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
-  public String getFrom() {
-    return from;
+  public String getOldPassword() {
+    return oldPassword;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_FROM)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setFrom(String from) {
-    this.from = from;
+  @JsonProperty(JSON_PROPERTY_OLD_PASSWORD)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setOldPassword(String oldPassword) {
+    this.oldPassword = oldPassword;
   }
 
 
-  public TimeSeriesResponsePeriod to(String to) {
-    this.to = to;
+  public PasswordChangeRequest newPassword(String newPassword) {
+    this.newPassword = newPassword;
     return this;
   }
 
    /**
-   * Get to
-   * @return to
+   * Get newPassword
+   * @return newPassword
   **/
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_TO)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @jakarta.annotation.Nonnull
+  @JsonProperty(JSON_PROPERTY_NEW_PASSWORD)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
-  public String getTo() {
-    return to;
+  public String getNewPassword() {
+    return newPassword;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_TO)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setTo(String to) {
-    this.to = to;
+  @JsonProperty(JSON_PROPERTY_NEW_PASSWORD)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setNewPassword(String newPassword) {
+    this.newPassword = newPassword;
   }
 
 
   /**
-   * Return true if this TimeSeriesResponse_period object is equal to o.
+   * Return true if this PasswordChangeRequest object is equal to o.
    */
   @Override
   public boolean equals(Object o) {
@@ -107,22 +107,22 @@ public class TimeSeriesResponsePeriod {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    TimeSeriesResponsePeriod timeSeriesResponsePeriod = (TimeSeriesResponsePeriod) o;
-    return Objects.equals(this.from, timeSeriesResponsePeriod.from) &&
-        Objects.equals(this.to, timeSeriesResponsePeriod.to);
+    PasswordChangeRequest passwordChangeRequest = (PasswordChangeRequest) o;
+    return Objects.equals(this.oldPassword, passwordChangeRequest.oldPassword) &&
+        Objects.equals(this.newPassword, passwordChangeRequest.newPassword);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(from, to);
+    return Objects.hash(oldPassword, newPassword);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class TimeSeriesResponsePeriod {\n");
-    sb.append("    from: ").append(toIndentedString(from)).append("\n");
-    sb.append("    to: ").append(toIndentedString(to)).append("\n");
+    sb.append("class PasswordChangeRequest {\n");
+    sb.append("    oldPassword: ").append(toIndentedString(oldPassword)).append("\n");
+    sb.append("    newPassword: ").append(toIndentedString(newPassword)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -170,14 +170,14 @@ public class TimeSeriesResponsePeriod {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `from` to the URL query string
-    if (getFrom() != null) {
-      joiner.add(String.format("%sfrom%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getFrom()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    // add `old_password` to the URL query string
+    if (getOldPassword() != null) {
+      joiner.add(String.format("%sold_password%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getOldPassword()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `to` to the URL query string
-    if (getTo() != null) {
-      joiner.add(String.format("%sto%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getTo()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    // add `new_password` to the URL query string
+    if (getNewPassword() != null) {
+      joiner.add(String.format("%snew_password%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getNewPassword()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();
