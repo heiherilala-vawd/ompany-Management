@@ -57,14 +57,13 @@ public class SecurityConfiguration {
                     // =========================
                     // USERS
                     // =========================
-                    .requestMatchers(
-                        GET, "/users/*/companies/*/users", "/users/*/companies/*/users/*")
+                    .requestMatchers(GET, "/users", "/users/*")
                     .authenticated()
-                    .requestMatchers(PUT, "/users/*/companies/*/users")
+                    .requestMatchers(PUT, "/users")
                     .authenticated()
 
                     // DELETE /users - ADMIN uniquement
-                    .requestMatchers(DELETE, "/users/*/companies/*/users/*")
+                    .requestMatchers(DELETE, "/users/*")
                     .hasRole("ADMIN")
 
                     // =========================
