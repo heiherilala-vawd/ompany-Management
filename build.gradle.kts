@@ -271,6 +271,8 @@ dependencies {
     implementation("io.sentry:sentry-spring-boot-starter:5.5.3")
     implementation("io.sentry:sentry-logback:5.5.3")
 
+    implementation("net.logstash.logback:logstash-logback-encoder:7.4")
+
     implementation("org.apache.poi:poi-ooxml:5.3.0")
 }
 
