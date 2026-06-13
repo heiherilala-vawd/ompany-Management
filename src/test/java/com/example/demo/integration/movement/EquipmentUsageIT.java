@@ -70,19 +70,13 @@ class EquipmentUsageIT {
   }
 
   @Test
-  void warehouse_worker_can_get_equipment_usage_by_id() throws Exception {
+  void warehouse_cannot_get_other_equipment_usage() {
     ApiClient warehouseClient = anApiClient(WAREHOUSE_TOKEN);
     EquipmentUsageApi api = new EquipmentUsageApi(warehouseClient);
 
-    EquipmentUsage actual = api.getEquipmentUsageById(ADMIN_ID, COMPANY1_ID, EQUIP_USAGE1_ID);
-    EquipmentUsage expected = equipmentUsage1();
-    expected.setCreatedAt(actual.getCreatedAt());
-    expected.setUpdatedAt(actual.getUpdatedAt());
-    expected.setCreatedBy(actual.getCreatedBy());
-    expected.setUpdatedBy(actual.getUpdatedBy());
-    expected.setComment(actual.getComment());
-
-    assertEquals(expected, actual);
+    assertThrowsApiException(
+        "{\"type\":\"403 FORBIDDEN\",\"message\":\"Equipment usage not associated with the user\"}",
+        () -> api.getEquipmentUsageById(WAREHOUSE_ID, COMPANY1_ID, EQUIP_USAGE1_ID));
   }
 
   @Test
@@ -118,12 +112,24 @@ class EquipmentUsageIT {
   }
 
   @Test
-  void employee_cannot_get_equipment_usages() {
+  void employee_can_list_own_equipment_usages() throws Exception {
     ApiClient employeeClient = anApiClient(EMPLOYEE_TOKEN);
     EquipmentUsageApi api = new EquipmentUsageApi(employeeClient);
 
-    assertThrowsForbiddenException(
-        () -> api.getEquipmentUsages(ADMIN_ID, COMPANY1_ID, 1, 100, null));
+    List<EquipmentUsage> usages =
+        api.getEquipmentUsages(EMPLOYEE_ID, COMPANY1_ID, 1, 100, null);
+
+    assertEquals(0, usages.size());
+  }
+
+  @Test
+  void employee_cannot_get_other_equipment_usage() {
+    ApiClient employeeClient = anApiClient(EMPLOYEE_TOKEN);
+    EquipmentUsageApi api = new EquipmentUsageApi(employeeClient);
+
+    assertThrowsApiException(
+        "{\"type\":\"403 FORBIDDEN\",\"message\":\"Equipment usage not associated with the user\"}",
+        () -> api.getEquipmentUsageById(EMPLOYEE_ID, COMPANY1_ID, EQUIP_USAGE1_ID));
   }
 
   @Test

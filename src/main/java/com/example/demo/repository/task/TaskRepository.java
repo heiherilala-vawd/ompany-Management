@@ -18,4 +18,9 @@ public interface TaskRepository extends JpaRepository<Task, String> {
 
   @Query("SELECT t.completed FROM Task t WHERE t.id = :taskId")
   Optional<Boolean> findCompletedById(@Param("taskId") String taskId);
+
+  @Query(
+      "SELECT DISTINCT t FROM Task t JOIN TaskAssignment ta ON ta.task.id = t.id WHERE t.company.id = :companyId AND ta.user.id = :userId")
+  List<Task> findByCompanyIdAndAssignedUserId(
+      @Param("companyId") String companyId, @Param("userId") String userId);
 }

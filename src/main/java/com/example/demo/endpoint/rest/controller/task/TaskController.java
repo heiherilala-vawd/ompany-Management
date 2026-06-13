@@ -27,7 +27,7 @@ public class TaskController {
   private final ModificationUtils modificationUtils;
 
   @GetMapping("/users/{userId}/companies/{companyId}/tasks")
-  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
+  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER', 'EMPLOYEE') or #userId == authentication.principal.id")
   public List<Task> getTasks(
       @PathVariable String userId,
       @PathVariable String companyId,
@@ -77,7 +77,7 @@ public class TaskController {
   }
 
   @GetMapping("/users/{userId}/companies/{companyId}/tasks/{id}")
-  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
+  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER', 'EMPLOYEE') or #userId == authentication.principal.id")
   public Task getTaskById(
       @PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     com.example.demo.model.task.Task task =
