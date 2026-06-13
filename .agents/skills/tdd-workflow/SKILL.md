@@ -72,12 +72,15 @@ void admin_can_filter_material_consumptions_by_consumption_status() throws Excep
 ```
 test/
 └── java/{basePackage}/
-    └── integration/
-        └── {domain}/
-            └── {EntityName}IT.java        # Test d'intégration complet
-    └── unit/
-        └── {layer}/
-            └── {EntityName}ServiceTest.java  # Test unitaire (Mockito pur)
+    ├── integration/
+    │   └── {domain}/
+    │       └── {EntityName}IT.java        # Test d'intégration complet
+    ├── Service/  (ou unit/ selon le projet)
+    │   ├── {layer}/
+    │   │   └── {EntityName}ServiceTest.java  # Test unitaire (Mockito)
+    │   └── {EntityName}ServiceTest.java
+    └── validator/
+        └── {EntityName}ValidatorTest.java    # Test validateur (pur JUnit)
 ```
 
 ## Prérequis : OpenAPI-first
@@ -262,16 +265,28 @@ someCreatable{EntityName}()       → DTO valide pour création
 
 ### 3. Écrire le test unitaire (RED)
 
-```java
-package {basePackage}.unit.{layer};
+Deux styles selon la couche testée :
 
-import static org.junit.jupiter.api.Assertions.*;
+#### Style A : Service test (Mockito `@ExtendWith`)
+Utiliser `@ExtendWith(MockitoExtension.class)`, `@Mock` pour les dépendances, `@InjectMocks` pour le service testé. Pas de `@SpringBootTest`.
+
+```java
+package {basePackage}.Service.{layer};  // ou {basePackage}.unit.{layer}
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
+import {basePackage}.model.BoundedPageSize;
+import {basePackage}.model.PageFromOne;
 import {basePackage}.model.{EntityName};
+import {basePackage}.model.exception.NotFoundException;
 import {basePackage}.repository.{domain}.{EntityName}Repository;
 import {basePackage}.service.{domain}.{EntityName}Service;
+import java.util.List;
 import java.util.Optional;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -287,19 +302,140 @@ class {EntityName}ServiceTest {
     @InjectMocks
     private {EntityName}Service {entityName}Service;
 
-    @Test
-    void should_throw_exception_when_{entityName}_not_found() {
-        when({entityName}Repository.findById("invalid_id")).thenReturn(Optional.empty());
+    private {EntityName} existingEntity;
+    private String entityId;
 
-        assertThrows({EntityName}NotFoundException.class,
-            () -> {entityName}Service.getById("invalid_id"));
+    @BeforeEach
+    void setUp() {
+        entityId = "test-id-123";
+        existingEntity = {EntityName}.builder()
+            .id(entityId)
+            .name("Test Name")
+            .build();
+    }
+
+    // --- getById ---
+
+    @Test
+    void getById_ShouldReturnEntity_WhenExists() {
+        // Given
+        when({entityName}Repository.findById(entityId))
+            .thenReturn(Optional.of(existingEntity));
+
+        // When
+        {EntityName} result = {entityName}Service.getById(entityId);
+
+        // Then
+        assertThat(result).isNotNull();
+        assertThat(result.getId()).isEqualTo(entityId);
+        assertThat(result.getName()).isEqualTo("Test Name");
+        verify({entityName}Repository).findById(entityId);
     }
 
     @Test
-    void should_create_{entityName}_when_valid() {
-        // given
-        // when
-        // then
+    void getById_ShouldThrowNotFoundException_WhenNotExists() {
+        // Given
+        String badId = "invalid";
+        when({entityName}Repository.findById(badId)).thenReturn(Optional.empty());
+
+        // When & Then
+        assertThatThrownBy(() -> {entityName}Service.getById(badId))
+            .isInstanceOf(NotFoundException.class)
+            .hasMessageContaining("{EntityName} with id " + badId + " not found");
+
+        verify({entityName}Repository).findById(badId);
+    }
+
+    // --- findAll with pagination ---
+
+    @Test
+    void findAll_ShouldReturnPagedResults() {
+        // Given
+        PageFromOne page = new PageFromOne("1");
+        BoundedPageSize pageSize = new BoundedPageSize("10");
+
+        when({entityName}Repository.findAll(any(Pageable.class)))
+            .thenReturn(new PageImpl<>(List.of(existingEntity)));
+
+        // When
+        List<{EntityName}> result = {entityName}Service.findAll(page, pageSize);
+
+        // Then
+        assertThat(result).hasSize(1);
+        assertThat(result.get(0).getId()).isEqualTo(entityId);
+        verify({entityName}Repository).findAll(any(Pageable.class));
+    }
+
+    // --- delete ---
+
+    @Test
+    void deleteById_ShouldDelete_WhenExists() {
+        // Given
+        when({entityName}Repository.findById(entityId))
+            .thenReturn(Optional.of(existingEntity));
+
+        // When
+        {entityName}Service.deleteById(entityId);
+
+        // Then
+        verify({entityName}Repository).delete(existingEntity);
+    }
+
+    @Test
+    void deleteById_ShouldThrow_WhenNotExists() {
+        // Given
+        when({entityName}Repository.findById("invalid"))
+            .thenReturn(Optional.empty());
+
+        // When & Then
+        assertThatThrownBy(() -> {entityName}Service.deleteById("invalid"))
+            .isInstanceOf(NotFoundException.class);
+
+        verify({entityName}Repository, never()).delete(any());
+    }
+}
+```
+
+#### Style B : Validator test (pur JUnit, sans Mockito)
+Les validateurs sont des classes sans dépendances. Les instancier dans `@BeforeEach`, pas de Mockito.
+
+```java
+package {basePackage}.validator;
+
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+import {basePackage}.model.exception.BadRequestException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+class {EntityName}ValidatorTest {
+
+    private {EntityName}Validator validator;
+
+    @BeforeEach
+    void setUp() {
+        validator = new {EntityName}Validator();
+    }
+
+    @Test
+    void validate_ShouldNotThrow_WhenValid() {
+        assertThatCode(() -> validator.validate(someValidInput()))
+            .doesNotThrowAnyException();
+    }
+
+    @Test
+    void validate_ShouldThrow_WhenNull() {
+        assertThatThrownBy(() -> validator.validate(null))
+            .isInstanceOf(BadRequestException.class)
+            .hasMessageContaining("cannot be null");
+    }
+
+    @Test
+    void validate_ShouldThrow_WhenInvalidField() {
+        assertThatThrownBy(() -> validator.validate(someInvalidInput()))
+            .isInstanceOf(BadRequestException.class)
+            .hasMessageContaining("invalid");
     }
 }
 ```
@@ -556,8 +692,11 @@ public class {EntityName}Controller {
 # Générer le client (si api.yml a changé)
 ./gradlew publishJavaClientToMavenLocal
 
-# Lancer le test spécifique
+# Lancer le test d'intégration spécifique
 ./gradlew test --tests "*{EntityName}IT*"
+
+# Lancer le test unitaire spécifique
+./gradlew test --tests "*{EntityName}ServiceTest*"
 
 # Lancer tous les tests du domaine
 ./gradlew test --tests "*{domain}*"
