@@ -21,6 +21,7 @@ import com.example.demo.client.model.BadRequestException;
 import com.example.demo.client.model.CrupdateTravelPeople;
 import com.example.demo.client.model.InternalServerException;
 import com.example.demo.client.model.NotAuthorizedException;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.ResourceNotFoundException;
 import com.example.demo.client.model.TooManyRequestsException;
 import com.example.demo.client.model.TravelPeople;
@@ -50,7 +51,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T02:10:42.519221747+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T02:20:38.960879300+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class TravelPeopleApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -297,11 +298,11 @@ public class TravelPeopleApi {
    * @param arrivalDateMin Filter travel people by minimum arrival date (optional)
    * @param arrivalDateMax Filter travel people by maximum arrival date (optional)
    * @param notArrived Filter travel people that have not arrived yet (no arrival date or location) (optional)
-   * @return List&lt;TravelPeople&gt;
+   * @return PaginatedResponse
    * @throws ApiException if fails to make API call
    */
-  public List<TravelPeople> getTravelPeople(String userId, String companyId, String jobId, Integer page, Integer pageSize, String travelId, String userId2, String arrivalLocation, java.time.Instant arrivalDateMin, java.time.Instant arrivalDateMax, Boolean notArrived) throws ApiException {
-    ApiResponse<List<TravelPeople>> localVarResponse = getTravelPeopleWithHttpInfo(userId, companyId, jobId, page, pageSize, travelId, userId2, arrivalLocation, arrivalDateMin, arrivalDateMax, notArrived);
+  public PaginatedResponse getTravelPeople(String userId, String companyId, String jobId, Integer page, Integer pageSize, String travelId, String userId2, String arrivalLocation, java.time.Instant arrivalDateMin, java.time.Instant arrivalDateMax, Boolean notArrived) throws ApiException {
+    ApiResponse<PaginatedResponse> localVarResponse = getTravelPeopleWithHttpInfo(userId, companyId, jobId, page, pageSize, travelId, userId2, arrivalLocation, arrivalDateMin, arrivalDateMax, notArrived);
     return localVarResponse.getData();
   }
 
@@ -319,10 +320,10 @@ public class TravelPeopleApi {
    * @param arrivalDateMin Filter travel people by minimum arrival date (optional)
    * @param arrivalDateMax Filter travel people by maximum arrival date (optional)
    * @param notArrived Filter travel people that have not arrived yet (no arrival date or location) (optional)
-   * @return ApiResponse&lt;List&lt;TravelPeople&gt;&gt;
+   * @return ApiResponse&lt;PaginatedResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<TravelPeople>> getTravelPeopleWithHttpInfo(String userId, String companyId, String jobId, Integer page, Integer pageSize, String travelId, String userId2, String arrivalLocation, java.time.Instant arrivalDateMin, java.time.Instant arrivalDateMax, Boolean notArrived) throws ApiException {
+  public ApiResponse<PaginatedResponse> getTravelPeopleWithHttpInfo(String userId, String companyId, String jobId, Integer page, Integer pageSize, String travelId, String userId2, String arrivalLocation, java.time.Instant arrivalDateMin, java.time.Instant arrivalDateMax, Boolean notArrived) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = getTravelPeopleRequestBuilder(userId, companyId, jobId, page, pageSize, travelId, userId2, arrivalLocation, arrivalDateMin, arrivalDateMax, notArrived);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -335,10 +336,10 @@ public class TravelPeopleApi {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("getTravelPeople", localVarResponse);
         }
-        return new ApiResponse<List<TravelPeople>>(
+        return new ApiResponse<PaginatedResponse>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<List<TravelPeople>>() {}) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<PaginatedResponse>() {}) // closes the InputStream
         );
       } finally {
       }

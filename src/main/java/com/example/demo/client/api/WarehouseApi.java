@@ -21,6 +21,7 @@ import com.example.demo.client.model.BadRequestException;
 import com.example.demo.client.model.CrupdateWarehouse;
 import com.example.demo.client.model.InternalServerException;
 import com.example.demo.client.model.NotAuthorizedException;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.ResourceNotFoundException;
 import com.example.demo.client.model.TooManyRequestsException;
 import com.example.demo.client.model.Warehouse;
@@ -50,7 +51,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T02:10:42.519221747+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T02:20:38.960879300+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class WarehouseApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -366,11 +367,11 @@ public class WarehouseApi {
    * @param jobId  (optional)
    * @param name Filter warehouses by name, case is ignored (optional)
    * @param description Filter warehouses by description, case is ignored (optional)
-   * @return List&lt;Warehouse&gt;
+   * @return PaginatedResponse
    * @throws ApiException if fails to make API call
    */
-  public List<Warehouse> getWarehouses(String userId, String companyId, Integer page, Integer pageSize, String jobId, String name, String description) throws ApiException {
-    ApiResponse<List<Warehouse>> localVarResponse = getWarehousesWithHttpInfo(userId, companyId, page, pageSize, jobId, name, description);
+  public PaginatedResponse getWarehouses(String userId, String companyId, Integer page, Integer pageSize, String jobId, String name, String description) throws ApiException {
+    ApiResponse<PaginatedResponse> localVarResponse = getWarehousesWithHttpInfo(userId, companyId, page, pageSize, jobId, name, description);
     return localVarResponse.getData();
   }
 
@@ -384,10 +385,10 @@ public class WarehouseApi {
    * @param jobId  (optional)
    * @param name Filter warehouses by name, case is ignored (optional)
    * @param description Filter warehouses by description, case is ignored (optional)
-   * @return ApiResponse&lt;List&lt;Warehouse&gt;&gt;
+   * @return ApiResponse&lt;PaginatedResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<Warehouse>> getWarehousesWithHttpInfo(String userId, String companyId, Integer page, Integer pageSize, String jobId, String name, String description) throws ApiException {
+  public ApiResponse<PaginatedResponse> getWarehousesWithHttpInfo(String userId, String companyId, Integer page, Integer pageSize, String jobId, String name, String description) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = getWarehousesRequestBuilder(userId, companyId, page, pageSize, jobId, name, description);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -400,10 +401,10 @@ public class WarehouseApi {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("getWarehouses", localVarResponse);
         }
-        return new ApiResponse<List<Warehouse>>(
+        return new ApiResponse<PaginatedResponse>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<List<Warehouse>>() {}) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<PaginatedResponse>() {}) // closes the InputStream
         );
       } finally {
       }

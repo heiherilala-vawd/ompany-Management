@@ -6,7 +6,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.example.demo.SentryConf;
 import com.example.demo.client.api.TravelExpenseApi;
 import com.example.demo.client.invoker.ApiClient;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.CrupdateTravelExpense;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.TravelExpense;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
@@ -69,8 +71,10 @@ class TravelExpenseIT {
   void admin_can_get_all_travel_expenses() throws Exception {
     TravelExpenseApi api = new TravelExpenseApi(anApiClient(ADMIN_TOKEN));
 
-    List<TravelExpense> travelExpenses =
-        api.getTravelExpenses(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null);
+    PaginatedResponse resp = api.getTravelExpenses(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null);
+
+
+    List<TravelExpense> travelExpenses = extractData(resp, TravelExpense.class);
 
     assertEquals(2, travelExpenses.size());
     assertTrue(
@@ -85,8 +89,10 @@ class TravelExpenseIT {
   void admin_can_filter_travel_expenses_by_departure_location() throws Exception {
     TravelExpenseApi api = new TravelExpenseApi(anApiClient(ADMIN_TOKEN));
 
-    List<TravelExpense> travelExpenses =
-        api.getTravelExpenses(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, WAREHOUSE1_ID, null);
+    PaginatedResponse resp = api.getTravelExpenses(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, WAREHOUSE1_ID, null);
+
+
+    List<TravelExpense> travelExpenses = extractData(resp, TravelExpense.class);
 
     assertEquals(1, travelExpenses.size());
     assertEquals(TRAVEL_EXPENSE1_ID, travelExpenses.get(0).getId());
@@ -96,8 +102,10 @@ class TravelExpenseIT {
   void admin_can_filter_travel_expenses_by_arrival_location() throws Exception {
     TravelExpenseApi api = new TravelExpenseApi(anApiClient(ADMIN_TOKEN));
 
-    List<TravelExpense> travelExpenses =
-        api.getTravelExpenses(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, WAREHOUSE1_ID);
+    PaginatedResponse resp = api.getTravelExpenses(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, WAREHOUSE1_ID);
+
+
+    List<TravelExpense> travelExpenses = extractData(resp, TravelExpense.class);
 
     assertEquals(1, travelExpenses.size());
     assertEquals(TRAVEL_EXPENSE2_ID, travelExpenses.get(0).getId());
@@ -172,8 +180,10 @@ class TravelExpenseIT {
   void employee_can_list_own_travel_expenses() throws Exception {
     TravelExpenseApi api = new TravelExpenseApi(anApiClient(EMPLOYEE_TOKEN));
 
-    List<TravelExpense> expenses =
-        api.getTravelExpenses(EMPLOYEE_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null);
+    PaginatedResponse resp = api.getTravelExpenses(EMPLOYEE_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null);
+
+
+    List<TravelExpense> expenses = extractData(resp, TravelExpense.class);
 
     assertEquals(1, expenses.size());
     assertEquals(TRAVEL_EXPENSE1_ID, expenses.get(0).getId());

@@ -6,7 +6,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.example.demo.SentryConf;
 import com.example.demo.client.api.BudgetLineApi;
 import com.example.demo.client.invoker.ApiClient;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.BudgetLine;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.CrupdateBudgetLine;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
@@ -74,7 +76,10 @@ class BudgetLineIT {
   void administration_can_get_all_budget_lines() throws Exception {
     BudgetLineApi api = new BudgetLineApi(anApiClient(ADMINISTRATION_TOKEN));
 
-    List<BudgetLine> lines = api.getBudgetLines(ADMIN_ID, COMPANY1_ID, 1, 100);
+    PaginatedResponse resp = api.getBudgetLines(ADMIN_ID, COMPANY1_ID, 1, 100);
+
+
+    List<BudgetLine> lines = extractData(resp, BudgetLine.class);
 
     assertEquals(2, lines.size());
     assertTrue(lines.stream().anyMatch(bl -> BUDGET_LINE1_ID.equals(bl.getId())));
@@ -127,7 +132,10 @@ class BudgetLineIT {
 
     api.deleteBudgetLineById(ADMIN_ID, COMPANY1_ID, BUDGET_LINE1_ID);
 
-    List<BudgetLine> lines = api.getBudgetLines(ADMIN_ID, COMPANY1_ID, 1, 100);
+    PaginatedResponse resp = api.getBudgetLines(ADMIN_ID, COMPANY1_ID, 1, 100);
+
+
+    List<BudgetLine> lines = extractData(resp, BudgetLine.class);
     assertEquals(1, lines.size());
     assertEquals(BUDGET_LINE2_ID, lines.get(0).getId());
   }

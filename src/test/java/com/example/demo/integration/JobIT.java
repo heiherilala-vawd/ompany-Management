@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.example.demo.SentryConf;
 import com.example.demo.client.api.JobApi;
 import com.example.demo.client.invoker.ApiClient;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.CrupdateJob;
 import com.example.demo.client.model.Job;
 import com.example.demo.client.model.JobStatus;
@@ -78,7 +79,10 @@ class JobIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     JobApi api = new JobApi(adminClient);
 
-    List<Job> jobs = api.getJobs(ADMIN_ID, COMPANY1_ID, 1, 100, null, null);
+    PaginatedResponse resp = api.getJobs(ADMIN_ID, COMPANY1_ID, 1, 100, null, null);
+
+
+    List<Job> jobs = extractData(resp, Job.class);
 
     assertEquals(1, jobs.size());
     assertEquals(JOB1_ID, jobs.get(0).getId());
@@ -97,7 +101,10 @@ class JobIT {
     ApiClient warehouseClient = anApiClient(WAREHOUSE_TOKEN);
     JobApi api = new JobApi(warehouseClient);
 
-    List<Job> jobs = api.getJobs(WAREHOUSE_ID, COMPANY1_ID, 1, 100, JobStatus.IN_PROGRESS, null);
+    PaginatedResponse resp = api.getJobs(WAREHOUSE_ID, COMPANY1_ID, 1, 100, JobStatus.IN_PROGRESS, null);
+
+
+    List<Job> jobs = extractData(resp, Job.class);
 
     assertEquals(1, jobs.size());
     assertEquals(JOB1_ID, jobs.get(0).getId());
@@ -108,7 +115,10 @@ class JobIT {
     ApiClient administrationClient = anApiClient(ADMINISTRATION_TOKEN);
     JobApi api = new JobApi(administrationClient);
 
-    List<Job> jobs = api.getJobs(ADMIN_ID, COMPANY2_ID, 1, 100, null, null);
+    PaginatedResponse resp = api.getJobs(ADMIN_ID, COMPANY2_ID, 1, 100, null, null);
+
+
+    List<Job> jobs = extractData(resp, Job.class);
 
     assertEquals(1, jobs.size());
     assertEquals(JOB2_ID, jobs.get(0).getId());
@@ -119,7 +129,10 @@ class JobIT {
     ApiClient administrationClient = anApiClient(ADMINISTRATION_TOKEN);
     JobApi api = new JobApi(administrationClient);
 
-    List<Job> jobs = api.getJobs(ADMIN_ID, COMPANY1_ID, 1, 100, null, "bâtiment A");
+    PaginatedResponse resp = api.getJobs(ADMIN_ID, COMPANY1_ID, 1, 100, null, "bâtiment A");
+
+
+    List<Job> jobs = extractData(resp, Job.class);
 
     assertEquals(1, jobs.size());
     assertEquals(JOB1_ID, jobs.get(0).getId());
@@ -200,7 +213,10 @@ class JobIT {
 
     api.assignUserToJob(USER1_ID, COMPANY1_ID, JOB1_ID);
 
-    List<User> users = api.getJobResponsibleUsers(ADMIN_ID, COMPANY1_ID, JOB1_ID);
+    PaginatedResponse resp = api.getJobResponsibleUsers(ADMIN_ID, COMPANY1_ID, JOB1_ID);
+
+
+    List<User> users = extractData(resp, User.class);
     assertTrue(users.stream().anyMatch(u -> USER1_ID.equals(u.getId())));
   }
 
@@ -209,7 +225,10 @@ class JobIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     JobApi api = new JobApi(adminClient);
 
-    List<User> users = api.getJobResponsibleUsers(ADMIN_ID, COMPANY1_ID, JOB1_ID);
+    PaginatedResponse resp = api.getJobResponsibleUsers(ADMIN_ID, COMPANY1_ID, JOB1_ID);
+
+
+    List<User> users = extractData(resp, User.class);
     assertNotNull(users);
   }
 
@@ -220,11 +239,15 @@ class JobIT {
     JobApi api = new JobApi(adminClient);
 
     api.assignUserToJob(USER1_ID, COMPANY1_ID, JOB1_ID);
-    List<User> usersAfterAssign = api.getJobResponsibleUsers(ADMIN_ID, COMPANY1_ID, JOB1_ID);
+    PaginatedResponse resp = api.getJobResponsibleUsers(ADMIN_ID, COMPANY1_ID, JOB1_ID);
+
+    List<User> usersAfterAssign = extractData(resp, User.class);
     assertTrue(usersAfterAssign.stream().anyMatch(u -> USER1_ID.equals(u.getId())));
 
     api.unassignUserFromJob(USER1_ID, COMPANY1_ID, JOB1_ID);
-    List<User> usersAfterUnassign = api.getJobResponsibleUsers(ADMIN_ID, COMPANY1_ID, JOB1_ID);
+    PaginatedResponse resp1 = api.getJobResponsibleUsers(ADMIN_ID, COMPANY1_ID, JOB1_ID);
+
+    List<User> usersAfterUnassign = extractData(resp1, User.class);
     assertTrue(usersAfterUnassign.stream().noneMatch(u -> USER1_ID.equals(u.getId())));
   }
 
@@ -295,7 +318,8 @@ class JobIT {
 
     warehouseApi.assignUserToJob(USER1_ID, COMPANY1_ID, JOB1_ID);
 
-    List<User> users = adminApi.getJobResponsibleUsers(ADMIN_ID, COMPANY1_ID, JOB1_ID);
+    PaginatedResponse resp = adminApi.getJobResponsibleUsers(ADMIN_ID, COMPANY1_ID, JOB1_ID);
+    List<User> users = extractData(resp, User.class);
     assertTrue(users.stream().anyMatch(u -> USER1_ID.equals(u.getId())));
     assertTrue(users.stream().anyMatch(u -> WAREHOUSE_ID.equals(u.getId())));
   }
@@ -321,7 +345,8 @@ class JobIT {
     ApiClient warehouseClient = anApiClient(WAREHOUSE_TOKEN);
     JobApi warehouseApi = new JobApi(warehouseClient);
 
-    List<User> users = warehouseApi.getJobResponsibleUsers(WAREHOUSE_ID, COMPANY1_ID, JOB1_ID);
+    PaginatedResponse resp = warehouseApi.getJobResponsibleUsers(WAREHOUSE_ID, COMPANY1_ID, JOB1_ID);
+    List<User> users = extractData(resp, User.class);
     assertTrue(users.stream().anyMatch(u -> WAREHOUSE_ID.equals(u.getId())));
   }
 
@@ -349,7 +374,8 @@ class JobIT {
 
     warehouseApi.unassignUserFromJob(USER1_ID, COMPANY1_ID, JOB1_ID);
 
-    List<User> users = adminApi.getJobResponsibleUsers(ADMIN_ID, COMPANY1_ID, JOB1_ID);
+    PaginatedResponse resp = adminApi.getJobResponsibleUsers(ADMIN_ID, COMPANY1_ID, JOB1_ID);
+    List<User> users = extractData(resp, User.class);
     assertTrue(users.stream().anyMatch(u -> WAREHOUSE_ID.equals(u.getId())));
     assertTrue(users.stream().noneMatch(u -> USER1_ID.equals(u.getId())));
   }

@@ -6,7 +6,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.example.demo.SentryConf;
 import com.example.demo.client.api.OrganizationApi;
 import com.example.demo.client.invoker.ApiClient;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.CrupdateOrganization;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.Organization;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
@@ -78,7 +80,9 @@ class OrganizationIT {
   @Test
   void admin_can_get_all_organizations() throws Exception {
     OrganizationApi api = new OrganizationApi(anApiClient(ADMIN_TOKEN));
-    List<Organization> organizations = api.getOrganizations(ADMIN_ID, COMPANY1_ID);
+    PaginatedResponse resp = api.getOrganizations(ADMIN_ID, COMPANY1_ID);
+
+    List<Organization> organizations = extractData(resp, Organization.class);
     assertEquals(2, organizations.size());
     assertTrue(organizations.stream().anyMatch(o -> ORGANIZATION1_ID.equals(o.getId())));
     assertTrue(organizations.stream().anyMatch(o -> ORGANIZATION2_ID.equals(o.getId())));

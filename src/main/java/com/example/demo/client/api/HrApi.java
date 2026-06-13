@@ -21,13 +21,12 @@ import com.example.demo.client.model.BadRequestException;
 import com.example.demo.client.model.CrupdateEmployeeLeaveConfig;
 import com.example.demo.client.model.CrupdateLeave;
 import com.example.demo.client.model.CrupdateLeaveType;
-import com.example.demo.client.model.CrupdateUser;
 import com.example.demo.client.model.EmployeeLeaveConfig;
 import com.example.demo.client.model.InternalServerException;
 import com.example.demo.client.model.Leave;
-import com.example.demo.client.model.LeaveBalance;
 import com.example.demo.client.model.LeaveType;
 import com.example.demo.client.model.NotAuthorizedException;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.ResourceNotFoundException;
 import com.example.demo.client.model.TooManyRequestsException;
 
@@ -56,7 +55,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T02:10:42.519221747+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T02:20:38.960879300+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class HrApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -551,11 +550,11 @@ public class HrApi {
    * 
    * @param userId  (required)
    * @param companyId  (required)
-   * @return List&lt;EmployeeLeaveConfig&gt;
+   * @return PaginatedResponse
    * @throws ApiException if fails to make API call
    */
-  public List<EmployeeLeaveConfig> getEmployeeLeaveConfigs(String userId, String companyId) throws ApiException {
-    ApiResponse<List<EmployeeLeaveConfig>> localVarResponse = getEmployeeLeaveConfigsWithHttpInfo(userId, companyId);
+  public PaginatedResponse getEmployeeLeaveConfigs(String userId, String companyId) throws ApiException {
+    ApiResponse<PaginatedResponse> localVarResponse = getEmployeeLeaveConfigsWithHttpInfo(userId, companyId);
     return localVarResponse.getData();
   }
 
@@ -564,10 +563,10 @@ public class HrApi {
    * 
    * @param userId  (required)
    * @param companyId  (required)
-   * @return ApiResponse&lt;List&lt;EmployeeLeaveConfig&gt;&gt;
+   * @return ApiResponse&lt;PaginatedResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<EmployeeLeaveConfig>> getEmployeeLeaveConfigsWithHttpInfo(String userId, String companyId) throws ApiException {
+  public ApiResponse<PaginatedResponse> getEmployeeLeaveConfigsWithHttpInfo(String userId, String companyId) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = getEmployeeLeaveConfigsRequestBuilder(userId, companyId);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -580,10 +579,10 @@ public class HrApi {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("getEmployeeLeaveConfigs", localVarResponse);
         }
-        return new ApiResponse<List<EmployeeLeaveConfig>>(
+        return new ApiResponse<PaginatedResponse>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<List<EmployeeLeaveConfig>>() {}) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<PaginatedResponse>() {}) // closes the InputStream
         );
       } finally {
       }
@@ -632,11 +631,11 @@ public class HrApi {
    * @param userId  (required)
    * @param companyId  (required)
    * @param year  (required)
-   * @return List&lt;CrupdateUser&gt;
+   * @return PaginatedResponse
    * @throws ApiException if fails to make API call
    */
-  public List<CrupdateUser> getEmployeesWithoutLeave(String userId, String companyId, Integer year) throws ApiException {
-    ApiResponse<List<CrupdateUser>> localVarResponse = getEmployeesWithoutLeaveWithHttpInfo(userId, companyId, year);
+  public PaginatedResponse getEmployeesWithoutLeave(String userId, String companyId, Integer year) throws ApiException {
+    ApiResponse<PaginatedResponse> localVarResponse = getEmployeesWithoutLeaveWithHttpInfo(userId, companyId, year);
     return localVarResponse.getData();
   }
 
@@ -646,10 +645,10 @@ public class HrApi {
    * @param userId  (required)
    * @param companyId  (required)
    * @param year  (required)
-   * @return ApiResponse&lt;List&lt;CrupdateUser&gt;&gt;
+   * @return ApiResponse&lt;PaginatedResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<CrupdateUser>> getEmployeesWithoutLeaveWithHttpInfo(String userId, String companyId, Integer year) throws ApiException {
+  public ApiResponse<PaginatedResponse> getEmployeesWithoutLeaveWithHttpInfo(String userId, String companyId, Integer year) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = getEmployeesWithoutLeaveRequestBuilder(userId, companyId, year);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -662,10 +661,10 @@ public class HrApi {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("getEmployeesWithoutLeave", localVarResponse);
         }
-        return new ApiResponse<List<CrupdateUser>>(
+        return new ApiResponse<PaginatedResponse>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<List<CrupdateUser>>() {}) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<PaginatedResponse>() {}) // closes the InputStream
         );
       } finally {
       }
@@ -733,11 +732,11 @@ public class HrApi {
    * @param userId  (required)
    * @param companyId  (required)
    * @param year  (required)
-   * @return List&lt;LeaveBalance&gt;
+   * @return PaginatedResponse
    * @throws ApiException if fails to make API call
    */
-  public List<LeaveBalance> getLeaveBalances(String userId, String companyId, Integer year) throws ApiException {
-    ApiResponse<List<LeaveBalance>> localVarResponse = getLeaveBalancesWithHttpInfo(userId, companyId, year);
+  public PaginatedResponse getLeaveBalances(String userId, String companyId, Integer year) throws ApiException {
+    ApiResponse<PaginatedResponse> localVarResponse = getLeaveBalancesWithHttpInfo(userId, companyId, year);
     return localVarResponse.getData();
   }
 
@@ -747,10 +746,10 @@ public class HrApi {
    * @param userId  (required)
    * @param companyId  (required)
    * @param year  (required)
-   * @return ApiResponse&lt;List&lt;LeaveBalance&gt;&gt;
+   * @return ApiResponse&lt;PaginatedResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<LeaveBalance>> getLeaveBalancesWithHttpInfo(String userId, String companyId, Integer year) throws ApiException {
+  public ApiResponse<PaginatedResponse> getLeaveBalancesWithHttpInfo(String userId, String companyId, Integer year) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = getLeaveBalancesRequestBuilder(userId, companyId, year);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -763,10 +762,10 @@ public class HrApi {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("getLeaveBalances", localVarResponse);
         }
-        return new ApiResponse<List<LeaveBalance>>(
+        return new ApiResponse<PaginatedResponse>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<List<LeaveBalance>>() {}) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<PaginatedResponse>() {}) // closes the InputStream
         );
       } finally {
       }
@@ -1007,11 +1006,11 @@ public class HrApi {
    * 
    * @param userId  (required)
    * @param companyId  (required)
-   * @return List&lt;LeaveType&gt;
+   * @return PaginatedResponse
    * @throws ApiException if fails to make API call
    */
-  public List<LeaveType> getLeaveTypes(String userId, String companyId) throws ApiException {
-    ApiResponse<List<LeaveType>> localVarResponse = getLeaveTypesWithHttpInfo(userId, companyId);
+  public PaginatedResponse getLeaveTypes(String userId, String companyId) throws ApiException {
+    ApiResponse<PaginatedResponse> localVarResponse = getLeaveTypesWithHttpInfo(userId, companyId);
     return localVarResponse.getData();
   }
 
@@ -1020,10 +1019,10 @@ public class HrApi {
    * 
    * @param userId  (required)
    * @param companyId  (required)
-   * @return ApiResponse&lt;List&lt;LeaveType&gt;&gt;
+   * @return ApiResponse&lt;PaginatedResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<LeaveType>> getLeaveTypesWithHttpInfo(String userId, String companyId) throws ApiException {
+  public ApiResponse<PaginatedResponse> getLeaveTypesWithHttpInfo(String userId, String companyId) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = getLeaveTypesRequestBuilder(userId, companyId);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -1036,10 +1035,10 @@ public class HrApi {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("getLeaveTypes", localVarResponse);
         }
-        return new ApiResponse<List<LeaveType>>(
+        return new ApiResponse<PaginatedResponse>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<List<LeaveType>>() {}) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<PaginatedResponse>() {}) // closes the InputStream
         );
       } finally {
       }
@@ -1093,11 +1092,11 @@ public class HrApi {
    * @param year  (optional)
    * @param page  (optional)
    * @param pageSize  (optional)
-   * @return List&lt;Leave&gt;
+   * @return PaginatedResponse
    * @throws ApiException if fails to make API call
    */
-  public List<Leave> getLeaves(String userId, String companyId, String userId2, String leaveTypeId, String status, Integer year, Integer page, Integer pageSize) throws ApiException {
-    ApiResponse<List<Leave>> localVarResponse = getLeavesWithHttpInfo(userId, companyId, userId2, leaveTypeId, status, year, page, pageSize);
+  public PaginatedResponse getLeaves(String userId, String companyId, String userId2, String leaveTypeId, String status, Integer year, Integer page, Integer pageSize) throws ApiException {
+    ApiResponse<PaginatedResponse> localVarResponse = getLeavesWithHttpInfo(userId, companyId, userId2, leaveTypeId, status, year, page, pageSize);
     return localVarResponse.getData();
   }
 
@@ -1112,10 +1111,10 @@ public class HrApi {
    * @param year  (optional)
    * @param page  (optional)
    * @param pageSize  (optional)
-   * @return ApiResponse&lt;List&lt;Leave&gt;&gt;
+   * @return ApiResponse&lt;PaginatedResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<Leave>> getLeavesWithHttpInfo(String userId, String companyId, String userId2, String leaveTypeId, String status, Integer year, Integer page, Integer pageSize) throws ApiException {
+  public ApiResponse<PaginatedResponse> getLeavesWithHttpInfo(String userId, String companyId, String userId2, String leaveTypeId, String status, Integer year, Integer page, Integer pageSize) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = getLeavesRequestBuilder(userId, companyId, userId2, leaveTypeId, status, year, page, pageSize);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -1128,10 +1127,10 @@ public class HrApi {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("getLeaves", localVarResponse);
         }
-        return new ApiResponse<List<Leave>>(
+        return new ApiResponse<PaginatedResponse>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<List<Leave>>() {}) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<PaginatedResponse>() {}) // closes the InputStream
         );
       } finally {
       }

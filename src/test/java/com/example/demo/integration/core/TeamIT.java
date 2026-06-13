@@ -6,7 +6,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.example.demo.SentryConf;
 import com.example.demo.client.api.TeamApi;
 import com.example.demo.client.invoker.ApiClient;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.CrupdateTeam;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.Team;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
@@ -73,7 +75,10 @@ class TeamIT {
   void administration_can_get_all_teams() throws Exception {
     TeamApi api = new TeamApi(anApiClient(ADMINISTRATION_TOKEN));
 
-    List<Team> teams = api.getTeams(ADMIN_ID, COMPANY1_ID, 1, 100);
+    PaginatedResponse resp = api.getTeams(ADMIN_ID, COMPANY1_ID, 1, 100);
+
+
+    List<Team> teams = extractData(resp, Team.class);
 
     assertEquals(2, teams.size());
     assertTrue(teams.stream().anyMatch(t -> TEAM1_ID.equals(t.getId())));
@@ -124,7 +129,10 @@ class TeamIT {
 
     api.deleteTeamById(ADMIN_ID, COMPANY1_ID, TEAM1_ID);
 
-    List<Team> teams = api.getTeams(ADMIN_ID, COMPANY1_ID, 1, 100);
+    PaginatedResponse resp = api.getTeams(ADMIN_ID, COMPANY1_ID, 1, 100);
+
+
+    List<Team> teams = extractData(resp, Team.class);
     assertEquals(1, teams.size());
     assertEquals(TEAM2_ID, teams.get(0).getId());
   }

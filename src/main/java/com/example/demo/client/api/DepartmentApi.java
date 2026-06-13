@@ -22,6 +22,7 @@ import com.example.demo.client.model.CrupdateDepartment;
 import com.example.demo.client.model.Department;
 import com.example.demo.client.model.InternalServerException;
 import com.example.demo.client.model.NotAuthorizedException;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.ResourceNotFoundException;
 import com.example.demo.client.model.TooManyRequestsException;
 
@@ -50,7 +51,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T02:10:42.519221747+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T02:20:38.960879300+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class DepartmentApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -363,11 +364,11 @@ public class DepartmentApi {
    * @param companyId  (required)
    * @param page  (optional)
    * @param pageSize  (optional)
-   * @return List&lt;Department&gt;
+   * @return PaginatedResponse
    * @throws ApiException if fails to make API call
    */
-  public List<Department> getDepartments(String userId, String companyId, Integer page, Integer pageSize) throws ApiException {
-    ApiResponse<List<Department>> localVarResponse = getDepartmentsWithHttpInfo(userId, companyId, page, pageSize);
+  public PaginatedResponse getDepartments(String userId, String companyId, Integer page, Integer pageSize) throws ApiException {
+    ApiResponse<PaginatedResponse> localVarResponse = getDepartmentsWithHttpInfo(userId, companyId, page, pageSize);
     return localVarResponse.getData();
   }
 
@@ -378,10 +379,10 @@ public class DepartmentApi {
    * @param companyId  (required)
    * @param page  (optional)
    * @param pageSize  (optional)
-   * @return ApiResponse&lt;List&lt;Department&gt;&gt;
+   * @return ApiResponse&lt;PaginatedResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<Department>> getDepartmentsWithHttpInfo(String userId, String companyId, Integer page, Integer pageSize) throws ApiException {
+  public ApiResponse<PaginatedResponse> getDepartmentsWithHttpInfo(String userId, String companyId, Integer page, Integer pageSize) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = getDepartmentsRequestBuilder(userId, companyId, page, pageSize);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -394,10 +395,10 @@ public class DepartmentApi {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("getDepartments", localVarResponse);
         }
-        return new ApiResponse<List<Department>>(
+        return new ApiResponse<PaginatedResponse>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<List<Department>>() {}) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<PaginatedResponse>() {}) // closes the InputStream
         );
       } finally {
       }

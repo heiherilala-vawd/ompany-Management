@@ -22,6 +22,7 @@ import com.example.demo.client.model.CrupdateIncomeReceipt;
 import com.example.demo.client.model.IncomeReceipt;
 import com.example.demo.client.model.InternalServerException;
 import com.example.demo.client.model.NotAuthorizedException;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.ResourceNotFoundException;
 import com.example.demo.client.model.TooManyRequestsException;
 
@@ -50,7 +51,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T02:10:42.519221747+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T02:20:38.960879300+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class IncomeReceiptApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -437,11 +438,11 @@ public class IncomeReceiptApi {
    * @param incomeId  (optional)
    * @param page  (optional)
    * @param pageSize  (optional)
-   * @return List&lt;IncomeReceipt&gt;
+   * @return PaginatedResponse
    * @throws ApiException if fails to make API call
    */
-  public List<IncomeReceipt> getIncomeReceipts(String userId, String companyId, String jobId, String incomeId, Integer page, Integer pageSize) throws ApiException {
-    ApiResponse<List<IncomeReceipt>> localVarResponse = getIncomeReceiptsWithHttpInfo(userId, companyId, jobId, incomeId, page, pageSize);
+  public PaginatedResponse getIncomeReceipts(String userId, String companyId, String jobId, String incomeId, Integer page, Integer pageSize) throws ApiException {
+    ApiResponse<PaginatedResponse> localVarResponse = getIncomeReceiptsWithHttpInfo(userId, companyId, jobId, incomeId, page, pageSize);
     return localVarResponse.getData();
   }
 
@@ -454,10 +455,10 @@ public class IncomeReceiptApi {
    * @param incomeId  (optional)
    * @param page  (optional)
    * @param pageSize  (optional)
-   * @return ApiResponse&lt;List&lt;IncomeReceipt&gt;&gt;
+   * @return ApiResponse&lt;PaginatedResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<IncomeReceipt>> getIncomeReceiptsWithHttpInfo(String userId, String companyId, String jobId, String incomeId, Integer page, Integer pageSize) throws ApiException {
+  public ApiResponse<PaginatedResponse> getIncomeReceiptsWithHttpInfo(String userId, String companyId, String jobId, String incomeId, Integer page, Integer pageSize) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = getIncomeReceiptsRequestBuilder(userId, companyId, jobId, incomeId, page, pageSize);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -470,10 +471,10 @@ public class IncomeReceiptApi {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("getIncomeReceipts", localVarResponse);
         }
-        return new ApiResponse<List<IncomeReceipt>>(
+        return new ApiResponse<PaginatedResponse>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<List<IncomeReceipt>>() {}) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<PaginatedResponse>() {}) // closes the InputStream
         );
       } finally {
       }

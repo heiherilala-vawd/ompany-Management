@@ -21,6 +21,7 @@ import com.example.demo.client.model.BadRequestException;
 import com.example.demo.client.model.CrupdateTeam;
 import com.example.demo.client.model.InternalServerException;
 import com.example.demo.client.model.NotAuthorizedException;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.ResourceNotFoundException;
 import com.example.demo.client.model.Team;
 import com.example.demo.client.model.TooManyRequestsException;
@@ -50,7 +51,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T02:10:42.519221747+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T02:20:38.960879300+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class TeamApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -363,11 +364,11 @@ public class TeamApi {
    * @param companyId  (required)
    * @param page  (optional)
    * @param pageSize  (optional)
-   * @return List&lt;Team&gt;
+   * @return PaginatedResponse
    * @throws ApiException if fails to make API call
    */
-  public List<Team> getTeams(String userId, String companyId, Integer page, Integer pageSize) throws ApiException {
-    ApiResponse<List<Team>> localVarResponse = getTeamsWithHttpInfo(userId, companyId, page, pageSize);
+  public PaginatedResponse getTeams(String userId, String companyId, Integer page, Integer pageSize) throws ApiException {
+    ApiResponse<PaginatedResponse> localVarResponse = getTeamsWithHttpInfo(userId, companyId, page, pageSize);
     return localVarResponse.getData();
   }
 
@@ -378,10 +379,10 @@ public class TeamApi {
    * @param companyId  (required)
    * @param page  (optional)
    * @param pageSize  (optional)
-   * @return ApiResponse&lt;List&lt;Team&gt;&gt;
+   * @return ApiResponse&lt;PaginatedResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<Team>> getTeamsWithHttpInfo(String userId, String companyId, Integer page, Integer pageSize) throws ApiException {
+  public ApiResponse<PaginatedResponse> getTeamsWithHttpInfo(String userId, String companyId, Integer page, Integer pageSize) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = getTeamsRequestBuilder(userId, companyId, page, pageSize);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -394,10 +395,10 @@ public class TeamApi {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("getTeams", localVarResponse);
         }
-        return new ApiResponse<List<Team>>(
+        return new ApiResponse<PaginatedResponse>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<List<Team>>() {}) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<PaginatedResponse>() {}) // closes the InputStream
         );
       } finally {
       }

@@ -22,6 +22,7 @@ import com.example.demo.client.model.BudgetLine;
 import com.example.demo.client.model.CrupdateBudgetLine;
 import com.example.demo.client.model.InternalServerException;
 import com.example.demo.client.model.NotAuthorizedException;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.ResourceNotFoundException;
 import com.example.demo.client.model.TooManyRequestsException;
 
@@ -50,7 +51,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T02:10:42.519221747+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T02:20:38.960879300+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class BudgetLineApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -363,11 +364,11 @@ public class BudgetLineApi {
    * @param companyId  (required)
    * @param page  (optional)
    * @param pageSize  (optional)
-   * @return List&lt;BudgetLine&gt;
+   * @return PaginatedResponse
    * @throws ApiException if fails to make API call
    */
-  public List<BudgetLine> getBudgetLines(String userId, String companyId, Integer page, Integer pageSize) throws ApiException {
-    ApiResponse<List<BudgetLine>> localVarResponse = getBudgetLinesWithHttpInfo(userId, companyId, page, pageSize);
+  public PaginatedResponse getBudgetLines(String userId, String companyId, Integer page, Integer pageSize) throws ApiException {
+    ApiResponse<PaginatedResponse> localVarResponse = getBudgetLinesWithHttpInfo(userId, companyId, page, pageSize);
     return localVarResponse.getData();
   }
 
@@ -378,10 +379,10 @@ public class BudgetLineApi {
    * @param companyId  (required)
    * @param page  (optional)
    * @param pageSize  (optional)
-   * @return ApiResponse&lt;List&lt;BudgetLine&gt;&gt;
+   * @return ApiResponse&lt;PaginatedResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<BudgetLine>> getBudgetLinesWithHttpInfo(String userId, String companyId, Integer page, Integer pageSize) throws ApiException {
+  public ApiResponse<PaginatedResponse> getBudgetLinesWithHttpInfo(String userId, String companyId, Integer page, Integer pageSize) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = getBudgetLinesRequestBuilder(userId, companyId, page, pageSize);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -394,10 +395,10 @@ public class BudgetLineApi {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("getBudgetLines", localVarResponse);
         }
-        return new ApiResponse<List<BudgetLine>>(
+        return new ApiResponse<PaginatedResponse>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<List<BudgetLine>>() {}) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<PaginatedResponse>() {}) // closes the InputStream
         );
       } finally {
       }

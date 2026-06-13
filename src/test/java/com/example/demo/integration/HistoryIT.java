@@ -8,6 +8,7 @@ import com.example.demo.SentryConf;
 import com.example.demo.client.api.HistoryApi;
 import com.example.demo.client.api.UsersApi;
 import com.example.demo.client.invoker.ApiClient;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.CrupdateUser;
 import com.example.demo.client.model.EntityType;
 import com.example.demo.client.model.History;
@@ -57,7 +58,10 @@ class HistoryIT {
     HistoryApi api = new HistoryApi(adminClient);
     UsersApi usersApi = new UsersApi(adminClient);
 
-    List<History> histories = api.getHistories(1, 100, null, null, null, null, null);
+    PaginatedResponse resp = api.getHistories(1, 100, null, null, null, null, null);
+
+
+    List<History> histories = extractData(resp, History.class);
 
     assertEquals(5, histories.size());
     CrupdateUser newUser1 = userToCrupdateUser(admin1());
@@ -65,7 +69,9 @@ class HistoryIT {
     newUser1.setLastName(newLastName);
 
     usersApi.crupdateUsers(COMPANY1_ID, List.of(newUser1));
-    List<History> histories2 = api.getHistories(1, 100, null, null, null, null, null);
+    PaginatedResponse resp2 = api.getHistories(1, 100, null, null, null, null, null);
+
+    List<History> histories2 = extractData(resp2, History.class);
     assertEquals(6, histories2.size());
   }
 
@@ -74,7 +80,10 @@ class HistoryIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     HistoryApi api = new HistoryApi(adminClient);
 
-    List<History> histories = api.getHistories(1, 2, null, null, null, null, null);
+    PaginatedResponse resp = api.getHistories(1, 2, null, null, null, null, null);
+
+
+    List<History> histories = extractData(resp, History.class);
 
     assertEquals(2, histories.size());
   }
@@ -84,7 +93,10 @@ class HistoryIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     HistoryApi api = new HistoryApi(adminClient);
 
-    List<History> histories = api.getHistories(2, 2, null, null, null, null, null);
+    PaginatedResponse resp = api.getHistories(2, 2, null, null, null, null, null);
+
+
+    List<History> histories = extractData(resp, History.class);
 
     assertEquals(2, histories.size());
   }
@@ -94,7 +106,10 @@ class HistoryIT {
     ApiClient administrationClient = anApiClient(ADMINISTRATION_TOKEN);
     HistoryApi api = new HistoryApi(administrationClient);
 
-    List<History> histories = api.getHistories(1, 100, null, null, null, null, null);
+    PaginatedResponse resp = api.getHistories(1, 100, null, null, null, null, null);
+
+
+    List<History> histories = extractData(resp, History.class);
 
     assertEquals(5, histories.size());
   }
@@ -129,7 +144,10 @@ class HistoryIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     HistoryApi api = new HistoryApi(adminClient);
 
-    List<History> histories = api.getHistories(1, 100, ADMIN_ID, null, null, null, null);
+    PaginatedResponse resp = api.getHistories(1, 100, ADMIN_ID, null, null, null, null);
+
+
+    List<History> histories = extractData(resp, History.class);
 
     assertEquals(3, histories.size());
     assertTrue(histories.stream().allMatch(h -> ADMIN_ID.equals(h.getUserId())));
@@ -140,7 +158,10 @@ class HistoryIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     HistoryApi api = new HistoryApi(adminClient);
 
-    List<History> histories = api.getHistories(1, 100, null, EntityType.COMPANY, null, null, null);
+    PaginatedResponse resp = api.getHistories(1, 100, null, EntityType.COMPANY, null, null, null);
+
+
+    List<History> histories = extractData(resp, History.class);
 
     assertEquals(2, histories.size());
     assertTrue(histories.stream().allMatch(h -> EntityType.COMPANY.equals(h.getEntityType())));
@@ -151,7 +172,10 @@ class HistoryIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     HistoryApi api = new HistoryApi(adminClient);
 
-    List<History> histories = api.getHistories(1, 100, null, null, COMPANY1_ID, null, null);
+    PaginatedResponse resp = api.getHistories(1, 100, null, null, COMPANY1_ID, null, null);
+
+
+    List<History> histories = extractData(resp, History.class);
 
     assertEquals(2, histories.size());
     assertTrue(histories.stream().allMatch(h -> COMPANY1_ID.equals(h.getEntityId())));
@@ -165,8 +189,10 @@ class HistoryIT {
     OffsetDateTime dateFrom = OffsetDateTime.of(2024, 2, 1, 0, 0, 0, 0, ZoneOffset.UTC);
     OffsetDateTime dateTo = OffsetDateTime.of(2024, 2, 28, 23, 59, 59, 0, ZoneOffset.UTC);
 
-    List<History> histories =
-        api.getHistories(1, 100, null, null, null, dateFrom.toInstant(), dateTo.toInstant());
+    PaginatedResponse resp = api.getHistories(1, 100, null, null, null, dateFrom.toInstant(), dateTo.toInstant());
+
+
+    List<History> histories = extractData(resp, History.class);
 
     assertEquals(3, histories.size());
   }
@@ -176,8 +202,10 @@ class HistoryIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     HistoryApi api = new HistoryApi(adminClient);
 
-    List<History> histories =
-        api.getHistories(1, 100, null, EntityType.BANK_FEE, COMPANY1_ID, null, null);
+    PaginatedResponse resp = api.getHistories(1, 100, null, EntityType.BANK_FEE, COMPANY1_ID, null, null);
+
+
+    List<History> histories = extractData(resp, History.class);
 
     assertTrue(histories.isEmpty());
   }
@@ -187,8 +215,10 @@ class HistoryIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     HistoryApi api = new HistoryApi(adminClient);
 
-    List<History> histories =
-        api.getHistories(1, 100, ADMIN_ID, EntityType.COMPANY, COMPANY1_ID, null, null);
+    PaginatedResponse resp = api.getHistories(1, 100, ADMIN_ID, EntityType.COMPANY, COMPANY1_ID, null, null);
+
+
+    List<History> histories = extractData(resp, History.class);
 
     assertEquals(2, histories.size());
     assertTrue(
@@ -205,7 +235,10 @@ class HistoryIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     HistoryApi api = new HistoryApi(adminClient);
 
-    List<History> histories = api.getHistories(1, 100, null, EntityType.JOB, JOB1_ID, null, null);
+    PaginatedResponse resp = api.getHistories(1, 100, null, EntityType.JOB, JOB1_ID, null, null);
+
+
+    List<History> histories = extractData(resp, History.class);
 
     assertEquals(1, histories.size());
     History actual = histories.get(0);

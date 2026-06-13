@@ -6,7 +6,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.example.demo.SentryConf;
 import com.example.demo.client.api.MaintenanceApi;
 import com.example.demo.client.invoker.ApiClient;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.CrupdateMaintenance;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.Maintenance;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
@@ -69,8 +71,10 @@ class MaintenanceIT {
   void admin_can_get_all_maintenances() throws Exception {
     MaintenanceApi api = new MaintenanceApi(anApiClient(ADMIN_TOKEN));
 
-    List<Maintenance> maintenances =
-        api.getMaintenances(ADMIN_ID, COMPANY1_ID, EQUIPMENT1_ID, 1, 100, null);
+    PaginatedResponse resp = api.getMaintenances(ADMIN_ID, COMPANY1_ID, EQUIPMENT1_ID, 1, 100, null);
+
+
+    List<Maintenance> maintenances = extractData(resp, Maintenance.class);
 
     assertEquals(1, maintenances.size());
     assertTrue(maintenances.stream().anyMatch(m -> MAINTENANCE1_ID.equals(m.getId())));
@@ -80,8 +84,10 @@ class MaintenanceIT {
   void admin_can_filter_maintenances_by_description() throws Exception {
     MaintenanceApi api = new MaintenanceApi(anApiClient(ADMIN_TOKEN));
 
-    List<Maintenance> maintenances =
-        api.getMaintenances(ADMIN_ID, COMPANY1_ID, EQUIPMENT1_ID, 1, 100, "moteur");
+    PaginatedResponse resp = api.getMaintenances(ADMIN_ID, COMPANY1_ID, EQUIPMENT1_ID, 1, 100, "moteur");
+
+
+    List<Maintenance> maintenances = extractData(resp, Maintenance.class);
 
     assertEquals(1, maintenances.size());
     assertEquals(MAINTENANCE1_ID, maintenances.get(0).getId());
@@ -91,8 +97,10 @@ class MaintenanceIT {
   void admin_can_get_all_maintenances_for_equipment2() throws Exception {
     MaintenanceApi api = new MaintenanceApi(anApiClient(ADMIN_TOKEN));
 
-    List<Maintenance> maintenances =
-        api.getMaintenances(ADMIN_ID, COMPANY1_ID, EQUIPMENT2_ID, 1, 100, null);
+    PaginatedResponse resp = api.getMaintenances(ADMIN_ID, COMPANY1_ID, EQUIPMENT2_ID, 1, 100, null);
+
+
+    List<Maintenance> maintenances = extractData(resp, Maintenance.class);
 
     assertEquals(1, maintenances.size());
     assertEquals(MAINTENANCE2_ID, maintenances.get(0).getId());

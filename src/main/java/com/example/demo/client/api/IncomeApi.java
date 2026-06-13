@@ -24,6 +24,7 @@ import java.io.File;
 import com.example.demo.client.model.IncomeMoney;
 import com.example.demo.client.model.InternalServerException;
 import com.example.demo.client.model.NotAuthorizedException;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.ResourceNotFoundException;
 import com.example.demo.client.model.TooManyRequestsException;
 
@@ -52,7 +53,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T02:10:42.519221747+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T02:20:38.960879300+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class IncomeApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -393,11 +394,11 @@ public class IncomeApi {
    * @param amount  (optional)
    * @param incomeTypeId Filter incomes by income type (optional)
    * @param moneyReceived Filter incomes by money received status (amount minus sum of receipts &lt;&#x3D; 0) (optional)
-   * @return List&lt;IncomeMoney&gt;
+   * @return PaginatedResponse
    * @throws ApiException if fails to make API call
    */
-  public List<IncomeMoney> getIncomes(String userId, String companyId, String jobId, Integer page, Integer pageSize, String organizationId, String invoiceReference, String description, BigDecimal amount, String incomeTypeId, Boolean moneyReceived) throws ApiException {
-    ApiResponse<List<IncomeMoney>> localVarResponse = getIncomesWithHttpInfo(userId, companyId, jobId, page, pageSize, organizationId, invoiceReference, description, amount, incomeTypeId, moneyReceived);
+  public PaginatedResponse getIncomes(String userId, String companyId, String jobId, Integer page, Integer pageSize, String organizationId, String invoiceReference, String description, BigDecimal amount, String incomeTypeId, Boolean moneyReceived) throws ApiException {
+    ApiResponse<PaginatedResponse> localVarResponse = getIncomesWithHttpInfo(userId, companyId, jobId, page, pageSize, organizationId, invoiceReference, description, amount, incomeTypeId, moneyReceived);
     return localVarResponse.getData();
   }
 
@@ -415,10 +416,10 @@ public class IncomeApi {
    * @param amount  (optional)
    * @param incomeTypeId Filter incomes by income type (optional)
    * @param moneyReceived Filter incomes by money received status (amount minus sum of receipts &lt;&#x3D; 0) (optional)
-   * @return ApiResponse&lt;List&lt;IncomeMoney&gt;&gt;
+   * @return ApiResponse&lt;PaginatedResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<IncomeMoney>> getIncomesWithHttpInfo(String userId, String companyId, String jobId, Integer page, Integer pageSize, String organizationId, String invoiceReference, String description, BigDecimal amount, String incomeTypeId, Boolean moneyReceived) throws ApiException {
+  public ApiResponse<PaginatedResponse> getIncomesWithHttpInfo(String userId, String companyId, String jobId, Integer page, Integer pageSize, String organizationId, String invoiceReference, String description, BigDecimal amount, String incomeTypeId, Boolean moneyReceived) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = getIncomesRequestBuilder(userId, companyId, jobId, page, pageSize, organizationId, invoiceReference, description, amount, incomeTypeId, moneyReceived);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -431,10 +432,10 @@ public class IncomeApi {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("getIncomes", localVarResponse);
         }
-        return new ApiResponse<List<IncomeMoney>>(
+        return new ApiResponse<PaginatedResponse>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<List<IncomeMoney>>() {}) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<PaginatedResponse>() {}) // closes the InputStream
         );
       } finally {
       }

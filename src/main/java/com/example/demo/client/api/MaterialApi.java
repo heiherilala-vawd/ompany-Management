@@ -23,6 +23,7 @@ import com.example.demo.client.model.InternalServerException;
 import com.example.demo.client.model.Material;
 import com.example.demo.client.model.MaterialUnit;
 import com.example.demo.client.model.NotAuthorizedException;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.ResourceNotFoundException;
 import com.example.demo.client.model.TooManyRequestsException;
 
@@ -51,7 +52,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T02:10:42.519221747+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T02:20:38.960879300+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class MaterialApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -368,11 +369,11 @@ public class MaterialApi {
    * @param description Filter materials by description, case is ignored (optional)
    * @param unit  (optional)
    * @param notArrived Filter materials not yet arrived (with quantity &gt; 0 in route or at seller warehouse) (optional)
-   * @return List&lt;Material&gt;
+   * @return PaginatedResponse
    * @throws ApiException if fails to make API call
    */
-  public List<Material> getMaterials(String userId, String companyId, Integer page, Integer pageSize, String name, String description, MaterialUnit unit, Boolean notArrived) throws ApiException {
-    ApiResponse<List<Material>> localVarResponse = getMaterialsWithHttpInfo(userId, companyId, page, pageSize, name, description, unit, notArrived);
+  public PaginatedResponse getMaterials(String userId, String companyId, Integer page, Integer pageSize, String name, String description, MaterialUnit unit, Boolean notArrived) throws ApiException {
+    ApiResponse<PaginatedResponse> localVarResponse = getMaterialsWithHttpInfo(userId, companyId, page, pageSize, name, description, unit, notArrived);
     return localVarResponse.getData();
   }
 
@@ -387,10 +388,10 @@ public class MaterialApi {
    * @param description Filter materials by description, case is ignored (optional)
    * @param unit  (optional)
    * @param notArrived Filter materials not yet arrived (with quantity &gt; 0 in route or at seller warehouse) (optional)
-   * @return ApiResponse&lt;List&lt;Material&gt;&gt;
+   * @return ApiResponse&lt;PaginatedResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<Material>> getMaterialsWithHttpInfo(String userId, String companyId, Integer page, Integer pageSize, String name, String description, MaterialUnit unit, Boolean notArrived) throws ApiException {
+  public ApiResponse<PaginatedResponse> getMaterialsWithHttpInfo(String userId, String companyId, Integer page, Integer pageSize, String name, String description, MaterialUnit unit, Boolean notArrived) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = getMaterialsRequestBuilder(userId, companyId, page, pageSize, name, description, unit, notArrived);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -403,10 +404,10 @@ public class MaterialApi {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("getMaterials", localVarResponse);
         }
-        return new ApiResponse<List<Material>>(
+        return new ApiResponse<PaginatedResponse>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<List<Material>>() {}) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<PaginatedResponse>() {}) // closes the InputStream
         );
       } finally {
       }

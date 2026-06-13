@@ -22,6 +22,7 @@ import com.example.demo.client.model.CrupdateLoanRepayment;
 import com.example.demo.client.model.InternalServerException;
 import com.example.demo.client.model.LoanRepayment;
 import com.example.demo.client.model.NotAuthorizedException;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.ResourceNotFoundException;
 import com.example.demo.client.model.TooManyRequestsException;
 
@@ -50,7 +51,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T02:10:42.519221747+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T02:20:38.960879300+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class LoanRepaymentApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -437,11 +438,11 @@ public class LoanRepaymentApi {
    * @param loanId  (optional)
    * @param page  (optional)
    * @param pageSize  (optional)
-   * @return List&lt;LoanRepayment&gt;
+   * @return PaginatedResponse
    * @throws ApiException if fails to make API call
    */
-  public List<LoanRepayment> getLoanRepayments(String userId, String companyId, String jobId, String loanId, Integer page, Integer pageSize) throws ApiException {
-    ApiResponse<List<LoanRepayment>> localVarResponse = getLoanRepaymentsWithHttpInfo(userId, companyId, jobId, loanId, page, pageSize);
+  public PaginatedResponse getLoanRepayments(String userId, String companyId, String jobId, String loanId, Integer page, Integer pageSize) throws ApiException {
+    ApiResponse<PaginatedResponse> localVarResponse = getLoanRepaymentsWithHttpInfo(userId, companyId, jobId, loanId, page, pageSize);
     return localVarResponse.getData();
   }
 
@@ -454,10 +455,10 @@ public class LoanRepaymentApi {
    * @param loanId  (optional)
    * @param page  (optional)
    * @param pageSize  (optional)
-   * @return ApiResponse&lt;List&lt;LoanRepayment&gt;&gt;
+   * @return ApiResponse&lt;PaginatedResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<LoanRepayment>> getLoanRepaymentsWithHttpInfo(String userId, String companyId, String jobId, String loanId, Integer page, Integer pageSize) throws ApiException {
+  public ApiResponse<PaginatedResponse> getLoanRepaymentsWithHttpInfo(String userId, String companyId, String jobId, String loanId, Integer page, Integer pageSize) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = getLoanRepaymentsRequestBuilder(userId, companyId, jobId, loanId, page, pageSize);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -470,10 +471,10 @@ public class LoanRepaymentApi {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("getLoanRepayments", localVarResponse);
         }
-        return new ApiResponse<List<LoanRepayment>>(
+        return new ApiResponse<PaginatedResponse>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<List<LoanRepayment>>() {}) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<PaginatedResponse>() {}) // closes the InputStream
         );
       } finally {
       }

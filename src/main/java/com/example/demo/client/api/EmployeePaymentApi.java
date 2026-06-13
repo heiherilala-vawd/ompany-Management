@@ -22,6 +22,7 @@ import com.example.demo.client.model.CrupdateEmployeePayment;
 import com.example.demo.client.model.EmployeePayment;
 import com.example.demo.client.model.InternalServerException;
 import com.example.demo.client.model.NotAuthorizedException;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.PaymentType;
 import com.example.demo.client.model.ResourceNotFoundException;
 import com.example.demo.client.model.TooManyRequestsException;
@@ -51,7 +52,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T02:10:42.519221747+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T02:20:38.960879300+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class EmployeePaymentApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -389,11 +390,11 @@ public class EmployeePaymentApi {
    * @param userIds Filter by user IDs (comma-separated) (optional)
    * @param paymentDescription Filter employee payments by description, case is ignored (optional)
    * @param paymentType  (optional)
-   * @return List&lt;EmployeePayment&gt;
+   * @return PaginatedResponse
    * @throws ApiException if fails to make API call
    */
-  public List<EmployeePayment> getEmployeePayments(String userId, String companyId, String jobId, Integer page, Integer pageSize, List<String> userIds, String paymentDescription, PaymentType paymentType) throws ApiException {
-    ApiResponse<List<EmployeePayment>> localVarResponse = getEmployeePaymentsWithHttpInfo(userId, companyId, jobId, page, pageSize, userIds, paymentDescription, paymentType);
+  public PaginatedResponse getEmployeePayments(String userId, String companyId, String jobId, Integer page, Integer pageSize, List<String> userIds, String paymentDescription, PaymentType paymentType) throws ApiException {
+    ApiResponse<PaginatedResponse> localVarResponse = getEmployeePaymentsWithHttpInfo(userId, companyId, jobId, page, pageSize, userIds, paymentDescription, paymentType);
     return localVarResponse.getData();
   }
 
@@ -408,10 +409,10 @@ public class EmployeePaymentApi {
    * @param userIds Filter by user IDs (comma-separated) (optional)
    * @param paymentDescription Filter employee payments by description, case is ignored (optional)
    * @param paymentType  (optional)
-   * @return ApiResponse&lt;List&lt;EmployeePayment&gt;&gt;
+   * @return ApiResponse&lt;PaginatedResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<EmployeePayment>> getEmployeePaymentsWithHttpInfo(String userId, String companyId, String jobId, Integer page, Integer pageSize, List<String> userIds, String paymentDescription, PaymentType paymentType) throws ApiException {
+  public ApiResponse<PaginatedResponse> getEmployeePaymentsWithHttpInfo(String userId, String companyId, String jobId, Integer page, Integer pageSize, List<String> userIds, String paymentDescription, PaymentType paymentType) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = getEmployeePaymentsRequestBuilder(userId, companyId, jobId, page, pageSize, userIds, paymentDescription, paymentType);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -424,10 +425,10 @@ public class EmployeePaymentApi {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("getEmployeePayments", localVarResponse);
         }
-        return new ApiResponse<List<EmployeePayment>>(
+        return new ApiResponse<PaginatedResponse>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<List<EmployeePayment>>() {}) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<PaginatedResponse>() {}) // closes the InputStream
         );
       } finally {
       }

@@ -21,6 +21,7 @@ import com.example.demo.client.model.BadRequestException;
 import com.example.demo.client.model.CrupdateTravelExpense;
 import com.example.demo.client.model.InternalServerException;
 import com.example.demo.client.model.NotAuthorizedException;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.ResourceNotFoundException;
 import com.example.demo.client.model.TooManyRequestsException;
 import com.example.demo.client.model.TravelExpense;
@@ -50,7 +51,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T02:10:42.519221747+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T02:20:38.960879300+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class TravelExpenseApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -387,11 +388,11 @@ public class TravelExpenseApi {
    * @param pageSize  (optional)
    * @param departureLocation Filter travel expenses by departure warehouse id (optional)
    * @param arrivalLocation Filter travel expenses by arrival warehouse id (optional)
-   * @return List&lt;TravelExpense&gt;
+   * @return PaginatedResponse
    * @throws ApiException if fails to make API call
    */
-  public List<TravelExpense> getTravelExpenses(String userId, String companyId, String jobId, Integer page, Integer pageSize, String departureLocation, String arrivalLocation) throws ApiException {
-    ApiResponse<List<TravelExpense>> localVarResponse = getTravelExpensesWithHttpInfo(userId, companyId, jobId, page, pageSize, departureLocation, arrivalLocation);
+  public PaginatedResponse getTravelExpenses(String userId, String companyId, String jobId, Integer page, Integer pageSize, String departureLocation, String arrivalLocation) throws ApiException {
+    ApiResponse<PaginatedResponse> localVarResponse = getTravelExpensesWithHttpInfo(userId, companyId, jobId, page, pageSize, departureLocation, arrivalLocation);
     return localVarResponse.getData();
   }
 
@@ -405,10 +406,10 @@ public class TravelExpenseApi {
    * @param pageSize  (optional)
    * @param departureLocation Filter travel expenses by departure warehouse id (optional)
    * @param arrivalLocation Filter travel expenses by arrival warehouse id (optional)
-   * @return ApiResponse&lt;List&lt;TravelExpense&gt;&gt;
+   * @return ApiResponse&lt;PaginatedResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<TravelExpense>> getTravelExpensesWithHttpInfo(String userId, String companyId, String jobId, Integer page, Integer pageSize, String departureLocation, String arrivalLocation) throws ApiException {
+  public ApiResponse<PaginatedResponse> getTravelExpensesWithHttpInfo(String userId, String companyId, String jobId, Integer page, Integer pageSize, String departureLocation, String arrivalLocation) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = getTravelExpensesRequestBuilder(userId, companyId, jobId, page, pageSize, departureLocation, arrivalLocation);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -421,10 +422,10 @@ public class TravelExpenseApi {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("getTravelExpenses", localVarResponse);
         }
-        return new ApiResponse<List<TravelExpense>>(
+        return new ApiResponse<PaginatedResponse>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<List<TravelExpense>>() {}) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<PaginatedResponse>() {}) // closes the InputStream
         );
       } finally {
       }

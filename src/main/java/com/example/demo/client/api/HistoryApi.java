@@ -19,9 +19,9 @@ import com.example.demo.client.invoker.Pair;
 
 import com.example.demo.client.model.BadRequestException;
 import com.example.demo.client.model.EntityType;
-import com.example.demo.client.model.History;
 import com.example.demo.client.model.InternalServerException;
 import com.example.demo.client.model.NotAuthorizedException;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.ResourceNotFoundException;
 import com.example.demo.client.model.TooManyRequestsException;
 
@@ -50,7 +50,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T02:10:42.519221747+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T02:20:38.960879300+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class HistoryApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -97,11 +97,11 @@ public class HistoryApi {
    * @param entityId Filter by entity identifier (optional)
    * @param dateFrom Filter modifications from this date (inclusive) (optional)
    * @param dateTo Filter modifications until this date (inclusive) (optional)
-   * @return List&lt;History&gt;
+   * @return PaginatedResponse
    * @throws ApiException if fails to make API call
    */
-  public List<History> getHistories(Integer page, Integer pageSize, String userId, EntityType entityType, String entityId, java.time.Instant dateFrom, java.time.Instant dateTo) throws ApiException {
-    ApiResponse<List<History>> localVarResponse = getHistoriesWithHttpInfo(page, pageSize, userId, entityType, entityId, dateFrom, dateTo);
+  public PaginatedResponse getHistories(Integer page, Integer pageSize, String userId, EntityType entityType, String entityId, java.time.Instant dateFrom, java.time.Instant dateTo) throws ApiException {
+    ApiResponse<PaginatedResponse> localVarResponse = getHistoriesWithHttpInfo(page, pageSize, userId, entityType, entityId, dateFrom, dateTo);
     return localVarResponse.getData();
   }
 
@@ -115,10 +115,10 @@ public class HistoryApi {
    * @param entityId Filter by entity identifier (optional)
    * @param dateFrom Filter modifications from this date (inclusive) (optional)
    * @param dateTo Filter modifications until this date (inclusive) (optional)
-   * @return ApiResponse&lt;List&lt;History&gt;&gt;
+   * @return ApiResponse&lt;PaginatedResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<History>> getHistoriesWithHttpInfo(Integer page, Integer pageSize, String userId, EntityType entityType, String entityId, java.time.Instant dateFrom, java.time.Instant dateTo) throws ApiException {
+  public ApiResponse<PaginatedResponse> getHistoriesWithHttpInfo(Integer page, Integer pageSize, String userId, EntityType entityType, String entityId, java.time.Instant dateFrom, java.time.Instant dateTo) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = getHistoriesRequestBuilder(page, pageSize, userId, entityType, entityId, dateFrom, dateTo);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -131,10 +131,10 @@ public class HistoryApi {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("getHistories", localVarResponse);
         }
-        return new ApiResponse<List<History>>(
+        return new ApiResponse<PaginatedResponse>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<List<History>>() {}) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<PaginatedResponse>() {}) // closes the InputStream
         );
       } finally {
       }

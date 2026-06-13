@@ -6,7 +6,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.example.demo.SentryConf;
 import com.example.demo.client.api.MaterialWarehouseApi;
 import com.example.demo.client.invoker.ApiClient;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.CrupdateMaterialWarehouse;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.MaterialWarehouseView;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
@@ -52,8 +54,10 @@ class MaterialWarehouseIT {
     ApiClient client = anApiClient(WAREHOUSE_TOKEN);
     MaterialWarehouseApi api = new MaterialWarehouseApi(client);
 
-    List<MaterialWarehouseView> records =
-        api.getMaterialWarehouses(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null);
+    PaginatedResponse resp = api.getMaterialWarehouses(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null);
+
+
+    List<MaterialWarehouseView> records = extractData(resp, MaterialWarehouseView.class);
 
     assertEquals(4, records.size());
   }
@@ -81,8 +85,10 @@ class MaterialWarehouseIT {
     ApiClient client = anApiClient(WAREHOUSE_TOKEN);
     MaterialWarehouseApi api = new MaterialWarehouseApi(client);
 
-    List<MaterialWarehouseView> records =
-        api.getMaterialWarehouses(ADMIN_ID, COMPANY1_ID, 1, 100, MATERIAL1_ID, null, null);
+    PaginatedResponse resp = api.getMaterialWarehouses(ADMIN_ID, COMPANY1_ID, 1, 100, MATERIAL1_ID, null, null);
+
+
+    List<MaterialWarehouseView> records = extractData(resp, MaterialWarehouseView.class);
 
     assertEquals(2, records.size());
     assertTrue(records.stream().allMatch(r -> MATERIAL1_ID.equals(r.getMaterial().getId())));
@@ -93,8 +99,10 @@ class MaterialWarehouseIT {
     ApiClient client = anApiClient(ADMIN_TOKEN);
     MaterialWarehouseApi api = new MaterialWarehouseApi(client);
 
-    List<MaterialWarehouseView> records =
-        api.getMaterialWarehouses(ADMIN_ID, COMPANY1_ID, 1, 100, null, WAREHOUSE1_ID, null);
+    PaginatedResponse resp = api.getMaterialWarehouses(ADMIN_ID, COMPANY1_ID, 1, 100, null, WAREHOUSE1_ID, null);
+
+
+    List<MaterialWarehouseView> records = extractData(resp, MaterialWarehouseView.class);
 
     assertEquals(1, records.size());
     assertEquals(WAREHOUSE1_ID, records.get(0).getWarehouse().getId());
@@ -105,8 +113,10 @@ class MaterialWarehouseIT {
     ApiClient client = anApiClient(ADMIN_TOKEN);
     MaterialWarehouseApi api = new MaterialWarehouseApi(client);
 
-    List<MaterialWarehouseView> records =
-        api.getMaterialWarehouses(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, true);
+    PaginatedResponse resp = api.getMaterialWarehouses(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, true);
+
+
+    List<MaterialWarehouseView> records = extractData(resp, MaterialWarehouseView.class);
 
     assertEquals(2, records.size());
     assertTrue(records.stream().allMatch(r -> r.getQuantity() > 0));
@@ -117,8 +127,10 @@ class MaterialWarehouseIT {
     ApiClient client = anApiClient(ADMIN_TOKEN);
     MaterialWarehouseApi api = new MaterialWarehouseApi(client);
 
-    List<MaterialWarehouseView> records =
-        api.getMaterialWarehouses(ADMIN_ID, COMPANY1_ID, 1, 100, MATERIAL1_ID, null, true);
+    PaginatedResponse resp = api.getMaterialWarehouses(ADMIN_ID, COMPANY1_ID, 1, 100, MATERIAL1_ID, null, true);
+
+
+    List<MaterialWarehouseView> records = extractData(resp, MaterialWarehouseView.class);
 
     assertEquals(1, records.size());
     assertEquals(MATERIAL1_ID, records.get(0).getMaterial().getId());
@@ -141,8 +153,10 @@ class MaterialWarehouseIT {
     assertEquals(WAREHOUSE2_ID, saved.get(0).getWarehouse().getId());
     assertEquals(200, saved.get(0).getQuantity());
 
-    List<MaterialWarehouseView> all =
-        api.getMaterialWarehouses(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null);
+    PaginatedResponse resp = api.getMaterialWarehouses(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null);
+
+
+    List<MaterialWarehouseView> all = extractData(resp, MaterialWarehouseView.class);
     assertEquals(5, all.size());
   }
 

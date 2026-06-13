@@ -7,7 +7,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import com.example.demo.SentryConf;
 import com.example.demo.client.api.HrApi;
 import com.example.demo.client.invoker.ApiClient;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.CrupdateLeaveType;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.LeaveType;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
@@ -52,7 +54,10 @@ class LeaveTypeIT {
   void administration_can_get_all_leave_types() throws Exception {
     HrApi api = new HrApi(anApiClient(ADMINISTRATION_TOKEN));
 
-    List<LeaveType> leaveTypes = api.getLeaveTypes(ADMIN_ID, COMPANY1_ID);
+    PaginatedResponse resp = api.getLeaveTypes(ADMIN_ID, COMPANY1_ID);
+
+
+    List<LeaveType> leaveTypes = extractData(resp, LeaveType.class);
 
     assertEquals(2, leaveTypes.size());
     assertTrue(leaveTypes.stream().anyMatch(lt -> LEAVE_TYPE1_ID.equals(lt.getId())));

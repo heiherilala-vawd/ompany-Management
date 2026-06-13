@@ -22,6 +22,7 @@ import com.example.demo.client.model.CrupdateOtherExpense;
 import com.example.demo.client.model.InternalServerException;
 import com.example.demo.client.model.NotAuthorizedException;
 import com.example.demo.client.model.OtherExpense;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.ResourceNotFoundException;
 import com.example.demo.client.model.TooManyRequestsException;
 
@@ -50,7 +51,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T02:10:42.519221747+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T02:20:38.960879300+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class OtherExpenseApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -386,11 +387,11 @@ public class OtherExpenseApi {
    * @param page  (optional)
    * @param pageSize  (optional)
    * @param description Filter other expenses by description, case is ignored (optional)
-   * @return List&lt;OtherExpense&gt;
+   * @return PaginatedResponse
    * @throws ApiException if fails to make API call
    */
-  public List<OtherExpense> getOtherExpenses(String userId, String companyId, String jobId, Integer page, Integer pageSize, String description) throws ApiException {
-    ApiResponse<List<OtherExpense>> localVarResponse = getOtherExpensesWithHttpInfo(userId, companyId, jobId, page, pageSize, description);
+  public PaginatedResponse getOtherExpenses(String userId, String companyId, String jobId, Integer page, Integer pageSize, String description) throws ApiException {
+    ApiResponse<PaginatedResponse> localVarResponse = getOtherExpensesWithHttpInfo(userId, companyId, jobId, page, pageSize, description);
     return localVarResponse.getData();
   }
 
@@ -403,10 +404,10 @@ public class OtherExpenseApi {
    * @param page  (optional)
    * @param pageSize  (optional)
    * @param description Filter other expenses by description, case is ignored (optional)
-   * @return ApiResponse&lt;List&lt;OtherExpense&gt;&gt;
+   * @return ApiResponse&lt;PaginatedResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<OtherExpense>> getOtherExpensesWithHttpInfo(String userId, String companyId, String jobId, Integer page, Integer pageSize, String description) throws ApiException {
+  public ApiResponse<PaginatedResponse> getOtherExpensesWithHttpInfo(String userId, String companyId, String jobId, Integer page, Integer pageSize, String description) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = getOtherExpensesRequestBuilder(userId, companyId, jobId, page, pageSize, description);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -419,10 +420,10 @@ public class OtherExpenseApi {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("getOtherExpenses", localVarResponse);
         }
-        return new ApiResponse<List<OtherExpense>>(
+        return new ApiResponse<PaginatedResponse>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<List<OtherExpense>>() {}) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<PaginatedResponse>() {}) // closes the InputStream
         );
       } finally {
       }

@@ -23,6 +23,7 @@ import com.example.demo.client.model.CompanyType;
 import com.example.demo.client.model.CrupdateCompany;
 import com.example.demo.client.model.InternalServerException;
 import com.example.demo.client.model.NotAuthorizedException;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.ResourceNotFoundException;
 import com.example.demo.client.model.TooManyRequestsException;
 
@@ -51,7 +52,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T02:10:42.519221747+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T02:20:38.960879300+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CompanyApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -259,11 +260,11 @@ public class CompanyApi {
    * @param rib Filter companies by RIB, case is ignored (optional)
    * @param description Filter companies by description, case is ignored (optional)
    * @param companyType Filter by company type (optional)
-   * @return List&lt;Company&gt;
+   * @return PaginatedResponse
    * @throws ApiException if fails to make API call
    */
-  public List<Company> getCompanies(String userId, Integer page, Integer pageSize, String name, String rib, String description, CompanyType companyType) throws ApiException {
-    ApiResponse<List<Company>> localVarResponse = getCompaniesWithHttpInfo(userId, page, pageSize, name, rib, description, companyType);
+  public PaginatedResponse getCompanies(String userId, Integer page, Integer pageSize, String name, String rib, String description, CompanyType companyType) throws ApiException {
+    ApiResponse<PaginatedResponse> localVarResponse = getCompaniesWithHttpInfo(userId, page, pageSize, name, rib, description, companyType);
     return localVarResponse.getData();
   }
 
@@ -277,10 +278,10 @@ public class CompanyApi {
    * @param rib Filter companies by RIB, case is ignored (optional)
    * @param description Filter companies by description, case is ignored (optional)
    * @param companyType Filter by company type (optional)
-   * @return ApiResponse&lt;List&lt;Company&gt;&gt;
+   * @return ApiResponse&lt;PaginatedResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<Company>> getCompaniesWithHttpInfo(String userId, Integer page, Integer pageSize, String name, String rib, String description, CompanyType companyType) throws ApiException {
+  public ApiResponse<PaginatedResponse> getCompaniesWithHttpInfo(String userId, Integer page, Integer pageSize, String name, String rib, String description, CompanyType companyType) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = getCompaniesRequestBuilder(userId, page, pageSize, name, rib, description, companyType);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -293,10 +294,10 @@ public class CompanyApi {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("getCompanies", localVarResponse);
         }
-        return new ApiResponse<List<Company>>(
+        return new ApiResponse<PaginatedResponse>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<List<Company>>() {}) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<PaginatedResponse>() {}) // closes the InputStream
         );
       } finally {
       }

@@ -22,6 +22,7 @@ import com.example.demo.client.model.CrupdateEquipmentUsage;
 import com.example.demo.client.model.EquipmentUsage;
 import com.example.demo.client.model.InternalServerException;
 import com.example.demo.client.model.NotAuthorizedException;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.ResourceNotFoundException;
 import com.example.demo.client.model.TooManyRequestsException;
 import com.example.demo.client.model.UsageStatus;
@@ -51,7 +52,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T02:10:42.519221747+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T02:20:38.960879300+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class EquipmentUsageApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -365,11 +366,11 @@ public class EquipmentUsageApi {
    * @param page  (optional)
    * @param pageSize  (optional)
    * @param jobId  (optional)
-   * @return List&lt;EquipmentUsage&gt;
+   * @return PaginatedResponse
    * @throws ApiException if fails to make API call
    */
-  public List<EquipmentUsage> getEquipmentUsages(String userId, String companyId, Integer page, Integer pageSize, String jobId) throws ApiException {
-    ApiResponse<List<EquipmentUsage>> localVarResponse = getEquipmentUsagesWithHttpInfo(userId, companyId, page, pageSize, jobId);
+  public PaginatedResponse getEquipmentUsages(String userId, String companyId, Integer page, Integer pageSize, String jobId) throws ApiException {
+    ApiResponse<PaginatedResponse> localVarResponse = getEquipmentUsagesWithHttpInfo(userId, companyId, page, pageSize, jobId);
     return localVarResponse.getData();
   }
 
@@ -381,10 +382,10 @@ public class EquipmentUsageApi {
    * @param page  (optional)
    * @param pageSize  (optional)
    * @param jobId  (optional)
-   * @return ApiResponse&lt;List&lt;EquipmentUsage&gt;&gt;
+   * @return ApiResponse&lt;PaginatedResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<EquipmentUsage>> getEquipmentUsagesWithHttpInfo(String userId, String companyId, Integer page, Integer pageSize, String jobId) throws ApiException {
+  public ApiResponse<PaginatedResponse> getEquipmentUsagesWithHttpInfo(String userId, String companyId, Integer page, Integer pageSize, String jobId) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = getEquipmentUsagesRequestBuilder(userId, companyId, page, pageSize, jobId);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -397,10 +398,10 @@ public class EquipmentUsageApi {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("getEquipmentUsages", localVarResponse);
         }
-        return new ApiResponse<List<EquipmentUsage>>(
+        return new ApiResponse<PaginatedResponse>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<List<EquipmentUsage>>() {}) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<PaginatedResponse>() {}) // closes the InputStream
         );
       } finally {
       }
