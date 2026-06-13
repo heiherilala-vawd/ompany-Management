@@ -139,6 +139,26 @@ class AuthIT {
   }
 
   @Test
+  @DirtiesContext
+  void user_cannot_register_with_existing_id() throws Exception {
+    ApiClient client = anApiClient();
+    AuthApi api = new AuthApi(client);
+
+    String existingId = UUID.randomUUID().toString();
+    CrupdateUser firstUser = someCreatableUser();
+    firstUser.setId(existingId);
+    api.authRegisterPost(firstUser);
+
+    CrupdateUser secondUser = someCreatableUser();
+    secondUser.setId(existingId);
+    secondUser.setEmail("other_" + UUID.randomUUID() + "@hei.school");
+
+    assertThrowsApiException(
+        "{\"type\":\"400 BAD_REQUEST\",\"message\":\"User with this ID already exists\"}",
+        () -> api.authRegisterPost(secondUser));
+  }
+
+  @Test
   @Transactional
   @Rollback
   void user_can_register_new_account() throws Exception {
