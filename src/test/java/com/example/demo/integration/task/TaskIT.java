@@ -94,6 +94,26 @@ class TaskIT {
   }
 
   @Test
+  void employee_can_list_own_tasks() throws Exception {
+    TaskApi api = new TaskApi(anApiClient(EMPLOYEE_TOKEN));
+
+    List<Task> tasks = api.getTasks(EMPLOYEE_ID, COMPANY1_ID);
+
+    assertEquals(2, tasks.size());
+    assertTrue(tasks.stream().anyMatch(t -> "task1_id".equals(t.getId())));
+    assertTrue(tasks.stream().anyMatch(t -> "task2_id".equals(t.getId())));
+  }
+
+  @Test
+  void warehouse_cannot_get_task_not_assigned() {
+    TaskApi api = new TaskApi(anApiClient(WAREHOUSE_TOKEN));
+
+    assertThrowsApiException(
+        "{\"type\":\"403 FORBIDDEN\",\"message\":\"Task not assigned to the user\"}",
+        () -> api.getTaskById(WAREHOUSE_ID, COMPANY1_ID, "task1_id"));
+  }
+
+  @Test
   @DirtiesContext
   void admin_can_delete_task() throws Exception {
     TaskApi api = new TaskApi(anApiClient(ADMIN_TOKEN));

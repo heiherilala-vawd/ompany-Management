@@ -10,4 +10,5 @@ public class TravelExpenseCriteria {
   private String departureLocation;
   private String arrivalLocation;
   private Instant arrivalDate;
+  private String userId;
 }

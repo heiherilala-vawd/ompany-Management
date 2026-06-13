@@ -2,7 +2,9 @@ package com.example.demo.service.movement;
 
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
+import com.example.demo.model.User;
 import com.example.demo.model.exception.BadRequestException;
+import com.example.demo.model.exception.ForbiddenException;
 import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.model.movement.EquipmentUsage;
 import com.example.demo.model.movement.Warehouse;
@@ -18,6 +20,7 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,12 +36,19 @@ public class EquipmentUsageService {
   private final MovementValidator movementValidator;
 
   public Optional<EquipmentUsage> findById(String id) {
-    return equipmentUsageRepository.findById(id);
+    Optional<EquipmentUsage> usage = equipmentUsageRepository.findById(id);
+    usage.ifPresent(this::validateRestrictedUserAccess);
+    return usage;
   }
 
   public Page<EquipmentUsage> findAll(PageFromOne page, BoundedPageSize pageSize, String jobId) {
+    User currentUser = modificationUtils.takePrimaryUser();
+    Specification<EquipmentUsage> spec = SpecificationUtils.equal(jobId, "job", "id");
+    if (isRestrictedUser(currentUser)) {
+      spec = spec.and(SpecificationUtils.equal(currentUser.getId(), "usedBy", "id"));
+    }
     Pageable pageable = PageUtils.createPageable(page, pageSize);
-    return equipmentUsageRepository.findAll(SpecificationUtils.equal(jobId, "job", "id"), pageable);
+    return equipmentUsageRepository.findAll(spec, pageable);
   }
 
   public Page<EquipmentUsage> findAll(PageFromOne page, BoundedPageSize pageSize) {
@@ -117,6 +127,21 @@ public class EquipmentUsageService {
   @Transactional
   public void deleteById(String id) {
     equipmentUsageRepository.deleteById(id);
+  }
+
+  private void validateRestrictedUserAccess(EquipmentUsage usage) {
+    User currentUser = modificationUtils.takePrimaryUser();
+    if (isRestrictedUser(currentUser)) {
+      if (usage.getUsedBy() == null
+          || !usage.getUsedBy().getId().equals(currentUser.getId())) {
+        throw new ForbiddenException("Equipment usage not associated with the user");
+      }
+    }
+  }
+
+  private boolean isRestrictedUser(User user) {
+    return user.getRole() == User.Role.EMPLOYEE
+        || user.getRole() == User.Role.WAREHOUSE_WORKER;
   }
 
   private void moveEquipmentToUsed(EquipmentUsage usage) {

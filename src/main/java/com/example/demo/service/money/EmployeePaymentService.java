@@ -7,6 +7,7 @@ import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
 import com.example.demo.model.User;
 import com.example.demo.model.criteria.EmployeePaymentCriteria;
+import com.example.demo.model.exception.ForbiddenException;
 import com.example.demo.model.money.EmployeePayment;
 import com.example.demo.model.money.ExpenseMoney;
 import com.example.demo.repository.money.EmployeePaymentRepository;
@@ -35,11 +36,15 @@ public class EmployeePaymentService {
   private final MoneyValidator moneyValidator;
 
   public Optional<EmployeePayment> findById(String id) {
-    return employeePaymentRepository.findById(id);
+    Optional<EmployeePayment> payment = employeePaymentRepository.findById(id);
+    payment.ifPresent(this::validateRestrictedUserAccess);
+    return payment;
   }
 
   public Page<EmployeePayment> findAll(
       PageFromOne page, BoundedPageSize pageSize, EmployeePaymentCriteria criteria) {
+    User currentUser = modificationUtils.takePrimaryUser();
+    applyUserIdFilter(criteria, currentUser);
     Pageable pageable = PageUtils.createPageable(page, pageSize);
     return employeePaymentRepository.findAll(toSpecification(criteria), pageable);
   }
@@ -82,5 +87,29 @@ public class EmployeePaymentService {
       Join<EmployeePayment, User> usersJoin = root.join("users");
       return usersJoin.get("id").in(userIds);
     };
+  }
+
+  private void validateRestrictedUserAccess(EmployeePayment payment) {
+    User currentUser = modificationUtils.takePrimaryUser();
+    if (isRestrictedUser(currentUser)) {
+      boolean isRelated =
+          payment.getUsers() != null
+              && payment.getUsers().stream()
+                  .anyMatch(u -> u.getId().equals(currentUser.getId()));
+      if (!isRelated) {
+        throw new ForbiddenException("Employee payment not associated with the user");
+      }
+    }
+  }
+
+  private void applyUserIdFilter(EmployeePaymentCriteria criteria, User currentUser) {
+    if (isRestrictedUser(currentUser)) {
+      criteria.setUserIDs(List.of(currentUser.getId()));
+    }
+  }
+
+  private boolean isRestrictedUser(User user) {
+    return user.getRole() == User.Role.EMPLOYEE
+        || user.getRole() == User.Role.WAREHOUSE_WORKER;
   }
 }

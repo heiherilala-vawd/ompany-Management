@@ -21,7 +21,7 @@ public class EquipmentUsageController {
   private final EquipmentUsageMapper equipmentUsageMapper;
 
   @GetMapping("/users/{userId}/companies/{companyId}/equipment_usages/{id}")
-  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
+  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER', 'EMPLOYEE') or #userId == authentication.principal.id")
   public EquipmentUsage getEquipmentUsageById(
       @PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     return equipmentUsageMapper.toRestEquipmentUsage(
@@ -32,7 +32,7 @@ public class EquipmentUsageController {
   }
 
   @GetMapping("/users/{userId}/companies/{companyId}/equipment_usages")
-  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
+  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER', 'EMPLOYEE') or #userId == authentication.principal.id")
   public List<EquipmentUsage> getEquipmentUsages(
       @PathVariable String userId,
       @PathVariable String companyId,

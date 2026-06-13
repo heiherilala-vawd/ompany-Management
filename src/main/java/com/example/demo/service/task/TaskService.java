@@ -3,6 +3,7 @@ package com.example.demo.service.task;
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
 import com.example.demo.model.User;
+import com.example.demo.model.exception.ForbiddenException;
 import com.example.demo.model.task.Task;
 import com.example.demo.model.task.TaskAssignment;
 import com.example.demo.repository.notification.NotificationRepository;
@@ -31,7 +32,9 @@ public class TaskService {
   private final ModificationUtils modificationUtils;
 
   public Optional<Task> findById(String id) {
-    return taskRepository.findById(id);
+    Optional<Task> task = taskRepository.findById(id);
+    task.ifPresent(this::validateRestrictedUserAccess);
+    return task;
   }
 
   public List<Task> findByCompanyId(String companyId) {
@@ -39,8 +42,14 @@ public class TaskService {
   }
 
   public Page<Task> findAll(PageFromOne page, BoundedPageSize pageSize, String companyId) {
+    User currentUser = modificationUtils.takePrimaryUser();
     Pageable pageable = PageUtils.createPageable(page, pageSize);
-    List<Task> tasks = taskRepository.findByCompanyId(companyId);
+    List<Task> tasks;
+    if (isRestrictedUser(currentUser)) {
+      tasks = taskRepository.findByCompanyIdAndAssignedUserId(companyId, currentUser.getId());
+    } else {
+      tasks = taskRepository.findByCompanyId(companyId);
+    }
     int start = (int) pageable.getOffset();
     int end = Math.min(start + pageable.getPageSize(), tasks.size());
     return new org.springframework.data.domain.PageImpl<>(
@@ -76,6 +85,23 @@ public class TaskService {
       assignments.add(assignment);
     }
     taskAssignmentRepository.saveAll(assignments);
+  }
+
+  private void validateRestrictedUserAccess(Task task) {
+    User currentUser = modificationUtils.takePrimaryUser();
+    if (isRestrictedUser(currentUser)) {
+      boolean isAssigned =
+          taskAssignmentRepository.findByTaskId(task.getId()).stream()
+              .anyMatch(ta -> ta.getUser() != null && ta.getUser().getId().equals(currentUser.getId()));
+      if (!isAssigned) {
+        throw new ForbiddenException("Task not assigned to the user");
+      }
+    }
+  }
+
+  private boolean isRestrictedUser(User user) {
+    return user.getRole() == User.Role.EMPLOYEE
+        || user.getRole() == User.Role.WAREHOUSE_WORKER;
   }
 
   @Transactional

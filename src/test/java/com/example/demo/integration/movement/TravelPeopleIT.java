@@ -214,6 +214,26 @@ class TravelPeopleIT {
   }
 
   @Test
+  void employee_can_list_own_travel_people() throws Exception {
+    TravelPeopleApi api = new TravelPeopleApi(anApiClient(EMPLOYEE_TOKEN));
+
+    List<TravelPeople> list =
+        api.getTravelPeople(
+            EMPLOYEE_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, null, null, null, null);
+
+    assertEquals(2, list.size());
+  }
+
+  @Test
+  void warehouse_cannot_get_other_travel_person() {
+    TravelPeopleApi api = new TravelPeopleApi(anApiClient(WAREHOUSE_TOKEN));
+
+    assertThrowsApiException(
+        "{\"type\":\"403 FORBIDDEN\",\"message\":\"Travel person not associated with the user\"}",
+        () -> api.getTravelPeopleById(WAREHOUSE_ID, COMPANY1_ID, JOB1_ID, TRAVEL_PEOPLE1_ID));
+  }
+
+  @Test
   @DirtiesContext
   void admin_can_delete_travel_people() throws Exception {
     TravelPeopleApi api = new TravelPeopleApi(anApiClient(ADMIN_TOKEN));

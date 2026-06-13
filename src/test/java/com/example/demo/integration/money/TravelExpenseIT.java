@@ -169,6 +169,26 @@ class TravelExpenseIT {
   }
 
   @Test
+  void employee_can_list_own_travel_expenses() throws Exception {
+    TravelExpenseApi api = new TravelExpenseApi(anApiClient(EMPLOYEE_TOKEN));
+
+    List<TravelExpense> expenses =
+        api.getTravelExpenses(EMPLOYEE_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null);
+
+    assertEquals(1, expenses.size());
+    assertEquals(TRAVEL_EXPENSE1_ID, expenses.get(0).getId());
+  }
+
+  @Test
+  void employee_cannot_get_other_travel_expense() {
+    TravelExpenseApi api = new TravelExpenseApi(anApiClient(EMPLOYEE_TOKEN));
+
+    assertThrowsApiException(
+        "{\"type\":\"403 FORBIDDEN\",\"message\":\"Travel expense not associated with the user\"}",
+        () -> api.getTravelExpenseById(EMPLOYEE_ID, COMPANY1_ID, JOB1_ID, TRAVEL_EXPENSE2_ID));
+  }
+
+  @Test
   void administration_cannot_delete_travel_expense() {
     TravelExpenseApi api = new TravelExpenseApi(anApiClient(ADMINISTRATION_TOKEN));
 

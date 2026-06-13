@@ -182,6 +182,37 @@ class EmployeePaymentIT {
   }
 
   @Test
+  void employee_can_list_own_employee_payments() throws Exception {
+    EmployeePaymentApi api = new EmployeePaymentApi(anApiClient(EMPLOYEE_TOKEN));
+
+    List<EmployeePayment> payments =
+        api.getEmployeePayments(EMPLOYEE_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, null);
+
+    assertEquals(1, payments.size());
+    assertEquals(EMPLOYEE_PAYMENT1_ID, payments.get(0).getId());
+  }
+
+  @Test
+  void warehouse_cannot_get_other_employee_payment() {
+    EmployeePaymentApi api = new EmployeePaymentApi(anApiClient(WAREHOUSE_TOKEN));
+
+    assertThrowsApiException(
+        "{\"type\":\"403 FORBIDDEN\",\"message\":\"Employee payment not associated with the user\"}",
+        () ->
+            api.getEmployeePaymentById(WAREHOUSE_ID, COMPANY1_ID, JOB1_ID, EMPLOYEE_PAYMENT1_ID));
+  }
+
+  @Test
+  void employee_cannot_get_other_employee_payment() {
+    EmployeePaymentApi api = new EmployeePaymentApi(anApiClient(EMPLOYEE_TOKEN));
+
+    assertThrowsApiException(
+        "{\"type\":\"403 FORBIDDEN\",\"message\":\"Employee payment not associated with the user\"}",
+        () ->
+            api.getEmployeePaymentById(EMPLOYEE_ID, COMPANY1_ID, JOB1_ID, EMPLOYEE_PAYMENT2_ID));
+  }
+
+  @Test
   @DirtiesContext
   void admin_can_delete_employee_payment() throws Exception {
     EmployeePaymentApi api = new EmployeePaymentApi(anApiClient(ADMIN_TOKEN));

@@ -2,7 +2,9 @@ package com.example.demo.service.movement;
 
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
+import com.example.demo.model.User;
 import com.example.demo.model.criteria.TravelPeopleCriteria;
+import com.example.demo.model.exception.ForbiddenException;
 import com.example.demo.model.movement.TravelPeople;
 import com.example.demo.repository.movement.TravelPeopleRepository;
 import com.example.demo.service.utils.ModificationUtils;
@@ -28,11 +30,17 @@ public class TravelPeopleService {
   private final MovementValidator movementValidator;
 
   public Optional<TravelPeople> findById(String id) {
-    return travelPeopleRepository.findById(id);
+    Optional<TravelPeople> travelPeople = travelPeopleRepository.findById(id);
+    travelPeople.ifPresent(this::validateRestrictedUserAccess);
+    return travelPeople;
   }
 
   public Page<TravelPeople> findAll(
       PageFromOne page, BoundedPageSize pageSize, TravelPeopleCriteria criteria) {
+    User currentUser = modificationUtils.takePrimaryUser();
+    if (isRestrictedUser(currentUser)) {
+      criteria.setUserId(currentUser.getId());
+    }
     Pageable pageable = PageUtils.createPageable(page, pageSize);
     return travelPeopleRepository.findAll(toSpecification(criteria), pageable);
   }
@@ -57,6 +65,21 @@ public class TravelPeopleService {
   @Transactional
   public void deleteById(String id) {
     travelPeopleRepository.deleteById(id);
+  }
+
+  private void validateRestrictedUserAccess(TravelPeople travelPeople) {
+    User currentUser = modificationUtils.takePrimaryUser();
+    if (isRestrictedUser(currentUser)) {
+      if (travelPeople.getUser() == null
+          || !travelPeople.getUser().getId().equals(currentUser.getId())) {
+        throw new ForbiddenException("Travel person not associated with the user");
+      }
+    }
+  }
+
+  private boolean isRestrictedUser(User user) {
+    return user.getRole() == User.Role.EMPLOYEE
+        || user.getRole() == User.Role.WAREHOUSE_WORKER;
   }
 
   private Specification<TravelPeople> toSpecification(TravelPeopleCriteria criteria) {
