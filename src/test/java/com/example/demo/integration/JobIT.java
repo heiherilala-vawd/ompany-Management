@@ -242,6 +242,46 @@ class JobIT {
         () -> api.crupdateJobs(ADMIN_ID, COMPANY1_ID, List.of(invalidJob)));
   }
 
+  @Test
+  void getJobs_ShouldThrowBadRequest_WhenUserIdIsBlank() {
+    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
+    JobApi api = new JobApi(adminClient);
+
+    assertThrowsApiException(
+        "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Path variable 'userId' must not be empty\"}",
+        () -> api.getJobs(" ", COMPANY1_ID, 1, 100, null, null));
+  }
+
+  @Test
+  void getJobs_ShouldThrowBadRequest_WhenCompanyIdIsBlank() {
+    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
+    JobApi api = new JobApi(adminClient);
+
+    assertThrowsApiException(
+        "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Path variable 'companyId' must not be empty\"}",
+        () -> api.getJobs(ADMIN_ID, " ", 1, 100, null, null));
+  }
+
+  @Test
+  void getJobById_ShouldThrowBadRequest_WhenUserIdIsBlank() {
+    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
+    JobApi api = new JobApi(adminClient);
+
+    assertThrowsApiException(
+        "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Path variable 'userId' must not be empty\"}",
+        () -> api.getJobById(" ", COMPANY1_ID, JOB1_ID));
+  }
+
+  @Test
+  void assignUserToJob_ShouldThrowBadRequest_WhenUserIdIsBlank() {
+    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
+    JobApi api = new JobApi(adminClient);
+
+    assertThrowsApiException(
+        "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Path variable 'userId' must not be empty\"}",
+        () -> api.assignUserToJob(" ", COMPANY1_ID, JOB1_ID));
+  }
+
   static class ContextInitializer extends AbstractContextInitializer {
     public static final int SERVER_PORT = anAvailableRandomPort();
 

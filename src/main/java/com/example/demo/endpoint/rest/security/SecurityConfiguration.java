@@ -70,9 +70,9 @@ public class SecurityConfiguration {
                     // =========================
                     // COMPANY
                     // =========================
-                    .requestMatchers(GET, "/users/*/companies/*")
+                    .requestMatchers(GET, "/users/*/companies")
                     .authenticated()
-                    .requestMatchers(GET, "/companies")
+                    .requestMatchers(GET, "/users/*/companies/*")
                     .authenticated()
                     .requestMatchers(PUT, "/companies")
                     .authenticated()
