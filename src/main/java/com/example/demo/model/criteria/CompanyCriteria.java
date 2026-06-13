@@ -11,4 +11,5 @@ public class CompanyCriteria {
   private String rib;
   private String description;
   private Company.CompanyType companyType;
+  private String userId;
 }

@@ -51,7 +51,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-13T15:31:50.464721436+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-13T22:11:25.203502239+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CompanyApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -250,8 +250,9 @@ public class CompanyApi {
   }
 
   /**
-   * Get all companies
+   * Get all companies for a user
    * 
+   * @param userId  (required)
    * @param page  (optional)
    * @param pageSize  (optional)
    * @param name Filter companies by name, case is ignored (optional)
@@ -261,14 +262,15 @@ public class CompanyApi {
    * @return List&lt;Company&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<Company> getCompanies(Integer page, Integer pageSize, String name, String rib, String description, CompanyType companyType) throws ApiException {
-    ApiResponse<List<Company>> localVarResponse = getCompaniesWithHttpInfo(page, pageSize, name, rib, description, companyType);
+  public List<Company> getCompanies(String userId, Integer page, Integer pageSize, String name, String rib, String description, CompanyType companyType) throws ApiException {
+    ApiResponse<List<Company>> localVarResponse = getCompaniesWithHttpInfo(userId, page, pageSize, name, rib, description, companyType);
     return localVarResponse.getData();
   }
 
   /**
-   * Get all companies
+   * Get all companies for a user
    * 
+   * @param userId  (required)
    * @param page  (optional)
    * @param pageSize  (optional)
    * @param name Filter companies by name, case is ignored (optional)
@@ -278,8 +280,8 @@ public class CompanyApi {
    * @return ApiResponse&lt;List&lt;Company&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<Company>> getCompaniesWithHttpInfo(Integer page, Integer pageSize, String name, String rib, String description, CompanyType companyType) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getCompaniesRequestBuilder(page, pageSize, name, rib, description, companyType);
+  public ApiResponse<List<Company>> getCompaniesWithHttpInfo(String userId, Integer page, Integer pageSize, String name, String rib, String description, CompanyType companyType) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getCompaniesRequestBuilder(userId, page, pageSize, name, rib, description, companyType);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -307,11 +309,16 @@ public class CompanyApi {
     }
   }
 
-  private HttpRequest.Builder getCompaniesRequestBuilder(Integer page, Integer pageSize, String name, String rib, String description, CompanyType companyType) throws ApiException {
+  private HttpRequest.Builder getCompaniesRequestBuilder(String userId, Integer page, Integer pageSize, String name, String rib, String description, CompanyType companyType) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling getCompanies");
+    }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies";
+    String localVarPath = "/users/{userId}/companies"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()));
 
     List<Pair> localVarQueryParams = new ArrayList<>();
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");

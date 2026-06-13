@@ -8,11 +8,16 @@ import com.example.demo.model.Company;
 import com.example.demo.model.PageFromOne;
 import com.example.demo.model.User;
 import com.example.demo.model.criteria.CompanyCriteria;
+import com.example.demo.model.exception.ForbiddenException;
+import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.repository.CompanyRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.utils.ModificationUtils;
 import com.example.demo.service.utils.PageUtils;
 import com.example.demo.validator.CoreValidator;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.Root;
+import jakarta.persistence.criteria.Subquery;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -36,6 +41,22 @@ public class CompanyService {
 
   public Optional<Company> findById(String id) {
     return companyRepository.findById(id);
+  }
+
+  public Company findByIdAndUserId(String companyId, String userId) {
+    User user =
+        userRepository
+            .findById(userId)
+            .orElseThrow(() -> new NotFoundException("User not found with id: " + userId));
+    Company company =
+        companyRepository
+            .findById(companyId)
+            .orElseThrow(
+                () -> new NotFoundException("Company with id " + companyId + " not found"));
+    if (user.getCompanies() == null || !user.getCompanies().contains(company)) {
+      throw new ForbiddenException("Company not associated with the user");
+    }
+    return company;
   }
 
   public Page<Company> findAll(
@@ -75,9 +96,25 @@ public class CompanyService {
   }
 
   private Specification<Company> toSpecification(CompanyCriteria criteria) {
-    return Specification.<Company>where(containsIgnoreCase(criteria.getName(), "name"))
-        .and(containsIgnoreCase(criteria.getRib(), "rib"))
-        .and(containsIgnoreCase(criteria.getDescription(), "description"))
-        .and(equal(criteria.getCompanyType(), "companyType"));
+    Specification<Company> spec =
+        Specification.<Company>where(containsIgnoreCase(criteria.getName(), "name"))
+            .and(containsIgnoreCase(criteria.getRib(), "rib"))
+            .and(containsIgnoreCase(criteria.getDescription(), "description"))
+            .and(equal(criteria.getCompanyType(), "companyType"));
+    if (criteria.getUserId() != null) {
+      spec = spec.and(userIdFilter(criteria.getUserId()));
+    }
+    return spec;
+  }
+
+  private Specification<Company> userIdFilter(String userId) {
+    return (root, query, cb) -> {
+      Subquery<String> subquery = query.subquery(String.class);
+      Root<User> userRoot = subquery.from(User.class);
+      Join<User, Company> companiesJoin = userRoot.join("companies");
+      subquery.select(companiesJoin.get("id"));
+      subquery.where(cb.equal(userRoot.get("id"), userId));
+      return cb.in(root.get("id")).value(subquery);
+    };
   }
 }

@@ -35,7 +35,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   PasswordChangeRequest.JSON_PROPERTY_OLD_PASSWORD,
   PasswordChangeRequest.JSON_PROPERTY_NEW_PASSWORD
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-13T15:31:50.464721436+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-13T22:11:25.203502239+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class PasswordChangeRequest {
   public static final String JSON_PROPERTY_OLD_PASSWORD = "old_password";
   private String oldPassword;

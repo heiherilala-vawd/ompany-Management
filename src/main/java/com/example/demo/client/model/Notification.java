@@ -54,7 +54,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   Notification.JSON_PROPERTY_UPDATED_BY,
   Notification.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-13T15:31:50.464721436+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-13T22:11:25.203502239+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class Notification {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;

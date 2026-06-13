@@ -73,23 +73,25 @@ class CompanyIT {
   }
 
   @Test
-  void admin_can_get_all_companies() throws Exception {
+  void admin_can_get_companies() throws Exception {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     CompanyApi api = new CompanyApi(adminClient);
 
-    List<Company> companies = api.getCompanies(1, 100, null, null, null, null);
+    List<Company> companies = api.getCompanies(ADMIN_ID, 1, 100, null, null, null, null);
 
-    assertEquals(2, companies.size());
+    assertEquals(1, companies.size());
     assertTrue(companies.stream().anyMatch(company -> COMPANY1_ID.equals(company.getId())));
-    assertTrue(companies.stream().anyMatch(company -> COMPANY2_ID.equals(company.getId())));
   }
 
   @Test
-  void employee_cannot_get_all_companies() {
+  void employee_can_get_companies() throws Exception {
     ApiClient employeeClient = anApiClient(EMPLOYEE_TOKEN);
     CompanyApi api = new CompanyApi(employeeClient);
 
-    assertThrowsForbiddenException(() -> api.getCompanies(1, 100, null, null, null, null));
+    List<Company> companies = api.getCompanies(EMPLOYEE_ID, 1, 100, null, null, null, null);
+
+    assertEquals(1, companies.size());
+    assertEquals(COMPANY1_ID, companies.get(0).getId());
   }
 
   @Test
@@ -97,7 +99,7 @@ class CompanyIT {
     ApiClient warehouseClient = anApiClient(WAREHOUSE_TOKEN);
     CompanyApi api = new CompanyApi(warehouseClient);
 
-    List<Company> companies = api.getCompanies(1, 100, "BTP", null, null, null);
+    List<Company> companies = api.getCompanies(WAREHOUSE_ID, 1, 100, "BTP", null, null, null);
 
     assertEquals(1, companies.size());
     assertEquals(COMPANY1_ID, companies.get(0).getId());
@@ -108,10 +110,10 @@ class CompanyIT {
     ApiClient administrationClient = anApiClient(ADMINISTRATION_TOKEN);
     CompanyApi api = new CompanyApi(administrationClient);
 
-    List<Company> companies = api.getCompanies(1, 100, null, null, null, CompanyType.HOTEL);
+    List<Company> companies =
+        api.getCompanies(ADMIN_ID, 1, 100, null, null, null, CompanyType.HOTEL);
 
-    assertEquals(1, companies.size());
-    assertEquals(COMPANY2_ID, companies.get(0).getId());
+    assertEquals(0, companies.size());
   }
 
   @Test
@@ -120,7 +122,7 @@ class CompanyIT {
     CompanyApi api = new CompanyApi(administrationClient);
 
     List<Company> companies =
-        api.getCompanies(1, 100, null, "FR7612345678901234567890123", null, null);
+        api.getCompanies(ADMIN_ID, 1, 100, null, "FR7612345678901234567890123", null, null);
 
     assertEquals(1, companies.size());
     assertEquals(COMPANY1_ID, companies.get(0).getId());
@@ -131,10 +133,19 @@ class CompanyIT {
     ApiClient administrationClient = anApiClient(ADMINISTRATION_TOKEN);
     CompanyApi api = new CompanyApi(administrationClient);
 
-    List<Company> companies = api.getCompanies(1, 100, null, null, "luxe", null);
+    List<Company> companies = api.getCompanies(ADMIN_ID, 1, 100, null, null, "luxe", null);
 
-    assertEquals(1, companies.size());
-    assertEquals(COMPANY2_ID, companies.get(0).getId());
+    assertEquals(0, companies.size());
+  }
+
+  @Test
+  void employee_cannot_get_company_not_associated_with_user() {
+    ApiClient employeeClient = anApiClient(EMPLOYEE_TOKEN);
+    CompanyApi api = new CompanyApi(employeeClient);
+
+    assertThrowsApiException(
+        "{\"type\":\"403 FORBIDDEN\",\"message\":\"Company not associated with the user\"}",
+        () -> api.getCompanyById(EMPLOYEE_ID, COMPANY2_ID));
   }
 
   @Test

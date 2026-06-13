@@ -26,15 +26,13 @@ public class CompanyController {
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER', 'EMPLOYEE')")
   public Company getCompanyById(@PathVariable String userId, @PathVariable String companyId) {
     return companyMapper.toRestCompany(
-        companyService
-            .findById(companyId)
-            .orElseThrow(
-                () -> new NotFoundException("Company with id " + companyId + " not found")));
+        companyService.findByIdAndUserId(companyId, userId));
   }
 
-  @GetMapping("/companies")
-  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
+  @GetMapping("/users/{userId}/companies")
+  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER', 'EMPLOYEE')")
   public List<Company> getCompanies(
+      @PathVariable String userId,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
       @RequestParam(name = "name", required = false) String name,
@@ -42,6 +40,7 @@ public class CompanyController {
       @RequestParam(name = "description", required = false) String description,
       @RequestParam(name = "company_type", required = false) CompanyType companyType) {
     CompanyCriteria criteria = new CompanyCriteria();
+    criteria.setUserId(userId);
     criteria.setName(name);
     criteria.setRib(rib);
     criteria.setDescription(description);
