@@ -39,3 +39,4 @@ out/
 # Stakpak session files
 .stakpak/session*
 .env
+.env.railway
