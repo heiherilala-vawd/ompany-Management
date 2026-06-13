@@ -6,9 +6,13 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.example.demo.SentryConf;
 import com.example.demo.client.api.UsersApi;
 import com.example.demo.client.invoker.ApiClient;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.CrupdateUser;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.Role;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.Sex;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.User;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
@@ -88,7 +92,10 @@ class UserIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     UsersApi api = new UsersApi(adminClient);
 
-    List<User> users = api.getUsers(1, 100, null, null, null, null, null);
+    PaginatedResponse resp = api.getUsers(1, 100, null, null, null, null, null);
+
+
+    List<User> users = extractData(resp, User.class);
 
     assertTrue(users.size() >= 7);
     assertTrue(users.contains(admin1()));
@@ -198,7 +205,10 @@ class UserIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     UsersApi api = new UsersApi(adminClient);
 
-    List<User> users = api.getUsers(1, 100, null, "Alice", null, null, null);
+    PaginatedResponse resp = api.getUsers(1, 100, null, "Alice", null, null, null);
+
+
+    List<User> users = extractData(resp, User.class);
 
     assertEquals(1, users.size());
     assertEquals(user1(), users.get(0));
@@ -209,7 +219,10 @@ class UserIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     UsersApi api = new UsersApi(adminClient);
 
-    List<User> users = api.getUsers(1, 100, null, null, null, null, Role.EMPLOYEE);
+    PaginatedResponse resp = api.getUsers(1, 100, null, null, null, null, Role.EMPLOYEE);
+
+
+    List<User> users = extractData(resp, User.class);
 
     assertTrue(users.stream().allMatch(u -> u.getRole() == Role.EMPLOYEE));
   }
@@ -219,7 +232,10 @@ class UserIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     UsersApi api = new UsersApi(adminClient);
 
-    List<User> users = api.getUsers(1, 100, null, null, "Martin", null, null);
+    PaginatedResponse resp = api.getUsers(1, 100, null, null, "Martin", null, null);
+
+
+    List<User> users = extractData(resp, User.class);
 
     assertEquals(1, users.size());
     assertEquals(USER1_ID, users.get(0).getId());
@@ -230,7 +246,10 @@ class UserIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     UsersApi api = new UsersApi(adminClient);
 
-    List<User> users = api.getUsers(1, 100, null, null, null, USER1_EMAIL, null);
+    PaginatedResponse resp = api.getUsers(1, 100, null, null, null, USER1_EMAIL, null);
+
+
+    List<User> users = extractData(resp, User.class);
 
     assertEquals(1, users.size());
     assertEquals(USER1_ID, users.get(0).getId());

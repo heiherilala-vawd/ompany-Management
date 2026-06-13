@@ -22,6 +22,7 @@ import com.example.demo.client.model.CrupdateMaintenance;
 import com.example.demo.client.model.InternalServerException;
 import com.example.demo.client.model.Maintenance;
 import com.example.demo.client.model.NotAuthorizedException;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.ResourceNotFoundException;
 import com.example.demo.client.model.TooManyRequestsException;
 
@@ -50,7 +51,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T02:10:42.519221747+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T02:20:38.960879300+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class MaintenanceApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -399,11 +400,11 @@ public class MaintenanceApi {
    * @param page  (optional)
    * @param pageSize  (optional)
    * @param description Filter maintenances by description, case is ignored (optional)
-   * @return List&lt;Maintenance&gt;
+   * @return PaginatedResponse
    * @throws ApiException if fails to make API call
    */
-  public List<Maintenance> getMaintenances(String userId, String companyId, String equipmentId, Integer page, Integer pageSize, String description) throws ApiException {
-    ApiResponse<List<Maintenance>> localVarResponse = getMaintenancesWithHttpInfo(userId, companyId, equipmentId, page, pageSize, description);
+  public PaginatedResponse getMaintenances(String userId, String companyId, String equipmentId, Integer page, Integer pageSize, String description) throws ApiException {
+    ApiResponse<PaginatedResponse> localVarResponse = getMaintenancesWithHttpInfo(userId, companyId, equipmentId, page, pageSize, description);
     return localVarResponse.getData();
   }
 
@@ -416,10 +417,10 @@ public class MaintenanceApi {
    * @param page  (optional)
    * @param pageSize  (optional)
    * @param description Filter maintenances by description, case is ignored (optional)
-   * @return ApiResponse&lt;List&lt;Maintenance&gt;&gt;
+   * @return ApiResponse&lt;PaginatedResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<Maintenance>> getMaintenancesWithHttpInfo(String userId, String companyId, String equipmentId, Integer page, Integer pageSize, String description) throws ApiException {
+  public ApiResponse<PaginatedResponse> getMaintenancesWithHttpInfo(String userId, String companyId, String equipmentId, Integer page, Integer pageSize, String description) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = getMaintenancesRequestBuilder(userId, companyId, equipmentId, page, pageSize, description);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -432,10 +433,10 @@ public class MaintenanceApi {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("getMaintenances", localVarResponse);
         }
-        return new ApiResponse<List<Maintenance>>(
+        return new ApiResponse<PaginatedResponse>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<List<Maintenance>>() {}) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<PaginatedResponse>() {}) // closes the InputStream
         );
       } finally {
       }

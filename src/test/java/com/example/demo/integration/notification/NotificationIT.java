@@ -7,8 +7,11 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.example.demo.SentryConf;
 import com.example.demo.client.api.NotificationApi;
 import com.example.demo.client.invoker.ApiClient;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.CrupdateNotification;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.Notification;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.UnreadNotificationCountResponse;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
@@ -76,7 +79,9 @@ class NotificationIT {
     client.close();
 
     NotificationApi api = new NotificationApi(anApiClient(ADMIN_TOKEN));
-    List<Notification> notifs = api.getNotifications(ADMIN_ID, COMPANY1_ID, null, null, null, null);
+    PaginatedResponse resp = api.getNotifications(ADMIN_ID, COMPANY1_ID, null, null, null, null);
+
+    List<Notification> notifs = extractData(resp, Notification.class);
     assertEquals(4, notifs.size());
     assertTrue(notifs.stream().anyMatch(n -> "notif_admin_unread".equals(n.getId())));
     assertTrue(notifs.stream().anyMatch(n -> "notif_admin_read".equals(n.getId())));
@@ -86,8 +91,9 @@ class NotificationIT {
   @Test
   void employee_sees_only_own_notifications() throws Exception {
     NotificationApi api = new NotificationApi(anApiClient(EMPLOYEE_TOKEN));
-    List<Notification> notifs =
-        api.getNotifications(EMPLOYEE_ID, COMPANY1_ID, null, null, null, null);
+    PaginatedResponse resp = api.getNotifications(EMPLOYEE_ID, COMPANY1_ID, null, null, null, null);
+
+    List<Notification> notifs = extractData(resp, Notification.class);
     assertEquals(2, notifs.size());
     assertTrue(notifs.stream().anyMatch(n -> "notif_employee_unread".equals(n.getId())));
     assertTrue(notifs.stream().anyMatch(n -> "notif_employee_read".equals(n.getId())));
@@ -103,8 +109,9 @@ class NotificationIT {
   @Test
   void admin_can_filter_by_read() throws Exception {
     NotificationApi api = new NotificationApi(anApiClient(ADMIN_TOKEN));
-    List<Notification> readNotifs =
-        api.getNotifications(ADMIN_ID, COMPANY1_ID, null, null, true, null);
+    PaginatedResponse resp = api.getNotifications(ADMIN_ID, COMPANY1_ID, null, null, true, null);
+
+    List<Notification> readNotifs = extractData(resp, Notification.class);
     assertEquals(1, readNotifs.size());
     assertEquals("notif_admin_read", readNotifs.get(0).getId());
   }
@@ -112,8 +119,9 @@ class NotificationIT {
   @Test
   void admin_can_filter_by_completed() throws Exception {
     NotificationApi api = new NotificationApi(anApiClient(ADMIN_TOKEN));
-    List<Notification> notifs =
-        api.getNotifications(ADMIN_ID, COMPANY1_ID, null, null, null, false);
+    PaginatedResponse resp = api.getNotifications(ADMIN_ID, COMPANY1_ID, null, null, null, false);
+
+    List<Notification> notifs = extractData(resp, Notification.class);
     assertEquals(3, notifs.size());
     assertTrue(notifs.stream().noneMatch(n -> "notif_admin_completed".equals(n.getId())));
   }
@@ -212,7 +220,10 @@ class NotificationIT {
     assertEquals("new_notif_id", created.get(0).getId());
     assertEquals("Notification de test", created.get(0).getTitle());
 
-    List<Notification> all = api.getNotifications(ADMIN_ID, COMPANY1_ID, null, null, null, null);
+    PaginatedResponse resp = api.getNotifications(ADMIN_ID, COMPANY1_ID, null, null, null, null);
+
+
+    List<Notification> all = extractData(resp, Notification.class);
     assertTrue(all.stream().anyMatch(n -> "new_notif_id".equals(n.getId())));
   }
 
@@ -229,7 +240,9 @@ class NotificationIT {
   @DirtiesContext
   void notifications_are_sorted_by_created_at_desc() throws Exception {
     NotificationApi api = new NotificationApi(anApiClient(ADMIN_TOKEN));
-    List<Notification> notifs = api.getNotifications(ADMIN_ID, COMPANY1_ID, null, null, null, null);
+    PaginatedResponse resp = api.getNotifications(ADMIN_ID, COMPANY1_ID, null, null, null, null);
+
+    List<Notification> notifs = extractData(resp, Notification.class);
     assertEquals(4, notifs.size());
     for (int i = 1; i < notifs.size(); i++) {
       var prev = notifs.get(i - 1).getCreatedAt();
@@ -243,7 +256,9 @@ class NotificationIT {
   void admin_can_delete_own_notification() throws Exception {
     NotificationApi api = new NotificationApi(anApiClient(ADMIN_TOKEN));
     api.deleteNotificationById(ADMIN_ID, COMPANY1_ID, "notif_admin_unread");
-    List<Notification> notifs = api.getNotifications(ADMIN_ID, COMPANY1_ID, null, null, null, null);
+    PaginatedResponse resp = api.getNotifications(ADMIN_ID, COMPANY1_ID, null, null, null, null);
+
+    List<Notification> notifs = extractData(resp, Notification.class);
     assertEquals(3, notifs.size());
   }
 

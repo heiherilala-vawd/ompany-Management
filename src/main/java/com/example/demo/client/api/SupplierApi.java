@@ -21,6 +21,7 @@ import com.example.demo.client.model.BadRequestException;
 import com.example.demo.client.model.CrupdateSupplier;
 import com.example.demo.client.model.InternalServerException;
 import com.example.demo.client.model.NotAuthorizedException;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.ResourceNotFoundException;
 import com.example.demo.client.model.Supplier;
 import com.example.demo.client.model.TooManyRequestsException;
@@ -50,7 +51,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T02:10:42.519221747+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T02:20:38.960879300+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class SupplierApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -361,11 +362,11 @@ public class SupplierApi {
    * 
    * @param userId  (required)
    * @param companyId  (required)
-   * @return List&lt;Supplier&gt;
+   * @return PaginatedResponse
    * @throws ApiException if fails to make API call
    */
-  public List<Supplier> getSuppliers(String userId, String companyId) throws ApiException {
-    ApiResponse<List<Supplier>> localVarResponse = getSuppliersWithHttpInfo(userId, companyId);
+  public PaginatedResponse getSuppliers(String userId, String companyId) throws ApiException {
+    ApiResponse<PaginatedResponse> localVarResponse = getSuppliersWithHttpInfo(userId, companyId);
     return localVarResponse.getData();
   }
 
@@ -374,10 +375,10 @@ public class SupplierApi {
    * 
    * @param userId  (required)
    * @param companyId  (required)
-   * @return ApiResponse&lt;List&lt;Supplier&gt;&gt;
+   * @return ApiResponse&lt;PaginatedResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<Supplier>> getSuppliersWithHttpInfo(String userId, String companyId) throws ApiException {
+  public ApiResponse<PaginatedResponse> getSuppliersWithHttpInfo(String userId, String companyId) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = getSuppliersRequestBuilder(userId, companyId);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -390,10 +391,10 @@ public class SupplierApi {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("getSuppliers", localVarResponse);
         }
-        return new ApiResponse<List<Supplier>>(
+        return new ApiResponse<PaginatedResponse>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<List<Supplier>>() {}) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<PaginatedResponse>() {}) // closes the InputStream
         );
       } finally {
       }

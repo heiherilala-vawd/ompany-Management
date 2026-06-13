@@ -21,6 +21,7 @@ import com.example.demo.client.model.BadRequestException;
 import com.example.demo.client.model.CrupdateUser;
 import com.example.demo.client.model.InternalServerException;
 import com.example.demo.client.model.NotAuthorizedException;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.ResourceNotFoundException;
 import com.example.demo.client.model.Role;
 import com.example.demo.client.model.TooManyRequestsException;
@@ -51,7 +52,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T02:10:42.519221747+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T02:20:38.960879300+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class UsersApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -346,11 +347,11 @@ public class UsersApi {
    * @param lastName Filter users by last name, case is ignored (optional)
    * @param email Filter users by email, case is ignored (optional)
    * @param role Filter users by role (optional)
-   * @return List&lt;User&gt;
+   * @return PaginatedResponse
    * @throws ApiException if fails to make API call
    */
-  public List<User> getUsers(Integer page, Integer pageSize, String companyId, String firstName, String lastName, String email, Role role) throws ApiException {
-    ApiResponse<List<User>> localVarResponse = getUsersWithHttpInfo(page, pageSize, companyId, firstName, lastName, email, role);
+  public PaginatedResponse getUsers(Integer page, Integer pageSize, String companyId, String firstName, String lastName, String email, Role role) throws ApiException {
+    ApiResponse<PaginatedResponse> localVarResponse = getUsersWithHttpInfo(page, pageSize, companyId, firstName, lastName, email, role);
     return localVarResponse.getData();
   }
 
@@ -364,10 +365,10 @@ public class UsersApi {
    * @param lastName Filter users by last name, case is ignored (optional)
    * @param email Filter users by email, case is ignored (optional)
    * @param role Filter users by role (optional)
-   * @return ApiResponse&lt;List&lt;User&gt;&gt;
+   * @return ApiResponse&lt;PaginatedResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<User>> getUsersWithHttpInfo(Integer page, Integer pageSize, String companyId, String firstName, String lastName, String email, Role role) throws ApiException {
+  public ApiResponse<PaginatedResponse> getUsersWithHttpInfo(Integer page, Integer pageSize, String companyId, String firstName, String lastName, String email, Role role) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = getUsersRequestBuilder(page, pageSize, companyId, firstName, lastName, email, role);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -380,10 +381,10 @@ public class UsersApi {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("getUsers", localVarResponse);
         }
-        return new ApiResponse<List<User>>(
+        return new ApiResponse<PaginatedResponse>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<List<User>>() {}) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<PaginatedResponse>() {}) // closes the InputStream
         );
       } finally {
       }

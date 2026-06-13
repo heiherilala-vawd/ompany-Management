@@ -22,6 +22,7 @@ import com.example.demo.client.model.CashAccount;
 import com.example.demo.client.model.CrupdateCashAccount;
 import com.example.demo.client.model.InternalServerException;
 import com.example.demo.client.model.NotAuthorizedException;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.ResourceNotFoundException;
 import com.example.demo.client.model.TooManyRequestsException;
 
@@ -50,7 +51,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T02:10:42.519221747+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T02:20:38.960879300+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CashAccountApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -363,11 +364,11 @@ public class CashAccountApi {
    * @param companyId  (required)
    * @param page  (optional)
    * @param pageSize  (optional)
-   * @return List&lt;CashAccount&gt;
+   * @return PaginatedResponse
    * @throws ApiException if fails to make API call
    */
-  public List<CashAccount> getCashAccounts(String userId, String companyId, Integer page, Integer pageSize) throws ApiException {
-    ApiResponse<List<CashAccount>> localVarResponse = getCashAccountsWithHttpInfo(userId, companyId, page, pageSize);
+  public PaginatedResponse getCashAccounts(String userId, String companyId, Integer page, Integer pageSize) throws ApiException {
+    ApiResponse<PaginatedResponse> localVarResponse = getCashAccountsWithHttpInfo(userId, companyId, page, pageSize);
     return localVarResponse.getData();
   }
 
@@ -378,10 +379,10 @@ public class CashAccountApi {
    * @param companyId  (required)
    * @param page  (optional)
    * @param pageSize  (optional)
-   * @return ApiResponse&lt;List&lt;CashAccount&gt;&gt;
+   * @return ApiResponse&lt;PaginatedResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<CashAccount>> getCashAccountsWithHttpInfo(String userId, String companyId, Integer page, Integer pageSize) throws ApiException {
+  public ApiResponse<PaginatedResponse> getCashAccountsWithHttpInfo(String userId, String companyId, Integer page, Integer pageSize) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = getCashAccountsRequestBuilder(userId, companyId, page, pageSize);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -394,10 +395,10 @@ public class CashAccountApi {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("getCashAccounts", localVarResponse);
         }
-        return new ApiResponse<List<CashAccount>>(
+        return new ApiResponse<PaginatedResponse>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<List<CashAccount>>() {}) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<PaginatedResponse>() {}) // closes the InputStream
         );
       } finally {
       }

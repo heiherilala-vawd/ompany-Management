@@ -23,6 +23,7 @@ import com.example.demo.client.model.CrupdateLoan;
 import com.example.demo.client.model.InternalServerException;
 import com.example.demo.client.model.Loan;
 import com.example.demo.client.model.NotAuthorizedException;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.ResourceNotFoundException;
 import com.example.demo.client.model.TooManyRequestsException;
 
@@ -51,7 +52,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T02:10:42.519221747+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T02:20:38.960879300+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class LoanApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -389,11 +390,11 @@ public class LoanApi {
    * @param description Filter loans by description, case is ignored (optional)
    * @param amount  (optional)
    * @param organizationId Filter loans by organization ID (optional)
-   * @return List&lt;Loan&gt;
+   * @return PaginatedResponse
    * @throws ApiException if fails to make API call
    */
-  public List<Loan> getLoans(String userId, String companyId, String jobId, Integer page, Integer pageSize, String description, BigDecimal amount, String organizationId) throws ApiException {
-    ApiResponse<List<Loan>> localVarResponse = getLoansWithHttpInfo(userId, companyId, jobId, page, pageSize, description, amount, organizationId);
+  public PaginatedResponse getLoans(String userId, String companyId, String jobId, Integer page, Integer pageSize, String description, BigDecimal amount, String organizationId) throws ApiException {
+    ApiResponse<PaginatedResponse> localVarResponse = getLoansWithHttpInfo(userId, companyId, jobId, page, pageSize, description, amount, organizationId);
     return localVarResponse.getData();
   }
 
@@ -408,10 +409,10 @@ public class LoanApi {
    * @param description Filter loans by description, case is ignored (optional)
    * @param amount  (optional)
    * @param organizationId Filter loans by organization ID (optional)
-   * @return ApiResponse&lt;List&lt;Loan&gt;&gt;
+   * @return ApiResponse&lt;PaginatedResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<Loan>> getLoansWithHttpInfo(String userId, String companyId, String jobId, Integer page, Integer pageSize, String description, BigDecimal amount, String organizationId) throws ApiException {
+  public ApiResponse<PaginatedResponse> getLoansWithHttpInfo(String userId, String companyId, String jobId, Integer page, Integer pageSize, String description, BigDecimal amount, String organizationId) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = getLoansRequestBuilder(userId, companyId, jobId, page, pageSize, description, amount, organizationId);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -424,10 +425,10 @@ public class LoanApi {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("getLoans", localVarResponse);
         }
-        return new ApiResponse<List<Loan>>(
+        return new ApiResponse<PaginatedResponse>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<List<Loan>>() {}) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<PaginatedResponse>() {}) // closes the InputStream
         );
       } finally {
       }

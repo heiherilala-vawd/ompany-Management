@@ -7,6 +7,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import com.example.demo.client.invoker.ApiException;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.BankFee;
 import com.example.demo.client.model.BudgetLine;
 import com.example.demo.client.model.CashAccount;
@@ -81,6 +82,9 @@ import com.example.demo.client.model.TravelPeople;
 import com.example.demo.client.model.User;
 import com.example.demo.client.model.Warehouse;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.openapitools.jackson.nullable.JsonNullableModule;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.Collection;
@@ -937,6 +941,18 @@ public class TestUtils {
   @FunctionalInterface
   public interface ThrowingRunnable {
     void run() throws Exception;
+  }
+
+  private static final ObjectMapper SHARED_MAPPER =
+      new ObjectMapper()
+          .registerModule(new JavaTimeModule())
+          .registerModule(new JsonNullableModule());
+
+  @SuppressWarnings("unchecked")
+  public static <T> List<T> extractData(PaginatedResponse resp, Class<T> clazz) {
+    return SHARED_MAPPER.convertValue(
+        resp.getData(),
+        SHARED_MAPPER.getTypeFactory().constructCollectionType(List.class, clazz));
   }
 
   public static boolean isValidUUID(String candidate) {

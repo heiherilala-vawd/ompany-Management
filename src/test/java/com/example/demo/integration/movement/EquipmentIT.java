@@ -6,7 +6,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.example.demo.SentryConf;
 import com.example.demo.client.api.EquipmentApi;
 import com.example.demo.client.invoker.ApiClient;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.CrupdateEquipment;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.Equipment;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
@@ -77,8 +79,10 @@ class EquipmentIT {
     ApiClient employeeClient = anApiClient(EMPLOYEE_TOKEN);
     EquipmentApi api = new EquipmentApi(employeeClient);
 
-    List<Equipment> equipment =
-        api.getEquipment(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null, null, null, null);
+    PaginatedResponse resp = api.getEquipment(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null, null, null, null);
+
+
+    List<Equipment> equipment = extractData(resp, Equipment.class);
 
     assertEquals(5, equipment.size());
     assertTrue(equipment.stream().anyMatch(item -> EQUIPMENT1_ID.equals(item.getId())));
@@ -93,9 +97,9 @@ class EquipmentIT {
     ApiClient employeeClient = anApiClient(EMPLOYEE_TOKEN);
     EquipmentApi api = new EquipmentApi(employeeClient);
 
-    List<Equipment> equipment =
-        api.getEquipment(
-            ADMIN_ID, COMPANY1_ID, 1, 100, WAREHOUSE2_ID, null, null, null, null, null);
+    PaginatedResponse resp = api.getEquipment(
+        ADMIN_ID, COMPANY1_ID, 1, 100, WAREHOUSE2_ID, null, null, null, null, null);
+    List<Equipment> equipment = extractData(resp, Equipment.class);
 
     assertEquals(1, equipment.size());
     assertEquals(EQUIPMENT3_ID, equipment.get(0).getId());
@@ -106,8 +110,10 @@ class EquipmentIT {
     ApiClient employeeClient = anApiClient(EMPLOYEE_TOKEN);
     EquipmentApi api = new EquipmentApi(employeeClient);
 
-    List<Equipment> equipment =
-        api.getEquipment(ADMIN_ID, COMPANY1_ID, 1, 100, null, "Bétonnière", null, null, null, null);
+    PaginatedResponse resp = api.getEquipment(ADMIN_ID, COMPANY1_ID, 1, 100, null, "Bétonnière", null, null, null, null);
+
+
+    List<Equipment> equipment = extractData(resp, Equipment.class);
 
     assertEquals(1, equipment.size());
     assertEquals(EQUIPMENT2_ID, equipment.get(0).getId());
@@ -118,8 +124,10 @@ class EquipmentIT {
     ApiClient employeeClient = anApiClient(EMPLOYEE_TOKEN);
     EquipmentApi api = new EquipmentApi(employeeClient);
 
-    List<Equipment> equipment =
-        api.getEquipment(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, "extérieure", null, null, null);
+    PaginatedResponse resp = api.getEquipment(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, "extérieure", null, null, null);
+
+
+    List<Equipment> equipment = extractData(resp, Equipment.class);
 
     assertEquals(1, equipment.size());
     assertEquals(EQUIPMENT3_ID, equipment.get(0).getId());
@@ -130,8 +138,10 @@ class EquipmentIT {
     ApiClient employeeClient = anApiClient(EMPLOYEE_TOKEN);
     EquipmentApi api = new EquipmentApi(employeeClient);
 
-    List<Equipment> equipment =
-        api.getEquipment(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null, 2, null, null);
+    PaginatedResponse resp = api.getEquipment(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null, 2, null, null);
+
+
+    List<Equipment> equipment = extractData(resp, Equipment.class);
 
     assertEquals(1, equipment.size());
     assertEquals(EQUIPMENT3_ID, equipment.get(0).getId());
@@ -142,8 +152,10 @@ class EquipmentIT {
     ApiClient employeeClient = anApiClient(EMPLOYEE_TOKEN);
     EquipmentApi api = new EquipmentApi(employeeClient);
 
-    List<Equipment> equipment =
-        api.getEquipment(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null, null, 10, null);
+    PaginatedResponse resp = api.getEquipment(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null, null, 10, null);
+
+
+    List<Equipment> equipment = extractData(resp, Equipment.class);
 
     assertEquals(1, equipment.size());
     assertEquals(EQUIPMENT1_ID, equipment.get(0).getId());
@@ -232,8 +244,10 @@ class EquipmentIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     EquipmentApi api = new EquipmentApi(adminClient);
 
-    List<Equipment> notArrivedEquipment =
-        api.getEquipment(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null, null, null, true);
+    PaginatedResponse resp = api.getEquipment(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null, null, null, true);
+
+
+    List<Equipment> notArrivedEquipment = extractData(resp, Equipment.class);
 
     assertEquals(2, notArrivedEquipment.size());
     assertTrue(notArrivedEquipment.stream().anyMatch(e -> EQUIPMENT4_ID.equals(e.getId())));
@@ -248,8 +262,10 @@ class EquipmentIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     EquipmentApi api = new EquipmentApi(adminClient);
 
-    List<Equipment> equipment =
-        api.getEquipment(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null, null, null, false);
+    PaginatedResponse resp = api.getEquipment(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null, null, null, false);
+
+
+    List<Equipment> equipment = extractData(resp, Equipment.class);
 
     assertEquals(5, equipment.size());
   }

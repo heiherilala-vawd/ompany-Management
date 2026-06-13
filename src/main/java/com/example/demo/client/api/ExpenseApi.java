@@ -23,6 +23,7 @@ import com.example.demo.client.model.CrupdateExpenseMoney;
 import com.example.demo.client.model.ExpenseMoney;
 import com.example.demo.client.model.InternalServerException;
 import com.example.demo.client.model.NotAuthorizedException;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.ResourceNotFoundException;
 import com.example.demo.client.model.TooManyRequestsException;
 
@@ -51,7 +52,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T02:10:42.519221747+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T02:20:38.960879300+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class ExpenseApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -388,11 +389,11 @@ public class ExpenseApi {
    * @param pageSize  (optional)
    * @param description Filter expenses by description, case is ignored (optional)
    * @param amount  (optional)
-   * @return List&lt;ExpenseMoney&gt;
+   * @return PaginatedResponse
    * @throws ApiException if fails to make API call
    */
-  public List<ExpenseMoney> getExpenses(String userId, String companyId, String jobId, Integer page, Integer pageSize, String description, BigDecimal amount) throws ApiException {
-    ApiResponse<List<ExpenseMoney>> localVarResponse = getExpensesWithHttpInfo(userId, companyId, jobId, page, pageSize, description, amount);
+  public PaginatedResponse getExpenses(String userId, String companyId, String jobId, Integer page, Integer pageSize, String description, BigDecimal amount) throws ApiException {
+    ApiResponse<PaginatedResponse> localVarResponse = getExpensesWithHttpInfo(userId, companyId, jobId, page, pageSize, description, amount);
     return localVarResponse.getData();
   }
 
@@ -406,10 +407,10 @@ public class ExpenseApi {
    * @param pageSize  (optional)
    * @param description Filter expenses by description, case is ignored (optional)
    * @param amount  (optional)
-   * @return ApiResponse&lt;List&lt;ExpenseMoney&gt;&gt;
+   * @return ApiResponse&lt;PaginatedResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<ExpenseMoney>> getExpensesWithHttpInfo(String userId, String companyId, String jobId, Integer page, Integer pageSize, String description, BigDecimal amount) throws ApiException {
+  public ApiResponse<PaginatedResponse> getExpensesWithHttpInfo(String userId, String companyId, String jobId, Integer page, Integer pageSize, String description, BigDecimal amount) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = getExpensesRequestBuilder(userId, companyId, jobId, page, pageSize, description, amount);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -422,10 +423,10 @@ public class ExpenseApi {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("getExpenses", localVarResponse);
         }
-        return new ApiResponse<List<ExpenseMoney>>(
+        return new ApiResponse<PaginatedResponse>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<List<ExpenseMoney>>() {}) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<PaginatedResponse>() {}) // closes the InputStream
         );
       } finally {
       }

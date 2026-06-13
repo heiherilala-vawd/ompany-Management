@@ -7,7 +7,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import com.example.demo.SentryConf;
 import com.example.demo.client.api.TaskApi;
 import com.example.demo.client.invoker.ApiClient;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.CrupdateTask;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.Task;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
@@ -51,7 +53,9 @@ class TaskIT {
   @Test
   void administration_can_get_all_tasks() throws Exception {
     TaskApi api = new TaskApi(anApiClient(ADMINISTRATION_TOKEN));
-    List<Task> tasks = api.getTasks(ADMIN_ID, COMPANY1_ID);
+    PaginatedResponse resp = api.getTasks(ADMIN_ID, COMPANY1_ID);
+
+    List<Task> tasks = extractData(resp, Task.class);
     assertEquals(2, tasks.size());
     assertTrue(tasks.stream().anyMatch(t -> "task1_id".equals(t.getId())));
     assertTrue(tasks.stream().anyMatch(t -> "task2_id".equals(t.getId())));
@@ -97,7 +101,10 @@ class TaskIT {
   void employee_can_list_own_tasks() throws Exception {
     TaskApi api = new TaskApi(anApiClient(EMPLOYEE_TOKEN));
 
-    List<Task> tasks = api.getTasks(EMPLOYEE_ID, COMPANY1_ID);
+    PaginatedResponse resp = api.getTasks(EMPLOYEE_ID, COMPANY1_ID);
+
+
+    List<Task> tasks = extractData(resp, Task.class);
 
     assertEquals(2, tasks.size());
     assertTrue(tasks.stream().anyMatch(t -> "task1_id".equals(t.getId())));
@@ -118,7 +125,9 @@ class TaskIT {
   void admin_can_delete_task() throws Exception {
     TaskApi api = new TaskApi(anApiClient(ADMIN_TOKEN));
     api.deleteTaskById(ADMIN_ID, COMPANY1_ID, "task1_id");
-    List<Task> tasks = api.getTasks(ADMIN_ID, COMPANY1_ID);
+    PaginatedResponse resp = api.getTasks(ADMIN_ID, COMPANY1_ID);
+
+    List<Task> tasks = extractData(resp, Task.class);
     assertEquals(1, tasks.size());
   }
 

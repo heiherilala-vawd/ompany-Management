@@ -22,6 +22,7 @@ import com.example.demo.client.model.CrupdateMaterialConsumption;
 import com.example.demo.client.model.InternalServerException;
 import com.example.demo.client.model.MaterialConsumption;
 import com.example.demo.client.model.NotAuthorizedException;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.ResourceNotFoundException;
 import com.example.demo.client.model.TooManyRequestsException;
 
@@ -50,7 +51,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T02:10:42.519221747+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T02:20:38.960879300+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class MaterialConsumptionApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -452,11 +453,11 @@ public class MaterialConsumptionApi {
    * @param pageSize  (optional)
    * @param consumptionStatus  (optional)
    * @param jobId  (optional)
-   * @return List&lt;MaterialConsumption&gt;
+   * @return PaginatedResponse
    * @throws ApiException if fails to make API call
    */
-  public List<MaterialConsumption> getMaterialConsumptions(String userId, String companyId, Integer page, Integer pageSize, String consumptionStatus, String jobId) throws ApiException {
-    ApiResponse<List<MaterialConsumption>> localVarResponse = getMaterialConsumptionsWithHttpInfo(userId, companyId, page, pageSize, consumptionStatus, jobId);
+  public PaginatedResponse getMaterialConsumptions(String userId, String companyId, Integer page, Integer pageSize, String consumptionStatus, String jobId) throws ApiException {
+    ApiResponse<PaginatedResponse> localVarResponse = getMaterialConsumptionsWithHttpInfo(userId, companyId, page, pageSize, consumptionStatus, jobId);
     return localVarResponse.getData();
   }
 
@@ -469,10 +470,10 @@ public class MaterialConsumptionApi {
    * @param pageSize  (optional)
    * @param consumptionStatus  (optional)
    * @param jobId  (optional)
-   * @return ApiResponse&lt;List&lt;MaterialConsumption&gt;&gt;
+   * @return ApiResponse&lt;PaginatedResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<MaterialConsumption>> getMaterialConsumptionsWithHttpInfo(String userId, String companyId, Integer page, Integer pageSize, String consumptionStatus, String jobId) throws ApiException {
+  public ApiResponse<PaginatedResponse> getMaterialConsumptionsWithHttpInfo(String userId, String companyId, Integer page, Integer pageSize, String consumptionStatus, String jobId) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = getMaterialConsumptionsRequestBuilder(userId, companyId, page, pageSize, consumptionStatus, jobId);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -485,10 +486,10 @@ public class MaterialConsumptionApi {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("getMaterialConsumptions", localVarResponse);
         }
-        return new ApiResponse<List<MaterialConsumption>>(
+        return new ApiResponse<PaginatedResponse>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<List<MaterialConsumption>>() {}) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<PaginatedResponse>() {}) // closes the InputStream
         );
       } finally {
       }

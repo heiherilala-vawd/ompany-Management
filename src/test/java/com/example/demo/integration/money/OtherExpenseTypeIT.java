@@ -7,7 +7,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import com.example.demo.SentryConf;
 import com.example.demo.client.api.OtherExpenseTypeApi;
 import com.example.demo.client.invoker.ApiClient;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.CrupdateOtherExpenseType;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.OtherExpenseType;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
@@ -76,7 +78,10 @@ class OtherExpenseTypeIT {
   void administration_can_get_all_other_expense_types() throws Exception {
     OtherExpenseTypeApi api = new OtherExpenseTypeApi(anApiClient(ADMINISTRATION_TOKEN));
 
-    List<OtherExpenseType> types = api.getOtherExpenseTypes(ADMIN_ID, COMPANY1_ID);
+    PaginatedResponse resp = api.getOtherExpenseTypes(ADMIN_ID, COMPANY1_ID);
+
+
+    List<OtherExpenseType> types = extractData(resp, OtherExpenseType.class);
 
     assertEquals(2, types.size());
     assertTrue(types.stream().anyMatch(t -> OTHER_EXPENSE_TYPE1_ID.equals(t.getId())));

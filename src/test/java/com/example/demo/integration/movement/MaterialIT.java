@@ -6,8 +6,11 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.example.demo.SentryConf;
 import com.example.demo.client.api.MaterialApi;
 import com.example.demo.client.invoker.ApiClient;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.CrupdateMaterial;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.Material;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.MaterialUnit;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
@@ -95,8 +98,10 @@ class MaterialIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     MaterialApi api = new MaterialApi(adminClient);
 
-    List<Material> materials =
-        api.getMaterials(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null, null);
+    PaginatedResponse resp = api.getMaterials(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null, null);
+
+
+    List<Material> materials = extractData(resp, Material.class);
 
     assertEquals(3, materials.size());
     assertTrue(materials.stream().anyMatch(material -> MATERIAL1_ID.equals(material.getId())));
@@ -118,8 +123,10 @@ class MaterialIT {
     ApiClient administrationClient = anApiClient(ADMINISTRATION_TOKEN);
     MaterialApi api = new MaterialApi(administrationClient);
 
-    List<Material> materials =
-        api.getMaterials(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, MaterialUnit.L, null);
+    PaginatedResponse resp = api.getMaterials(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, MaterialUnit.L, null);
+
+
+    List<Material> materials = extractData(resp, Material.class);
 
     assertEquals(1, materials.size());
     assertEquals(MATERIAL3_ID, materials.get(0).getId());
@@ -130,8 +137,10 @@ class MaterialIT {
     ApiClient administrationClient = anApiClient(ADMINISTRATION_TOKEN);
     MaterialApi api = new MaterialApi(administrationClient);
 
-    List<Material> materials =
-        api.getMaterials(ADMIN_ID, COMPANY1_ID, 1, 100, "Brique", null, null, null);
+    PaginatedResponse resp = api.getMaterials(ADMIN_ID, COMPANY1_ID, 1, 100, "Brique", null, null, null);
+
+
+    List<Material> materials = extractData(resp, Material.class);
 
     assertEquals(1, materials.size());
     assertEquals(MATERIAL2_ID, materials.get(0).getId());
@@ -142,8 +151,10 @@ class MaterialIT {
     ApiClient administrationClient = anApiClient(ADMINISTRATION_TOKEN);
     MaterialApi api = new MaterialApi(administrationClient);
 
-    List<Material> materials =
-        api.getMaterials(ADMIN_ID, COMPANY1_ID, 1, 100, null, "blanche", null, null);
+    PaginatedResponse resp = api.getMaterials(ADMIN_ID, COMPANY1_ID, 1, 100, null, "blanche", null, null);
+
+
+    List<Material> materials = extractData(resp, Material.class);
 
     assertEquals(1, materials.size());
     assertEquals(MATERIAL3_ID, materials.get(0).getId());
@@ -154,8 +165,10 @@ class MaterialIT {
     ApiClient administrationClient = anApiClient(ADMINISTRATION_TOKEN);
     MaterialApi api = new MaterialApi(administrationClient);
 
-    List<Material> materials =
-        api.getMaterials(ADMIN_ID, COMPANY1_ID, 1, 100, "Ciment", "35kg", MaterialUnit.SAC, null);
+    PaginatedResponse resp = api.getMaterials(ADMIN_ID, COMPANY1_ID, 1, 100, "Ciment", "35kg", MaterialUnit.SAC, null);
+
+
+    List<Material> materials = extractData(resp, Material.class);
 
     assertEquals(1, materials.size());
     assertEquals(MATERIAL1_ID, materials.get(0).getId());
@@ -244,8 +257,10 @@ class MaterialIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     MaterialApi api = new MaterialApi(adminClient);
 
-    List<Material> notArrivedMaterials =
-        api.getMaterials(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null, true);
+    PaginatedResponse resp = api.getMaterials(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null, true);
+
+
+    List<Material> notArrivedMaterials = extractData(resp, Material.class);
 
     assertEquals(2, notArrivedMaterials.size());
     assertTrue(notArrivedMaterials.stream().anyMatch(m -> MATERIAL1_ID.equals(m.getId())));
@@ -258,8 +273,10 @@ class MaterialIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     MaterialApi api = new MaterialApi(adminClient);
 
-    List<Material> materials =
-        api.getMaterials(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null, false);
+    PaginatedResponse resp = api.getMaterials(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null, false);
+
+
+    List<Material> materials = extractData(resp, Material.class);
 
     assertEquals(3, materials.size());
   }

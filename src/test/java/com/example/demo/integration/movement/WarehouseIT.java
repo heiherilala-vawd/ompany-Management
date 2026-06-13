@@ -6,7 +6,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.example.demo.SentryConf;
 import com.example.demo.client.api.WarehouseApi;
 import com.example.demo.client.invoker.ApiClient;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.CrupdateWarehouse;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.Warehouse;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
@@ -77,7 +79,10 @@ class WarehouseIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     WarehouseApi api = new WarehouseApi(adminClient);
 
-    List<Warehouse> warehouses = api.getWarehouses(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null);
+    PaginatedResponse resp = api.getWarehouses(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null);
+
+
+    List<Warehouse> warehouses = extractData(resp, Warehouse.class);
 
     assertEquals(6, warehouses.size());
     assertTrue(warehouses.stream().anyMatch(warehouse -> WAREHOUSE1_ID.equals(warehouse.getId())));
@@ -108,8 +113,10 @@ class WarehouseIT {
     ApiClient administrationClient = anApiClient(ADMINISTRATION_TOKEN);
     WarehouseApi api = new WarehouseApi(administrationClient);
 
-    List<Warehouse> warehouses =
-        api.getWarehouses(ADMIN_ID, COMPANY1_ID, 1, 100, JOB2_ID, null, null);
+    PaginatedResponse resp = api.getWarehouses(ADMIN_ID, COMPANY1_ID, 1, 100, JOB2_ID, null, null);
+
+
+    List<Warehouse> warehouses = extractData(resp, Warehouse.class);
 
     assertEquals(1, warehouses.size());
     assertEquals(WAREHOUSE2_ID, warehouses.get(0).getId());
@@ -120,8 +127,10 @@ class WarehouseIT {
     ApiClient administrationClient = anApiClient(ADMINISTRATION_TOKEN);
     WarehouseApi api = new WarehouseApi(administrationClient);
 
-    List<Warehouse> warehouses =
-        api.getWarehouses(ADMIN_ID, COMPANY1_ID, 1, 100, null, "Nord", null);
+    PaginatedResponse resp = api.getWarehouses(ADMIN_ID, COMPANY1_ID, 1, 100, null, "Nord", null);
+
+
+    List<Warehouse> warehouses = extractData(resp, Warehouse.class);
 
     assertEquals(1, warehouses.size());
     assertEquals(WAREHOUSE1_ID, warehouses.get(0).getId());
@@ -132,8 +141,10 @@ class WarehouseIT {
     ApiClient administrationClient = anApiClient(ADMINISTRATION_TOKEN);
     WarehouseApi api = new WarehouseApi(administrationClient);
 
-    List<Warehouse> warehouses =
-        api.getWarehouses(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, "équipements");
+    PaginatedResponse resp = api.getWarehouses(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, "équipements");
+
+
+    List<Warehouse> warehouses = extractData(resp, Warehouse.class);
 
     assertEquals(5, warehouses.size());
     assertTrue(warehouses.stream().anyMatch(warehouse -> WAREHOUSE2_ID.equals(warehouse.getId())));

@@ -6,7 +6,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.example.demo.SentryConf;
 import com.example.demo.client.api.SupplierApi;
 import com.example.demo.client.invoker.ApiClient;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.CrupdateSupplier;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.Supplier;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
@@ -78,7 +80,9 @@ class SupplierIT {
   @Test
   void admin_can_get_all_suppliers() throws Exception {
     SupplierApi api = new SupplierApi(anApiClient(ADMIN_TOKEN));
-    List<Supplier> suppliers = api.getSuppliers(ADMIN_ID, COMPANY1_ID);
+    PaginatedResponse resp = api.getSuppliers(ADMIN_ID, COMPANY1_ID);
+
+    List<Supplier> suppliers = extractData(resp, Supplier.class);
     assertEquals(2, suppliers.size());
     assertTrue(suppliers.stream().anyMatch(s -> SUPPLIER1_ID.equals(s.getId())));
     assertTrue(suppliers.stream().anyMatch(s -> SUPPLIER2_ID.equals(s.getId())));

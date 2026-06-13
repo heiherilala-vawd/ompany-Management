@@ -6,7 +6,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.example.demo.SentryConf;
 import com.example.demo.client.api.ExpenseApi;
 import com.example.demo.client.invoker.ApiClient;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.CrupdateExpenseMoney;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.ExpenseMoney;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
@@ -78,8 +80,10 @@ class ExpenseIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     ExpenseApi api = new ExpenseApi(adminClient);
 
-    List<ExpenseMoney> expenses =
-        api.getExpenses(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null);
+    PaginatedResponse resp = api.getExpenses(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null);
+
+
+    List<ExpenseMoney> expenses = extractData(resp, ExpenseMoney.class);
 
     assertEquals(2, expenses.size());
     assertTrue(expenses.stream().anyMatch(expense -> EXPENSE1_ID.equals(expense.getId())));
@@ -100,8 +104,10 @@ class ExpenseIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     ExpenseApi api = new ExpenseApi(adminClient);
 
-    List<ExpenseMoney> expenses =
-        api.getExpenses(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, "sous-traitant", null);
+    PaginatedResponse resp = api.getExpenses(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, "sous-traitant", null);
+
+
+    List<ExpenseMoney> expenses = extractData(resp, ExpenseMoney.class);
 
     assertEquals(1, expenses.size());
     assertEquals(EXPENSE2_ID, expenses.get(0).getId());
@@ -112,8 +118,10 @@ class ExpenseIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     ExpenseApi api = new ExpenseApi(adminClient);
 
-    List<ExpenseMoney> expenses =
-        api.getExpenses(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, BigDecimal.valueOf(45000));
+    PaginatedResponse resp = api.getExpenses(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, BigDecimal.valueOf(45000));
+
+
+    List<ExpenseMoney> expenses = extractData(resp, ExpenseMoney.class);
 
     assertEquals(1, expenses.size());
     assertEquals(EXPENSE1_ID, expenses.get(0).getId());

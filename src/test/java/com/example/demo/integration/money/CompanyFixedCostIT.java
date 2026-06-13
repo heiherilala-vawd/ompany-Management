@@ -7,7 +7,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import com.example.demo.SentryConf;
 import com.example.demo.client.api.CompanyFixedCostApi;
 import com.example.demo.client.invoker.ApiClient;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.CompanyFixedCost;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.CrupdateCompanyFixedCost;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
@@ -75,7 +77,10 @@ class CompanyFixedCostIT {
   void administration_can_get_all_fixed_costs() throws Exception {
     CompanyFixedCostApi api = new CompanyFixedCostApi(anApiClient(ADMINISTRATION_TOKEN));
 
-    List<CompanyFixedCost> costs = api.getCompanyFixedCosts(ADMIN_ID, COMPANY1_ID);
+    PaginatedResponse resp = api.getCompanyFixedCosts(ADMIN_ID, COMPANY1_ID);
+
+
+    List<CompanyFixedCost> costs = extractData(resp, CompanyFixedCost.class);
 
     assertEquals(2, costs.size());
     assertTrue(costs.stream().anyMatch(c -> FIXED_COST1_ID.equals(c.getId())));

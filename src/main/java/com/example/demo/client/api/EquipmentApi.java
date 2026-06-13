@@ -22,6 +22,7 @@ import com.example.demo.client.model.CrupdateEquipment;
 import com.example.demo.client.model.Equipment;
 import com.example.demo.client.model.InternalServerException;
 import com.example.demo.client.model.NotAuthorizedException;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.ResourceNotFoundException;
 import com.example.demo.client.model.TooManyRequestsException;
 
@@ -50,7 +51,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T02:10:42.519221747+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T02:20:38.960879300+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class EquipmentApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -282,11 +283,11 @@ public class EquipmentApi {
    * @param floorNumber  (optional)
    * @param storageNumber  (optional)
    * @param notArrived Filter equipment not yet arrived (in route or at seller warehouse) (optional)
-   * @return List&lt;Equipment&gt;
+   * @return PaginatedResponse
    * @throws ApiException if fails to make API call
    */
-  public List<Equipment> getEquipment(String userId, String companyId, Integer page, Integer pageSize, String warehouseId, String name, String description, Integer floorNumber, Integer storageNumber, Boolean notArrived) throws ApiException {
-    ApiResponse<List<Equipment>> localVarResponse = getEquipmentWithHttpInfo(userId, companyId, page, pageSize, warehouseId, name, description, floorNumber, storageNumber, notArrived);
+  public PaginatedResponse getEquipment(String userId, String companyId, Integer page, Integer pageSize, String warehouseId, String name, String description, Integer floorNumber, Integer storageNumber, Boolean notArrived) throws ApiException {
+    ApiResponse<PaginatedResponse> localVarResponse = getEquipmentWithHttpInfo(userId, companyId, page, pageSize, warehouseId, name, description, floorNumber, storageNumber, notArrived);
     return localVarResponse.getData();
   }
 
@@ -303,10 +304,10 @@ public class EquipmentApi {
    * @param floorNumber  (optional)
    * @param storageNumber  (optional)
    * @param notArrived Filter equipment not yet arrived (in route or at seller warehouse) (optional)
-   * @return ApiResponse&lt;List&lt;Equipment&gt;&gt;
+   * @return ApiResponse&lt;PaginatedResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<Equipment>> getEquipmentWithHttpInfo(String userId, String companyId, Integer page, Integer pageSize, String warehouseId, String name, String description, Integer floorNumber, Integer storageNumber, Boolean notArrived) throws ApiException {
+  public ApiResponse<PaginatedResponse> getEquipmentWithHttpInfo(String userId, String companyId, Integer page, Integer pageSize, String warehouseId, String name, String description, Integer floorNumber, Integer storageNumber, Boolean notArrived) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = getEquipmentRequestBuilder(userId, companyId, page, pageSize, warehouseId, name, description, floorNumber, storageNumber, notArrived);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -319,10 +320,10 @@ public class EquipmentApi {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("getEquipment", localVarResponse);
         }
-        return new ApiResponse<List<Equipment>>(
+        return new ApiResponse<PaginatedResponse>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<List<Equipment>>() {}) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<PaginatedResponse>() {}) // closes the InputStream
         );
       } finally {
       }

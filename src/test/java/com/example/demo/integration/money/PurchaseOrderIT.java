@@ -6,8 +6,11 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.example.demo.SentryConf;
 import com.example.demo.client.api.PurchaseOrderApi;
 import com.example.demo.client.invoker.ApiClient;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.CrupdatePurchaseOrder;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.PurchaseOrder;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.PurchaseOrderStatus;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
@@ -79,7 +82,9 @@ class PurchaseOrderIT {
   @Test
   void admin_can_get_all_purchase_orders() throws Exception {
     PurchaseOrderApi api = new PurchaseOrderApi(anApiClient(ADMIN_TOKEN));
-    List<PurchaseOrder> orders = api.getPurchaseOrders(ADMIN_ID, COMPANY1_ID, null);
+    PaginatedResponse resp = api.getPurchaseOrders(ADMIN_ID, COMPANY1_ID, null);
+
+    List<PurchaseOrder> orders = extractData(resp, PurchaseOrder.class);
     assertEquals(2, orders.size());
     assertTrue(orders.stream().anyMatch(po -> PO1_ID.equals(po.getId())));
     assertTrue(orders.stream().anyMatch(po -> PO2_ID.equals(po.getId())));
@@ -89,7 +94,10 @@ class PurchaseOrderIT {
   void admin_can_filter_purchase_orders_by_job_id() throws Exception {
     PurchaseOrderApi api = new PurchaseOrderApi(anApiClient(ADMIN_TOKEN));
 
-    List<PurchaseOrder> result = api.getPurchaseOrders(ADMIN_ID, COMPANY1_ID, JOB1_ID);
+    PaginatedResponse resp = api.getPurchaseOrders(ADMIN_ID, COMPANY1_ID, JOB1_ID);
+
+
+    List<PurchaseOrder> result = extractData(resp, PurchaseOrder.class);
 
     assertEquals(2, result.size());
     assertTrue(result.stream().allMatch(po -> JOB1_ID.equals(po.getJobId())));

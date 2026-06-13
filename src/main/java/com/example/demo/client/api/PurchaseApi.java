@@ -22,6 +22,7 @@ import com.example.demo.client.model.CrupdatePurchase;
 import java.util.Date;
 import com.example.demo.client.model.InternalServerException;
 import com.example.demo.client.model.NotAuthorizedException;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.Purchase;
 import com.example.demo.client.model.ResourceNotFoundException;
 import com.example.demo.client.model.TooManyRequestsException;
@@ -51,7 +52,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T02:10:42.519221747+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T02:20:38.960879300+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class PurchaseApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -392,11 +393,11 @@ public class PurchaseApi {
    * @param invoiceDateFrom Filter by invoice date from (inclusive) (optional)
    * @param invoiceDateTo Filter by invoice date to (inclusive) (optional)
    * @param paid Filter by payment status (true &#x3D; paid, false &#x3D; unpaid) (optional)
-   * @return List&lt;Purchase&gt;
+   * @return PaginatedResponse
    * @throws ApiException if fails to make API call
    */
-  public List<Purchase> getPurchases(String userId, String companyId, String jobId, Integer page, Integer pageSize, String sourceWarehouseId, String supplierId, Boolean isEquipment, java.time.LocalDate invoiceDateFrom, java.time.LocalDate invoiceDateTo, Boolean paid) throws ApiException {
-    ApiResponse<List<Purchase>> localVarResponse = getPurchasesWithHttpInfo(userId, companyId, jobId, page, pageSize, sourceWarehouseId, supplierId, isEquipment, invoiceDateFrom, invoiceDateTo, paid);
+  public PaginatedResponse getPurchases(String userId, String companyId, String jobId, Integer page, Integer pageSize, String sourceWarehouseId, String supplierId, Boolean isEquipment, java.time.LocalDate invoiceDateFrom, java.time.LocalDate invoiceDateTo, Boolean paid) throws ApiException {
+    ApiResponse<PaginatedResponse> localVarResponse = getPurchasesWithHttpInfo(userId, companyId, jobId, page, pageSize, sourceWarehouseId, supplierId, isEquipment, invoiceDateFrom, invoiceDateTo, paid);
     return localVarResponse.getData();
   }
 
@@ -414,10 +415,10 @@ public class PurchaseApi {
    * @param invoiceDateFrom Filter by invoice date from (inclusive) (optional)
    * @param invoiceDateTo Filter by invoice date to (inclusive) (optional)
    * @param paid Filter by payment status (true &#x3D; paid, false &#x3D; unpaid) (optional)
-   * @return ApiResponse&lt;List&lt;Purchase&gt;&gt;
+   * @return ApiResponse&lt;PaginatedResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<Purchase>> getPurchasesWithHttpInfo(String userId, String companyId, String jobId, Integer page, Integer pageSize, String sourceWarehouseId, String supplierId, Boolean isEquipment, java.time.LocalDate invoiceDateFrom, java.time.LocalDate invoiceDateTo, Boolean paid) throws ApiException {
+  public ApiResponse<PaginatedResponse> getPurchasesWithHttpInfo(String userId, String companyId, String jobId, Integer page, Integer pageSize, String sourceWarehouseId, String supplierId, Boolean isEquipment, java.time.LocalDate invoiceDateFrom, java.time.LocalDate invoiceDateTo, Boolean paid) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = getPurchasesRequestBuilder(userId, companyId, jobId, page, pageSize, sourceWarehouseId, supplierId, isEquipment, invoiceDateFrom, invoiceDateTo, paid);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -430,10 +431,10 @@ public class PurchaseApi {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("getPurchases", localVarResponse);
         }
-        return new ApiResponse<List<Purchase>>(
+        return new ApiResponse<PaginatedResponse>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<List<Purchase>>() {}) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<PaginatedResponse>() {}) // closes the InputStream
         );
       } finally {
       }

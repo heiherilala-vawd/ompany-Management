@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.example.demo.SentryConf;
 import com.example.demo.client.api.MaterialConsumptionApi;
 import com.example.demo.client.invoker.ApiClient;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.CrupdateMaterialConsumption;
 import com.example.demo.client.model.MaterialConsumption;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
@@ -99,8 +100,10 @@ class MaterialConsumptionIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     MaterialConsumptionApi api = new MaterialConsumptionApi(adminClient);
 
-    List<MaterialConsumption> consumptions =
-        api.getMaterialConsumptions(ADMIN_ID, COMPANY1_ID, 1, 100, null, null);
+    PaginatedResponse resp = api.getMaterialConsumptions(ADMIN_ID, COMPANY1_ID, 1, 100, null, null);
+
+
+    List<MaterialConsumption> consumptions = extractData(resp, MaterialConsumption.class);
 
     assertEquals(2, consumptions.size());
     assertTrue(consumptions.stream().anyMatch(mc -> MAT_CONSUMPTION1_ID.equals(mc.getId())));
@@ -112,14 +115,18 @@ class MaterialConsumptionIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     MaterialConsumptionApi api = new MaterialConsumptionApi(adminClient);
 
-    List<MaterialConsumption> completed =
-        api.getMaterialConsumptions(ADMIN_ID, COMPANY1_ID, 1, 100, "COMPLETED", null);
+    PaginatedResponse resp = api.getMaterialConsumptions(ADMIN_ID, COMPANY1_ID, 1, 100, "COMPLETED", null);
+
+
+    List<MaterialConsumption> completed = extractData(resp, MaterialConsumption.class);
 
     assertEquals(2, completed.size());
     assertTrue(completed.stream().allMatch(mc -> "COMPLETED".equals(mc.getConsumptionStatus())));
 
-    List<MaterialConsumption> inProgress =
-        api.getMaterialConsumptions(ADMIN_ID, COMPANY1_ID, 1, 100, "IN_PROGRESS", null);
+    PaginatedResponse resp1 = api.getMaterialConsumptions(ADMIN_ID, COMPANY1_ID, 1, 100, "IN_PROGRESS", null);
+
+
+    List<MaterialConsumption> inProgress = extractData(resp1, MaterialConsumption.class);
 
     assertTrue(inProgress.isEmpty());
   }
@@ -129,8 +136,10 @@ class MaterialConsumptionIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     MaterialConsumptionApi api = new MaterialConsumptionApi(adminClient);
 
-    List<MaterialConsumption> result =
-        api.getMaterialConsumptions(ADMIN_ID, COMPANY1_ID, 1, 100, null, JOB1_ID);
+    PaginatedResponse resp = api.getMaterialConsumptions(ADMIN_ID, COMPANY1_ID, 1, 100, null, JOB1_ID);
+
+
+    List<MaterialConsumption> result = extractData(resp, MaterialConsumption.class);
 
     assertEquals(2, result.size());
     assertTrue(result.stream().allMatch(mc -> JOB1_ID.equals(mc.getJobId())));

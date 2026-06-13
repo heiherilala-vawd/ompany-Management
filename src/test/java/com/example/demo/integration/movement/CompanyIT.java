@@ -6,8 +6,11 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.example.demo.SentryConf;
 import com.example.demo.client.api.CompanyApi;
 import com.example.demo.client.invoker.ApiClient;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.Company;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.CompanyType;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.CrupdateCompany;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
@@ -77,7 +80,10 @@ class CompanyIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     CompanyApi api = new CompanyApi(adminClient);
 
-    List<Company> companies = api.getCompanies(ADMIN_ID, 1, 100, null, null, null, null);
+    PaginatedResponse resp = api.getCompanies(ADMIN_ID, 1, 100, null, null, null, null);
+
+
+    List<Company> companies = extractData(resp, Company.class);
 
     assertEquals(1, companies.size());
     assertTrue(companies.stream().anyMatch(company -> COMPANY1_ID.equals(company.getId())));
@@ -88,7 +94,10 @@ class CompanyIT {
     ApiClient employeeClient = anApiClient(EMPLOYEE_TOKEN);
     CompanyApi api = new CompanyApi(employeeClient);
 
-    List<Company> companies = api.getCompanies(EMPLOYEE_ID, 1, 100, null, null, null, null);
+    PaginatedResponse resp = api.getCompanies(EMPLOYEE_ID, 1, 100, null, null, null, null);
+
+
+    List<Company> companies = extractData(resp, Company.class);
 
     assertEquals(1, companies.size());
     assertEquals(COMPANY1_ID, companies.get(0).getId());
@@ -99,7 +108,10 @@ class CompanyIT {
     ApiClient warehouseClient = anApiClient(WAREHOUSE_TOKEN);
     CompanyApi api = new CompanyApi(warehouseClient);
 
-    List<Company> companies = api.getCompanies(WAREHOUSE_ID, 1, 100, "BTP", null, null, null);
+    PaginatedResponse resp = api.getCompanies(WAREHOUSE_ID, 1, 100, "BTP", null, null, null);
+
+
+    List<Company> companies = extractData(resp, Company.class);
 
     assertEquals(1, companies.size());
     assertEquals(COMPANY1_ID, companies.get(0).getId());
@@ -110,8 +122,10 @@ class CompanyIT {
     ApiClient administrationClient = anApiClient(ADMINISTRATION_TOKEN);
     CompanyApi api = new CompanyApi(administrationClient);
 
-    List<Company> companies =
-        api.getCompanies(ADMIN_ID, 1, 100, null, null, null, CompanyType.HOTEL);
+    PaginatedResponse resp = api.getCompanies(ADMIN_ID, 1, 100, null, null, null, CompanyType.HOTEL);
+
+
+    List<Company> companies = extractData(resp, Company.class);
 
     assertEquals(0, companies.size());
   }
@@ -121,8 +135,10 @@ class CompanyIT {
     ApiClient administrationClient = anApiClient(ADMINISTRATION_TOKEN);
     CompanyApi api = new CompanyApi(administrationClient);
 
-    List<Company> companies =
-        api.getCompanies(ADMIN_ID, 1, 100, null, "FR7612345678901234567890123", null, null);
+    PaginatedResponse resp = api.getCompanies(ADMIN_ID, 1, 100, null, "FR7612345678901234567890123", null, null);
+
+
+    List<Company> companies = extractData(resp, Company.class);
 
     assertEquals(1, companies.size());
     assertEquals(COMPANY1_ID, companies.get(0).getId());
@@ -133,7 +149,10 @@ class CompanyIT {
     ApiClient administrationClient = anApiClient(ADMINISTRATION_TOKEN);
     CompanyApi api = new CompanyApi(administrationClient);
 
-    List<Company> companies = api.getCompanies(ADMIN_ID, 1, 100, null, null, "luxe", null);
+    PaginatedResponse resp = api.getCompanies(ADMIN_ID, 1, 100, null, null, "luxe", null);
+
+
+    List<Company> companies = extractData(resp, Company.class);
 
     assertEquals(0, companies.size());
   }

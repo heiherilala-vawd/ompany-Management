@@ -7,6 +7,7 @@ import com.example.demo.SentryConf;
 import com.example.demo.client.api.PurchaseApi;
 import com.example.demo.client.invoker.ApiClient;
 import com.example.demo.client.model.CrupdatePurchase;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.Purchase;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
@@ -68,9 +69,9 @@ class PurchaseIT {
   void admin_can_get_all_purchases() throws Exception {
     PurchaseApi api = new PurchaseApi(anApiClient(ADMIN_TOKEN));
 
-    List<Purchase> purchases =
-        api.getPurchases(
-            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, null, null, null, null);
+    PaginatedResponse resp = api.getPurchases(
+        ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, null, null, null, null);
+    List<Purchase> purchases = extractData(resp, Purchase.class);
 
     assertEquals(2, purchases.size());
     assertTrue(purchases.stream().anyMatch(purchase -> PURCHASE1_ID.equals(purchase.getId())));
@@ -81,9 +82,9 @@ class PurchaseIT {
   void admin_can_filter_purchases_by_supplier() throws Exception {
     PurchaseApi api = new PurchaseApi(anApiClient(ADMIN_TOKEN));
 
-    List<Purchase> purchases =
-        api.getPurchases(
-            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, WAREHOUSE1_ID, null, null, null, null, null);
+    PaginatedResponse resp = api.getPurchases(
+        ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, WAREHOUSE1_ID, null, null, null, null, null);
+    List<Purchase> purchases = extractData(resp, Purchase.class);
 
     assertEquals(1, purchases.size());
     assertEquals(PURCHASE1_ID, purchases.get(0).getId());
@@ -93,9 +94,9 @@ class PurchaseIT {
   void admin_can_filter_purchases_by_is_equipment() throws Exception {
     PurchaseApi api = new PurchaseApi(anApiClient(ADMIN_TOKEN));
 
-    List<Purchase> purchases =
-        api.getPurchases(
-            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, false, null, null, null);
+    PaginatedResponse resp = api.getPurchases(
+        ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, false, null, null, null);
+    List<Purchase> purchases = extractData(resp, Purchase.class);
 
     assertEquals(1, purchases.size());
     assertEquals(PURCHASE2_ID, purchases.get(0).getId());

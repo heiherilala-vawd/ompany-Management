@@ -6,8 +6,11 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.example.demo.SentryConf;
 import com.example.demo.client.api.EquipmentUsageApi;
 import com.example.demo.client.invoker.ApiClient;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.CrupdateEquipmentUsage;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.EquipmentUsage;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.UsageStatus;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
@@ -93,7 +96,10 @@ class EquipmentUsageIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     EquipmentUsageApi api = new EquipmentUsageApi(adminClient);
 
-    List<EquipmentUsage> usages = api.getEquipmentUsages(ADMIN_ID, COMPANY1_ID, 1, 100, null);
+    PaginatedResponse resp = api.getEquipmentUsages(ADMIN_ID, COMPANY1_ID, 1, 100, null);
+
+
+    List<EquipmentUsage> usages = extractData(resp, EquipmentUsage.class);
 
     assertEquals(2, usages.size());
     assertTrue(usages.stream().anyMatch(eu -> EQUIP_USAGE1_ID.equals(eu.getId())));
@@ -105,7 +111,10 @@ class EquipmentUsageIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     EquipmentUsageApi api = new EquipmentUsageApi(adminClient);
 
-    List<EquipmentUsage> result = api.getEquipmentUsages(ADMIN_ID, COMPANY1_ID, 1, 100, JOB1_ID);
+    PaginatedResponse resp = api.getEquipmentUsages(ADMIN_ID, COMPANY1_ID, 1, 100, JOB1_ID);
+
+
+    List<EquipmentUsage> result = extractData(resp, EquipmentUsage.class);
 
     assertEquals(2, result.size());
     assertTrue(result.stream().allMatch(eu -> JOB1_ID.equals(eu.getJobId())));
@@ -116,8 +125,10 @@ class EquipmentUsageIT {
     ApiClient employeeClient = anApiClient(EMPLOYEE_TOKEN);
     EquipmentUsageApi api = new EquipmentUsageApi(employeeClient);
 
-    List<EquipmentUsage> usages =
-        api.getEquipmentUsages(EMPLOYEE_ID, COMPANY1_ID, 1, 100, null);
+    PaginatedResponse resp = api.getEquipmentUsages(EMPLOYEE_ID, COMPANY1_ID, 1, 100, null);
+
+
+    List<EquipmentUsage> usages = extractData(resp, EquipmentUsage.class);
 
     assertEquals(0, usages.size());
   }

@@ -23,9 +23,9 @@ import com.example.demo.client.model.InternalServerException;
 import com.example.demo.client.model.Job;
 import com.example.demo.client.model.JobStatus;
 import com.example.demo.client.model.NotAuthorizedException;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.ResourceNotFoundException;
 import com.example.demo.client.model.TooManyRequestsException;
-import com.example.demo.client.model.User;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -52,7 +52,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T02:10:42.519221747+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T02:20:38.960879300+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class JobApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -454,11 +454,11 @@ public class JobApi {
    * @param userId  (required)
    * @param companyId  (required)
    * @param jobId  (required)
-   * @return List&lt;User&gt;
+   * @return PaginatedResponse
    * @throws ApiException if fails to make API call
    */
-  public List<User> getJobResponsibleUsers(String userId, String companyId, String jobId) throws ApiException {
-    ApiResponse<List<User>> localVarResponse = getJobResponsibleUsersWithHttpInfo(userId, companyId, jobId);
+  public PaginatedResponse getJobResponsibleUsers(String userId, String companyId, String jobId) throws ApiException {
+    ApiResponse<PaginatedResponse> localVarResponse = getJobResponsibleUsersWithHttpInfo(userId, companyId, jobId);
     return localVarResponse.getData();
   }
 
@@ -468,10 +468,10 @@ public class JobApi {
    * @param userId  (required)
    * @param companyId  (required)
    * @param jobId  (required)
-   * @return ApiResponse&lt;List&lt;User&gt;&gt;
+   * @return ApiResponse&lt;PaginatedResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<User>> getJobResponsibleUsersWithHttpInfo(String userId, String companyId, String jobId) throws ApiException {
+  public ApiResponse<PaginatedResponse> getJobResponsibleUsersWithHttpInfo(String userId, String companyId, String jobId) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = getJobResponsibleUsersRequestBuilder(userId, companyId, jobId);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -484,10 +484,10 @@ public class JobApi {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("getJobResponsibleUsers", localVarResponse);
         }
-        return new ApiResponse<List<User>>(
+        return new ApiResponse<PaginatedResponse>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<List<User>>() {}) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<PaginatedResponse>() {}) // closes the InputStream
         );
       } finally {
       }
@@ -544,11 +544,11 @@ public class JobApi {
    * @param pageSize  (optional)
    * @param status  (optional)
    * @param description Filter jobs by description, case is ignored (optional)
-   * @return List&lt;Job&gt;
+   * @return PaginatedResponse
    * @throws ApiException if fails to make API call
    */
-  public List<Job> getJobs(String userId, String companyId, Integer page, Integer pageSize, JobStatus status, String description) throws ApiException {
-    ApiResponse<List<Job>> localVarResponse = getJobsWithHttpInfo(userId, companyId, page, pageSize, status, description);
+  public PaginatedResponse getJobs(String userId, String companyId, Integer page, Integer pageSize, JobStatus status, String description) throws ApiException {
+    ApiResponse<PaginatedResponse> localVarResponse = getJobsWithHttpInfo(userId, companyId, page, pageSize, status, description);
     return localVarResponse.getData();
   }
 
@@ -561,10 +561,10 @@ public class JobApi {
    * @param pageSize  (optional)
    * @param status  (optional)
    * @param description Filter jobs by description, case is ignored (optional)
-   * @return ApiResponse&lt;List&lt;Job&gt;&gt;
+   * @return ApiResponse&lt;PaginatedResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<Job>> getJobsWithHttpInfo(String userId, String companyId, Integer page, Integer pageSize, JobStatus status, String description) throws ApiException {
+  public ApiResponse<PaginatedResponse> getJobsWithHttpInfo(String userId, String companyId, Integer page, Integer pageSize, JobStatus status, String description) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = getJobsRequestBuilder(userId, companyId, page, pageSize, status, description);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -577,10 +577,10 @@ public class JobApi {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("getJobs", localVarResponse);
         }
-        return new ApiResponse<List<Job>>(
+        return new ApiResponse<PaginatedResponse>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<List<Job>>() {}) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<PaginatedResponse>() {}) // closes the InputStream
         );
       } finally {
       }

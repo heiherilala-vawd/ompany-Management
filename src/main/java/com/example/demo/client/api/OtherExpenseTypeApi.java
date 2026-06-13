@@ -22,6 +22,7 @@ import com.example.demo.client.model.CrupdateOtherExpenseType;
 import com.example.demo.client.model.InternalServerException;
 import com.example.demo.client.model.NotAuthorizedException;
 import com.example.demo.client.model.OtherExpenseType;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.ResourceNotFoundException;
 import com.example.demo.client.model.TooManyRequestsException;
 
@@ -50,7 +51,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T02:10:42.519221747+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T02:20:38.960879300+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class OtherExpenseTypeApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -361,11 +362,11 @@ public class OtherExpenseTypeApi {
    * 
    * @param userId  (required)
    * @param companyId  (required)
-   * @return List&lt;OtherExpenseType&gt;
+   * @return PaginatedResponse
    * @throws ApiException if fails to make API call
    */
-  public List<OtherExpenseType> getOtherExpenseTypes(String userId, String companyId) throws ApiException {
-    ApiResponse<List<OtherExpenseType>> localVarResponse = getOtherExpenseTypesWithHttpInfo(userId, companyId);
+  public PaginatedResponse getOtherExpenseTypes(String userId, String companyId) throws ApiException {
+    ApiResponse<PaginatedResponse> localVarResponse = getOtherExpenseTypesWithHttpInfo(userId, companyId);
     return localVarResponse.getData();
   }
 
@@ -374,10 +375,10 @@ public class OtherExpenseTypeApi {
    * 
    * @param userId  (required)
    * @param companyId  (required)
-   * @return ApiResponse&lt;List&lt;OtherExpenseType&gt;&gt;
+   * @return ApiResponse&lt;PaginatedResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<OtherExpenseType>> getOtherExpenseTypesWithHttpInfo(String userId, String companyId) throws ApiException {
+  public ApiResponse<PaginatedResponse> getOtherExpenseTypesWithHttpInfo(String userId, String companyId) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = getOtherExpenseTypesRequestBuilder(userId, companyId);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -390,10 +391,10 @@ public class OtherExpenseTypeApi {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("getOtherExpenseTypes", localVarResponse);
         }
-        return new ApiResponse<List<OtherExpenseType>>(
+        return new ApiResponse<PaginatedResponse>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<List<OtherExpenseType>>() {}) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<PaginatedResponse>() {}) // closes the InputStream
         );
       } finally {
       }

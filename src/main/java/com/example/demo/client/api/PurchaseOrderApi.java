@@ -21,6 +21,7 @@ import com.example.demo.client.model.BadRequestException;
 import com.example.demo.client.model.CrupdatePurchaseOrder;
 import com.example.demo.client.model.InternalServerException;
 import com.example.demo.client.model.NotAuthorizedException;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.PurchaseOrder;
 import com.example.demo.client.model.ResourceNotFoundException;
 import com.example.demo.client.model.TooManyRequestsException;
@@ -50,7 +51,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T02:10:42.519221747+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T02:20:38.960879300+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class PurchaseOrderApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -362,11 +363,11 @@ public class PurchaseOrderApi {
    * @param userId  (required)
    * @param companyId  (required)
    * @param jobId  (optional)
-   * @return List&lt;PurchaseOrder&gt;
+   * @return PaginatedResponse
    * @throws ApiException if fails to make API call
    */
-  public List<PurchaseOrder> getPurchaseOrders(String userId, String companyId, String jobId) throws ApiException {
-    ApiResponse<List<PurchaseOrder>> localVarResponse = getPurchaseOrdersWithHttpInfo(userId, companyId, jobId);
+  public PaginatedResponse getPurchaseOrders(String userId, String companyId, String jobId) throws ApiException {
+    ApiResponse<PaginatedResponse> localVarResponse = getPurchaseOrdersWithHttpInfo(userId, companyId, jobId);
     return localVarResponse.getData();
   }
 
@@ -376,10 +377,10 @@ public class PurchaseOrderApi {
    * @param userId  (required)
    * @param companyId  (required)
    * @param jobId  (optional)
-   * @return ApiResponse&lt;List&lt;PurchaseOrder&gt;&gt;
+   * @return ApiResponse&lt;PaginatedResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<PurchaseOrder>> getPurchaseOrdersWithHttpInfo(String userId, String companyId, String jobId) throws ApiException {
+  public ApiResponse<PaginatedResponse> getPurchaseOrdersWithHttpInfo(String userId, String companyId, String jobId) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = getPurchaseOrdersRequestBuilder(userId, companyId, jobId);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -392,10 +393,10 @@ public class PurchaseOrderApi {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("getPurchaseOrders", localVarResponse);
         }
-        return new ApiResponse<List<PurchaseOrder>>(
+        return new ApiResponse<PaginatedResponse>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<List<PurchaseOrder>>() {}) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<PaginatedResponse>() {}) // closes the InputStream
         );
       } finally {
       }

@@ -21,8 +21,8 @@ import com.example.demo.client.model.BadRequestException;
 import com.example.demo.client.model.CrupdateMaterialWarehouse;
 import com.example.demo.client.model.InternalServerException;
 import com.example.demo.client.model.MaterialWarehouseInfo;
-import com.example.demo.client.model.MaterialWarehouseView;
 import com.example.demo.client.model.NotAuthorizedException;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.ResourceNotFoundException;
 import com.example.demo.client.model.TooManyRequestsException;
 
@@ -51,7 +51,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T02:10:42.519221747+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T02:20:38.960879300+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class MaterialWarehouseApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -190,11 +190,11 @@ public class MaterialWarehouseApi {
    * @param materialId Filter by material ID (optional)
    * @param warehouseId Filter by warehouse ID (optional)
    * @param notArrived Filter records where quantity &gt; 0 in route or at_seller warehouse (optional)
-   * @return List&lt;MaterialWarehouseView&gt;
+   * @return PaginatedResponse
    * @throws ApiException if fails to make API call
    */
-  public List<MaterialWarehouseView> getMaterialWarehouses(String userId, String companyId, Integer page, Integer pageSize, String materialId, String warehouseId, Boolean notArrived) throws ApiException {
-    ApiResponse<List<MaterialWarehouseView>> localVarResponse = getMaterialWarehousesWithHttpInfo(userId, companyId, page, pageSize, materialId, warehouseId, notArrived);
+  public PaginatedResponse getMaterialWarehouses(String userId, String companyId, Integer page, Integer pageSize, String materialId, String warehouseId, Boolean notArrived) throws ApiException {
+    ApiResponse<PaginatedResponse> localVarResponse = getMaterialWarehousesWithHttpInfo(userId, companyId, page, pageSize, materialId, warehouseId, notArrived);
     return localVarResponse.getData();
   }
 
@@ -208,10 +208,10 @@ public class MaterialWarehouseApi {
    * @param materialId Filter by material ID (optional)
    * @param warehouseId Filter by warehouse ID (optional)
    * @param notArrived Filter records where quantity &gt; 0 in route or at_seller warehouse (optional)
-   * @return ApiResponse&lt;List&lt;MaterialWarehouseView&gt;&gt;
+   * @return ApiResponse&lt;PaginatedResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<MaterialWarehouseView>> getMaterialWarehousesWithHttpInfo(String userId, String companyId, Integer page, Integer pageSize, String materialId, String warehouseId, Boolean notArrived) throws ApiException {
+  public ApiResponse<PaginatedResponse> getMaterialWarehousesWithHttpInfo(String userId, String companyId, Integer page, Integer pageSize, String materialId, String warehouseId, Boolean notArrived) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = getMaterialWarehousesRequestBuilder(userId, companyId, page, pageSize, materialId, warehouseId, notArrived);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -224,10 +224,10 @@ public class MaterialWarehouseApi {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("getMaterialWarehouses", localVarResponse);
         }
-        return new ApiResponse<List<MaterialWarehouseView>>(
+        return new ApiResponse<PaginatedResponse>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<List<MaterialWarehouseView>>() {}) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<PaginatedResponse>() {}) // closes the InputStream
         );
       } finally {
       }

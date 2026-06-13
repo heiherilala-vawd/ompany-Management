@@ -18,6 +18,7 @@ import com.example.demo.client.model.CrupdateEquipment;
 import com.example.demo.client.model.CrupdateMaterial;
 import com.example.demo.client.model.CrupdateWarehouse;
 import com.example.demo.client.model.Equipment;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.ExpenseMoney;
 import com.example.demo.client.model.Material;
 import com.example.demo.client.model.Purchase;
@@ -115,9 +116,9 @@ class PurchaseOperationIT {
     api.createPurchaseOperation(EMPLOYEE_ID, COMPANY1_ID, JOB1_ID, request);
 
     PurchaseApi purchaseApi = new PurchaseApi(anApiClient(ADMIN_TOKEN));
-    List<Purchase> equipmentPurchases =
-        purchaseApi.getPurchases(
-            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, true, null, null, null);
+    PaginatedResponse resp = purchaseApi.getPurchases(
+        ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, true, null, null, null);
+    List<Purchase> equipmentPurchases = extractData(resp, Purchase.class);
 
     assertTrue(
         equipmentPurchases.stream()
@@ -130,9 +131,9 @@ class PurchaseOperationIT {
                         && BigDecimal.valueOf(7000).compareTo(purchase.getExpense().getAmount())
                             == 0));
 
-    List<Purchase> materialPurchases =
-        purchaseApi.getPurchases(
-            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, false, null, null, null);
+    PaginatedResponse resp1 = purchaseApi.getPurchases(
+        ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, false, null, null, null);
+    List<Purchase> materialPurchases = extractData(resp1, Purchase.class);
 
     assertEquals(2, materialPurchases.size());
     assertEquals("purchase_operation_material_purchase_1", materialPurchases.get(1).getId());
@@ -141,28 +142,16 @@ class PurchaseOperationIT {
         0, BigDecimal.valueOf(4800).compareTo(materialPurchases.get(1).getExpense().getAmount()));
 
     ExpenseApi expenseApi = new ExpenseApi(anApiClient(ADMIN_TOKEN));
-    List<ExpenseMoney> travelExpensesAsMoney =
-        expenseApi.getExpenses(
-            ADMIN_ID,
-            COMPANY1_ID,
-            JOB1_ID,
-            1,
-            100,
-            "Travel expense for purchase operation",
-            BigDecimal.valueOf(3500));
+    PaginatedResponse resp2 = expenseApi.getExpenses(
+        ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, "Travel expense for purchase operation", BigDecimal.valueOf(3500));
+    List<ExpenseMoney> travelExpensesAsMoney = extractData(resp2, ExpenseMoney.class);
     assertEquals(1, travelExpensesAsMoney.size());
     assertEquals("purchase_operation_travel_expense_1", travelExpensesAsMoney.get(0).getId());
 
     TravelExpenseApi travelExpenseApi = new TravelExpenseApi(anApiClient(ADMIN_TOKEN));
-    List<TravelExpense> createdTravelExpenses =
-        travelExpenseApi.getTravelExpenses(
-            COMPANY1_ID,
-            JOB1_ID,
-            EMPLOYEE_ID,
-            1,
-            100,
-            AT_SELLER_WAREHOUSE_ID,
-            "purchase_operation_arrival_warehouse_1");
+    PaginatedResponse resp3 = travelExpenseApi.getTravelExpenses(
+        COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, AT_SELLER_WAREHOUSE_ID, "purchase_operation_arrival_warehouse_1");
+    List<TravelExpense> createdTravelExpenses = extractData(resp3, TravelExpense.class);
     assertTrue(
         createdTravelExpenses.stream()
             .anyMatch(
@@ -173,40 +162,16 @@ class PurchaseOperationIT {
     String createdTravelId = "purchase_operation_travel_1";
 
     TravelEquipmentApi travelEquipmentApi = new TravelEquipmentApi(anApiClient(ADMIN_TOKEN));
-    List<TravelEquipment> createdTravelEquipment =
-        travelEquipmentApi.getTravelEquipment(
-            COMPANY1_ID,
-            JOB1_ID,
-            EMPLOYEE_ID,
-            1,
-            100,
-            createdTravelId,
-            "purchase_operation_equipment_1",
-            1,
-            TransportStatus.IN_PROGRESS,
-            null,
-            null,
-            null,
-            null);
+    PaginatedResponse resp4 = travelEquipmentApi.getTravelEquipment(
+        COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, createdTravelId, "purchase_operation_equipment_1", 1, TransportStatus.IN_PROGRESS, null, null, null, null);
+    List<TravelEquipment> createdTravelEquipment = extractData(resp4, TravelEquipment.class);
     assertEquals(1, createdTravelEquipment.size());
     assertEquals("purchase_operation_travel_equipment_1", createdTravelEquipment.get(0).getId());
 
     TravelMaterialsApi travelMaterialsApi = new TravelMaterialsApi(anApiClient(ADMIN_TOKEN));
-    List<TravelMaterials> createdTravelMaterials =
-        travelMaterialsApi.getTravelMaterials(
-            COMPANY1_ID,
-            JOB1_ID,
-            EMPLOYEE_ID,
-            1,
-            100,
-            createdTravelId,
-            MATERIAL1_ID,
-            4,
-            0,
-            null,
-            null,
-            null,
-            null);
+    PaginatedResponse resp5 = travelMaterialsApi.getTravelMaterials(
+        COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, createdTravelId, MATERIAL1_ID, 4, 0, null, null, null, null);
+    List<TravelMaterials> createdTravelMaterials = extractData(resp5, TravelMaterials.class);
     assertEquals(1, createdTravelMaterials.size());
     assertEquals("purchase_operation_travel_material_1", createdTravelMaterials.get(0).getId());
 
@@ -304,40 +269,16 @@ class PurchaseOperationIT {
     api.createPurchaseOperation(EMPLOYEE_ID, COMPANY1_ID, JOB1_ID, request);
 
     TravelEquipmentApi travelEquipmentApi = new TravelEquipmentApi(anApiClient(ADMIN_TOKEN));
-    List<TravelEquipment> createdTravelEquipment =
-        travelEquipmentApi.getTravelEquipment(
-            COMPANY1_ID,
-            JOB1_ID,
-            EMPLOYEE_ID,
-            1,
-            100,
-            "purchase_operation_travel_2",
-            "purchase_operation_equipment_2",
-            1,
-            null,
-            null,
-            null,
-            null,
-            null);
+    PaginatedResponse resp = travelEquipmentApi.getTravelEquipment(
+        COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, "purchase_operation_travel_2", "purchase_operation_equipment_2", 1, null, null, null, null, null);
+    List<TravelEquipment> createdTravelEquipment = extractData(resp, TravelEquipment.class);
     assertEquals(1, createdTravelEquipment.size());
     assertEquals("purchase_operation_travel_equipment_2", createdTravelEquipment.get(0).getId());
 
     TravelMaterialsApi travelMaterialsApi = new TravelMaterialsApi(anApiClient(ADMIN_TOKEN));
-    List<TravelMaterials> createdTravelMaterials =
-        travelMaterialsApi.getTravelMaterials(
-            COMPANY1_ID,
-            JOB1_ID,
-            EMPLOYEE_ID,
-            1,
-            100,
-            "purchase_operation_travel_2",
-            MATERIAL1_ID,
-            4,
-            null,
-            null,
-            null,
-            null,
-            null);
+    PaginatedResponse resp1 = travelMaterialsApi.getTravelMaterials(
+        COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, "purchase_operation_travel_2", MATERIAL1_ID, 4, null, null, null, null, null);
+    List<TravelMaterials> createdTravelMaterials = extractData(resp1, TravelMaterials.class);
     assertEquals(1, createdTravelMaterials.size());
     assertEquals("purchase_operation_travel_material_2", createdTravelMaterials.get(0).getId());
   }

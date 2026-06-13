@@ -6,7 +6,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.example.demo.SentryConf;
 import com.example.demo.client.api.DepartmentApi;
 import com.example.demo.client.invoker.ApiClient;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.CrupdateDepartment;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.Department;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
@@ -74,7 +76,10 @@ class DepartmentIT {
   void administration_can_get_all_departments() throws Exception {
     DepartmentApi api = new DepartmentApi(anApiClient(ADMINISTRATION_TOKEN));
 
-    List<Department> departments = api.getDepartments(ADMIN_ID, COMPANY1_ID, 1, 100);
+    PaginatedResponse resp = api.getDepartments(ADMIN_ID, COMPANY1_ID, 1, 100);
+
+
+    List<Department> departments = extractData(resp, Department.class);
 
     assertEquals(2, departments.size());
     assertTrue(departments.stream().anyMatch(d -> DEPARTMENT1_ID.equals(d.getId())));
@@ -127,7 +132,10 @@ class DepartmentIT {
 
     api.deleteDepartmentById(ADMIN_ID, COMPANY1_ID, DEPARTMENT1_ID);
 
-    List<Department> departments = api.getDepartments(ADMIN_ID, COMPANY1_ID, 1, 100);
+    PaginatedResponse resp = api.getDepartments(ADMIN_ID, COMPANY1_ID, 1, 100);
+
+
+    List<Department> departments = extractData(resp, Department.class);
     assertEquals(1, departments.size());
     assertEquals(DEPARTMENT2_ID, departments.get(0).getId());
   }

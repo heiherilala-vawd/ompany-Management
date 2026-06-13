@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.example.demo.SentryConf;
 import com.example.demo.client.api.IncomeApi;
 import com.example.demo.client.invoker.ApiClient;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.CrupdateIncomeMoney;
 import com.example.demo.client.model.IncomeMoney;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
@@ -98,8 +99,10 @@ class IncomeIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     IncomeApi api = new IncomeApi(adminClient);
 
-    List<IncomeMoney> incomes =
-        api.getIncomes(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, null, null, null, null);
+    PaginatedResponse resp = api.getIncomes(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, null, null, null, null);
+
+
+    List<IncomeMoney> incomes = extractData(resp, IncomeMoney.class);
 
     assertEquals(7, incomes.size());
     assertTrue(incomes.stream().anyMatch(income -> INCOME1_ID.equals(income.getId())));
@@ -125,9 +128,9 @@ class IncomeIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     IncomeApi api = new IncomeApi(adminClient);
 
-    List<IncomeMoney> incomes =
-        api.getIncomes(
-            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, "org2_id", null, null, null, null, null);
+    PaginatedResponse resp = api.getIncomes(
+        ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, "org2_id", null, null, null, null, null);
+    List<IncomeMoney> incomes = extractData(resp, IncomeMoney.class);
 
     assertEquals(7, incomes.size());
   }
@@ -137,9 +140,9 @@ class IncomeIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     IncomeApi api = new IncomeApi(adminClient);
 
-    List<IncomeMoney> incomes =
-        api.getIncomes(
-            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, "INV-2024-002", null, null, null, null);
+    PaginatedResponse resp = api.getIncomes(
+        ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, "INV-2024-002", null, null, null, null);
+    List<IncomeMoney> incomes = extractData(resp, IncomeMoney.class);
 
     assertEquals(1, incomes.size());
     assertEquals(INCOME2_ID, incomes.get(0).getId());
@@ -150,9 +153,9 @@ class IncomeIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     IncomeApi api = new IncomeApi(adminClient);
 
-    List<IncomeMoney> incomes =
-        api.getIncomes(
-            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, "chantier A", null, null, null);
+    PaginatedResponse resp = api.getIncomes(
+        ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, "chantier A", null, null, null);
+    List<IncomeMoney> incomes = extractData(resp, IncomeMoney.class);
 
     assertEquals(1, incomes.size());
     assertEquals(INCOME1_ID, incomes.get(0).getId());
@@ -163,19 +166,19 @@ class IncomeIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     IncomeApi api = new IncomeApi(adminClient);
 
-    List<IncomeMoney> incomes =
-        api.getIncomes(
-            ADMIN_ID,
-            COMPANY1_ID,
-            JOB1_ID,
-            1,
-            100,
-            null,
-            null,
-            null,
-            BigDecimal.valueOf(275000),
-            null,
-            null);
+    PaginatedResponse resp = api.getIncomes(
+        ADMIN_ID,
+        COMPANY1_ID,
+        JOB1_ID,
+        1,
+        100,
+        null,
+        null,
+        null,
+        BigDecimal.valueOf(275000),
+        null,
+        null);
+    List<IncomeMoney> incomes = extractData(resp, IncomeMoney.class);
 
     assertEquals(1, incomes.size());
     assertEquals(INCOME2_ID, incomes.get(0).getId());
@@ -186,9 +189,9 @@ class IncomeIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     IncomeApi api = new IncomeApi(adminClient);
 
-    List<IncomeMoney> incomes =
-        api.getIncomes(
-            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, null, null, INCOME_TYPE2_ID, null);
+    PaginatedResponse resp = api.getIncomes(
+        ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, null, null, INCOME_TYPE2_ID, null);
+    List<IncomeMoney> incomes = extractData(resp, IncomeMoney.class);
 
     assertEquals(1, incomes.size());
     assertEquals(INCOME3_ID, incomes.get(0).getId());
@@ -199,8 +202,10 @@ class IncomeIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     IncomeApi api = new IncomeApi(adminClient);
 
-    List<IncomeMoney> incomes =
-        api.getIncomes(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, null, null, null, false);
+    PaginatedResponse resp = api.getIncomes(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, null, null, null, false);
+
+
+    List<IncomeMoney> incomes = extractData(resp, IncomeMoney.class);
 
     assertEquals(2, incomes.size());
     assertTrue(incomes.stream().anyMatch(i -> INCOME3_ID.equals(i.getId())));
@@ -212,8 +217,10 @@ class IncomeIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     IncomeApi api = new IncomeApi(adminClient);
 
-    List<IncomeMoney> incomes =
-        api.getIncomes(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, null, null, null, true);
+    PaginatedResponse resp = api.getIncomes(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, null, null, null, true);
+
+
+    List<IncomeMoney> incomes = extractData(resp, IncomeMoney.class);
 
     assertEquals(5, incomes.size());
     assertTrue(incomes.stream().anyMatch(i -> INCOME1_ID.equals(i.getId())));
@@ -325,8 +332,10 @@ class IncomeIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     IncomeApi api = new IncomeApi(adminClient);
 
-    List<IncomeMoney> incomes =
-        api.getIncomes(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, null, null, null, false);
+    PaginatedResponse resp = api.getIncomes(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, null, null, null, false);
+
+
+    List<IncomeMoney> incomes = extractData(resp, IncomeMoney.class);
 
     assertTrue(incomes.stream().anyMatch(i -> INCOME5_ID.equals(i.getId())));
     IncomeMoney income =

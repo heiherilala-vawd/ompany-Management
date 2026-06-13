@@ -7,6 +7,7 @@ import com.example.demo.SentryConf;
 import com.example.demo.client.api.LoanApi;
 import com.example.demo.client.api.LoanRepaymentApi;
 import com.example.demo.client.invoker.ApiClient;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.CrupdateLoan;
 import com.example.demo.client.model.CrupdateLoanRepayment;
 import com.example.demo.client.model.Loan;
@@ -98,7 +99,10 @@ class LoanIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     LoanApi api = new LoanApi(adminClient);
 
-    List<Loan> loans = api.getLoans(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, null);
+    PaginatedResponse resp = api.getLoans(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, null);
+
+
+    List<Loan> loans = extractData(resp, Loan.class);
 
     assertEquals(5, loans.size());
     assertTrue(loans.stream().anyMatch(loan -> LOAN1_ID.equals(loan.getId())));
@@ -122,7 +126,10 @@ class LoanIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     LoanApi api = new LoanApi(adminClient);
 
-    List<Loan> loans = api.getLoans(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, "org1_id");
+    PaginatedResponse resp = api.getLoans(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, "org1_id");
+
+
+    List<Loan> loans = extractData(resp, Loan.class);
 
     assertEquals(5, loans.size());
   }
@@ -132,9 +139,9 @@ class LoanIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     LoanApi api = new LoanApi(adminClient);
 
-    List<Loan> loans =
-        api.getLoans(
-            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, BigDecimal.valueOf(5000000), null);
+    PaginatedResponse resp3 = api.getLoans(
+        ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, BigDecimal.valueOf(5000000), null);
+    List<Loan> loans = extractData(resp3, Loan.class);
 
     assertEquals(1, loans.size());
     assertEquals(LOAN1_ID, loans.get(0).getId());
@@ -225,8 +232,10 @@ class LoanIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     LoanRepaymentApi api = new LoanRepaymentApi(adminClient);
 
-    List<LoanRepayment> repayments =
-        api.getLoanRepayments(ADMIN_ID, COMPANY1_ID, JOB1_ID, LOAN1_ID, 1, 100);
+    PaginatedResponse resp = api.getLoanRepayments(ADMIN_ID, COMPANY1_ID, JOB1_ID, LOAN1_ID, 1, 100);
+
+
+    List<LoanRepayment> repayments = extractData(resp, LoanRepayment.class);
 
     assertEquals(2, repayments.size());
   }
@@ -476,8 +485,10 @@ class LoanIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     LoanApi api = new LoanApi(adminClient);
 
-    List<Loan> loans =
-        api.getLoans(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, "equipement", null, null);
+    PaginatedResponse resp = api.getLoans(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, "equipement", null, null);
+
+
+    List<Loan> loans = extractData(resp, Loan.class);
 
     assertEquals(1, loans.size());
     assertEquals(LOAN2_ID, loans.get(0).getId());
@@ -488,8 +499,10 @@ class LoanIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     LoanApi api = new LoanApi(adminClient);
 
-    List<Loan> loans =
-        api.getLoans(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, "CONSTRUCTION", null, null);
+    PaginatedResponse resp = api.getLoans(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, "CONSTRUCTION", null, null);
+
+
+    List<Loan> loans = extractData(resp, Loan.class);
 
     assertEquals(1, loans.size());
     assertEquals(LOAN1_ID, loans.get(0).getId());
@@ -500,7 +513,10 @@ class LoanIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     LoanApi api = new LoanApi(adminClient);
 
-    List<Loan> loans = api.getLoans(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, "org1_id");
+    PaginatedResponse resp = api.getLoans(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, "org1_id");
+
+
+    List<Loan> loans = extractData(resp, Loan.class);
 
     assertEquals(5, loans.size());
   }
@@ -510,9 +526,9 @@ class LoanIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     LoanApi api = new LoanApi(adminClient);
 
-    List<Loan> loans =
-        api.getLoans(
-            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, BigDecimal.valueOf(999999999), null);
+    PaginatedResponse resp4 = api.getLoans(
+        ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, BigDecimal.valueOf(999999999), null);
+    List<Loan> loans = extractData(resp4, Loan.class);
 
     assertTrue(loans.isEmpty());
   }
@@ -522,9 +538,9 @@ class LoanIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     LoanApi api = new LoanApi(adminClient);
 
-    List<Loan> loans =
-        api.getLoans(
-            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, BigDecimal.valueOf(5000000), "org1_id");
+    PaginatedResponse resp5 = api.getLoans(
+        ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, BigDecimal.valueOf(5000000), "org1_id");
+    List<Loan> loans = extractData(resp5, Loan.class);
 
     assertEquals(1, loans.size());
     assertEquals(LOAN1_ID, loans.get(0).getId());
@@ -537,13 +553,22 @@ class LoanIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     LoanApi api = new LoanApi(adminClient);
 
-    List<Loan> page1 = api.getLoans(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 2, null, null, null);
+    PaginatedResponse resp = api.getLoans(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 2, null, null, null);
+
+
+    List<Loan> page1 = extractData(resp, Loan.class);
     assertEquals(2, page1.size());
 
-    List<Loan> page2 = api.getLoans(ADMIN_ID, COMPANY1_ID, JOB1_ID, 2, 2, null, null, null);
+    PaginatedResponse resp1 = api.getLoans(ADMIN_ID, COMPANY1_ID, JOB1_ID, 2, 2, null, null, null);
+
+
+    List<Loan> page2 = extractData(resp1, Loan.class);
     assertEquals(2, page2.size());
 
-    List<Loan> page3 = api.getLoans(ADMIN_ID, COMPANY1_ID, JOB1_ID, 3, 2, null, null, null);
+    PaginatedResponse resp2 = api.getLoans(ADMIN_ID, COMPANY1_ID, JOB1_ID, 3, 2, null, null, null);
+
+
+    List<Loan> page3 = extractData(resp2, Loan.class);
     assertEquals(1, page3.size());
   }
 
@@ -574,8 +599,10 @@ class LoanIT {
 
     api.deleteLoanRepaymentById(ADMIN_ID, COMPANY1_ID, JOB1_ID, REPAYMENT1_ID, LOAN1_ID);
 
-    List<LoanRepayment> repayments =
-        api.getLoanRepayments(ADMIN_ID, COMPANY1_ID, JOB1_ID, LOAN1_ID, 1, 100);
+    PaginatedResponse resp = api.getLoanRepayments(ADMIN_ID, COMPANY1_ID, JOB1_ID, LOAN1_ID, 1, 100);
+
+
+    List<LoanRepayment> repayments = extractData(resp, LoanRepayment.class);
     assertEquals(1, repayments.size());
   }
 

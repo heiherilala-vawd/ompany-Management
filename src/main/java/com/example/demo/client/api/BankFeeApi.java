@@ -22,6 +22,7 @@ import com.example.demo.client.model.BankFee;
 import com.example.demo.client.model.CrupdateBankFee;
 import com.example.demo.client.model.InternalServerException;
 import com.example.demo.client.model.NotAuthorizedException;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.ResourceNotFoundException;
 import com.example.demo.client.model.TooManyRequestsException;
 
@@ -50,7 +51,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T02:10:42.519221747+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T02:20:38.960879300+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class BankFeeApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -387,11 +388,11 @@ public class BankFeeApi {
    * @param pageSize  (optional)
    * @param bankName Filter bank fees by bank name, case is ignored (optional)
    * @param description Filter bank fees by description, case is ignored (optional)
-   * @return List&lt;BankFee&gt;
+   * @return PaginatedResponse
    * @throws ApiException if fails to make API call
    */
-  public List<BankFee> getBankFees(String userId, String companyId, String jobId, Integer page, Integer pageSize, String bankName, String description) throws ApiException {
-    ApiResponse<List<BankFee>> localVarResponse = getBankFeesWithHttpInfo(userId, companyId, jobId, page, pageSize, bankName, description);
+  public PaginatedResponse getBankFees(String userId, String companyId, String jobId, Integer page, Integer pageSize, String bankName, String description) throws ApiException {
+    ApiResponse<PaginatedResponse> localVarResponse = getBankFeesWithHttpInfo(userId, companyId, jobId, page, pageSize, bankName, description);
     return localVarResponse.getData();
   }
 
@@ -405,10 +406,10 @@ public class BankFeeApi {
    * @param pageSize  (optional)
    * @param bankName Filter bank fees by bank name, case is ignored (optional)
    * @param description Filter bank fees by description, case is ignored (optional)
-   * @return ApiResponse&lt;List&lt;BankFee&gt;&gt;
+   * @return ApiResponse&lt;PaginatedResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<BankFee>> getBankFeesWithHttpInfo(String userId, String companyId, String jobId, Integer page, Integer pageSize, String bankName, String description) throws ApiException {
+  public ApiResponse<PaginatedResponse> getBankFeesWithHttpInfo(String userId, String companyId, String jobId, Integer page, Integer pageSize, String bankName, String description) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = getBankFeesRequestBuilder(userId, companyId, jobId, page, pageSize, bankName, description);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -421,10 +422,10 @@ public class BankFeeApi {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("getBankFees", localVarResponse);
         }
-        return new ApiResponse<List<BankFee>>(
+        return new ApiResponse<PaginatedResponse>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<List<BankFee>>() {}) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<PaginatedResponse>() {}) // closes the InputStream
         );
       } finally {
       }
