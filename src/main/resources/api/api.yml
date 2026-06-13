@@ -477,6 +477,27 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
+  /auth/password:
+    put:
+      tags:
+        - Auth
+      summary: Change the authenticated user's password
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PasswordChangeRequest'
+      responses:
+        '200':
+          description: Password changed successfully
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+
   '/users/{userId}/companies/{companyId}/users/{id}':
     get:
       tags:
@@ -12430,7 +12451,6 @@ components:
         - last_name
         - email
         - password
-        - role
         - sex
       allOf:
         - $ref: '#/components/schemas/comment'
@@ -14458,6 +14478,23 @@ components:
           minLength: 1
           maxLength: 255
           example: "securePassword123"
+
+    PasswordChangeRequest:
+      type: object
+      required:
+        - old_password
+        - new_password
+      properties:
+        old_password:
+          type: string
+          minLength: 1
+          maxLength: 255
+          example: "oldPassword123"
+        new_password:
+          type: string
+          minLength: 8
+          maxLength: 128
+          example: "newSecurePassword123"
 
     # =========================
     # EXCEPTIONS

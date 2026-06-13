@@ -6,12 +6,15 @@ import static com.example.demo.repository.specification.SpecificationUtils.equal
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.Company;
 import com.example.demo.model.PageFromOne;
+import com.example.demo.model.User;
 import com.example.demo.model.criteria.CompanyCriteria;
 import com.example.demo.repository.CompanyRepository;
+import com.example.demo.repository.UserRepository;
 import com.example.demo.service.utils.ModificationUtils;
 import com.example.demo.service.utils.PageUtils;
 import com.example.demo.validator.CoreValidator;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +32,7 @@ public class CompanyService {
   private final CompanyRepository companyRepository;
   private final ModificationUtils modificationUtils;
   private final CoreValidator coreValidator;
+  private final UserRepository userRepository;
 
   public Optional<Company> findById(String id) {
     return companyRepository.findById(id);
@@ -43,16 +47,26 @@ public class CompanyService {
   @Transactional
   public List<Company> createOrUpdateAll(List<Company> companies) {
     coreValidator.validateCompanies(companies);
+    User currentUser = modificationUtils.takePrimaryUser();
     List<Company> processedCompanies = new ArrayList<>();
     for (Company company : companies) {
 
       Company existingCompany =
           company.getId() == null ? null : companyRepository.findById(company.getId()).orElse(null);
-      modificationUtils.createOrUpdateModel(
-          company, existingCompany, company.getId(), modificationUtils.takePrimaryUser());
-      processedCompanies.add(company);
+      boolean isNew = existingCompany == null;
+      modificationUtils.createOrUpdateModel(company, existingCompany, company.getId(), currentUser);
+      Company saved = companyRepository.save(company);
+      processedCompanies.add(saved);
+
+      if (isNew) {
+        if (currentUser.getCompanies() == null) {
+          currentUser.setCompanies(new HashSet<>());
+        }
+        currentUser.getCompanies().add(saved);
+        userRepository.save(currentUser);
+      }
     }
-    return companyRepository.saveAll(processedCompanies);
+    return processedCompanies;
   }
 
   @Transactional
