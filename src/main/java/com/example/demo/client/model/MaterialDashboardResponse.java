@@ -43,7 +43,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   MaterialDashboardResponse.JSON_PROPERTY_CONSUMPTION_BY_MATERIAL,
   MaterialDashboardResponse.JSON_PROPERTY_EXPIRING_MATERIALS
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-12T16:41:28.255481140+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-13T15:31:50.464721436+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class MaterialDashboardResponse {
   public static final String JSON_PROPERTY_STOCK_VALUE_TOTAL = "stock_value_total";
   private BigDecimal stockValueTotal;

@@ -13,23 +13,30 @@ import com.example.demo.repository.UserRepository;
 import com.example.demo.service.utils.ModificationUtils;
 import com.example.demo.service.utils.PageUtils;
 import com.example.demo.validator.CoreValidator;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
 public class UserService {
+  private static final String DEFAULT_PASSWORD = "0000";
+
   private final UserRepository repository;
   private final ModificationUtils modificationUtils;
   private final CoreValidator coreValidator;
+  private final PasswordEncoder passwordEncoder;
 
   public List<User> updateExistingUsers(List<User> users) {
     coreValidator.validateUsers(users);
+    User currentUser = modificationUtils.takePrimaryUser();
+    com.example.demo.model.User.Role currentRole = currentUser.getRole();
 
     List<User> usersToSave = new ArrayList<>();
 
@@ -37,13 +44,27 @@ public class UserService {
 
       User existingUser = repository.findByEmail(user.getEmail()).orElse(null);
       if (existingUser != null) {
+        // Preserve existing password — ignore any password in payload
         user.setPassword(existingUser.getPassword());
         user.setId(existingUser.getId());
       } else {
-        throw new ForbiddenException("That endpoint can not create.");
+        // New user: default password, ignore any password in payload
+        user.setPassword(passwordEncoder.encode(DEFAULT_PASSWORD));
+        user.setCreatedAt(Instant.now());
+        user.setCreatedBy(currentUser);
       }
-      modificationUtils.createOrUpdateModel(
-          user, existingUser, user.getId(), modificationUtils.takePrimaryUser());
+
+      if (existingUser != null
+          && user.getRole() != existingUser.getRole()
+          && !currentRole.canAssign(user.getRole())) {
+        throw new ForbiddenException(
+            "You cannot assign role "
+                + user.getRole()
+                + " which is higher than your own role "
+                + currentRole);
+      }
+
+      modificationUtils.createOrUpdateModel(user, existingUser, user.getId(), currentUser);
       usersToSave.add(user);
     }
     return repository.saveAll(usersToSave);
