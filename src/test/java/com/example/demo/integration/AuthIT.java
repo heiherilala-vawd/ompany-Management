@@ -9,11 +9,20 @@ import com.example.demo.client.invoker.ApiClient;
 import com.example.demo.client.model.AuthResponse;
 import com.example.demo.client.model.CrupdateUser;
 import com.example.demo.client.model.LoginRequest;
+import com.example.demo.client.model.Role;
+import com.example.demo.client.model.Sex;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
 import com.example.demo.integration.conf.TestDataSqlLoader;
 import com.example.demo.integration.conf.TestUtils;
 import jakarta.transaction.Transactional;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.sql.Connection;
+import java.sql.Statement;
+import java.util.UUID;
 import javax.sql.DataSource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,6 +30,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
@@ -141,6 +151,58 @@ class AuthIT {
 
     assertNotNull(response.getToken());
     assertEquals(newUser.getEmail(), response.getEmail());
+  }
+
+  @Test
+  @DirtiesContext
+  void first_registered_user_becomes_admin() throws Exception {
+    try (Connection conn = dataSource.getConnection();
+        Statement stmt = conn.createStatement()) {
+      stmt.execute("TRUNCATE TABLE users CASCADE");
+    }
+
+    AuthApi api = new AuthApi(anApiClient());
+
+    // First user → ADMIN
+    CrupdateUser firstUser = someCreatableUser();
+    AuthResponse response = api.authRegisterPost(firstUser);
+    assertEquals("ADMIN", response.getRole());
+
+    // Second user → EMPLOYEE (role in payload should be ignored)
+    CrupdateUser secondUser = new CrupdateUser();
+    secondUser.setId(UUID.randomUUID().toString());
+    secondUser.setFirstName("Second");
+    secondUser.setLastName("User");
+    secondUser.setEmail(USER1_EMAIL);
+    secondUser.setPassword(PASSWORD);
+    secondUser.setSex(Sex.M);
+    secondUser.setRole(Role.ADMIN);
+
+    AuthResponse response2 = api.authRegisterPost(secondUser);
+    assertEquals("EMPLOYEE", response2.getRole());
+  }
+
+  @Test
+  @DirtiesContext
+  void user_can_change_password() throws Exception {
+    AuthApi api = new AuthApi(anApiClient());
+
+    CrupdateUser newUser = someCreatableUser();
+    AuthResponse regResponse = api.authRegisterPost(newUser);
+    String userToken = regResponse.getToken();
+    int port = ContextInitializer.SERVER_PORT;
+
+    String body = "{\"old_password\":\"" + PASSWORD + "\",\"new_password\":\"newPass1234\"}";
+    HttpRequest request =
+        HttpRequest.newBuilder()
+            .uri(URI.create("http://localhost:" + port + "/auth/password"))
+            .header("Authorization", "Bearer " + userToken)
+            .header("Content-Type", "application/json")
+            .method("PUT", HttpRequest.BodyPublishers.ofString(body))
+            .build();
+    HttpResponse<String> response =
+        HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+    assertEquals(200, response.statusCode(), "Response body: " + response.body());
   }
 
   static class ContextInitializer extends AbstractContextInitializer {

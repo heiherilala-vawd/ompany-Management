@@ -4,6 +4,7 @@ import com.example.demo.client.model.AuthResponse;
 import com.example.demo.client.model.CrupdateUser;
 import com.example.demo.client.model.LoginRequest;
 import com.example.demo.endpoint.rest.mapper.UserMapper;
+import com.example.demo.endpoint.rest.security.dto.PasswordChangeRequest;
 import com.example.demo.endpoint.rest.security.service.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -45,5 +46,10 @@ public class AuthController {
       token = authHeader.substring(7);
     }
     return authService.whoami(token);
+  }
+
+  @PutMapping("/password")
+  public void changePassword(@Valid @RequestBody PasswordChangeRequest request) {
+    authService.changePassword(request.getOldPassword(), request.getNewPassword());
   }
 }

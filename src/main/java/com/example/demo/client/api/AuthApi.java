@@ -23,6 +23,7 @@ import com.example.demo.client.model.CrupdateUser;
 import com.example.demo.client.model.InternalServerException;
 import com.example.demo.client.model.LoginRequest;
 import com.example.demo.client.model.NotAuthorizedException;
+import com.example.demo.client.model.PasswordChangeRequest;
 import com.example.demo.client.model.ResourceNotFoundException;
 import com.example.demo.client.model.TooManyRequestsException;
 
@@ -51,7 +52,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-12T16:41:28.255481140+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-13T15:31:50.464721436+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class AuthApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -154,6 +155,87 @@ public class AuthApi {
     try {
       byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(loginRequest);
       localVarRequestBuilder.method("POST", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
+    }
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
+    }
+    return localVarRequestBuilder;
+  }
+
+  /**
+   * Change the authenticated user&#39;s password
+   * 
+   * @param passwordChangeRequest  (required)
+   * @throws ApiException if fails to make API call
+   */
+  public void authPasswordPut(PasswordChangeRequest passwordChangeRequest) throws ApiException {
+    authPasswordPutWithHttpInfo(passwordChangeRequest);
+  }
+
+  /**
+   * Change the authenticated user&#39;s password
+   * 
+   * @param passwordChangeRequest  (required)
+   * @return ApiResponse&lt;Void&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<Void> authPasswordPutWithHttpInfo(PasswordChangeRequest passwordChangeRequest) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = authPasswordPutRequestBuilder(passwordChangeRequest);
+    try {
+      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("authPasswordPut", localVarResponse);
+        }
+        return new ApiResponse<Void>(
+          localVarResponse.statusCode(),
+          localVarResponse.headers().map(),
+          null
+        );
+      } finally {
+        // Drain the InputStream
+        while (localVarResponse.body().read() != -1) {
+            // Ignore
+        }
+        localVarResponse.body().close();
+      }
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new ApiException(e);
+    }
+  }
+
+  private HttpRequest.Builder authPasswordPutRequestBuilder(PasswordChangeRequest passwordChangeRequest) throws ApiException {
+    // verify the required parameter 'passwordChangeRequest' is set
+    if (passwordChangeRequest == null) {
+      throw new ApiException(400, "Missing the required parameter 'passwordChangeRequest' when calling authPasswordPut");
+    }
+
+    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
+
+    String localVarPath = "/auth/password";
+
+    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+
+    localVarRequestBuilder.header("Content-Type", "application/json");
+    localVarRequestBuilder.header("Accept", "application/json");
+
+    try {
+      byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(passwordChangeRequest);
+      localVarRequestBuilder.method("PUT", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
     } catch (IOException e) {
       throw new ApiException(e);
     }

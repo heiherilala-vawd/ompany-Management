@@ -10,6 +10,7 @@ import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.HistoryService;
 import com.example.demo.service.UserService;
+import com.example.demo.service.utils.ModificationUtils;
 import java.time.Instant;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +30,7 @@ public class AuthService {
   private final PasswordEncoder passwordEncoder;
   private final UserService userService;
   private final HistoryService historyService;
+  private final ModificationUtils modificationUtils;
 
   public AuthResponse authenticateUser(LoginRequest loginRequest) {
 
@@ -65,6 +67,13 @@ public class AuthService {
     if (userRepository.findByEmail(user.getEmail()).isPresent()) {
       throw new BadRequestException("Email is already in user");
     }
+    boolean isFirstUser = userRepository.count() == 0;
+    if (isFirstUser) {
+      user.setRole(User.Role.ADMIN);
+    } else {
+      user.setRole(User.Role.EMPLOYEE);
+    }
+
     user.setCreatedAt(Instant.now());
     user.setCreatedBy(user);
     user.setUpdatedAt(Instant.now());
@@ -91,6 +100,17 @@ public class AuthService {
     }
 
     return authResponse;
+  }
+
+  public void changePassword(String oldPassword, String newPassword) {
+    User currentUser = modificationUtils.takePrimaryUser();
+    if (!passwordEncoder.matches(oldPassword, currentUser.getPassword())) {
+      throw new BadRequestException("Old password is incorrect");
+    }
+    currentUser.setPassword(passwordEncoder.encode(newPassword));
+    currentUser.setUpdatedAt(Instant.now());
+    currentUser.setUpdatedBy(currentUser);
+    userRepository.save(currentUser);
   }
 
   public AuthResponse whoami(String token) {

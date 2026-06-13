@@ -50,7 +50,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   CrupdateUser.JSON_PROPERTY_DEPARTMENT_ID,
   CrupdateUser.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-12T16:41:28.255481140+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-13T15:31:50.464721436+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdateUser {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -125,9 +125,9 @@ public class CrupdateUser {
    * Get role
    * @return role
   **/
-  @jakarta.annotation.Nonnull
+  @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ROLE)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Role getRole() {
     return role;
@@ -135,7 +135,7 @@ public class CrupdateUser {
 
 
   @JsonProperty(JSON_PROPERTY_ROLE)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setRole(Role role) {
     this.role = role;
   }
