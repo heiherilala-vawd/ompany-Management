@@ -20,11 +20,10 @@ public class UserController {
   private final UserService userService;
   private final UserMapper userMapper;
 
-  @PutMapping("/users/{userId}/companies/{companyId}/users")
+  @PutMapping("/users")
   @PreAuthorize("hasAnyRole(\"ADMIN\", \"ADMINISTRATION\")\n")
   public List<User> crupdateUsers(
-      @PathVariable String userId,
-      @PathVariable String companyId,
+      @RequestParam(name = "company_id") String companyId,
       @Valid @RequestBody List<CrupdateUser> toWrite) {
     List<com.example.demo.model.User> saved =
         userService.updateExistingUsers(
@@ -32,20 +31,18 @@ public class UserController {
     return saved.stream().map(userMapper::toRestUser).toList();
   }
 
-  @GetMapping("/users/{userId}/companies/{companyId}/users/{id}")
+  @GetMapping("/users/{id}")
   @PreAuthorize("hasAnyRole('ADMIN') or #id == authentication.principal.id")
-  public User getUserById(
-      @PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
+  public User getUserById(@PathVariable String id) {
     return userMapper.toRestUser(userService.getById(id));
   }
 
-  @GetMapping("/users/{userId}/companies/{companyId}/users")
+  @GetMapping("/users")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public List<User> getUsers(
-      @PathVariable String userId,
-      @PathVariable String companyId,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
+      @RequestParam(name = "company_id", required = false) String companyId,
       @RequestParam(name = "first_name", required = false, defaultValue = "") String firstName,
       @RequestParam(name = "last_name", required = false, defaultValue = "") String lastName,
       @RequestParam(name = "email", required = false, defaultValue = "") String email,
@@ -64,10 +61,9 @@ public class UserController {
         .collect(Collectors.toList());
   }
 
-  @DeleteMapping("/users/{userId}/companies/{companyId}/users/{id}")
+  @DeleteMapping("/users/{id}")
   @PreAuthorize("hasAnyRole('ADMIN')")
-  public void deleteUserById(
-      @PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
+  public void deleteUserById(@PathVariable String id) {
     userService.deleteById(id);
   }
 }

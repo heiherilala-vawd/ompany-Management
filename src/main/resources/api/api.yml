@@ -498,27 +498,13 @@ paths:
         '403':
           $ref: '#/components/responses/403'
 
-  '/users/{userId}/companies/{companyId}/users/{id}':
+  '/users/{id}':
     get:
       tags:
         - Users
       summary: Get user by identifier
       operationId: getUserById
       parameters:
-
-        - name: userId
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "user_123456"
-
-        - name: companyId
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "comp_001"
         - name: id
           in: path
           required: true
@@ -572,20 +558,6 @@ paths:
       summary: Delete a user by identifier
       operationId: deleteUserById
       parameters:
-
-        - name: userId
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "user_123456"
-
-        - name: companyId
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "comp_001"
         - name: id
           in: path
           required: true
@@ -606,57 +578,56 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  '/users/{userId}/companies/{companyId}/users':
+  /users:
     get:
       tags:
         - Users
       summary: Get all users
       operationId: getUsers
       parameters:
-
-        - name: userId
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "user_123456"
-
-        - name: companyId
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "comp_001"
         - name: page
           in: query
+          required: false
           schema:
             $ref: '#/components/schemas/Page'
           example: 1
         - name: page_size
           in: query
+          required: false
           schema:
             $ref: '#/components/schemas/PageSize'
           example: 20
+        - name: company_id
+          in: query
+          required: false
+          description: "Filter users by company ID"
+          schema:
+            type: string
+          example: "comp_001"
         - name: first_name
           in: query
+          required: false
           description: "Filter users by first name, case is ignored"
           schema:
             type: string
           example: "Jean"
         - name: last_name
           in: query
+          required: false
           description: "Filter users by last name, case is ignored"
           schema:
             type: string
           example: "Dupont"
         - name: email
           in: query
+          required: false
           description: "Filter users by email, case is ignored"
           schema:
             type: string
           example: "jean.dupont@example.com"
         - name: role
           in: query
+          required: false
           description: "Filter users by role"
           schema:
             $ref: '#/components/schemas/Role'
@@ -734,16 +705,8 @@ paths:
       description: Update users when `id` are provided, create them otherwise.
       operationId: crupdateUsers
       parameters:
-
-        - name: userId
-          in: path
-          required: true
-          schema:
-            type: string
-          example: "user_123456"
-
-        - name: companyId
-          in: path
+        - name: company_id
+          in: query
           required: true
           schema:
             type: string
