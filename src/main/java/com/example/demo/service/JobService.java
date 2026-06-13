@@ -6,7 +6,10 @@ import static com.example.demo.repository.specification.SpecificationUtils.equal
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.Job;
 import com.example.demo.model.PageFromOne;
+import com.example.demo.model.User;
 import com.example.demo.model.criteria.JobCriteria;
+import com.example.demo.model.exception.ForbiddenException;
+import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.repository.JobRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.utils.ModificationUtils;
@@ -65,11 +68,12 @@ public class JobService {
     Job job =
         jobRepository
             .findById(jobId)
-            .orElseThrow(() -> new IllegalArgumentException("Job not found: " + jobId));
-    com.example.demo.model.User user =
+            .orElseThrow(() -> new NotFoundException("Job not found: " + jobId));
+    validateWarehouseWorkerAccess(job);
+    User user =
         userRepository
             .findById(userId)
-            .orElseThrow(() -> new IllegalArgumentException("User not found: " + userId));
+            .orElseThrow(() -> new NotFoundException("User not found: " + userId));
 
     job.getResponsibleUsers().add(user);
     jobRepository.save(job);
@@ -80,19 +84,33 @@ public class JobService {
     Job job =
         jobRepository
             .findById(jobId)
-            .orElseThrow(() -> new IllegalArgumentException("Job not found: " + jobId));
+            .orElseThrow(() -> new NotFoundException("Job not found: " + jobId));
+    validateWarehouseWorkerAccess(job);
 
     job.getResponsibleUsers().removeIf(user -> user.getId().equals(userId));
     jobRepository.save(job);
   }
 
-  public List<com.example.demo.model.User> getJobResponsibleUsers(String jobId) {
+  public List<User> getJobResponsibleUsers(String jobId) {
     Job job =
         jobRepository
             .findById(jobId)
-            .orElseThrow(() -> new IllegalArgumentException("Job not found: " + jobId));
+            .orElseThrow(() -> new NotFoundException("Job not found: " + jobId));
+    validateWarehouseWorkerAccess(job);
 
     return new ArrayList<>(job.getResponsibleUsers());
+  }
+
+  private void validateWarehouseWorkerAccess(Job job) {
+    User actingUser = modificationUtils.takePrimaryUser();
+    if (actingUser.getRole() == User.Role.WAREHOUSE_WORKER) {
+      boolean isAssigned =
+          job.getResponsibleUsers().stream()
+              .anyMatch(u -> u.getId().equals(actingUser.getId()));
+      if (!isAssigned) {
+        throw new ForbiddenException("Warehouse worker is not assigned to this job");
+      }
+    }
   }
 
   private Specification<Job> toSpecification(JobCriteria criteria) {
