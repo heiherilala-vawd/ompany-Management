@@ -25,21 +25,21 @@ public class InternalToRestExceptionHandler {
   @ExceptionHandler(value = {BadRequestException.class})
   ResponseEntity<com.example.demo.client.model.ModelApiException> handleBadRequest(
       BadRequestException e) {
-    log.info("Bad request", e);
+    log.warn("Bad request", e);
     return new ResponseEntity<>(toRest(e, HttpStatus.BAD_REQUEST), HttpStatus.BAD_REQUEST);
   }
 
   @ExceptionHandler(value = {MissingServletRequestParameterException.class})
   ResponseEntity<com.example.demo.client.model.ModelApiException> handleBadRequest(
       MissingServletRequestParameterException e) {
-    log.info("Missing parameter", e);
+    log.warn("Missing parameter", e);
     return handleBadRequest(new BadRequestException(e.getMessage()));
   }
 
   @ExceptionHandler(value = {MethodArgumentTypeMismatchException.class})
   ResponseEntity<com.example.demo.client.model.ModelApiException> handleConversionFailed(
       MethodArgumentTypeMismatchException e) {
-    log.info("Conversion failed", e);
+    log.warn("Conversion failed", e);
     String message = e.getCause().getCause().getMessage();
     return handleBadRequest(new BadRequestException(message));
   }
@@ -47,7 +47,7 @@ public class InternalToRestExceptionHandler {
   @ExceptionHandler(value = {MethodArgumentNotValidException.class})
   ResponseEntity<com.example.demo.client.model.ModelApiException> handleValidationError(
       MethodArgumentNotValidException e) {
-    log.info("Validation failed", e);
+    log.warn("Validation failed", e);
     String message =
         e.getBindingResult().getFieldErrors().stream()
             .map(f -> f.getField() + ": " + f.getDefaultMessage())
@@ -58,7 +58,7 @@ public class InternalToRestExceptionHandler {
   @ExceptionHandler(value = {ConstraintViolationException.class})
   ResponseEntity<com.example.demo.client.model.ModelApiException> handleConstraintViolation(
       ConstraintViolationException e) {
-    log.info("Constraint violation", e);
+    log.warn("Constraint violation", e);
     String message =
         e.getConstraintViolations().stream()
             .map(v -> v.getPropertyPath() + ": " + v.getMessage())
@@ -69,7 +69,7 @@ public class InternalToRestExceptionHandler {
   @ExceptionHandler(value = {TooManyRequestsException.class})
   ResponseEntity<com.example.demo.client.model.ModelApiException> handleTooManyRequests(
       TooManyRequestsException e) {
-    log.info("Too many requests", e);
+    log.warn("Too many requests", e);
     return new ResponseEntity<>(
         toRest(e, HttpStatus.TOO_MANY_REQUESTS), HttpStatus.TOO_MANY_REQUESTS);
   }
@@ -98,7 +98,7 @@ public class InternalToRestExceptionHandler {
      * Hence do _not_ HttpsStatus.UNAUTHORIZED because, counter-intuitively,
      * it's just for authentication.
      * https://stackoverflow.com/questions/3297048/403-forbidden-vs-401-unauthorized-http-responses */
-    log.info("Forbidden", e);
+    log.warn("Forbidden", e);
     var restException = new com.example.demo.client.model.ModelApiException();
     restException.setType(HttpStatus.FORBIDDEN.toString());
     restException.setMessage(e.getMessage());
@@ -108,7 +108,7 @@ public class InternalToRestExceptionHandler {
   @ExceptionHandler(value = {NotFoundException.class})
   ResponseEntity<com.example.demo.client.model.ModelApiException> handleNotFound(
       NotFoundException e) {
-    log.info("Not found", e);
+    log.debug("Not found", e);
     return new ResponseEntity<>(toRest(e, HttpStatus.NOT_FOUND), HttpStatus.NOT_FOUND);
   }
 

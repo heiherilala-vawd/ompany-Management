@@ -36,6 +36,9 @@ out/
 ### VS Code ###
 .vscode/
 
+# Application logs
+logs/
+
 # Stakpak session files
 .stakpak/session*
 .env
