@@ -2,6 +2,7 @@ package com.example.demo.endpoint.rest.controller.movement;
 
 import com.example.demo.client.model.CrupdateTravelPeople;
 import com.example.demo.client.model.TravelPeople;
+import com.example.demo.endpoint.rest.PaginatedResponse;
 import com.example.demo.endpoint.rest.mapper.movement.TravelPeopleMapper;
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
@@ -36,7 +37,7 @@ public class TravelPeopleController {
 
   @GetMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/travel_people")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER') or #userId == authentication.principal.id")
-  public List<TravelPeople> getTravelPeople(
+  public PaginatedResponse getTravelPeople(
       @PathVariable String userId,
       @PathVariable String companyId,
       @PathVariable String jobId,
@@ -56,9 +57,10 @@ public class TravelPeopleController {
     criteria.setArrivalDateMax(arrivalDateMax);
     criteria.setNotArrived(notArrived);
 
-    return travelPeopleService.findAll(page, pageSize, criteria).stream()
-        .map(travelPeopleMapper::toRestTravelPeople)
-        .toList();
+    var result = travelPeopleService.findAll(page, pageSize, criteria);
+    return new PaginatedResponse(
+        result.stream().map(travelPeopleMapper::toRestTravelPeople).toList(),
+        (int) result.getTotalElements());
   }
 
   @PutMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/travel_people")

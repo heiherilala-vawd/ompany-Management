@@ -2,6 +2,7 @@ package com.example.demo.endpoint.rest.controller.core;
 
 import com.example.demo.client.model.CrupdateTeam;
 import com.example.demo.client.model.Team;
+import com.example.demo.endpoint.rest.PaginatedResponse;
 import com.example.demo.endpoint.rest.mapper.core.TeamMapper;
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
@@ -32,12 +33,14 @@ public class TeamController {
 
   @GetMapping("/users/{userId}/companies/{companyId}/teams")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
-  public List<Team> getTeams(
+  public PaginatedResponse getTeams(
       @PathVariable String userId,
       @PathVariable String companyId,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize) {
-    return teamMapper.toRestTeams(teamService.findAll(page, pageSize).getContent());
+    var result = teamService.findAll(page, pageSize);
+    return new PaginatedResponse(
+        teamMapper.toRestTeams(result.getContent()), (int) result.getTotalElements());
   }
 
   @PutMapping("/users/{userId}/companies/{companyId}/teams")

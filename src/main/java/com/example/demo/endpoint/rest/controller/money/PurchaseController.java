@@ -2,6 +2,7 @@ package com.example.demo.endpoint.rest.controller.money;
 
 import com.example.demo.client.model.CrupdatePurchase;
 import com.example.demo.client.model.Purchase;
+import com.example.demo.endpoint.rest.PaginatedResponse;
 import com.example.demo.endpoint.rest.mapper.money.PurchaseMapper;
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
@@ -38,7 +39,7 @@ public class PurchaseController {
 
   @GetMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/purchases")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
-  public List<Purchase> getPurchases(
+  public PaginatedResponse getPurchases(
       @PathVariable String userId,
       @PathVariable String companyId,
       @PathVariable String jobId,
@@ -62,9 +63,10 @@ public class PurchaseController {
     criteria.setInvoiceDateTo(invoiceDateTo);
     criteria.setPaid(paid);
 
-    return purchaseService.findAll(page, pageSize, criteria).stream()
-        .map(purchaseMapper::toRestPurchase)
-        .toList();
+    var result = purchaseService.findAll(page, pageSize, criteria);
+    return new PaginatedResponse(
+        result.stream().map(purchaseMapper::toRestPurchase).toList(),
+        (int) result.getTotalElements());
   }
 
   @PutMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/purchases")

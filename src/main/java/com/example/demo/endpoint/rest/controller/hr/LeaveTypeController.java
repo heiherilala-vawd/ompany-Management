@@ -2,6 +2,7 @@ package com.example.demo.endpoint.rest.controller.hr;
 
 import com.example.demo.client.model.CrupdateLeaveType;
 import com.example.demo.client.model.LeaveType;
+import com.example.demo.endpoint.rest.PaginatedResponse;
 import com.example.demo.endpoint.rest.mapper.hr.LeaveTypeMapper;
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
@@ -21,14 +22,15 @@ public class LeaveTypeController {
 
   @GetMapping("/users/{userId}/companies/{companyId}/leave_types")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
-  public List<LeaveType> getLeaveTypes(
+  public PaginatedResponse getLeaveTypes(
       @PathVariable String userId,
       @PathVariable String companyId,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize) {
-    return leaveTypeService.findAll(page, pageSize, companyId).stream()
-        .map(leaveTypeMapper::toRestLeaveType)
-        .toList();
+    var result = leaveTypeService.findAll(page, pageSize, companyId);
+    return new PaginatedResponse(
+        result.stream().map(leaveTypeMapper::toRestLeaveType).toList(),
+        (int) result.getTotalElements());
   }
 
   @PutMapping("/users/{userId}/companies/{companyId}/leave_types")

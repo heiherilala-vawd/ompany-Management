@@ -3,6 +3,7 @@ package com.example.demo.endpoint.rest.controller.money;
 import com.example.demo.client.model.CrupdateEmployeePayment;
 import com.example.demo.client.model.EmployeePayment;
 import com.example.demo.client.model.PaymentType;
+import com.example.demo.endpoint.rest.PaginatedResponse;
 import com.example.demo.endpoint.rest.mapper.money.EmployeePaymentMapper;
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
@@ -38,7 +39,7 @@ public class EmployeePaymentController {
 
   @GetMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/employee_payments")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER') or #userId == authentication.principal.id")
-  public List<EmployeePayment> getEmployeePayments(
+  public PaginatedResponse getEmployeePayments(
       @PathVariable String userId,
       @PathVariable String companyId,
       @PathVariable String jobId,
@@ -55,9 +56,10 @@ public class EmployeePaymentController {
             ? com.example.demo.model.money.EmployeePayment.PaymentType.valueOf(paymentType.name())
             : null);
 
-    return employeePaymentService.findAll(page, pageSize, criteria).stream()
-        .map(employeePaymentMapper::toRestPayment)
-        .toList();
+    var result = employeePaymentService.findAll(page, pageSize, criteria);
+    return new PaginatedResponse(
+        result.stream().map(employeePaymentMapper::toRestPayment).toList(),
+        (int) result.getTotalElements());
   }
 
   @PutMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/employee_payments")

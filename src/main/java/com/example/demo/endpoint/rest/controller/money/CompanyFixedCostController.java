@@ -2,6 +2,7 @@ package com.example.demo.endpoint.rest.controller.money;
 
 import com.example.demo.client.model.CompanyFixedCost;
 import com.example.demo.client.model.CrupdateCompanyFixedCost;
+import com.example.demo.endpoint.rest.PaginatedResponse;
 import com.example.demo.endpoint.rest.mapper.money.CompanyFixedCostMapper;
 import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.service.money.CompanyFixedCostService;
@@ -36,10 +37,12 @@ public class CompanyFixedCostController {
 
   @GetMapping("/users/{userId}/companies/{companyId}/fixed_costs")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
-  public List<CompanyFixedCost> getCompanyFixedCosts(
+  public PaginatedResponse getCompanyFixedCosts(
       @PathVariable String userId, @PathVariable String companyId) {
-    return companyFixedCostMapper.toRestCompanyFixedCosts(
-        companyFixedCostService.findAllByCompanyId(companyId));
+    var list =
+        companyFixedCostMapper.toRestCompanyFixedCosts(
+            companyFixedCostService.findAllByCompanyId(companyId));
+    return new PaginatedResponse(list, list.size());
   }
 
   @PutMapping("/users/{userId}/companies/{companyId}/fixed_costs")

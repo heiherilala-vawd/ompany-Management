@@ -2,6 +2,7 @@ package com.example.demo.endpoint.rest.controller.movement;
 
 import com.example.demo.client.model.CrupdateWarehouse;
 import com.example.demo.client.model.Warehouse;
+import com.example.demo.endpoint.rest.PaginatedResponse;
 import com.example.demo.endpoint.rest.mapper.movement.WarehouseMapper;
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
@@ -33,7 +34,7 @@ public class WarehouseController {
 
   @GetMapping("/users/{userId}/companies/{companyId}/warehouses")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
-  public List<Warehouse> getWarehouses(
+  public PaginatedResponse getWarehouses(
       @PathVariable String userId,
       @PathVariable String companyId,
       @RequestParam(name = "page", required = false) PageFromOne page,
@@ -46,9 +47,10 @@ public class WarehouseController {
     criteria.setName(name);
     criteria.setDescription(description);
 
-    return warehouseService.findAll(page, pageSize, criteria).stream()
-        .map(warehouseMapper::toRestWarehouse)
-        .toList();
+    var result = warehouseService.findAll(page, pageSize, criteria);
+    return new PaginatedResponse(
+        result.stream().map(warehouseMapper::toRestWarehouse).toList(),
+        (int) result.getTotalElements());
   }
 
   @PutMapping("/users/{userId}/companies/{companyId}/warehouses")

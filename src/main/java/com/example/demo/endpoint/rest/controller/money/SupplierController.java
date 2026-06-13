@@ -2,6 +2,7 @@ package com.example.demo.endpoint.rest.controller.money;
 
 import com.example.demo.client.model.CrupdateSupplier;
 import com.example.demo.client.model.Supplier;
+import com.example.demo.endpoint.rest.PaginatedResponse;
 import com.example.demo.endpoint.rest.mapper.money.SupplierMapper;
 import com.example.demo.service.money.SupplierService;
 import jakarta.validation.Valid;
@@ -24,8 +25,9 @@ public class SupplierController {
 
   @GetMapping("/users/{userId}/companies/{companyId}/suppliers")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
-  public List<Supplier> getSuppliers(@PathVariable String userId, @PathVariable String companyId) {
-    return supplierService.findByCompanyId(companyId).stream().map(supplierMapper::toRest).toList();
+  public PaginatedResponse getSuppliers(@PathVariable String userId, @PathVariable String companyId) {
+    var list = supplierService.findByCompanyId(companyId).stream().map(supplierMapper::toRest).toList();
+    return new PaginatedResponse(list, list.size());
   }
 
   @GetMapping("/users/{userId}/companies/{companyId}/suppliers/{id}")

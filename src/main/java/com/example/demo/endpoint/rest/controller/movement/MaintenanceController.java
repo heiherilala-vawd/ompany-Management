@@ -2,6 +2,7 @@ package com.example.demo.endpoint.rest.controller.movement;
 
 import com.example.demo.client.model.CrupdateMaintenance;
 import com.example.demo.client.model.Maintenance;
+import com.example.demo.endpoint.rest.PaginatedResponse;
 import com.example.demo.endpoint.rest.mapper.movement.MaintenanceMapper;
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
@@ -40,16 +41,17 @@ public class MaintenanceController {
 
   @GetMapping("/users/{userId}/companies/{companyId}/maintenances")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
-  public List<Maintenance> getMaintenances(
+  public PaginatedResponse getMaintenances(
       @PathVariable String userId,
       @PathVariable String companyId,
       @RequestParam(required = false) String equipment_id,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
       @RequestParam(name = "description", required = false) String description) {
-    return maintenanceService.findAll(equipment_id, page, pageSize, description).stream()
-        .map(maintenanceMapper::toRestMaintenance)
-        .toList();
+    var result = maintenanceService.findAll(equipment_id, page, pageSize, description);
+    return new PaginatedResponse(
+        result.stream().map(maintenanceMapper::toRestMaintenance).toList(),
+        (int) result.getTotalElements());
   }
 
   @PutMapping("/users/{userId}/companies/{companyId}/maintenances")

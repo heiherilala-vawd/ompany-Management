@@ -2,6 +2,7 @@ package com.example.demo.endpoint.rest.controller.notification;
 
 import com.example.demo.client.model.CrupdateNotification;
 import com.example.demo.client.model.Notification;
+import com.example.demo.endpoint.rest.PaginatedResponse;
 import com.example.demo.endpoint.rest.mapper.notification.NotificationMapper;
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
@@ -33,7 +34,7 @@ public class NotificationController {
 
   @GetMapping("/users/{userId}/companies/{companyId}/notifications")
   @PreAuthorize("isAuthenticated()")
-  public List<Notification> getNotifications(
+  public PaginatedResponse getNotifications(
       @PathVariable String userId,
       @PathVariable String companyId,
       @RequestParam(name = "page", required = false) PageFromOne page,
@@ -62,7 +63,7 @@ public class NotificationController {
           .get(i)
           .setEffectiveCompleted(notificationService.isEffectiveCompleted(domainNotifs.get(i)));
     }
-    return restNotifs;
+    return new PaginatedResponse(restNotifs, restNotifs.size());
   }
 
   @GetMapping("/users/{userId}/companies/{companyId}/notifications/unread_count")

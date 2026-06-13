@@ -2,6 +2,7 @@ package com.example.demo.endpoint.rest.controller.money;
 
 import com.example.demo.client.model.CrupdateExpenseMoney;
 import com.example.demo.client.model.ExpenseMoney;
+import com.example.demo.endpoint.rest.PaginatedResponse;
 import com.example.demo.endpoint.rest.mapper.money.ExpenseMoneyMapper;
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
@@ -37,7 +38,7 @@ public class ExpenseController {
 
   @GetMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/expenses")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
-  public List<ExpenseMoney> getExpenses(
+  public PaginatedResponse getExpenses(
       @PathVariable String userId,
       @PathVariable String companyId,
       @PathVariable String jobId,
@@ -50,9 +51,10 @@ public class ExpenseController {
     criteria.setAmount(amount);
     criteria.setJobId(jobId);
 
-    return expenseMoneyService.findAll(page, pageSize, criteria).stream()
-        .map(expenseMoneyMapper::toRestExpense)
-        .toList();
+    var result = expenseMoneyService.findAll(page, pageSize, criteria);
+    return new PaginatedResponse(
+        result.stream().map(expenseMoneyMapper::toRestExpense).toList(),
+        (int) result.getTotalElements());
   }
 
   @PutMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/expenses")

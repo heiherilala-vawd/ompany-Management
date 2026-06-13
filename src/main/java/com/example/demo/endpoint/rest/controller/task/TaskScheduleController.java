@@ -2,6 +2,7 @@ package com.example.demo.endpoint.rest.controller.task;
 
 import com.example.demo.client.model.CrupdateTaskSchedule;
 import com.example.demo.client.model.TaskSchedule;
+import com.example.demo.endpoint.rest.PaginatedResponse;
 import com.example.demo.endpoint.rest.mapper.task.TaskScheduleMapper;
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
@@ -22,14 +23,15 @@ public class TaskScheduleController {
 
   @GetMapping("/users/{userId}/companies/{companyId}/task_schedules")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
-  public List<TaskSchedule> getTaskSchedules(
+  public PaginatedResponse getTaskSchedules(
       @PathVariable String userId,
       @PathVariable String companyId,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize) {
-    return taskScheduleService.findAll(page, pageSize, companyId).stream()
-        .map(taskScheduleMapper::toRestTaskSchedule)
-        .toList();
+    var result = taskScheduleService.findAll(page, pageSize, companyId);
+    return new PaginatedResponse(
+        result.stream().map(taskScheduleMapper::toRestTaskSchedule).toList(),
+        (int) result.getTotalElements());
   }
 
   @PutMapping("/users/{userId}/companies/{companyId}/task_schedules")

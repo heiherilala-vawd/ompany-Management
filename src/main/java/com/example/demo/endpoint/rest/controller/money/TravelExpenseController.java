@@ -2,6 +2,7 @@ package com.example.demo.endpoint.rest.controller.money;
 
 import com.example.demo.client.model.CrupdateTravelExpense;
 import com.example.demo.client.model.TravelExpense;
+import com.example.demo.endpoint.rest.PaginatedResponse;
 import com.example.demo.endpoint.rest.mapper.money.TravelExpenseMapper;
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
@@ -37,7 +38,7 @@ public class TravelExpenseController {
 
   @GetMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/travel_expenses")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER') or #userId == authentication.principal.id")
-  public List<TravelExpense> getTravelExpenses(
+  public PaginatedResponse getTravelExpenses(
       @PathVariable String userId,
       @PathVariable String companyId,
       @PathVariable String jobId,
@@ -51,9 +52,10 @@ public class TravelExpenseController {
     criteria.setArrivalLocation(arrivalLocation);
     criteria.setArrivalDate(arrivalDate);
 
-    return travelExpenseService.findAll(page, pageSize, criteria).stream()
-        .map(travelExpenseMapper::toRestTravelExpense)
-        .toList();
+    var result = travelExpenseService.findAll(page, pageSize, criteria);
+    return new PaginatedResponse(
+        result.stream().map(travelExpenseMapper::toRestTravelExpense).toList(),
+        (int) result.getTotalElements());
   }
 
   @PutMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/travel_expenses")

@@ -2,6 +2,7 @@ package com.example.demo.endpoint.rest.controller.money;
 
 import com.example.demo.client.model.CrupdateIncomeType;
 import com.example.demo.client.model.IncomeType;
+import com.example.demo.endpoint.rest.PaginatedResponse;
 import com.example.demo.endpoint.rest.mapper.money.IncomeTypeMapper;
 import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.service.money.IncomeTypeService;
@@ -35,9 +36,10 @@ public class IncomeTypeController {
 
   @GetMapping("/users/{userId}/companies/{companyId}/income_types")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
-  public List<IncomeType> getIncomeTypes(
+  public PaginatedResponse getIncomeTypes(
       @PathVariable String userId, @PathVariable String companyId) {
-    return incomeTypeMapper.toRestIncomeTypes(incomeTypeService.findAllByCompanyId(companyId));
+    var list = incomeTypeMapper.toRestIncomeTypes(incomeTypeService.findAllByCompanyId(companyId));
+    return new PaginatedResponse(list, list.size());
   }
 
   @PutMapping("/users/{userId}/companies/{companyId}/income_types")

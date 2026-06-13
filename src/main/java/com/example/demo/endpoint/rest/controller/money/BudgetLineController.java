@@ -2,6 +2,7 @@ package com.example.demo.endpoint.rest.controller.money;
 
 import com.example.demo.client.model.BudgetLine;
 import com.example.demo.client.model.CrupdateBudgetLine;
+import com.example.demo.endpoint.rest.PaginatedResponse;
 import com.example.demo.endpoint.rest.mapper.money.BudgetLineMapper;
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
@@ -32,13 +33,15 @@ public class BudgetLineController {
 
   @GetMapping("/users/{userId}/companies/{companyId}/budget_lines")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
-  public List<BudgetLine> getBudgetLines(
+  public PaginatedResponse getBudgetLines(
       @PathVariable String userId,
       @PathVariable String companyId,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize) {
-    return budgetLineMapper.toRestBudgetLines(
-        budgetLineService.findAll(page, pageSize).getContent());
+    var result = budgetLineService.findAll(page, pageSize);
+    return new PaginatedResponse(
+        budgetLineMapper.toRestBudgetLines(result.getContent()),
+        (int) result.getTotalElements());
   }
 
   @PutMapping("/users/{userId}/companies/{companyId}/budget_lines")

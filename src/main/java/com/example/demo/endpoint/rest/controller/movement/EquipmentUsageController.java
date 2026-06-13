@@ -2,6 +2,7 @@ package com.example.demo.endpoint.rest.controller.movement;
 
 import com.example.demo.client.model.CrupdateEquipmentUsage;
 import com.example.demo.client.model.EquipmentUsage;
+import com.example.demo.endpoint.rest.PaginatedResponse;
 import com.example.demo.endpoint.rest.mapper.movement.EquipmentUsageMapper;
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
@@ -33,14 +34,16 @@ public class EquipmentUsageController {
 
   @GetMapping("/users/{userId}/companies/{companyId}/equipment_usages")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER', 'EMPLOYEE') or #userId == authentication.principal.id")
-  public List<EquipmentUsage> getEquipmentUsages(
+  public PaginatedResponse getEquipmentUsages(
       @PathVariable String userId,
       @PathVariable String companyId,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
       @RequestParam(name = "job_id", required = false) String jobId) {
-    return equipmentUsageMapper.toRestEquipmentUsages(
-        equipmentUsageService.findAll(page, pageSize, jobId).getContent());
+    var result = equipmentUsageService.findAll(page, pageSize, jobId);
+    return new PaginatedResponse(
+        equipmentUsageMapper.toRestEquipmentUsages(result.getContent()),
+        (int) result.getTotalElements());
   }
 
   @PutMapping("/users/{userId}/companies/{companyId}/equipment_usages")

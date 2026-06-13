@@ -2,6 +2,7 @@ package com.example.demo.endpoint.rest.controller.hr;
 
 import com.example.demo.client.model.CrupdateEmployeeLeaveConfig;
 import com.example.demo.client.model.EmployeeLeaveConfig;
+import com.example.demo.endpoint.rest.PaginatedResponse;
 import com.example.demo.endpoint.rest.mapper.hr.EmployeeLeaveConfigMapper;
 import com.example.demo.model.exception.NotFoundException;
 import jakarta.validation.Valid;
@@ -19,11 +20,13 @@ public class EmployeeLeaveConfigController {
 
   @GetMapping("/users/{userId}/companies/{companyId}/leave_configs")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
-  public List<EmployeeLeaveConfig> getEmployeeLeaveConfigs(
+  public PaginatedResponse getEmployeeLeaveConfigs(
       @PathVariable String userId, @PathVariable String companyId) {
-    return employeeLeaveConfigService.findByCompanyId(companyId).stream()
-        .map(employeeLeaveConfigMapper::toRestEmployeeLeaveConfig)
-        .toList();
+    var list =
+        employeeLeaveConfigService.findByCompanyId(companyId).stream()
+            .map(employeeLeaveConfigMapper::toRestEmployeeLeaveConfig)
+            .toList();
+    return new PaginatedResponse(list, list.size());
   }
 
   @PutMapping("/users/{userId}/companies/{companyId}/leave_configs")

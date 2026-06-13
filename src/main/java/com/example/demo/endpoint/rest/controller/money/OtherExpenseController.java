@@ -2,6 +2,7 @@ package com.example.demo.endpoint.rest.controller.money;
 
 import com.example.demo.client.model.CrupdateOtherExpense;
 import com.example.demo.client.model.OtherExpense;
+import com.example.demo.endpoint.rest.PaginatedResponse;
 import com.example.demo.endpoint.rest.mapper.money.OtherExpenseMapper;
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
@@ -36,7 +37,7 @@ public class OtherExpenseController {
 
   @GetMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/other_expenses")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION') or #userId == authentication.principal.id")
-  public List<OtherExpense> getOtherExpenses(
+  public PaginatedResponse getOtherExpenses(
       @PathVariable String userId,
       @PathVariable String companyId,
       @PathVariable String jobId,
@@ -46,9 +47,10 @@ public class OtherExpenseController {
     OtherExpenseCriteria criteria = new OtherExpenseCriteria();
     criteria.setDescription(description);
 
-    return otherExpenseService.findAll(page, pageSize, criteria).stream()
-        .map(otherExpenseMapper::toRestOtherExpense)
-        .toList();
+    var result = otherExpenseService.findAll(page, pageSize, criteria);
+    return new PaginatedResponse(
+        result.stream().map(otherExpenseMapper::toRestOtherExpense).toList(),
+        (int) result.getTotalElements());
   }
 
   @PutMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/other_expenses")

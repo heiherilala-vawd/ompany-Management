@@ -14,7 +14,6 @@ import com.example.demo.repository.movement.TravelPeopleRepository;
 import com.example.demo.service.utils.ModificationUtils;
 import com.example.demo.service.utils.PageUtils;
 import com.example.demo.validator.MoneyValidator;
-import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Root;
 import jakarta.persistence.criteria.Subquery;
 import java.util.List;
@@ -98,7 +97,8 @@ public class TravelExpenseService {
     if (isRestrictedUser(currentUser)) {
       boolean isRelated =
           travelPeopleRepository.findByTravelId(expense.getId()).stream()
-              .anyMatch(tp -> tp.getUser() != null && tp.getUser().getId().equals(currentUser.getId()));
+              .anyMatch(
+                  tp -> tp.getUser() != null && tp.getUser().getId().equals(currentUser.getId()));
       if (!isRelated) {
         throw new ForbiddenException("Travel expense not associated with the user");
       }
@@ -106,7 +106,6 @@ public class TravelExpenseService {
   }
 
   private boolean isRestrictedUser(User user) {
-    return user.getRole() == User.Role.EMPLOYEE
-        || user.getRole() == User.Role.WAREHOUSE_WORKER;
+    return user.getRole() == User.Role.EMPLOYEE || user.getRole() == User.Role.WAREHOUSE_WORKER;
   }
 }

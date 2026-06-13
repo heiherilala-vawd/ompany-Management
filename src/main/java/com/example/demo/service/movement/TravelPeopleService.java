@@ -78,8 +78,7 @@ public class TravelPeopleService {
   }
 
   private boolean isRestrictedUser(User user) {
-    return user.getRole() == User.Role.EMPLOYEE
-        || user.getRole() == User.Role.WAREHOUSE_WORKER;
+    return user.getRole() == User.Role.EMPLOYEE || user.getRole() == User.Role.WAREHOUSE_WORKER;
   }
 
   private Specification<TravelPeople> toSpecification(TravelPeopleCriteria criteria) {

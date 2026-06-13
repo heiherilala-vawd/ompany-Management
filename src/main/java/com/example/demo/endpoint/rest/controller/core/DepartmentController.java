@@ -2,6 +2,7 @@ package com.example.demo.endpoint.rest.controller.core;
 
 import com.example.demo.client.model.CrupdateDepartment;
 import com.example.demo.client.model.Department;
+import com.example.demo.endpoint.rest.PaginatedResponse;
 import com.example.demo.endpoint.rest.mapper.core.DepartmentMapper;
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
@@ -32,13 +33,15 @@ public class DepartmentController {
 
   @GetMapping("/users/{userId}/companies/{companyId}/departments")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
-  public List<Department> getDepartments(
+  public PaginatedResponse getDepartments(
       @PathVariable String userId,
       @PathVariable String companyId,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize) {
-    return departmentMapper.toRestDepartments(
-        departmentService.findAll(page, pageSize).getContent());
+    var result = departmentService.findAll(page, pageSize);
+    return new PaginatedResponse(
+        departmentMapper.toRestDepartments(result.getContent()),
+        (int) result.getTotalElements());
   }
 
   @PutMapping("/users/{userId}/companies/{companyId}/departments")

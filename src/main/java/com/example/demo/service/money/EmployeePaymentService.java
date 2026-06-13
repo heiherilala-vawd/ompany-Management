@@ -94,8 +94,7 @@ public class EmployeePaymentService {
     if (isRestrictedUser(currentUser)) {
       boolean isRelated =
           payment.getUsers() != null
-              && payment.getUsers().stream()
-                  .anyMatch(u -> u.getId().equals(currentUser.getId()));
+              && payment.getUsers().stream().anyMatch(u -> u.getId().equals(currentUser.getId()));
       if (!isRelated) {
         throw new ForbiddenException("Employee payment not associated with the user");
       }
@@ -109,7 +108,6 @@ public class EmployeePaymentService {
   }
 
   private boolean isRestrictedUser(User user) {
-    return user.getRole() == User.Role.EMPLOYEE
-        || user.getRole() == User.Role.WAREHOUSE_WORKER;
+    return user.getRole() == User.Role.EMPLOYEE || user.getRole() == User.Role.WAREHOUSE_WORKER;
   }
 }

@@ -2,6 +2,7 @@ package com.example.demo.endpoint.rest.controller;
 
 import com.example.demo.client.model.CrupdateUser;
 import com.example.demo.client.model.User;
+import com.example.demo.endpoint.rest.PaginatedResponse;
 import com.example.demo.endpoint.rest.mapper.UserMapper;
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
@@ -39,7 +40,7 @@ public class UserController {
 
   @GetMapping("/users")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
-  public List<User> getUsers(
+  public PaginatedResponse getUsers(
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
       @RequestParam(name = "company_id", required = false) String companyId,
@@ -56,9 +57,11 @@ public class UserController {
     criteria.setRole(role);
     criteria.setWithoutLeaveConfig(withoutLeaveConfig);
 
-    return userService.getUsers(page, pageSize, criteria).stream()
-        .map(userMapper::toRestUser)
-        .collect(Collectors.toList());
+    var list =
+        userService.getUsers(page, pageSize, criteria).stream()
+            .map(userMapper::toRestUser)
+            .collect(Collectors.toList());
+    return new PaginatedResponse(list, list.size());
   }
 
   @DeleteMapping("/users/{id}")

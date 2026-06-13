@@ -2,6 +2,7 @@ package com.example.demo.endpoint.rest.controller.money;
 
 import com.example.demo.client.model.CashTransaction;
 import com.example.demo.client.model.CrupdateCashTransaction;
+import com.example.demo.endpoint.rest.PaginatedResponse;
 import com.example.demo.endpoint.rest.mapper.money.CashTransactionMapper;
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
@@ -36,14 +37,16 @@ public class CashTransactionController {
 
   @GetMapping("/users/{userId}/companies/{companyId}/cash_accounts/{account_id}/transactions")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
-  public List<CashTransaction> getCashTransactions(
+  public PaginatedResponse getCashTransactions(
       @PathVariable String userId,
       @PathVariable String companyId,
       @PathVariable String account_id,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize) {
-    return cashTransactionMapper.toRestCashTransactions(
-        cashTransactionService.findAll(page, pageSize).getContent());
+    var result = cashTransactionService.findAll(page, pageSize);
+    return new PaginatedResponse(
+        cashTransactionMapper.toRestCashTransactions(result.getContent()),
+        (int) result.getTotalElements());
   }
 
   @PutMapping("/users/{userId}/companies/{companyId}/cash_accounts/{account_id}/transactions")
