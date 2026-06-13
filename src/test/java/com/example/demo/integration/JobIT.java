@@ -282,6 +282,88 @@ class JobIT {
         () -> api.assignUserToJob(" ", COMPANY1_ID, JOB1_ID));
   }
 
+  @Test
+  @DirtiesContext
+  void warehouse_can_assign_user_to_job_when_assigned() throws Exception {
+    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
+    JobApi adminApi = new JobApi(adminClient);
+
+    adminApi.assignUserToJob(WAREHOUSE_ID, COMPANY1_ID, JOB1_ID);
+
+    ApiClient warehouseClient = anApiClient(WAREHOUSE_TOKEN);
+    JobApi warehouseApi = new JobApi(warehouseClient);
+
+    warehouseApi.assignUserToJob(USER1_ID, COMPANY1_ID, JOB1_ID);
+
+    List<User> users = adminApi.getJobResponsibleUsers(ADMIN_ID, COMPANY1_ID, JOB1_ID);
+    assertTrue(users.stream().anyMatch(u -> USER1_ID.equals(u.getId())));
+    assertTrue(users.stream().anyMatch(u -> WAREHOUSE_ID.equals(u.getId())));
+  }
+
+  @Test
+  void warehouse_cannot_assign_user_to_job_when_not_assigned() {
+    ApiClient warehouseClient = anApiClient(WAREHOUSE_TOKEN);
+    JobApi api = new JobApi(warehouseClient);
+
+    assertThrowsApiException(
+        "{\"type\":\"403 FORBIDDEN\",\"message\":\"Warehouse worker is not assigned to this job\"}",
+        () -> api.assignUserToJob(USER1_ID, COMPANY1_ID, JOB1_ID));
+  }
+
+  @Test
+  @DirtiesContext
+  void warehouse_can_get_job_responsible_users_when_assigned() throws Exception {
+    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
+    JobApi adminApi = new JobApi(adminClient);
+
+    adminApi.assignUserToJob(WAREHOUSE_ID, COMPANY1_ID, JOB1_ID);
+
+    ApiClient warehouseClient = anApiClient(WAREHOUSE_TOKEN);
+    JobApi warehouseApi = new JobApi(warehouseClient);
+
+    List<User> users = warehouseApi.getJobResponsibleUsers(WAREHOUSE_ID, COMPANY1_ID, JOB1_ID);
+    assertTrue(users.stream().anyMatch(u -> WAREHOUSE_ID.equals(u.getId())));
+  }
+
+  @Test
+  void warehouse_cannot_get_job_responsible_users_when_not_assigned() {
+    ApiClient warehouseClient = anApiClient(WAREHOUSE_TOKEN);
+    JobApi api = new JobApi(warehouseClient);
+
+    assertThrowsApiException(
+        "{\"type\":\"403 FORBIDDEN\",\"message\":\"Warehouse worker is not assigned to this job\"}",
+        () -> api.getJobResponsibleUsers(WAREHOUSE_ID, COMPANY1_ID, JOB1_ID));
+  }
+
+  @Test
+  @DirtiesContext
+  void warehouse_can_unassign_user_from_job_when_assigned() throws Exception {
+    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
+    JobApi adminApi = new JobApi(adminClient);
+
+    adminApi.assignUserToJob(WAREHOUSE_ID, COMPANY1_ID, JOB1_ID);
+    adminApi.assignUserToJob(USER1_ID, COMPANY1_ID, JOB1_ID);
+
+    ApiClient warehouseClient = anApiClient(WAREHOUSE_TOKEN);
+    JobApi warehouseApi = new JobApi(warehouseClient);
+
+    warehouseApi.unassignUserFromJob(USER1_ID, COMPANY1_ID, JOB1_ID);
+
+    List<User> users = adminApi.getJobResponsibleUsers(ADMIN_ID, COMPANY1_ID, JOB1_ID);
+    assertTrue(users.stream().anyMatch(u -> WAREHOUSE_ID.equals(u.getId())));
+    assertTrue(users.stream().noneMatch(u -> USER1_ID.equals(u.getId())));
+  }
+
+  @Test
+  void warehouse_cannot_unassign_user_from_job_when_not_assigned() {
+    ApiClient warehouseClient = anApiClient(WAREHOUSE_TOKEN);
+    JobApi api = new JobApi(warehouseClient);
+
+    assertThrowsApiException(
+        "{\"type\":\"403 FORBIDDEN\",\"message\":\"Warehouse worker is not assigned to this job\"}",
+        () -> api.unassignUserFromJob(USER1_ID, COMPANY1_ID, JOB1_ID));
+  }
+
   static class ContextInitializer extends AbstractContextInitializer {
     public static final int SERVER_PORT = anAvailableRandomPort();
 

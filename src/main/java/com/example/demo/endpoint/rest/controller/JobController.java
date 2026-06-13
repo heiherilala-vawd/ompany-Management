@@ -78,21 +78,21 @@ public class JobController {
   }
 
   @GetMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/users")
-  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
+  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public List<com.example.demo.client.model.User> getJobResponsibleUsers(
       @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId) {
     return jobService.getJobResponsibleUsers(jobId).stream().map(userMapper::toRestUser).toList();
   }
 
   @PutMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/users")
-  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
+  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public void assignUserToJob(
       @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId) {
     jobService.assignUserToJob(jobId, userId);
   }
 
   @DeleteMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/users")
-  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
+  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public void unassignUserFromJob(
       @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId) {
     jobService.unassignUserFromJob(jobId, userId);
