@@ -8,6 +8,7 @@ import com.example.demo.model.User;
 import com.example.demo.model.exception.BadRequestException;
 import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.repository.UserRepository;
+import com.example.demo.service.utils.UuidValidator;
 import com.example.demo.service.HistoryService;
 import com.example.demo.service.UserService;
 import com.example.demo.service.utils.ModificationUtils;
@@ -64,8 +65,12 @@ public class AuthService {
   }
 
   public AuthResponse registerUser(User user, String noEncodedPassword) {
+    UuidValidator.validate(user.getId(), "User id");
     if (userRepository.findByEmail(user.getEmail()).isPresent()) {
       throw new BadRequestException("Email is already in user");
+    }
+    if (user.getId() != null && userRepository.findById(user.getId()).isPresent()) {
+      throw new BadRequestException("User with this ID already exists");
     }
     boolean isFirstUser = userRepository.count() == 0;
     if (isFirstUser) {
