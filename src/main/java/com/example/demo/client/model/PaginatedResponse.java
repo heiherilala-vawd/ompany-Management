@@ -24,51 +24,90 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
 /**
- * UnreadNotificationCountResponse
+ * PaginatedResponse
  */
 @JsonPropertyOrder({
-  UnreadNotificationCountResponse.JSON_PROPERTY_UNREAD_COUNT
+  PaginatedResponse.JSON_PROPERTY_DATA,
+  PaginatedResponse.JSON_PROPERTY_TOTAL
 })
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T02:10:42.519221747+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
-public class UnreadNotificationCountResponse {
-  public static final String JSON_PROPERTY_UNREAD_COUNT = "unread_count";
-  private Long unreadCount;
+public class PaginatedResponse {
+  public static final String JSON_PROPERTY_DATA = "data";
+  private List<Object> data = new ArrayList<>();
 
-  public UnreadNotificationCountResponse() { 
+  public static final String JSON_PROPERTY_TOTAL = "total";
+  private Integer total;
+
+  public PaginatedResponse() { 
   }
 
-  public UnreadNotificationCountResponse unreadCount(Long unreadCount) {
-    this.unreadCount = unreadCount;
+  public PaginatedResponse data(List<Object> data) {
+    this.data = data;
+    return this;
+  }
+
+  public PaginatedResponse addDataItem(Object dataItem) {
+    if (this.data == null) {
+      this.data = new ArrayList<>();
+    }
+    this.data.add(dataItem);
     return this;
   }
 
    /**
-   * Get unreadCount
-   * @return unreadCount
+   * Get data
+   * @return data
   **/
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_UNREAD_COUNT)
+  @JsonProperty(JSON_PROPERTY_DATA)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public Long getUnreadCount() {
-    return unreadCount;
+  public List<Object> getData() {
+    return data;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_UNREAD_COUNT)
+  @JsonProperty(JSON_PROPERTY_DATA)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setUnreadCount(Long unreadCount) {
-    this.unreadCount = unreadCount;
+  public void setData(List<Object> data) {
+    this.data = data;
+  }
+
+
+  public PaginatedResponse total(Integer total) {
+    this.total = total;
+    return this;
+  }
+
+   /**
+   * Get total
+   * @return total
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_TOTAL)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public Integer getTotal() {
+    return total;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_TOTAL)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setTotal(Integer total) {
+    this.total = total;
   }
 
 
   /**
-   * Return true if this UnreadNotificationCountResponse object is equal to o.
+   * Return true if this PaginatedResponse object is equal to o.
    */
   @Override
   public boolean equals(Object o) {
@@ -78,20 +117,22 @@ public class UnreadNotificationCountResponse {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    UnreadNotificationCountResponse unreadNotificationCountResponse = (UnreadNotificationCountResponse) o;
-    return Objects.equals(this.unreadCount, unreadNotificationCountResponse.unreadCount);
+    PaginatedResponse paginatedResponse = (PaginatedResponse) o;
+    return Objects.equals(this.data, paginatedResponse.data) &&
+        Objects.equals(this.total, paginatedResponse.total);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(unreadCount);
+    return Objects.hash(data, total);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class UnreadNotificationCountResponse {\n");
-    sb.append("    unreadCount: ").append(toIndentedString(unreadCount)).append("\n");
+    sb.append("class PaginatedResponse {\n");
+    sb.append("    data: ").append(toIndentedString(data)).append("\n");
+    sb.append("    total: ").append(toIndentedString(total)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -139,9 +180,18 @@ public class UnreadNotificationCountResponse {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `unread_count` to the URL query string
-    if (getUnreadCount() != null) {
-      joiner.add(String.format("%sunread_count%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getUnreadCount()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    // add `data` to the URL query string
+    if (getData() != null) {
+      for (int i = 0; i < getData().size(); i++) {
+        joiner.add(String.format("%sdata%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+            URLEncoder.encode(String.valueOf(getData().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      }
+    }
+
+    // add `total` to the URL query string
+    if (getTotal() != null) {
+      joiner.add(String.format("%stotal%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getTotal()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

@@ -2,6 +2,7 @@ package com.example.demo.endpoint.rest.controller.money;
 
 import com.example.demo.client.model.CrupdatePurchaseOrder;
 import com.example.demo.client.model.PurchaseOrder;
+import com.example.demo.endpoint.rest.PaginatedResponse;
 import com.example.demo.endpoint.rest.mapper.money.PurchaseOrderMapper;
 import com.example.demo.service.money.PurchaseOrderService;
 import jakarta.validation.Valid;
@@ -25,13 +26,15 @@ public class PurchaseOrderController {
 
   @GetMapping("/users/{userId}/companies/{companyId}/purchase_orders")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
-  public List<PurchaseOrder> getPurchaseOrders(
+  public PaginatedResponse getPurchaseOrders(
       @PathVariable String userId,
       @PathVariable String companyId,
       @RequestParam(name = "job_id", required = false) String jobId) {
-    return purchaseOrderService.findByCompanyId(companyId, jobId).stream()
-        .map(purchaseOrderMapper::toRest)
-        .toList();
+    var list =
+        purchaseOrderService.findByCompanyId(companyId, jobId).stream()
+            .map(purchaseOrderMapper::toRest)
+            .toList();
+    return new PaginatedResponse(list, list.size());
   }
 
   @GetMapping("/users/{userId}/companies/{companyId}/purchase_orders/{id}")

@@ -3,6 +3,7 @@ package com.example.demo.endpoint.rest.controller.movement;
 import com.example.demo.client.model.CrupdateTravelEquipment;
 import com.example.demo.client.model.TransportStatus;
 import com.example.demo.client.model.TravelEquipment;
+import com.example.demo.endpoint.rest.PaginatedResponse;
 import com.example.demo.endpoint.rest.mapper.movement.TravelEquipmentMapper;
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
@@ -38,7 +39,7 @@ public class TravelEquipmentController {
 
   @GetMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/travel_equipments")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION') or #userId == authentication.principal.id")
-  public List<TravelEquipment> getTravelEquipment(
+  public PaginatedResponse getTravelEquipment(
       @PathVariable String userId,
       @PathVariable String companyId,
       @PathVariable String jobId,
@@ -65,9 +66,10 @@ public class TravelEquipmentController {
     criteria.setArrivalDateMax(arrivalDateMax);
     criteria.setNotArrived(notArrived);
 
-    return travelEquipmentService.findAll(page, pageSize, criteria).stream()
-        .map(travelEquipmentMapper::toRestTravelEquipment)
-        .toList();
+    var result = travelEquipmentService.findAll(page, pageSize, criteria);
+    return new PaginatedResponse(
+        result.stream().map(travelEquipmentMapper::toRestTravelEquipment).toList(),
+        (int) result.getTotalElements());
   }
 
   @PutMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/travel_equipments")

@@ -92,7 +92,8 @@ public class TaskService {
     if (isRestrictedUser(currentUser)) {
       boolean isAssigned =
           taskAssignmentRepository.findByTaskId(task.getId()).stream()
-              .anyMatch(ta -> ta.getUser() != null && ta.getUser().getId().equals(currentUser.getId()));
+              .anyMatch(
+                  ta -> ta.getUser() != null && ta.getUser().getId().equals(currentUser.getId()));
       if (!isAssigned) {
         throw new ForbiddenException("Task not assigned to the user");
       }
@@ -100,8 +101,7 @@ public class TaskService {
   }
 
   private boolean isRestrictedUser(User user) {
-    return user.getRole() == User.Role.EMPLOYEE
-        || user.getRole() == User.Role.WAREHOUSE_WORKER;
+    return user.getRole() == User.Role.EMPLOYEE || user.getRole() == User.Role.WAREHOUSE_WORKER;
   }
 
   @Transactional

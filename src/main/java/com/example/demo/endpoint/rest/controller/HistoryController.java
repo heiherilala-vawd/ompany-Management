@@ -2,6 +2,7 @@ package com.example.demo.endpoint.rest.controller;
 
 import com.example.demo.client.model.EntityType;
 import com.example.demo.client.model.History;
+import com.example.demo.endpoint.rest.PaginatedResponse;
 import com.example.demo.endpoint.rest.mapper.HistoryMapper;
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
@@ -22,7 +23,7 @@ public class HistoryController {
 
   @GetMapping("/histories")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
-  public List<History> getHistories(
+  public PaginatedResponse getHistories(
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
       @RequestParam(name = "user_id", required = false) String userId,
@@ -39,8 +40,9 @@ public class HistoryController {
     criteria.setDateFrom(dateFrom != null ? dateFrom.toInstant() : null);
     criteria.setDateTo(dateTo != null ? dateTo.toInstant() : null);
 
-    return historyService.findAll(page, pageSize, criteria).stream()
-        .map(historyMapper::toRestHistory)
-        .toList();
+    var result = historyService.findAll(page, pageSize, criteria);
+    return new PaginatedResponse(
+        result.stream().map(historyMapper::toRestHistory).toList(),
+        (int) result.getTotalElements());
   }
 }

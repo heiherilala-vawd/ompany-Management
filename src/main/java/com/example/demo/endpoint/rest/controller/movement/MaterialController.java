@@ -6,6 +6,7 @@ import com.example.demo.client.model.Material;
 import com.example.demo.client.model.MaterialUnit;
 import com.example.demo.client.model.MaterialWarehouseInfo;
 import com.example.demo.client.model.MaterialWarehouseView;
+import com.example.demo.endpoint.rest.PaginatedResponse;
 import com.example.demo.endpoint.rest.mapper.EnumMapper;
 import com.example.demo.endpoint.rest.mapper.movement.MaterialMapper;
 import com.example.demo.model.BoundedPageSize;
@@ -44,7 +45,7 @@ public class MaterialController {
 
   @GetMapping("/users/{userId}/companies/{companyId}/materials")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
-  public List<Material> getMaterials(
+  public PaginatedResponse getMaterials(
       @PathVariable String userId,
       @PathVariable String companyId,
       @RequestParam(name = "page", required = false) PageFromOne page,
@@ -60,9 +61,10 @@ public class MaterialController {
     criteria.setUnit(EnumMapper.mapEnum(unit, com.example.demo.model.movement.Material.Unit.class));
     criteria.setNotArrived(notArrived);
 
-    return materialService.findAll(page, pageSize, criteria).stream()
-        .map(materialMapper::toRestMaterial)
-        .toList();
+    var result = materialService.findAll(page, pageSize, criteria);
+    return new PaginatedResponse(
+        result.stream().map(materialMapper::toRestMaterial).toList(),
+        (int) result.getTotalElements());
   }
 
   @PutMapping("/users/{userId}/companies/{companyId}/materials")
@@ -86,7 +88,7 @@ public class MaterialController {
 
   @GetMapping("/users/{userId}/companies/{companyId}/material_warehouse")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
-  public List<MaterialWarehouseView> getMaterialWarehouses(
+  public PaginatedResponse getMaterialWarehouses(
       @PathVariable String userId,
       @PathVariable String companyId,
       @RequestParam(name = "page", required = false) PageFromOne page,
@@ -101,8 +103,10 @@ public class MaterialController {
     criteria.setNotArrived(notArrived);
     criteria.setJobId(jobId);
 
-    return materialMapper.toRestMaterialWarehouseViews(
-        materialWarehouseService.findAll(page, pageSize, criteria).getContent());
+    var result = materialWarehouseService.findAll(page, pageSize, criteria);
+    return new PaginatedResponse(
+        materialMapper.toRestMaterialWarehouseViews(result.getContent()),
+        (int) result.getTotalElements());
   }
 
   @PutMapping("/users/{userId}/companies/{companyId}/material_warehouse")

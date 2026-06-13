@@ -15320,3 +15320,14 @@ components:
           type: integer
           format: int64
           example: 3
+
+    PaginatedResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+        total:
+          type: integer
+          example: 25

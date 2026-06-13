@@ -2,6 +2,7 @@ package com.example.demo.endpoint.rest.controller.money;
 
 import com.example.demo.client.model.CrupdateOrganization;
 import com.example.demo.client.model.Organization;
+import com.example.demo.endpoint.rest.PaginatedResponse;
 import com.example.demo.endpoint.rest.mapper.money.OrganizationMapper;
 import com.example.demo.service.money.OrganizationService;
 import jakarta.validation.Valid;
@@ -24,11 +25,13 @@ public class OrganizationController {
 
   @GetMapping("/users/{userId}/companies/{companyId}/organizations")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
-  public List<Organization> getOrganizations(
+  public PaginatedResponse getOrganizations(
       @PathVariable String userId, @PathVariable String companyId) {
-    return organizationService.findByCompanyId(companyId).stream()
-        .map(organizationMapper::toRest)
-        .toList();
+    var list =
+        organizationService.findByCompanyId(companyId).stream()
+            .map(organizationMapper::toRest)
+            .toList();
+    return new PaginatedResponse(list, list.size());
   }
 
   @GetMapping("/users/{userId}/companies/{companyId}/organizations/{id}")

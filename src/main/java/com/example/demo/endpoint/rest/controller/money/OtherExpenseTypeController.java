@@ -2,6 +2,7 @@ package com.example.demo.endpoint.rest.controller.money;
 
 import com.example.demo.client.model.CrupdateOtherExpenseType;
 import com.example.demo.client.model.OtherExpenseType;
+import com.example.demo.endpoint.rest.PaginatedResponse;
 import com.example.demo.endpoint.rest.mapper.money.OtherExpenseTypeMapper;
 import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.service.money.OtherExpenseTypeService;
@@ -36,10 +37,12 @@ public class OtherExpenseTypeController {
 
   @GetMapping("/users/{userId}/companies/{companyId}/other_expense_types")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
-  public List<OtherExpenseType> getOtherExpenseTypes(
+  public PaginatedResponse getOtherExpenseTypes(
       @PathVariable String userId, @PathVariable String companyId) {
-    return otherExpenseTypeMapper.toRestOtherExpenseTypes(
-        otherExpenseTypeService.findAllByCompanyId(companyId));
+    var list =
+        otherExpenseTypeMapper.toRestOtherExpenseTypes(
+            otherExpenseTypeService.findAllByCompanyId(companyId));
+    return new PaginatedResponse(list, list.size());
   }
 
   @PutMapping("/users/{userId}/companies/{companyId}/other_expense_types")

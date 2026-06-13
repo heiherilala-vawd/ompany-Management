@@ -3,6 +3,7 @@ package com.example.demo.endpoint.rest.controller;
 import com.example.demo.client.model.CrupdateJob;
 import com.example.demo.client.model.Job;
 import com.example.demo.client.model.JobStatus;
+import com.example.demo.endpoint.rest.PaginatedResponse;
 import com.example.demo.endpoint.rest.mapper.JobMapper;
 import com.example.demo.endpoint.rest.mapper.UserMapper;
 import com.example.demo.model.BoundedPageSize;
@@ -36,7 +37,7 @@ public class JobController {
 
   @GetMapping("/users/{userId}/companies/{companyId}/jobs")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
-  public List<Job> getJobs(
+  public PaginatedResponse getJobs(
       @PathVariable String userId,
       @PathVariable String companyId,
       @RequestParam(name = "page", required = false) PageFromOne page,
@@ -49,7 +50,9 @@ public class JobController {
     criteria.setCompanyId(companyId);
     criteria.setDescription(description);
 
-    return jobService.findAll(page, pageSize, criteria).stream().map(jobMapper::toRestJob).toList();
+    var result = jobService.findAll(page, pageSize, criteria);
+    return new PaginatedResponse(
+        result.stream().map(jobMapper::toRestJob).toList(), (int) result.getTotalElements());
   }
 
   @PutMapping("/users/{userId}/companies/{companyId}/jobs")
@@ -79,9 +82,11 @@ public class JobController {
 
   @GetMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/users")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
-  public List<com.example.demo.client.model.User> getJobResponsibleUsers(
+  public PaginatedResponse getJobResponsibleUsers(
       @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId) {
-    return jobService.getJobResponsibleUsers(jobId).stream().map(userMapper::toRestUser).toList();
+    var list =
+        jobService.getJobResponsibleUsers(jobId).stream().map(userMapper::toRestUser).toList();
+    return new PaginatedResponse(list, list.size());
   }
 
   @PutMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/users")

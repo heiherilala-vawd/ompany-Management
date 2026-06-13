@@ -3,6 +3,7 @@ package com.example.demo.endpoint.rest.controller;
 import com.example.demo.client.model.Company;
 import com.example.demo.client.model.CompanyType;
 import com.example.demo.client.model.CrupdateCompany;
+import com.example.demo.endpoint.rest.PaginatedResponse;
 import com.example.demo.endpoint.rest.mapper.CompanyMapper;
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
@@ -31,7 +32,7 @@ public class CompanyController {
 
   @GetMapping("/users/{userId}/companies")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER', 'EMPLOYEE')")
-  public List<Company> getCompanies(
+  public PaginatedResponse getCompanies(
       @PathVariable String userId,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
@@ -49,9 +50,10 @@ public class CompanyController {
             ? com.example.demo.model.Company.CompanyType.valueOf(companyType.name())
             : null);
 
-    return companyService.findAll(page, pageSize, criteria).stream()
-        .map(companyMapper::toRestCompany)
-        .toList();
+    var result = companyService.findAll(page, pageSize, criteria);
+    return new PaginatedResponse(
+        result.stream().map(companyMapper::toRestCompany).toList(),
+        (int) result.getTotalElements());
   }
 
   @PutMapping("/companies")

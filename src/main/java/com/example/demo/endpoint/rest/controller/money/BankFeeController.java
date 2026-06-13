@@ -2,6 +2,7 @@ package com.example.demo.endpoint.rest.controller.money;
 
 import com.example.demo.client.model.BankFee;
 import com.example.demo.client.model.CrupdateBankFee;
+import com.example.demo.endpoint.rest.PaginatedResponse;
 import com.example.demo.endpoint.rest.mapper.money.BankFeeMapper;
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
@@ -36,7 +37,7 @@ public class BankFeeController {
 
   @GetMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/bank_fees")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
-  public List<BankFee> getBankFees(
+  public PaginatedResponse getBankFees(
       @PathVariable String userId,
       @PathVariable String companyId,
       @PathVariable String jobId,
@@ -48,9 +49,10 @@ public class BankFeeController {
     criteria.setBankName(bankName);
     criteria.setDescription(description);
 
-    return bankFeeService.findAll(page, pageSize, criteria).stream()
-        .map(bankFeeMapper::toRestBankFee)
-        .toList();
+    var result = bankFeeService.findAll(page, pageSize, criteria);
+    return new PaginatedResponse(
+        result.stream().map(bankFeeMapper::toRestBankFee).toList(),
+        (int) result.getTotalElements());
   }
 
   @PutMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/bank_fees")

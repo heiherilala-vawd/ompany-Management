@@ -105,8 +105,7 @@ public class JobService {
     User actingUser = modificationUtils.takePrimaryUser();
     if (actingUser.getRole() == User.Role.WAREHOUSE_WORKER) {
       boolean isAssigned =
-          job.getResponsibleUsers().stream()
-              .anyMatch(u -> u.getId().equals(actingUser.getId()));
+          job.getResponsibleUsers().stream().anyMatch(u -> u.getId().equals(actingUser.getId()));
       if (!isAssigned) {
         throw new ForbiddenException("Warehouse worker is not assigned to this job");
       }

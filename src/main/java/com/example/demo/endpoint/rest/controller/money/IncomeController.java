@@ -4,6 +4,7 @@ import com.example.demo.client.model.CrupdateIncomeMoney;
 import com.example.demo.client.model.CrupdateIncomeReceipt;
 import com.example.demo.client.model.IncomeMoney;
 import com.example.demo.client.model.IncomeReceipt;
+import com.example.demo.endpoint.rest.PaginatedResponse;
 import com.example.demo.endpoint.rest.mapper.money.IncomeMoneyMapper;
 import com.example.demo.endpoint.rest.mapper.money.IncomeReceiptMapper;
 import com.example.demo.model.BoundedPageSize;
@@ -48,7 +49,7 @@ public class IncomeController {
 
   @GetMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/incomes")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
-  public List<IncomeMoney> getIncomes(
+  public PaginatedResponse getIncomes(
       @PathVariable String userId,
       @PathVariable String companyId,
       @PathVariable String jobId,
@@ -69,9 +70,10 @@ public class IncomeController {
     criteria.setIncomeTypeId(incomeTypeId);
     criteria.setMoneyReceived(moneyReceived);
 
-    return incomeMoneyService.findAll(page, pageSize, criteria).stream()
-        .map(incomeMoneyMapper::toRestIncomeWithDetails)
-        .toList();
+    var result = incomeMoneyService.findAll(page, pageSize, criteria);
+    return new PaginatedResponse(
+        result.stream().map(incomeMoneyMapper::toRestIncomeWithDetails).toList(),
+        (int) result.getTotalElements());
   }
 
   @GetMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/incomes/excel")
@@ -148,7 +150,7 @@ public class IncomeController {
 
   @GetMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/incomes_receipts")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
-  public List<IncomeReceipt> getIncomeReceipts(
+  public PaginatedResponse getIncomeReceipts(
       @PathVariable String userId,
       @PathVariable String companyId,
       @PathVariable String jobId,
@@ -158,9 +160,10 @@ public class IncomeController {
     IncomeReceiptCriteria criteria = new IncomeReceiptCriteria();
     criteria.setIncomeId(income_id);
 
-    return incomeReceiptService.findAll(page, pageSize, criteria).stream()
-        .map(incomeReceiptMapper::toRestIncomeReceipt)
-        .toList();
+    var result = incomeReceiptService.findAll(page, pageSize, criteria);
+    return new PaginatedResponse(
+        result.stream().map(incomeReceiptMapper::toRestIncomeReceipt).toList(),
+        (int) result.getTotalElements());
   }
 
   @PutMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/incomes_receipts")

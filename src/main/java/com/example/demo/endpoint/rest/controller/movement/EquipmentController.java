@@ -2,6 +2,7 @@ package com.example.demo.endpoint.rest.controller.movement;
 
 import com.example.demo.client.model.CrupdateEquipment;
 import com.example.demo.client.model.Equipment;
+import com.example.demo.endpoint.rest.PaginatedResponse;
 import com.example.demo.endpoint.rest.mapper.movement.EquipmentMapper;
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
@@ -33,7 +34,7 @@ public class EquipmentController {
 
   @GetMapping("/users/{userId}/companies/{companyId}/equipments")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER', 'EMPLOYEE')")
-  public List<Equipment> getEquipment(
+  public PaginatedResponse getEquipment(
       @PathVariable String userId,
       @PathVariable String companyId,
       @RequestParam(name = "page", required = false) PageFromOne page,
@@ -52,9 +53,10 @@ public class EquipmentController {
     criteria.setStorageNumber(storageNumber);
     criteria.setNotArrived(notArrived);
 
-    return equipmentService.findAll(page, pageSize, criteria).stream()
-        .map(equipmentMapper::toRestEquipment)
-        .toList();
+    var result = equipmentService.findAll(page, pageSize, criteria);
+    return new PaginatedResponse(
+        result.stream().map(equipmentMapper::toRestEquipment).toList(),
+        (int) result.getTotalElements());
   }
 
   @PutMapping("/users/{userId}/companies/{companyId}/equipments")

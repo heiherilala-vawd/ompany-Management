@@ -2,6 +2,7 @@ package com.example.demo.endpoint.rest.controller.movement;
 
 import com.example.demo.client.model.CrupdateMaterialConsumption;
 import com.example.demo.client.model.MaterialConsumption;
+import com.example.demo.endpoint.rest.PaginatedResponse;
 import com.example.demo.endpoint.rest.mapper.movement.MaterialConsumptionMapper;
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
@@ -34,7 +35,7 @@ public class MaterialConsumptionController {
 
   @GetMapping("/users/{userId}/companies/{companyId}/material_consumptions")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
-  public List<MaterialConsumption> getMaterialConsumptions(
+  public PaginatedResponse getMaterialConsumptions(
       @PathVariable String userId,
       @PathVariable String companyId,
       @RequestParam(name = "page", required = false) PageFromOne page,
@@ -43,8 +44,10 @@ public class MaterialConsumptionController {
       @RequestParam(name = "job_id", required = false) String jobId) {
     ConsumptionStatus status =
         consumptionStatus != null ? ConsumptionStatus.valueOf(consumptionStatus) : null;
-    return materialConsumptionMapper.toRestMaterialConsumptions(
-        materialConsumptionService.findAll(page, pageSize, status, jobId).getContent());
+    var result = materialConsumptionService.findAll(page, pageSize, status, jobId);
+    return new PaginatedResponse(
+        materialConsumptionMapper.toRestMaterialConsumptions(result.getContent()),
+        (int) result.getTotalElements());
   }
 
   @PutMapping("/users/{userId}/companies/{companyId}/material_consumptions")

@@ -2,6 +2,7 @@ package com.example.demo.endpoint.rest.controller.task;
 
 import com.example.demo.client.model.CrupdateTask;
 import com.example.demo.client.model.Task;
+import com.example.demo.endpoint.rest.PaginatedResponse;
 import com.example.demo.endpoint.rest.mapper.task.TaskMapper;
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
@@ -28,18 +29,21 @@ public class TaskController {
 
   @GetMapping("/users/{userId}/companies/{companyId}/tasks")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER', 'EMPLOYEE') or #userId == authentication.principal.id")
-  public List<Task> getTasks(
+  public PaginatedResponse getTasks(
       @PathVariable String userId,
       @PathVariable String companyId,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize) {
-    return taskService.findAll(page, pageSize, companyId).stream()
-        .map(
-            t -> {
-              List<TaskAssignment> assignments = taskService.getAssignments(t.getId());
-              return taskMapper.toRestTask(t, assignments);
-            })
-        .toList();
+    var result = taskService.findAll(page, pageSize, companyId);
+    var list =
+        result.stream()
+            .map(
+                t -> {
+                  List<TaskAssignment> assignments = taskService.getAssignments(t.getId());
+                  return taskMapper.toRestTask(t, assignments);
+                })
+            .toList();
+    return new PaginatedResponse(list, (int) result.getTotalElements());
   }
 
   @PutMapping("/users/{userId}/companies/{companyId}/tasks")

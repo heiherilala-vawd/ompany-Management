@@ -4,6 +4,7 @@ import com.example.demo.client.model.CrupdateLoan;
 import com.example.demo.client.model.CrupdateLoanRepayment;
 import com.example.demo.client.model.Loan;
 import com.example.demo.client.model.LoanRepayment;
+import com.example.demo.endpoint.rest.PaginatedResponse;
 import com.example.demo.endpoint.rest.mapper.money.LoanMapper;
 import com.example.demo.endpoint.rest.mapper.money.LoanRepaymentMapper;
 import com.example.demo.model.BoundedPageSize;
@@ -44,7 +45,7 @@ public class LoanController {
 
   @GetMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/loans")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
-  public List<Loan> getLoans(
+  public PaginatedResponse getLoans(
       @PathVariable String userId,
       @PathVariable String companyId,
       @PathVariable String jobId,
@@ -59,9 +60,10 @@ public class LoanController {
     criteria.setOrganizationId(organizationId);
     criteria.setJobId(jobId);
 
-    return loanService.findAll(page, pageSize, criteria).stream()
-        .map(loanMapper::toRestLoanWithDetails)
-        .toList();
+    var result = loanService.findAll(page, pageSize, criteria);
+    return new PaginatedResponse(
+        result.stream().map(loanMapper::toRestLoanWithDetails).toList(),
+        (int) result.getTotalElements());
   }
 
   @PutMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/loans")
@@ -102,7 +104,7 @@ public class LoanController {
 
   @GetMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/loan_repayments")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
-  public List<LoanRepayment> getLoanRepayments(
+  public PaginatedResponse getLoanRepayments(
       @PathVariable String userId,
       @PathVariable String companyId,
       @PathVariable String jobId,
@@ -112,9 +114,10 @@ public class LoanController {
     LoanRepaymentCriteria criteria = new LoanRepaymentCriteria();
     criteria.setLoanId(loan_id);
 
-    return loanRepaymentService.findAll(page, pageSize, criteria).stream()
-        .map(loanRepaymentMapper::toRestLoanRepayment)
-        .toList();
+    var result = loanRepaymentService.findAll(page, pageSize, criteria);
+    return new PaginatedResponse(
+        result.stream().map(loanRepaymentMapper::toRestLoanRepayment).toList(),
+        (int) result.getTotalElements());
   }
 
   @PutMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/loan_repayments")

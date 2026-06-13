@@ -132,16 +132,14 @@ public class EquipmentUsageService {
   private void validateRestrictedUserAccess(EquipmentUsage usage) {
     User currentUser = modificationUtils.takePrimaryUser();
     if (isRestrictedUser(currentUser)) {
-      if (usage.getUsedBy() == null
-          || !usage.getUsedBy().getId().equals(currentUser.getId())) {
+      if (usage.getUsedBy() == null || !usage.getUsedBy().getId().equals(currentUser.getId())) {
         throw new ForbiddenException("Equipment usage not associated with the user");
       }
     }
   }
 
   private boolean isRestrictedUser(User user) {
-    return user.getRole() == User.Role.EMPLOYEE
-        || user.getRole() == User.Role.WAREHOUSE_WORKER;
+    return user.getRole() == User.Role.EMPLOYEE || user.getRole() == User.Role.WAREHOUSE_WORKER;
   }
 
   private void moveEquipmentToUsed(EquipmentUsage usage) {
