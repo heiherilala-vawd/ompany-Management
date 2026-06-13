@@ -10,19 +10,21 @@ Set up a complete testing infrastructure with **Testcontainers** (PostgreSQL in 
 ## Architecture
 
 ```
-Integration Tests (*IT.java)
+Integration Tests (*IT.java)        Unit Tests (*Test.java)
+    ↓                                      ↓
+Client API généré (ApiClient)       Mockito (@Mock, @InjectMocks)
+    ↓                                      ↓
+App Spring Boot complète            Service pur (pas de DB, pas de Spring)
     ↓
-Client API généré (ApiClient) → endpoints HTTP
+Testcontainers → PostgreSQL (Docker)
     ↓
-Application Spring Boot complète (random port)
-    ↓
-Testcontainers → PostgreSQL réel (Docker)
-    ↓
-Flyway migrations + testdata SQL (V99_*)
+Flyway migrations + testdata SQL
 
-Unit Tests (*Test.java)
-    ↓
-Mockito (@Mock, @InjectMocks) → Service pur (pas de DB)
+test/
+└── java/{basePackage}/
+    ├── integration/     → *IT.java (SpringBootTest + Testcontainers)
+    ├── Service/         → *ServiceTest.java (Mockito, pas de DB)
+    └── validator/       → *ValidatorTest.java (pur JUnit, sans Mockito)
 ```
 
 ## 1. Dépendances (`build.gradle.kts`)
@@ -322,14 +324,18 @@ class EntityIT {
 
 ## 9. Pattern d'un test unitaire (`*Test.java`)
 
+### Style A : Service test avec Mockito (`@ExtendWith(MockitoExtension.class)`)
+
 ```java
-package {basePackage}.service;
+package {basePackage}.Service;  // ou {basePackage}.service selon le projet
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
 
 import {basePackage}.model.EntityName;
+import {basePackage}.model.exception.NotFoundException;
 import {basePackage}.repository.EntityNameRepository;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
@@ -347,28 +353,102 @@ class EntityNameServiceTest {
   @InjectMocks private EntityNameService service;
 
   private EntityName entity;
+  private String entityId;
 
   @BeforeEach
   void setUp() {
+    entityId = "test-id";
     entity = EntityName.builder()
-        .id("test-id")
+        .id(entityId)
         .name("Test")
         .build();
   }
 
   @Test
   void findById_ShouldReturnEntity_WhenExists() {
-    when(repository.findById("test-id")).thenReturn(Optional.of(entity));
-    var result = service.findById("test-id");
-    assertThat(result).isPresent();
-    assertThat(result.get().getName()).isEqualTo("Test");
+    // Given
+    when(repository.findById(entityId)).thenReturn(Optional.of(entity));
+
+    // When
+    EntityName result = service.findById(entityId);
+
+    // Then
+    assertThat(result).isNotNull();
+    assertThat(result.getName()).isEqualTo("Test");
+    verify(repository).findById(entityId);
   }
 
   @Test
-  void findById_ShouldReturnEmpty_WhenNotExists() {
+  void findById_ShouldThrowNotFoundException_WhenNotExists() {
+    // Given
     when(repository.findById("unknown")).thenReturn(Optional.empty());
-    var result = service.findById("unknown");
-    assertThat(result).isEmpty();
+
+    // When & Then
+    assertThatThrownBy(() -> service.findById("unknown"))
+        .isInstanceOf(NotFoundException.class)
+        .hasMessageContaining("not found");
+
+    verify(repository).findById("unknown");
+  }
+
+  @Test
+  void deleteById_ShouldDelete_WhenExists() {
+    // Given
+    when(repository.findById(entityId)).thenReturn(Optional.of(entity));
+
+    // When
+    service.deleteById(entityId);
+
+    // Then
+    verify(repository).delete(entity);
+  }
+
+  @Test
+  void deleteById_ShouldThrow_WhenNotExists() {
+    // Given
+    when(repository.findById("unknown")).thenReturn(Optional.empty());
+
+    // When & Then
+    assertThatThrownBy(() -> service.deleteById("unknown"))
+        .isInstanceOf(NotFoundException.class);
+
+    verify(repository, never()).delete(any());
+  }
+}
+```
+
+### Style B : Validator test (pur JUnit, sans Mockito)
+
+```java
+package {basePackage}.validator;
+
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+import {basePackage}.model.exception.BadRequestException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+class EntityNameValidatorTest {
+
+  private EntityNameValidator validator;
+
+  @BeforeEach
+  void setUp() {
+    validator = new EntityNameValidator();
+  }
+
+  @Test
+  void validate_ShouldNotThrow_WhenValid() {
+    assertThatCode(() -> validator.validate(someValidInput()))
+        .doesNotThrowAnyException();
+  }
+
+  @Test
+  void validate_ShouldThrowBadRequest_WhenNull() {
+    assertThatThrownBy(() -> validator.validate(null))
+        .isInstanceOf(BadRequestException.class)
+        .hasMessageContaining("cannot be null");
   }
 }
 ```
@@ -393,19 +473,25 @@ class ApplicationTests {
 
 - **Tests indépendants** : chaque test recharge ses données (`@DirtiesContext` ou `reloadTestData`)
 - **Un seul comportement par test** : une méthode = une assertion principale
-- **Noms explicites** : `admin_can_get_entity_by_id`, `user_cannot_delete_entity`
+- **Noms explicites** : `findById_ShouldReturnEntity_WhenExists` (service), `admin_can_get_entity_by_id` (IT)
 - **Mock uniquement les services externes** : Sentry, JWT, AuthenticationManager
 - **IDs fixes** : utiliser des IDs prédictibles (pas de UUID aléatoires)
 - **API client généré** : utiliser `ApiClient` avec Bearer token pour les appels HTTP
 - **Pas de H2** : utiliser Testcontainers avec PostgreSQL réel
 - **Pas de `Thread.sleep`** : utiliser des health checks
+- **Tests unitaires** : `@ExtendWith(MockitoExtension.class)`, `@Mock`/`@InjectMocks`, pas de `@SpringBootTest`
+- **AssertJ** : utiliser `assertThat`, `assertThatThrownBy`, `assertThatCode` — pas les assertions JUnit 5
+- **Structure Given/When/Then** : commentaires dans chaque test pour séparer les phases
+- **`verify()`** : toujours vérifier les interactions mockées (sauf pour les getters simples)
 
 ## 12. Commandes
 
 ```bash
-./gradlew test                    # Tous les tests
-./gradlew test --tests "*UserIT"  # Test spécifique
-./gradlew test --info             # Avec logs détaillés
+./gradlew test                              # Tous les tests
+./gradlew test --tests "*UserIT"            # IT spécifique
+./gradlew test --tests "*UserServiceTest*"  # Test unitaire spécifique
+./gradlew test --tests "*{domain}*"         # Tous les tests d'un domaine
+./gradlew test --info                       # Avec logs détaillés
 ```
 
 ## Vérification
