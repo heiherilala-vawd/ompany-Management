@@ -34,8 +34,8 @@ public class MaintenanceMapper {
     return com.example.demo.model.movement.Maintenance.builder()
         .id(restMaintenance.getId())
         .expense(
-            restMaintenance.getExpenseId() != null
-                ? expenseMoneyService.findById(restMaintenance.getExpenseId()).orElse(null)
+            restMaintenance.getExpense() != null
+                ? expenseMoneyMapper.toDomain(restMaintenance.getExpense())
                 : null)
         .description(restMaintenance.getDescription())
         .build();

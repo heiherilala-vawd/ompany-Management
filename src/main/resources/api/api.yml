@@ -12703,15 +12703,13 @@ components:
           example: "Révision moteur périodique"
     CrupdateMaintenance:
       required:
-        - expense_id
         - equipment_id
       properties:
         id:
           type: string
           example: "maint_001"
-        expense_id:
-          type: string
-          example: "exp_001"
+        expense:
+          $ref: '#/components/schemas/CrupdateExpenseMoney'
         equipment_id:
           type: string
           example: "eq_001"
@@ -13357,7 +13355,6 @@ components:
           $ref: '#/components/schemas/PaymentType'
     CrupdateEmployeePayment:
       required:
-        - expense_id
         - is_for_team
         - payment_type
         - payment_description
@@ -13365,9 +13362,8 @@ components:
         id:
           type: string
           example: "emp_pay_001"
-        expense_id:
-          type: string
-          example: "exp_001"
+        expense:
+          $ref: '#/components/schemas/CrupdateExpenseMoney'
         user_ids:
           type: array
           items:
@@ -13410,15 +13406,12 @@ components:
           format: date-time
           example: "2024-02-20T18:00:00Z"
     CrupdateTravelExpense:
-      required:
-        - expense_id
       properties:
         id:
           type: string
           example: "travel_001"
-        expense_id:
-          type: string
-          example: "exp_001"
+        expense:
+          $ref: '#/components/schemas/CrupdateExpenseMoney'
         departure_location:
           $ref: '#/components/schemas/CrupdateWarehouse'
         arrival_location:
@@ -13628,7 +13621,6 @@ components:
           example: "2024-02-10"
     CrupdatePurchase:
       required:
-        - expense_id
         - source_warehouse_id
         - is_equipment
         - quantity
@@ -13637,9 +13629,8 @@ components:
         id:
           type: string
           example: "purch_001"
-        expense_id:
-          type: string
-          example: "exp_001"
+        expense:
+          $ref: '#/components/schemas/CrupdateExpenseMoney'
         source_warehouse_id:
           type: string
           example: "wh_001"
@@ -13837,15 +13828,12 @@ components:
           type: string
           example: "Frais de virement international"
     CrupdateBankFee:
-      required:
-        - expense_id
       properties:
         id:
           type: string
           example: "bank_001"
-        expense_id:
-          type: string
-          example: "exp_001"
+        expense:
+          $ref: '#/components/schemas/CrupdateExpenseMoney'
         bank_name:
           type: string
           example: "BNP Paribas"
@@ -13871,15 +13859,12 @@ components:
           type: string
           example: "Frais de carburant pour grues"
     CrupdateOtherExpense:
-      required:
-        - expense_id
       properties:
         id:
           type: string
           example: "other_001"
-        expense_id:
-          type: string
-          example: "exp_001"
+        expense:
+          $ref: '#/components/schemas/CrupdateExpenseMoney'
         other_expense_type_id:
           type: string
           description: "ID of the other expense type associated with this expense"

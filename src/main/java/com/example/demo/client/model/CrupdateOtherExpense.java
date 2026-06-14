@@ -19,6 +19,7 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import com.example.demo.client.model.CrupdateExpenseMoney;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -33,17 +34,17 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  */
 @JsonPropertyOrder({
   CrupdateOtherExpense.JSON_PROPERTY_ID,
-  CrupdateOtherExpense.JSON_PROPERTY_EXPENSE_ID,
+  CrupdateOtherExpense.JSON_PROPERTY_EXPENSE,
   CrupdateOtherExpense.JSON_PROPERTY_OTHER_EXPENSE_TYPE_ID,
   CrupdateOtherExpense.JSON_PROPERTY_DESCRIPTION
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T14:50:16.763945049+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T20:46:03.097377521+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdateOtherExpense {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
 
-  public static final String JSON_PROPERTY_EXPENSE_ID = "expense_id";
-  private String expenseId;
+  public static final String JSON_PROPERTY_EXPENSE = "expense";
+  private CrupdateExpenseMoney expense;
 
   public static final String JSON_PROPERTY_OTHER_EXPENSE_TYPE_ID = "other_expense_type_id";
   private String otherExpenseTypeId;
@@ -79,28 +80,28 @@ public class CrupdateOtherExpense {
   }
 
 
-  public CrupdateOtherExpense expenseId(String expenseId) {
-    this.expenseId = expenseId;
+  public CrupdateOtherExpense expense(CrupdateExpenseMoney expense) {
+    this.expense = expense;
     return this;
   }
 
    /**
-   * Get expenseId
-   * @return expenseId
+   * Get expense
+   * @return expense
   **/
-  @jakarta.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_EXPENSE_ID)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_EXPENSE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getExpenseId() {
-    return expenseId;
+  public CrupdateExpenseMoney getExpense() {
+    return expense;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_EXPENSE_ID)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setExpenseId(String expenseId) {
-    this.expenseId = expenseId;
+  @JsonProperty(JSON_PROPERTY_EXPENSE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setExpense(CrupdateExpenseMoney expense) {
+    this.expense = expense;
   }
 
 
@@ -167,14 +168,14 @@ public class CrupdateOtherExpense {
     }
     CrupdateOtherExpense crupdateOtherExpense = (CrupdateOtherExpense) o;
     return Objects.equals(this.id, crupdateOtherExpense.id) &&
-        Objects.equals(this.expenseId, crupdateOtherExpense.expenseId) &&
+        Objects.equals(this.expense, crupdateOtherExpense.expense) &&
         Objects.equals(this.otherExpenseTypeId, crupdateOtherExpense.otherExpenseTypeId) &&
         Objects.equals(this.description, crupdateOtherExpense.description);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, expenseId, otherExpenseTypeId, description);
+    return Objects.hash(id, expense, otherExpenseTypeId, description);
   }
 
   @Override
@@ -182,7 +183,7 @@ public class CrupdateOtherExpense {
     StringBuilder sb = new StringBuilder();
     sb.append("class CrupdateOtherExpense {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    expenseId: ").append(toIndentedString(expenseId)).append("\n");
+    sb.append("    expense: ").append(toIndentedString(expense)).append("\n");
     sb.append("    otherExpenseTypeId: ").append(toIndentedString(otherExpenseTypeId)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("}");
@@ -237,9 +238,9 @@ public class CrupdateOtherExpense {
       joiner.add(String.format("%sid%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `expense_id` to the URL query string
-    if (getExpenseId() != null) {
-      joiner.add(String.format("%sexpense_id%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getExpenseId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    // add `expense` to the URL query string
+    if (getExpense() != null) {
+      joiner.add(getExpense().toUrlQueryString(prefix + "expense" + suffix));
     }
 
     // add `other_expense_type_id` to the URL query string

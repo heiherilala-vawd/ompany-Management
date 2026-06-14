@@ -51,8 +51,7 @@ final class TestTravelFixtures {
   static CrupdateTravelExpense travelExpenseToCrupdateTravelExpense(TravelExpense travelExpense) {
     CrupdateTravelExpense crupdateTravelExpense = new CrupdateTravelExpense();
     crupdateTravelExpense.setId(travelExpense.getId());
-    crupdateTravelExpense.setExpenseId(
-        travelExpense.getExpense() != null ? travelExpense.getExpense().getId() : null);
+    crupdateTravelExpense.setExpense(travelExpense.getExpense());
     crupdateTravelExpense.setDepartureLocation(travelExpense.getDepartureLocation());
     crupdateTravelExpense.setArrivalLocation(travelExpense.getArrivalLocation());
     crupdateTravelExpense.setDepartureDate(travelExpense.getDepartureDate());
@@ -63,7 +62,7 @@ final class TestTravelFixtures {
   static CrupdateTravelExpense someCreatableTravelExpense() {
     CrupdateTravelExpense travelExpense = new CrupdateTravelExpense();
     travelExpense.setId(UUID.randomUUID().toString());
-    travelExpense.setExpenseId(TestUtils.EXPENSE1_ID);
+    travelExpense.setExpense(TestMoneyFixtures.someCreatableExpense());
     travelExpense.setDepartureLocation(
         TestOrganizationFixtures.warehouseToCrupdateWarehouse(routeWarehouse()));
     travelExpense.setArrivalLocation(

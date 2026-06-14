@@ -19,6 +19,7 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import com.example.demo.client.model.CrupdateExpenseMoney;
 import com.example.demo.client.model.PaymentType;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -36,20 +37,20 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  */
 @JsonPropertyOrder({
   CrupdateEmployeePayment.JSON_PROPERTY_ID,
-  CrupdateEmployeePayment.JSON_PROPERTY_EXPENSE_ID,
+  CrupdateEmployeePayment.JSON_PROPERTY_EXPENSE,
   CrupdateEmployeePayment.JSON_PROPERTY_USER_IDS,
   CrupdateEmployeePayment.JSON_PROPERTY_IS_FOR_TEAM,
   CrupdateEmployeePayment.JSON_PROPERTY_TEAM_ID,
   CrupdateEmployeePayment.JSON_PROPERTY_PAYMENT_DESCRIPTION,
   CrupdateEmployeePayment.JSON_PROPERTY_PAYMENT_TYPE
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T14:50:16.763945049+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T20:46:03.097377521+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdateEmployeePayment {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
 
-  public static final String JSON_PROPERTY_EXPENSE_ID = "expense_id";
-  private String expenseId;
+  public static final String JSON_PROPERTY_EXPENSE = "expense";
+  private CrupdateExpenseMoney expense;
 
   public static final String JSON_PROPERTY_USER_IDS = "user_ids";
   private List<String> userIds = new ArrayList<>();
@@ -94,28 +95,28 @@ public class CrupdateEmployeePayment {
   }
 
 
-  public CrupdateEmployeePayment expenseId(String expenseId) {
-    this.expenseId = expenseId;
+  public CrupdateEmployeePayment expense(CrupdateExpenseMoney expense) {
+    this.expense = expense;
     return this;
   }
 
    /**
-   * Get expenseId
-   * @return expenseId
+   * Get expense
+   * @return expense
   **/
-  @jakarta.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_EXPENSE_ID)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_EXPENSE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getExpenseId() {
-    return expenseId;
+  public CrupdateExpenseMoney getExpense() {
+    return expense;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_EXPENSE_ID)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setExpenseId(String expenseId) {
-    this.expenseId = expenseId;
+  @JsonProperty(JSON_PROPERTY_EXPENSE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setExpense(CrupdateExpenseMoney expense) {
+    this.expense = expense;
   }
 
 
@@ -265,7 +266,7 @@ public class CrupdateEmployeePayment {
     }
     CrupdateEmployeePayment crupdateEmployeePayment = (CrupdateEmployeePayment) o;
     return Objects.equals(this.id, crupdateEmployeePayment.id) &&
-        Objects.equals(this.expenseId, crupdateEmployeePayment.expenseId) &&
+        Objects.equals(this.expense, crupdateEmployeePayment.expense) &&
         Objects.equals(this.userIds, crupdateEmployeePayment.userIds) &&
         Objects.equals(this.isForTeam, crupdateEmployeePayment.isForTeam) &&
         Objects.equals(this.teamId, crupdateEmployeePayment.teamId) &&
@@ -275,7 +276,7 @@ public class CrupdateEmployeePayment {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, expenseId, userIds, isForTeam, teamId, paymentDescription, paymentType);
+    return Objects.hash(id, expense, userIds, isForTeam, teamId, paymentDescription, paymentType);
   }
 
   @Override
@@ -283,7 +284,7 @@ public class CrupdateEmployeePayment {
     StringBuilder sb = new StringBuilder();
     sb.append("class CrupdateEmployeePayment {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    expenseId: ").append(toIndentedString(expenseId)).append("\n");
+    sb.append("    expense: ").append(toIndentedString(expense)).append("\n");
     sb.append("    userIds: ").append(toIndentedString(userIds)).append("\n");
     sb.append("    isForTeam: ").append(toIndentedString(isForTeam)).append("\n");
     sb.append("    teamId: ").append(toIndentedString(teamId)).append("\n");
@@ -341,9 +342,9 @@ public class CrupdateEmployeePayment {
       joiner.add(String.format("%sid%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `expense_id` to the URL query string
-    if (getExpenseId() != null) {
-      joiner.add(String.format("%sexpense_id%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getExpenseId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    // add `expense` to the URL query string
+    if (getExpense() != null) {
+      joiner.add(getExpense().toUrlQueryString(prefix + "expense" + suffix));
     }
 
     // add `user_ids` to the URL query string

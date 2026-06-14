@@ -7,6 +7,7 @@ import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
 import com.example.demo.model.User;
 import com.example.demo.model.criteria.EmployeePaymentCriteria;
+import com.example.demo.model.exception.BadRequestException;
 import com.example.demo.model.exception.ForbiddenException;
 import com.example.demo.model.money.EmployeePayment;
 import com.example.demo.model.money.ExpenseMoney;
@@ -51,6 +52,21 @@ public class EmployeePaymentService {
 
   @Transactional
   public List<EmployeePayment> createOrUpdateAll(List<EmployeePayment> payments) {
+    for (EmployeePayment payment : payments) {
+      employeePaymentRepository
+          .findById(payment.getId())
+          .ifPresentOrElse(
+              existing -> {
+                if (!existing.getExpense().getId().equals(payment.getExpense().getId())) {
+                  throw new BadRequestException("Cannot change expense on update");
+                }
+              },
+              () -> {
+                if (expenseMoneyService.findById(payment.getExpense().getId()).isPresent()) {
+                  throw new BadRequestException("Expense ID already exists");
+                }
+              });
+    }
     moneyValidator.validateEmployeePayments(payments);
 
     List<ExpenseMoney> expenses =

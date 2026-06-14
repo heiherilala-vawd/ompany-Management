@@ -5,6 +5,7 @@ import static com.example.demo.repository.specification.SpecificationUtils.conta
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
 import com.example.demo.model.criteria.BankFeeCriteria;
+import com.example.demo.model.exception.BadRequestException;
 import com.example.demo.model.money.BankFee;
 import com.example.demo.model.money.ExpenseMoney;
 import com.example.demo.repository.money.BankFeeRepository;
@@ -43,6 +44,21 @@ public class BankFeeService {
 
   @Transactional
   public List<BankFee> createOrUpdateAll(List<BankFee> bankFees) {
+    for (BankFee bankFee : bankFees) {
+      bankFeeRepository
+          .findById(bankFee.getId())
+          .ifPresentOrElse(
+              existing -> {
+                if (!existing.getExpense().getId().equals(bankFee.getExpense().getId())) {
+                  throw new BadRequestException("Cannot change expense on update");
+                }
+              },
+              () -> {
+                if (expenseMoneyService.findById(bankFee.getExpense().getId()).isPresent()) {
+                  throw new BadRequestException("Expense ID already exists");
+                }
+              });
+    }
     moneyValidator.validateBankFees(bankFees);
 
     List<ExpenseMoney> expenses =

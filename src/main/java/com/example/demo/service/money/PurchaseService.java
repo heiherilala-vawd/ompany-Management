@@ -5,6 +5,7 @@ import static com.example.demo.repository.specification.SpecificationUtils.equal
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
 import com.example.demo.model.criteria.PurchaseCriteria;
+import com.example.demo.model.exception.BadRequestException;
 import com.example.demo.model.money.ExpenseMoney;
 import com.example.demo.model.money.Purchase;
 import com.example.demo.repository.money.PurchaseRepository;
@@ -45,6 +46,21 @@ public class PurchaseService {
 
   @Transactional
   public List<Purchase> createOrUpdateAll(List<Purchase> purchases) {
+    for (Purchase purchase : purchases) {
+      purchaseRepository
+          .findById(purchase.getId())
+          .ifPresentOrElse(
+              existing -> {
+                if (!existing.getExpense().getId().equals(purchase.getExpense().getId())) {
+                  throw new BadRequestException("Cannot change expense on update");
+                }
+              },
+              () -> {
+                if (expenseMoneyService.findById(purchase.getExpense().getId()).isPresent()) {
+                  throw new BadRequestException("Expense ID already exists");
+                }
+              });
+    }
     moneyValidator.validatePurchases(purchases);
 
     List<ExpenseMoney> expenses =

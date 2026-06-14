@@ -5,6 +5,7 @@ import static com.example.demo.repository.specification.SpecificationUtils.conta
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
 import com.example.demo.model.criteria.OtherExpenseCriteria;
+import com.example.demo.model.exception.BadRequestException;
 import com.example.demo.model.money.ExpenseMoney;
 import com.example.demo.model.money.OtherExpense;
 import com.example.demo.repository.money.OtherExpenseRepository;
@@ -43,6 +44,21 @@ public class OtherExpenseService {
 
   @Transactional
   public List<OtherExpense> createOrUpdateAll(List<OtherExpense> otherExpenses) {
+    for (OtherExpense otherExpense : otherExpenses) {
+      otherExpenseRepository
+          .findById(otherExpense.getId())
+          .ifPresentOrElse(
+              existing -> {
+                if (!existing.getExpense().getId().equals(otherExpense.getExpense().getId())) {
+                  throw new BadRequestException("Cannot change expense on update");
+                }
+              },
+              () -> {
+                if (expenseMoneyService.findById(otherExpense.getExpense().getId()).isPresent()) {
+                  throw new BadRequestException("Expense ID already exists");
+                }
+              });
+    }
     moneyValidator.validateOtherExpenses(otherExpenses);
 
     List<ExpenseMoney> expenses =
