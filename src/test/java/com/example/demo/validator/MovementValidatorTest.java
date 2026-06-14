@@ -9,20 +9,27 @@ import com.example.demo.model.exception.BadRequestException;
 import com.example.demo.model.money.ExpenseMoney;
 import com.example.demo.model.money.TravelExpense;
 import com.example.demo.model.movement.*;
+import com.example.demo.repository.movement.CarRepository;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Collections;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+@ExtendWith(MockitoExtension.class)
 class MovementValidatorTest {
+
+  @Mock private CarRepository carRepository;
 
   private MovementValidator validator;
 
   @BeforeEach
   void setUp() {
-    validator = new MovementValidator();
+    validator = new MovementValidator(carRepository);
   }
 
   @Test

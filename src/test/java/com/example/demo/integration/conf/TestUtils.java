@@ -81,6 +81,7 @@ import com.example.demo.client.model.TravelMaterials;
 import com.example.demo.client.model.TravelPeople;
 import com.example.demo.client.model.User;
 import com.example.demo.client.model.Warehouse;
+import com.example.demo.endpoint.rest.dto.movement.CrupdateCar;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -156,6 +157,10 @@ public class TestUtils {
   public static final String EQUIP_USAGE1_ID = "equip_usage1_id";
   public static final String EQUIP_USAGE2_ID = "equip_usage2_id";
   public static final String USED_WAREHOUSE_ID = "warehouse_used_id";
+  public static final String CAR1_EQUIPMENT_ID = "equipment1_id";
+  public static final String CAR1_WAREHOUSE_ID = "warehouse1_id";
+  public static final String CAR2_EQUIPMENT_ID = "equipment2_id";
+  public static final String CAR2_WAREHOUSE_ID = "warehouse2_id";
 
   public static final String DEPARTMENT1_ID = "department1_id";
   public static final String DEPARTMENT2_ID = "department2_id";
@@ -909,6 +914,18 @@ public class TestUtils {
 
   public static CrupdateEquipmentUsage someCreatableEquipmentUsage() {
     return TestMovementFixtures.someCreatableEquipmentUsage();
+  }
+
+  public static CrupdateCar car1() {
+    return TestCarFixtures.car1();
+  }
+
+  public static CrupdateCar car2() {
+    return TestCarFixtures.car2();
+  }
+
+  public static CrupdateCar someCreatableCar() {
+    return TestCarFixtures.someCreatableCar();
   }
 
   public static int anAvailableRandomPort() {
