@@ -155,7 +155,7 @@ class MaintenanceIT {
     MaintenanceApi api = new MaintenanceApi(anApiClient(ADMIN_TOKEN));
 
     CrupdateMaintenance invalid = someCreatableMaintenance();
-    invalid.setExpenseId(null);
+    invalid.setExpense(null);
 
     assertThrowsApiException(
         "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Maintenance must be linked to an expense\"}",

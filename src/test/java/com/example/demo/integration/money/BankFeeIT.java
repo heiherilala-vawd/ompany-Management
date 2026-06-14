@@ -167,7 +167,7 @@ class BankFeeIT {
     BankFeeApi api = new BankFeeApi(anApiClient(ADMIN_TOKEN));
 
     CrupdateBankFee invalidBankFee = someCreatableBankFee();
-    invalidBankFee.setExpenseId(null);
+    invalidBankFee.setExpense(null);
 
     assertThrowsApiException(
         "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Bank fee must be linked to an expense\"}",

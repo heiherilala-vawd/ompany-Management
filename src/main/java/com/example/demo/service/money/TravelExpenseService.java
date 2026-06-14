@@ -6,6 +6,7 @@ import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
 import com.example.demo.model.User;
 import com.example.demo.model.criteria.TravelExpenseCriteria;
+import com.example.demo.model.exception.BadRequestException;
 import com.example.demo.model.exception.ForbiddenException;
 import com.example.demo.model.money.ExpenseMoney;
 import com.example.demo.model.money.TravelExpense;
@@ -55,6 +56,21 @@ public class TravelExpenseService {
 
   @Transactional
   public List<TravelExpense> createOrUpdateAll(List<TravelExpense> travelExpenses) {
+    for (TravelExpense travelExpense : travelExpenses) {
+      travelExpenseRepository
+          .findById(travelExpense.getId())
+          .ifPresentOrElse(
+              existing -> {
+                if (!existing.getExpense().getId().equals(travelExpense.getExpense().getId())) {
+                  throw new BadRequestException("Cannot change expense on update");
+                }
+              },
+              () -> {
+                if (expenseMoneyService.findById(travelExpense.getExpense().getId()).isPresent()) {
+                  throw new BadRequestException("Expense ID already exists");
+                }
+              });
+    }
     moneyValidator.validateTravelExpenses(travelExpenses);
 
     List<ExpenseMoney> expenses =

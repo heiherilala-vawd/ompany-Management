@@ -4,6 +4,7 @@ import static com.example.demo.repository.specification.SpecificationUtils.conta
 
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
+import com.example.demo.model.exception.BadRequestException;
 import com.example.demo.model.money.ExpenseMoney;
 import com.example.demo.model.movement.Equipment;
 import com.example.demo.model.movement.Maintenance;
@@ -52,6 +53,21 @@ public class MaintenanceService {
 
   @Transactional
   public List<Maintenance> createOrUpdateAll(List<Maintenance> maintenances) {
+    for (Maintenance maintenance : maintenances) {
+      maintenanceRepository
+          .findById(maintenance.getId())
+          .ifPresentOrElse(
+              existing -> {
+                if (!existing.getExpense().getId().equals(maintenance.getExpense().getId())) {
+                  throw new BadRequestException("Cannot change expense on update");
+                }
+              },
+              () -> {
+                if (expenseMoneyService.findById(maintenance.getExpense().getId()).isPresent()) {
+                  throw new BadRequestException("Expense ID already exists");
+                }
+              });
+    }
     movementValidator.validateMaintenances(maintenances);
 
     List<ExpenseMoney> expenses =

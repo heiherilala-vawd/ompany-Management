@@ -43,8 +43,8 @@ public class OtherExpenseMapper {
     return com.example.demo.model.money.OtherExpense.builder()
         .id(restOtherExpense.getId())
         .expense(
-            restOtherExpense.getExpenseId() != null
-                ? expenseMoneyService.findById(restOtherExpense.getExpenseId()).orElse(null)
+            restOtherExpense.getExpense() != null
+                ? expenseMoneyMapper.toDomain(restOtherExpense.getExpense())
                 : null)
         .otherExpenseType(
             restOtherExpense.getOtherExpenseTypeId() != null

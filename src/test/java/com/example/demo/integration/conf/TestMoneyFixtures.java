@@ -218,8 +218,7 @@ final class TestMoneyFixtures {
   static CrupdateBankFee bankFeeToCrupdateBankFee(BankFee bankFee) {
     CrupdateBankFee crupdateBankFee = new CrupdateBankFee();
     crupdateBankFee.setId(bankFee.getId());
-    crupdateBankFee.setExpenseId(
-        bankFee.getExpense() != null ? bankFee.getExpense().getId() : null);
+    crupdateBankFee.setExpense(bankFee.getExpense());
     crupdateBankFee.setBankName(bankFee.getBankName());
     crupdateBankFee.setDescription(bankFee.getDescription());
     return crupdateBankFee;
@@ -228,7 +227,7 @@ final class TestMoneyFixtures {
   static CrupdateBankFee someCreatableBankFee() {
     CrupdateBankFee bankFee = new CrupdateBankFee();
     bankFee.setId(UUID.randomUUID().toString());
-    bankFee.setExpenseId(TestUtils.EXPENSE1_ID);
+    bankFee.setExpense(someCreatableExpense());
     bankFee.setBankName("MCB Madagascar");
     bankFee.setDescription("Frais tenue compte");
     return bankFee;
@@ -260,8 +259,7 @@ final class TestMoneyFixtures {
       EmployeePayment employeePayment) {
     CrupdateEmployeePayment crupdateEmployeePayment = new CrupdateEmployeePayment();
     crupdateEmployeePayment.setId(employeePayment.getId());
-    crupdateEmployeePayment.setExpenseId(
-        employeePayment.getExpense() != null ? employeePayment.getExpense().getId() : null);
+    crupdateEmployeePayment.setExpense(employeePayment.getExpense());
     crupdateEmployeePayment.setUserIds(
         employeePayment.getUsers() != null
             ? employeePayment.getUsers().stream().map(User::getId).toList()
@@ -274,7 +272,7 @@ final class TestMoneyFixtures {
   static CrupdateEmployeePayment someCreatableEmployeePayment() {
     CrupdateEmployeePayment employeePayment = new CrupdateEmployeePayment();
     employeePayment.setId(UUID.randomUUID().toString());
-    employeePayment.setExpenseId(TestUtils.EXPENSE1_ID);
+    employeePayment.setExpense(someCreatableExpense());
     employeePayment.setUserIds(List.of(TestUtils.EMPLOYEE_ID));
     employeePayment.setPaymentDescription("Prime exceptionnelle");
     employeePayment.setPaymentType(PaymentType.OTHER);
@@ -300,8 +298,7 @@ final class TestMoneyFixtures {
   static CrupdateOtherExpense otherExpenseToCrupdateOtherExpense(OtherExpense otherExpense) {
     CrupdateOtherExpense crupdateOtherExpense = new CrupdateOtherExpense();
     crupdateOtherExpense.setId(otherExpense.getId());
-    crupdateOtherExpense.setExpenseId(
-        otherExpense.getExpense() != null ? otherExpense.getExpense().getId() : null);
+    crupdateOtherExpense.setExpense(otherExpense.getExpense());
     crupdateOtherExpense.setDescription(otherExpense.getDescription());
     return crupdateOtherExpense;
   }
@@ -309,7 +306,7 @@ final class TestMoneyFixtures {
   static CrupdateOtherExpense someCreatableOtherExpense() {
     CrupdateOtherExpense otherExpense = new CrupdateOtherExpense();
     otherExpense.setId(UUID.randomUUID().toString());
-    otherExpense.setExpenseId(TestUtils.EXPENSE1_ID);
+    otherExpense.setExpense(someCreatableExpense());
     otherExpense.setDescription("Frais divers chantier");
     return otherExpense;
   }
@@ -373,8 +370,7 @@ final class TestMoneyFixtures {
   static CrupdateMaintenance maintenanceToCrupdateMaintenance(Maintenance maintenance) {
     CrupdateMaintenance crupdate = new CrupdateMaintenance();
     crupdate.setId(maintenance.getId());
-    crupdate.setExpenseId(
-        maintenance.getExpense() != null ? maintenance.getExpense().getId() : null);
+    crupdate.setExpense(maintenance.getExpense());
     crupdate.setEquipmentId(maintenance.getEquipmentId());
     crupdate.setDescription(maintenance.getDescription());
     return crupdate;
@@ -383,7 +379,7 @@ final class TestMoneyFixtures {
   static CrupdateMaintenance someCreatableMaintenance() {
     CrupdateMaintenance maintenance = new CrupdateMaintenance();
     maintenance.setId(UUID.randomUUID().toString());
-    maintenance.setExpenseId(TestUtils.EXPENSE1_ID);
+    maintenance.setExpense(someCreatableExpense());
     maintenance.setEquipmentId(TestUtils.EQUIPMENT1_ID);
     maintenance.setDescription("Vidange et revision");
     return maintenance;
@@ -430,8 +426,7 @@ final class TestMoneyFixtures {
   static CrupdatePurchase purchaseToCrupdatePurchase(Purchase purchase) {
     CrupdatePurchase crupdatePurchase = new CrupdatePurchase();
     crupdatePurchase.setId(purchase.getId());
-    crupdatePurchase.setExpenseId(
-        purchase.getExpense() != null ? purchase.getExpense().getId() : null);
+    crupdatePurchase.setExpense(purchase.getExpense());
     crupdatePurchase.setSourceWarehouseId(
         purchase.getSourceWarehouse() != null ? purchase.getSourceWarehouse().getId() : null);
     crupdatePurchase.setSupplierId(
@@ -451,7 +446,7 @@ final class TestMoneyFixtures {
   static CrupdatePurchase someCreatablePurchase() {
     CrupdatePurchase purchase = new CrupdatePurchase();
     purchase.setId(UUID.randomUUID().toString());
-    purchase.setExpenseId(TestUtils.EXPENSE1_ID);
+    purchase.setExpense(someCreatableExpense());
     purchase.setSourceWarehouseId(TestUtils.WAREHOUSE1_ID);
     purchase.setEquipment(TestUtils.EQUIPMENT1_ID);
     purchase.setMaterial(null);
