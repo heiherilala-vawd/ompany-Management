@@ -91,14 +91,16 @@ public class JobService {
     jobRepository.save(job);
   }
 
-  public List<User> getJobResponsibleUsers(String jobId) {
+  public Page<User> getJobResponsibleUsers(
+      String jobId, PageFromOne page, BoundedPageSize pageSize) {
     Job job =
         jobRepository
             .findById(jobId)
             .orElseThrow(() -> new NotFoundException("Job not found: " + jobId));
     validateWarehouseWorkerAccess(job);
 
-    return new ArrayList<>(job.getResponsibleUsers());
+    Pageable pageable = PageUtils.createPageable(page, pageSize);
+    return jobRepository.findResponsibleUsersByJobId(jobId, pageable);
   }
 
   private void validateWarehouseWorkerAccess(Job job) {

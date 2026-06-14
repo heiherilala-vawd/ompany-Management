@@ -6,6 +6,8 @@ import com.example.demo.service.utils.ModificationUtils;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +25,10 @@ public class EmployeeLeaveConfigService {
 
   public List<EmployeeLeaveConfig> findByCompanyId(String companyId) {
     return employeeLeaveConfigRepository.findByCompanyId(companyId);
+  }
+
+  public Page<EmployeeLeaveConfig> findByCompanyId(String companyId, Pageable pageable) {
+    return employeeLeaveConfigRepository.findByCompanyId(companyId, pageable);
   }
 
   @Transactional

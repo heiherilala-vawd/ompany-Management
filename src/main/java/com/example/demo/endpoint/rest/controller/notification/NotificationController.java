@@ -11,9 +11,11 @@ import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.service.notification.NotificationService;
 import com.example.demo.service.task.TaskService;
 import com.example.demo.service.utils.ModificationUtils;
+import com.example.demo.service.utils.PageUtils;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,28 +44,29 @@ public class NotificationController {
       @RequestParam(name = "read", required = false) Boolean read,
       @RequestParam(name = "completed", required = false) Boolean completed) {
     User currentUser = modificationUtils.takePrimaryUser();
-    List<com.example.demo.model.notification.Notification> domainNotifs;
+    Pageable pageable = PageUtils.createPageable(page, pageSize);
+    org.springframework.data.domain.Page<com.example.demo.model.notification.Notification> domainNotifs;
     if (read != null && completed != null) {
       domainNotifs =
           notificationService.findByUserIdAndReadAndCompleted(
-              currentUser.getId(), read, completed, page, pageSize);
+              currentUser.getId(), read, completed, pageable);
     } else if (read != null) {
       domainNotifs =
-          notificationService.findByUserIdAndRead(currentUser.getId(), read, page, pageSize);
+          notificationService.findByUserIdAndRead(currentUser.getId(), read, pageable);
     } else if (completed != null) {
       domainNotifs =
-          notificationService.findByUserIdAndCompleted(
-              currentUser.getId(), completed, page, pageSize);
+          notificationService.findByUserIdAndCompleted(currentUser.getId(), completed, pageable);
     } else {
-      domainNotifs = notificationService.findByUserId(currentUser.getId(), page, pageSize);
+      domainNotifs = notificationService.findByUserId(currentUser.getId(), pageable);
     }
-    var restNotifs = notificationMapper.toRestNotifications(domainNotifs);
-    for (int i = 0; i < domainNotifs.size(); i++) {
+    var restNotifs = notificationMapper.toRestNotifications(domainNotifs.getContent());
+    for (int i = 0; i < domainNotifs.getContent().size(); i++) {
       restNotifs
           .get(i)
-          .setEffectiveCompleted(notificationService.isEffectiveCompleted(domainNotifs.get(i)));
+          .setEffectiveCompleted(
+              notificationService.isEffectiveCompleted(domainNotifs.getContent().get(i)));
     }
-    return new PaginatedResponse(restNotifs, restNotifs.size());
+    return new PaginatedResponse(restNotifs, (int) domainNotifs.getTotalElements());
   }
 
   @GetMapping("/users/{userId}/companies/{companyId}/notifications/unread_count")

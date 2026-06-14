@@ -57,11 +57,9 @@ public class UserController {
     criteria.setRole(role);
     criteria.setWithoutLeaveConfig(withoutLeaveConfig);
 
-    var list =
-        userService.getUsers(page, pageSize, criteria).stream()
-            .map(userMapper::toRestUser)
-            .collect(Collectors.toList());
-    return new PaginatedResponse(list, list.size());
+    var result = userService.getUsers(page, pageSize, criteria);
+    var list = result.stream().map(userMapper::toRestUser).collect(Collectors.toList());
+    return new PaginatedResponse(list, (int) result.getTotalElements());
   }
 
   @DeleteMapping("/users/{id}")

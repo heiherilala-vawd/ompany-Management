@@ -4,10 +4,14 @@ import com.example.demo.client.model.CrupdatePurchaseOrder;
 import com.example.demo.client.model.PurchaseOrder;
 import com.example.demo.endpoint.rest.PaginatedResponse;
 import com.example.demo.endpoint.rest.mapper.money.PurchaseOrderMapper;
+import com.example.demo.model.BoundedPageSize;
+import com.example.demo.model.PageFromOne;
 import com.example.demo.service.money.PurchaseOrderService;
+import com.example.demo.service.utils.PageUtils;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,12 +33,13 @@ public class PurchaseOrderController {
   public PaginatedResponse getPurchaseOrders(
       @PathVariable String userId,
       @PathVariable String companyId,
+      @RequestParam(name = "page", required = false) PageFromOne page,
+      @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
       @RequestParam(name = "job_id", required = false) String jobId) {
-    var list =
-        purchaseOrderService.findByCompanyId(companyId, jobId).stream()
-            .map(purchaseOrderMapper::toRest)
-            .toList();
-    return new PaginatedResponse(list, list.size());
+    Pageable pageable = PageUtils.createPageable(page, pageSize);
+    var result = purchaseOrderService.findByCompanyId(companyId, jobId, pageable);
+    var list = result.stream().map(purchaseOrderMapper::toRest).toList();
+    return new PaginatedResponse(list, (int) result.getTotalElements());
   }
 
   @GetMapping("/users/{userId}/companies/{companyId}/purchase_orders/{id}")

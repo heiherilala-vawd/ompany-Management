@@ -85,13 +85,13 @@ public class SecurityConfiguration {
                     .requestMatchers(
                         GET, "/users/*/companies/*/jobs", "/users/*/companies/*/jobs/*")
                     .authenticated()
-                    .requestMatchers(GET, "/users/*/companies/*/jobs/*/users")
+                    .requestMatchers(GET, "/users/*/companies/*/jobs/*/assigned_users")
                     .authenticated()
                     .requestMatchers(PUT, "/users/*/companies/*/jobs")
                     .authenticated()
-                    .requestMatchers(PUT, "/users/*/companies/*/jobs/*/users")
+                    .requestMatchers(PUT, "/users/*/companies/*/jobs/*/assigned_users")
                     .authenticated()
-                    .requestMatchers(DELETE, "/users/*/companies/*/jobs/*/users")
+                    .requestMatchers(DELETE, "/users/*/companies/*/jobs/*/assigned_users")
                     .authenticated()
                     // DELETE /jobs - ADMIN uniquement
                     .requestMatchers(DELETE, "/users/*/companies/*/jobs/*")
