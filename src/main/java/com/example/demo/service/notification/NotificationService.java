@@ -29,8 +29,7 @@ public class NotificationService {
     return notificationRepository.findByUserId(userId, pageable);
   }
 
-  public Page<Notification> findByUserIdAndRead(
-      String userId, Boolean read, Pageable pageable) {
+  public Page<Notification> findByUserIdAndRead(String userId, Boolean read, Pageable pageable) {
     return notificationRepository.findByUserIdAndRead(userId, read, pageable);
   }
 

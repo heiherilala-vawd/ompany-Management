@@ -311,6 +311,7 @@ final class TestOrganizationFixtures {
     team.setId(TestUtils.TEAM1_ID);
     team.setName("Équipe chantier A");
     team.setLeader(TestUserFixtures.employee1());
+    team.setJobId(TestUtils.JOB1_ID);
     team.setMembers(
         List.of(TestUserFixtures.employee1(), TestUserFixtures.user1(), TestUserFixtures.user2()));
     return team;
@@ -321,6 +322,7 @@ final class TestOrganizationFixtures {
     team.setId(TestUtils.TEAM2_ID);
     team.setName("Équipe rénovation hôtel");
     team.setLeader(TestUserFixtures.user1());
+    team.setJobId(null);
     team.setMembers(List.of(TestUserFixtures.user1(), TestUserFixtures.employee1()));
     return team;
   }
@@ -331,6 +333,9 @@ final class TestOrganizationFixtures {
     crupdate.setName(team.getName());
     if (team.getLeader() != null) {
       crupdate.setLeaderId(team.getLeader().getId());
+    }
+    if (team.getJobId() != null) {
+      crupdate.setJobId(team.getJobId());
     }
     if (team.getMembers() != null) {
       crupdate.setMemberIds(
@@ -346,6 +351,16 @@ final class TestOrganizationFixtures {
     team.setName("Nouvelle équipe");
     team.setLeaderId(TestUtils.EMPLOYEE_ID);
     team.setMemberIds(List.of(TestUtils.EMPLOYEE_ID, TestUtils.USER1_ID));
+    return team;
+  }
+
+  static CrupdateTeam teamWithJob(String jobId) {
+    CrupdateTeam team = new CrupdateTeam();
+    team.setId(UUID.randomUUID().toString());
+    team.setName("Équipe avec job");
+    team.setLeaderId(TestUtils.EMPLOYEE_ID);
+    team.setJobId(jobId);
+    team.setMemberIds(List.of(TestUtils.EMPLOYEE_ID));
     return team;
   }
 

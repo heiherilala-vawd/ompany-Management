@@ -7,8 +7,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import com.example.demo.SentryConf;
 import com.example.demo.client.api.HrApi;
 import com.example.demo.client.invoker.ApiClient;
-import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.EmployeeLeaveConfig;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
 import com.example.demo.integration.conf.TestDataSqlLoader;
@@ -53,7 +53,6 @@ class EmployeeLeaveConfigIT {
     HrApi api = new HrApi(anApiClient(ADMINISTRATION_TOKEN));
 
     PaginatedResponse resp = api.getEmployeeLeaveConfigs(ADMIN_ID, COMPANY1_ID);
-
 
     List<EmployeeLeaveConfig> configs = extractData(resp, EmployeeLeaveConfig.class);
 

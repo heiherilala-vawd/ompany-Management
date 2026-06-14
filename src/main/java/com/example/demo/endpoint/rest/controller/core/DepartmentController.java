@@ -40,8 +40,7 @@ public class DepartmentController {
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize) {
     var result = departmentService.findAll(page, pageSize);
     return new PaginatedResponse(
-        departmentMapper.toRestDepartments(result.getContent()),
-        (int) result.getTotalElements());
+        departmentMapper.toRestDepartments(result.getContent()), (int) result.getTotalElements());
   }
 
   @PutMapping("/users/{userId}/companies/{companyId}/departments")

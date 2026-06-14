@@ -12,14 +12,12 @@ class UuidValidatorTest {
   @Test
   void validate_validUuid_doesNotThrow() {
     String validUuid = UUID.randomUUID().toString();
-    assertThatCode(() -> UuidValidator.validate(validUuid, "Test id"))
-        .doesNotThrowAnyException();
+    assertThatCode(() -> UuidValidator.validate(validUuid, "Test id")).doesNotThrowAnyException();
   }
 
   @Test
   void validate_null_doesNotThrow() {
-    assertThatCode(() -> UuidValidator.validate(null, "Test id"))
-        .doesNotThrowAnyException();
+    assertThatCode(() -> UuidValidator.validate(null, "Test id")).doesNotThrowAnyException();
   }
 
   @Test

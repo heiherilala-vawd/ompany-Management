@@ -29,7 +29,7 @@ public class SupplierController {
   private final SupplierMapper supplierMapper;
 
   @GetMapping("/users/{userId}/companies/{companyId}/suppliers")
-  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
+  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public PaginatedResponse getSuppliers(
       @PathVariable String userId,
       @PathVariable String companyId,
@@ -42,14 +42,14 @@ public class SupplierController {
   }
 
   @GetMapping("/users/{userId}/companies/{companyId}/suppliers/{id}")
-  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
+  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public Supplier getSupplierById(
       @PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     return supplierMapper.toRest(supplierService.findById(id));
   }
 
   @PutMapping("/users/{userId}/companies/{companyId}/suppliers")
-  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
+  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public List<Supplier> crupdateSuppliers(
       @PathVariable String userId,
       @PathVariable String companyId,

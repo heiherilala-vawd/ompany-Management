@@ -36,8 +36,7 @@ public class PurchaseOrderService {
             .and(SpecificationUtils.<PurchaseOrder>equal(jobId, "job", "id")));
   }
 
-  public Page<PurchaseOrder> findByCompanyId(
-      String companyId, String jobId, Pageable pageable) {
+  public Page<PurchaseOrder> findByCompanyId(String companyId, String jobId, Pageable pageable) {
     if (jobId == null) {
       return purchaseOrderRepository.findByCompany_Id(companyId, pageable);
     }

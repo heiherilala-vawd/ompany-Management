@@ -26,8 +26,7 @@ public class CompanyController {
   @GetMapping("/users/{userId}/companies/{companyId}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER', 'EMPLOYEE')")
   public Company getCompanyById(@PathVariable String userId, @PathVariable String companyId) {
-    return companyMapper.toRestCompany(
-        companyService.findByIdAndUserId(companyId, userId));
+    return companyMapper.toRestCompany(companyService.findByIdAndUserId(companyId, userId));
   }
 
   @GetMapping("/users/{userId}/companies")

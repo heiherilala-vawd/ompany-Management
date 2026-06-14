@@ -1,6 +1,7 @@
 package com.example.demo.model.core;
 
 import com.example.demo.model.CreatAndUpdateEntity;
+import com.example.demo.model.Job;
 import com.example.demo.model.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
@@ -36,6 +37,10 @@ public class Team extends CreatAndUpdateEntity {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "leader_id")
   private User leader;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "job_id")
+  private Job job;
 
   @ManyToMany
   @JoinTable(

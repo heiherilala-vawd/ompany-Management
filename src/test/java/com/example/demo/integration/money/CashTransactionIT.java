@@ -6,10 +6,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.example.demo.SentryConf;
 import com.example.demo.client.api.CashTransactionApi;
 import com.example.demo.client.invoker.ApiClient;
-import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.CashTransaction;
-import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.CrupdateCashTransaction;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
 import com.example.demo.integration.conf.TestDataSqlLoader;
@@ -77,8 +76,8 @@ class CashTransactionIT {
   void administration_can_get_all_cash_transactions() throws Exception {
     CashTransactionApi api = new CashTransactionApi(anApiClient(ADMINISTRATION_TOKEN));
 
-    PaginatedResponse resp = api.getCashTransactions(ADMIN_ID, COMPANY1_ID, CASH_ACCOUNT1_ID, 1, 100);
-
+    PaginatedResponse resp =
+        api.getCashTransactions(ADMIN_ID, COMPANY1_ID, CASH_ACCOUNT1_ID, 1, 100);
 
     List<CashTransaction> transactions = extractData(resp, CashTransaction.class);
 
@@ -139,8 +138,8 @@ class CashTransactionIT {
 
     api.deleteCashTransactionById(ADMIN_ID, COMPANY1_ID, CASH_ACCOUNT1_ID, CASH_TXN1_ID);
 
-    PaginatedResponse resp = api.getCashTransactions(ADMIN_ID, COMPANY1_ID, CASH_ACCOUNT1_ID, 1, 100);
-
+    PaginatedResponse resp =
+        api.getCashTransactions(ADMIN_ID, COMPANY1_ID, CASH_ACCOUNT1_ID, 1, 100);
 
     List<CashTransaction> transactions = extractData(resp, CashTransaction.class);
     assertEquals(1, transactions.size());

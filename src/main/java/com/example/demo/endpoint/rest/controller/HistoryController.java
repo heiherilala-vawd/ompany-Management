@@ -1,7 +1,6 @@
 package com.example.demo.endpoint.rest.controller;
 
 import com.example.demo.client.model.EntityType;
-import com.example.demo.client.model.History;
 import com.example.demo.endpoint.rest.PaginatedResponse;
 import com.example.demo.endpoint.rest.mapper.HistoryMapper;
 import com.example.demo.model.BoundedPageSize;
@@ -9,7 +8,6 @@ import com.example.demo.model.PageFromOne;
 import com.example.demo.model.criteria.HistoryCriteria;
 import com.example.demo.service.HistoryService;
 import java.time.OffsetDateTime;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;

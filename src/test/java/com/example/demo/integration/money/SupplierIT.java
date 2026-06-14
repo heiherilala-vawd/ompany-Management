@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.example.demo.SentryConf;
 import com.example.demo.client.api.SupplierApi;
 import com.example.demo.client.invoker.ApiClient;
-import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.CrupdateSupplier;
 import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.Supplier;
@@ -142,6 +141,57 @@ class SupplierIT {
     SupplierApi api = new SupplierApi(anApiClient(ADMINISTRATION_TOKEN));
     assertThrowsForbiddenException(
         () -> api.deleteSupplierById(ADMIN_ID, COMPANY1_ID, SUPPLIER1_ID));
+  }
+
+  @Test
+  void warehouse_worker_can_get_all_suppliers() throws Exception {
+    SupplierApi api = new SupplierApi(anApiClient(WAREHOUSE_TOKEN));
+    PaginatedResponse resp = api.getSuppliers(ADMIN_ID, COMPANY1_ID);
+
+    List<Supplier> suppliers = extractData(resp, Supplier.class);
+    assertEquals(2, suppliers.size());
+  }
+
+  @Test
+  @DirtiesContext
+  void warehouse_worker_can_create_supplier() throws Exception {
+    SupplierApi api = new SupplierApi(anApiClient(WAREHOUSE_TOKEN));
+    CrupdateSupplier toCreate = someCreatableSupplier();
+
+    List<Supplier> created = api.crupdateSuppliers(WAREHOUSE_ID, COMPANY1_ID, List.of(toCreate));
+
+    assertEquals(1, created.size());
+    assertEquals(toCreate.getName(), created.get(0).getName());
+  }
+
+  @Test
+  @DirtiesContext
+  void warehouse_worker_can_update_own_supplier() throws Exception {
+    SupplierApi api = new SupplierApi(anApiClient(WAREHOUSE_TOKEN));
+    CrupdateSupplier toCreate = someCreatableSupplier();
+    List<Supplier> created = api.crupdateSuppliers(WAREHOUSE_ID, COMPANY1_ID, List.of(toCreate));
+    String newId = created.get(0).getId();
+
+    CrupdateSupplier toUpdate = supplierToCrupdateSupplier(supplier1());
+    toUpdate.setId(newId);
+    toUpdate.setName("Mis à jour par WW");
+    List<Supplier> updated = api.crupdateSuppliers(WAREHOUSE_ID, COMPANY1_ID, List.of(toUpdate));
+
+    assertEquals(1, updated.size());
+    assertEquals(newId, updated.get(0).getId());
+    assertEquals("Mis à jour par WW", updated.get(0).getName());
+  }
+
+  @Test
+  @DirtiesContext
+  void warehouse_worker_cannot_update_supplier_created_by_others() {
+    SupplierApi api = new SupplierApi(anApiClient(WAREHOUSE_TOKEN));
+    CrupdateSupplier toUpdate = supplierToCrupdateSupplier(supplier1());
+    toUpdate.setName("Tentative modification");
+
+    assertThrowsApiException(
+        "{\"type\":\"403 FORBIDDEN\",\"message\":\"Warehouse worker can only update suppliers they created\"}",
+        () -> api.crupdateSuppliers(WAREHOUSE_ID, COMPANY1_ID, List.of(toUpdate)));
   }
 
   static class ContextInitializer extends AbstractContextInitializer {

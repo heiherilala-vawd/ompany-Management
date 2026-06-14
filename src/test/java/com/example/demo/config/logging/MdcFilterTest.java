@@ -6,8 +6,6 @@ import static org.mockito.Mockito.when;
 import com.example.demo.model.User;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collections;
 import org.junit.jupiter.api.AfterEach;
@@ -42,8 +40,7 @@ class MdcFilterTest {
   }
 
   @Test
-  void doFilter_ShouldGenerateCorrelationId_WhenNoHeader()
-      throws ServletException, IOException {
+  void doFilter_ShouldGenerateCorrelationId_WhenNoHeader() throws ServletException, IOException {
     MockHttpServletRequest request = new MockHttpServletRequest();
     MockHttpServletResponse response = new MockHttpServletResponse();
 
@@ -56,8 +53,7 @@ class MdcFilterTest {
   }
 
   @Test
-  void doFilter_ShouldUseCorrelationId_FromHeader()
-      throws ServletException, IOException {
+  void doFilter_ShouldUseCorrelationId_FromHeader() throws ServletException, IOException {
     MockHttpServletRequest request = new MockHttpServletRequest();
     request.addHeader("X-Correlation-Id", "my-correlation-id");
     MockHttpServletResponse response = new MockHttpServletResponse();
@@ -71,8 +67,7 @@ class MdcFilterTest {
   }
 
   @Test
-  void doFilter_ShouldSetUserId_WhenAuthenticated()
-      throws ServletException, IOException {
+  void doFilter_ShouldSetUserId_WhenAuthenticated() throws ServletException, IOException {
     when(user.getId()).thenReturn("user-123");
 
     Authentication auth =
@@ -92,8 +87,7 @@ class MdcFilterTest {
   }
 
   @Test
-  void doFilter_ShouldSetCompanyId_WhenCompanyInPath()
-      throws ServletException, IOException {
+  void doFilter_ShouldSetCompanyId_WhenCompanyInPath() throws ServletException, IOException {
     when(user.getId()).thenReturn("user-123");
 
     Authentication auth =
@@ -113,8 +107,7 @@ class MdcFilterTest {
   }
 
   @Test
-  void doFilter_ShouldNotSetCompanyId_WhenNoCompanyInPath()
-      throws ServletException, IOException {
+  void doFilter_ShouldNotSetCompanyId_WhenNoCompanyInPath() throws ServletException, IOException {
     when(user.getId()).thenReturn("user-123");
 
     Authentication auth =
@@ -134,17 +127,17 @@ class MdcFilterTest {
   }
 
   @Test
-  void doFilter_ShouldNotSetUserId_WhenNotAuthenticated()
-      throws ServletException, IOException {
+  void doFilter_ShouldNotSetUserId_WhenNotAuthenticated() throws ServletException, IOException {
     MockHttpServletRequest request = new MockHttpServletRequest();
     MockHttpServletResponse response = new MockHttpServletResponse();
 
     String[] capturedUserId = new String[1];
     String[] capturedCorrelationId = new String[1];
-    FilterChain capturingChain = (req, res) -> {
-      capturedUserId[0] = MDC.get("userId");
-      capturedCorrelationId[0] = MDC.get("correlationId");
-    };
+    FilterChain capturingChain =
+        (req, res) -> {
+          capturedUserId[0] = MDC.get("userId");
+          capturedCorrelationId[0] = MDC.get("correlationId");
+        };
 
     filter.doFilterInternal(request, response, capturingChain);
 
@@ -153,8 +146,7 @@ class MdcFilterTest {
   }
 
   @Test
-  void doFilter_ShouldClearMdc_AfterRequest()
-      throws ServletException, IOException {
+  void doFilter_ShouldClearMdc_AfterRequest() throws ServletException, IOException {
     MockHttpServletRequest request = new MockHttpServletRequest();
     MockHttpServletResponse response = new MockHttpServletResponse();
     FilterChain noopChain = (req, res) -> {};

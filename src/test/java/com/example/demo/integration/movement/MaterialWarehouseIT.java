@@ -4,12 +4,12 @@ import static com.example.demo.integration.conf.TestUtils.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.example.demo.SentryConf;
+import com.example.demo.client.api.JobApi;
 import com.example.demo.client.api.MaterialWarehouseApi;
 import com.example.demo.client.invoker.ApiClient;
-import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.CrupdateMaterialWarehouse;
-import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.MaterialWarehouseView;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
 import com.example.demo.integration.conf.TestDataSqlLoader;
@@ -54,8 +54,8 @@ class MaterialWarehouseIT {
     ApiClient client = anApiClient(WAREHOUSE_TOKEN);
     MaterialWarehouseApi api = new MaterialWarehouseApi(client);
 
-    PaginatedResponse resp = api.getMaterialWarehouses(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null);
-
+    PaginatedResponse resp =
+        api.getMaterialWarehouses(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null);
 
     List<MaterialWarehouseView> records = extractData(resp, MaterialWarehouseView.class);
 
@@ -85,8 +85,8 @@ class MaterialWarehouseIT {
     ApiClient client = anApiClient(WAREHOUSE_TOKEN);
     MaterialWarehouseApi api = new MaterialWarehouseApi(client);
 
-    PaginatedResponse resp = api.getMaterialWarehouses(ADMIN_ID, COMPANY1_ID, 1, 100, MATERIAL1_ID, null, null);
-
+    PaginatedResponse resp =
+        api.getMaterialWarehouses(ADMIN_ID, COMPANY1_ID, 1, 100, MATERIAL1_ID, null, null);
 
     List<MaterialWarehouseView> records = extractData(resp, MaterialWarehouseView.class);
 
@@ -99,8 +99,8 @@ class MaterialWarehouseIT {
     ApiClient client = anApiClient(ADMIN_TOKEN);
     MaterialWarehouseApi api = new MaterialWarehouseApi(client);
 
-    PaginatedResponse resp = api.getMaterialWarehouses(ADMIN_ID, COMPANY1_ID, 1, 100, null, WAREHOUSE1_ID, null);
-
+    PaginatedResponse resp =
+        api.getMaterialWarehouses(ADMIN_ID, COMPANY1_ID, 1, 100, null, WAREHOUSE1_ID, null);
 
     List<MaterialWarehouseView> records = extractData(resp, MaterialWarehouseView.class);
 
@@ -113,8 +113,8 @@ class MaterialWarehouseIT {
     ApiClient client = anApiClient(ADMIN_TOKEN);
     MaterialWarehouseApi api = new MaterialWarehouseApi(client);
 
-    PaginatedResponse resp = api.getMaterialWarehouses(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, true);
-
+    PaginatedResponse resp =
+        api.getMaterialWarehouses(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, true);
 
     List<MaterialWarehouseView> records = extractData(resp, MaterialWarehouseView.class);
 
@@ -127,8 +127,8 @@ class MaterialWarehouseIT {
     ApiClient client = anApiClient(ADMIN_TOKEN);
     MaterialWarehouseApi api = new MaterialWarehouseApi(client);
 
-    PaginatedResponse resp = api.getMaterialWarehouses(ADMIN_ID, COMPANY1_ID, 1, 100, MATERIAL1_ID, null, true);
-
+    PaginatedResponse resp =
+        api.getMaterialWarehouses(ADMIN_ID, COMPANY1_ID, 1, 100, MATERIAL1_ID, null, true);
 
     List<MaterialWarehouseView> records = extractData(resp, MaterialWarehouseView.class);
 
@@ -139,6 +139,9 @@ class MaterialWarehouseIT {
   @Test
   @DirtiesContext
   void warehouse_worker_can_crupdate_material_warehouses() throws Exception {
+    JobApi jobApi = new JobApi(anApiClient(ADMIN_TOKEN));
+    jobApi.assignUserToJob(WAREHOUSE_ID, COMPANY1_ID, JOB2_ID);
+
     ApiClient client = anApiClient(WAREHOUSE_TOKEN);
     MaterialWarehouseApi api = new MaterialWarehouseApi(client);
 
@@ -153,11 +156,27 @@ class MaterialWarehouseIT {
     assertEquals(WAREHOUSE2_ID, saved.get(0).getWarehouse().getId());
     assertEquals(200, saved.get(0).getQuantity());
 
-    PaginatedResponse resp = api.getMaterialWarehouses(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null);
-
+    PaginatedResponse resp =
+        api.getMaterialWarehouses(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null);
 
     List<MaterialWarehouseView> all = extractData(resp, MaterialWarehouseView.class);
     assertEquals(5, all.size());
+  }
+
+  @Test
+  @DirtiesContext
+  void warehouse_worker_cannot_crupdate_material_warehouse_on_unassigned_job() {
+    ApiClient client = anApiClient(WAREHOUSE_TOKEN);
+    MaterialWarehouseApi api = new MaterialWarehouseApi(client);
+
+    CrupdateMaterialWarehouse mw = new CrupdateMaterialWarehouse();
+    mw.setMaterialId(MATERIAL1_ID);
+    mw.setWarehouseId(WAREHOUSE1_ID);
+    mw.setQuantity(50);
+
+    assertThrowsApiException(
+        "{\"type\":\"403 FORBIDDEN\",\"message\":\"Warehouse worker is not assigned to this job\"}",
+        () -> api.crupdateMaterialWarehouses(ADMIN_ID, COMPANY1_ID, List.of(mw)));
   }
 
   @Test

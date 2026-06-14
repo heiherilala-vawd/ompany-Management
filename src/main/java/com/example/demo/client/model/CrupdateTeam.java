@@ -37,10 +37,11 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   CrupdateTeam.JSON_PROPERTY_ID,
   CrupdateTeam.JSON_PROPERTY_NAME,
   CrupdateTeam.JSON_PROPERTY_LEADER_ID,
+  CrupdateTeam.JSON_PROPERTY_JOB_ID,
   CrupdateTeam.JSON_PROPERTY_MEMBER_IDS,
   CrupdateTeam.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T13:41:38.687456885+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T14:50:16.763945049+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdateTeam {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -50,6 +51,9 @@ public class CrupdateTeam {
 
   public static final String JSON_PROPERTY_LEADER_ID = "leader_id";
   private String leaderId;
+
+  public static final String JSON_PROPERTY_JOB_ID = "job_id";
+  private String jobId;
 
   public static final String JSON_PROPERTY_MEMBER_IDS = "member_ids";
   private List<String> memberIds = new ArrayList<>();
@@ -135,6 +139,31 @@ public class CrupdateTeam {
   }
 
 
+  public CrupdateTeam jobId(String jobId) {
+    this.jobId = jobId;
+    return this;
+  }
+
+   /**
+   * Get jobId
+   * @return jobId
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_JOB_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getJobId() {
+    return jobId;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_JOB_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setJobId(String jobId) {
+    this.jobId = jobId;
+  }
+
+
   public CrupdateTeam memberIds(List<String> memberIds) {
     this.memberIds = memberIds;
     return this;
@@ -208,13 +237,14 @@ public class CrupdateTeam {
     return Objects.equals(this.id, crupdateTeam.id) &&
         Objects.equals(this.name, crupdateTeam.name) &&
         Objects.equals(this.leaderId, crupdateTeam.leaderId) &&
+        Objects.equals(this.jobId, crupdateTeam.jobId) &&
         Objects.equals(this.memberIds, crupdateTeam.memberIds) &&
         Objects.equals(this.comment, crupdateTeam.comment);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, leaderId, memberIds, comment);
+    return Objects.hash(id, name, leaderId, jobId, memberIds, comment);
   }
 
   @Override
@@ -224,6 +254,7 @@ public class CrupdateTeam {
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    leaderId: ").append(toIndentedString(leaderId)).append("\n");
+    sb.append("    jobId: ").append(toIndentedString(jobId)).append("\n");
     sb.append("    memberIds: ").append(toIndentedString(memberIds)).append("\n");
     sb.append("    comment: ").append(toIndentedString(comment)).append("\n");
     sb.append("}");

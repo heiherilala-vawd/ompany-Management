@@ -3,6 +3,7 @@ package com.example.demo.endpoint.rest.mapper.core;
 import com.example.demo.client.model.CrupdateTeam;
 import com.example.demo.client.model.Team;
 import com.example.demo.endpoint.rest.mapper.UserMapper;
+import com.example.demo.service.JobService;
 import com.example.demo.service.UserService;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,6 +16,7 @@ public class TeamMapper {
 
   private final UserService userService;
   private final UserMapper userMapper;
+  private final JobService jobService;
 
   public com.example.demo.model.core.Team toDomain(CrupdateTeam restTeam) {
     if (restTeam == null) return null;
@@ -27,6 +29,10 @@ public class TeamMapper {
 
     if (restTeam.getLeaderId() != null) {
       builder.leader(userService.getById(restTeam.getLeaderId()));
+    }
+
+    if (restTeam.getJobId() != null) {
+      builder.job(jobService.findById(restTeam.getJobId()).orElse(null));
     }
 
     if (restTeam.getMemberIds() != null) {
@@ -53,6 +59,10 @@ public class TeamMapper {
     if (domainTeam.getLeader() != null) {
       restTeam.setLeader(userMapper.toRestUser(domainTeam.getLeader()));
     }
+    if (domainTeam.getJob() != null) {
+      restTeam.setJobId(domainTeam.getJob().getId());
+    }
+
     if (domainTeam.getMembers() != null) {
       restTeam.setMembers(
           domainTeam.getMembers().stream()

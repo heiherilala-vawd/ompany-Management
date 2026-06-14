@@ -4,8 +4,11 @@ import static com.example.demo.repository.specification.SpecificationUtils.conta
 import static com.example.demo.repository.specification.SpecificationUtils.equal;
 
 import com.example.demo.model.BoundedPageSize;
+import com.example.demo.model.Job;
 import com.example.demo.model.PageFromOne;
+import com.example.demo.model.User;
 import com.example.demo.model.criteria.WarehouseCriteria;
+import com.example.demo.model.exception.ForbiddenException;
 import com.example.demo.model.movement.Warehouse;
 import com.example.demo.repository.movement.WarehouseRepository;
 import com.example.demo.service.utils.ModificationUtils;
@@ -43,14 +46,34 @@ public class WarehouseService {
   @Transactional
   public List<Warehouse> createOrUpdateAll(List<Warehouse> warehouses) {
     movementValidator.validateWarehouses(warehouses);
+    User currentUser = modificationUtils.takePrimaryUser();
     List<Warehouse> processedWarehouses = new ArrayList<>();
     for (Warehouse warehouse : warehouses) {
       Warehouse existingWarehouse = warehouseRepository.findById(warehouse.getId()).orElse(null);
+
+      if (currentUser.getRole() == User.Role.WAREHOUSE_WORKER) {
+        Job existingJob = existingWarehouse != null ? existingWarehouse.getJob() : null;
+        if (existingJob != null) {
+          validateJobAccess(existingJob, currentUser);
+        }
+        if (warehouse.getJob() != null) {
+          validateJobAccess(warehouse.getJob(), currentUser);
+        }
+      }
+
       modificationUtils.createOrUpdateModel(
-          warehouse, existingWarehouse, warehouse.getId(), modificationUtils.takePrimaryUser());
+          warehouse, existingWarehouse, warehouse.getId(), currentUser);
       processedWarehouses.add(warehouse);
     }
     return warehouseRepository.saveAll(processedWarehouses);
+  }
+
+  private void validateJobAccess(Job job, User user) {
+    boolean isAssigned =
+        job.getResponsibleUsers().stream().anyMatch(u -> u.getId().equals(user.getId()));
+    if (!isAssigned) {
+      throw new ForbiddenException("Warehouse worker is not assigned to this job");
+    }
   }
 
   @Transactional

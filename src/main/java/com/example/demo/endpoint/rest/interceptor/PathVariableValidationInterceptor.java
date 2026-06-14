@@ -12,7 +12,8 @@ public class PathVariableValidationInterceptor implements HandlerInterceptor {
   static final String EMPTY_PATH_VARIABLE_MESSAGE = "Path variable '%s' must not be empty";
 
   @Override
-  public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
+  public boolean preHandle(
+      HttpServletRequest request, HttpServletResponse response, Object handler) {
     if (handler instanceof org.springframework.web.method.HandlerMethod) {
       Map<String, String> pathVariables =
           (Map<String, String>)
@@ -21,8 +22,7 @@ public class PathVariableValidationInterceptor implements HandlerInterceptor {
       if (pathVariables != null) {
         for (Map.Entry<String, String> entry : pathVariables.entrySet()) {
           if (entry.getValue() == null || entry.getValue().isBlank()) {
-            throw new BadRequestException(
-                EMPTY_PATH_VARIABLE_MESSAGE.formatted(entry.getKey()));
+            throw new BadRequestException(EMPTY_PATH_VARIABLE_MESSAGE.formatted(entry.getKey()));
           }
         }
       }

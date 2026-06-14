@@ -8,10 +8,10 @@ import com.example.demo.SentryConf;
 import com.example.demo.client.api.HistoryApi;
 import com.example.demo.client.api.UsersApi;
 import com.example.demo.client.invoker.ApiClient;
-import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.CrupdateUser;
 import com.example.demo.client.model.EntityType;
 import com.example.demo.client.model.History;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
 import com.example.demo.integration.conf.TestDataSqlLoader;
@@ -60,7 +60,6 @@ class HistoryIT {
 
     PaginatedResponse resp = api.getHistories(1, 100, null, null, null, null, null);
 
-
     List<History> histories = extractData(resp, History.class);
 
     assertEquals(5, histories.size());
@@ -82,7 +81,6 @@ class HistoryIT {
 
     PaginatedResponse resp = api.getHistories(1, 2, null, null, null, null, null);
 
-
     List<History> histories = extractData(resp, History.class);
 
     assertEquals(2, histories.size());
@@ -95,7 +93,6 @@ class HistoryIT {
 
     PaginatedResponse resp = api.getHistories(2, 2, null, null, null, null, null);
 
-
     List<History> histories = extractData(resp, History.class);
 
     assertEquals(2, histories.size());
@@ -107,7 +104,6 @@ class HistoryIT {
     HistoryApi api = new HistoryApi(administrationClient);
 
     PaginatedResponse resp = api.getHistories(1, 100, null, null, null, null, null);
-
 
     List<History> histories = extractData(resp, History.class);
 
@@ -146,7 +142,6 @@ class HistoryIT {
 
     PaginatedResponse resp = api.getHistories(1, 100, ADMIN_ID, null, null, null, null);
 
-
     List<History> histories = extractData(resp, History.class);
 
     assertEquals(3, histories.size());
@@ -160,7 +155,6 @@ class HistoryIT {
 
     PaginatedResponse resp = api.getHistories(1, 100, null, EntityType.COMPANY, null, null, null);
 
-
     List<History> histories = extractData(resp, History.class);
 
     assertEquals(2, histories.size());
@@ -173,7 +167,6 @@ class HistoryIT {
     HistoryApi api = new HistoryApi(adminClient);
 
     PaginatedResponse resp = api.getHistories(1, 100, null, null, COMPANY1_ID, null, null);
-
 
     List<History> histories = extractData(resp, History.class);
 
@@ -189,8 +182,8 @@ class HistoryIT {
     OffsetDateTime dateFrom = OffsetDateTime.of(2024, 2, 1, 0, 0, 0, 0, ZoneOffset.UTC);
     OffsetDateTime dateTo = OffsetDateTime.of(2024, 2, 28, 23, 59, 59, 0, ZoneOffset.UTC);
 
-    PaginatedResponse resp = api.getHistories(1, 100, null, null, null, dateFrom.toInstant(), dateTo.toInstant());
-
+    PaginatedResponse resp =
+        api.getHistories(1, 100, null, null, null, dateFrom.toInstant(), dateTo.toInstant());
 
     List<History> histories = extractData(resp, History.class);
 
@@ -202,8 +195,8 @@ class HistoryIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     HistoryApi api = new HistoryApi(adminClient);
 
-    PaginatedResponse resp = api.getHistories(1, 100, null, EntityType.BANK_FEE, COMPANY1_ID, null, null);
-
+    PaginatedResponse resp =
+        api.getHistories(1, 100, null, EntityType.BANK_FEE, COMPANY1_ID, null, null);
 
     List<History> histories = extractData(resp, History.class);
 
@@ -215,8 +208,8 @@ class HistoryIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     HistoryApi api = new HistoryApi(adminClient);
 
-    PaginatedResponse resp = api.getHistories(1, 100, ADMIN_ID, EntityType.COMPANY, COMPANY1_ID, null, null);
-
+    PaginatedResponse resp =
+        api.getHistories(1, 100, ADMIN_ID, EntityType.COMPANY, COMPANY1_ID, null, null);
 
     List<History> histories = extractData(resp, History.class);
 
@@ -236,7 +229,6 @@ class HistoryIT {
     HistoryApi api = new HistoryApi(adminClient);
 
     PaginatedResponse resp = api.getHistories(1, 100, null, EntityType.JOB, JOB1_ID, null, null);
-
 
     List<History> histories = extractData(resp, History.class);
 

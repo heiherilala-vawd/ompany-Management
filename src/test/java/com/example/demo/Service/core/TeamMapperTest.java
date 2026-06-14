@@ -8,8 +8,10 @@ import com.example.demo.client.model.CrupdateTeam;
 import com.example.demo.client.model.User;
 import com.example.demo.endpoint.rest.mapper.UserMapper;
 import com.example.demo.endpoint.rest.mapper.core.TeamMapper;
+import com.example.demo.service.JobService;
 import com.example.demo.service.UserService;
 import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,6 +24,7 @@ class TeamMapperTest {
 
   @Mock private UserService userService;
   @Mock private UserMapper userMapper;
+  @Mock private JobService jobService;
 
   @InjectMocks private TeamMapper teamMapper;
 
@@ -63,6 +66,13 @@ class TeamMapperTest {
 
   // ========== toDomain(CrupdateTeam) ==========
 
+  private com.example.demo.model.Job domainJob;
+
+  @BeforeEach
+  void setUpJob() {
+    domainJob = com.example.demo.model.Job.builder().id("job-1").build();
+  }
+
   @Test
   void toDomain_ShouldMapAllFields() {
     CrupdateTeam rest =
@@ -70,11 +80,13 @@ class TeamMapperTest {
             .id("team-1")
             .name("Alpha Team")
             .leaderId("user-1")
+            .jobId("job-1")
             .memberIds(List.of("user-2"))
             .comment("Team comment");
 
     when(userService.getById("user-1")).thenReturn(domainLeader);
     when(userService.getById("user-2")).thenReturn(domainMember);
+    when(jobService.findById("job-1")).thenReturn(Optional.of(domainJob));
 
     com.example.demo.model.core.Team result = teamMapper.toDomain(rest);
 
@@ -82,11 +94,32 @@ class TeamMapperTest {
     assertThat(result.getId()).isEqualTo("team-1");
     assertThat(result.getName()).isEqualTo("Alpha Team");
     assertThat(result.getLeader()).isEqualTo(domainLeader);
+    assertThat(result.getJob()).isEqualTo(domainJob);
     assertThat(result.getMembers()).hasSize(1);
     assertThat(result.getMembers().get(0)).isEqualTo(domainMember);
     assertThat(result.getComment()).isEqualTo("Team comment");
     verify(userService).getById("user-1");
     verify(userService).getById("user-2");
+    verify(jobService).findById("job-1");
+  }
+
+  @Test
+  void toDomain_ShouldHandleNullJobId() {
+    CrupdateTeam rest =
+        new CrupdateTeam()
+            .id("team-1")
+            .name("Alpha Team")
+            .leaderId("user-1")
+            .jobId(null)
+            .memberIds(List.of("user-2"));
+
+    when(userService.getById("user-1")).thenReturn(domainLeader);
+    when(userService.getById("user-2")).thenReturn(domainMember);
+
+    com.example.demo.model.core.Team result = teamMapper.toDomain(rest);
+
+    assertThat(result).isNotNull();
+    assertThat(result.getJob()).isNull();
   }
 
   @Test
@@ -219,6 +252,7 @@ class TeamMapperTest {
             .id("team-1")
             .name("Alpha Team")
             .leader(domainLeader)
+            .job(domainJob)
             .members(List.of(domainMember))
             .build();
 
@@ -232,10 +266,29 @@ class TeamMapperTest {
     assertThat(result.getName()).isEqualTo("Alpha Team");
     assertThat(result.getLeader()).isNotNull();
     assertThat(result.getLeader().getId()).isEqualTo("user-1");
+    assertThat(result.getJobId()).isEqualTo("job-1");
     assertThat(result.getMembers()).hasSize(1);
     assertThat(result.getMembers().get(0).getId()).isEqualTo("user-2");
     verify(userMapper).toRestUser(domainLeader);
     verify(userMapper).toRestUser(domainMember);
+  }
+
+  @Test
+  void toRestTeam_ShouldHandleNullJob() {
+    com.example.demo.model.core.Team domain =
+        com.example.demo.model.core.Team.builder()
+            .id("team-1")
+            .name("Alpha Team")
+            .leader(domainLeader)
+            .job(null)
+            .build();
+
+    when(userMapper.toRestUser(domainLeader)).thenReturn(restLeader);
+
+    com.example.demo.client.model.Team result = teamMapper.toRestTeam(domain);
+
+    assertThat(result).isNotNull();
+    assertThat(result.getJobId()).isNull();
   }
 
   @Test

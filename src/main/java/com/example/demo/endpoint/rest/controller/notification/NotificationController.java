@@ -45,14 +45,14 @@ public class NotificationController {
       @RequestParam(name = "completed", required = false) Boolean completed) {
     User currentUser = modificationUtils.takePrimaryUser();
     Pageable pageable = PageUtils.createPageable(page, pageSize);
-    org.springframework.data.domain.Page<com.example.demo.model.notification.Notification> domainNotifs;
+    org.springframework.data.domain.Page<com.example.demo.model.notification.Notification>
+        domainNotifs;
     if (read != null && completed != null) {
       domainNotifs =
           notificationService.findByUserIdAndReadAndCompleted(
               currentUser.getId(), read, completed, pageable);
     } else if (read != null) {
-      domainNotifs =
-          notificationService.findByUserIdAndRead(currentUser.getId(), read, pageable);
+      domainNotifs = notificationService.findByUserIdAndRead(currentUser.getId(), read, pageable);
     } else if (completed != null) {
       domainNotifs =
           notificationService.findByUserIdAndCompleted(currentUser.getId(), completed, pageable);

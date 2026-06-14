@@ -6,10 +6,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.example.demo.SentryConf;
 import com.example.demo.client.api.IncomeReceiptApi;
 import com.example.demo.client.invoker.ApiClient;
-import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.CrupdateIncomeReceipt;
-import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.IncomeReceipt;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
 import com.example.demo.integration.conf.TestDataSqlLoader;
@@ -84,8 +83,8 @@ class IncomeReceiptIT {
     ApiClient administrationClient = anApiClient(ADMINISTRATION_TOKEN);
     IncomeReceiptApi api = new IncomeReceiptApi(administrationClient);
 
-    PaginatedResponse resp = api.getIncomeReceipts(ADMIN_ID, COMPANY1_ID, JOB1_ID, INCOME1_ID, 1, 100);
-
+    PaginatedResponse resp =
+        api.getIncomeReceipts(ADMIN_ID, COMPANY1_ID, JOB1_ID, INCOME1_ID, 1, 100);
 
     List<IncomeReceipt> receipts = extractData(resp, IncomeReceipt.class);
 
@@ -182,8 +181,8 @@ class IncomeReceiptIT {
 
     api.deleteIncomeReceiptById(ADMIN_ID, COMPANY1_ID, JOB1_ID, RECEIPT1_ID, INCOME1_ID);
 
-    PaginatedResponse resp = api.getIncomeReceipts(ADMIN_ID, COMPANY1_ID, JOB1_ID, INCOME1_ID, 1, 100);
-
+    PaginatedResponse resp =
+        api.getIncomeReceipts(ADMIN_ID, COMPANY1_ID, JOB1_ID, INCOME1_ID, 1, 100);
 
     List<IncomeReceipt> receipts = extractData(resp, IncomeReceipt.class);
 

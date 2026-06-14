@@ -7,9 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.example.demo.SentryConf;
 import com.example.demo.client.api.NotificationApi;
 import com.example.demo.client.invoker.ApiClient;
-import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.CrupdateNotification;
-import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.Notification;
 import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.UnreadNotificationCountResponse;
@@ -221,7 +219,6 @@ class NotificationIT {
     assertEquals("Notification de test", created.get(0).getTitle());
 
     PaginatedResponse resp = api.getNotifications(ADMIN_ID, COMPANY1_ID, null, null, null, null);
-
 
     List<Notification> all = extractData(resp, Notification.class);
     assertTrue(all.stream().anyMatch(n -> "new_notif_id".equals(n.getId())));

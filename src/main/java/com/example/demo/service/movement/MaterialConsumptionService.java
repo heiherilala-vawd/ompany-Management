@@ -1,8 +1,11 @@
 package com.example.demo.service.movement;
 
 import com.example.demo.model.BoundedPageSize;
+import com.example.demo.model.Job;
 import com.example.demo.model.PageFromOne;
+import com.example.demo.model.User;
 import com.example.demo.model.exception.BadRequestException;
+import com.example.demo.model.exception.ForbiddenException;
 import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.model.movement.MaterialConsumption;
 import com.example.demo.model.movement.MaterialConsumption.ConsumptionStatus;
@@ -57,14 +60,29 @@ public class MaterialConsumptionService {
   @Transactional
   public List<MaterialConsumption> createOrUpdateAll(List<MaterialConsumption> consumptions) {
     movementValidator.validateMaterialConsumptions(consumptions);
+    User currentUser = modificationUtils.takePrimaryUser();
     List<MaterialConsumption> processed = new ArrayList<>();
     for (MaterialConsumption consumption : consumptions) {
       MaterialConsumption existing =
           consumption.getId() == null
               ? null
               : materialConsumptionRepository.findById(consumption.getId()).orElse(null);
+
+      if (currentUser.getRole() == User.Role.WAREHOUSE_WORKER) {
+        Job existingJob =
+            existing != null && existing.getWarehouse() != null
+                ? existing.getWarehouse().getJob()
+                : null;
+        if (existingJob != null) {
+          validateJobAccess(existingJob, currentUser);
+        }
+        if (consumption.getWarehouse() != null && consumption.getWarehouse().getJob() != null) {
+          validateJobAccess(consumption.getWarehouse().getJob(), currentUser);
+        }
+      }
+
       modificationUtils.createOrUpdateModel(
-          consumption, existing, consumption.getId(), modificationUtils.takePrimaryUser());
+          consumption, existing, consumption.getId(), currentUser);
 
       if (consumption.getConsumptionStatus() == ConsumptionStatus.COMPLETED) {
         boolean wasInProgress =
@@ -90,10 +108,17 @@ public class MaterialConsumptionService {
       return consumption;
     }
 
+    User currentUser = modificationUtils.takePrimaryUser();
+    if (currentUser.getRole() == User.Role.WAREHOUSE_WORKER) {
+      Job job = consumption.getWarehouse() != null ? consumption.getWarehouse().getJob() : null;
+      if (job != null) {
+        validateJobAccess(job, currentUser);
+      }
+    }
+
     MaterialConsumption existing =
         materialConsumptionRepository.findById(consumption.getId()).orElse(null);
-    modificationUtils.createOrUpdateModel(
-        consumption, existing, consumption.getId(), modificationUtils.takePrimaryUser());
+    modificationUtils.createOrUpdateModel(consumption, existing, consumption.getId(), currentUser);
     consumption.setConsumptionStatus(ConsumptionStatus.COMPLETED);
     moveToUsedWarehouse(consumption);
     return materialConsumptionRepository.save(consumption);
@@ -109,6 +134,14 @@ public class MaterialConsumptionService {
 
     if (returnedQuantity <= 0) {
       throw new BadRequestException("returned quantity must be positive");
+    }
+
+    User currentUser = modificationUtils.takePrimaryUser();
+    if (currentUser.getRole() == User.Role.WAREHOUSE_WORKER) {
+      Job job = consumption.getWarehouse() != null ? consumption.getWarehouse().getJob() : null;
+      if (job != null) {
+        validateJobAccess(job, currentUser);
+      }
     }
 
     Warehouse used =
@@ -146,6 +179,14 @@ public class MaterialConsumptionService {
   @Transactional
   public void deleteById(String id) {
     materialConsumptionRepository.deleteById(id);
+  }
+
+  private void validateJobAccess(Job job, User user) {
+    boolean isAssigned =
+        job.getResponsibleUsers().stream().anyMatch(u -> u.getId().equals(user.getId()));
+    if (!isAssigned) {
+      throw new ForbiddenException("Warehouse worker is not assigned to this job");
+    }
   }
 
   private void moveToUsedWarehouse(MaterialConsumption consumption) {

@@ -1,5 +1,7 @@
 package com.example.demo.service.money;
 
+import com.example.demo.model.User;
+import com.example.demo.model.exception.ForbiddenException;
 import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.model.money.Supplier;
 import com.example.demo.repository.money.SupplierRepository;
@@ -36,14 +38,22 @@ public class SupplierService {
 
   @Transactional
   public List<Supplier> createOrUpdateAll(List<Supplier> suppliers) {
+    User currentUser = modificationUtils.takePrimaryUser();
     List<Supplier> processed = new ArrayList<>();
     for (Supplier supplier : suppliers) {
       Supplier existing =
           supplier.getId() != null
               ? supplierRepository.findById(supplier.getId()).orElse(null)
               : null;
-      modificationUtils.createOrUpdateModel(
-          supplier, existing, supplier.getId(), modificationUtils.takePrimaryUser());
+
+      if (currentUser.getRole() == User.Role.WAREHOUSE_WORKER && existing != null) {
+        if (existing.getCreatedBy() == null
+            || !existing.getCreatedBy().getId().equals(currentUser.getId())) {
+          throw new ForbiddenException("Warehouse worker can only update suppliers they created");
+        }
+      }
+
+      modificationUtils.createOrUpdateModel(supplier, existing, supplier.getId(), currentUser);
       processed.add(supplier);
     }
     return supplierRepository.saveAll(processed);

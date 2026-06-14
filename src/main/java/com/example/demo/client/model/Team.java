@@ -39,6 +39,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   Team.JSON_PROPERTY_ID,
   Team.JSON_PROPERTY_NAME,
   Team.JSON_PROPERTY_LEADER,
+  Team.JSON_PROPERTY_JOB_ID,
   Team.JSON_PROPERTY_MEMBERS,
   Team.JSON_PROPERTY_CREATED_AT,
   Team.JSON_PROPERTY_UPDATED_AT,
@@ -46,7 +47,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   Team.JSON_PROPERTY_UPDATED_BY,
   Team.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T13:41:38.687456885+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T14:50:16.763945049+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class Team {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -56,6 +57,9 @@ public class Team {
 
   public static final String JSON_PROPERTY_LEADER = "leader";
   private User leader;
+
+  public static final String JSON_PROPERTY_JOB_ID = "job_id";
+  private String jobId;
 
   public static final String JSON_PROPERTY_MEMBERS = "members";
   private List<User> members = new ArrayList<>();
@@ -150,6 +154,31 @@ public class Team {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setLeader(User leader) {
     this.leader = leader;
+  }
+
+
+  public Team jobId(String jobId) {
+    this.jobId = jobId;
+    return this;
+  }
+
+   /**
+   * Get jobId
+   * @return jobId
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_JOB_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getJobId() {
+    return jobId;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_JOB_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setJobId(String jobId) {
+    this.jobId = jobId;
   }
 
 
@@ -326,6 +355,7 @@ public class Team {
     return Objects.equals(this.id, team.id) &&
         Objects.equals(this.name, team.name) &&
         Objects.equals(this.leader, team.leader) &&
+        Objects.equals(this.jobId, team.jobId) &&
         Objects.equals(this.members, team.members) &&
         Objects.equals(this.createdAt, team.createdAt) &&
         Objects.equals(this.updatedAt, team.updatedAt) &&
@@ -336,7 +366,7 @@ public class Team {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, leader, members, createdAt, updatedAt, createdBy, updatedBy, comment);
+    return Objects.hash(id, name, leader, jobId, members, createdAt, updatedAt, createdBy, updatedBy, comment);
   }
 
   @Override
@@ -346,6 +376,7 @@ public class Team {
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    leader: ").append(toIndentedString(leader)).append("\n");
+    sb.append("    jobId: ").append(toIndentedString(jobId)).append("\n");
     sb.append("    members: ").append(toIndentedString(members)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
     sb.append("    updatedAt: ").append(toIndentedString(updatedAt)).append("\n");

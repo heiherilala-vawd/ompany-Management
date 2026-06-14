@@ -6,10 +6,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.example.demo.SentryConf;
 import com.example.demo.client.api.CashAccountApi;
 import com.example.demo.client.invoker.ApiClient;
-import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.CashAccount;
-import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.CrupdateCashAccount;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
 import com.example.demo.integration.conf.TestDataSqlLoader;
@@ -78,7 +77,6 @@ class CashAccountIT {
 
     PaginatedResponse resp = api.getCashAccounts(ADMIN_ID, COMPANY1_ID, 1, 100);
 
-
     List<CashAccount> accounts = extractData(resp, CashAccount.class);
 
     assertEquals(2, accounts.size());
@@ -134,7 +132,6 @@ class CashAccountIT {
     api.deleteCashAccountById(ADMIN_ID, COMPANY1_ID, CASH_ACCOUNT2_ID);
 
     PaginatedResponse resp = api.getCashAccounts(ADMIN_ID, COMPANY1_ID, 1, 100);
-
 
     List<CashAccount> accounts = extractData(resp, CashAccount.class);
     assertEquals(1, accounts.size());

@@ -5,7 +5,6 @@ import com.example.demo.client.model.CrupdateMaterialWarehouse;
 import com.example.demo.client.model.Material;
 import com.example.demo.client.model.MaterialUnit;
 import com.example.demo.client.model.MaterialWarehouseInfo;
-import com.example.demo.client.model.MaterialWarehouseView;
 import com.example.demo.endpoint.rest.PaginatedResponse;
 import com.example.demo.endpoint.rest.mapper.EnumMapper;
 import com.example.demo.endpoint.rest.mapper.movement.MaterialMapper;
