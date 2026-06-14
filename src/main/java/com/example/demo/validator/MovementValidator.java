@@ -1,6 +1,7 @@
 package com.example.demo.validator;
 
 import com.example.demo.model.exception.BadRequestException;
+import com.example.demo.model.movement.Car;
 import com.example.demo.model.movement.Equipment;
 import com.example.demo.model.movement.EquipmentUsage;
 import com.example.demo.model.movement.Maintenance;
@@ -11,12 +12,16 @@ import com.example.demo.model.movement.TravelEquipment;
 import com.example.demo.model.movement.TravelMaterials;
 import com.example.demo.model.movement.TravelPeople;
 import com.example.demo.model.movement.Warehouse;
+import com.example.demo.repository.movement.CarRepository;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Component;
 
 @Component
+@lombok.AllArgsConstructor
 public class MovementValidator {
+
+  private final CarRepository carRepository;
 
   public void validateMaterial(Material material) {
     List<String> errors = new ArrayList<>();
@@ -302,6 +307,70 @@ public class MovementValidator {
     if (materialWarehouse != null
         && (materialWarehouse.getQuantity() == null || materialWarehouse.getQuantity() < 0)) {
       errors.add("Quantity must be non-negative");
+    }
+    if (!errors.isEmpty()) {
+      throw new BadRequestException(String.join("; ", errors));
+    }
+  }
+
+  public void validateCar(Car car) {
+    List<String> errors = new ArrayList<>();
+    if (car == null) {
+      errors.add("Car cannot be null");
+    }
+    if (car != null && (car.getId() == null || car.getId().getEquipmentId() == null)) {
+      errors.add("Equipment ID is mandatory");
+    }
+    if (car != null && (car.getId() == null || car.getId().getWarehouseId() == null)) {
+      errors.add("Warehouse ID is mandatory");
+    }
+    if (car != null
+        && (car.getEquipment() == null
+            || car.getEquipment().getName() == null
+            || car.getEquipment().getName().isBlank())) {
+      errors.add("Equipment name is mandatory");
+    }
+    if (car != null
+        && (car.getWarehouse() == null
+            || car.getWarehouse().getName() == null
+            || car.getWarehouse().getName().isBlank())) {
+      errors.add("Warehouse name is mandatory");
+    }
+    if (car != null && car.getFuelType() == null) {
+      errors.add("Fuel type is mandatory");
+    }
+    if (car != null && car.getStatus() == null) {
+      errors.add("Car status is mandatory");
+    }
+    if (!errors.isEmpty()) {
+      throw new BadRequestException(String.join("; ", errors));
+    }
+  }
+
+  public void validateCars(List<Car> cars) {
+    List<String> errors = new ArrayList<>();
+    if (cars == null || cars.isEmpty()) {
+      errors.add("Car list cannot be null or empty");
+    }
+    if (!errors.isEmpty()) {
+      throw new BadRequestException(String.join("; ", errors));
+    }
+    cars.forEach(this::validateCar);
+  }
+
+  public void validateCarCreation(Car car, CarRepository repository) {
+    List<String> errors = new ArrayList<>();
+    if (car != null
+        && car.getEquipment() != null
+        && car.getEquipment().getId() != null
+        && repository.existsByEquipment_Id(car.getEquipment().getId())) {
+      errors.add("Equipment " + car.getEquipment().getId() + " is already associated with a car");
+    }
+    if (car != null
+        && car.getWarehouse() != null
+        && car.getWarehouse().getId() != null
+        && repository.existsByWarehouse_Id(car.getWarehouse().getId())) {
+      errors.add("Warehouse " + car.getWarehouse().getId() + " is already associated with a car");
     }
     if (!errors.isEmpty()) {
       throw new BadRequestException(String.join("; ", errors));

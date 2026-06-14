@@ -60,7 +60,8 @@ public final class TestDataSqlLoader {
           "db/testdata/V100_43__testdata_material_consumptions.sql",
           "db/testdata/V100_44__testdata_suppliers.sql",
           "db/testdata/V100_45__testdata_purchase_orders.sql",
-          "db/testdata/V100_46__testdata_maintenance_schedules.sql");
+          "db/testdata/V100_46__testdata_maintenance_schedules.sql",
+          "db/testdata/V100_47__testdata_cars.sql");
 
   private TestDataSqlLoader() {}
 
