@@ -33,7 +33,7 @@ public class UserController {
   }
 
   @GetMapping("/users/{id}")
-  @PreAuthorize("hasAnyRole('ADMIN') or #id == authentication.principal.id")
+  @PreAuthorize("hasAnyRole('ADMIN', 'WAREHOUSE_WORKER') or #id == authentication.principal.id")
   public User getUserById(@PathVariable String id) {
     return userMapper.toRestUser(userService.getById(id));
   }
