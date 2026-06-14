@@ -13,7 +13,6 @@ import com.example.demo.model.movement.TravelMaterials;
 import com.example.demo.model.movement.TravelPeople;
 import com.example.demo.model.movement.Warehouse;
 import com.example.demo.repository.UserRepository;
-import com.example.demo.service.money.ExpenseMoneyService;
 import com.example.demo.service.money.TravelExpenseService;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +24,6 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class TravelOperationService {
 
-  private final ExpenseMoneyService expenseMoneyService;
   private final TravelExpenseService travelExpenseService;
   private final TravelEquipmentService travelEquipmentService;
   private final TravelMaterialsService travelMaterialsService;
@@ -58,10 +56,8 @@ public class TravelOperationService {
       }
     }
 
-    ExpenseMoney savedExpenseMoney =
-        saveTravelExpenseMoneyIfPresent(aggregate.travelExpenseMoney());
     TravelExpense savedTravel =
-        saveTravel(aggregate.travel(), savedExpenseMoney, departure, arrival);
+        saveTravel(aggregate.travel(), aggregate.travelExpenseMoney(), departure, arrival);
 
     moveEquipment(aggregate.travelEquipment(), savedTravel, departure, arrival);
     moveMaterials(aggregate.travelMaterials(), savedTravel, departure, arrival);
@@ -89,13 +85,6 @@ public class TravelOperationService {
     return warehouseService
         .findById(warehouse.getId())
         .orElseGet(() -> warehouseService.createOrUpdateAll(List.of(warehouse)).get(0));
-  }
-
-  private ExpenseMoney saveTravelExpenseMoneyIfPresent(ExpenseMoney travelExpenseMoney) {
-    if (travelExpenseMoney == null) {
-      return null;
-    }
-    return expenseMoneyService.createOrUpdateAll(List.of(travelExpenseMoney)).get(0);
   }
 
   private TravelExpense saveTravel(
