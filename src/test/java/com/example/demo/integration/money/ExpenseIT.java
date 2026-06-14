@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import com.example.demo.SentryConf;
 import com.example.demo.client.api.ExpenseApi;
+import com.example.demo.client.api.JobApi;
 import com.example.demo.client.invoker.ApiClient;
 import com.example.demo.client.model.CrupdateExpenseMoney;
 import com.example.demo.client.model.ExpenseMoney;
@@ -206,6 +207,57 @@ class ExpenseIT {
     assertThrowsApiException(
         "{\"type\":\"400 BAD_REQUEST\",\"message\":\"Expense must be associated with a job\"}",
         () -> api.crupdateExpenses(ADMIN_ID, COMPANY1_ID, JOB1_ID, List.of(expense)));
+  }
+
+  @Test
+  @DirtiesContext
+  void warehouse_worker_can_get_expense_by_id_when_assigned_to_job() throws Exception {
+    JobApi adminJobApi = new JobApi(anApiClient(ADMIN_TOKEN));
+    adminJobApi.assignUserToJob(WAREHOUSE_ID, COMPANY1_ID, JOB1_ID);
+
+    ApiClient warehouseClient = anApiClient(WAREHOUSE_TOKEN);
+    ExpenseApi api = new ExpenseApi(warehouseClient);
+
+    ExpenseMoney actual = api.getExpenseById(ADMIN_ID, COMPANY1_ID, JOB1_ID, EXPENSE1_ID);
+    ExpenseMoney expected = expense1();
+    expected.setCreatedAt(actual.getCreatedAt());
+    expected.setUpdatedAt(actual.getUpdatedAt());
+    expected.setCreatedBy(actual.getCreatedBy());
+    expected.setUpdatedBy(actual.getUpdatedBy());
+    expected.setComment(actual.getComment());
+
+    assertEquals(expected, actual);
+  }
+
+  @Test
+  void warehouse_worker_cannot_get_expense_when_not_assigned_to_job() {
+    ApiClient warehouseClient = anApiClient(WAREHOUSE_TOKEN);
+    ExpenseApi api = new ExpenseApi(warehouseClient);
+
+    assertThrowsForbiddenException(
+        () -> api.getExpenseById(ADMIN_ID, COMPANY1_ID, JOB1_ID, EXPENSE1_ID));
+  }
+
+  @Test
+  @DirtiesContext
+  void warehouse_worker_can_update_expense_when_assigned_to_job() throws Exception {
+    JobApi adminJobApi = new JobApi(anApiClient(ADMIN_TOKEN));
+    adminJobApi.assignUserToJob(WAREHOUSE_ID, COMPANY1_ID, JOB1_ID);
+
+    ApiClient warehouseClient = anApiClient(WAREHOUSE_TOKEN);
+    ExpenseApi api = new ExpenseApi(warehouseClient);
+
+    CrupdateExpenseMoney expenseToUpdate = expenseToCrupdateExpense(expense1());
+    expenseToUpdate.setDescription("Achat materiaux chantier A - mis a jour entrepot");
+
+    List<ExpenseMoney> updated =
+        api.crupdateExpenses(ADMIN_ID, COMPANY1_ID, JOB1_ID, List.of(expenseToUpdate));
+
+    assertEquals(1, updated.size());
+    assertEquals(EXPENSE1_ID, updated.get(0).getId());
+    assertEquals(
+        "Achat materiaux chantier A - mis a jour entrepot",
+        updated.get(0).getDescription());
   }
 
   static class ContextInitializer extends AbstractContextInitializer {

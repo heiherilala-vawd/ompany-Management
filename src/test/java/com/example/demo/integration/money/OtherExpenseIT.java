@@ -4,6 +4,7 @@ import static com.example.demo.integration.conf.TestUtils.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.example.demo.SentryConf;
+import com.example.demo.client.api.JobApi;
 import com.example.demo.client.api.OtherExpenseApi;
 import com.example.demo.client.invoker.ApiClient;
 import com.example.demo.client.model.CrupdateOtherExpense;
@@ -157,6 +158,50 @@ class OtherExpenseIT {
         () ->
             api.crupdateOtherExpenses(
                 ADMIN_ID, COMPANY1_ID, JOB1_ID, List.of(invalidOtherExpense)));
+  }
+
+  @Test
+  @DirtiesContext
+  void warehouse_worker_can_get_other_expense_by_id_when_assigned_to_job() throws Exception {
+    JobApi adminJobApi = new JobApi(anApiClient(ADMIN_TOKEN));
+    adminJobApi.assignUserToJob(WAREHOUSE_ID, COMPANY1_ID, JOB1_ID);
+
+    OtherExpenseApi api = new OtherExpenseApi(anApiClient(WAREHOUSE_TOKEN));
+    OtherExpense actual =
+        api.getOtherExpenseById(ADMIN_ID, COMPANY1_ID, JOB1_ID, OTHER_EXPENSE1_ID);
+
+    assertEquals(otherExpense1(), actual);
+  }
+
+  @Test
+  void warehouse_worker_cannot_get_other_expense_when_not_assigned_to_job() {
+    OtherExpenseApi api = new OtherExpenseApi(anApiClient(WAREHOUSE_TOKEN));
+
+    assertThrowsForbiddenException(
+        () ->
+            api.getOtherExpenseById(ADMIN_ID, COMPANY1_ID, JOB1_ID, OTHER_EXPENSE1_ID));
+  }
+
+  @Test
+  @DirtiesContext
+  void warehouse_worker_can_update_other_expense_when_assigned_to_job() throws Exception {
+    JobApi adminJobApi = new JobApi(anApiClient(ADMIN_TOKEN));
+    adminJobApi.assignUserToJob(WAREHOUSE_ID, COMPANY1_ID, JOB1_ID);
+
+    OtherExpenseApi api = new OtherExpenseApi(anApiClient(WAREHOUSE_TOKEN));
+
+    CrupdateOtherExpense otherExpenseToUpdate = otherExpenseToCrupdateOtherExpense(otherExpense1());
+    otherExpenseToUpdate.setDescription("Frais administratifs chantier A - mis a jour entrepot");
+
+    List<OtherExpense> updated =
+        api.crupdateOtherExpenses(
+            ADMIN_ID, COMPANY1_ID, JOB1_ID, List.of(otherExpenseToUpdate));
+
+    assertEquals(1, updated.size());
+    assertEquals(OTHER_EXPENSE1_ID, updated.get(0).getId());
+    assertEquals(
+        "Frais administratifs chantier A - mis a jour entrepot",
+        updated.get(0).getDescription());
   }
 
   static class ContextInitializer extends AbstractContextInitializer {

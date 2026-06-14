@@ -131,6 +131,58 @@ class OtherExpenseTypeIT {
         () -> api.crupdateOtherExpenseTypes(ADMIN_ID, COMPANY1_ID, List.of(invalid)));
   }
 
+  @Test
+  void warehouse_worker_can_get_other_expense_type_by_id() throws Exception {
+    OtherExpenseTypeApi api = new OtherExpenseTypeApi(anApiClient(WAREHOUSE_TOKEN));
+
+    OtherExpenseType actual =
+        api.getOtherExpenseTypeById(ADMIN_ID, COMPANY1_ID, OTHER_EXPENSE_TYPE1_ID);
+    OtherExpenseType expected = otherExpenseType1();
+    expected.setCreatedAt(actual.getCreatedAt());
+    expected.setUpdatedAt(actual.getUpdatedAt());
+    expected.setCreatedBy(actual.getCreatedBy());
+    expected.setUpdatedBy(actual.getUpdatedBy());
+    expected.setComment(actual.getComment());
+
+    assertEquals(expected, actual);
+  }
+
+  @Test
+  void warehouse_worker_can_get_all_other_expense_types() throws Exception {
+    OtherExpenseTypeApi api = new OtherExpenseTypeApi(anApiClient(WAREHOUSE_TOKEN));
+
+    PaginatedResponse resp = api.getOtherExpenseTypes(ADMIN_ID, COMPANY1_ID);
+
+    List<OtherExpenseType> types = extractData(resp, OtherExpenseType.class);
+
+    assertEquals(2, types.size());
+    assertTrue(types.stream().anyMatch(t -> OTHER_EXPENSE_TYPE1_ID.equals(t.getId())));
+    assertTrue(types.stream().anyMatch(t -> OTHER_EXPENSE_TYPE2_ID.equals(t.getId())));
+  }
+
+  @Test
+  @DirtiesContext
+  void warehouse_worker_can_create_other_expense_type() throws Exception {
+    OtherExpenseTypeApi api = new OtherExpenseTypeApi(anApiClient(WAREHOUSE_TOKEN));
+
+    CrupdateOtherExpenseType toCreate = someCreatableOtherExpenseType();
+
+    List<OtherExpenseType> created =
+        api.crupdateOtherExpenseTypes(ADMIN_ID, COMPANY1_ID, List.of(toCreate));
+
+    assertEquals(1, created.size());
+    assertEquals(toCreate.getId(), created.get(0).getId());
+    assertEquals(toCreate.getName(), created.get(0).getName());
+  }
+
+  @Test
+  void warehouse_worker_cannot_delete_other_expense_type() {
+    OtherExpenseTypeApi api = new OtherExpenseTypeApi(anApiClient(WAREHOUSE_TOKEN));
+
+    assertThrowsForbiddenException(
+        () -> api.deleteOtherExpenseTypeById(ADMIN_ID, COMPANY1_ID, OTHER_EXPENSE_TYPE1_ID));
+  }
+
   static class ContextInitializer extends AbstractContextInitializer {
     public static final int SERVER_PORT = anAvailableRandomPort();
 

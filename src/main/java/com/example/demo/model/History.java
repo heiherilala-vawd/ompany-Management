@@ -107,6 +107,7 @@ public class History implements Serializable {
     BUDGETLINE,
     TEAM,
     NOTIFICATION,
-    ORGANIZATION
+    ORGANIZATION,
+    CAR
   }
 }

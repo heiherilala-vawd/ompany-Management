@@ -23,7 +23,9 @@ public class OtherExpenseController {
   private final OtherExpenseMapper otherExpenseMapper;
 
   @GetMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/other_expenses/{id}")
-  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION') or #userId == authentication.principal.id")
+  @PreAuthorize(
+      "hasAnyRole('ADMIN', 'ADMINISTRATION') or #userId == authentication.principal.id"
+          + " or @jobSecurity.isCurrentUserAssignedToJob(#jobId)")
   public OtherExpense getOtherExpenseById(
       @PathVariable String userId,
       @PathVariable String companyId,
@@ -36,7 +38,9 @@ public class OtherExpenseController {
   }
 
   @GetMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/other_expenses")
-  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION') or #userId == authentication.principal.id")
+  @PreAuthorize(
+      "hasAnyRole('ADMIN', 'ADMINISTRATION') or #userId == authentication.principal.id"
+          + " or @jobSecurity.isCurrentUserAssignedToJob(#jobId)")
   public PaginatedResponse getOtherExpenses(
       @PathVariable String userId,
       @PathVariable String companyId,
@@ -54,7 +58,9 @@ public class OtherExpenseController {
   }
 
   @PutMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/other_expenses")
-  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION') or #userId == authentication.principal.id")
+  @PreAuthorize(
+      "hasAnyRole('ADMIN', 'ADMINISTRATION') or #userId == authentication.principal.id"
+          + " or @jobSecurity.isCurrentUserAssignedToJob(#jobId)")
   public List<OtherExpense> crupdateOtherExpenses(
       @PathVariable String userId,
       @PathVariable String companyId,

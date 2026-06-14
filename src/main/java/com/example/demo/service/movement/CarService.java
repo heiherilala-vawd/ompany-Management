@@ -56,8 +56,8 @@ public class CarService {
         Equipment equipment = car.getEquipment();
         Warehouse warehouse = car.getWarehouse();
 
-        equipmentService.createOrUpdateAll(List.of(equipment));
         warehouseService.createOrUpdateAll(List.of(warehouse));
+        equipmentService.createOrUpdateAll(List.of(equipment));
       } else {
         Equipment existingEquipment = existingCar.getEquipment();
         Equipment updatedEquipment = car.getEquipment();

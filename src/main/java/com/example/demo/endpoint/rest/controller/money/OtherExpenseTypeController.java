@@ -30,7 +30,7 @@ public class OtherExpenseTypeController {
   private final OtherExpenseTypeMapper otherExpenseTypeMapper;
 
   @GetMapping("/users/{userId}/companies/{companyId}/other_expense_types/{id}")
-  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
+  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public OtherExpenseType getOtherExpenseTypeById(
       @PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     return otherExpenseTypeMapper.toRestOtherExpenseType(
@@ -41,7 +41,7 @@ public class OtherExpenseTypeController {
   }
 
   @GetMapping("/users/{userId}/companies/{companyId}/other_expense_types")
-  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
+  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public PaginatedResponse getOtherExpenseTypes(
       @PathVariable String userId,
       @PathVariable String companyId,
@@ -54,7 +54,7 @@ public class OtherExpenseTypeController {
   }
 
   @PutMapping("/users/{userId}/companies/{companyId}/other_expense_types")
-  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
+  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public List<OtherExpenseType> crupdateOtherExpenseTypes(
       @PathVariable String userId,
       @PathVariable String companyId,
