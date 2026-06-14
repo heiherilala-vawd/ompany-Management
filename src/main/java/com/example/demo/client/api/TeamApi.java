@@ -51,7 +51,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T13:41:38.687456885+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T14:50:16.763945049+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class TeamApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -364,11 +364,12 @@ public class TeamApi {
    * @param companyId  (required)
    * @param page  (optional)
    * @param pageSize  (optional)
+   * @param jobId Filter teams by job ID (optional)
    * @return PaginatedResponse
    * @throws ApiException if fails to make API call
    */
-  public PaginatedResponse getTeams(String userId, String companyId, Integer page, Integer pageSize) throws ApiException {
-    ApiResponse<PaginatedResponse> localVarResponse = getTeamsWithHttpInfo(userId, companyId, page, pageSize);
+  public PaginatedResponse getTeams(String userId, String companyId, Integer page, Integer pageSize, String jobId) throws ApiException {
+    ApiResponse<PaginatedResponse> localVarResponse = getTeamsWithHttpInfo(userId, companyId, page, pageSize, jobId);
     return localVarResponse.getData();
   }
 
@@ -379,11 +380,12 @@ public class TeamApi {
    * @param companyId  (required)
    * @param page  (optional)
    * @param pageSize  (optional)
+   * @param jobId Filter teams by job ID (optional)
    * @return ApiResponse&lt;PaginatedResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<PaginatedResponse> getTeamsWithHttpInfo(String userId, String companyId, Integer page, Integer pageSize) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getTeamsRequestBuilder(userId, companyId, page, pageSize);
+  public ApiResponse<PaginatedResponse> getTeamsWithHttpInfo(String userId, String companyId, Integer page, Integer pageSize, String jobId) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getTeamsRequestBuilder(userId, companyId, page, pageSize, jobId);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -411,7 +413,7 @@ public class TeamApi {
     }
   }
 
-  private HttpRequest.Builder getTeamsRequestBuilder(String userId, String companyId, Integer page, Integer pageSize) throws ApiException {
+  private HttpRequest.Builder getTeamsRequestBuilder(String userId, String companyId, Integer page, Integer pageSize, String jobId) throws ApiException {
     // verify the required parameter 'userId' is set
     if (userId == null) {
       throw new ApiException(400, "Missing the required parameter 'userId' when calling getTeams");
@@ -434,6 +436,8 @@ public class TeamApi {
     localVarQueryParams.addAll(ApiClient.parameterToPairs("page", page));
     localVarQueryParameterBaseName = "page_size";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("page_size", pageSize));
+    localVarQueryParameterBaseName = "job_id";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("job_id", jobId));
 
     if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
       StringJoiner queryJoiner = new StringJoiner("&");

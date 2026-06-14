@@ -12,8 +12,8 @@ import com.example.demo.client.api.TravelPeopleApi;
 import com.example.demo.client.invoker.ApiClient;
 import com.example.demo.client.model.CrupdateEquipment;
 import com.example.demo.client.model.CrupdateMaterial;
-import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.CrupdateWarehouse;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.TravelEquipment;
 import com.example.demo.client.model.TravelExpense;
 import com.example.demo.client.model.TravelMaterials;
@@ -112,8 +112,9 @@ class TravelOperationIT {
 
     // Verify TravelExpense
     TravelExpenseApi travelExpenseApi = new TravelExpenseApi(anApiClient(ADMIN_TOKEN));
-    PaginatedResponse resp = travelExpenseApi.getTravelExpenses(
-        ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, departureWarehouseId, arrivalWarehouseId);
+    PaginatedResponse resp =
+        travelExpenseApi.getTravelExpenses(
+            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, departureWarehouseId, arrivalWarehouseId);
     List<TravelExpense> createdTravelExpenses = extractData(resp, TravelExpense.class);
     assertEquals(1, createdTravelExpenses.size());
     TravelExpense createdTravel = createdTravelExpenses.get(0);
@@ -125,8 +126,21 @@ class TravelOperationIT {
 
     // Verify TravelEquipment
     TravelEquipmentApi travelEquipmentApi = new TravelEquipmentApi(anApiClient(ADMIN_TOKEN));
-    PaginatedResponse resp1 = travelEquipmentApi.getTravelEquipment(
-        ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, travelId, EQUIPMENT1_ID, 1, null, null, null, null, null);
+    PaginatedResponse resp1 =
+        travelEquipmentApi.getTravelEquipment(
+            ADMIN_ID,
+            COMPANY1_ID,
+            JOB1_ID,
+            1,
+            100,
+            travelId,
+            EQUIPMENT1_ID,
+            1,
+            null,
+            null,
+            null,
+            null,
+            null);
     List<TravelEquipment> createdTravelEquipment = extractData(resp1, TravelEquipment.class);
     assertEquals(1, createdTravelEquipment.size());
     assertEquals(travelEquipmentId, createdTravelEquipment.get(0).getId());
@@ -134,8 +148,21 @@ class TravelOperationIT {
 
     // Verify TravelMaterials
     TravelMaterialsApi travelMaterialsApi = new TravelMaterialsApi(anApiClient(ADMIN_TOKEN));
-    PaginatedResponse resp2 = travelMaterialsApi.getTravelMaterials(
-        ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, travelId, MATERIAL1_ID, 50, null, null, null, null, null);
+    PaginatedResponse resp2 =
+        travelMaterialsApi.getTravelMaterials(
+            ADMIN_ID,
+            COMPANY1_ID,
+            JOB1_ID,
+            1,
+            100,
+            travelId,
+            MATERIAL1_ID,
+            50,
+            null,
+            null,
+            null,
+            null,
+            null);
     List<TravelMaterials> createdTravelMaterials = extractData(resp2, TravelMaterials.class);
     assertEquals(1, createdTravelMaterials.size());
     assertEquals(travelMaterialId, createdTravelMaterials.get(0).getId());
@@ -143,8 +170,9 @@ class TravelOperationIT {
 
     // Verify TravelPeople
     TravelPeopleApi travelPeopleApi = new TravelPeopleApi(anApiClient(ADMIN_TOKEN));
-    PaginatedResponse resp3 = travelPeopleApi.getTravelPeople(
-        ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, travelId, USER1_ID, null, null, null, null);
+    PaginatedResponse resp3 =
+        travelPeopleApi.getTravelPeople(
+            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, travelId, USER1_ID, null, null, null, null);
     List<TravelPeople> createdTravelPeople = extractData(resp3, TravelPeople.class);
     assertEquals(1, createdTravelPeople.size());
     assertEquals(travelPeopleId, createdTravelPeople.get(0).getId());
@@ -179,8 +207,9 @@ class TravelOperationIT {
     api.createTravelOperation(EMPLOYEE_ID, COMPANY1_ID, JOB1_ID, request);
 
     TravelPeopleApi travelPeopleApi = new TravelPeopleApi(anApiClient(ADMIN_TOKEN));
-    PaginatedResponse resp = travelPeopleApi.getTravelPeople(
-        ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, travelId, USER2_ID, null, null, null, null);
+    PaginatedResponse resp =
+        travelPeopleApi.getTravelPeople(
+            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, travelId, USER2_ID, null, null, null, null);
     List<TravelPeople> createdTravelPeople = extractData(resp, TravelPeople.class);
     assertEquals(1, createdTravelPeople.size());
     assertEquals(travelPeopleId, createdTravelPeople.get(0).getId());
@@ -188,14 +217,40 @@ class TravelOperationIT {
 
     // Verify no equipment or materials were created for this travel
     TravelEquipmentApi travelEquipmentApi = new TravelEquipmentApi(anApiClient(ADMIN_TOKEN));
-    PaginatedResponse resp1 = travelEquipmentApi.getTravelEquipment(
-        ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, travelId, null, null, null, null, null, null, null);
+    PaginatedResponse resp1 =
+        travelEquipmentApi.getTravelEquipment(
+            ADMIN_ID,
+            COMPANY1_ID,
+            JOB1_ID,
+            1,
+            100,
+            travelId,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null);
     List<TravelEquipment> equipmentList = extractData(resp1, TravelEquipment.class);
     assertTrue(equipmentList.isEmpty());
 
     TravelMaterialsApi travelMaterialsApi = new TravelMaterialsApi(anApiClient(ADMIN_TOKEN));
-    PaginatedResponse resp2 = travelMaterialsApi.getTravelMaterials(
-        ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, travelId, null, null, null, null, null, null, null);
+    PaginatedResponse resp2 =
+        travelMaterialsApi.getTravelMaterials(
+            ADMIN_ID,
+            COMPANY1_ID,
+            JOB1_ID,
+            1,
+            100,
+            travelId,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null);
     List<TravelMaterials> materialsList = extractData(resp2, TravelMaterials.class);
     assertTrue(materialsList.isEmpty());
   }
@@ -230,15 +285,29 @@ class TravelOperationIT {
     api.createTravelOperation(EMPLOYEE_ID, COMPANY1_ID, JOB1_ID, request);
 
     TravelEquipmentApi travelEquipmentApi = new TravelEquipmentApi(anApiClient(ADMIN_TOKEN));
-    PaginatedResponse resp = travelEquipmentApi.getTravelEquipment(
-        ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, travelId, EQUIPMENT2_ID, 1, null, null, null, null, null);
+    PaginatedResponse resp =
+        travelEquipmentApi.getTravelEquipment(
+            ADMIN_ID,
+            COMPANY1_ID,
+            JOB1_ID,
+            1,
+            100,
+            travelId,
+            EQUIPMENT2_ID,
+            1,
+            null,
+            null,
+            null,
+            null,
+            null);
     List<TravelEquipment> equipmentList = extractData(resp, TravelEquipment.class);
     assertEquals(1, equipmentList.size());
     assertEquals(travelEquipmentId, equipmentList.get(0).getId());
 
     TravelPeopleApi travelPeopleApi = new TravelPeopleApi(anApiClient(ADMIN_TOKEN));
-    PaginatedResponse resp1 = travelPeopleApi.getTravelPeople(
-        ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, travelId, USER1_ID, null, null, null, null);
+    PaginatedResponse resp1 =
+        travelPeopleApi.getTravelPeople(
+            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, travelId, USER1_ID, null, null, null, null);
     List<TravelPeople> peopleList = extractData(resp1, TravelPeople.class);
     assertEquals(1, peopleList.size());
     assertEquals(travelPeopleId, peopleList.get(0).getId());

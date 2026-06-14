@@ -6,13 +6,10 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.example.demo.SentryConf;
 import com.example.demo.client.api.UsersApi;
 import com.example.demo.client.invoker.ApiClient;
-import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.CrupdateUser;
 import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.Role;
-import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.Sex;
-import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.User;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
@@ -94,7 +91,6 @@ class UserIT {
 
     PaginatedResponse resp = api.getUsers(1, 100, null, null, null, null, null);
 
-
     List<User> users = extractData(resp, User.class);
 
     assertTrue(users.size() >= 7);
@@ -107,8 +103,7 @@ class UserIT {
     ApiClient employeeClient = anApiClient(EMPLOYEE_TOKEN);
     UsersApi api = new UsersApi(employeeClient);
 
-    assertThrowsForbiddenException(
-        () -> api.getUsers(1, 100, null, null, null, null, null));
+    assertThrowsForbiddenException(() -> api.getUsers(1, 100, null, null, null, null, null));
   }
 
   @Test
@@ -128,8 +123,7 @@ class UserIT {
     User newAdmin1 = admin1();
     newAdmin1.setLastName("new last name");
 
-    List<User> created =
-        api.crupdateUsers(COMPANY1_ID, List.of(newUser1, newUser2, newUser3));
+    List<User> created = api.crupdateUsers(COMPANY1_ID, List.of(newUser1, newUser2, newUser3));
     User user =
         created.stream().filter(u -> ADMIN_EMAIL.equals(u.getEmail())).findFirst().orElse(null);
     newAdmin1.setUpdatedAt(user.getUpdatedAt());
@@ -161,8 +155,7 @@ class UserIT {
     CrupdateUser employeeToUpdate = userToCrupdateUser(employee1());
     employeeToUpdate.setRole(Role.WAREHOUSE_WORKER);
 
-    List<User> updated =
-        api.crupdateUsers(COMPANY1_ID, List.of(employeeToUpdate));
+    List<User> updated = api.crupdateUsers(COMPANY1_ID, List.of(employeeToUpdate));
 
     assertEquals(1, updated.size());
     assertEquals(Role.WAREHOUSE_WORKER, updated.get(0).getRole());
@@ -207,7 +200,6 @@ class UserIT {
 
     PaginatedResponse resp = api.getUsers(1, 100, null, "Alice", null, null, null);
 
-
     List<User> users = extractData(resp, User.class);
 
     assertEquals(1, users.size());
@@ -221,7 +213,6 @@ class UserIT {
 
     PaginatedResponse resp = api.getUsers(1, 100, null, null, null, null, Role.EMPLOYEE);
 
-
     List<User> users = extractData(resp, User.class);
 
     assertTrue(users.stream().allMatch(u -> u.getRole() == Role.EMPLOYEE));
@@ -233,7 +224,6 @@ class UserIT {
     UsersApi api = new UsersApi(adminClient);
 
     PaginatedResponse resp = api.getUsers(1, 100, null, null, "Martin", null, null);
-
 
     List<User> users = extractData(resp, User.class);
 
@@ -247,7 +237,6 @@ class UserIT {
     UsersApi api = new UsersApi(adminClient);
 
     PaginatedResponse resp = api.getUsers(1, 100, null, null, null, USER1_EMAIL, null);
-
 
     List<User> users = extractData(resp, User.class);
 

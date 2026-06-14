@@ -40,8 +40,7 @@ public class BudgetLineController {
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize) {
     var result = budgetLineService.findAll(page, pageSize);
     return new PaginatedResponse(
-        budgetLineMapper.toRestBudgetLines(result.getContent()),
-        (int) result.getTotalElements());
+        budgetLineMapper.toRestBudgetLines(result.getContent()), (int) result.getTotalElements());
   }
 
   @PutMapping("/users/{userId}/companies/{companyId}/budget_lines")

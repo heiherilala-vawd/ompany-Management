@@ -6,12 +6,10 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.example.demo.SentryConf;
 import com.example.demo.client.api.MaterialApi;
 import com.example.demo.client.invoker.ApiClient;
-import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.CrupdateMaterial;
-import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.Material;
-import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.MaterialUnit;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
 import com.example.demo.integration.conf.TestDataSqlLoader;
@@ -98,8 +96,8 @@ class MaterialIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     MaterialApi api = new MaterialApi(adminClient);
 
-    PaginatedResponse resp = api.getMaterials(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null, null);
-
+    PaginatedResponse resp =
+        api.getMaterials(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null, null);
 
     List<Material> materials = extractData(resp, Material.class);
 
@@ -123,8 +121,8 @@ class MaterialIT {
     ApiClient administrationClient = anApiClient(ADMINISTRATION_TOKEN);
     MaterialApi api = new MaterialApi(administrationClient);
 
-    PaginatedResponse resp = api.getMaterials(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, MaterialUnit.L, null);
-
+    PaginatedResponse resp =
+        api.getMaterials(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, MaterialUnit.L, null);
 
     List<Material> materials = extractData(resp, Material.class);
 
@@ -137,8 +135,8 @@ class MaterialIT {
     ApiClient administrationClient = anApiClient(ADMINISTRATION_TOKEN);
     MaterialApi api = new MaterialApi(administrationClient);
 
-    PaginatedResponse resp = api.getMaterials(ADMIN_ID, COMPANY1_ID, 1, 100, "Brique", null, null, null);
-
+    PaginatedResponse resp =
+        api.getMaterials(ADMIN_ID, COMPANY1_ID, 1, 100, "Brique", null, null, null);
 
     List<Material> materials = extractData(resp, Material.class);
 
@@ -151,8 +149,8 @@ class MaterialIT {
     ApiClient administrationClient = anApiClient(ADMINISTRATION_TOKEN);
     MaterialApi api = new MaterialApi(administrationClient);
 
-    PaginatedResponse resp = api.getMaterials(ADMIN_ID, COMPANY1_ID, 1, 100, null, "blanche", null, null);
-
+    PaginatedResponse resp =
+        api.getMaterials(ADMIN_ID, COMPANY1_ID, 1, 100, null, "blanche", null, null);
 
     List<Material> materials = extractData(resp, Material.class);
 
@@ -165,8 +163,8 @@ class MaterialIT {
     ApiClient administrationClient = anApiClient(ADMINISTRATION_TOKEN);
     MaterialApi api = new MaterialApi(administrationClient);
 
-    PaginatedResponse resp = api.getMaterials(ADMIN_ID, COMPANY1_ID, 1, 100, "Ciment", "35kg", MaterialUnit.SAC, null);
-
+    PaginatedResponse resp =
+        api.getMaterials(ADMIN_ID, COMPANY1_ID, 1, 100, "Ciment", "35kg", MaterialUnit.SAC, null);
 
     List<Material> materials = extractData(resp, Material.class);
 
@@ -257,8 +255,8 @@ class MaterialIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     MaterialApi api = new MaterialApi(adminClient);
 
-    PaginatedResponse resp = api.getMaterials(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null, true);
-
+    PaginatedResponse resp =
+        api.getMaterials(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null, true);
 
     List<Material> notArrivedMaterials = extractData(resp, Material.class);
 
@@ -273,8 +271,8 @@ class MaterialIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     MaterialApi api = new MaterialApi(adminClient);
 
-    PaginatedResponse resp = api.getMaterials(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null, false);
-
+    PaginatedResponse resp =
+        api.getMaterials(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null, false);
 
     List<Material> materials = extractData(resp, Material.class);
 

@@ -7,10 +7,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import com.example.demo.SentryConf;
 import com.example.demo.client.api.IncomeTypeApi;
 import com.example.demo.client.invoker.ApiClient;
-import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.CrupdateIncomeType;
-import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.IncomeType;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
 import com.example.demo.integration.conf.TestDataSqlLoader;
@@ -78,7 +77,6 @@ class IncomeTypeIT {
     IncomeTypeApi api = new IncomeTypeApi(anApiClient(ADMINISTRATION_TOKEN));
 
     PaginatedResponse resp = api.getIncomeTypes(ADMIN_ID, COMPANY1_ID);
-
 
     List<IncomeType> incomeTypes = extractData(resp, IncomeType.class);
 

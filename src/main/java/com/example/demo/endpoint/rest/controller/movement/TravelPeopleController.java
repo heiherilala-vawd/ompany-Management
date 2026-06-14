@@ -23,7 +23,8 @@ public class TravelPeopleController {
   private final TravelPeopleMapper travelPeopleMapper;
 
   @GetMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/travel_people/{id}")
-  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER') or #userId == authentication.principal.id")
+  @PreAuthorize(
+      "hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER') or #userId == authentication.principal.id")
   public TravelPeople getTravelPeopleById(
       @PathVariable String userId,
       @PathVariable String companyId,
@@ -36,7 +37,8 @@ public class TravelPeopleController {
   }
 
   @GetMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/travel_people")
-  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER') or #userId == authentication.principal.id")
+  @PreAuthorize(
+      "hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER') or #userId == authentication.principal.id")
   public PaginatedResponse getTravelPeople(
       @PathVariable String userId,
       @PathVariable String companyId,

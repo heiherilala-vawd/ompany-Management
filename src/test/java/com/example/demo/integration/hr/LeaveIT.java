@@ -7,11 +7,11 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import com.example.demo.SentryConf;
 import com.example.demo.client.api.HrApi;
 import com.example.demo.client.invoker.ApiClient;
-import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.CrupdateLeave;
 import com.example.demo.client.model.Leave;
 import com.example.demo.client.model.LeaveBalance;
 import com.example.demo.client.model.LeaveStatus;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
 import com.example.demo.integration.conf.TestDataSqlLoader;
@@ -73,8 +73,8 @@ class LeaveIT {
   void administration_can_get_all_leaves() throws Exception {
     HrApi api = new HrApi(anApiClient(ADMINISTRATION_TOKEN));
 
-    PaginatedResponse resp = api.getLeaves(ADMIN_ID, COMPANY1_ID, null, null, null, null, null, null);
-
+    PaginatedResponse resp =
+        api.getLeaves(ADMIN_ID, COMPANY1_ID, null, null, null, null, null, null);
 
     List<Leave> leaves = extractData(resp, Leave.class);
 
@@ -85,8 +85,8 @@ class LeaveIT {
   void administration_can_filter_leaves_by_user() throws Exception {
     HrApi api = new HrApi(anApiClient(ADMINISTRATION_TOKEN));
 
-    PaginatedResponse resp = api.getLeaves(ADMIN_ID, COMPANY1_ID, EMPLOYEE_ID, null, null, null, null, null);
-
+    PaginatedResponse resp =
+        api.getLeaves(ADMIN_ID, COMPANY1_ID, EMPLOYEE_ID, null, null, null, null, null);
 
     List<Leave> leaves = extractData(resp, Leave.class);
 
@@ -97,8 +97,9 @@ class LeaveIT {
   void administration_can_filter_leaves_by_status() throws Exception {
     HrApi api = new HrApi(anApiClient(ADMINISTRATION_TOKEN));
 
-    PaginatedResponse resp = api.getLeaves(
-        ADMIN_ID, COMPANY1_ID, null, null, LeaveStatus.APPROVED.getValue(), null, null, null);
+    PaginatedResponse resp =
+        api.getLeaves(
+            ADMIN_ID, COMPANY1_ID, null, null, LeaveStatus.APPROVED.getValue(), null, null, null);
     List<Leave> leaves = extractData(resp, Leave.class);
 
     assertEquals(1, leaves.size());
@@ -134,8 +135,8 @@ class LeaveIT {
 
     api.deleteLeaveById(ADMIN_ID, COMPANY1_ID, LEAVE1_ID);
 
-    PaginatedResponse resp = api.getLeaves(ADMIN_ID, COMPANY1_ID, null, null, null, null, null, null);
-
+    PaginatedResponse resp =
+        api.getLeaves(ADMIN_ID, COMPANY1_ID, null, null, null, null, null, null);
 
     List<Leave> leaves = extractData(resp, Leave.class);
     assertEquals(1, leaves.size());
@@ -153,7 +154,6 @@ class LeaveIT {
     HrApi api = new HrApi(anApiClient(ADMINISTRATION_TOKEN));
 
     PaginatedResponse resp = api.getLeaveBalances(ADMIN_ID, COMPANY1_ID, 2026);
-
 
     List<LeaveBalance> balances = extractData(resp, LeaveBalance.class);
 

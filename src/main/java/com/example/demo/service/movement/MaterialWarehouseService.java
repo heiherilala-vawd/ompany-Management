@@ -1,13 +1,17 @@
 package com.example.demo.service.movement;
 
 import com.example.demo.model.BoundedPageSize;
+import com.example.demo.model.Job;
 import com.example.demo.model.PageFromOne;
+import com.example.demo.model.User;
 import com.example.demo.model.criteria.MaterialWarehouseCriteria;
 import com.example.demo.model.exception.BadRequestException;
+import com.example.demo.model.exception.ForbiddenException;
 import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.model.movement.MaterialWarehouse;
 import com.example.demo.model.movement.MaterialWarehouseId;
 import com.example.demo.repository.movement.MaterialWarehouseRepository;
+import com.example.demo.service.utils.ModificationUtils;
 import com.example.demo.service.utils.PageUtils;
 import com.example.demo.service.utils.SpecialWarehouseUtils;
 import com.example.demo.validator.MovementValidator;
@@ -28,6 +32,7 @@ public class MaterialWarehouseService {
 
   private final MaterialWarehouseRepository materialWarehouseRepository;
   private final MovementValidator movementValidator;
+  private final ModificationUtils modificationUtils;
 
   public Page<MaterialWarehouse> findAll(
       PageFromOne page, BoundedPageSize pageSize, MaterialWarehouseCriteria criteria) {
@@ -43,6 +48,14 @@ public class MaterialWarehouseService {
   @Transactional
   public MaterialWarehouse incrementQuantity(MaterialWarehouse materialWarehouse) {
     movementValidator.validateMaterialWarehouse(materialWarehouse);
+    User currentUser = modificationUtils.takePrimaryUser();
+    if (currentUser.getRole() == User.Role.WAREHOUSE_WORKER) {
+      Job job = materialWarehouse.getWarehouse().getJob();
+      if (job != null) {
+        validateJobAccess(job, currentUser);
+      }
+    }
+
     String materialId = materialWarehouse.getMaterial().getId();
     String warehouseId = materialWarehouse.getWarehouse().getId();
 
@@ -62,9 +75,17 @@ public class MaterialWarehouseService {
 
   @Transactional
   public List<MaterialWarehouse> createOrUpdateAll(List<MaterialWarehouse> materialWarehouses) {
+    User currentUser = modificationUtils.takePrimaryUser();
     List<MaterialWarehouse> processed = new ArrayList<>();
     for (MaterialWarehouse mw : materialWarehouses) {
       movementValidator.validateMaterialWarehouse(mw);
+
+      if (currentUser.getRole() == User.Role.WAREHOUSE_WORKER) {
+        Job job = mw.getWarehouse().getJob();
+        if (job != null) {
+          validateJobAccess(job, currentUser);
+        }
+      }
       String materialId = mw.getMaterial().getId();
       String warehouseId = mw.getWarehouse().getId();
 
@@ -117,6 +138,14 @@ public class MaterialWarehouseService {
 
     existing.setQuantity(existing.getQuantity() - quantityToRemove);
     return materialWarehouseRepository.save(existing);
+  }
+
+  private void validateJobAccess(Job job, User user) {
+    boolean isAssigned =
+        job.getResponsibleUsers().stream().anyMatch(u -> u.getId().equals(user.getId()));
+    if (!isAssigned) {
+      throw new ForbiddenException("Warehouse worker is not assigned to this job");
+    }
   }
 
   private Specification<MaterialWarehouse> toSpecification(MaterialWarehouseCriteria criteria) {

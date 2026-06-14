@@ -78,8 +78,21 @@ class TravelMaterialsIT {
   void admin_can_get_all_travel_materials() throws Exception {
     TravelMaterialsApi api = new TravelMaterialsApi(anApiClient(ADMIN_TOKEN));
 
-    PaginatedResponse resp = api.getTravelMaterials(
-        COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, null, null, null, null, null, null, null);
+    PaginatedResponse resp =
+        api.getTravelMaterials(
+            COMPANY1_ID,
+            JOB1_ID,
+            EMPLOYEE_ID,
+            1,
+            100,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null);
     List<TravelMaterials> list = extractData(resp, TravelMaterials.class);
 
     assertEquals(2, list.size());
@@ -91,8 +104,21 @@ class TravelMaterialsIT {
   void admin_can_filter_travel_materials_by_travel_id() throws Exception {
     TravelMaterialsApi api = new TravelMaterialsApi(anApiClient(ADMIN_TOKEN));
 
-    PaginatedResponse resp = api.getTravelMaterials(
-        COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, TRAVEL_EXPENSE2_ID, null, null, null, null, null, null, null);
+    PaginatedResponse resp =
+        api.getTravelMaterials(
+            COMPANY1_ID,
+            JOB1_ID,
+            EMPLOYEE_ID,
+            1,
+            100,
+            TRAVEL_EXPENSE2_ID,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null);
     List<TravelMaterials> list = extractData(resp, TravelMaterials.class);
 
     assertEquals(1, list.size());
@@ -103,8 +129,21 @@ class TravelMaterialsIT {
   void admin_can_filter_travel_materials_by_material_id() throws Exception {
     TravelMaterialsApi api = new TravelMaterialsApi(anApiClient(ADMIN_TOKEN));
 
-    PaginatedResponse resp = api.getTravelMaterials(
-        COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, MATERIAL1_ID, null, null, null, null, null, null);
+    PaginatedResponse resp =
+        api.getTravelMaterials(
+            COMPANY1_ID,
+            JOB1_ID,
+            EMPLOYEE_ID,
+            1,
+            100,
+            null,
+            MATERIAL1_ID,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null);
     List<TravelMaterials> list = extractData(resp, TravelMaterials.class);
 
     assertEquals(1, list.size());
@@ -115,8 +154,21 @@ class TravelMaterialsIT {
   void admin_can_filter_travel_materials_by_quantity() throws Exception {
     TravelMaterialsApi api = new TravelMaterialsApi(anApiClient(ADMIN_TOKEN));
 
-    PaginatedResponse resp = api.getTravelMaterials(
-        COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, null, 20, null, null, null, null, null);
+    PaginatedResponse resp =
+        api.getTravelMaterials(
+            COMPANY1_ID,
+            JOB1_ID,
+            EMPLOYEE_ID,
+            1,
+            100,
+            null,
+            null,
+            20,
+            null,
+            null,
+            null,
+            null,
+            null);
     List<TravelMaterials> list = extractData(resp, TravelMaterials.class);
 
     assertEquals(1, list.size());
@@ -127,8 +179,9 @@ class TravelMaterialsIT {
   void admin_can_filter_travel_materials_by_quantity_received() throws Exception {
     TravelMaterialsApi api = new TravelMaterialsApi(anApiClient(ADMIN_TOKEN));
 
-    PaginatedResponse resp = api.getTravelMaterials(
-        ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, null, 5, null, null, null, null);
+    PaginatedResponse resp =
+        api.getTravelMaterials(
+            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, null, 5, null, null, null, null);
     List<TravelMaterials> list = extractData(resp, TravelMaterials.class);
 
     assertEquals(1, list.size());
@@ -139,8 +192,21 @@ class TravelMaterialsIT {
   void admin_can_filter_travel_materials_by_arrival_location() throws Exception {
     TravelMaterialsApi api = new TravelMaterialsApi(anApiClient(ADMIN_TOKEN));
 
-    PaginatedResponse resp = api.getTravelMaterials(
-        COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, null, null, null, WAREHOUSE1_ID, null, null, null);
+    PaginatedResponse resp =
+        api.getTravelMaterials(
+            COMPANY1_ID,
+            JOB1_ID,
+            EMPLOYEE_ID,
+            1,
+            100,
+            null,
+            null,
+            null,
+            null,
+            WAREHOUSE1_ID,
+            null,
+            null,
+            null);
     List<TravelMaterials> list = extractData(resp, TravelMaterials.class);
 
     assertEquals(1, list.size());
@@ -151,8 +217,21 @@ class TravelMaterialsIT {
   void admin_can_filter_travel_materials_by_arrival_date_interval() throws Exception {
     TravelMaterialsApi api = new TravelMaterialsApi(anApiClient(ADMIN_TOKEN));
 
-    PaginatedResponse resp = api.getTravelMaterials(
-        COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, null, null, null, null, Instant.parse("2024-03-01T00:00:00Z"), Instant.parse("2024-03-01T23:59:59Z"), null);
+    PaginatedResponse resp =
+        api.getTravelMaterials(
+            COMPANY1_ID,
+            JOB1_ID,
+            EMPLOYEE_ID,
+            1,
+            100,
+            null,
+            null,
+            null,
+            null,
+            null,
+            Instant.parse("2024-03-01T00:00:00Z"),
+            Instant.parse("2024-03-01T23:59:59Z"),
+            null);
     List<TravelMaterials> list = extractData(resp, TravelMaterials.class);
 
     assertEquals(1, list.size());
@@ -170,8 +249,21 @@ class TravelMaterialsIT {
 
     api.crupdateTravelMaterials(ADMIN_ID, COMPANY1_ID, JOB1_ID, List.of(toUpdate));
 
-    PaginatedResponse resp = api.getTravelMaterials(
-        COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, null, null, null, null, null, null, true);
+    PaginatedResponse resp =
+        api.getTravelMaterials(
+            COMPANY1_ID,
+            JOB1_ID,
+            EMPLOYEE_ID,
+            1,
+            100,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            true);
     List<TravelMaterials> list = extractData(resp, TravelMaterials.class);
 
     assertEquals(1, list.size());

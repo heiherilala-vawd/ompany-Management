@@ -40,8 +40,7 @@ public class CashAccountController {
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize) {
     var result = cashAccountService.findAll(page, pageSize);
     return new PaginatedResponse(
-        cashAccountMapper.toRestCashAccounts(result.getContent()),
-        (int) result.getTotalElements());
+        cashAccountMapper.toRestCashAccounts(result.getContent()), (int) result.getTotalElements());
   }
 
   @PutMapping("/users/{userId}/companies/{companyId}/cash_accounts")

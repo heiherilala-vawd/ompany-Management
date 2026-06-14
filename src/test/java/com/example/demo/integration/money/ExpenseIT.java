@@ -6,10 +6,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.example.demo.SentryConf;
 import com.example.demo.client.api.ExpenseApi;
 import com.example.demo.client.invoker.ApiClient;
-import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.CrupdateExpenseMoney;
-import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.ExpenseMoney;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
 import com.example.demo.integration.conf.TestDataSqlLoader;
@@ -82,7 +81,6 @@ class ExpenseIT {
 
     PaginatedResponse resp = api.getExpenses(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null);
 
-
     List<ExpenseMoney> expenses = extractData(resp, ExpenseMoney.class);
 
     assertEquals(2, expenses.size());
@@ -104,8 +102,8 @@ class ExpenseIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     ExpenseApi api = new ExpenseApi(adminClient);
 
-    PaginatedResponse resp = api.getExpenses(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, "sous-traitant", null);
-
+    PaginatedResponse resp =
+        api.getExpenses(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, "sous-traitant", null);
 
     List<ExpenseMoney> expenses = extractData(resp, ExpenseMoney.class);
 
@@ -118,8 +116,8 @@ class ExpenseIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     ExpenseApi api = new ExpenseApi(adminClient);
 
-    PaginatedResponse resp = api.getExpenses(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, BigDecimal.valueOf(45000));
-
+    PaginatedResponse resp =
+        api.getExpenses(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, BigDecimal.valueOf(45000));
 
     List<ExpenseMoney> expenses = extractData(resp, ExpenseMoney.class);
 

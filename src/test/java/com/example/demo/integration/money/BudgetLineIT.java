@@ -6,10 +6,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.example.demo.SentryConf;
 import com.example.demo.client.api.BudgetLineApi;
 import com.example.demo.client.invoker.ApiClient;
-import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.BudgetLine;
-import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.CrupdateBudgetLine;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
 import com.example.demo.integration.conf.TestDataSqlLoader;
@@ -78,7 +77,6 @@ class BudgetLineIT {
 
     PaginatedResponse resp = api.getBudgetLines(ADMIN_ID, COMPANY1_ID, 1, 100);
 
-
     List<BudgetLine> lines = extractData(resp, BudgetLine.class);
 
     assertEquals(2, lines.size());
@@ -133,7 +131,6 @@ class BudgetLineIT {
     api.deleteBudgetLineById(ADMIN_ID, COMPANY1_ID, BUDGET_LINE1_ID);
 
     PaginatedResponse resp = api.getBudgetLines(ADMIN_ID, COMPANY1_ID, 1, 100);
-
 
     List<BudgetLine> lines = extractData(resp, BudgetLine.class);
     assertEquals(1, lines.size());

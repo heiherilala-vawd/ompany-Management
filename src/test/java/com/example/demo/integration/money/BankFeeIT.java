@@ -6,10 +6,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.example.demo.SentryConf;
 import com.example.demo.client.api.BankFeeApi;
 import com.example.demo.client.invoker.ApiClient;
-import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.BankFee;
-import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.CrupdateBankFee;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
 import com.example.demo.integration.conf.TestDataSqlLoader;
@@ -72,7 +71,6 @@ class BankFeeIT {
 
     PaginatedResponse resp = api.getBankFees(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null);
 
-
     List<BankFee> bankFees = extractData(resp, BankFee.class);
 
     assertEquals(2, bankFees.size());
@@ -86,7 +84,6 @@ class BankFeeIT {
 
     PaginatedResponse resp = api.getBankFees(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, "BNI", null);
 
-
     List<BankFee> bankFees = extractData(resp, BankFee.class);
 
     assertEquals(1, bankFees.size());
@@ -97,8 +94,8 @@ class BankFeeIT {
   void admin_can_filter_bank_fees_by_description() throws Exception {
     BankFeeApi api = new BankFeeApi(anApiClient(ADMIN_TOKEN));
 
-    PaginatedResponse resp = api.getBankFees(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, "sous-traitant");
-
+    PaginatedResponse resp =
+        api.getBankFees(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, "sous-traitant");
 
     List<BankFee> bankFees = extractData(resp, BankFee.class);
 

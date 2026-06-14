@@ -22,7 +22,7 @@ public class TeamController {
   private final TeamMapper teamMapper;
 
   @GetMapping("/users/{userId}/companies/{companyId}/teams/{id}")
-  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
+  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public Team getTeamById(
       @PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     return teamMapper.toRestTeam(
@@ -32,19 +32,20 @@ public class TeamController {
   }
 
   @GetMapping("/users/{userId}/companies/{companyId}/teams")
-  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
+  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public PaginatedResponse getTeams(
       @PathVariable String userId,
       @PathVariable String companyId,
       @RequestParam(name = "page", required = false) PageFromOne page,
-      @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize) {
-    var result = teamService.findAll(page, pageSize);
+      @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize,
+      @RequestParam(name = "job_id", required = false) String jobId) {
+    var result = teamService.findAll(page, pageSize, jobId);
     return new PaginatedResponse(
         teamMapper.toRestTeams(result.getContent()), (int) result.getTotalElements());
   }
 
   @PutMapping("/users/{userId}/companies/{companyId}/teams")
-  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
+  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public List<Team> crupdateTeams(
       @PathVariable String userId,
       @PathVariable String companyId,

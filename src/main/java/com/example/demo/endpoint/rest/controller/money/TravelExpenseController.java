@@ -23,7 +23,8 @@ public class TravelExpenseController {
   private final TravelExpenseMapper travelExpenseMapper;
 
   @GetMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/travel_expenses/{id}")
-  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER') or #userId == authentication.principal.id")
+  @PreAuthorize(
+      "hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER') or #userId == authentication.principal.id")
   public TravelExpense getTravelExpenseById(
       @PathVariable String userId,
       @PathVariable String companyId,
@@ -37,7 +38,8 @@ public class TravelExpenseController {
   }
 
   @GetMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/travel_expenses")
-  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER') or #userId == authentication.principal.id")
+  @PreAuthorize(
+      "hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER') or #userId == authentication.principal.id")
   public PaginatedResponse getTravelExpenses(
       @PathVariable String userId,
       @PathVariable String companyId,

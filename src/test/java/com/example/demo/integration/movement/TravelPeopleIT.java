@@ -78,8 +78,9 @@ class TravelPeopleIT {
   void admin_can_get_all_travel_people() throws Exception {
     TravelPeopleApi api = new TravelPeopleApi(anApiClient(ADMIN_TOKEN));
 
-    PaginatedResponse resp = api.getTravelPeople(
-        ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, null, null, null, null);
+    PaginatedResponse resp =
+        api.getTravelPeople(
+            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, null, null, null, null);
     List<TravelPeople> list = extractData(resp, TravelPeople.class);
 
     assertEquals(2, list.size());
@@ -91,8 +92,19 @@ class TravelPeopleIT {
   void admin_can_filter_travel_people_by_travel_id() throws Exception {
     TravelPeopleApi api = new TravelPeopleApi(anApiClient(ADMIN_TOKEN));
 
-    PaginatedResponse resp = api.getTravelPeople(
-        COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, TRAVEL_EXPENSE1_ID, null, null, null, null, null);
+    PaginatedResponse resp =
+        api.getTravelPeople(
+            COMPANY1_ID,
+            JOB1_ID,
+            EMPLOYEE_ID,
+            1,
+            100,
+            TRAVEL_EXPENSE1_ID,
+            null,
+            null,
+            null,
+            null,
+            null);
     List<TravelPeople> list = extractData(resp, TravelPeople.class);
 
     assertEquals(2, list.size());
@@ -106,8 +118,9 @@ class TravelPeopleIT {
   void admin_can_filter_travel_people_by_person_name() throws Exception {
     TravelPeopleApi api = new TravelPeopleApi(anApiClient(ADMIN_TOKEN));
 
-    PaginatedResponse resp = api.getTravelPeople(
-        ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, EMPLOYEE_ID, null, null, null, null);
+    PaginatedResponse resp =
+        api.getTravelPeople(
+            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, EMPLOYEE_ID, null, null, null, null);
     List<TravelPeople> list = extractData(resp, TravelPeople.class);
 
     assertEquals(2, list.size());
@@ -117,8 +130,9 @@ class TravelPeopleIT {
   void admin_can_filter_travel_people_by_arrival_location() throws Exception {
     TravelPeopleApi api = new TravelPeopleApi(anApiClient(ADMIN_TOKEN));
 
-    PaginatedResponse resp = api.getTravelPeople(
-        ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, WAREHOUSE1_ID, null, null, null);
+    PaginatedResponse resp =
+        api.getTravelPeople(
+            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, WAREHOUSE1_ID, null, null, null);
     List<TravelPeople> list = extractData(resp, TravelPeople.class);
 
     assertEquals(1, list.size());
@@ -129,8 +143,19 @@ class TravelPeopleIT {
   void admin_can_filter_travel_people_by_arrival_date_interval() throws Exception {
     TravelPeopleApi api = new TravelPeopleApi(anApiClient(ADMIN_TOKEN));
 
-    PaginatedResponse resp = api.getTravelPeople(
-        COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, null, null, Instant.parse("2024-03-01T00:00:00Z"), Instant.parse("2024-03-01T23:59:59Z"), null);
+    PaginatedResponse resp =
+        api.getTravelPeople(
+            COMPANY1_ID,
+            JOB1_ID,
+            EMPLOYEE_ID,
+            1,
+            100,
+            null,
+            null,
+            null,
+            Instant.parse("2024-03-01T00:00:00Z"),
+            Instant.parse("2024-03-01T23:59:59Z"),
+            null);
     List<TravelPeople> list = extractData(resp, TravelPeople.class);
 
     assertEquals(1, list.size());
@@ -148,8 +173,9 @@ class TravelPeopleIT {
 
     api.crupdateTravelPeople(ADMIN_ID, COMPANY1_ID, JOB1_ID, List.of(toUpdate));
 
-    PaginatedResponse resp = api.getTravelPeople(
-        ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, null, null, null, true);
+    PaginatedResponse resp =
+        api.getTravelPeople(
+            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, null, null, null, true);
     List<TravelPeople> list = extractData(resp, TravelPeople.class);
 
     assertEquals(1, list.size());
@@ -198,8 +224,9 @@ class TravelPeopleIT {
   void employee_can_list_own_travel_people() throws Exception {
     TravelPeopleApi api = new TravelPeopleApi(anApiClient(EMPLOYEE_TOKEN));
 
-    PaginatedResponse resp = api.getTravelPeople(
-        EMPLOYEE_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, null, null, null, null);
+    PaginatedResponse resp =
+        api.getTravelPeople(
+            EMPLOYEE_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, null, null, null, null);
     List<TravelPeople> list = extractData(resp, TravelPeople.class);
 
     assertEquals(2, list.size());

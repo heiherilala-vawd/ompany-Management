@@ -6,10 +6,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.example.demo.SentryConf;
 import com.example.demo.client.api.OtherExpenseApi;
 import com.example.demo.client.invoker.ApiClient;
-import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.CrupdateOtherExpense;
-import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.OtherExpense;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
 import com.example.demo.integration.conf.TestDataSqlLoader;
@@ -73,7 +72,6 @@ class OtherExpenseIT {
 
     PaginatedResponse resp = api.getOtherExpenses(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null);
 
-
     List<OtherExpense> otherExpenses = extractData(resp, OtherExpense.class);
 
     assertEquals(2, otherExpenses.size());
@@ -89,8 +87,8 @@ class OtherExpenseIT {
   void admin_can_filter_other_expenses_by_description() throws Exception {
     OtherExpenseApi api = new OtherExpenseApi(anApiClient(ADMIN_TOKEN));
 
-    PaginatedResponse resp = api.getOtherExpenses(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, "administratifs");
-
+    PaginatedResponse resp =
+        api.getOtherExpenses(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, "administratifs");
 
     List<OtherExpense> otherExpenses = extractData(resp, OtherExpense.class);
 

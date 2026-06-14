@@ -6,9 +6,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.example.demo.SentryConf;
 import com.example.demo.client.api.IncomeApi;
 import com.example.demo.client.invoker.ApiClient;
-import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.CrupdateIncomeMoney;
 import com.example.demo.client.model.IncomeMoney;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
 import com.example.demo.integration.conf.TestDataSqlLoader;
@@ -99,8 +99,8 @@ class IncomeIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     IncomeApi api = new IncomeApi(adminClient);
 
-    PaginatedResponse resp = api.getIncomes(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, null, null, null, null);
-
+    PaginatedResponse resp =
+        api.getIncomes(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, null, null, null, null);
 
     List<IncomeMoney> incomes = extractData(resp, IncomeMoney.class);
 
@@ -128,8 +128,9 @@ class IncomeIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     IncomeApi api = new IncomeApi(adminClient);
 
-    PaginatedResponse resp = api.getIncomes(
-        ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, "org2_id", null, null, null, null, null);
+    PaginatedResponse resp =
+        api.getIncomes(
+            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, "org2_id", null, null, null, null, null);
     List<IncomeMoney> incomes = extractData(resp, IncomeMoney.class);
 
     assertEquals(7, incomes.size());
@@ -140,8 +141,9 @@ class IncomeIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     IncomeApi api = new IncomeApi(adminClient);
 
-    PaginatedResponse resp = api.getIncomes(
-        ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, "INV-2024-002", null, null, null, null);
+    PaginatedResponse resp =
+        api.getIncomes(
+            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, "INV-2024-002", null, null, null, null);
     List<IncomeMoney> incomes = extractData(resp, IncomeMoney.class);
 
     assertEquals(1, incomes.size());
@@ -153,8 +155,9 @@ class IncomeIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     IncomeApi api = new IncomeApi(adminClient);
 
-    PaginatedResponse resp = api.getIncomes(
-        ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, "chantier A", null, null, null);
+    PaginatedResponse resp =
+        api.getIncomes(
+            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, "chantier A", null, null, null);
     List<IncomeMoney> incomes = extractData(resp, IncomeMoney.class);
 
     assertEquals(1, incomes.size());
@@ -166,18 +169,19 @@ class IncomeIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     IncomeApi api = new IncomeApi(adminClient);
 
-    PaginatedResponse resp = api.getIncomes(
-        ADMIN_ID,
-        COMPANY1_ID,
-        JOB1_ID,
-        1,
-        100,
-        null,
-        null,
-        null,
-        BigDecimal.valueOf(275000),
-        null,
-        null);
+    PaginatedResponse resp =
+        api.getIncomes(
+            ADMIN_ID,
+            COMPANY1_ID,
+            JOB1_ID,
+            1,
+            100,
+            null,
+            null,
+            null,
+            BigDecimal.valueOf(275000),
+            null,
+            null);
     List<IncomeMoney> incomes = extractData(resp, IncomeMoney.class);
 
     assertEquals(1, incomes.size());
@@ -189,8 +193,9 @@ class IncomeIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     IncomeApi api = new IncomeApi(adminClient);
 
-    PaginatedResponse resp = api.getIncomes(
-        ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, null, null, INCOME_TYPE2_ID, null);
+    PaginatedResponse resp =
+        api.getIncomes(
+            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, null, null, INCOME_TYPE2_ID, null);
     List<IncomeMoney> incomes = extractData(resp, IncomeMoney.class);
 
     assertEquals(1, incomes.size());
@@ -202,8 +207,8 @@ class IncomeIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     IncomeApi api = new IncomeApi(adminClient);
 
-    PaginatedResponse resp = api.getIncomes(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, null, null, null, false);
-
+    PaginatedResponse resp =
+        api.getIncomes(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, null, null, null, false);
 
     List<IncomeMoney> incomes = extractData(resp, IncomeMoney.class);
 
@@ -217,8 +222,8 @@ class IncomeIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     IncomeApi api = new IncomeApi(adminClient);
 
-    PaginatedResponse resp = api.getIncomes(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, null, null, null, true);
-
+    PaginatedResponse resp =
+        api.getIncomes(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, null, null, null, true);
 
     List<IncomeMoney> incomes = extractData(resp, IncomeMoney.class);
 
@@ -332,8 +337,8 @@ class IncomeIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     IncomeApi api = new IncomeApi(adminClient);
 
-    PaginatedResponse resp = api.getIncomes(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, null, null, null, false);
-
+    PaginatedResponse resp =
+        api.getIncomes(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, null, null, null, false);
 
     List<IncomeMoney> incomes = extractData(resp, IncomeMoney.class);
 

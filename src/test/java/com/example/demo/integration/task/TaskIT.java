@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import com.example.demo.SentryConf;
 import com.example.demo.client.api.TaskApi;
 import com.example.demo.client.invoker.ApiClient;
-import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.CrupdateTask;
 import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.Task;
@@ -102,7 +101,6 @@ class TaskIT {
     TaskApi api = new TaskApi(anApiClient(EMPLOYEE_TOKEN));
 
     PaginatedResponse resp = api.getTasks(EMPLOYEE_ID, COMPANY1_ID);
-
 
     List<Task> tasks = extractData(resp, Task.class);
 

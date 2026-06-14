@@ -6,9 +6,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.example.demo.SentryConf;
 import com.example.demo.client.api.EmployeePaymentApi;
 import com.example.demo.client.invoker.ApiClient;
-import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.CrupdateEmployeePayment;
 import com.example.demo.client.model.EmployeePayment;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.PaymentType;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
@@ -71,8 +71,8 @@ class EmployeePaymentIT {
   void admin_can_get_all_employee_payments() throws Exception {
     EmployeePaymentApi api = new EmployeePaymentApi(anApiClient(ADMIN_TOKEN));
 
-    PaginatedResponse resp = api.getEmployeePayments(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, null);
-
+    PaginatedResponse resp =
+        api.getEmployeePayments(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, null);
 
     List<EmployeePayment> employeePayments = extractData(resp, EmployeePayment.class);
 
@@ -89,8 +89,9 @@ class EmployeePaymentIT {
   void admin_can_filter_employee_payments_by_user_ids() throws Exception {
     EmployeePaymentApi api = new EmployeePaymentApi(anApiClient(ADMIN_TOKEN));
 
-    PaginatedResponse resp = api.getEmployeePayments(
-        ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, List.of(USER1_ID), null, null);
+    PaginatedResponse resp =
+        api.getEmployeePayments(
+            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, List.of(USER1_ID), null, null);
     List<EmployeePayment> employeePayments = extractData(resp, EmployeePayment.class);
 
     assertEquals(1, employeePayments.size());
@@ -101,8 +102,8 @@ class EmployeePaymentIT {
   void admin_can_filter_employee_payments_by_payment_description() throws Exception {
     EmployeePaymentApi api = new EmployeePaymentApi(anApiClient(ADMIN_TOKEN));
 
-    PaginatedResponse resp = api.getEmployeePayments(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, "mensuel", null);
-
+    PaginatedResponse resp =
+        api.getEmployeePayments(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, "mensuel", null);
 
     List<EmployeePayment> employeePayments = extractData(resp, EmployeePayment.class);
 
@@ -114,8 +115,9 @@ class EmployeePaymentIT {
   void admin_can_filter_employee_payments_by_payment_type() throws Exception {
     EmployeePaymentApi api = new EmployeePaymentApi(anApiClient(ADMIN_TOKEN));
 
-    PaginatedResponse resp = api.getEmployeePayments(
-        ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, PaymentType.ADVANCE);
+    PaginatedResponse resp =
+        api.getEmployeePayments(
+            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, PaymentType.ADVANCE);
     List<EmployeePayment> employeePayments = extractData(resp, EmployeePayment.class);
 
     assertEquals(1, employeePayments.size());
@@ -190,8 +192,8 @@ class EmployeePaymentIT {
   void employee_can_list_own_employee_payments() throws Exception {
     EmployeePaymentApi api = new EmployeePaymentApi(anApiClient(EMPLOYEE_TOKEN));
 
-    PaginatedResponse resp = api.getEmployeePayments(EMPLOYEE_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, null);
-
+    PaginatedResponse resp =
+        api.getEmployeePayments(EMPLOYEE_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, null);
 
     List<EmployeePayment> payments = extractData(resp, EmployeePayment.class);
 
@@ -205,8 +207,7 @@ class EmployeePaymentIT {
 
     assertThrowsApiException(
         "{\"type\":\"403 FORBIDDEN\",\"message\":\"Employee payment not associated with the user\"}",
-        () ->
-            api.getEmployeePaymentById(WAREHOUSE_ID, COMPANY1_ID, JOB1_ID, EMPLOYEE_PAYMENT1_ID));
+        () -> api.getEmployeePaymentById(WAREHOUSE_ID, COMPANY1_ID, JOB1_ID, EMPLOYEE_PAYMENT1_ID));
   }
 
   @Test
@@ -215,8 +216,7 @@ class EmployeePaymentIT {
 
     assertThrowsApiException(
         "{\"type\":\"403 FORBIDDEN\",\"message\":\"Employee payment not associated with the user\"}",
-        () ->
-            api.getEmployeePaymentById(EMPLOYEE_ID, COMPANY1_ID, JOB1_ID, EMPLOYEE_PAYMENT2_ID));
+        () -> api.getEmployeePaymentById(EMPLOYEE_ID, COMPANY1_ID, JOB1_ID, EMPLOYEE_PAYMENT2_ID));
   }
 
   @Test

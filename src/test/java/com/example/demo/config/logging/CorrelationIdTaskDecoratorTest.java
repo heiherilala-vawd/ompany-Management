@@ -33,11 +33,13 @@ class CorrelationIdTaskDecoratorTest {
     AtomicReference<String> capturedUserId = new AtomicReference<>();
     CountDownLatch latch = new CountDownLatch(1);
 
-    Runnable wrapped = decorator.decorate(() -> {
-      capturedCorrelationId.set(MDC.get("correlationId"));
-      capturedUserId.set(MDC.get("userId"));
-      latch.countDown();
-    });
+    Runnable wrapped =
+        decorator.decorate(
+            () -> {
+              capturedCorrelationId.set(MDC.get("correlationId"));
+              capturedUserId.set(MDC.get("userId"));
+              latch.countDown();
+            });
 
     new Thread(wrapped).start();
     latch.await();
@@ -64,9 +66,11 @@ class CorrelationIdTaskDecoratorTest {
     CountDownLatch latch = new CountDownLatch(1);
     Runnable wrapped = decorator.decorate(() -> latch.countDown());
 
-    assertThatCode(() -> {
-      new Thread(wrapped).start();
-      latch.await();
-    }).doesNotThrowAnyException();
+    assertThatCode(
+            () -> {
+              new Thread(wrapped).start();
+              latch.await();
+            })
+        .doesNotThrowAnyException();
   }
 }

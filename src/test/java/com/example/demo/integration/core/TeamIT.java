@@ -4,9 +4,9 @@ import static com.example.demo.integration.conf.TestUtils.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.example.demo.SentryConf;
+import com.example.demo.client.api.JobApi;
 import com.example.demo.client.api.TeamApi;
 import com.example.demo.client.invoker.ApiClient;
-import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.CrupdateTeam;
 import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.Team;
@@ -75,21 +75,13 @@ class TeamIT {
   void administration_can_get_all_teams() throws Exception {
     TeamApi api = new TeamApi(anApiClient(ADMINISTRATION_TOKEN));
 
-    PaginatedResponse resp = api.getTeams(ADMIN_ID, COMPANY1_ID, 1, 100);
-
+    PaginatedResponse resp = api.getTeams(ADMIN_ID, COMPANY1_ID, 1, 100, null);
 
     List<Team> teams = extractData(resp, Team.class);
 
     assertEquals(2, teams.size());
     assertTrue(teams.stream().anyMatch(t -> TEAM1_ID.equals(t.getId())));
     assertTrue(teams.stream().anyMatch(t -> TEAM2_ID.equals(t.getId())));
-  }
-
-  @Test
-  void employee_cannot_get_all_teams() {
-    TeamApi api = new TeamApi(anApiClient(EMPLOYEE_TOKEN));
-
-    assertThrowsForbiddenException(() -> api.getTeams(EMPLOYEE_ID, COMPANY1_ID, 1, 100));
   }
 
   @Test
@@ -129,8 +121,7 @@ class TeamIT {
 
     api.deleteTeamById(ADMIN_ID, COMPANY1_ID, TEAM1_ID);
 
-    PaginatedResponse resp = api.getTeams(ADMIN_ID, COMPANY1_ID, 1, 100);
-
+    PaginatedResponse resp = api.getTeams(ADMIN_ID, COMPANY1_ID, 1, 100, null);
 
     List<Team> teams = extractData(resp, Team.class);
     assertEquals(1, teams.size());
@@ -144,6 +135,107 @@ class TeamIT {
     assertThrowsApiException(
         "{\"type\":\"404 NOT_FOUND\",\"message\":\"Team with id nonexistent_team not found\"}",
         () -> api.getTeamById(ADMIN_ID, COMPANY1_ID, "nonexistent_team"));
+  }
+
+  @Test
+  void warehouse_can_get_all_teams() throws Exception {
+    TeamApi api = new TeamApi(anApiClient(WAREHOUSE_TOKEN));
+
+    PaginatedResponse resp = api.getTeams(ADMIN_ID, COMPANY1_ID, 1, 100, null);
+
+    List<Team> teams = extractData(resp, Team.class);
+    assertEquals(2, teams.size());
+  }
+
+  @Test
+  void warehouse_can_filter_teams_by_job_id() throws Exception {
+    TeamApi api = new TeamApi(anApiClient(WAREHOUSE_TOKEN));
+
+    PaginatedResponse resp = api.getTeams(ADMIN_ID, COMPANY1_ID, 1, 100, JOB1_ID);
+
+    List<Team> teams = extractData(resp, Team.class);
+    assertEquals(1, teams.size());
+    assertEquals(TEAM1_ID, teams.get(0).getId());
+    assertEquals(JOB1_ID, teams.get(0).getJobId());
+  }
+
+  @Test
+  void employee_cannot_get_all_teams() {
+    TeamApi api = new TeamApi(anApiClient(EMPLOYEE_TOKEN));
+
+    assertThrowsForbiddenException(() -> api.getTeams(EMPLOYEE_ID, COMPANY1_ID, 1, 100, null));
+  }
+
+  @Test
+  @DirtiesContext
+  void warehouse_can_create_team_when_assigned_to_job() throws Exception {
+    TeamApi teamApi = new TeamApi(anApiClient(ADMIN_TOKEN));
+    JobApi jobApi = new JobApi(anApiClient(ADMIN_TOKEN));
+    jobApi.assignUserToJob(WAREHOUSE_ID, COMPANY1_ID, JOB1_ID);
+
+    TeamApi warehouseApi = new TeamApi(anApiClient(WAREHOUSE_TOKEN));
+    CrupdateTeam toCreate = teamWithJob(JOB1_ID);
+
+    List<Team> created = warehouseApi.crupdateTeams(WAREHOUSE_ID, COMPANY1_ID, List.of(toCreate));
+
+    assertEquals(1, created.size());
+    assertEquals(toCreate.getName(), created.get(0).getName());
+    assertEquals(JOB1_ID, created.get(0).getJobId());
+  }
+
+  @Test
+  @DirtiesContext
+  void warehouse_cannot_create_team_when_not_assigned_to_job() {
+    TeamApi api = new TeamApi(anApiClient(WAREHOUSE_TOKEN));
+    CrupdateTeam toCreate = teamWithJob(JOB1_ID);
+
+    assertThrowsApiException(
+        "{\"type\":\"403 FORBIDDEN\",\"message\":\"Warehouse worker is not assigned to the specified job\"}",
+        () -> api.crupdateTeams(WAREHOUSE_ID, COMPANY1_ID, List.of(toCreate)));
+  }
+
+  @Test
+  @DirtiesContext
+  void warehouse_can_update_team_when_assigned_to_job() throws Exception {
+    JobApi jobApi = new JobApi(anApiClient(ADMIN_TOKEN));
+    jobApi.assignUserToJob(WAREHOUSE_ID, COMPANY1_ID, JOB1_ID);
+
+    TeamApi warehouseApi = new TeamApi(anApiClient(WAREHOUSE_TOKEN));
+    CrupdateTeam toUpdate = teamToCrupdateTeam(team1());
+    toUpdate.setName("Mis à jour par warehouse");
+
+    List<Team> updated = warehouseApi.crupdateTeams(WAREHOUSE_ID, COMPANY1_ID, List.of(toUpdate));
+
+    assertEquals(1, updated.size());
+    assertEquals(TEAM1_ID, updated.get(0).getId());
+    assertEquals("Mis à jour par warehouse", updated.get(0).getName());
+  }
+
+  @Test
+  @DirtiesContext
+  void warehouse_cannot_update_team_on_unassigned_job() {
+    TeamApi api = new TeamApi(anApiClient(WAREHOUSE_TOKEN));
+    CrupdateTeam toUpdate = teamToCrupdateTeam(team1());
+    toUpdate.setName("Should fail");
+
+    assertThrowsApiException(
+        "{\"type\":\"403 FORBIDDEN\",\"message\":\"Warehouse worker is not assigned to the job of this team\"}",
+        () -> api.crupdateTeams(WAREHOUSE_ID, COMPANY1_ID, List.of(toUpdate)));
+  }
+
+  @Test
+  @DirtiesContext
+  void warehouse_cannot_change_team_job_to_unassigned_job() throws Exception {
+    JobApi jobApi = new JobApi(anApiClient(ADMIN_TOKEN));
+    jobApi.assignUserToJob(WAREHOUSE_ID, COMPANY1_ID, JOB1_ID);
+
+    TeamApi warehouseApi = new TeamApi(anApiClient(WAREHOUSE_TOKEN));
+    CrupdateTeam toUpdate = teamToCrupdateTeam(team1());
+    toUpdate.setJobId(JOB2_ID); // job2 is not assigned to warehouse
+
+    assertThrowsApiException(
+        "{\"type\":\"403 FORBIDDEN\",\"message\":\"Warehouse worker is not assigned to the specified job\"}",
+        () -> warehouseApi.crupdateTeams(WAREHOUSE_ID, COMPANY1_ID, List.of(toUpdate)));
   }
 
   static class ContextInitializer extends AbstractContextInitializer {

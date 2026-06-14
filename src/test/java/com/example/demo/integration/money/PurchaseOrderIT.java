@@ -6,11 +6,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.example.demo.SentryConf;
 import com.example.demo.client.api.PurchaseOrderApi;
 import com.example.demo.client.invoker.ApiClient;
-import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.CrupdatePurchaseOrder;
 import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.PurchaseOrder;
-import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.PurchaseOrderStatus;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
@@ -95,7 +93,6 @@ class PurchaseOrderIT {
     PurchaseOrderApi api = new PurchaseOrderApi(anApiClient(ADMIN_TOKEN));
 
     PaginatedResponse resp = api.getPurchaseOrders(ADMIN_ID, COMPANY1_ID, JOB1_ID);
-
 
     List<PurchaseOrder> result = extractData(resp, PurchaseOrder.class);
 

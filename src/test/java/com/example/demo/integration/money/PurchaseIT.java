@@ -69,8 +69,9 @@ class PurchaseIT {
   void admin_can_get_all_purchases() throws Exception {
     PurchaseApi api = new PurchaseApi(anApiClient(ADMIN_TOKEN));
 
-    PaginatedResponse resp = api.getPurchases(
-        ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, null, null, null, null);
+    PaginatedResponse resp =
+        api.getPurchases(
+            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, null, null, null, null);
     List<Purchase> purchases = extractData(resp, Purchase.class);
 
     assertEquals(2, purchases.size());
@@ -82,8 +83,9 @@ class PurchaseIT {
   void admin_can_filter_purchases_by_supplier() throws Exception {
     PurchaseApi api = new PurchaseApi(anApiClient(ADMIN_TOKEN));
 
-    PaginatedResponse resp = api.getPurchases(
-        ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, WAREHOUSE1_ID, null, null, null, null, null);
+    PaginatedResponse resp =
+        api.getPurchases(
+            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, WAREHOUSE1_ID, null, null, null, null, null);
     List<Purchase> purchases = extractData(resp, Purchase.class);
 
     assertEquals(1, purchases.size());
@@ -94,8 +96,9 @@ class PurchaseIT {
   void admin_can_filter_purchases_by_is_equipment() throws Exception {
     PurchaseApi api = new PurchaseApi(anApiClient(ADMIN_TOKEN));
 
-    PaginatedResponse resp = api.getPurchases(
-        ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, false, null, null, null);
+    PaginatedResponse resp =
+        api.getPurchases(
+            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, false, null, null, null);
     List<Purchase> purchases = extractData(resp, Purchase.class);
 
     assertEquals(1, purchases.size());

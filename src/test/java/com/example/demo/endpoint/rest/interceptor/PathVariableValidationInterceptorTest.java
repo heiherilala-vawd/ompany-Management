@@ -91,8 +91,7 @@ class PathVariableValidationInterceptorTest {
   @Test
   void preHandle_ShouldPass_WhenNoPathVariables() {
     // Given
-    when(request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE))
-        .thenReturn(null);
+    when(request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE)).thenReturn(null);
 
     // When & Then
     assertThatCode(() -> interceptor.preHandle(request, response, handlerMethod))

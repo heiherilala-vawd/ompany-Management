@@ -6,9 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.example.demo.SentryConf;
 import com.example.demo.client.api.EquipmentUsageApi;
 import com.example.demo.client.invoker.ApiClient;
-import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.CrupdateEquipmentUsage;
-import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.EquipmentUsage;
 import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.UsageStatus;
@@ -98,7 +96,6 @@ class EquipmentUsageIT {
 
     PaginatedResponse resp = api.getEquipmentUsages(ADMIN_ID, COMPANY1_ID, 1, 100, null);
 
-
     List<EquipmentUsage> usages = extractData(resp, EquipmentUsage.class);
 
     assertEquals(2, usages.size());
@@ -113,7 +110,6 @@ class EquipmentUsageIT {
 
     PaginatedResponse resp = api.getEquipmentUsages(ADMIN_ID, COMPANY1_ID, 1, 100, JOB1_ID);
 
-
     List<EquipmentUsage> result = extractData(resp, EquipmentUsage.class);
 
     assertEquals(2, result.size());
@@ -126,7 +122,6 @@ class EquipmentUsageIT {
     EquipmentUsageApi api = new EquipmentUsageApi(employeeClient);
 
     PaginatedResponse resp = api.getEquipmentUsages(EMPLOYEE_ID, COMPANY1_ID, 1, 100, null);
-
 
     List<EquipmentUsage> usages = extractData(resp, EquipmentUsage.class);
 

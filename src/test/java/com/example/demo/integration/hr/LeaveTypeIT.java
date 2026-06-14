@@ -7,10 +7,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import com.example.demo.SentryConf;
 import com.example.demo.client.api.HrApi;
 import com.example.demo.client.invoker.ApiClient;
-import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.CrupdateLeaveType;
-import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.LeaveType;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
 import com.example.demo.integration.conf.TestDataSqlLoader;
@@ -55,7 +54,6 @@ class LeaveTypeIT {
     HrApi api = new HrApi(anApiClient(ADMINISTRATION_TOKEN));
 
     PaginatedResponse resp = api.getLeaveTypes(ADMIN_ID, COMPANY1_ID);
-
 
     List<LeaveType> leaveTypes = extractData(resp, LeaveType.class);
 

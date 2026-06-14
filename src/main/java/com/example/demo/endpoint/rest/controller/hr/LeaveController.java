@@ -46,7 +46,8 @@ public class LeaveController {
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize) {
     com.example.demo.model.hr.Leave.LeaveStatus domainStatus =
         status != null ? com.example.demo.model.hr.Leave.LeaveStatus.valueOf(status.name()) : null;
-    var result = leaveService.findAll(page, pageSize, filterUserId, leaveTypeId, domainStatus, year);
+    var result =
+        leaveService.findAll(page, pageSize, filterUserId, leaveTypeId, domainStatus, year);
     return new PaginatedResponse(
         result.stream().map(leaveMapper::toRestLeave).toList(), (int) result.getTotalElements());
   }

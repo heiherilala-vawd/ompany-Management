@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.example.demo.SentryConf;
 import com.example.demo.client.api.TravelExpenseApi;
 import com.example.demo.client.invoker.ApiClient;
-import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.CrupdateTravelExpense;
 import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.TravelExpense;
@@ -71,8 +70,8 @@ class TravelExpenseIT {
   void admin_can_get_all_travel_expenses() throws Exception {
     TravelExpenseApi api = new TravelExpenseApi(anApiClient(ADMIN_TOKEN));
 
-    PaginatedResponse resp = api.getTravelExpenses(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null);
-
+    PaginatedResponse resp =
+        api.getTravelExpenses(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null);
 
     List<TravelExpense> travelExpenses = extractData(resp, TravelExpense.class);
 
@@ -89,8 +88,8 @@ class TravelExpenseIT {
   void admin_can_filter_travel_expenses_by_departure_location() throws Exception {
     TravelExpenseApi api = new TravelExpenseApi(anApiClient(ADMIN_TOKEN));
 
-    PaginatedResponse resp = api.getTravelExpenses(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, WAREHOUSE1_ID, null);
-
+    PaginatedResponse resp =
+        api.getTravelExpenses(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, WAREHOUSE1_ID, null);
 
     List<TravelExpense> travelExpenses = extractData(resp, TravelExpense.class);
 
@@ -102,8 +101,8 @@ class TravelExpenseIT {
   void admin_can_filter_travel_expenses_by_arrival_location() throws Exception {
     TravelExpenseApi api = new TravelExpenseApi(anApiClient(ADMIN_TOKEN));
 
-    PaginatedResponse resp = api.getTravelExpenses(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, WAREHOUSE1_ID);
-
+    PaginatedResponse resp =
+        api.getTravelExpenses(ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, WAREHOUSE1_ID);
 
     List<TravelExpense> travelExpenses = extractData(resp, TravelExpense.class);
 
@@ -180,8 +179,8 @@ class TravelExpenseIT {
   void employee_can_list_own_travel_expenses() throws Exception {
     TravelExpenseApi api = new TravelExpenseApi(anApiClient(EMPLOYEE_TOKEN));
 
-    PaginatedResponse resp = api.getTravelExpenses(EMPLOYEE_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null);
-
+    PaginatedResponse resp =
+        api.getTravelExpenses(EMPLOYEE_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null);
 
     List<TravelExpense> expenses = extractData(resp, TravelExpense.class);
 

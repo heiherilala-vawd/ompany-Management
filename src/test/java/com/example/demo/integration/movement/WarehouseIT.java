@@ -4,9 +4,9 @@ import static com.example.demo.integration.conf.TestUtils.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.example.demo.SentryConf;
+import com.example.demo.client.api.JobApi;
 import com.example.demo.client.api.WarehouseApi;
 import com.example.demo.client.invoker.ApiClient;
-import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.CrupdateWarehouse;
 import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.Warehouse;
@@ -81,7 +81,6 @@ class WarehouseIT {
 
     PaginatedResponse resp = api.getWarehouses(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null);
 
-
     List<Warehouse> warehouses = extractData(resp, Warehouse.class);
 
     assertEquals(6, warehouses.size());
@@ -115,7 +114,6 @@ class WarehouseIT {
 
     PaginatedResponse resp = api.getWarehouses(ADMIN_ID, COMPANY1_ID, 1, 100, JOB2_ID, null, null);
 
-
     List<Warehouse> warehouses = extractData(resp, Warehouse.class);
 
     assertEquals(1, warehouses.size());
@@ -129,7 +127,6 @@ class WarehouseIT {
 
     PaginatedResponse resp = api.getWarehouses(ADMIN_ID, COMPANY1_ID, 1, 100, null, "Nord", null);
 
-
     List<Warehouse> warehouses = extractData(resp, Warehouse.class);
 
     assertEquals(1, warehouses.size());
@@ -141,8 +138,8 @@ class WarehouseIT {
     ApiClient administrationClient = anApiClient(ADMINISTRATION_TOKEN);
     WarehouseApi api = new WarehouseApi(administrationClient);
 
-    PaginatedResponse resp = api.getWarehouses(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, "équipements");
-
+    PaginatedResponse resp =
+        api.getWarehouses(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, "équipements");
 
     List<Warehouse> warehouses = extractData(resp, Warehouse.class);
 
@@ -153,6 +150,9 @@ class WarehouseIT {
   @Test
   @DirtiesContext
   void warehouse_worker_can_update_warehouses() throws Exception {
+    JobApi jobApi = new JobApi(anApiClient(ADMIN_TOKEN));
+    jobApi.assignUserToJob(WAREHOUSE_ID, COMPANY1_ID, JOB1_ID);
+
     ApiClient warehouseClient = anApiClient(WAREHOUSE_TOKEN);
     WarehouseApi api = new WarehouseApi(warehouseClient);
 
@@ -167,6 +167,34 @@ class WarehouseIT {
     assertEquals(WAREHOUSE1_ID, updatedWarehouse.getId());
     assertEquals("Stockage materiaux lourds mis a jour", updatedWarehouse.getDescription());
     assertEquals(warehouse1().getName(), updatedWarehouse.getName());
+  }
+
+  @Test
+  @DirtiesContext
+  void warehouse_worker_cannot_update_warehouse_on_unassigned_job() {
+    ApiClient warehouseClient = anApiClient(WAREHOUSE_TOKEN);
+    WarehouseApi api = new WarehouseApi(warehouseClient);
+
+    CrupdateWarehouse warehouseToUpdate = warehouseToCrupdateWarehouse(warehouse1());
+    warehouseToUpdate.setDescription("Should fail");
+
+    assertThrowsApiException(
+        "{\"type\":\"403 FORBIDDEN\",\"message\":\"Warehouse worker is not assigned to this job\"}",
+        () -> api.crupdateWarehouses(ADMIN_ID, COMPANY1_ID, List.of(warehouseToUpdate)));
+  }
+
+  @Test
+  @DirtiesContext
+  void warehouse_worker_cannot_create_warehouse_on_unassigned_job() {
+    ApiClient warehouseClient = anApiClient(WAREHOUSE_TOKEN);
+    WarehouseApi api = new WarehouseApi(warehouseClient);
+
+    CrupdateWarehouse newWarehouse = someCreatableWarehouse();
+    newWarehouse.setJobId(JOB1_ID);
+
+    assertThrowsApiException(
+        "{\"type\":\"403 FORBIDDEN\",\"message\":\"Warehouse worker is not assigned to this job\"}",
+        () -> api.crupdateWarehouses(ADMIN_ID, COMPANY1_ID, List.of(newWarehouse)));
   }
 
   @Test

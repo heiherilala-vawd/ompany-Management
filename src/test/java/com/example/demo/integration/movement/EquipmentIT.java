@@ -6,10 +6,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.example.demo.SentryConf;
 import com.example.demo.client.api.EquipmentApi;
 import com.example.demo.client.invoker.ApiClient;
-import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.CrupdateEquipment;
-import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.Equipment;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
 import com.example.demo.integration.conf.TestDataSqlLoader;
@@ -79,8 +78,8 @@ class EquipmentIT {
     ApiClient employeeClient = anApiClient(EMPLOYEE_TOKEN);
     EquipmentApi api = new EquipmentApi(employeeClient);
 
-    PaginatedResponse resp = api.getEquipment(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null, null, null, null);
-
+    PaginatedResponse resp =
+        api.getEquipment(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null, null, null, null);
 
     List<Equipment> equipment = extractData(resp, Equipment.class);
 
@@ -97,8 +96,9 @@ class EquipmentIT {
     ApiClient employeeClient = anApiClient(EMPLOYEE_TOKEN);
     EquipmentApi api = new EquipmentApi(employeeClient);
 
-    PaginatedResponse resp = api.getEquipment(
-        ADMIN_ID, COMPANY1_ID, 1, 100, WAREHOUSE2_ID, null, null, null, null, null);
+    PaginatedResponse resp =
+        api.getEquipment(
+            ADMIN_ID, COMPANY1_ID, 1, 100, WAREHOUSE2_ID, null, null, null, null, null);
     List<Equipment> equipment = extractData(resp, Equipment.class);
 
     assertEquals(1, equipment.size());
@@ -110,8 +110,8 @@ class EquipmentIT {
     ApiClient employeeClient = anApiClient(EMPLOYEE_TOKEN);
     EquipmentApi api = new EquipmentApi(employeeClient);
 
-    PaginatedResponse resp = api.getEquipment(ADMIN_ID, COMPANY1_ID, 1, 100, null, "Bétonnière", null, null, null, null);
-
+    PaginatedResponse resp =
+        api.getEquipment(ADMIN_ID, COMPANY1_ID, 1, 100, null, "Bétonnière", null, null, null, null);
 
     List<Equipment> equipment = extractData(resp, Equipment.class);
 
@@ -124,8 +124,8 @@ class EquipmentIT {
     ApiClient employeeClient = anApiClient(EMPLOYEE_TOKEN);
     EquipmentApi api = new EquipmentApi(employeeClient);
 
-    PaginatedResponse resp = api.getEquipment(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, "extérieure", null, null, null);
-
+    PaginatedResponse resp =
+        api.getEquipment(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, "extérieure", null, null, null);
 
     List<Equipment> equipment = extractData(resp, Equipment.class);
 
@@ -138,8 +138,8 @@ class EquipmentIT {
     ApiClient employeeClient = anApiClient(EMPLOYEE_TOKEN);
     EquipmentApi api = new EquipmentApi(employeeClient);
 
-    PaginatedResponse resp = api.getEquipment(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null, 2, null, null);
-
+    PaginatedResponse resp =
+        api.getEquipment(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null, 2, null, null);
 
     List<Equipment> equipment = extractData(resp, Equipment.class);
 
@@ -152,8 +152,8 @@ class EquipmentIT {
     ApiClient employeeClient = anApiClient(EMPLOYEE_TOKEN);
     EquipmentApi api = new EquipmentApi(employeeClient);
 
-    PaginatedResponse resp = api.getEquipment(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null, null, 10, null);
-
+    PaginatedResponse resp =
+        api.getEquipment(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null, null, 10, null);
 
     List<Equipment> equipment = extractData(resp, Equipment.class);
 
@@ -244,8 +244,8 @@ class EquipmentIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     EquipmentApi api = new EquipmentApi(adminClient);
 
-    PaginatedResponse resp = api.getEquipment(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null, null, null, true);
-
+    PaginatedResponse resp =
+        api.getEquipment(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null, null, null, true);
 
     List<Equipment> notArrivedEquipment = extractData(resp, Equipment.class);
 
@@ -262,8 +262,8 @@ class EquipmentIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     EquipmentApi api = new EquipmentApi(adminClient);
 
-    PaginatedResponse resp = api.getEquipment(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null, null, null, false);
-
+    PaginatedResponse resp =
+        api.getEquipment(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null, null, null, false);
 
     List<Equipment> equipment = extractData(resp, Equipment.class);
 

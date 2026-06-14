@@ -24,7 +24,8 @@ public class EmployeePaymentController {
   private final EmployeePaymentMapper employeePaymentMapper;
 
   @GetMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/employee_payments/{id}")
-  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER') or #userId == authentication.principal.id")
+  @PreAuthorize(
+      "hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER') or #userId == authentication.principal.id")
   public EmployeePayment getEmployeePaymentById(
       @PathVariable String userId,
       @PathVariable String companyId,
@@ -38,7 +39,8 @@ public class EmployeePaymentController {
   }
 
   @GetMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/employee_payments")
-  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER') or #userId == authentication.principal.id")
+  @PreAuthorize(
+      "hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER') or #userId == authentication.principal.id")
   public PaginatedResponse getEmployeePayments(
       @PathVariable String userId,
       @PathVariable String companyId,

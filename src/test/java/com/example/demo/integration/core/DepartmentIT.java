@@ -6,10 +6,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.example.demo.SentryConf;
 import com.example.demo.client.api.DepartmentApi;
 import com.example.demo.client.invoker.ApiClient;
-import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.CrupdateDepartment;
-import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.Department;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
 import com.example.demo.integration.conf.TestDataSqlLoader;
@@ -78,7 +77,6 @@ class DepartmentIT {
 
     PaginatedResponse resp = api.getDepartments(ADMIN_ID, COMPANY1_ID, 1, 100);
 
-
     List<Department> departments = extractData(resp, Department.class);
 
     assertEquals(2, departments.size());
@@ -133,7 +131,6 @@ class DepartmentIT {
     api.deleteDepartmentById(ADMIN_ID, COMPANY1_ID, DEPARTMENT1_ID);
 
     PaginatedResponse resp = api.getDepartments(ADMIN_ID, COMPANY1_ID, 1, 100);
-
 
     List<Department> departments = extractData(resp, Department.class);
     assertEquals(1, departments.size());

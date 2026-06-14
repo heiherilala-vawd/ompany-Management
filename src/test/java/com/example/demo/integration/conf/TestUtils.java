@@ -7,7 +7,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import com.example.demo.client.invoker.ApiException;
-import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.BankFee;
 import com.example.demo.client.model.BudgetLine;
 import com.example.demo.client.model.CashAccount;
@@ -71,6 +70,7 @@ import com.example.demo.client.model.MaterialConsumption;
 import com.example.demo.client.model.Organization;
 import com.example.demo.client.model.OtherExpense;
 import com.example.demo.client.model.OtherExpenseType;
+import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.Purchase;
 import com.example.demo.client.model.PurchaseOrder;
 import com.example.demo.client.model.Supplier;
@@ -84,7 +84,6 @@ import com.example.demo.client.model.Warehouse;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import org.openapitools.jackson.nullable.JsonNullableModule;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.Collection;
@@ -92,6 +91,7 @@ import java.util.List;
 import java.util.UUID;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.function.Executable;
+import org.openapitools.jackson.nullable.JsonNullableModule;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -727,6 +727,10 @@ public class TestUtils {
     return TestOrganizationFixtures.someCreatableTeam();
   }
 
+  public static CrupdateTeam teamWithJob(String jobId) {
+    return TestOrganizationFixtures.teamWithJob(jobId);
+  }
+
   public static Department department1() {
     return TestOrganizationFixtures.department1();
   }
@@ -951,8 +955,7 @@ public class TestUtils {
   @SuppressWarnings("unchecked")
   public static <T> List<T> extractData(PaginatedResponse resp, Class<T> clazz) {
     return SHARED_MAPPER.convertValue(
-        resp.getData(),
-        SHARED_MAPPER.getTypeFactory().constructCollectionType(List.class, clazz));
+        resp.getData(), SHARED_MAPPER.getTypeFactory().constructCollectionType(List.class, clazz));
   }
 
   public static boolean isValidUUID(String candidate) {
