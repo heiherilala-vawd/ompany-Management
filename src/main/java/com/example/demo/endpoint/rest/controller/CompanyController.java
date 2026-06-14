@@ -55,9 +55,10 @@ public class CompanyController {
         (int) result.getTotalElements());
   }
 
-  @PutMapping("/companies")
+  @PutMapping("/users/{userId}/companies")
   @PreAuthorize("hasAnyRole('ADMIN')")
-  public List<Company> crupdateCompanies(@Valid @RequestBody List<CrupdateCompany> toWrite) {
+  public List<Company> crupdateCompanies(
+      @PathVariable String userId, @Valid @RequestBody List<CrupdateCompany> toWrite) {
     List<com.example.demo.model.Company> saved =
         companyService.createOrUpdateAll(toWrite.stream().map(companyMapper::toDomain).toList());
     return saved.stream().map(companyMapper::toRestCompany).toList();

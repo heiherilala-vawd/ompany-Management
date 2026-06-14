@@ -1011,12 +1011,18 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  /companies:
     put:
       tags:
         - Company
       summary: Create new companies or update existing companies
       operationId: crupdateCompanies
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
       requestBody:
         required: true
         content:

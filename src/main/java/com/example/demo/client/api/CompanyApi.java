@@ -52,7 +52,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T20:46:03.097377521+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-15T02:07:53.046951793+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CompanyApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -92,24 +92,26 @@ public class CompanyApi {
   /**
    * Create new companies or update existing companies
    * 
+   * @param userId  (required)
    * @param crupdateCompany  (required)
    * @return List&lt;Company&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<Company> crupdateCompanies(List<CrupdateCompany> crupdateCompany) throws ApiException {
-    ApiResponse<List<Company>> localVarResponse = crupdateCompaniesWithHttpInfo(crupdateCompany);
+  public List<Company> crupdateCompanies(String userId, List<CrupdateCompany> crupdateCompany) throws ApiException {
+    ApiResponse<List<Company>> localVarResponse = crupdateCompaniesWithHttpInfo(userId, crupdateCompany);
     return localVarResponse.getData();
   }
 
   /**
    * Create new companies or update existing companies
    * 
+   * @param userId  (required)
    * @param crupdateCompany  (required)
    * @return ApiResponse&lt;List&lt;Company&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<Company>> crupdateCompaniesWithHttpInfo(List<CrupdateCompany> crupdateCompany) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = crupdateCompaniesRequestBuilder(crupdateCompany);
+  public ApiResponse<List<Company>> crupdateCompaniesWithHttpInfo(String userId, List<CrupdateCompany> crupdateCompany) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = crupdateCompaniesRequestBuilder(userId, crupdateCompany);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -137,7 +139,11 @@ public class CompanyApi {
     }
   }
 
-  private HttpRequest.Builder crupdateCompaniesRequestBuilder(List<CrupdateCompany> crupdateCompany) throws ApiException {
+  private HttpRequest.Builder crupdateCompaniesRequestBuilder(String userId, List<CrupdateCompany> crupdateCompany) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling crupdateCompanies");
+    }
     // verify the required parameter 'crupdateCompany' is set
     if (crupdateCompany == null) {
       throw new ApiException(400, "Missing the required parameter 'crupdateCompany' when calling crupdateCompanies");
@@ -145,7 +151,8 @@ public class CompanyApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/companies";
+    String localVarPath = "/users/{userId}/companies"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 

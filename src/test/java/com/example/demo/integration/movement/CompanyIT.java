@@ -170,7 +170,7 @@ class CompanyIT {
     CrupdateCompany companyToUpdate = companyToCrupdateCompany(company1());
     companyToUpdate.setDescription("Entreprise de construction mise a jour");
 
-    List<Company> updatedCompanies = api.crupdateCompanies(List.of(companyToUpdate));
+    List<Company> updatedCompanies = api.crupdateCompanies(ADMIN_ID, List.of(companyToUpdate));
     Company updatedCompany = updatedCompanies.get(0);
 
     assertEquals(1, updatedCompanies.size());
@@ -184,7 +184,8 @@ class CompanyIT {
     ApiClient employeeClient = anApiClient(EMPLOYEE_TOKEN);
     CompanyApi api = new CompanyApi(employeeClient);
 
-    assertThrowsForbiddenException(() -> api.crupdateCompanies(List.of(someCreatableCompany())));
+    assertThrowsForbiddenException(
+        () -> api.crupdateCompanies(ADMIN_ID, List.of(someCreatableCompany())));
   }
 
   @Test
