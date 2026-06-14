@@ -82,7 +82,7 @@ public class SecurityConfiguration {
                     .authenticated()
                     .requestMatchers(GET, "/users/*/companies/*")
                     .authenticated()
-                    .requestMatchers(PUT, "/companies")
+                    .requestMatchers(PUT, "/users/*/companies")
                     .authenticated()
                     // DELETE /companies - ADMIN uniquement
                     .requestMatchers(DELETE, "/users/*/companies/*")
