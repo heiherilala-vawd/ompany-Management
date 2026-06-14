@@ -256,8 +256,7 @@ class ExpenseIT {
     assertEquals(1, updated.size());
     assertEquals(EXPENSE1_ID, updated.get(0).getId());
     assertEquals(
-        "Achat materiaux chantier A - mis a jour entrepot",
-        updated.get(0).getDescription());
+        "Achat materiaux chantier A - mis a jour entrepot", updated.get(0).getDescription());
   }
 
   static class ContextInitializer extends AbstractContextInitializer {

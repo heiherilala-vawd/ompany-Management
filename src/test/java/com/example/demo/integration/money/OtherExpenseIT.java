@@ -178,8 +178,7 @@ class OtherExpenseIT {
     OtherExpenseApi api = new OtherExpenseApi(anApiClient(WAREHOUSE_TOKEN));
 
     assertThrowsForbiddenException(
-        () ->
-            api.getOtherExpenseById(ADMIN_ID, COMPANY1_ID, JOB1_ID, OTHER_EXPENSE1_ID));
+        () -> api.getOtherExpenseById(ADMIN_ID, COMPANY1_ID, JOB1_ID, OTHER_EXPENSE1_ID));
   }
 
   @Test
@@ -194,14 +193,12 @@ class OtherExpenseIT {
     otherExpenseToUpdate.setDescription("Frais administratifs chantier A - mis a jour entrepot");
 
     List<OtherExpense> updated =
-        api.crupdateOtherExpenses(
-            ADMIN_ID, COMPANY1_ID, JOB1_ID, List.of(otherExpenseToUpdate));
+        api.crupdateOtherExpenses(ADMIN_ID, COMPANY1_ID, JOB1_ID, List.of(otherExpenseToUpdate));
 
     assertEquals(1, updated.size());
     assertEquals(OTHER_EXPENSE1_ID, updated.get(0).getId());
     assertEquals(
-        "Frais administratifs chantier A - mis a jour entrepot",
-        updated.get(0).getDescription());
+        "Frais administratifs chantier A - mis a jour entrepot", updated.get(0).getDescription());
   }
 
   static class ContextInitializer extends AbstractContextInitializer {

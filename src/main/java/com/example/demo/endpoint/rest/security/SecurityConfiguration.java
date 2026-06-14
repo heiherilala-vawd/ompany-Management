@@ -155,9 +155,7 @@ public class SecurityConfiguration {
                     // CAR
                     // =========================
                     .requestMatchers(
-                        GET,
-                        "/users/*/companies/*/cars",
-                        "/users/*/companies/*/cars/*/*")
+                        GET, "/users/*/companies/*/cars", "/users/*/companies/*/cars/*/*")
                     .authenticated()
                     // PUT /cars - ADMIN, ADMINISTRATION
                     .requestMatchers(PUT, "/users/*/companies/*/cars")

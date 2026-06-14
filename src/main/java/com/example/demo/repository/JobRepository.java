@@ -42,6 +42,7 @@ public interface JobRepository extends JpaRepository<Job, String>, JpaSpecificat
           + "WHERE j.company.id = :companyId GROUP BY j.id, j.description")
   List<Object[]> countUsersByJob(@Param("companyId") String companyId);
 
-  @Query("SELECT COUNT(u) > 0 FROM Job j JOIN j.responsibleUsers u WHERE j.id = :jobId AND u.id = :userId")
+  @Query(
+      "SELECT COUNT(u) > 0 FROM Job j JOIN j.responsibleUsers u WHERE j.id = :jobId AND u.id = :userId")
   boolean isUserAssignedToJob(@Param("jobId") String jobId, @Param("userId") String userId);
 }
