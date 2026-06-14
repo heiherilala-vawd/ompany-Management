@@ -28,7 +28,7 @@ public class CarController {
   private final CarMapper carMapper;
 
   @GetMapping("/users/{userId}/companies/{companyId}/cars/{equipmentId}/{warehouseId}")
-  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
+  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER', 'EMPLOYEE')")
   public CarResponse getCarById(
       @PathVariable String userId,
       @PathVariable String companyId,
@@ -48,7 +48,7 @@ public class CarController {
   }
 
   @GetMapping("/users/{userId}/companies/{companyId}/cars")
-  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
+  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER', 'EMPLOYEE')")
   public PaginatedResponse getCars(
       @PathVariable String userId,
       @PathVariable String companyId,

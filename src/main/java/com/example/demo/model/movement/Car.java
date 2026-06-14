@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 @Entity
 @Table(name = "car")
@@ -40,6 +42,7 @@ public class Car extends CreatAndUpdateEntity implements Serializable {
   private String licensePlate;
 
   @Enumerated(EnumType.STRING)
+  @JdbcTypeCode(SqlTypes.NAMED_ENUM)
   @Column(name = "fuel_type")
   private FuelType fuelType;
 
@@ -57,5 +60,6 @@ public class Car extends CreatAndUpdateEntity implements Serializable {
   private Integer mileage;
 
   @Enumerated(EnumType.STRING)
+  @JdbcTypeCode(SqlTypes.NAMED_ENUM)
   private CarStatus status;
 }

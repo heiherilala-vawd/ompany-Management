@@ -53,6 +53,7 @@ public class MaintenanceService {
 
   @Transactional
   public List<Maintenance> createOrUpdateAll(List<Maintenance> maintenances) {
+    movementValidator.validateMaintenances(maintenances);
     for (Maintenance maintenance : maintenances) {
       maintenanceRepository
           .findById(maintenance.getId())
@@ -68,7 +69,6 @@ public class MaintenanceService {
                 }
               });
     }
-    movementValidator.validateMaintenances(maintenances);
 
     List<ExpenseMoney> expenses =
         maintenances.stream().map(Maintenance::getExpense).collect(Collectors.toList());

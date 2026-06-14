@@ -44,6 +44,7 @@ public class BankFeeService {
 
   @Transactional
   public List<BankFee> createOrUpdateAll(List<BankFee> bankFees) {
+    moneyValidator.validateBankFees(bankFees);
     for (BankFee bankFee : bankFees) {
       bankFeeRepository
           .findById(bankFee.getId())
@@ -59,7 +60,6 @@ public class BankFeeService {
                 }
               });
     }
-    moneyValidator.validateBankFees(bankFees);
 
     List<ExpenseMoney> expenses =
         bankFees.stream().map(BankFee::getExpense).collect(Collectors.toList());

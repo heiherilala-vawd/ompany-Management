@@ -39,6 +39,7 @@ DELETE FROM "expense_money";
 DELETE FROM "loan_repayment";
 DELETE FROM "loan";
 DELETE FROM "material_warehouse";
+DELETE FROM "car";
 DELETE FROM "equipment";
 DELETE FROM "material";
 DELETE FROM "warehouse";

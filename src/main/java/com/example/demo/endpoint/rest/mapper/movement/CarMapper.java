@@ -17,6 +17,13 @@ public class CarMapper {
 
     CarId carId = new CarId(dto.getEquipmentId(), dto.getWarehouseId());
 
+    Warehouse warehouse =
+        Warehouse.builder()
+            .id(dto.getWarehouseId())
+            .name(dto.getWarehouseName())
+            .description(dto.getWarehouseDescription())
+            .build();
+
     Equipment equipment =
         Equipment.builder()
             .id(dto.getEquipmentId())
@@ -25,13 +32,7 @@ public class CarMapper {
             .estEnPanne(dto.getEstEnPanne() != null ? dto.getEstEnPanne() : false)
             .purchasePrice(dto.getPurchasePrice())
             .purchaseDate(dto.getPurchaseDate())
-            .build();
-
-    Warehouse warehouse =
-        Warehouse.builder()
-            .id(dto.getWarehouseId())
-            .name(dto.getWarehouseName())
-            .description(dto.getWarehouseDescription())
+            .warehouse(warehouse)
             .build();
 
     return Car.builder()

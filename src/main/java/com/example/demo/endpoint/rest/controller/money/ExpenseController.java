@@ -24,7 +24,8 @@ public class ExpenseController {
   private final ExpenseMoneyMapper expenseMoneyMapper;
 
   @GetMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/expenses/{id}")
-  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
+  @PreAuthorize(
+      "hasAnyRole('ADMIN', 'ADMINISTRATION') or @jobSecurity.isCurrentUserAssignedToJob(#jobId)")
   public ExpenseMoney getExpenseById(
       @PathVariable String userId,
       @PathVariable String companyId,
@@ -37,7 +38,8 @@ public class ExpenseController {
   }
 
   @GetMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/expenses")
-  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
+  @PreAuthorize(
+      "hasAnyRole('ADMIN', 'ADMINISTRATION') or @jobSecurity.isCurrentUserAssignedToJob(#jobId)")
   public PaginatedResponse getExpenses(
       @PathVariable String userId,
       @PathVariable String companyId,
@@ -58,7 +60,8 @@ public class ExpenseController {
   }
 
   @PutMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/expenses")
-  @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
+  @PreAuthorize(
+      "hasAnyRole('ADMIN', 'ADMINISTRATION') or @jobSecurity.isCurrentUserAssignedToJob(#jobId)")
   public List<ExpenseMoney> crupdateExpenses(
       @PathVariable String userId,
       @PathVariable String companyId,
