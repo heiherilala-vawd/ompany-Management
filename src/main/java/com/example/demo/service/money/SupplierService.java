@@ -7,6 +7,8 @@ import com.example.demo.service.utils.ModificationUtils;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +28,10 @@ public class SupplierService {
 
   public List<Supplier> findByCompanyId(String companyId) {
     return supplierRepository.findByCompany_Id(companyId);
+  }
+
+  public Page<Supplier> findByCompanyId(String companyId, Pageable pageable) {
+    return supplierRepository.findByCompany_Id(companyId, pageable);
   }
 
   @Transactional

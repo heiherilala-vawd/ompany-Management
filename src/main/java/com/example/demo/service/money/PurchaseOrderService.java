@@ -8,6 +8,8 @@ import com.example.demo.service.utils.ModificationUtils;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,6 +34,17 @@ public class PurchaseOrderService {
     return purchaseOrderRepository.findAll(
         SpecificationUtils.<PurchaseOrder>equal(companyId, "company", "id")
             .and(SpecificationUtils.<PurchaseOrder>equal(jobId, "job", "id")));
+  }
+
+  public Page<PurchaseOrder> findByCompanyId(
+      String companyId, String jobId, Pageable pageable) {
+    if (jobId == null) {
+      return purchaseOrderRepository.findByCompany_Id(companyId, pageable);
+    }
+    return purchaseOrderRepository.findAll(
+        SpecificationUtils.<PurchaseOrder>equal(companyId, "company", "id")
+            .and(SpecificationUtils.<PurchaseOrder>equal(jobId, "job", "id")),
+        pageable);
   }
 
   public List<PurchaseOrder> findByCompanyId(String companyId) {

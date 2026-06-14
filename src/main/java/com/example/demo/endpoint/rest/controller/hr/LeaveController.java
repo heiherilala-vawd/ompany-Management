@@ -74,7 +74,9 @@ public class LeaveController {
   public PaginatedResponse getLeaveBalances(
       @PathVariable String userId,
       @PathVariable String companyId,
-      @RequestParam(name = "year") Integer year) {
+      @RequestParam(name = "year") Integer year,
+      @RequestParam(name = "page", required = false) PageFromOne page,
+      @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize) {
     var list =
         leaveService.computeBalancesByCompany(companyId, year).stream()
             .map(this::toRestLeaveBalance)
@@ -87,7 +89,9 @@ public class LeaveController {
   public PaginatedResponse getEmployeesWithoutLeave(
       @PathVariable String userId,
       @PathVariable String companyId,
-      @RequestParam(name = "year") Integer year) {
+      @RequestParam(name = "year") Integer year,
+      @RequestParam(name = "page", required = false) PageFromOne page,
+      @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize) {
     var list =
         leaveService.findEmployeesWithoutLeave(companyId, year).stream()
             .map(

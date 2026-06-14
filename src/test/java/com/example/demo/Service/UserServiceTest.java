@@ -20,6 +20,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -146,11 +147,11 @@ class UserServiceTest {
         .thenReturn(new PageImpl<>(expectedUsers));
 
     // When
-    List<User> result = userService.getUsers(page, pageSize, criteria);
+    Page<User> result = userService.getUsers(page, pageSize, criteria);
 
     // Then
-    assertThat(result).hasSize(1);
-    assertThat(result.get(0)).isEqualTo(existingUser);
+    assertThat(result.getContent()).hasSize(1);
+    assertThat(result.getContent().get(0)).isEqualTo(existingUser);
     verify(repository).findAll(any(Specification.class), any(Pageable.class));
   }
 
@@ -167,7 +168,7 @@ class UserServiceTest {
         .thenReturn(new PageImpl<>(expectedUsers));
 
     // When
-    List<User> result = userService.getUsers(page, pageSize, criteria);
+    Page<User> result = userService.getUsers(page, pageSize, criteria);
 
     // Then
     assertThat(result).hasSize(1);

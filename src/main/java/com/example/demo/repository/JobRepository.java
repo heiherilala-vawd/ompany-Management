@@ -2,6 +2,7 @@ package com.example.demo.repository;
 
 import com.example.demo.model.Job;
 import com.example.demo.model.Job.JobStatus;
+import com.example.demo.model.User;
 import java.time.LocalDate;
 import java.util.List;
 import org.springframework.data.domain.Page;
@@ -14,6 +15,10 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface JobRepository extends JpaRepository<Job, String>, JpaSpecificationExecutor<Job> {
+
+  @Query("SELECT u FROM Job j JOIN j.responsibleUsers u WHERE j.id = :jobId")
+  Page<User> findResponsibleUsersByJobId(@Param("jobId") String jobId, Pageable pageable);
+
   Page<Job> findByStatus(JobStatus status, Pageable pageable);
 
   Page<Job> findByCompanyId(String companyId, Pageable pageable);

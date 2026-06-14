@@ -1,7 +1,5 @@
 package com.example.demo.service.notification;
 
-import com.example.demo.model.BoundedPageSize;
-import com.example.demo.model.PageFromOne;
 import com.example.demo.model.User;
 import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.model.notification.Notification;
@@ -9,12 +7,12 @@ import com.example.demo.model.task.Task;
 import com.example.demo.repository.notification.NotificationRepository;
 import com.example.demo.repository.task.TaskRepository;
 import com.example.demo.service.utils.ModificationUtils;
-import com.example.demo.service.utils.PageUtils;
 import java.time.Instant;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,44 +25,24 @@ public class NotificationService {
   private final TaskRepository taskRepository;
   private final ModificationUtils modificationUtils;
 
-  public List<Notification> findByUserId(
-      String userId, PageFromOne page, BoundedPageSize pageSize) {
-    var pageable = PageUtils.createPageable(page, pageSize);
-    var notifications = notificationRepository.findByUserIdOrderByCreatedAtDesc(userId);
-    int start = (int) pageable.getOffset();
-    int end = Math.min(start + pageable.getPageSize(), notifications.size());
-    return notifications.subList(start, end);
+  public Page<Notification> findByUserId(String userId, Pageable pageable) {
+    return notificationRepository.findByUserId(userId, pageable);
   }
 
-  public List<Notification> findByUserIdAndRead(
-      String userId, Boolean read, PageFromOne page, BoundedPageSize pageSize) {
-    var pageable = PageUtils.createPageable(page, pageSize);
-    var notifications =
-        notificationRepository.findByUserIdAndReadOrderByCreatedAtDesc(userId, read);
-    int start = (int) pageable.getOffset();
-    int end = Math.min(start + pageable.getPageSize(), notifications.size());
-    return notifications.subList(start, end);
+  public Page<Notification> findByUserIdAndRead(
+      String userId, Boolean read, Pageable pageable) {
+    return notificationRepository.findByUserIdAndRead(userId, read, pageable);
   }
 
-  public List<Notification> findByUserIdAndCompleted(
-      String userId, Boolean completed, PageFromOne page, BoundedPageSize pageSize) {
-    var pageable = PageUtils.createPageable(page, pageSize);
-    var notifications =
-        notificationRepository.findByUserIdAndCompletedOrderByCreatedAtDesc(userId, completed);
-    int start = (int) pageable.getOffset();
-    int end = Math.min(start + pageable.getPageSize(), notifications.size());
-    return notifications.subList(start, end);
+  public Page<Notification> findByUserIdAndCompleted(
+      String userId, Boolean completed, Pageable pageable) {
+    return notificationRepository.findByUserIdAndCompleted(userId, completed, pageable);
   }
 
-  public List<Notification> findByUserIdAndReadAndCompleted(
-      String userId, Boolean read, Boolean completed, PageFromOne page, BoundedPageSize pageSize) {
-    var pageable = PageUtils.createPageable(page, pageSize);
-    var notifications =
-        notificationRepository.findByUserIdAndReadAndCompletedOrderByCreatedAtDesc(
-            userId, read, completed);
-    int start = (int) pageable.getOffset();
-    int end = Math.min(start + pageable.getPageSize(), notifications.size());
-    return notifications.subList(start, end);
+  public Page<Notification> findByUserIdAndReadAndCompleted(
+      String userId, Boolean read, Boolean completed, Pageable pageable) {
+    return notificationRepository.findByUserIdAndReadAndCompleted(
+        userId, read, completed, pageable);
   }
 
   public Optional<Notification> findById(String id) {

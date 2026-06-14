@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -80,9 +81,9 @@ public class UserService {
     return repository.findByEmail(email);
   }
 
-  public List<User> getUsers(PageFromOne page, BoundedPageSize pageSize, UserCriteria criteria) {
+  public Page<User> getUsers(PageFromOne page, BoundedPageSize pageSize, UserCriteria criteria) {
     Pageable pageable = PageUtils.createPageable(page, pageSize);
-    return repository.findAll(toSpecification(criteria), pageable).getContent();
+    return repository.findAll(toSpecification(criteria), pageable);
   }
 
   public void deleteById(String userId) {

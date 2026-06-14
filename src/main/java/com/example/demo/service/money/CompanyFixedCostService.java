@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +29,10 @@ public class CompanyFixedCostService {
 
   public List<CompanyFixedCost> findAllByCompanyId(String companyId) {
     return companyFixedCostRepository.findByCompanyIdOrderByName(companyId);
+  }
+
+  public Page<CompanyFixedCost> findAllByCompanyId(String companyId, Pageable pageable) {
+    return companyFixedCostRepository.findByCompanyIdOrderByName(companyId, pageable);
   }
 
   public List<CompanyFixedCost> findActiveByCompanyIdAtDate(String companyId, LocalDate date) {

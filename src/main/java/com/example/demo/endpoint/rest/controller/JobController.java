@@ -80,23 +80,27 @@ public class JobController {
     return entity;
   }
 
-  @GetMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/users")
+  @GetMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/assigned_users")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public PaginatedResponse getJobResponsibleUsers(
-      @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId) {
-    var list =
-        jobService.getJobResponsibleUsers(jobId).stream().map(userMapper::toRestUser).toList();
-    return new PaginatedResponse(list, list.size());
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @PathVariable String jobId,
+      @RequestParam(name = "page", required = false) PageFromOne page,
+      @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize) {
+    var result = jobService.getJobResponsibleUsers(jobId, page, pageSize);
+    var list = result.stream().map(userMapper::toRestUser).toList();
+    return new PaginatedResponse(list, (int) result.getTotalElements());
   }
 
-  @PutMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/users")
+  @PutMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/assigned_users")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public void assignUserToJob(
       @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId) {
     jobService.assignUserToJob(jobId, userId);
   }
 
-  @DeleteMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/users")
+  @DeleteMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/assigned_users")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public void unassignUserFromJob(
       @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId) {

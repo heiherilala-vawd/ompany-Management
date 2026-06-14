@@ -52,7 +52,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T02:20:38.960879300+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T13:41:38.687456885+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class JobApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -160,7 +160,7 @@ public class JobApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/users/{userId}/companies/{companyId}/jobs/{jobId}/users"
+    String localVarPath = "/users/{userId}/companies/{companyId}/jobs/{jobId}/assigned_users"
         .replace("{userId}", ApiClient.urlEncode(userId.toString()))
         .replace("{companyId}", ApiClient.urlEncode(companyId.toString()))
         .replace("{jobId}", ApiClient.urlEncode(jobId.toString()));
@@ -454,11 +454,13 @@ public class JobApi {
    * @param userId  (required)
    * @param companyId  (required)
    * @param jobId  (required)
+   * @param page  (optional)
+   * @param pageSize  (optional)
    * @return PaginatedResponse
    * @throws ApiException if fails to make API call
    */
-  public PaginatedResponse getJobResponsibleUsers(String userId, String companyId, String jobId) throws ApiException {
-    ApiResponse<PaginatedResponse> localVarResponse = getJobResponsibleUsersWithHttpInfo(userId, companyId, jobId);
+  public PaginatedResponse getJobResponsibleUsers(String userId, String companyId, String jobId, Integer page, Integer pageSize) throws ApiException {
+    ApiResponse<PaginatedResponse> localVarResponse = getJobResponsibleUsersWithHttpInfo(userId, companyId, jobId, page, pageSize);
     return localVarResponse.getData();
   }
 
@@ -468,11 +470,13 @@ public class JobApi {
    * @param userId  (required)
    * @param companyId  (required)
    * @param jobId  (required)
+   * @param page  (optional)
+   * @param pageSize  (optional)
    * @return ApiResponse&lt;PaginatedResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<PaginatedResponse> getJobResponsibleUsersWithHttpInfo(String userId, String companyId, String jobId) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getJobResponsibleUsersRequestBuilder(userId, companyId, jobId);
+  public ApiResponse<PaginatedResponse> getJobResponsibleUsersWithHttpInfo(String userId, String companyId, String jobId, Integer page, Integer pageSize) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getJobResponsibleUsersRequestBuilder(userId, companyId, jobId, page, pageSize);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -500,7 +504,7 @@ public class JobApi {
     }
   }
 
-  private HttpRequest.Builder getJobResponsibleUsersRequestBuilder(String userId, String companyId, String jobId) throws ApiException {
+  private HttpRequest.Builder getJobResponsibleUsersRequestBuilder(String userId, String companyId, String jobId, Integer page, Integer pageSize) throws ApiException {
     // verify the required parameter 'userId' is set
     if (userId == null) {
       throw new ApiException(400, "Missing the required parameter 'userId' when calling getJobResponsibleUsers");
@@ -516,12 +520,29 @@ public class JobApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/users/{userId}/companies/{companyId}/jobs/{jobId}/users"
+    String localVarPath = "/users/{userId}/companies/{companyId}/jobs/{jobId}/assigned_users"
         .replace("{userId}", ApiClient.urlEncode(userId.toString()))
         .replace("{companyId}", ApiClient.urlEncode(companyId.toString()))
         .replace("{jobId}", ApiClient.urlEncode(jobId.toString()));
 
-    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    List<Pair> localVarQueryParams = new ArrayList<>();
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
+    String localVarQueryParameterBaseName;
+    localVarQueryParameterBaseName = "page";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("page", page));
+    localVarQueryParameterBaseName = "page_size";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("page_size", pageSize));
+
+    if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
+      StringJoiner queryJoiner = new StringJoiner("&");
+      localVarQueryParams.forEach(p -> queryJoiner.add(p.getName() + '=' + p.getValue()));
+      if (localVarQueryStringJoiner.length() != 0) {
+        queryJoiner.add(localVarQueryStringJoiner.toString());
+      }
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
+    } else {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    }
 
     localVarRequestBuilder.header("Accept", "application/json");
 
@@ -715,7 +736,7 @@ public class JobApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/users/{userId}/companies/{companyId}/jobs/{jobId}/users"
+    String localVarPath = "/users/{userId}/companies/{companyId}/jobs/{jobId}/assigned_users"
         .replace("{userId}", ApiClient.urlEncode(userId.toString()))
         .replace("{companyId}", ApiClient.urlEncode(companyId.toString()))
         .replace("{jobId}", ApiClient.urlEncode(jobId.toString()));

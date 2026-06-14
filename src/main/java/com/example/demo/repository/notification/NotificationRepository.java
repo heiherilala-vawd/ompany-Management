@@ -1,22 +1,23 @@
 package com.example.demo.repository.notification;
 
 import com.example.demo.model.notification.Notification;
-import java.util.List;
 import java.util.Optional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public interface NotificationRepository extends JpaRepository<Notification, String> {
 
-  List<Notification> findByUserIdOrderByCreatedAtDesc(String userId);
+  Page<Notification> findByUserId(String userId, Pageable pageable);
 
-  List<Notification> findByUserIdAndReadOrderByCreatedAtDesc(String userId, Boolean read);
+  Page<Notification> findByUserIdAndRead(String userId, Boolean read, Pageable pageable);
 
-  List<Notification> findByUserIdAndCompletedOrderByCreatedAtDesc(String userId, Boolean completed);
+  Page<Notification> findByUserIdAndCompleted(String userId, Boolean completed, Pageable pageable);
 
-  List<Notification> findByUserIdAndReadAndCompletedOrderByCreatedAtDesc(
-      String userId, Boolean read, Boolean completed);
+  Page<Notification> findByUserIdAndReadAndCompleted(
+      String userId, Boolean read, Boolean completed, Pageable pageable);
 
   Optional<Notification> findByIdAndUserId(String id, String userId);
 
