@@ -27,7 +27,6 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class PurchaseOperationService {
 
-  private final ExpenseMoneyService expenseMoneyService;
   private final PurchaseService purchaseService;
   private final TravelExpenseService travelExpenseService;
   private final TravelMaterialsService travelMaterialsService;
@@ -45,7 +44,6 @@ public class PurchaseOperationService {
     saveNewMaterials(aggregate.materials());
     saveNewEquipment(aggregate.equipment(), targetWarehouse);
 
-    expenseMoneyService.createOrUpdateAll(aggregate.expenses());
     List<Purchase> purchases = purchaseService.createOrUpdateAll(aggregate.purchases());
 
     List<MaterialWarehouse> materialWarehouses = new ArrayList<>();
@@ -67,7 +65,6 @@ public class PurchaseOperationService {
 
     saveNewWarehouses(aggregate.departureWarehouse(), aggregate.arrivalWarehouse());
 
-    expenseMoneyService.createOrUpdateAll(List.of(aggregate.travelExpenseMoney()));
     travelExpenseService.createOrUpdateAll(List.of(aggregate.travelExpense()));
 
     linkAndSaveTravelEquipment(aggregate.travelEquipment(), aggregate.travelExpense());
