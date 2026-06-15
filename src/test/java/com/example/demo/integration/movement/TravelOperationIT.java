@@ -10,6 +10,8 @@ import com.example.demo.client.api.TravelMaterialsApi;
 import com.example.demo.client.api.TravelOperationApi;
 import com.example.demo.client.api.TravelPeopleApi;
 import com.example.demo.client.invoker.ApiClient;
+import com.example.demo.client.model.ConfirmEquipmentArrival;
+import com.example.demo.client.model.ConfirmMaterialArrival;
 import com.example.demo.client.model.CrupdateEquipment;
 import com.example.demo.client.model.CrupdateMaterial;
 import com.example.demo.client.model.CrupdateWarehouse;
@@ -332,6 +334,229 @@ class TravelOperationIT {
     // Attempting to create for USER1_ID (another user) should fail
     assertThrowsForbiddenException(
         () -> api.createTravelOperation(ADMIN_ID, COMPANY1_ID, JOB1_ID, request));
+  }
+
+  @Test
+  @DirtiesContext
+  void employee_can_confirm_equipment_arrival() throws Exception {
+    TravelOperationApi travelOpApi = new TravelOperationApi(anApiClient(EMPLOYEE_TOKEN));
+
+    String travelId = "travel_confirm_arrival_1";
+    String travelExpenseId = "travel_confirm_arrival_expense_1";
+    String travelEquipmentId = "travel_confirm_equipment_1";
+    String travelMaterialId = "travel_confirm_material_1";
+
+    TravelOperationRequest request = new TravelOperationRequest();
+    request.setComment("Test arrival confirmation");
+    request.setTravel(
+        new TravelOperationTravel()
+            .id(travelId)
+            .expenseId(travelExpenseId)
+            .departureLocation(new CrupdateWarehouse().id(WAREHOUSE1_ID).name("Wh1"))
+            .arrivalLocation(new CrupdateWarehouse().id(WAREHOUSE2_ID).name("Wh2"))
+            .departureDate(Instant.parse("2024-09-01T08:00:00Z"))
+            .arrivalDate(Instant.parse("2024-09-01T17:00:00Z")));
+    request.setEquipmentLines(
+        List.of(
+            new TravelOperationEquipmentLine()
+                .id(travelEquipmentId)
+                .equipment(equipmentRef(EQUIPMENT1_ID))));
+    request.setMaterialLines(
+        List.of(
+            new TravelOperationMaterialLine()
+                .id(travelMaterialId)
+                .material(materialRef(MATERIAL1_ID))
+                .quantity(50)));
+
+    travelOpApi.createTravelOperation(EMPLOYEE_ID, COMPANY1_ID, JOB1_ID, request);
+
+    // Verify equipment is IN_PROGRESS (default)
+    TravelEquipmentApi teApi = new TravelEquipmentApi(anApiClient(ADMIN_TOKEN));
+    PaginatedResponse teResp =
+        teApi.getTravelEquipment(
+            ADMIN_ID,
+            COMPANY1_ID,
+            JOB1_ID,
+            1,
+            100,
+            travelId,
+            EQUIPMENT1_ID,
+            1,
+            com.example.demo.client.model.TransportStatus.IN_PROGRESS,
+            null,
+            null,
+            null,
+            null);
+    List<TravelEquipment> equipmentList = extractData(teResp, TravelEquipment.class);
+    assertEquals(1, equipmentList.size());
+    assertEquals(
+        com.example.demo.client.model.TransportStatus.IN_PROGRESS,
+        equipmentList.get(0).getStatus());
+
+    // Confirm equipment arrival as ARRIVED
+    teApi.confirmEquipmentArrival(
+        ADMIN_ID,
+        COMPANY1_ID,
+        List.of(
+            new ConfirmEquipmentArrival()
+                .id(travelEquipmentId)
+                .status(com.example.demo.client.model.TransportStatus.ARRIVED)));
+
+    // Verify equipment is now ARRIVED
+    teResp =
+        teApi.getTravelEquipment(
+            ADMIN_ID,
+            COMPANY1_ID,
+            JOB1_ID,
+            1,
+            100,
+            travelId,
+            EQUIPMENT1_ID,
+            1,
+            com.example.demo.client.model.TransportStatus.ARRIVED,
+            null,
+            null,
+            null,
+            null);
+    equipmentList = extractData(teResp, TravelEquipment.class);
+    assertEquals(1, equipmentList.size());
+    assertEquals(
+        com.example.demo.client.model.TransportStatus.ARRIVED, equipmentList.get(0).getStatus());
+    assertNotNull(equipmentList.get(0).getArrivalDate());
+  }
+
+  @Test
+  @DirtiesContext
+  void employee_can_confirm_equipment_lost() throws Exception {
+    TravelOperationApi travelOpApi = new TravelOperationApi(anApiClient(EMPLOYEE_TOKEN));
+
+    String travelId = "travel_confirm_lost_1";
+    String travelExpenseId = "travel_confirm_lost_expense_1";
+    String travelEquipmentId = "travel_confirm_lost_equipment_1";
+
+    TravelOperationRequest request = new TravelOperationRequest();
+    request.setTravel(
+        new TravelOperationTravel()
+            .id(travelId)
+            .expenseId(travelExpenseId)
+            .departureLocation(new CrupdateWarehouse().id(WAREHOUSE1_ID).name("Wh1"))
+            .arrivalLocation(new CrupdateWarehouse().id(WAREHOUSE2_ID).name("Wh2"))
+            .departureDate(Instant.parse("2024-10-01T08:00:00Z"))
+            .arrivalDate(Instant.parse("2024-10-01T17:00:00Z")));
+    request.setEquipmentLines(
+        List.of(
+            new TravelOperationEquipmentLine()
+                .id(travelEquipmentId)
+                .equipment(equipmentRef(EQUIPMENT2_ID))));
+
+    travelOpApi.createTravelOperation(EMPLOYEE_ID, COMPANY1_ID, JOB1_ID, request);
+
+    // Confirm equipment as LOST
+    TravelEquipmentApi teApi = new TravelEquipmentApi(anApiClient(ADMIN_TOKEN));
+    teApi.confirmEquipmentArrival(
+        ADMIN_ID,
+        COMPANY1_ID,
+        List.of(
+            new ConfirmEquipmentArrival()
+                .id(travelEquipmentId)
+                .status(com.example.demo.client.model.TransportStatus.LOST)));
+
+    // Verify status is LOST
+    PaginatedResponse teResp =
+        teApi.getTravelEquipment(
+            ADMIN_ID,
+            COMPANY1_ID,
+            JOB1_ID,
+            1,
+            100,
+            travelId,
+            EQUIPMENT2_ID,
+            1,
+            com.example.demo.client.model.TransportStatus.LOST,
+            null,
+            null,
+            null,
+            null);
+    List<TravelEquipment> equipmentList = extractData(teResp, TravelEquipment.class);
+    assertEquals(1, equipmentList.size());
+    assertEquals(
+        com.example.demo.client.model.TransportStatus.LOST, equipmentList.get(0).getStatus());
+  }
+
+  @Test
+  @DirtiesContext
+  void employee_can_confirm_material_arrival() throws Exception {
+    TravelOperationApi travelOpApi = new TravelOperationApi(anApiClient(EMPLOYEE_TOKEN));
+
+    String travelId = "travel_confirm_mat_1";
+    String travelExpenseId = "travel_confirm_mat_expense_1";
+    String travelMaterialId = "travel_confirm_mat_line_1";
+
+    TravelOperationRequest request = new TravelOperationRequest();
+    request.setTravel(
+        new TravelOperationTravel()
+            .id(travelId)
+            .expenseId(travelExpenseId)
+            .departureLocation(new CrupdateWarehouse().id(WAREHOUSE1_ID).name("Wh1"))
+            .arrivalLocation(new CrupdateWarehouse().id(WAREHOUSE2_ID).name("Wh2"))
+            .departureDate(Instant.parse("2024-11-01T08:00:00Z"))
+            .arrivalDate(Instant.parse("2024-11-01T17:00:00Z")));
+    request.setMaterialLines(
+        List.of(
+            new TravelOperationMaterialLine()
+                .id(travelMaterialId)
+                .material(materialRef(MATERIAL1_ID))
+                .quantity(100)));
+
+    travelOpApi.createTravelOperation(EMPLOYEE_ID, COMPANY1_ID, JOB1_ID, request);
+
+    // Verify materials have quantityReceived = 0 (in transit)
+    TravelMaterialsApi tmApi = new TravelMaterialsApi(anApiClient(ADMIN_TOKEN));
+    PaginatedResponse tmResp =
+        tmApi.getTravelMaterials(
+            ADMIN_ID,
+            COMPANY1_ID,
+            JOB1_ID,
+            1,
+            100,
+            travelId,
+            MATERIAL1_ID,
+            100,
+            null,
+            null,
+            null,
+            null,
+            null);
+    List<TravelMaterials> materialsList = extractData(tmResp, TravelMaterials.class);
+    assertEquals(1, materialsList.size());
+    assertEquals(0, materialsList.get(0).getQuantityReceived().intValue());
+
+    // Confirm material arrival with partial quantity
+    tmApi.confirmMaterialArrival(
+        ADMIN_ID,
+        COMPANY1_ID,
+        List.of(new ConfirmMaterialArrival().id(travelMaterialId).quantityReceived(80)));
+
+    // Verify quantity_received was updated
+    tmResp =
+        tmApi.getTravelMaterials(
+            ADMIN_ID,
+            COMPANY1_ID,
+            JOB1_ID,
+            1,
+            100,
+            travelId,
+            MATERIAL1_ID,
+            100,
+            80,
+            null,
+            null,
+            null,
+            null);
+    materialsList = extractData(tmResp, TravelMaterials.class);
+    assertEquals(1, materialsList.size());
+    assertEquals(80, materialsList.get(0).getQuantityReceived().intValue());
+    assertNotNull(materialsList.get(0).getArrivalDate());
   }
 
   static class ContextInitializer extends AbstractContextInitializer {

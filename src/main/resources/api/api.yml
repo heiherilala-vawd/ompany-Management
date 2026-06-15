@@ -6523,12 +6523,63 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
+  /users/{userId}/companies/{companyId}/travel_materials/arrival:
+    put:
+      tags:
+        - TravelMaterials
+      summary: Confirm arrival of travel materials with actual quantity received
+      operationId: confirmMaterialArrival
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+        - name: companyId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/ConfirmMaterialArrival'
+            example:
+              - id: "travel_mat_010"
+                quantity_received: 80
+              - id: "travel_mat_011"
+                quantity_received: 150
+      responses:
+        '200':
+          description: Arrival confirmed
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TravelMaterials'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+
   /histories:
     get:
       tags:
         - History
       summary: Get modification history with filters
-      description: Retrieve the history of modifications with optional filters for user, entity type, entity id, and date range.
       operationId: getHistories
       parameters:
         - name: page
@@ -6930,6 +6981,58 @@ paths:
                     last_name: "Dupont"
                     sex: "M"
                     email: "jean.dupont@example.com"
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+
+  /users/{userId}/companies/{companyId}/travel_equipments/arrival:
+    put:
+      tags:
+        - TravelEquipment
+      summary: Confirm arrival of travel equipment (ARRIVED, LOST or DAMAGED)
+      operationId: confirmEquipmentArrival
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+        - name: companyId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/ConfirmEquipmentArrival'
+            example:
+              - id: "travel_eq_010"
+                status: "ARRIVED"
+              - id: "travel_eq_011"
+                status: "LOST"
+      responses:
+        '200':
+          description: Arrival confirmed
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TravelEquipment'
         '400':
           $ref: '#/components/responses/400'
         '403':
@@ -11895,6 +11998,7 @@ components:
         - IN_PROGRESS
         - LOST
         - ARRIVED
+        - DAMAGED
       example: ARRIVED
     Sex:
       type: string
@@ -13776,6 +13880,9 @@ components:
           example: "travel_eq_010"
         equipment:
           $ref: '#/components/schemas/CrupdateEquipment'
+        status:
+          $ref: '#/components/schemas/TransportStatus'
+          description: "IN_PROGRESS (default) or ARRIVED. IN_PROGRESS means the equipment is en route, ARRIVED means it arrived immediately."
     TravelOperationMaterialLine:
       allOf:
         - $ref: '#/components/schemas/comment'
@@ -13816,6 +13923,37 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/TravelOperationPeopleLine'
+
+    ConfirmEquipmentArrival:
+      required:
+        - id
+        - status
+      properties:
+        id:
+          type: string
+          example: "travel_eq_010"
+        status:
+          $ref: '#/components/schemas/TransportStatus'
+          description: "ARRIVED, LOST or DAMAGED"
+      example:
+        id: "travel_eq_010"
+        status: "ARRIVED"
+
+    ConfirmMaterialArrival:
+      required:
+        - id
+        - quantity_received
+      properties:
+        id:
+          type: string
+          example: "travel_mat_010"
+        quantity_received:
+          type: integer
+          minimum: 0
+          example: 80
+      example:
+        id: "travel_mat_010"
+        quantity_received: 80
 
     # =========================
     # BANK FEE

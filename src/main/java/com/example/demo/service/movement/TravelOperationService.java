@@ -9,11 +9,13 @@ import com.example.demo.model.movement.Equipment;
 import com.example.demo.model.movement.Material;
 import com.example.demo.model.movement.MaterialWarehouse;
 import com.example.demo.model.movement.TravelEquipment;
+import com.example.demo.model.movement.TravelEquipment.TransportStatus;
 import com.example.demo.model.movement.TravelMaterials;
 import com.example.demo.model.movement.TravelPeople;
 import com.example.demo.model.movement.Warehouse;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.money.TravelExpenseService;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -140,16 +142,21 @@ public class TravelOperationService {
             "equipment " + equipmentId + " is not located in warehouse " + departure.getId());
       }
 
-      movedEquipment.add(
-          Equipment.builder()
-              .id(existingEquipment.getId())
-              .name(existingEquipment.getName())
-              .description(existingEquipment.getDescription())
-              .warehouse(arrival)
-              .floorNumber(existingEquipment.getFloorNumber())
-              .storageNumber(existingEquipment.getStorageNumber())
-              .comment(existingEquipment.getComment())
-              .build());
+      TransportStatus status = travelEquipment.getStatus();
+      boolean isImmediateArrival = status == TransportStatus.ARRIVED;
+
+      if (isImmediateArrival) {
+        movedEquipment.add(
+            Equipment.builder()
+                .id(existingEquipment.getId())
+                .name(existingEquipment.getName())
+                .description(existingEquipment.getDescription())
+                .warehouse(arrival)
+                .floorNumber(existingEquipment.getFloorNumber())
+                .storageNumber(existingEquipment.getStorageNumber())
+                .comment(existingEquipment.getComment())
+                .build());
+      }
 
       toSave.add(
           TravelEquipment.builder()
@@ -157,12 +164,15 @@ public class TravelOperationService {
               .travel(travel)
               .equipment(existingEquipment)
               .quantity(1)
-              .status(TravelEquipment.TransportStatus.ARRIVED)
+              .status(status != null ? status : TransportStatus.IN_PROGRESS)
+              .arrivalDate(isImmediateArrival ? Instant.now() : null)
               .comment(travelEquipment.getComment())
               .build());
     }
 
-    equipmentService.createOrUpdateAll(movedEquipment);
+    if (!movedEquipment.isEmpty()) {
+      equipmentService.createOrUpdateAll(movedEquipment);
+    }
     travelEquipmentService.createOrUpdateAll(toSave);
   }
 
@@ -220,12 +230,18 @@ public class TravelOperationService {
               .warehouse(departure)
               .quantity(quantity)
               .build());
-      materialWarehouseService.incrementQuantity(
-          MaterialWarehouse.builder()
-              .material(material)
-              .warehouse(arrival)
-              .quantity(quantity)
-              .build());
+
+      int quantityReceived =
+          travelMaterials.getQuantityReceived() != null ? travelMaterials.getQuantityReceived() : 0;
+
+      if (quantityReceived > 0) {
+        materialWarehouseService.incrementQuantity(
+            MaterialWarehouse.builder()
+                .material(material)
+                .warehouse(arrival)
+                .quantity(quantityReceived)
+                .build());
+      }
 
       toSave.add(
           TravelMaterials.builder()
@@ -233,7 +249,7 @@ public class TravelOperationService {
               .travel(travel)
               .material(material)
               .quantity(quantity)
-              .quantityReceived(quantity)
+              .quantityReceived(quantityReceived)
               .comment(travelMaterials.getComment())
               .build());
     }

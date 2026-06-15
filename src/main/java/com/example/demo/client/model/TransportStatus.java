@@ -34,7 +34,9 @@ public enum TransportStatus {
   
   LOST("LOST"),
   
-  ARRIVED("ARRIVED");
+  ARRIVED("ARRIVED"),
+  
+  DAMAGED("DAMAGED");
 
   private String value;
 

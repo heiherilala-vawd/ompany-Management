@@ -332,6 +332,11 @@ public class SecurityConfiguration {
                     // DELETE /travel_equipment - ADMIN uniquement
                     .requestMatchers(DELETE, "/users/*/companies/*/jobs/*/travel_equipments/*")
                     .hasRole("ADMIN")
+                    // Arrival confirmation (no job in path, @PreAuthorize handles roles)
+                    .requestMatchers(PUT, "/users/*/companies/*/travel_equipments/arrival")
+                    .authenticated()
+                    .requestMatchers(PUT, "/users/*/companies/*/travel_materials/arrival")
+                    .authenticated()
                     .requestMatchers("/histories")
                     .authenticated()
 

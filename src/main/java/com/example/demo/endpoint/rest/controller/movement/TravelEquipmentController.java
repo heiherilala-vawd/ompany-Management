@@ -1,5 +1,6 @@
 package com.example.demo.endpoint.rest.controller.movement;
 
+import com.example.demo.client.model.ConfirmEquipmentArrival;
 import com.example.demo.client.model.CrupdateTravelEquipment;
 import com.example.demo.client.model.TransportStatus;
 import com.example.demo.client.model.TravelEquipment;
@@ -85,13 +86,21 @@ public class TravelEquipmentController {
     return saved.stream().map(travelEquipmentMapper::toRestTravelEquipment).toList();
   }
 
+  @PutMapping("/users/{userId}/companies/{companyId}/travel_equipments/arrival")
+  @PreAuthorize(
+      "hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER') or #userId == authentication.principal.id")
+  public List<TravelEquipment> confirmEquipmentArrival(
+      @PathVariable String userId,
+      @PathVariable String companyId,
+      @Valid @RequestBody List<ConfirmEquipmentArrival> arrivals) {
+    var saved = travelEquipmentService.confirmEquipmentArrival(arrivals);
+    return saved.stream().map(travelEquipmentMapper::toRestTravelEquipment).toList();
+  }
+
   @DeleteMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/travel_equipments/{id}")
   @PreAuthorize("hasAnyRole('ADMIN')")
   public void deleteTravelEquipmentById(
-      @PathVariable String userId,
-      @PathVariable String companyId,
-      @PathVariable String jobId,
-      @PathVariable String id) {
+      @PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     travelEquipmentService.deleteById(id);
   }
 }

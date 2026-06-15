@@ -1,5 +1,7 @@
 package com.example.demo.validator;
 
+import com.example.demo.client.model.ConfirmEquipmentArrival;
+import com.example.demo.client.model.ConfirmMaterialArrival;
 import com.example.demo.model.exception.BadRequestException;
 import com.example.demo.model.movement.Car;
 import com.example.demo.model.movement.Equipment;
@@ -311,6 +313,65 @@ public class MovementValidator {
     if (!errors.isEmpty()) {
       throw new BadRequestException(String.join("; ", errors));
     }
+  }
+
+  public void validateConfirmEquipmentArrival(ConfirmEquipmentArrival arrival) {
+    List<String> errors = new ArrayList<>();
+    if (arrival == null) {
+      errors.add("Confirm equipment arrival cannot be null");
+    }
+    if (arrival != null && (arrival.getId() == null || arrival.getId().isBlank())) {
+      errors.add("Travel equipment id is mandatory");
+    }
+    if (arrival != null && arrival.getStatus() == null) {
+      errors.add("Transport status is mandatory");
+    }
+    if (!errors.isEmpty()) {
+      throw new BadRequestException(String.join("; ", errors));
+    }
+  }
+
+  public void validateConfirmEquipmentArrival(List<ConfirmEquipmentArrival> arrivals) {
+    List<String> errors = new ArrayList<>();
+    if (arrivals == null || arrivals.isEmpty()) {
+      errors.add("Confirm equipment arrival list cannot be null or empty");
+    }
+    if (!errors.isEmpty()) {
+      throw new BadRequestException(String.join("; ", errors));
+    }
+    arrivals.forEach(this::validateConfirmEquipmentArrival);
+  }
+
+  public void validateConfirmMaterialArrival(ConfirmMaterialArrival arrival) {
+    List<String> errors = new ArrayList<>();
+    if (arrival == null) {
+      errors.add("Confirm material arrival cannot be null");
+    }
+    if (arrival != null && (arrival.getId() == null || arrival.getId().isBlank())) {
+      errors.add("Travel materials id is mandatory");
+    }
+    if (arrival != null && arrival.getQuantityReceived() == null) {
+      errors.add("Quantity received is mandatory");
+    }
+    if (arrival != null
+        && arrival.getQuantityReceived() != null
+        && arrival.getQuantityReceived() < 0) {
+      errors.add("Quantity received must be non-negative");
+    }
+    if (!errors.isEmpty()) {
+      throw new BadRequestException(String.join("; ", errors));
+    }
+  }
+
+  public void validateConfirmMaterialArrival(List<ConfirmMaterialArrival> arrivals) {
+    List<String> errors = new ArrayList<>();
+    if (arrivals == null || arrivals.isEmpty()) {
+      errors.add("Confirm material arrival list cannot be null or empty");
+    }
+    if (!errors.isEmpty()) {
+      throw new BadRequestException(String.join("; ", errors));
+    }
+    arrivals.forEach(this::validateConfirmMaterialArrival);
   }
 
   public void validateCar(Car car) {
