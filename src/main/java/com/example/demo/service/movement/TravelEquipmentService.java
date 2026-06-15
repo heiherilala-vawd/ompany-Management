@@ -1,13 +1,21 @@
 package com.example.demo.service.movement;
 
+import com.example.demo.client.model.ConfirmEquipmentArrival;
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
 import com.example.demo.model.criteria.TravelEquipmentCriteria;
+import com.example.demo.model.exception.BadRequestException;
+import com.example.demo.model.exception.NotFoundException;
+import com.example.demo.model.movement.Equipment;
 import com.example.demo.model.movement.TravelEquipment;
+import com.example.demo.model.movement.TravelEquipment.TransportStatus;
+import com.example.demo.model.movement.Warehouse;
 import com.example.demo.repository.movement.TravelEquipmentRepository;
 import com.example.demo.service.utils.ModificationUtils;
 import com.example.demo.service.utils.PageUtils;
+import com.example.demo.service.utils.SpecialWarehouseUtils;
 import com.example.demo.validator.MovementValidator;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -26,6 +34,8 @@ public class TravelEquipmentService {
   private final TravelEquipmentRepository travelEquipmentRepository;
   private final ModificationUtils modificationUtils;
   private final MovementValidator movementValidator;
+  private final EquipmentService equipmentService;
+  private final WarehouseService warehouseService;
 
   public Optional<TravelEquipment> findById(String id) {
     return travelEquipmentRepository.findById(id);
@@ -57,6 +67,57 @@ public class TravelEquipmentService {
   @Transactional
   public void deleteById(String id) {
     travelEquipmentRepository.deleteById(id);
+  }
+
+  @Transactional
+  public List<TravelEquipment> confirmEquipmentArrival(List<ConfirmEquipmentArrival> arrivals) {
+    movementValidator.validateConfirmEquipmentArrival(arrivals);
+    List<TravelEquipment> updated = new ArrayList<>();
+    for (ConfirmEquipmentArrival arrival : arrivals) {
+      TravelEquipment travelEquipment =
+          travelEquipmentRepository
+              .findById(arrival.getId())
+              .orElseThrow(
+                  () ->
+                      new NotFoundException(
+                          "TravelEquipment with id " + arrival.getId() + " not found"));
+
+      if (travelEquipment.getStatus() != TransportStatus.IN_PROGRESS) {
+        throw new BadRequestException(
+            "TravelEquipment "
+                + arrival.getId()
+                + " must be IN_PROGRESS to confirm arrival, current status: "
+                + travelEquipment.getStatus());
+      }
+
+      TransportStatus newStatus = Enum.valueOf(TransportStatus.class, arrival.getStatus().name());
+      Warehouse targetWarehouse = resolveArrivalWarehouse(travelEquipment, newStatus);
+      Instant now = Instant.now();
+
+      Equipment equipment = travelEquipment.getEquipment();
+      equipment.setWarehouse(targetWarehouse);
+      equipmentService.createOrUpdateAll(List.of(equipment));
+
+      travelEquipment.setStatus(newStatus);
+      travelEquipment.setArrivalDate(now);
+      travelEquipment.setArrivalLocation(targetWarehouse);
+
+      TravelEquipment saved = travelEquipmentRepository.save(travelEquipment);
+      updated.add(saved);
+    }
+    return updated;
+  }
+
+  private Warehouse resolveArrivalWarehouse(
+      TravelEquipment travelEquipment, TransportStatus newStatus) {
+    return switch (newStatus) {
+      case ARRIVED -> travelEquipment.getTravel().getArrivalLocation();
+      case LOST -> Warehouse.builder().id(SpecialWarehouseUtils.unfindableWarehouseId()).build();
+      case DAMAGED -> Warehouse.builder().id(SpecialWarehouseUtils.damagedWarehouseId()).build();
+      default ->
+          throw new BadRequestException(
+              "Invalid arrival status: " + newStatus + ". Must be ARRIVED, LOST or DAMAGED.");
+    };
   }
 
   private Specification<TravelEquipment> toSpecification(TravelEquipmentCriteria criteria) {

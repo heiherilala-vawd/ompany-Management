@@ -18,6 +18,7 @@ import com.example.demo.client.invoker.ApiResponse;
 import com.example.demo.client.invoker.Pair;
 
 import com.example.demo.client.model.BadRequestException;
+import com.example.demo.client.model.ConfirmMaterialArrival;
 import com.example.demo.client.model.CrupdateTravelMaterials;
 import com.example.demo.client.model.InternalServerException;
 import com.example.demo.client.model.NotAuthorizedException;
@@ -51,7 +52,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T20:46:03.097377521+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-16T02:46:08.445394647+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class TravelMaterialsApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -86,6 +87,98 @@ public class TravelMaterialsApi {
       body = "[no body]";
     }
     return operationId + " call failed with: " + statusCode + " - " + body;
+  }
+
+  /**
+   * Confirm arrival of travel materials with actual quantity received
+   * 
+   * @param userId  (required)
+   * @param companyId  (required)
+   * @param confirmMaterialArrival  (required)
+   * @return List&lt;TravelMaterials&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public List<TravelMaterials> confirmMaterialArrival(String userId, String companyId, List<ConfirmMaterialArrival> confirmMaterialArrival) throws ApiException {
+    ApiResponse<List<TravelMaterials>> localVarResponse = confirmMaterialArrivalWithHttpInfo(userId, companyId, confirmMaterialArrival);
+    return localVarResponse.getData();
+  }
+
+  /**
+   * Confirm arrival of travel materials with actual quantity received
+   * 
+   * @param userId  (required)
+   * @param companyId  (required)
+   * @param confirmMaterialArrival  (required)
+   * @return ApiResponse&lt;List&lt;TravelMaterials&gt;&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<List<TravelMaterials>> confirmMaterialArrivalWithHttpInfo(String userId, String companyId, List<ConfirmMaterialArrival> confirmMaterialArrival) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = confirmMaterialArrivalRequestBuilder(userId, companyId, confirmMaterialArrival);
+    try {
+      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("confirmMaterialArrival", localVarResponse);
+        }
+        return new ApiResponse<List<TravelMaterials>>(
+          localVarResponse.statusCode(),
+          localVarResponse.headers().map(),
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<List<TravelMaterials>>() {}) // closes the InputStream
+        );
+      } finally {
+      }
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new ApiException(e);
+    }
+  }
+
+  private HttpRequest.Builder confirmMaterialArrivalRequestBuilder(String userId, String companyId, List<ConfirmMaterialArrival> confirmMaterialArrival) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling confirmMaterialArrival");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling confirmMaterialArrival");
+    }
+    // verify the required parameter 'confirmMaterialArrival' is set
+    if (confirmMaterialArrival == null) {
+      throw new ApiException(400, "Missing the required parameter 'confirmMaterialArrival' when calling confirmMaterialArrival");
+    }
+
+    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
+
+    String localVarPath = "/users/{userId}/companies/{companyId}/travel_materials/arrival"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()));
+
+    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+
+    localVarRequestBuilder.header("Content-Type", "application/json");
+    localVarRequestBuilder.header("Accept", "application/json");
+
+    try {
+      byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(confirmMaterialArrival);
+      localVarRequestBuilder.method("PUT", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
+    }
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
+    }
+    return localVarRequestBuilder;
   }
 
   /**

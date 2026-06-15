@@ -1,13 +1,19 @@
 package com.example.demo.service.movement;
 
+import com.example.demo.client.model.ConfirmMaterialArrival;
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
 import com.example.demo.model.criteria.TravelMaterialsCriteria;
+import com.example.demo.model.exception.BadRequestException;
+import com.example.demo.model.exception.NotFoundException;
+import com.example.demo.model.movement.MaterialWarehouse;
 import com.example.demo.model.movement.TravelMaterials;
+import com.example.demo.model.movement.Warehouse;
 import com.example.demo.repository.movement.TravelMaterialsRepository;
 import com.example.demo.service.utils.ModificationUtils;
 import com.example.demo.service.utils.PageUtils;
 import com.example.demo.validator.MovementValidator;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -26,6 +32,7 @@ public class TravelMaterialsService {
   private final TravelMaterialsRepository travelMaterialsRepository;
   private final ModificationUtils modificationUtils;
   private final MovementValidator movementValidator;
+  private final MaterialWarehouseService materialWarehouseService;
 
   public Optional<TravelMaterials> findById(String id) {
     return travelMaterialsRepository.findById(id);
@@ -57,6 +64,47 @@ public class TravelMaterialsService {
   @Transactional
   public void deleteById(String id) {
     travelMaterialsRepository.deleteById(id);
+  }
+
+  @Transactional
+  public List<TravelMaterials> confirmMaterialArrival(List<ConfirmMaterialArrival> arrivals) {
+    movementValidator.validateConfirmMaterialArrival(arrivals);
+    List<TravelMaterials> updated = new ArrayList<>();
+    for (ConfirmMaterialArrival arrival : arrivals) {
+      TravelMaterials travelMaterials =
+          travelMaterialsRepository
+              .findById(arrival.getId())
+              .orElseThrow(
+                  () ->
+                      new NotFoundException(
+                          "TravelMaterials with id " + arrival.getId() + " not found"));
+
+      int quantityReceived = arrival.getQuantityReceived();
+      if (quantityReceived < 0 || quantityReceived > travelMaterials.getQuantity()) {
+        throw new BadRequestException(
+            "quantity_received must be between 0 and "
+                + travelMaterials.getQuantity()
+                + " for TravelMaterials "
+                + arrival.getId());
+      }
+
+      if (quantityReceived > 0) {
+        Warehouse arrivalWarehouse = travelMaterials.getTravel().getArrivalLocation();
+        materialWarehouseService.incrementQuantity(
+            MaterialWarehouse.builder()
+                .material(travelMaterials.getMaterial())
+                .warehouse(arrivalWarehouse)
+                .quantity(quantityReceived)
+                .build());
+      }
+
+      travelMaterials.setQuantityReceived(quantityReceived);
+      travelMaterials.setArrivalDate(Instant.now());
+
+      TravelMaterials saved = travelMaterialsRepository.save(travelMaterials);
+      updated.add(saved);
+    }
+    return updated;
   }
 
   private Specification<TravelMaterials> toSpecification(TravelMaterialsCriteria criteria) {

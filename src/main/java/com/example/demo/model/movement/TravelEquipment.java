@@ -73,6 +73,7 @@ public class TravelEquipment extends CreatAndUpdateEntity implements Serializabl
   public enum TransportStatus {
     IN_PROGRESS,
     LOST,
-    ARRIVED
+    ARRIVED,
+    DAMAGED
   }
 }

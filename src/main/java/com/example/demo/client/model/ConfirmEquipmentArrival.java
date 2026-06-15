@@ -19,7 +19,6 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
-import com.example.demo.client.model.CrupdateEquipment;
 import com.example.demo.client.model.TransportStatus;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -31,32 +30,24 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
 /**
- * TravelOperationEquipmentLine
+ * ConfirmEquipmentArrival
  */
 @JsonPropertyOrder({
-  TravelOperationEquipmentLine.JSON_PROPERTY_ID,
-  TravelOperationEquipmentLine.JSON_PROPERTY_EQUIPMENT,
-  TravelOperationEquipmentLine.JSON_PROPERTY_STATUS,
-  TravelOperationEquipmentLine.JSON_PROPERTY_COMMENT
+  ConfirmEquipmentArrival.JSON_PROPERTY_ID,
+  ConfirmEquipmentArrival.JSON_PROPERTY_STATUS
 })
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-16T02:46:08.445394647+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
-public class TravelOperationEquipmentLine {
+public class ConfirmEquipmentArrival {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
-
-  public static final String JSON_PROPERTY_EQUIPMENT = "equipment";
-  private CrupdateEquipment equipment;
 
   public static final String JSON_PROPERTY_STATUS = "status";
   private TransportStatus status;
 
-  public static final String JSON_PROPERTY_COMMENT = "comment";
-  private String comment;
-
-  public TravelOperationEquipmentLine() { 
+  public ConfirmEquipmentArrival() { 
   }
 
-  public TravelOperationEquipmentLine id(String id) {
+  public ConfirmEquipmentArrival id(String id) {
     this.id = id;
     return this;
   }
@@ -65,9 +56,9 @@ public class TravelOperationEquipmentLine {
    * Get id
    * @return id
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_ID)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getId() {
     return id;
@@ -75,38 +66,13 @@ public class TravelOperationEquipmentLine {
 
 
   @JsonProperty(JSON_PROPERTY_ID)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setId(String id) {
     this.id = id;
   }
 
 
-  public TravelOperationEquipmentLine equipment(CrupdateEquipment equipment) {
-    this.equipment = equipment;
-    return this;
-  }
-
-   /**
-   * Get equipment
-   * @return equipment
-  **/
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_EQUIPMENT)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-  public CrupdateEquipment getEquipment() {
-    return equipment;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_EQUIPMENT)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setEquipment(CrupdateEquipment equipment) {
-    this.equipment = equipment;
-  }
-
-
-  public TravelOperationEquipmentLine status(TransportStatus status) {
+  public ConfirmEquipmentArrival status(TransportStatus status) {
     this.status = status;
     return this;
   }
@@ -115,9 +81,9 @@ public class TravelOperationEquipmentLine {
    * Get status
    * @return status
   **/
-  @jakarta.annotation.Nullable
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_STATUS)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public TransportStatus getStatus() {
     return status;
@@ -125,39 +91,14 @@ public class TravelOperationEquipmentLine {
 
 
   @JsonProperty(JSON_PROPERTY_STATUS)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setStatus(TransportStatus status) {
     this.status = status;
   }
 
 
-  public TravelOperationEquipmentLine comment(String comment) {
-    this.comment = comment;
-    return this;
-  }
-
-   /**
-   * Get comment
-   * @return comment
-  **/
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_COMMENT)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-  public String getComment() {
-    return comment;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_COMMENT)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setComment(String comment) {
-    this.comment = comment;
-  }
-
-
   /**
-   * Return true if this TravelOperationEquipmentLine object is equal to o.
+   * Return true if this ConfirmEquipmentArrival object is equal to o.
    */
   @Override
   public boolean equals(Object o) {
@@ -167,26 +108,22 @@ public class TravelOperationEquipmentLine {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    TravelOperationEquipmentLine travelOperationEquipmentLine = (TravelOperationEquipmentLine) o;
-    return Objects.equals(this.id, travelOperationEquipmentLine.id) &&
-        Objects.equals(this.equipment, travelOperationEquipmentLine.equipment) &&
-        Objects.equals(this.status, travelOperationEquipmentLine.status) &&
-        Objects.equals(this.comment, travelOperationEquipmentLine.comment);
+    ConfirmEquipmentArrival confirmEquipmentArrival = (ConfirmEquipmentArrival) o;
+    return Objects.equals(this.id, confirmEquipmentArrival.id) &&
+        Objects.equals(this.status, confirmEquipmentArrival.status);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, equipment, status, comment);
+    return Objects.hash(id, status);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class TravelOperationEquipmentLine {\n");
+    sb.append("class ConfirmEquipmentArrival {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    equipment: ").append(toIndentedString(equipment)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
-    sb.append("    comment: ").append(toIndentedString(comment)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -234,9 +171,14 @@ public class TravelOperationEquipmentLine {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `comment` to the URL query string
-    if (getComment() != null) {
-      joiner.add(String.format("%scomment%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getComment()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    // add `id` to the URL query string
+    if (getId() != null) {
+      joiner.add(String.format("%sid%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `status` to the URL query string
+    if (getStatus() != null) {
+      joiner.add(String.format("%sstatus%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getStatus()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();
