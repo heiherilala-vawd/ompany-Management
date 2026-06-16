@@ -350,13 +350,13 @@ public class MovementValidator {
     if (arrival != null && (arrival.getId() == null || arrival.getId().isBlank())) {
       errors.add("Travel materials id is mandatory");
     }
-    if (arrival != null && arrival.getQuantityReceived() == null) {
-      errors.add("Quantity received is mandatory");
-    }
     if (arrival != null
         && arrival.getQuantityReceived() != null
         && arrival.getQuantityReceived() < 0) {
       errors.add("Quantity received must be non-negative");
+    }
+    if (arrival != null && arrival.getQuantityLost() != null && arrival.getQuantityLost() < 0) {
+      errors.add("Quantity lost must be non-negative");
     }
     if (!errors.isEmpty()) {
       throw new BadRequestException(String.join("; ", errors));

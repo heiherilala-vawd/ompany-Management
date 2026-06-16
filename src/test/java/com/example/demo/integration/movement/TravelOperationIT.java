@@ -531,13 +531,17 @@ class TravelOperationIT {
     assertEquals(1, materialsList.size());
     assertEquals(0, materialsList.get(0).getQuantityReceived().intValue());
 
-    // Confirm material arrival with partial quantity
+    // Confirm material arrival with partial quantity and explicit loss
     tmApi.confirmMaterialArrival(
         ADMIN_ID,
         COMPANY1_ID,
-        List.of(new ConfirmMaterialArrival().id(travelMaterialId).quantityReceived(80)));
+        List.of(
+            new ConfirmMaterialArrival()
+                .id(travelMaterialId)
+                .quantityReceived(80)
+                .quantityLost(20)));
 
-    // Verify quantity_received was updated
+    // Verify quantity_received and quantity_lost were updated
     tmResp =
         tmApi.getTravelMaterials(
             ADMIN_ID,
@@ -556,6 +560,91 @@ class TravelOperationIT {
     materialsList = extractData(tmResp, TravelMaterials.class);
     assertEquals(1, materialsList.size());
     assertEquals(80, materialsList.get(0).getQuantityReceived().intValue());
+    assertEquals(20, materialsList.get(0).getQuantityLost().intValue());
+    assertNotNull(materialsList.get(0).getArrivalDate());
+  }
+
+  @Test
+  @DirtiesContext
+  void employee_can_create_travel_operation_with_direct_arrival() throws Exception {
+    TravelOperationApi travelOpApi = new TravelOperationApi(anApiClient(EMPLOYEE_TOKEN));
+
+    String travelId = "travel_direct_arrival_1";
+    String travelExpenseId = "travel_direct_arrival_expense_1";
+    String travelEquipmentId = "travel_direct_arrival_equipment_1";
+    String travelMaterialId = "travel_direct_arrival_material_1";
+
+    TravelOperationRequest request = new TravelOperationRequest();
+    request.setComment("Direct arrival test");
+    request.setDirectArrival(true);
+    request.setTravel(
+        new TravelOperationTravel()
+            .id(travelId)
+            .expenseId(travelExpenseId)
+            .departureLocation(new CrupdateWarehouse().id(WAREHOUSE1_ID).name("Wh1"))
+            .arrivalLocation(new CrupdateWarehouse().id(WAREHOUSE2_ID).name("Wh2"))
+            .departureDate(Instant.parse("2024-12-01T08:00:00Z"))
+            .arrivalDate(Instant.parse("2024-12-01T17:00:00Z")));
+    request.setEquipmentLines(
+        List.of(
+            new TravelOperationEquipmentLine()
+                .id(travelEquipmentId)
+                .equipment(equipmentRef(EQUIPMENT2_ID))));
+    request.setMaterialLines(
+        List.of(
+            new TravelOperationMaterialLine()
+                .id(travelMaterialId)
+                .material(materialRef(MATERIAL1_ID))
+                .quantity(50)));
+
+    travelOpApi.createTravelOperation(EMPLOYEE_ID, COMPANY1_ID, JOB1_ID, request);
+
+    // Verify equipment is ARRIVED with arrivalDate
+    TravelEquipmentApi teApi = new TravelEquipmentApi(anApiClient(ADMIN_TOKEN));
+    PaginatedResponse teResp =
+        teApi.getTravelEquipment(
+            ADMIN_ID,
+            COMPANY1_ID,
+            JOB1_ID,
+            1,
+            100,
+            travelId,
+            EQUIPMENT2_ID,
+            1,
+            com.example.demo.client.model.TransportStatus.ARRIVED,
+            null,
+            null,
+            null,
+            null);
+    List<TravelEquipment> equipmentList = extractData(teResp, TravelEquipment.class);
+    assertEquals(1, equipmentList.size());
+    assertEquals(travelEquipmentId, equipmentList.get(0).getId());
+    assertEquals(
+        com.example.demo.client.model.TransportStatus.ARRIVED, equipmentList.get(0).getStatus());
+    assertNotNull(equipmentList.get(0).getArrivalDate());
+
+    // Verify materials have full quantityReceived and arrivalDate
+    TravelMaterialsApi tmApi = new TravelMaterialsApi(anApiClient(ADMIN_TOKEN));
+    PaginatedResponse tmResp =
+        tmApi.getTravelMaterials(
+            ADMIN_ID,
+            COMPANY1_ID,
+            JOB1_ID,
+            1,
+            100,
+            travelId,
+            MATERIAL1_ID,
+            50,
+            50,
+            null,
+            null,
+            null,
+            null);
+    List<TravelMaterials> materialsList = extractData(tmResp, TravelMaterials.class);
+    assertEquals(1, materialsList.size());
+    assertEquals(travelMaterialId, materialsList.get(0).getId());
+    assertEquals(50, materialsList.get(0).getQuantityReceived().intValue());
+    assertEquals(0, materialsList.get(0).getQuantityLost().intValue());
     assertNotNull(materialsList.get(0).getArrivalDate());
   }
 

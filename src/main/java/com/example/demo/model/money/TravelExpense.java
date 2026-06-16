@@ -53,6 +53,9 @@ public class TravelExpense extends CreatAndUpdateEntity implements Serializable 
 
   @NotNull private Instant arrivalDate;
 
+  @Column(name = "direct_arrival")
+  private Boolean directArrival;
+
   @OneToMany(mappedBy = "travel", cascade = CascadeType.ALL)
   @JsonManagedReference
   private List<TravelPeople> travelPeople = new ArrayList<>();

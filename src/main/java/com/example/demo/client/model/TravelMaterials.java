@@ -41,6 +41,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   TravelMaterials.JSON_PROPERTY_MATERIAL,
   TravelMaterials.JSON_PROPERTY_QUANTITY,
   TravelMaterials.JSON_PROPERTY_QUANTITY_RECEIVED,
+  TravelMaterials.JSON_PROPERTY_QUANTITY_LOST,
   TravelMaterials.JSON_PROPERTY_ARRIVAL_DATE,
   TravelMaterials.JSON_PROPERTY_ARRIVAL_LOCATION,
   TravelMaterials.JSON_PROPERTY_CREATED_AT,
@@ -49,7 +50,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   TravelMaterials.JSON_PROPERTY_UPDATED_BY,
   TravelMaterials.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-16T12:45:29.977991642+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-16T14:09:13.563416423+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class TravelMaterials {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -65,6 +66,9 @@ public class TravelMaterials {
 
   public static final String JSON_PROPERTY_QUANTITY_RECEIVED = "quantity_received";
   private Integer quantityReceived;
+
+  public static final String JSON_PROPERTY_QUANTITY_LOST = "quantity_lost";
+  private Integer quantityLost;
 
   public static final String JSON_PROPERTY_ARRIVAL_DATE = "arrival_date";
   private java.time.Instant arrivalDate;
@@ -212,6 +216,31 @@ public class TravelMaterials {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setQuantityReceived(Integer quantityReceived) {
     this.quantityReceived = quantityReceived;
+  }
+
+
+  public TravelMaterials quantityLost(Integer quantityLost) {
+    this.quantityLost = quantityLost;
+    return this;
+  }
+
+   /**
+   * Get quantityLost
+   * @return quantityLost
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_QUANTITY_LOST)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public Integer getQuantityLost() {
+    return quantityLost;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_QUANTITY_LOST)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setQuantityLost(Integer quantityLost) {
+    this.quantityLost = quantityLost;
   }
 
 
@@ -407,6 +436,7 @@ public class TravelMaterials {
         Objects.equals(this.material, travelMaterials.material) &&
         Objects.equals(this.quantity, travelMaterials.quantity) &&
         Objects.equals(this.quantityReceived, travelMaterials.quantityReceived) &&
+        Objects.equals(this.quantityLost, travelMaterials.quantityLost) &&
         Objects.equals(this.arrivalDate, travelMaterials.arrivalDate) &&
         Objects.equals(this.arrivalLocation, travelMaterials.arrivalLocation) &&
         Objects.equals(this.createdAt, travelMaterials.createdAt) &&
@@ -418,7 +448,7 @@ public class TravelMaterials {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, travel, material, quantity, quantityReceived, arrivalDate, arrivalLocation, createdAt, updatedAt, createdBy, updatedBy, comment);
+    return Objects.hash(id, travel, material, quantity, quantityReceived, quantityLost, arrivalDate, arrivalLocation, createdAt, updatedAt, createdBy, updatedBy, comment);
   }
 
   @Override
@@ -430,6 +460,7 @@ public class TravelMaterials {
     sb.append("    material: ").append(toIndentedString(material)).append("\n");
     sb.append("    quantity: ").append(toIndentedString(quantity)).append("\n");
     sb.append("    quantityReceived: ").append(toIndentedString(quantityReceived)).append("\n");
+    sb.append("    quantityLost: ").append(toIndentedString(quantityLost)).append("\n");
     sb.append("    arrivalDate: ").append(toIndentedString(arrivalDate)).append("\n");
     sb.append("    arrivalLocation: ").append(toIndentedString(arrivalLocation)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");

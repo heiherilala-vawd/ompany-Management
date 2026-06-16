@@ -79,26 +79,45 @@ public class TravelMaterialsService {
                       new NotFoundException(
                           "TravelMaterials with id " + arrival.getId() + " not found"));
 
-      int quantityReceived = arrival.getQuantityReceived();
-      if (quantityReceived < 0 || quantityReceived > travelMaterials.getQuantity()) {
+      int quantityReceived =
+          arrival.getQuantityReceived() != null ? arrival.getQuantityReceived() : 0;
+      int quantityLost = arrival.getQuantityLost() != null ? arrival.getQuantityLost() : 0;
+
+      if (quantityReceived < 0 || quantityLost < 0) {
+        throw new BadRequestException("Quantities must be non-negative");
+      }
+      if (quantityReceived + quantityLost > travelMaterials.getQuantity()) {
         throw new BadRequestException(
-            "quantity_received must be between 0 and "
+            "quantity_received + quantity_lost must not exceed "
                 + travelMaterials.getQuantity()
                 + " for TravelMaterials "
                 + arrival.getId());
       }
 
-      if (quantityReceived > 0) {
+      int oldQuantityReceived =
+          travelMaterials.getQuantityReceived() != null ? travelMaterials.getQuantityReceived() : 0;
+      int deltaReceived = quantityReceived - oldQuantityReceived;
+
+      if (deltaReceived > 0) {
         Warehouse arrivalWarehouse = travelMaterials.getTravel().getArrivalLocation();
         materialWarehouseService.incrementQuantity(
             MaterialWarehouse.builder()
                 .material(travelMaterials.getMaterial())
                 .warehouse(arrivalWarehouse)
-                .quantity(quantityReceived)
+                .quantity(deltaReceived)
+                .build());
+      } else if (deltaReceived < 0) {
+        Warehouse arrivalWarehouse = travelMaterials.getTravel().getArrivalLocation();
+        materialWarehouseService.decrementQuantity(
+            MaterialWarehouse.builder()
+                .material(travelMaterials.getMaterial())
+                .warehouse(arrivalWarehouse)
+                .quantity(-deltaReceived)
                 .build());
       }
 
       travelMaterials.setQuantityReceived(quantityReceived);
+      travelMaterials.setQuantityLost(quantityLost);
       travelMaterials.setArrivalDate(Instant.now());
 
       TravelMaterials saved = travelMaterialsRepository.save(travelMaterials);
@@ -136,7 +155,11 @@ public class TravelMaterialsService {
       }
       if (criteria.getNotArrived() != null && criteria.getNotArrived()) {
         predicates.add(
-            cb.or(cb.isNull(root.get("arrivalDate")), cb.isNull(root.get("arrivalLocation"))));
+            cb.lessThan(
+                cb.sum(
+                    cb.coalesce(root.get("quantityReceived"), cb.literal(0)),
+                    cb.coalesce(root.get("quantityLost"), cb.literal(0))),
+                root.get("quantity")));
       }
 
       return cb.and(predicates.toArray(new jakarta.persistence.criteria.Predicate[0]));

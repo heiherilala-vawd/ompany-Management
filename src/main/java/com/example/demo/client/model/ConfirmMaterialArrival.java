@@ -33,15 +33,19 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  */
 @JsonPropertyOrder({
   ConfirmMaterialArrival.JSON_PROPERTY_ID,
-  ConfirmMaterialArrival.JSON_PROPERTY_QUANTITY_RECEIVED
+  ConfirmMaterialArrival.JSON_PROPERTY_QUANTITY_RECEIVED,
+  ConfirmMaterialArrival.JSON_PROPERTY_QUANTITY_LOST
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-16T12:45:29.977991642+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-16T14:09:13.563416423+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class ConfirmMaterialArrival {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
 
   public static final String JSON_PROPERTY_QUANTITY_RECEIVED = "quantity_received";
   private Integer quantityReceived;
+
+  public static final String JSON_PROPERTY_QUANTITY_LOST = "quantity_lost";
+  private Integer quantityLost;
 
   public ConfirmMaterialArrival() { 
   }
@@ -81,9 +85,9 @@ public class ConfirmMaterialArrival {
    * minimum: 0
    * @return quantityReceived
   **/
-  @jakarta.annotation.Nonnull
+  @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_QUANTITY_RECEIVED)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Integer getQuantityReceived() {
     return quantityReceived;
@@ -91,9 +95,35 @@ public class ConfirmMaterialArrival {
 
 
   @JsonProperty(JSON_PROPERTY_QUANTITY_RECEIVED)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setQuantityReceived(Integer quantityReceived) {
     this.quantityReceived = quantityReceived;
+  }
+
+
+  public ConfirmMaterialArrival quantityLost(Integer quantityLost) {
+    this.quantityLost = quantityLost;
+    return this;
+  }
+
+   /**
+   * Get quantityLost
+   * minimum: 0
+   * @return quantityLost
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_QUANTITY_LOST)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public Integer getQuantityLost() {
+    return quantityLost;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_QUANTITY_LOST)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setQuantityLost(Integer quantityLost) {
+    this.quantityLost = quantityLost;
   }
 
 
@@ -110,12 +140,13 @@ public class ConfirmMaterialArrival {
     }
     ConfirmMaterialArrival confirmMaterialArrival = (ConfirmMaterialArrival) o;
     return Objects.equals(this.id, confirmMaterialArrival.id) &&
-        Objects.equals(this.quantityReceived, confirmMaterialArrival.quantityReceived);
+        Objects.equals(this.quantityReceived, confirmMaterialArrival.quantityReceived) &&
+        Objects.equals(this.quantityLost, confirmMaterialArrival.quantityLost);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, quantityReceived);
+    return Objects.hash(id, quantityReceived, quantityLost);
   }
 
   @Override
@@ -124,6 +155,7 @@ public class ConfirmMaterialArrival {
     sb.append("class ConfirmMaterialArrival {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    quantityReceived: ").append(toIndentedString(quantityReceived)).append("\n");
+    sb.append("    quantityLost: ").append(toIndentedString(quantityLost)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -179,6 +211,11 @@ public class ConfirmMaterialArrival {
     // add `quantity_received` to the URL query string
     if (getQuantityReceived() != null) {
       joiner.add(String.format("%squantity_received%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getQuantityReceived()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `quantity_lost` to the URL query string
+    if (getQuantityLost() != null) {
+      joiner.add(String.format("%squantity_lost%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getQuantityLost()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

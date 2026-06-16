@@ -13605,6 +13605,9 @@ components:
         quantity_received:
           type: integer
           example: 100
+        quantity_lost:
+          type: integer
+          example: 0
         arrival_date:
           type: string
           format: date-time
@@ -13886,9 +13889,6 @@ components:
           example: "travel_eq_010"
         equipment:
           $ref: '#/components/schemas/CrupdateEquipment'
-        status:
-          $ref: '#/components/schemas/TransportStatus'
-          description: "IN_PROGRESS (default) or ARRIVED. IN_PROGRESS means the equipment is en route, ARRIVED means it arrived immediately."
     TravelOperationMaterialLine:
       allOf:
         - $ref: '#/components/schemas/comment'
@@ -13917,6 +13917,10 @@ components:
       properties:
         travel:
           $ref: '#/components/schemas/TravelOperationTravel'
+        direct_arrival:
+          type: boolean
+          default: false
+          description: "If true, all equipment and materials arrive directly at destination. If false (default), they are en route."
         equipment_lines:
           type: array
           items:
@@ -13948,7 +13952,6 @@ components:
     ConfirmMaterialArrival:
       required:
         - id
-        - quantity_received
       properties:
         id:
           type: string
@@ -13957,9 +13960,14 @@ components:
           type: integer
           minimum: 0
           example: 80
+        quantity_lost:
+          type: integer
+          minimum: 0
+          example: 20
       example:
         id: "travel_mat_010"
         quantity_received: 80
+        quantity_lost: 20
 
     # =========================
     # BANK FEE

@@ -45,6 +45,20 @@ public class TravelMaterials extends CreatAndUpdateEntity implements Serializabl
 
   private Integer quantityReceived;
 
+  private Integer quantityLost;
+
+  @Transient
+  public int getQuantityInTransit() {
+    int received = quantityReceived != null ? quantityReceived : 0;
+    int lost = quantityLost != null ? quantityLost : 0;
+    return quantity - received - lost;
+  }
+
+  @Transient
+  public boolean isInTransit() {
+    return getQuantityInTransit() > 0;
+  }
+
   @NotNull
   @ManyToOne
   @JoinColumn(name = "arrival_location")

@@ -41,6 +41,7 @@ public class TravelMaterialsMapper {
                 : null)
         .quantity(restTravelMaterials.getQuantity())
         .quantityReceived(restTravelMaterials.getQuantityReceived())
+        .quantityLost(restTravelMaterials.getQuantityLost())
         .comment(restTravelMaterials.getComment())
         .arrivalLocation(
             restTravelMaterials.getArrivalLocation() != null
@@ -89,6 +90,7 @@ public class TravelMaterialsMapper {
         materialMapper.toRestCrupdateMaterial(domainTravelMaterials.getMaterial()));
     restTravelMaterials.setQuantity(domainTravelMaterials.getQuantity());
     restTravelMaterials.setQuantityReceived(domainTravelMaterials.getQuantityReceived());
+    restTravelMaterials.setQuantityLost(domainTravelMaterials.getQuantityLost());
     restTravelMaterials.setArrivalDate(domainTravelMaterials.getArrivalDate());
     restTravelMaterials.setArrivalLocation(
         warehouseMapper.toRestCrupdateWarehouse(domainTravelMaterials.getArrivalLocation()));

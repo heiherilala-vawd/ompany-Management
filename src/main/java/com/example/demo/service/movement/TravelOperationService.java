@@ -99,6 +99,7 @@ public class TravelOperationService {
             .arrivalLocation(arrival)
             .departureDate(travel.getDepartureDate())
             .arrivalDate(travel.getArrivalDate())
+            .directArrival(travel.getDirectArrival() != null ? travel.getDirectArrival() : false)
             .build();
     return travelExpenseService.createOrUpdateAll(List.of(toSave)).get(0);
   }
@@ -142,8 +143,7 @@ public class TravelOperationService {
             "equipment " + equipmentId + " is not located in warehouse " + departure.getId());
       }
 
-      TransportStatus status = travelEquipment.getStatus();
-      boolean isImmediateArrival = status == TransportStatus.ARRIVED;
+      boolean isImmediateArrival = Boolean.TRUE.equals(travel.getDirectArrival());
 
       if (isImmediateArrival) {
         movedEquipment.add(
@@ -164,7 +164,7 @@ public class TravelOperationService {
               .travel(travel)
               .equipment(existingEquipment)
               .quantity(1)
-              .status(status != null ? status : TransportStatus.IN_PROGRESS)
+              .status(isImmediateArrival ? TransportStatus.ARRIVED : TransportStatus.IN_PROGRESS)
               .arrivalDate(isImmediateArrival ? Instant.now() : null)
               .comment(travelEquipment.getComment())
               .build());
@@ -231,8 +231,9 @@ public class TravelOperationService {
               .quantity(quantity)
               .build());
 
-      int quantityReceived =
-          travelMaterials.getQuantityReceived() != null ? travelMaterials.getQuantityReceived() : 0;
+      boolean isDirectArrival = Boolean.TRUE.equals(travel.getDirectArrival());
+      int quantityReceived = isDirectArrival ? quantity : 0;
+      int quantityLost = 0;
 
       if (quantityReceived > 0) {
         materialWarehouseService.incrementQuantity(
@@ -250,6 +251,8 @@ public class TravelOperationService {
               .material(material)
               .quantity(quantity)
               .quantityReceived(quantityReceived)
+              .quantityLost(quantityLost)
+              .arrivalDate(isDirectArrival ? Instant.now() : null)
               .comment(travelMaterials.getComment())
               .build());
     }
