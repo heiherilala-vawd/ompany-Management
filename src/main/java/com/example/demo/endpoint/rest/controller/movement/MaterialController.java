@@ -85,7 +85,7 @@ public class MaterialController {
     materialService.deleteById(id);
   }
 
-  @GetMapping("/users/{userId}/companies/{companyId}/material_warehouse")
+  @GetMapping("/users/{userId}/companies/{companyId}/material_warehouses")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public PaginatedResponse getMaterialWarehouses(
       @PathVariable String userId,
@@ -108,7 +108,7 @@ public class MaterialController {
         (int) result.getTotalElements());
   }
 
-  @PutMapping("/users/{userId}/companies/{companyId}/material_warehouse")
+  @PutMapping("/users/{userId}/companies/{companyId}/material_warehouses")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public List<MaterialWarehouseInfo> crupdateMaterialWarehouses(
       @PathVariable String userId,

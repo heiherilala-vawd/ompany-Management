@@ -37,7 +37,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   PaginatedResponse.JSON_PROPERTY_DATA,
   PaginatedResponse.JSON_PROPERTY_TOTAL
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T20:46:03.097377521+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-16T12:45:29.977991642+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class PaginatedResponse {
   public static final String JSON_PROPERTY_DATA = "data";
   private List<Object> data = new ArrayList<>();
