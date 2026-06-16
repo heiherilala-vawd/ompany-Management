@@ -8,7 +8,6 @@ import com.example.demo.client.model.TravelOperationMaterialLine;
 import com.example.demo.client.model.TravelOperationPeopleLine;
 import com.example.demo.client.model.TravelOperationRequest;
 import com.example.demo.client.model.TravelOperationTravel;
-import com.example.demo.endpoint.rest.mapper.EnumMapper;
 import com.example.demo.model.Job;
 import com.example.demo.model.User;
 import com.example.demo.model.exception.BadRequestException;
@@ -17,7 +16,6 @@ import com.example.demo.model.money.TravelExpense;
 import com.example.demo.model.movement.Equipment;
 import com.example.demo.model.movement.Material;
 import com.example.demo.model.movement.TravelEquipment;
-import com.example.demo.model.movement.TravelEquipment.TransportStatus;
 import com.example.demo.model.movement.TravelMaterials;
 import com.example.demo.model.movement.TravelPeople;
 import com.example.demo.model.movement.Warehouse;
@@ -58,21 +56,17 @@ public class TravelOperationMapper {
             .arrivalLocation(toWarehouse(restTravel.getArrivalLocation()))
             .departureDate(restTravel.getDepartureDate())
             .arrivalDate(restTravel.getArrivalDate())
+            .directArrival(request.getDirectArrival() != null ? request.getDirectArrival() : false)
             .build();
 
     List<TravelEquipment> travelEquipment = new ArrayList<>();
     for (TravelOperationEquipmentLine line : equipmentLines(request)) {
-      TransportStatus status =
-          line.getStatus() != null
-              ? EnumMapper.mapEnum(line.getStatus(), TransportStatus.class)
-              : TransportStatus.IN_PROGRESS;
       travelEquipment.add(
           TravelEquipment.builder()
               .id(line.getId())
               .travel(travel)
               .equipment(toEquipment(line.getEquipment()))
               .quantity(1)
-              .status(status)
               .comment(line.getComment() != null ? line.getComment() : request.getComment())
               .build());
     }

@@ -1,0 +1,2 @@
+ALTER TABLE travel_expense
+    ADD COLUMN direct_arrival BOOLEAN NOT NULL DEFAULT FALSE;

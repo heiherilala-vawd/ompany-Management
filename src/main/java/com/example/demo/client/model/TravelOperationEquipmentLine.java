@@ -20,7 +20,6 @@ import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
 import com.example.demo.client.model.CrupdateEquipment;
-import com.example.demo.client.model.TransportStatus;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -36,19 +35,15 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
   TravelOperationEquipmentLine.JSON_PROPERTY_ID,
   TravelOperationEquipmentLine.JSON_PROPERTY_EQUIPMENT,
-  TravelOperationEquipmentLine.JSON_PROPERTY_STATUS,
   TravelOperationEquipmentLine.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-16T12:45:29.977991642+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-16T14:09:13.563416423+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class TravelOperationEquipmentLine {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
 
   public static final String JSON_PROPERTY_EQUIPMENT = "equipment";
   private CrupdateEquipment equipment;
-
-  public static final String JSON_PROPERTY_STATUS = "status";
-  private TransportStatus status;
 
   public static final String JSON_PROPERTY_COMMENT = "comment";
   private String comment;
@@ -106,31 +101,6 @@ public class TravelOperationEquipmentLine {
   }
 
 
-  public TravelOperationEquipmentLine status(TransportStatus status) {
-    this.status = status;
-    return this;
-  }
-
-   /**
-   * Get status
-   * @return status
-  **/
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_STATUS)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-  public TransportStatus getStatus() {
-    return status;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_STATUS)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setStatus(TransportStatus status) {
-    this.status = status;
-  }
-
-
   public TravelOperationEquipmentLine comment(String comment) {
     this.comment = comment;
     return this;
@@ -170,13 +140,12 @@ public class TravelOperationEquipmentLine {
     TravelOperationEquipmentLine travelOperationEquipmentLine = (TravelOperationEquipmentLine) o;
     return Objects.equals(this.id, travelOperationEquipmentLine.id) &&
         Objects.equals(this.equipment, travelOperationEquipmentLine.equipment) &&
-        Objects.equals(this.status, travelOperationEquipmentLine.status) &&
         Objects.equals(this.comment, travelOperationEquipmentLine.comment);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, equipment, status, comment);
+    return Objects.hash(id, equipment, comment);
   }
 
   @Override
@@ -185,7 +154,6 @@ public class TravelOperationEquipmentLine {
     sb.append("class TravelOperationEquipmentLine {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    equipment: ").append(toIndentedString(equipment)).append("\n");
-    sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("    comment: ").append(toIndentedString(comment)).append("\n");
     sb.append("}");
     return sb.toString();
