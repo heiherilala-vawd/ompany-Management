@@ -18,6 +18,7 @@ import org.openapitools.jackson.nullable.JsonNullableModule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.test.annotation.DirtiesContext;
@@ -62,9 +63,9 @@ class CarIT {
                     CAR1_WAREHOUSE_ID)
                 .header("Authorization", "Bearer " + EMPLOYEE_TOKEN))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$.equipmentId").value(CAR1_EQUIPMENT_ID))
-        .andExpect(jsonPath("$.warehouseId").value(CAR1_WAREHOUSE_ID))
-        .andExpect(jsonPath("$.licensePlate").value("AB-123-CD"));
+        .andExpect(jsonPath("$.equipment_id").value(CAR1_EQUIPMENT_ID))
+        .andExpect(jsonPath("$.warehouse_id").value(CAR1_WAREHOUSE_ID))
+        .andExpect(jsonPath("$.license_plate").value("AB-123-CD"));
   }
 
   @Test
@@ -105,7 +106,7 @@ class CarIT {
                 .content(body)
                 .header("Authorization", "Bearer " + ADMINISTRATION_TOKEN))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$[0].equipmentId").isString());
+        .andExpect(jsonPath("$[0].equipment_id").isString());
   }
 
   @Test
@@ -122,7 +123,7 @@ class CarIT {
                 .content(body)
                 .header("Authorization", "Bearer " + ADMINISTRATION_TOKEN))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$[0].licensePlate").value("ZZ-999-ZZ"));
+        .andExpect(jsonPath("$[0].license_plate").value("ZZ-999-ZZ"));
   }
 
   @Test
@@ -150,7 +151,7 @@ class CarIT {
                     CAR1_EQUIPMENT_ID,
                     CAR1_WAREHOUSE_ID)
                 .header("Authorization", "Bearer " + ADMIN_TOKEN))
-        .andExpect(status().isOk());
+        .andExpect(status().isNoContent());
 
     mockMvc
         .perform(

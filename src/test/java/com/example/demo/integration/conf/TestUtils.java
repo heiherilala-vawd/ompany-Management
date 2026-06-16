@@ -81,7 +81,7 @@ import com.example.demo.client.model.TravelMaterials;
 import com.example.demo.client.model.TravelPeople;
 import com.example.demo.client.model.User;
 import com.example.demo.client.model.Warehouse;
-import com.example.demo.endpoint.rest.dto.movement.CrupdateCar;
+import com.example.demo.client.model.CrupdateCar;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;

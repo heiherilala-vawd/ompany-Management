@@ -55,7 +55,7 @@ class MaterialWarehouseIT {
     MaterialWarehouseApi api = new MaterialWarehouseApi(client);
 
     PaginatedResponse resp =
-        api.getMaterialWarehouses(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null);
+        api.getMaterialWarehouses(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null, null);
 
     List<MaterialWarehouseView> records = extractData(resp, MaterialWarehouseView.class);
 
@@ -68,7 +68,7 @@ class MaterialWarehouseIT {
     MaterialWarehouseApi api = new MaterialWarehouseApi(badClient);
 
     assertThrowsNotAuthorizedException(
-        () -> api.getMaterialWarehouses(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null));
+        () -> api.getMaterialWarehouses(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null, null));
   }
 
   @Test
@@ -77,7 +77,7 @@ class MaterialWarehouseIT {
     MaterialWarehouseApi api = new MaterialWarehouseApi(employeeClient);
 
     assertThrowsForbiddenException(
-        () -> api.getMaterialWarehouses(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null));
+        () -> api.getMaterialWarehouses(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null, null));
   }
 
   @Test
@@ -86,7 +86,7 @@ class MaterialWarehouseIT {
     MaterialWarehouseApi api = new MaterialWarehouseApi(client);
 
     PaginatedResponse resp =
-        api.getMaterialWarehouses(ADMIN_ID, COMPANY1_ID, 1, 100, MATERIAL1_ID, null, null);
+        api.getMaterialWarehouses(ADMIN_ID, COMPANY1_ID, 1, 100, MATERIAL1_ID, null, null, null);
 
     List<MaterialWarehouseView> records = extractData(resp, MaterialWarehouseView.class);
 
@@ -100,7 +100,7 @@ class MaterialWarehouseIT {
     MaterialWarehouseApi api = new MaterialWarehouseApi(client);
 
     PaginatedResponse resp =
-        api.getMaterialWarehouses(ADMIN_ID, COMPANY1_ID, 1, 100, null, WAREHOUSE1_ID, null);
+        api.getMaterialWarehouses(ADMIN_ID, COMPANY1_ID, 1, 100, null, WAREHOUSE1_ID, null, null);
 
     List<MaterialWarehouseView> records = extractData(resp, MaterialWarehouseView.class);
 
@@ -114,7 +114,7 @@ class MaterialWarehouseIT {
     MaterialWarehouseApi api = new MaterialWarehouseApi(client);
 
     PaginatedResponse resp =
-        api.getMaterialWarehouses(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, true);
+        api.getMaterialWarehouses(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, true, null);
 
     List<MaterialWarehouseView> records = extractData(resp, MaterialWarehouseView.class);
 
@@ -128,7 +128,7 @@ class MaterialWarehouseIT {
     MaterialWarehouseApi api = new MaterialWarehouseApi(client);
 
     PaginatedResponse resp =
-        api.getMaterialWarehouses(ADMIN_ID, COMPANY1_ID, 1, 100, MATERIAL1_ID, null, true);
+        api.getMaterialWarehouses(ADMIN_ID, COMPANY1_ID, 1, 100, MATERIAL1_ID, null, true, null);
 
     List<MaterialWarehouseView> records = extractData(resp, MaterialWarehouseView.class);
 
@@ -157,7 +157,7 @@ class MaterialWarehouseIT {
     assertEquals(200, saved.get(0).getQuantity());
 
     PaginatedResponse resp =
-        api.getMaterialWarehouses(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null);
+        api.getMaterialWarehouses(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null, null);
 
     List<MaterialWarehouseView> all = extractData(resp, MaterialWarehouseView.class);
     assertEquals(5, all.size());

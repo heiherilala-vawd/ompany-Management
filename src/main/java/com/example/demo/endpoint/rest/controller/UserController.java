@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -63,6 +64,7 @@ public class UserController {
   }
 
   @DeleteMapping("/users/{id}")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
   @PreAuthorize("hasAnyRole('ADMIN')")
   public void deleteUserById(@PathVariable String id) {
     userService.deleteById(id);

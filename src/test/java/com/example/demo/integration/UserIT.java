@@ -89,7 +89,7 @@ class UserIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     UsersApi api = new UsersApi(adminClient);
 
-    PaginatedResponse resp = api.getUsers(1, 100, null, null, null, null, null);
+    PaginatedResponse resp = api.getUsers(1, 100, null, null, null, null, null, null);
 
     List<User> users = extractData(resp, User.class);
 
@@ -103,7 +103,7 @@ class UserIT {
     ApiClient employeeClient = anApiClient(EMPLOYEE_TOKEN);
     UsersApi api = new UsersApi(employeeClient);
 
-    assertThrowsForbiddenException(() -> api.getUsers(1, 100, null, null, null, null, null));
+    assertThrowsForbiddenException(() -> api.getUsers(1, 100, null, null, null, null, null, null));
   }
 
   @Test
@@ -198,7 +198,7 @@ class UserIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     UsersApi api = new UsersApi(adminClient);
 
-    PaginatedResponse resp = api.getUsers(1, 100, null, "Alice", null, null, null);
+    PaginatedResponse resp = api.getUsers(1, 100, null, "Alice", null, null, null, null);
 
     List<User> users = extractData(resp, User.class);
 
@@ -211,7 +211,7 @@ class UserIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     UsersApi api = new UsersApi(adminClient);
 
-    PaginatedResponse resp = api.getUsers(1, 100, null, null, null, null, Role.EMPLOYEE);
+    PaginatedResponse resp = api.getUsers(1, 100, null, null, null, null, Role.EMPLOYEE, null);
 
     List<User> users = extractData(resp, User.class);
 
@@ -223,7 +223,7 @@ class UserIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     UsersApi api = new UsersApi(adminClient);
 
-    PaginatedResponse resp = api.getUsers(1, 100, null, null, "Martin", null, null);
+    PaginatedResponse resp = api.getUsers(1, 100, null, null, "Martin", null, null, null);
 
     List<User> users = extractData(resp, User.class);
 
@@ -236,7 +236,7 @@ class UserIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     UsersApi api = new UsersApi(adminClient);
 
-    PaginatedResponse resp = api.getUsers(1, 100, null, null, null, USER1_EMAIL, null);
+    PaginatedResponse resp = api.getUsers(1, 100, null, null, null, USER1_EMAIL, null, null);
 
     List<User> users = extractData(resp, User.class);
 

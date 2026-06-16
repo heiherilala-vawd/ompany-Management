@@ -51,7 +51,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-16T16:39:05.632791630+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-16T22:53:10.667097147+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class MaterialWarehouseApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -190,11 +190,12 @@ public class MaterialWarehouseApi {
    * @param materialId Filter by material ID (optional)
    * @param warehouseId Filter by warehouse ID (optional)
    * @param notArrived Filter records where quantity &gt; 0 in route or at_seller warehouse (optional)
+   * @param jobId Filter by job ID (optional)
    * @return PaginatedResponse
    * @throws ApiException if fails to make API call
    */
-  public PaginatedResponse getMaterialWarehouses(String userId, String companyId, Integer page, Integer pageSize, String materialId, String warehouseId, Boolean notArrived) throws ApiException {
-    ApiResponse<PaginatedResponse> localVarResponse = getMaterialWarehousesWithHttpInfo(userId, companyId, page, pageSize, materialId, warehouseId, notArrived);
+  public PaginatedResponse getMaterialWarehouses(String userId, String companyId, Integer page, Integer pageSize, String materialId, String warehouseId, Boolean notArrived, String jobId) throws ApiException {
+    ApiResponse<PaginatedResponse> localVarResponse = getMaterialWarehousesWithHttpInfo(userId, companyId, page, pageSize, materialId, warehouseId, notArrived, jobId);
     return localVarResponse.getData();
   }
 
@@ -208,11 +209,12 @@ public class MaterialWarehouseApi {
    * @param materialId Filter by material ID (optional)
    * @param warehouseId Filter by warehouse ID (optional)
    * @param notArrived Filter records where quantity &gt; 0 in route or at_seller warehouse (optional)
+   * @param jobId Filter by job ID (optional)
    * @return ApiResponse&lt;PaginatedResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<PaginatedResponse> getMaterialWarehousesWithHttpInfo(String userId, String companyId, Integer page, Integer pageSize, String materialId, String warehouseId, Boolean notArrived) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getMaterialWarehousesRequestBuilder(userId, companyId, page, pageSize, materialId, warehouseId, notArrived);
+  public ApiResponse<PaginatedResponse> getMaterialWarehousesWithHttpInfo(String userId, String companyId, Integer page, Integer pageSize, String materialId, String warehouseId, Boolean notArrived, String jobId) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getMaterialWarehousesRequestBuilder(userId, companyId, page, pageSize, materialId, warehouseId, notArrived, jobId);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -240,7 +242,7 @@ public class MaterialWarehouseApi {
     }
   }
 
-  private HttpRequest.Builder getMaterialWarehousesRequestBuilder(String userId, String companyId, Integer page, Integer pageSize, String materialId, String warehouseId, Boolean notArrived) throws ApiException {
+  private HttpRequest.Builder getMaterialWarehousesRequestBuilder(String userId, String companyId, Integer page, Integer pageSize, String materialId, String warehouseId, Boolean notArrived, String jobId) throws ApiException {
     // verify the required parameter 'userId' is set
     if (userId == null) {
       throw new ApiException(400, "Missing the required parameter 'userId' when calling getMaterialWarehouses");
@@ -269,6 +271,8 @@ public class MaterialWarehouseApi {
     localVarQueryParams.addAll(ApiClient.parameterToPairs("warehouse_id", warehouseId));
     localVarQueryParameterBaseName = "not_arrived";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("not_arrived", notArrived));
+    localVarQueryParameterBaseName = "job_id";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("job_id", jobId));
 
     if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
       StringJoiner queryJoiner = new StringJoiner("&");

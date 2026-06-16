@@ -53,6 +53,7 @@ x-tagGroups:
       - BudgetLine
       - EquipmentUsage
       - MaterialConsumption
+      - Car
       - HR
   - name: Types & Config
     tags:
@@ -92,6 +93,8 @@ tags:
     description: Material CRUD
   - name: MaterialWarehouse
     description: Material stock per warehouse CRUD
+  - name: Car
+    description: Car (vehicle) CRUD, linked to equipment + warehouse
   - name: Supplier
     description: Supplier CRUD
   - name: Organization
@@ -630,6 +633,13 @@ paths:
           schema:
             $ref: '#/components/schemas/Role'
           example: "EMPLOYEE"
+        - name: without_leave_config
+          in: query
+          required: false
+          description: "Filter users who do not have a leave configuration"
+          schema:
+            type: boolean
+          example: true
       responses:
         '200':
           description: List of users
@@ -2525,6 +2535,194 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
+  # ╔══════════════════════════════════════════════════════════╗
+  # ║  CAR (flattened: equipment_id + warehouse_id = PK)            ║
+  # ╚══════════════════════════════════════════════════════════╝
+
+  '/users/{userId}/companies/{companyId}/cars/{equipmentId}/{warehouseId}':
+    get:
+      tags:
+        - Car
+      summary: Get car by composite identifier (equipmentId + warehouseId)
+      operationId: getCarById
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+        - name: companyId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: equipmentId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "eq_001"
+        - name: warehouseId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "wh_001"
+      responses:
+        '200':
+          description: The identified car
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Car'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      tags:
+        - Car
+      summary: Delete car by identifier
+      operationId: deleteCarById
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+        - name: companyId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: equipmentId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "eq_001"
+        - name: warehouseId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "wh_001"
+      responses:
+        '204':
+          description: Car deleted successfully
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+
+  '/users/{userId}/companies/{companyId}/cars':
+    get:
+      tags:
+        - Car
+      summary: Get all cars
+      operationId: getCars
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+        - name: companyId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: page
+          in: query
+          schema:
+            $ref: '#/components/schemas/Page'
+          example: 1
+        - name: page_size
+          in: query
+          schema:
+            $ref: '#/components/schemas/PageSize'
+          example: 20
+      responses:
+        '200':
+          description: List of cars
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      tags:
+        - Car
+      summary: Create new cars or update existing cars
+      operationId: crupdateCars
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+        - name: companyId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/CrupdateCar'
+      responses:
+        '200':
+          description: The created or updated cars
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Car'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+
   '/users/{userId}/companies/{companyId}/maintenances/{id}':
     get:
       tags:
@@ -3157,6 +3355,12 @@ paths:
           schema:
             type: boolean
           example: true
+        - name: job_id
+          in: query
+          description: "Filter by job ID"
+          schema:
+            type: string
+          example: "job_001"
       responses:
         '200':
           description: List of material warehouse records
@@ -12012,6 +12216,23 @@ components:
         - ARRIVED
         - DAMAGED
       example: ARRIVED
+    FuelType:
+      type: string
+      enum:
+        - DIESEL
+        - GASOLINE
+        - ELECTRIC
+        - HYBRID
+        - LPG
+      example: DIESEL
+    CarStatus:
+      type: string
+      enum:
+        - ON_MISSION
+        - AVAILABLE
+        - UNDER_MAINTENANCE
+        - OUT_OF_SERVICE
+      example: AVAILABLE
     Sex:
       type: string
       enum:
@@ -12052,9 +12273,8 @@ components:
         description:
           type: string
           example: "Département en charge des travaux de génie civil"
-        company_id:
-          type: string
-          example: "comp_btp001"
+        company:
+          $ref: '#/components/schemas/CrupdateCompany'
     CrupdateDepartment:
       required:
         - name
@@ -12095,9 +12315,8 @@ components:
         description:
           type: string
           example: "Compte bancaire principal"
-        company_id:
-          type: string
-          example: "comp_btp001"
+        company:
+          $ref: '#/components/schemas/CrupdateCompany'
     CrupdateCashAccount:
       required:
         - name
@@ -12139,9 +12358,8 @@ components:
         id:
           type: string
           example: "ct_001"
-        cash_account_id:
-          type: string
-          example: "ca_001"
+        cash_account:
+          $ref: '#/components/schemas/CrupdateCashAccount'
         amount:
           type: number
           example: 500000.00
@@ -12193,9 +12411,8 @@ components:
         id:
           type: string
           example: "bl_001"
-        company_id:
-          type: string
-          example: "comp_btp001"
+        company:
+          $ref: '#/components/schemas/CrupdateCompany'
         category:
           type: string
           example: "Matériaux"
@@ -12275,12 +12492,10 @@ components:
         id:
           type: string
           example: "eu_001"
-        equipment_id:
-          type: string
-          example: "eq_001"
-        job_id:
-          type: string
-          example: "job_001"
+        equipment:
+          $ref: '#/components/schemas/CrupdateEquipment'
+        job:
+          $ref: '#/components/schemas/CrupdateJob'
         start_time:
           type: string
           format: date-time
@@ -12347,12 +12562,10 @@ components:
         id:
           type: string
           example: "mc_001"
-        material_id:
-          type: string
-          example: "mat_001"
-        warehouse_id:
-          type: string
-          example: "wh_001"
+        material:
+          $ref: '#/components/schemas/CrupdateMaterial'
+        warehouse:
+          $ref: '#/components/schemas/CrupdateWarehouse'
         quantity:
           type: integer
           example: 50
@@ -12360,9 +12573,8 @@ components:
           type: string
           format: date
           example: "2024-06-15"
-        job_id:
-          type: string
-          example: "job_001"
+        job:
+          $ref: '#/components/schemas/CrupdateJob'
         reason:
           type: string
           example: "Utilisation pour fondations"
@@ -12464,19 +12676,16 @@ components:
         email:
           type: string
           example: "jean.dupont@example.com"
-        company_id:
-          type: string
-          example: "comp_001"
+        company:
+          $ref: '#/components/schemas/CrupdateCompany'
         birth_date:
           type: string
           format: date
           example: "1990-05-15"
-        manager_id:
-          type: string
-          example: "usr_admin001"
-        department_id:
-          type: string
-          example: "dept_001"
+        manager:
+          $ref: '#/components/schemas/CrupdateUser'
+        department:
+          $ref: '#/components/schemas/CrupdateDepartment'
     CrupdateUser:
       required:
         - first_name
@@ -12545,9 +12754,8 @@ components:
           example: "Équipe chantier A"
         leader:
           $ref: '#/components/schemas/User'
-        job_id:
-          type: string
-          example: "job_001"
+        job:
+          $ref: '#/components/schemas/CrupdateJob'
         members:
           type: array
           items:
@@ -12807,6 +13015,118 @@ components:
           example: "Engins de terrassement"
 
     # =========================
+    # CAR (flattened: equipment_id + warehouse_id = PK)
+    # =========================
+    Car:
+      allOf:
+        - $ref: '#/components/schemas/AuditFields'
+      properties:
+        equipment_id:
+          type: string
+          example: "eq_001"
+        warehouse_id:
+          type: string
+          example: "wh_001"
+        equipment_name:
+          type: string
+          example: "Pelle mécanique"
+        equipment_category:
+          type: string
+          example: "Véhicule"
+        est_en_panne:
+          type: boolean
+          example: false
+        purchase_price:
+          type: number
+          example: 50000.00
+        purchase_date:
+          type: string
+          format: date
+          example: "2024-01-15"
+        warehouse_name:
+          type: string
+          example: "Entrepôt Nord"
+        warehouse_description:
+          type: string
+          example: "Stockage matériaux lourds"
+        license_plate:
+          type: string
+          example: "AB-123-CD"
+        fuel_type:
+          $ref: '#/components/schemas/FuelType'
+        status:
+          $ref: '#/components/schemas/CarStatus'
+        brand:
+          type: string
+          example: "Toyota"
+        model:
+          type: string
+          example: "Hilux"
+        year:
+          type: integer
+          example: 2020
+        color:
+          type: string
+          example: "Blanc"
+        mileage:
+          type: integer
+          example: 50000
+    CrupdateCar:
+      allOf:
+        - $ref: '#/components/schemas/comment'
+      properties:
+        equipment_id:
+          type: string
+          example: "eq_001"
+        warehouse_id:
+          type: string
+          example: "wh_001"
+        equipment_name:
+          type: string
+          example: "Pelle mécanique"
+        equipment_category:
+          type: string
+          example: "Véhicule"
+        est_en_panne:
+          type: boolean
+          example: false
+        purchase_price:
+          type: number
+          example: 50000.00
+        purchase_date:
+          type: string
+          format: date
+          example: "2024-01-15"
+        warehouse_name:
+          type: string
+          example: "Entrepôt Nord"
+        warehouse_description:
+          type: string
+          example: "Stockage matériaux lourds"
+        license_plate:
+          type: string
+          example: "AB-123-CD"
+        fuel_type:
+          $ref: '#/components/schemas/FuelType'
+        status:
+          $ref: '#/components/schemas/CarStatus'
+        brand:
+          type: string
+          example: "Toyota"
+        model:
+          type: string
+          example: "Hilux"
+        year:
+          type: integer
+          example: 2020
+        color:
+          type: string
+          example: "Blanc"
+        mileage:
+          type: integer
+          example: 50000
+
+    # =========================
     # MAINTENANCE
     # =========================
     Maintenance:
@@ -12816,10 +13136,8 @@ components:
           example: "maint_001"
         expense:
           $ref: '#/components/schemas/CrupdateExpenseMoney'
-        equipment_id:
-          type: string
-          description: "ID of the equipment this maintenance belongs to"
-          example: "eq_001"
+        equipment:
+          $ref: '#/components/schemas/CrupdateEquipment'
         description:
           type: string
           example: "Révision moteur périodique"
@@ -12855,10 +13173,8 @@ components:
         description:
           type: string
           example: "Frais logistiques et transport"
-        company_id:
-          type: string
-          description: "ID of the company this other expense type belongs to"
-          example: "comp_btp001"
+        company:
+          $ref: '#/components/schemas/CrupdateCompany'
     CrupdateOtherExpenseType:
       required:
         - name
@@ -12900,8 +13216,8 @@ components:
         description:
           type: string
           example: "Loyer mensuel des locaux"
-        company_id:
-          type: string
+        company:
+          $ref: '#/components/schemas/CrupdateCompany'
           description: "ID of the company this fixed cost belongs to"
           example: "comp_btp001"
         start_date:
@@ -12987,9 +13303,8 @@ components:
           example: 12.50
         unit:
           $ref: '#/components/schemas/MaterialUnit'
-        company_id:
-          type: string
-          example: "comp_001"
+        company:
+          $ref: '#/components/schemas/CrupdateCompany'
         material_warehouses:
           type: array
           items:
@@ -13103,10 +13418,8 @@ components:
         description:
           type: string
           example: "Revenus issus de la facturation client"
-        company_id:
-          type: string
-          description: "ID of the company this income type belongs to"
-          example: "comp_btp001"
+        company:
+          $ref: '#/components/schemas/CrupdateCompany'
     CrupdateIncomeType:
       required:
         - name
@@ -13139,9 +13452,8 @@ components:
         id:
           type: string
           example: "inc_001"
-        organization_id:
-          type: string
-          example: "org_001"
+        organization:
+          $ref: '#/components/schemas/CrupdateOrganization'
         invoice_reference:
           type: string
           example: "FACT-2024-001"
@@ -13287,9 +13599,8 @@ components:
         id:
           type: string
           example: "loan_001"
-        organization_id:
-          type: string
-          example: "org_001"
+        organization:
+          $ref: '#/components/schemas/CrupdateOrganization'
         interest_rate:
           type: integer
           description: "Annual interest rate in basis points (e.g., 1200 = 12%)"
@@ -14480,10 +14791,8 @@ components:
           type: string
           description: "Serialized new value of the entity"
           example: '{"status":"IN_PROGRESS"}'
-        user_id:
-          type: string
-          description: "ID of the user who made the modification"
-          example: "usr_123456"
+        user:
+          $ref: '#/components/schemas/CrupdateUser'
         modified_at:
           type: string
           format: date-time
@@ -14641,9 +14950,8 @@ components:
         days_per_year:
           type: integer
           example: 30
-        company_id:
-          type: string
-          example: "comp_btp001"
+        company:
+          $ref: '#/components/schemas/CrupdateCompany'
     CrupdateLeaveType:
       type: object
       required:
@@ -14882,9 +15190,8 @@ components:
           example: "2026-06-15"
         priority:
           $ref: '#/components/schemas/TaskPriority'
-        company_id:
-          type: string
-          example: "comp_btp001"
+        company:
+          $ref: '#/components/schemas/CrupdateCompany'
         completed:
           type: boolean
           example: false
@@ -14892,10 +15199,10 @@ components:
           type: string
           format: date-time
           example: "2026-06-15T14:30:00Z"
-        assigned_user_ids:
+        assigned_users:
           type: array
           items:
-            type: string
+            $ref: '#/components/schemas/CrupdateUser'
           example:
             - "usr_123456"
             - "usr_789012"
@@ -14973,13 +15280,12 @@ components:
           example: "2026-07-01"
         status:
           $ref: '#/components/schemas/ScheduleStatus'
-        company_id:
-          type: string
-          example: "comp_btp001"
-        assigned_user_ids:
+        company:
+          $ref: '#/components/schemas/CrupdateCompany'
+        assigned_users:
           type: array
           items:
-            type: string
+            $ref: '#/components/schemas/CrupdateUser'
           example:
             - "usr_123456"
             - "usr_789012"
@@ -15053,9 +15359,8 @@ components:
         contact_name:
           type: string
           example: "Jean Dupont"
-        company_id:
-          type: string
-          example: "comp_btp001"
+        company:
+          $ref: '#/components/schemas/CrupdateCompany'
     CrupdateSupplier:
       required:
         - name
@@ -15120,9 +15425,8 @@ components:
         contact_name:
           type: string
           example: "John Doe"
-        company_id:
-          type: string
-          example: "comp_btp001"
+        company:
+          $ref: '#/components/schemas/CrupdateCompany'
     CrupdateOrganization:
       required:
         - name
@@ -15171,8 +15475,8 @@ components:
       properties:
         id:
           type: string
-        material_id:
-          type: string
+        material:
+          $ref: '#/components/schemas/CrupdateMaterial'
         quantity:
           type: integer
         unit_price:
@@ -15206,9 +15510,8 @@ components:
         id:
           type: string
           example: "po_001"
-        supplier_id:
-          type: string
-          example: "supplier_001"
+        supplier:
+          $ref: '#/components/schemas/Supplier'
         order_date:
           type: string
           format: date
@@ -15218,12 +15521,10 @@ components:
         total_amount:
           type: number
           example: 5000.00
-        company_id:
-          type: string
-          example: "comp_btp001"
-        job_id:
-          type: string
-          example: "job_001"
+        company:
+          $ref: '#/components/schemas/CrupdateCompany'
+        job:
+          $ref: '#/components/schemas/CrupdateJob'
         lines:
           type: array
           items:
@@ -15282,8 +15583,8 @@ components:
       properties:
         id:
           type: string
-        equipment_id:
-          type: string
+        equipment:
+          $ref: '#/components/schemas/CrupdateEquipment'
         description:
           type: string
         scheduled_date:
@@ -15293,8 +15594,8 @@ components:
           type: string
         status:
           $ref: '#/components/schemas/MaintenanceScheduleStatus'
-        company_id:
-          type: string
+        company:
+          $ref: '#/components/schemas/CrupdateCompany'
     CrupdateMaintenanceSchedule:
       type: object
       required:
@@ -15335,10 +15636,8 @@ components:
           example: "notif_001"
         user:
           $ref: '#/components/schemas/CrupdateUser'
-        task_id:
-          type: string
-          nullable: true
-          example: "task_001"
+        task:
+          $ref: '#/components/schemas/CrupdateTask'
         title:
           type: string
           example: "Nouvelle t\u00e2che assign\u00e9e"
