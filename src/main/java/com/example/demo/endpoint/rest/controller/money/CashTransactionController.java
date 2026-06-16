@@ -12,6 +12,7 @@ import jakarta.validation.Valid;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,12 +22,12 @@ public class CashTransactionController {
   private final CashTransactionService cashTransactionService;
   private final CashTransactionMapper cashTransactionMapper;
 
-  @GetMapping("/users/{userId}/companies/{companyId}/cash_accounts/{account_id}/transactions/{id}")
+  @GetMapping("/users/{userId}/companies/{companyId}/cash_accounts/{cashAccountId}/transactions/{id}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public CashTransaction getCashTransactionById(
       @PathVariable String userId,
       @PathVariable String companyId,
-      @PathVariable String account_id,
+      @PathVariable String cashAccountId,
       @PathVariable String id) {
     return cashTransactionMapper.toRestCashTransaction(
         cashTransactionService
@@ -35,12 +36,12 @@ public class CashTransactionController {
                 () -> new NotFoundException("CashTransaction with id " + id + " not found")));
   }
 
-  @GetMapping("/users/{userId}/companies/{companyId}/cash_accounts/{account_id}/transactions")
+  @GetMapping("/users/{userId}/companies/{companyId}/cash_accounts/{cashAccountId}/transactions")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public PaginatedResponse getCashTransactions(
       @PathVariable String userId,
       @PathVariable String companyId,
-      @PathVariable String account_id,
+      @PathVariable String cashAccountId,
       @RequestParam(name = "page", required = false) PageFromOne page,
       @RequestParam(name = "page_size", required = false) BoundedPageSize pageSize) {
     var result = cashTransactionService.findAll(page, pageSize);
@@ -49,12 +50,12 @@ public class CashTransactionController {
         (int) result.getTotalElements());
   }
 
-  @PutMapping("/users/{userId}/companies/{companyId}/cash_accounts/{account_id}/transactions")
+  @PutMapping("/users/{userId}/companies/{companyId}/cash_accounts/{cashAccountId}/transactions")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
   public List<CashTransaction> crupdateCashTransactions(
       @PathVariable String userId,
       @PathVariable String companyId,
-      @PathVariable String account_id,
+      @PathVariable String cashAccountId,
       @Valid @RequestBody List<CrupdateCashTransaction> toWrite) {
     List<com.example.demo.model.money.CashTransaction> saved =
         cashTransactionService.createOrUpdateAll(
@@ -63,12 +64,13 @@ public class CashTransactionController {
   }
 
   @DeleteMapping(
-      "/users/{userId}/companies/{companyId}/cash_accounts/{account_id}/transactions/{id}")
+      "/users/{userId}/companies/{companyId}/cash_accounts/{cashAccountId}/transactions/{id}")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
   @PreAuthorize("hasRole('ADMIN')")
   public void deleteCashTransactionById(
       @PathVariable String userId,
       @PathVariable String companyId,
-      @PathVariable String account_id,
+      @PathVariable String cashAccountId,
       @PathVariable String id) {
     cashTransactionService.deleteById(id);
   }

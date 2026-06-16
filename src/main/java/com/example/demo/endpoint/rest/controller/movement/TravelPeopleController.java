@@ -13,6 +13,7 @@ import jakarta.validation.Valid;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -79,6 +80,7 @@ public class TravelPeopleController {
   }
 
   @DeleteMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/travel_people/{id}")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
   @PreAuthorize("hasAnyRole('ADMIN')")
   public void deleteTravelPeopleById(
       @PathVariable String userId,

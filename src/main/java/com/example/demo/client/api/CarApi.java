@@ -18,14 +18,13 @@ import com.example.demo.client.invoker.ApiResponse;
 import com.example.demo.client.invoker.Pair;
 
 import com.example.demo.client.model.BadRequestException;
-import com.example.demo.client.model.CrupdateUser;
+import com.example.demo.client.model.Car;
+import com.example.demo.client.model.CrupdateCar;
 import com.example.demo.client.model.InternalServerException;
 import com.example.demo.client.model.NotAuthorizedException;
 import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.ResourceNotFoundException;
-import com.example.demo.client.model.Role;
 import com.example.demo.client.model.TooManyRequestsException;
-import com.example.demo.client.model.User;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -53,7 +52,7 @@ import java.util.Set;
 import java.util.function.Consumer;
 
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-16T22:53:10.667097147+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
-public class UsersApi {
+public class CarApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
   private final String memberVarBaseUri;
@@ -62,11 +61,11 @@ public class UsersApi {
   private final Consumer<HttpResponse<InputStream>> memberVarResponseInterceptor;
   private final Consumer<HttpResponse<String>> memberVarAsyncResponseInterceptor;
 
-  public UsersApi() {
+  public CarApi() {
     this(new ApiClient());
   }
 
-  public UsersApi(ApiClient apiClient) {
+  public CarApi(ApiClient apiClient) {
     memberVarHttpClient = apiClient.getHttpClient();
     memberVarObjectMapper = apiClient.getObjectMapper();
     memberVarBaseUri = apiClient.getBaseUri();
@@ -90,28 +89,30 @@ public class UsersApi {
   }
 
   /**
-   * Create new users or update existing users
-   * Update users when &#x60;id&#x60; are provided, create them otherwise.
+   * Create new cars or update existing cars
+   * 
+   * @param userId  (required)
    * @param companyId  (required)
-   * @param crupdateUser  (required)
-   * @return List&lt;User&gt;
+   * @param crupdateCar  (required)
+   * @return List&lt;Car&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<User> crupdateUsers(String companyId, List<CrupdateUser> crupdateUser) throws ApiException {
-    ApiResponse<List<User>> localVarResponse = crupdateUsersWithHttpInfo(companyId, crupdateUser);
+  public List<Car> crupdateCars(String userId, String companyId, List<CrupdateCar> crupdateCar) throws ApiException {
+    ApiResponse<List<Car>> localVarResponse = crupdateCarsWithHttpInfo(userId, companyId, crupdateCar);
     return localVarResponse.getData();
   }
 
   /**
-   * Create new users or update existing users
-   * Update users when &#x60;id&#x60; are provided, create them otherwise.
+   * Create new cars or update existing cars
+   * 
+   * @param userId  (required)
    * @param companyId  (required)
-   * @param crupdateUser  (required)
-   * @return ApiResponse&lt;List&lt;User&gt;&gt;
+   * @param crupdateCar  (required)
+   * @return ApiResponse&lt;List&lt;Car&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<User>> crupdateUsersWithHttpInfo(String companyId, List<CrupdateUser> crupdateUser) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = crupdateUsersRequestBuilder(companyId, crupdateUser);
+  public ApiResponse<List<Car>> crupdateCarsWithHttpInfo(String userId, String companyId, List<CrupdateCar> crupdateCar) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = crupdateCarsRequestBuilder(userId, companyId, crupdateCar);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -121,12 +122,12 @@ public class UsersApi {
       }
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
-          throw getApiException("crupdateUsers", localVarResponse);
+          throw getApiException("crupdateCars", localVarResponse);
         }
-        return new ApiResponse<List<User>>(
+        return new ApiResponse<List<Car>>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<List<User>>() {}) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<List<Car>>() {}) // closes the InputStream
         );
       } finally {
       }
@@ -139,42 +140,33 @@ public class UsersApi {
     }
   }
 
-  private HttpRequest.Builder crupdateUsersRequestBuilder(String companyId, List<CrupdateUser> crupdateUser) throws ApiException {
+  private HttpRequest.Builder crupdateCarsRequestBuilder(String userId, String companyId, List<CrupdateCar> crupdateCar) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling crupdateCars");
+    }
     // verify the required parameter 'companyId' is set
     if (companyId == null) {
-      throw new ApiException(400, "Missing the required parameter 'companyId' when calling crupdateUsers");
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling crupdateCars");
     }
-    // verify the required parameter 'crupdateUser' is set
-    if (crupdateUser == null) {
-      throw new ApiException(400, "Missing the required parameter 'crupdateUser' when calling crupdateUsers");
+    // verify the required parameter 'crupdateCar' is set
+    if (crupdateCar == null) {
+      throw new ApiException(400, "Missing the required parameter 'crupdateCar' when calling crupdateCars");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/users";
+    String localVarPath = "/users/{userId}/companies/{companyId}/cars"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()));
 
-    List<Pair> localVarQueryParams = new ArrayList<>();
-    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
-    String localVarQueryParameterBaseName;
-    localVarQueryParameterBaseName = "company_id";
-    localVarQueryParams.addAll(ApiClient.parameterToPairs("company_id", companyId));
-
-    if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
-      StringJoiner queryJoiner = new StringJoiner("&");
-      localVarQueryParams.forEach(p -> queryJoiner.add(p.getName() + '=' + p.getValue()));
-      if (localVarQueryStringJoiner.length() != 0) {
-        queryJoiner.add(localVarQueryStringJoiner.toString());
-      }
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
-    } else {
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
-    }
+    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
     localVarRequestBuilder.header("Content-Type", "application/json");
     localVarRequestBuilder.header("Accept", "application/json");
 
     try {
-      byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(crupdateUser);
+      byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(crupdateCar);
       localVarRequestBuilder.method("PUT", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
     } catch (IOException e) {
       throw new ApiException(e);
@@ -189,24 +181,30 @@ public class UsersApi {
   }
 
   /**
-   * Delete a user by identifier
+   * Delete car by identifier
    * 
-   * @param id  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
+   * @param equipmentId  (required)
+   * @param warehouseId  (required)
    * @throws ApiException if fails to make API call
    */
-  public void deleteUserById(String id) throws ApiException {
-    deleteUserByIdWithHttpInfo(id);
+  public void deleteCarById(String userId, String companyId, String equipmentId, String warehouseId) throws ApiException {
+    deleteCarByIdWithHttpInfo(userId, companyId, equipmentId, warehouseId);
   }
 
   /**
-   * Delete a user by identifier
+   * Delete car by identifier
    * 
-   * @param id  (required)
+   * @param userId  (required)
+   * @param companyId  (required)
+   * @param equipmentId  (required)
+   * @param warehouseId  (required)
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Void> deleteUserByIdWithHttpInfo(String id) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = deleteUserByIdRequestBuilder(id);
+  public ApiResponse<Void> deleteCarByIdWithHttpInfo(String userId, String companyId, String equipmentId, String warehouseId) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = deleteCarByIdRequestBuilder(userId, companyId, equipmentId, warehouseId);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -216,7 +214,7 @@ public class UsersApi {
       }
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
-          throw getApiException("deleteUserById", localVarResponse);
+          throw getApiException("deleteCarById", localVarResponse);
         }
         return new ApiResponse<Void>(
           localVarResponse.statusCode(),
@@ -239,16 +237,31 @@ public class UsersApi {
     }
   }
 
-  private HttpRequest.Builder deleteUserByIdRequestBuilder(String id) throws ApiException {
-    // verify the required parameter 'id' is set
-    if (id == null) {
-      throw new ApiException(400, "Missing the required parameter 'id' when calling deleteUserById");
+  private HttpRequest.Builder deleteCarByIdRequestBuilder(String userId, String companyId, String equipmentId, String warehouseId) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling deleteCarById");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling deleteCarById");
+    }
+    // verify the required parameter 'equipmentId' is set
+    if (equipmentId == null) {
+      throw new ApiException(400, "Missing the required parameter 'equipmentId' when calling deleteCarById");
+    }
+    // verify the required parameter 'warehouseId' is set
+    if (warehouseId == null) {
+      throw new ApiException(400, "Missing the required parameter 'warehouseId' when calling deleteCarById");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/users/{id}"
-        .replace("{id}", ApiClient.urlEncode(id.toString()));
+    String localVarPath = "/users/{userId}/companies/{companyId}/cars/{equipmentId}/{warehouseId}"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()))
+        .replace("{equipmentId}", ApiClient.urlEncode(equipmentId.toString()))
+        .replace("{warehouseId}", ApiClient.urlEncode(warehouseId.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
@@ -265,26 +278,32 @@ public class UsersApi {
   }
 
   /**
-   * Get user by identifier
+   * Get car by composite identifier (equipmentId + warehouseId)
    * 
-   * @param id  (required)
-   * @return User
+   * @param userId  (required)
+   * @param companyId  (required)
+   * @param equipmentId  (required)
+   * @param warehouseId  (required)
+   * @return Car
    * @throws ApiException if fails to make API call
    */
-  public User getUserById(String id) throws ApiException {
-    ApiResponse<User> localVarResponse = getUserByIdWithHttpInfo(id);
+  public Car getCarById(String userId, String companyId, String equipmentId, String warehouseId) throws ApiException {
+    ApiResponse<Car> localVarResponse = getCarByIdWithHttpInfo(userId, companyId, equipmentId, warehouseId);
     return localVarResponse.getData();
   }
 
   /**
-   * Get user by identifier
+   * Get car by composite identifier (equipmentId + warehouseId)
    * 
-   * @param id  (required)
-   * @return ApiResponse&lt;User&gt;
+   * @param userId  (required)
+   * @param companyId  (required)
+   * @param equipmentId  (required)
+   * @param warehouseId  (required)
+   * @return ApiResponse&lt;Car&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<User> getUserByIdWithHttpInfo(String id) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getUserByIdRequestBuilder(id);
+  public ApiResponse<Car> getCarByIdWithHttpInfo(String userId, String companyId, String equipmentId, String warehouseId) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getCarByIdRequestBuilder(userId, companyId, equipmentId, warehouseId);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -294,12 +313,12 @@ public class UsersApi {
       }
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
-          throw getApiException("getUserById", localVarResponse);
+          throw getApiException("getCarById", localVarResponse);
         }
-        return new ApiResponse<User>(
+        return new ApiResponse<Car>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<User>() {}) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Car>() {}) // closes the InputStream
         );
       } finally {
       }
@@ -312,16 +331,31 @@ public class UsersApi {
     }
   }
 
-  private HttpRequest.Builder getUserByIdRequestBuilder(String id) throws ApiException {
-    // verify the required parameter 'id' is set
-    if (id == null) {
-      throw new ApiException(400, "Missing the required parameter 'id' when calling getUserById");
+  private HttpRequest.Builder getCarByIdRequestBuilder(String userId, String companyId, String equipmentId, String warehouseId) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling getCarById");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling getCarById");
+    }
+    // verify the required parameter 'equipmentId' is set
+    if (equipmentId == null) {
+      throw new ApiException(400, "Missing the required parameter 'equipmentId' when calling getCarById");
+    }
+    // verify the required parameter 'warehouseId' is set
+    if (warehouseId == null) {
+      throw new ApiException(400, "Missing the required parameter 'warehouseId' when calling getCarById");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/users/{id}"
-        .replace("{id}", ApiClient.urlEncode(id.toString()));
+    String localVarPath = "/users/{userId}/companies/{companyId}/cars/{equipmentId}/{warehouseId}"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()))
+        .replace("{equipmentId}", ApiClient.urlEncode(equipmentId.toString()))
+        .replace("{warehouseId}", ApiClient.urlEncode(warehouseId.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
@@ -338,40 +372,32 @@ public class UsersApi {
   }
 
   /**
-   * Get all users
+   * Get all cars
    * 
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param page  (optional)
    * @param pageSize  (optional)
-   * @param companyId Filter users by company ID (optional)
-   * @param firstName Filter users by first name, case is ignored (optional)
-   * @param lastName Filter users by last name, case is ignored (optional)
-   * @param email Filter users by email, case is ignored (optional)
-   * @param role Filter users by role (optional)
-   * @param withoutLeaveConfig Filter users who do not have a leave configuration (optional)
    * @return PaginatedResponse
    * @throws ApiException if fails to make API call
    */
-  public PaginatedResponse getUsers(Integer page, Integer pageSize, String companyId, String firstName, String lastName, String email, Role role, Boolean withoutLeaveConfig) throws ApiException {
-    ApiResponse<PaginatedResponse> localVarResponse = getUsersWithHttpInfo(page, pageSize, companyId, firstName, lastName, email, role, withoutLeaveConfig);
+  public PaginatedResponse getCars(String userId, String companyId, Integer page, Integer pageSize) throws ApiException {
+    ApiResponse<PaginatedResponse> localVarResponse = getCarsWithHttpInfo(userId, companyId, page, pageSize);
     return localVarResponse.getData();
   }
 
   /**
-   * Get all users
+   * Get all cars
    * 
+   * @param userId  (required)
+   * @param companyId  (required)
    * @param page  (optional)
    * @param pageSize  (optional)
-   * @param companyId Filter users by company ID (optional)
-   * @param firstName Filter users by first name, case is ignored (optional)
-   * @param lastName Filter users by last name, case is ignored (optional)
-   * @param email Filter users by email, case is ignored (optional)
-   * @param role Filter users by role (optional)
-   * @param withoutLeaveConfig Filter users who do not have a leave configuration (optional)
    * @return ApiResponse&lt;PaginatedResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<PaginatedResponse> getUsersWithHttpInfo(Integer page, Integer pageSize, String companyId, String firstName, String lastName, String email, Role role, Boolean withoutLeaveConfig) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getUsersRequestBuilder(page, pageSize, companyId, firstName, lastName, email, role, withoutLeaveConfig);
+  public ApiResponse<PaginatedResponse> getCarsWithHttpInfo(String userId, String companyId, Integer page, Integer pageSize) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getCarsRequestBuilder(userId, companyId, page, pageSize);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -381,7 +407,7 @@ public class UsersApi {
       }
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
-          throw getApiException("getUsers", localVarResponse);
+          throw getApiException("getCars", localVarResponse);
         }
         return new ApiResponse<PaginatedResponse>(
           localVarResponse.statusCode(),
@@ -399,11 +425,21 @@ public class UsersApi {
     }
   }
 
-  private HttpRequest.Builder getUsersRequestBuilder(Integer page, Integer pageSize, String companyId, String firstName, String lastName, String email, Role role, Boolean withoutLeaveConfig) throws ApiException {
+  private HttpRequest.Builder getCarsRequestBuilder(String userId, String companyId, Integer page, Integer pageSize) throws ApiException {
+    // verify the required parameter 'userId' is set
+    if (userId == null) {
+      throw new ApiException(400, "Missing the required parameter 'userId' when calling getCars");
+    }
+    // verify the required parameter 'companyId' is set
+    if (companyId == null) {
+      throw new ApiException(400, "Missing the required parameter 'companyId' when calling getCars");
+    }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/users";
+    String localVarPath = "/users/{userId}/companies/{companyId}/cars"
+        .replace("{userId}", ApiClient.urlEncode(userId.toString()))
+        .replace("{companyId}", ApiClient.urlEncode(companyId.toString()));
 
     List<Pair> localVarQueryParams = new ArrayList<>();
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
@@ -412,18 +448,6 @@ public class UsersApi {
     localVarQueryParams.addAll(ApiClient.parameterToPairs("page", page));
     localVarQueryParameterBaseName = "page_size";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("page_size", pageSize));
-    localVarQueryParameterBaseName = "company_id";
-    localVarQueryParams.addAll(ApiClient.parameterToPairs("company_id", companyId));
-    localVarQueryParameterBaseName = "first_name";
-    localVarQueryParams.addAll(ApiClient.parameterToPairs("first_name", firstName));
-    localVarQueryParameterBaseName = "last_name";
-    localVarQueryParams.addAll(ApiClient.parameterToPairs("last_name", lastName));
-    localVarQueryParameterBaseName = "email";
-    localVarQueryParams.addAll(ApiClient.parameterToPairs("email", email));
-    localVarQueryParameterBaseName = "role";
-    localVarQueryParams.addAll(ApiClient.parameterToPairs("role", role));
-    localVarQueryParameterBaseName = "without_leave_config";
-    localVarQueryParams.addAll(ApiClient.parameterToPairs("without_leave_config", withoutLeaveConfig));
 
     if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
       StringJoiner queryJoiner = new StringJoiner("&");

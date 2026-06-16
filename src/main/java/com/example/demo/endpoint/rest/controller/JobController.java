@@ -15,6 +15,7 @@ import jakarta.validation.Valid;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -68,16 +69,10 @@ public class JobController {
   }
 
   @DeleteMapping("/users/{userId}/companies/{companyId}/jobs/{id}")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
   @PreAuthorize("hasAnyRole('ADMIN')")
-  public Job deleteJobById(
-      @PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
-    Job entity =
-        jobMapper.toRestJob(
-            jobService
-                .findById(id)
-                .orElseThrow(() -> new NotFoundException("Job " + id + " not found")));
+  public void deleteJobById(@PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {
     jobService.deleteById(id);
-    return entity;
   }
 
   @GetMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/assigned_users")
@@ -101,6 +96,7 @@ public class JobController {
   }
 
   @DeleteMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/assigned_users")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER')")
   public void unassignUserFromJob(
       @PathVariable String userId, @PathVariable String companyId, @PathVariable String jobId) {

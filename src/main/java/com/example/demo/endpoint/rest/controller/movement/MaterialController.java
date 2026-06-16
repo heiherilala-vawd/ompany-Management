@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -81,6 +82,7 @@ public class MaterialController {
   }
 
   @DeleteMapping("/users/{userId}/companies/{companyId}/materials/{id}")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
   @PreAuthorize("hasAnyRole('ADMIN')")
   public void deleteMaterialById(
       @PathVariable String userId, @PathVariable String companyId, @PathVariable String id) {

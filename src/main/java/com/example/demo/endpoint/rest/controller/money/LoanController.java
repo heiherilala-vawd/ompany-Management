@@ -19,6 +19,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -79,6 +80,7 @@ public class LoanController {
   }
 
   @DeleteMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/loans/{id}")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
   @PreAuthorize("hasAnyRole('ADMIN')")
   public void deleteLoanById(
       @PathVariable String userId,
@@ -134,6 +136,7 @@ public class LoanController {
   }
 
   @DeleteMapping("/users/{userId}/companies/{companyId}/jobs/{jobId}/loan_repayments/{id}")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
   @PreAuthorize("hasAnyRole('ADMIN')")
   public void deleteLoanRepaymentById(
       @PathVariable String userId,

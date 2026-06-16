@@ -1,8 +1,8 @@
 package com.example.demo.endpoint.rest.controller.movement;
 
+import com.example.demo.client.model.Car;
+import com.example.demo.client.model.CrupdateCar;
 import com.example.demo.endpoint.rest.PaginatedResponse;
-import com.example.demo.endpoint.rest.dto.movement.CarResponse;
-import com.example.demo.endpoint.rest.dto.movement.CrupdateCar;
 import com.example.demo.endpoint.rest.mapper.movement.CarMapper;
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
@@ -11,6 +11,7 @@ import com.example.demo.service.movement.CarService;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -29,7 +31,7 @@ public class CarController {
 
   @GetMapping("/users/{userId}/companies/{companyId}/cars/{equipmentId}/{warehouseId}")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION', 'WAREHOUSE_WORKER', 'EMPLOYEE')")
-  public CarResponse getCarById(
+  public Car getCarById(
       @PathVariable String userId,
       @PathVariable String companyId,
       @PathVariable String equipmentId,
@@ -61,7 +63,7 @@ public class CarController {
 
   @PutMapping("/users/{userId}/companies/{companyId}/cars")
   @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATION')")
-  public List<CarResponse> crupdateCars(
+  public List<Car> crupdateCars(
       @PathVariable String userId,
       @PathVariable String companyId,
       @Valid @RequestBody List<CrupdateCar> toWrite) {
@@ -70,6 +72,7 @@ public class CarController {
   }
 
   @DeleteMapping("/users/{userId}/companies/{companyId}/cars/{equipmentId}/{warehouseId}")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
   @PreAuthorize("hasAnyRole('ADMIN')")
   public void deleteCarById(
       @PathVariable String userId,

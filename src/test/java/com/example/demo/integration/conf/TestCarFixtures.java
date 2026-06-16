@@ -1,8 +1,8 @@
 package com.example.demo.integration.conf;
 
-import com.example.demo.endpoint.rest.dto.movement.CrupdateCar;
-import com.example.demo.model.movement.CarStatus;
-import com.example.demo.model.movement.FuelType;
+import com.example.demo.client.model.CarStatus;
+import com.example.demo.client.model.CrupdateCar;
+import com.example.demo.client.model.FuelType;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
@@ -12,7 +12,7 @@ final class TestCarFixtures {
   private TestCarFixtures() {}
 
   static CrupdateCar car1() {
-    return CrupdateCar.builder()
+    return new CrupdateCar()
         .equipmentId(TestUtils.EQUIPMENT1_ID)
         .warehouseId(TestUtils.WAREHOUSE1_ID)
         .equipmentName("Pelle mécanique")
@@ -29,12 +29,11 @@ final class TestCarFixtures {
         .model("Hilux")
         .year(2020)
         .color("Blanc")
-        .mileage(50000)
-        .build();
+        .mileage(50000);
   }
 
   static CrupdateCar car2() {
-    return CrupdateCar.builder()
+    return new CrupdateCar()
         .equipmentId(TestUtils.EQUIPMENT2_ID)
         .warehouseId(TestUtils.WAREHOUSE2_ID)
         .equipmentName("Bétonnière")
@@ -51,12 +50,11 @@ final class TestCarFixtures {
         .model("Kangoo")
         .year(2021)
         .color("Rouge")
-        .mileage(30000)
-        .build();
+        .mileage(30000);
   }
 
   static CrupdateCar someCreatableCar() {
-    return CrupdateCar.builder()
+    return new CrupdateCar()
         .equipmentId(UUID.randomUUID().toString())
         .warehouseId(UUID.randomUUID().toString())
         .equipmentName("Nouveau véhicule")
@@ -73,7 +71,6 @@ final class TestCarFixtures {
         .model("Model 3")
         .year(2024)
         .color("Noir")
-        .mileage(0)
-        .build();
+        .mileage(0);
   }
 }
