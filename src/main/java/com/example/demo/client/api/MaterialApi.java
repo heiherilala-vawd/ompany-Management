@@ -52,7 +52,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-16T14:09:13.563416423+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-16T16:39:05.632791630+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class MaterialApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -368,12 +368,13 @@ public class MaterialApi {
    * @param name Filter materials by name, case is ignored (optional)
    * @param description Filter materials by description, case is ignored (optional)
    * @param unit  (optional)
+   * @param warehouseId Filter materials by warehouse (only materials with quantity &gt;&#x3D; 1 in that warehouse) (optional)
    * @param notArrived Filter materials not yet arrived (with quantity &gt; 0 in route or at seller warehouse) (optional)
    * @return PaginatedResponse
    * @throws ApiException if fails to make API call
    */
-  public PaginatedResponse getMaterials(String userId, String companyId, Integer page, Integer pageSize, String name, String description, MaterialUnit unit, Boolean notArrived) throws ApiException {
-    ApiResponse<PaginatedResponse> localVarResponse = getMaterialsWithHttpInfo(userId, companyId, page, pageSize, name, description, unit, notArrived);
+  public PaginatedResponse getMaterials(String userId, String companyId, Integer page, Integer pageSize, String name, String description, MaterialUnit unit, String warehouseId, Boolean notArrived) throws ApiException {
+    ApiResponse<PaginatedResponse> localVarResponse = getMaterialsWithHttpInfo(userId, companyId, page, pageSize, name, description, unit, warehouseId, notArrived);
     return localVarResponse.getData();
   }
 
@@ -387,12 +388,13 @@ public class MaterialApi {
    * @param name Filter materials by name, case is ignored (optional)
    * @param description Filter materials by description, case is ignored (optional)
    * @param unit  (optional)
+   * @param warehouseId Filter materials by warehouse (only materials with quantity &gt;&#x3D; 1 in that warehouse) (optional)
    * @param notArrived Filter materials not yet arrived (with quantity &gt; 0 in route or at seller warehouse) (optional)
    * @return ApiResponse&lt;PaginatedResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<PaginatedResponse> getMaterialsWithHttpInfo(String userId, String companyId, Integer page, Integer pageSize, String name, String description, MaterialUnit unit, Boolean notArrived) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getMaterialsRequestBuilder(userId, companyId, page, pageSize, name, description, unit, notArrived);
+  public ApiResponse<PaginatedResponse> getMaterialsWithHttpInfo(String userId, String companyId, Integer page, Integer pageSize, String name, String description, MaterialUnit unit, String warehouseId, Boolean notArrived) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getMaterialsRequestBuilder(userId, companyId, page, pageSize, name, description, unit, warehouseId, notArrived);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -420,7 +422,7 @@ public class MaterialApi {
     }
   }
 
-  private HttpRequest.Builder getMaterialsRequestBuilder(String userId, String companyId, Integer page, Integer pageSize, String name, String description, MaterialUnit unit, Boolean notArrived) throws ApiException {
+  private HttpRequest.Builder getMaterialsRequestBuilder(String userId, String companyId, Integer page, Integer pageSize, String name, String description, MaterialUnit unit, String warehouseId, Boolean notArrived) throws ApiException {
     // verify the required parameter 'userId' is set
     if (userId == null) {
       throw new ApiException(400, "Missing the required parameter 'userId' when calling getMaterials");
@@ -449,6 +451,8 @@ public class MaterialApi {
     localVarQueryParams.addAll(ApiClient.parameterToPairs("description", description));
     localVarQueryParameterBaseName = "unit";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("unit", unit));
+    localVarQueryParameterBaseName = "warehouse_id";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("warehouse_id", warehouseId));
     localVarQueryParameterBaseName = "not_arrived";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("not_arrived", notArrived));
 

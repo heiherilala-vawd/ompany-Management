@@ -36,7 +36,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   ConfirmEquipmentArrival.JSON_PROPERTY_ID,
   ConfirmEquipmentArrival.JSON_PROPERTY_STATUS
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-16T14:09:13.563416423+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-16T16:39:05.632791630+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class ConfirmEquipmentArrival {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;

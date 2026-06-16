@@ -7,11 +7,13 @@ import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
 import com.example.demo.model.criteria.MaterialCriteria;
 import com.example.demo.model.movement.Material;
+import com.example.demo.model.movement.MaterialWarehouse;
 import com.example.demo.repository.movement.MaterialRepository;
 import com.example.demo.service.utils.ModificationUtils;
 import com.example.demo.service.utils.PageUtils;
 import com.example.demo.service.utils.SpecialWarehouseUtils;
 import com.example.demo.validator.MovementValidator;
+import jakarta.persistence.criteria.Join;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -69,9 +71,22 @@ public class MaterialService {
   }
 
   private Specification<Material> toSpecification(MaterialCriteria criteria) {
-    return Specification.<Material>where(equal(criteria.getCompanyId(), "company", "id"))
-        .and(containsIgnoreCase(criteria.getName(), "name"))
-        .and(containsIgnoreCase(criteria.getDescription(), "description"))
-        .and(equal(criteria.getUnit(), "unit"));
+    Specification<Material> spec =
+        Specification.<Material>where(equal(criteria.getCompanyId(), "company", "id"))
+            .and(containsIgnoreCase(criteria.getName(), "name"))
+            .and(containsIgnoreCase(criteria.getDescription(), "description"))
+            .and(equal(criteria.getUnit(), "unit"));
+    if (criteria.getWarehouseId() != null) {
+      spec =
+          spec.and(
+              (root, query, cb) -> {
+                query.distinct(true);
+                Join<Material, MaterialWarehouse> mwJoin = root.join("materialWarehouses");
+                return cb.and(
+                    cb.equal(mwJoin.get("warehouse").get("id"), criteria.getWarehouseId()),
+                    cb.greaterThanOrEqualTo(mwJoin.get("quantity"), 1));
+              });
+    }
+    return spec;
   }
 }

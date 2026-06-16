@@ -52,12 +52,14 @@ public class MaterialController {
       @RequestParam(name = "name", required = false) String name,
       @RequestParam(name = "description", required = false) String description,
       @RequestParam(name = "unit", required = false) MaterialUnit unit,
+      @RequestParam(name = "warehouse_id", required = false) String warehouseId,
       @RequestParam(name = "not_arrived", required = false) Boolean notArrived) {
     MaterialCriteria criteria = new MaterialCriteria();
     criteria.setCompanyId(companyId);
     criteria.setName(name);
     criteria.setDescription(description);
     criteria.setUnit(EnumMapper.mapEnum(unit, com.example.demo.model.movement.Material.Unit.class));
+    criteria.setWarehouseId(warehouseId);
     criteria.setNotArrived(notArrived);
 
     var result = materialService.findAll(page, pageSize, criteria);

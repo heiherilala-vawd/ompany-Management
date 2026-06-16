@@ -10,6 +10,7 @@ import com.example.demo.client.model.CrupdateMaterial;
 import com.example.demo.client.model.Material;
 import com.example.demo.client.model.MaterialUnit;
 import com.example.demo.client.model.PaginatedResponse;
+import com.example.demo.client.model.Warehouse;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
 import com.example.demo.integration.conf.TestDataSqlLoader;
@@ -97,7 +98,7 @@ class MaterialIT {
     MaterialApi api = new MaterialApi(adminClient);
 
     PaginatedResponse resp =
-        api.getMaterials(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null, null);
+        api.getMaterials(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null, null, null);
 
     List<Material> materials = extractData(resp, Material.class);
 
@@ -113,7 +114,7 @@ class MaterialIT {
     MaterialApi api = new MaterialApi(employeeClient);
 
     assertThrowsForbiddenException(
-        () -> api.getMaterials(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null, null));
+        () -> api.getMaterials(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null, null, null));
   }
 
   @Test
@@ -122,7 +123,7 @@ class MaterialIT {
     MaterialApi api = new MaterialApi(administrationClient);
 
     PaginatedResponse resp =
-        api.getMaterials(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, MaterialUnit.L, null);
+        api.getMaterials(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, MaterialUnit.L, null, null);
 
     List<Material> materials = extractData(resp, Material.class);
 
@@ -136,7 +137,7 @@ class MaterialIT {
     MaterialApi api = new MaterialApi(administrationClient);
 
     PaginatedResponse resp =
-        api.getMaterials(ADMIN_ID, COMPANY1_ID, 1, 100, "Brique", null, null, null);
+        api.getMaterials(ADMIN_ID, COMPANY1_ID, 1, 100, "Brique", null, null, null, null);
 
     List<Material> materials = extractData(resp, Material.class);
 
@@ -150,7 +151,7 @@ class MaterialIT {
     MaterialApi api = new MaterialApi(administrationClient);
 
     PaginatedResponse resp =
-        api.getMaterials(ADMIN_ID, COMPANY1_ID, 1, 100, null, "blanche", null, null);
+        api.getMaterials(ADMIN_ID, COMPANY1_ID, 1, 100, null, "blanche", null, null, null);
 
     List<Material> materials = extractData(resp, Material.class);
 
@@ -164,7 +165,7 @@ class MaterialIT {
     MaterialApi api = new MaterialApi(administrationClient);
 
     PaginatedResponse resp =
-        api.getMaterials(ADMIN_ID, COMPANY1_ID, 1, 100, "Ciment", "35kg", MaterialUnit.SAC, null);
+        api.getMaterials(ADMIN_ID, COMPANY1_ID, 1, 100, "Ciment", "35kg", MaterialUnit.SAC, null, null);
 
     List<Material> materials = extractData(resp, Material.class);
 
@@ -256,7 +257,7 @@ class MaterialIT {
     MaterialApi api = new MaterialApi(adminClient);
 
     PaginatedResponse resp =
-        api.getMaterials(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null, true);
+        api.getMaterials(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null, null, true);
 
     List<Material> notArrivedMaterials = extractData(resp, Material.class);
 
@@ -272,11 +273,53 @@ class MaterialIT {
     MaterialApi api = new MaterialApi(adminClient);
 
     PaginatedResponse resp =
-        api.getMaterials(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null, false);
+        api.getMaterials(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null, null, false);
 
     List<Material> materials = extractData(resp, Material.class);
 
     assertEquals(3, materials.size());
+  }
+
+  @Test
+  void admin_can_filter_materials_by_warehouse_id() throws Exception {
+    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
+    MaterialApi api = new MaterialApi(adminClient);
+
+    PaginatedResponse resp =
+        api.getMaterials(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null, WAREHOUSE1_ID, null);
+
+    List<Material> materials = extractData(resp, Material.class);
+
+    assertEquals(1, materials.size());
+    assertEquals(MATERIAL1_ID, materials.get(0).getId());
+  }
+
+  @Test
+  void admin_filter_by_warehouse_excludes_materials_with_zero_quantity() throws Exception {
+    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
+    MaterialApi api = new MaterialApi(adminClient);
+
+    PaginatedResponse resp =
+        api.getMaterials(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null, ROUTE_WAREHOUSE_ID, null);
+
+    List<Material> materials = extractData(resp, Material.class);
+
+    assertEquals(1, materials.size());
+    assertEquals(MATERIAL1_ID, materials.get(0).getId());
+    assertFalse(materials.stream().anyMatch(m -> MATERIAL3_ID.equals(m.getId())));
+  }
+
+  @Test
+  void admin_filter_by_warehouse_returns_empty_when_no_match() throws Exception {
+    ApiClient adminClient = anApiClient(ADMIN_TOKEN);
+    MaterialApi api = new MaterialApi(adminClient);
+
+    PaginatedResponse resp =
+        api.getMaterials(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null, "nonexistent_id", null);
+
+    List<Material> materials = extractData(resp, Material.class);
+
+    assertTrue(materials.isEmpty());
   }
 
   static class ContextInitializer extends AbstractContextInitializer {
