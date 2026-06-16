@@ -146,9 +146,9 @@ public class SecurityConfiguration {
                     // =========================
                     // MATERIAL WAREHOUSE
                     // =========================
-                    .requestMatchers(GET, "/users/*/companies/*/material_warehouse")
+                    .requestMatchers(GET, "/users/*/companies/*/material_warehouses")
                     .authenticated()
-                    .requestMatchers(PUT, "/users/*/companies/*/material_warehouse")
+                    .requestMatchers(PUT, "/users/*/companies/*/material_warehouses")
                     .authenticated()
 
                     // =========================

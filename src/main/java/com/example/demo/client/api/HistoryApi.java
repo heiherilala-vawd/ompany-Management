@@ -50,7 +50,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T20:46:03.097377521+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-16T12:45:29.977991642+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class HistoryApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -89,7 +89,7 @@ public class HistoryApi {
 
   /**
    * Get modification history with filters
-   * Retrieve the history of modifications with optional filters for user, entity type, entity id, and date range.
+   * 
    * @param page  (optional)
    * @param pageSize  (optional)
    * @param userId Filter by user who made the modification (optional)
@@ -107,7 +107,7 @@ public class HistoryApi {
 
   /**
    * Get modification history with filters
-   * Retrieve the history of modifications with optional filters for user, entity type, entity id, and date range.
+   * 
    * @param page  (optional)
    * @param pageSize  (optional)
    * @param userId Filter by user who made the modification (optional)

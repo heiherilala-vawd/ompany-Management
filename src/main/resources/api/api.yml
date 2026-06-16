@@ -3102,7 +3102,7 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  '/users/{userId}/companies/{companyId}/material_warehouse':
+  '/users/{userId}/companies/{companyId}/material_warehouses':
     get:
       tags:
         - MaterialWarehouse
@@ -11977,6 +11977,12 @@ components:
         - EQUIPMENTUSAGE
         - MATERIALCONSUMPTION
         - ORGANIZATION
+        - PURCHASEORDER
+        - PURCHASEORDERLINE
+        - SUPPLIER
+        - MAINTENANCESCHEDULE
+        - NOTIFICATION
+        - CAR
       example: JOB
     JobStatus:
       type: string
