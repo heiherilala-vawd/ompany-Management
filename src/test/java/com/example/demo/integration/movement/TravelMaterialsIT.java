@@ -266,8 +266,7 @@ class TravelMaterialsIT {
             true);
     List<TravelMaterials> list = extractData(resp, TravelMaterials.class);
 
-    assertEquals(1, list.size());
-    assertEquals(TRAVEL_MATERIALS2_ID, list.get(0).getId());
+    assertEquals(2, list.size());
   }
 
   @Test

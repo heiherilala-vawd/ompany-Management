@@ -6,6 +6,8 @@ import static org.mockito.Mockito.*;
 
 import com.example.demo.client.model.CrupdateTeam;
 import com.example.demo.client.model.User;
+import com.example.demo.client.model.CrupdateJob;
+import com.example.demo.endpoint.rest.mapper.JobMapper;
 import com.example.demo.endpoint.rest.mapper.UserMapper;
 import com.example.demo.endpoint.rest.mapper.core.TeamMapper;
 import com.example.demo.service.JobService;
@@ -25,6 +27,7 @@ class TeamMapperTest {
   @Mock private UserService userService;
   @Mock private UserMapper userMapper;
   @Mock private JobService jobService;
+  @Mock private JobMapper jobMapper;
 
   @InjectMocks private TeamMapper teamMapper;
 
@@ -258,6 +261,7 @@ class TeamMapperTest {
 
     when(userMapper.toRestUser(domainLeader)).thenReturn(restLeader);
     when(userMapper.toRestUser(domainMember)).thenReturn(restMember);
+    when(jobMapper.toRestCrupdateJob(domainJob)).thenReturn(new CrupdateJob().id("job-1"));
 
     com.example.demo.client.model.Team result = teamMapper.toRestTeam(domain);
 

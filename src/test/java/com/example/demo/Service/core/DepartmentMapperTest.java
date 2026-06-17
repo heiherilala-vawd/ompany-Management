@@ -1,6 +1,7 @@
 package com.example.demo.Service.core;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
 
 import com.example.demo.client.model.CrupdateCompany;
 import com.example.demo.client.model.CrupdateDepartment;
@@ -105,6 +106,8 @@ class DepartmentMapperTest {
             .updatedAt(Instant.parse("2024-06-01T00:00:00Z"))
             .comment("Test comment")
             .build();
+
+    when(companyMapper.toRestCrupdateCompany(company)).thenReturn(new CrupdateCompany().id("comp-1"));
 
     Department result = mapper.toRestDepartment(domain);
 

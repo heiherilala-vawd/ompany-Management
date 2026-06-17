@@ -29,6 +29,7 @@ final class TestTravelFixtures {
         TestOrganizationFixtures.warehouseToCrupdateWarehouse(routeWarehouse()));
     travelExpense.setDepartureDate(Instant.parse("2024-03-01T06:00:00Z"));
     travelExpense.setArrivalDate(Instant.parse("2024-03-01T12:00:00Z"));
+    travelExpense.setDirectArrival(false);
     return travelExpense;
   }
 
@@ -45,6 +46,7 @@ final class TestTravelFixtures {
             TestOrganizationFixtures.warehouse1()));
     travelExpense.setDepartureDate(Instant.parse("2024-03-05T07:30:00Z"));
     travelExpense.setArrivalDate(Instant.parse("2024-03-05T15:00:00Z"));
+    travelExpense.setDirectArrival(false);
     return travelExpense;
   }
 
@@ -56,6 +58,7 @@ final class TestTravelFixtures {
     crupdateTravelExpense.setArrivalLocation(travelExpense.getArrivalLocation());
     crupdateTravelExpense.setDepartureDate(travelExpense.getDepartureDate());
     crupdateTravelExpense.setArrivalDate(travelExpense.getArrivalDate());
+    crupdateTravelExpense.setDirectArrival(travelExpense.getDirectArrival());
     return crupdateTravelExpense;
   }
 
@@ -70,6 +73,7 @@ final class TestTravelFixtures {
             TestOrganizationFixtures.warehouse1()));
     travelExpense.setDepartureDate(Instant.parse("2024-04-01T08:00:00Z"));
     travelExpense.setArrivalDate(Instant.parse("2024-04-01T18:00:00Z"));
+    travelExpense.setDirectArrival(false);
     return travelExpense;
   }
 
@@ -150,6 +154,7 @@ final class TestTravelFixtures {
         TestOrganizationFixtures.materialToCrupdateMaterial(TestOrganizationFixtures.material1()));
     travelMaterials.setQuantity(10);
     travelMaterials.setQuantityReceived(5);
+    travelMaterials.setQuantityLost(0);
     travelMaterials.setArrivalLocation(
         TestOrganizationFixtures.warehouseToCrupdateWarehouse(
             TestOrganizationFixtures.warehouse1()));
@@ -165,6 +170,7 @@ final class TestTravelFixtures {
         TestOrganizationFixtures.materialToCrupdateMaterial(TestOrganizationFixtures.material2()));
     travelMaterials.setQuantity(20);
     travelMaterials.setQuantityReceived(null);
+    travelMaterials.setQuantityLost(0);
     travelMaterials.setArrivalLocation(
         TestOrganizationFixtures.warehouseToCrupdateWarehouse(
             TestOrganizationFixtures.warehouse2()));
@@ -182,6 +188,7 @@ final class TestTravelFixtures {
         travelMaterials.getMaterial() != null ? travelMaterials.getMaterial().getId() : null);
     crupdateTravelMaterials.setQuantity(travelMaterials.getQuantity());
     crupdateTravelMaterials.setQuantityReceived(travelMaterials.getQuantityReceived());
+    crupdateTravelMaterials.setQuantityLost(travelMaterials.getQuantityLost());
     crupdateTravelMaterials.setComment(travelMaterials.getComment());
     crupdateTravelMaterials.setArrivalLocation(
         travelMaterials.getArrivalLocation() != null

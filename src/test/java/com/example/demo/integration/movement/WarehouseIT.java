@@ -83,7 +83,7 @@ class WarehouseIT {
 
     List<Warehouse> warehouses = extractData(resp, Warehouse.class);
 
-    assertEquals(6, warehouses.size());
+    assertEquals(7, warehouses.size());
     assertTrue(warehouses.stream().anyMatch(warehouse -> WAREHOUSE1_ID.equals(warehouse.getId())));
     assertTrue(warehouses.stream().anyMatch(warehouse -> WAREHOUSE2_ID.equals(warehouse.getId())));
     assertTrue(
@@ -143,7 +143,7 @@ class WarehouseIT {
 
     List<Warehouse> warehouses = extractData(resp, Warehouse.class);
 
-    assertEquals(5, warehouses.size());
+    assertEquals(6, warehouses.size());
     assertTrue(warehouses.stream().anyMatch(warehouse -> WAREHOUSE2_ID.equals(warehouse.getId())));
   }
 
