@@ -145,7 +145,9 @@ class HistoryIT {
     List<History> histories = extractData(resp, History.class);
 
     assertEquals(3, histories.size());
-    assertTrue(histories.stream().allMatch(h -> h.getUser() != null && ADMIN_ID.equals(h.getUser().getId())));
+    assertTrue(
+        histories.stream()
+            .allMatch(h -> h.getUser() != null && ADMIN_ID.equals(h.getUser().getId())));
   }
 
   @Test

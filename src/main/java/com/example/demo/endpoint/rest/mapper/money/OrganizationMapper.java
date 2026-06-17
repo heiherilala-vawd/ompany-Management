@@ -1,6 +1,5 @@
 package com.example.demo.endpoint.rest.mapper.money;
 
-import com.example.demo.client.model.CrupdateCompany;
 import com.example.demo.endpoint.rest.mapper.CompanyMapper;
 import com.example.demo.model.Company;
 import com.example.demo.model.money.Organization;

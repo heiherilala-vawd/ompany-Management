@@ -53,7 +53,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-17T16:47:13.835321067+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-17T22:52:33.873707389+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class TravelEquipmentApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -390,7 +390,7 @@ public class TravelEquipmentApi {
    * @param equipmentId  (optional)
    * @param quantity  (optional)
    * @param status  (optional)
-   * @param arrivalLocation Filter travel equipment by arrival warehouse id (optional)
+   * @param arrivalLocation Filter travel equipment by associated travel&#39;s arrival warehouse id (optional)
    * @param arrivalDateMin Filter travel equipment by minimum arrival date (optional)
    * @param arrivalDateMax Filter travel equipment by maximum arrival date (optional)
    * @param notArrived Filter travel equipment that have not arrived yet (no arrival date or location) (optional)
@@ -414,7 +414,7 @@ public class TravelEquipmentApi {
    * @param equipmentId  (optional)
    * @param quantity  (optional)
    * @param status  (optional)
-   * @param arrivalLocation Filter travel equipment by arrival warehouse id (optional)
+   * @param arrivalLocation Filter travel equipment by associated travel&#39;s arrival warehouse id (optional)
    * @param arrivalDateMin Filter travel equipment by minimum arrival date (optional)
    * @param arrivalDateMax Filter travel equipment by maximum arrival date (optional)
    * @param notArrived Filter travel equipment that have not arrived yet (no arrival date or location) (optional)

@@ -3,8 +3,8 @@ package com.example.demo.endpoint.rest.mapper.task;
 import com.example.demo.client.model.CrupdateTaskSchedule;
 import com.example.demo.client.model.TaskSchedule;
 import com.example.demo.endpoint.rest.mapper.CompanyMapper;
-import com.example.demo.endpoint.rest.mapper.UserMapper;
 import com.example.demo.endpoint.rest.mapper.RestAuditMapperUtils;
+import com.example.demo.endpoint.rest.mapper.UserMapper;
 import com.example.demo.model.Company;
 import com.example.demo.model.User;
 import com.example.demo.model.task.ScheduleStatus;
@@ -67,7 +67,9 @@ public class TaskScheduleMapper {
     rest.setCompany(companyMapper.toRestCrupdateCompany(domain.getCompany()));
     if (domain.getAssignedUsers() != null) {
       rest.setAssignedUsers(
-          domain.getAssignedUsers().stream().map(u -> userMapper.toRestCrupdateUser(u)).collect(Collectors.toList()));
+          domain.getAssignedUsers().stream()
+              .map(u -> userMapper.toRestCrupdateUser(u))
+              .collect(Collectors.toList()));
     }
     RestAuditMapperUtils.mapAuditFields(
         domain,

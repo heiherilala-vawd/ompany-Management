@@ -45,13 +45,6 @@ public class TravelMaterialsMapper {
         .quantityReceived(restTravelMaterials.getQuantityReceived())
         .quantityLost(restTravelMaterials.getQuantityLost())
         .comment(restTravelMaterials.getComment())
-        .arrivalLocation(
-            restTravelMaterials.getArrivalLocation() != null
-                ? warehouseService
-                    .findById(restTravelMaterials.getArrivalLocation().getId())
-                    .orElse(null)
-                : null)
-        .arrivalDate(restTravelMaterials.getArrivalDate())
         .build();
   }
 
@@ -76,11 +69,6 @@ public class TravelMaterialsMapper {
                 ? restTravelMaterials.getQuantityLost()
                 : 0)
         .comment(restTravelMaterials.getComment())
-        .arrivalLocation(
-            restTravelMaterials.getArrivalLocation() != null
-                ? warehouseService.findById(restTravelMaterials.getArrivalLocation()).orElse(null)
-                : null)
-        .arrivalDate(restTravelMaterials.getArrivalDate())
         .build();
   }
 
@@ -97,9 +85,6 @@ public class TravelMaterialsMapper {
     restTravelMaterials.setQuantity(domainTravelMaterials.getQuantity());
     restTravelMaterials.setQuantityReceived(domainTravelMaterials.getQuantityReceived());
     restTravelMaterials.setQuantityLost(domainTravelMaterials.getQuantityLost());
-    restTravelMaterials.setArrivalDate(domainTravelMaterials.getArrivalDate());
-    restTravelMaterials.setArrivalLocation(
-        warehouseMapper.toRestCrupdateWarehouse(domainTravelMaterials.getArrivalLocation()));
     restTravelMaterials.setArrivalLogs(
         Optional.ofNullable(domainTravelMaterials.getArrivalLogs())
             .map(logs -> logs.stream().map(this::toRestArrivalLog).collect(Collectors.toList()))
@@ -125,6 +110,8 @@ public class TravelMaterialsMapper {
     restLog.setQuantityReceived(domainLog.getQuantityReceived());
     restLog.setQuantityLost(domainLog.getQuantityLost());
     restLog.setArrivalDate(domainLog.getArrivalDate());
+    restLog.setArrivalLocation(
+        warehouseMapper.toRestCrupdateWarehouse(domainLog.getArrivalLocation()));
     RestAuditMapperUtils.mapAuditFields(
         domainLog,
         restLog::setCreatedAt,

@@ -433,7 +433,8 @@ final class TestOrganizationFixtures {
     crupdate.setEmail(organization.getEmail());
     crupdate.setPhone(organization.getPhone());
     crupdate.setContactName(organization.getContactName());
-    crupdate.setCompanyId(organization.getCompany() != null ? organization.getCompany().getId() : null);
+    crupdate.setCompanyId(
+        organization.getCompany() != null ? organization.getCompany().getId() : null);
     crupdate.setComment(organization.getComment());
     return crupdate;
   }

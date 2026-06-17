@@ -49,7 +49,8 @@ public class CashAccountMapper {
     return rest;
   }
 
-  public CrupdateCashAccount toRestCrupdateCashAccount(com.example.demo.model.money.CashAccount domain) {
+  public CrupdateCashAccount toRestCrupdateCashAccount(
+      com.example.demo.model.money.CashAccount domain) {
     if (domain == null) return null;
     return new CrupdateCashAccount()
         .id(domain.getId())

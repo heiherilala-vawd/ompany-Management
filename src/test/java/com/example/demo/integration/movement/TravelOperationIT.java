@@ -152,19 +152,7 @@ class TravelOperationIT {
     TravelMaterialsApi travelMaterialsApi = new TravelMaterialsApi(anApiClient(ADMIN_TOKEN));
     PaginatedResponse resp2 =
         travelMaterialsApi.getTravelMaterials(
-            ADMIN_ID,
-            COMPANY1_ID,
-            JOB1_ID,
-            1,
-            100,
-            travelId,
-            MATERIAL1_ID,
-            50,
-            null,
-            null,
-            null,
-            null,
-            null);
+            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, travelId, MATERIAL1_ID, 50, null, null, null);
     List<TravelMaterials> createdTravelMaterials = extractData(resp2, TravelMaterials.class);
     assertEquals(1, createdTravelMaterials.size());
     assertEquals(travelMaterialId, createdTravelMaterials.get(0).getId());
@@ -240,19 +228,7 @@ class TravelOperationIT {
     TravelMaterialsApi travelMaterialsApi = new TravelMaterialsApi(anApiClient(ADMIN_TOKEN));
     PaginatedResponse resp2 =
         travelMaterialsApi.getTravelMaterials(
-            ADMIN_ID,
-            COMPANY1_ID,
-            JOB1_ID,
-            1,
-            100,
-            travelId,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null);
+            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, travelId, null, null, null, null, null);
     List<TravelMaterials> materialsList = extractData(resp2, TravelMaterials.class);
     assertTrue(materialsList.isEmpty());
   }
@@ -514,19 +490,7 @@ class TravelOperationIT {
     TravelMaterialsApi tmApi = new TravelMaterialsApi(anApiClient(ADMIN_TOKEN));
     PaginatedResponse tmResp =
         tmApi.getTravelMaterials(
-            ADMIN_ID,
-            COMPANY1_ID,
-            JOB1_ID,
-            1,
-            100,
-            travelId,
-            MATERIAL1_ID,
-            100,
-            null,
-            null,
-            null,
-            null,
-            null);
+            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, travelId, MATERIAL1_ID, 100, null, null, null);
     List<TravelMaterials> materialsList = extractData(tmResp, TravelMaterials.class);
     assertEquals(1, materialsList.size());
     assertEquals(0, materialsList.get(0).getQuantityReceived().intValue());
@@ -556,26 +520,15 @@ class TravelOperationIT {
     // Verify cumulative totals: 80 received, 20 lost
     tmResp =
         tmApi.getTravelMaterials(
-            ADMIN_ID,
-            COMPANY1_ID,
-            JOB1_ID,
-            1,
-            100,
-            travelId,
-            MATERIAL1_ID,
-            100,
-            80,
-            null,
-            null,
-            null,
-            null);
+            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, travelId, MATERIAL1_ID, 100, 80, null, null);
     materialsList = extractData(tmResp, TravelMaterials.class);
     assertEquals(1, materialsList.size());
     assertEquals(80, materialsList.get(0).getQuantityReceived().intValue());
     assertEquals(20, materialsList.get(0).getQuantityLost().intValue());
-    assertNotNull(materialsList.get(0).getArrivalDate());
     assertNotNull(materialsList.get(0).getArrivalLogs());
     assertEquals(2, materialsList.get(0).getArrivalLogs().size());
+    assertNotNull(materialsList.get(0).getArrivalLogs().get(0).getArrivalDate());
+    assertNotNull(materialsList.get(0).getArrivalLogs().get(0).getArrivalLocation());
   }
 
   @Test
@@ -641,25 +594,15 @@ class TravelOperationIT {
     TravelMaterialsApi tmApi = new TravelMaterialsApi(anApiClient(ADMIN_TOKEN));
     PaginatedResponse tmResp =
         tmApi.getTravelMaterials(
-            ADMIN_ID,
-            COMPANY1_ID,
-            JOB1_ID,
-            1,
-            100,
-            travelId,
-            MATERIAL1_ID,
-            50,
-            50,
-            null,
-            null,
-            null,
-            null);
+            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, travelId, MATERIAL1_ID, 50, 50, null, null);
     List<TravelMaterials> materialsList = extractData(tmResp, TravelMaterials.class);
     assertEquals(1, materialsList.size());
     assertEquals(travelMaterialId, materialsList.get(0).getId());
     assertEquals(50, materialsList.get(0).getQuantityReceived().intValue());
     assertEquals(0, materialsList.get(0).getQuantityLost().intValue());
-    assertNotNull(materialsList.get(0).getArrivalDate());
+    assertNotNull(materialsList.get(0).getArrivalLogs());
+    assertEquals(1, materialsList.get(0).getArrivalLogs().size());
+    assertNotNull(materialsList.get(0).getArrivalLogs().get(0).getArrivalDate());
   }
 
   static class ContextInitializer extends AbstractContextInitializer {

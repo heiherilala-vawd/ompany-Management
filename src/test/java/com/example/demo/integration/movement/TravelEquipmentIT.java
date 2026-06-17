@@ -193,6 +193,8 @@ class TravelEquipmentIT {
   void admin_can_filter_travel_equipment_by_arrival_location() throws Exception {
     TravelEquipmentApi api = new TravelEquipmentApi(anApiClient(ADMIN_TOKEN));
 
+    // Filters by associated travel's arrival_location.
+    // travel_expense2 has arrival_location = warehouse1_id, its equipment is travel_equipment2
     PaginatedResponse resp =
         api.getTravelEquipment(
             COMPANY1_ID,
@@ -211,7 +213,7 @@ class TravelEquipmentIT {
     List<TravelEquipment> list = extractData(resp, TravelEquipment.class);
 
     assertEquals(1, list.size());
-    assertEquals(TRAVEL_EQUIPMENT1_ID, list.get(0).getId());
+    assertEquals(TRAVEL_EQUIPMENT2_ID, list.get(0).getId());
   }
 
   @Test

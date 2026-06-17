@@ -59,10 +59,13 @@ public class CarMapper {
     response.setEquipmentId(car.getId().getEquipmentId());
     response.setWarehouseId(car.getId().getWarehouseId());
     response.setEquipmentName(car.getEquipment() != null ? car.getEquipment().getName() : null);
-    response.setEquipmentCategory(car.getEquipment() != null ? car.getEquipment().getCategory() : null);
+    response.setEquipmentCategory(
+        car.getEquipment() != null ? car.getEquipment().getCategory() : null);
     response.setEstEnPanne(car.getEquipment() != null ? car.getEquipment().getEstEnPanne() : null);
-    response.setPurchasePrice(car.getEquipment() != null ? car.getEquipment().getPurchasePrice() : null);
-    response.setPurchaseDate(car.getEquipment() != null ? car.getEquipment().getPurchaseDate() : null);
+    response.setPurchasePrice(
+        car.getEquipment() != null ? car.getEquipment().getPurchasePrice() : null);
+    response.setPurchaseDate(
+        car.getEquipment() != null ? car.getEquipment().getPurchaseDate() : null);
     response.setWarehouseName(car.getWarehouse() != null ? car.getWarehouse().getName() : null);
     response.setWarehouseDescription(
         car.getWarehouse() != null ? car.getWarehouse().getDescription() : null);

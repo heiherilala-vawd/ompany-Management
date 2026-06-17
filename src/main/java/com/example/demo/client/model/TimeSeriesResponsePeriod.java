@@ -35,7 +35,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   TimeSeriesResponsePeriod.JSON_PROPERTY_FROM,
   TimeSeriesResponsePeriod.JSON_PROPERTY_TO
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-17T16:47:13.835321067+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-17T22:52:33.873707389+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class TimeSeriesResponsePeriod {
   public static final String JSON_PROPERTY_FROM = "from";
   private String from;

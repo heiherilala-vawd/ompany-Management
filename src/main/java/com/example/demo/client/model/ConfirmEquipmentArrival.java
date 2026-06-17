@@ -34,15 +34,23 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  */
 @JsonPropertyOrder({
   ConfirmEquipmentArrival.JSON_PROPERTY_ID,
-  ConfirmEquipmentArrival.JSON_PROPERTY_STATUS
+  ConfirmEquipmentArrival.JSON_PROPERTY_STATUS,
+  ConfirmEquipmentArrival.JSON_PROPERTY_ARRIVAL_LOCATION,
+  ConfirmEquipmentArrival.JSON_PROPERTY_ARRIVAL_DATE
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-17T16:47:13.835321067+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-17T22:52:33.873707389+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class ConfirmEquipmentArrival {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
 
   public static final String JSON_PROPERTY_STATUS = "status";
   private TransportStatus status;
+
+  public static final String JSON_PROPERTY_ARRIVAL_LOCATION = "arrival_location";
+  private String arrivalLocation;
+
+  public static final String JSON_PROPERTY_ARRIVAL_DATE = "arrival_date";
+  private java.time.Instant arrivalDate;
 
   public ConfirmEquipmentArrival() { 
   }
@@ -97,6 +105,56 @@ public class ConfirmEquipmentArrival {
   }
 
 
+  public ConfirmEquipmentArrival arrivalLocation(String arrivalLocation) {
+    this.arrivalLocation = arrivalLocation;
+    return this;
+  }
+
+   /**
+   * Warehouse ID. Defaults to travel&#39;s arrival location if null
+   * @return arrivalLocation
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_ARRIVAL_LOCATION)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getArrivalLocation() {
+    return arrivalLocation;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_ARRIVAL_LOCATION)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setArrivalLocation(String arrivalLocation) {
+    this.arrivalLocation = arrivalLocation;
+  }
+
+
+  public ConfirmEquipmentArrival arrivalDate(java.time.Instant arrivalDate) {
+    this.arrivalDate = arrivalDate;
+    return this;
+  }
+
+   /**
+   * Defaults to current time if null
+   * @return arrivalDate
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_ARRIVAL_DATE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public java.time.Instant getArrivalDate() {
+    return arrivalDate;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_ARRIVAL_DATE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setArrivalDate(java.time.Instant arrivalDate) {
+    this.arrivalDate = arrivalDate;
+  }
+
+
   /**
    * Return true if this ConfirmEquipmentArrival object is equal to o.
    */
@@ -110,12 +168,14 @@ public class ConfirmEquipmentArrival {
     }
     ConfirmEquipmentArrival confirmEquipmentArrival = (ConfirmEquipmentArrival) o;
     return Objects.equals(this.id, confirmEquipmentArrival.id) &&
-        Objects.equals(this.status, confirmEquipmentArrival.status);
+        Objects.equals(this.status, confirmEquipmentArrival.status) &&
+        Objects.equals(this.arrivalLocation, confirmEquipmentArrival.arrivalLocation) &&
+        Objects.equals(this.arrivalDate, confirmEquipmentArrival.arrivalDate);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, status);
+    return Objects.hash(id, status, arrivalLocation, arrivalDate);
   }
 
   @Override
@@ -124,6 +184,8 @@ public class ConfirmEquipmentArrival {
     sb.append("class ConfirmEquipmentArrival {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
+    sb.append("    arrivalLocation: ").append(toIndentedString(arrivalLocation)).append("\n");
+    sb.append("    arrivalDate: ").append(toIndentedString(arrivalDate)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -179,6 +241,16 @@ public class ConfirmEquipmentArrival {
     // add `status` to the URL query string
     if (getStatus() != null) {
       joiner.add(String.format("%sstatus%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getStatus()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `arrival_location` to the URL query string
+    if (getArrivalLocation() != null) {
+      joiner.add(String.format("%sarrival_location%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getArrivalLocation()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `arrival_date` to the URL query string
+    if (getArrivalDate() != null) {
+      joiner.add(String.format("%sarrival_date%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getArrivalDate()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

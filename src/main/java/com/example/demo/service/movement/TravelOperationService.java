@@ -11,6 +11,7 @@ import com.example.demo.model.movement.MaterialWarehouse;
 import com.example.demo.model.movement.TravelEquipment;
 import com.example.demo.model.movement.TravelEquipment.TransportStatus;
 import com.example.demo.model.movement.TravelMaterials;
+import com.example.demo.model.movement.TravelMaterialsArrivalLog;
 import com.example.demo.model.movement.TravelPeople;
 import com.example.demo.model.movement.Warehouse;
 import com.example.demo.repository.UserRepository;
@@ -244,7 +245,7 @@ public class TravelOperationService {
                 .build());
       }
 
-      toSave.add(
+      var travelMaterialsEntity =
           TravelMaterials.builder()
               .id(requireId(travelMaterials.getId(), "travel_material.id"))
               .travel(travel)
@@ -252,9 +253,27 @@ public class TravelOperationService {
               .quantity(quantity)
               .quantityReceived(quantityReceived)
               .quantityLost(quantityLost)
-              .arrivalDate(isDirectArrival ? Instant.now() : null)
               .comment(travelMaterials.getComment())
-              .build());
+              .build();
+
+      if (isDirectArrival) {
+        if (travelMaterialsEntity.getArrivalLogs() == null) {
+          travelMaterialsEntity.setArrivalLogs(new ArrayList<>());
+        }
+        travelMaterialsEntity
+            .getArrivalLogs()
+            .add(
+                TravelMaterialsArrivalLog.builder()
+                    .id(travelMaterialsEntity.getId() + "_arrival")
+                    .travelMaterials(travelMaterialsEntity)
+                    .quantityReceived(quantityReceived)
+                    .quantityLost(quantityLost)
+                    .arrivalDate(Instant.now())
+                    .arrivalLocation(arrival)
+                    .build());
+      }
+
+      toSave.add(travelMaterialsEntity);
     }
 
     travelMaterialsService.createOrUpdateAll(toSave);

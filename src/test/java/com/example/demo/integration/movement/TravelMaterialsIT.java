@@ -13,7 +13,6 @@ import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
 import com.example.demo.integration.conf.TestDataSqlLoader;
 import com.example.demo.integration.conf.TestUtils;
-import java.time.Instant;
 import java.util.List;
 import javax.sql.DataSource;
 import org.junit.jupiter.api.BeforeEach;
@@ -64,11 +63,25 @@ class TravelMaterialsIT {
     expected.setComment(actual.getComment());
 
     if (actual.getArrivalLogs() != null && !actual.getArrivalLogs().isEmpty()) {
-      for (int i = 0; i < expected.getArrivalLogs().size() && i < actual.getArrivalLogs().size(); i++) {
-        expected.getArrivalLogs().get(i).setCreatedAt(actual.getArrivalLogs().get(i).getCreatedAt());
-        expected.getArrivalLogs().get(i).setUpdatedAt(actual.getArrivalLogs().get(i).getUpdatedAt());
-        expected.getArrivalLogs().get(i).setCreatedBy(actual.getArrivalLogs().get(i).getCreatedBy());
-        expected.getArrivalLogs().get(i).setUpdatedBy(actual.getArrivalLogs().get(i).getUpdatedBy());
+      for (int i = 0;
+          i < expected.getArrivalLogs().size() && i < actual.getArrivalLogs().size();
+          i++) {
+        expected
+            .getArrivalLogs()
+            .get(i)
+            .setCreatedAt(actual.getArrivalLogs().get(i).getCreatedAt());
+        expected
+            .getArrivalLogs()
+            .get(i)
+            .setUpdatedAt(actual.getArrivalLogs().get(i).getUpdatedAt());
+        expected
+            .getArrivalLogs()
+            .get(i)
+            .setCreatedBy(actual.getArrivalLogs().get(i).getCreatedBy());
+        expected
+            .getArrivalLogs()
+            .get(i)
+            .setUpdatedBy(actual.getArrivalLogs().get(i).getUpdatedBy());
       }
     }
 
@@ -89,19 +102,7 @@ class TravelMaterialsIT {
 
     PaginatedResponse resp =
         api.getTravelMaterials(
-            COMPANY1_ID,
-            JOB1_ID,
-            EMPLOYEE_ID,
-            1,
-            100,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null);
+            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, null, null, null, null, null);
     List<TravelMaterials> list = extractData(resp, TravelMaterials.class);
 
     assertEquals(2, list.size());
@@ -125,8 +126,6 @@ class TravelMaterialsIT {
             null,
             null,
             null,
-            null,
-            null,
             null);
     List<TravelMaterials> list = extractData(resp, TravelMaterials.class);
 
@@ -140,19 +139,7 @@ class TravelMaterialsIT {
 
     PaginatedResponse resp =
         api.getTravelMaterials(
-            COMPANY1_ID,
-            JOB1_ID,
-            EMPLOYEE_ID,
-            1,
-            100,
-            null,
-            MATERIAL1_ID,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null);
+            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, MATERIAL1_ID, null, null, null, null);
     List<TravelMaterials> list = extractData(resp, TravelMaterials.class);
 
     assertEquals(1, list.size());
@@ -165,19 +152,7 @@ class TravelMaterialsIT {
 
     PaginatedResponse resp =
         api.getTravelMaterials(
-            COMPANY1_ID,
-            JOB1_ID,
-            EMPLOYEE_ID,
-            1,
-            100,
-            null,
-            null,
-            20,
-            null,
-            null,
-            null,
-            null,
-            null);
+            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, null, 20, null, null, null);
     List<TravelMaterials> list = extractData(resp, TravelMaterials.class);
 
     assertEquals(1, list.size());
@@ -190,7 +165,7 @@ class TravelMaterialsIT {
 
     PaginatedResponse resp =
         api.getTravelMaterials(
-            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, null, 5, null, null, null, null);
+            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, null, null, null, 5, null, null);
     List<TravelMaterials> list = extractData(resp, TravelMaterials.class);
 
     assertEquals(1, list.size());
@@ -201,78 +176,24 @@ class TravelMaterialsIT {
   void admin_can_filter_travel_materials_by_arrival_location() throws Exception {
     TravelMaterialsApi api = new TravelMaterialsApi(anApiClient(ADMIN_TOKEN));
 
+    // Filters by associated travel's arrival_location.
+    // travel_expense2 has arrival_location = warehouse1_id, its material is travel_materials2
     PaginatedResponse resp =
         api.getTravelMaterials(
-            COMPANY1_ID,
-            JOB1_ID,
-            EMPLOYEE_ID,
-            1,
-            100,
-            null,
-            null,
-            null,
-            null,
-            WAREHOUSE1_ID,
-            null,
-            null,
-            null);
+            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, null, null, null, WAREHOUSE1_ID, null);
     List<TravelMaterials> list = extractData(resp, TravelMaterials.class);
 
     assertEquals(1, list.size());
-    assertEquals(TRAVEL_MATERIALS1_ID, list.get(0).getId());
-  }
-
-  @Test
-  void admin_can_filter_travel_materials_by_arrival_date_interval() throws Exception {
-    TravelMaterialsApi api = new TravelMaterialsApi(anApiClient(ADMIN_TOKEN));
-
-    PaginatedResponse resp =
-        api.getTravelMaterials(
-            COMPANY1_ID,
-            JOB1_ID,
-            EMPLOYEE_ID,
-            1,
-            100,
-            null,
-            null,
-            null,
-            null,
-            null,
-            Instant.parse("2024-03-01T00:00:00Z"),
-            Instant.parse("2024-03-01T23:59:59Z"),
-            null);
-    List<TravelMaterials> list = extractData(resp, TravelMaterials.class);
-
-    assertEquals(1, list.size());
-    assertEquals(TRAVEL_MATERIALS1_ID, list.get(0).getId());
+    assertEquals(TRAVEL_MATERIALS2_ID, list.get(0).getId());
   }
 
   @Test
   void admin_can_filter_travel_materials_not_arrived() throws Exception {
     TravelMaterialsApi api = new TravelMaterialsApi(anApiClient(ADMIN_TOKEN));
 
-    // Update a material to have no arrival info
-    CrupdateTravelMaterials toUpdate = travelMaterialsToCrupdateTravelMaterials(travelMaterials2());
-    toUpdate.setArrivalLocation(null);
-    toUpdate.setArrivalDate(null);
-
-    api.crupdateTravelMaterials(ADMIN_ID, COMPANY1_ID, JOB1_ID, List.of(toUpdate));
-
     PaginatedResponse resp =
         api.getTravelMaterials(
-            COMPANY1_ID,
-            JOB1_ID,
-            EMPLOYEE_ID,
-            1,
-            100,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            true);
+            COMPANY1_ID, JOB1_ID, EMPLOYEE_ID, 1, 100, null, null, null, null, null, true);
     List<TravelMaterials> list = extractData(resp, TravelMaterials.class);
 
     assertEquals(2, list.size());
@@ -285,8 +206,6 @@ class TravelMaterialsIT {
 
     CrupdateTravelMaterials toUpdate = travelMaterialsToCrupdateTravelMaterials(travelMaterials1());
     toUpdate.setQuantityReceived(8);
-    toUpdate.setArrivalLocation(TestUtils.WAREHOUSE2_ID);
-    toUpdate.setArrivalDate(java.time.Instant.parse("2024-03-01T18:00:00Z"));
 
     List<TravelMaterials> updated =
         api.crupdateTravelMaterials(EMPLOYEE_ID, COMPANY1_ID, JOB1_ID, List.of(toUpdate));
@@ -295,8 +214,6 @@ class TravelMaterialsIT {
     assertEquals(TRAVEL_MATERIALS1_ID, updated.get(0).getId());
     assertEquals(8, updated.get(0).getQuantityReceived());
     assertEquals(10, updated.get(0).getQuantity());
-    assertEquals(WAREHOUSE2_ID, updated.get(0).getArrivalLocation().getId());
-    assertEquals(Instant.parse("2024-03-01T18:00:00Z"), updated.get(0).getArrivalDate());
   }
 
   @Test

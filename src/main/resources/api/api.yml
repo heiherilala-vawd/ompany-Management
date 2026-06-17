@@ -6554,27 +6554,13 @@ paths:
           example: 100
         - name: arrival_location
           in: query
-          description: "Filter travel materials by arrival warehouse id"
+          description: "Filter travel materials by associated travel's arrival warehouse id"
           schema:
             type: string
           example: "wh_001"
-        - name: arrival_date_min
-          in: query
-          description: "Filter travel materials by minimum arrival date"
-          schema:
-            type: string
-            format: date-time
-          example: "2024-02-20T00:00:00Z"
-        - name: arrival_date_max
-          in: query
-          description: "Filter travel materials by maximum arrival date"
-          schema:
-            type: string
-            format: date-time
-          example: "2024-02-20T23:59:59Z"
         - name: not_arrived
           in: query
-          description: "Filter travel materials that have not arrived yet (no arrival date or location)"
+          description: "Filter travel materials that have not arrived yet (quantity_received + quantity_lost < quantity)"
           schema:
             type: boolean
           example: true
@@ -7048,7 +7034,7 @@ paths:
           example: "ARRIVED"
         - name: arrival_location
           in: query
-          description: "Filter travel equipment by arrival warehouse id"
+          description: "Filter travel equipment by associated travel's arrival warehouse id"
           schema:
             type: string
           example: "wh_001"
@@ -13933,12 +13919,6 @@ components:
         quantity_lost:
           type: integer
           example: 0
-        arrival_date:
-          type: string
-          format: date-time
-          example: "2024-02-20T18:00:00Z"
-        arrival_location:
-          $ref: '#/components/schemas/CrupdateWarehouse'
         arrival_logs:
           type: array
           items:
@@ -13965,6 +13945,8 @@ components:
           type: string
           format: date-time
           example: "2024-02-20T18:00:00Z"
+        arrival_location:
+          $ref: '#/components/schemas/CrupdateWarehouse'
     CrupdateTravelMaterials:
       required:
         - travel_id
@@ -13992,13 +13974,6 @@ components:
         quantity_lost:
           type: integer
           example: 0
-        arrival_date:
-          type: string
-          format: date-time
-          example: "2024-02-20T18:00:00Z"
-        arrival_location:
-          type: string
-          example: "wh_001"
 
     # =========================
     # TRAVEL EQUIPMENT
@@ -14299,6 +14274,15 @@ components:
         status:
           $ref: '#/components/schemas/TransportStatus'
           description: "ARRIVED, LOST or DAMAGED"
+        arrival_location:
+          type: string
+          description: "Warehouse ID. Defaults to travel's arrival location if null"
+          example: "wh_001"
+        arrival_date:
+          type: string
+          format: date-time
+          description: "Defaults to current time if null"
+          example: "2024-02-20T18:00:00Z"
       example:
         id: "travel_eq_010"
         status: "ARRIVED"
@@ -14323,6 +14307,15 @@ components:
           type: integer
           minimum: 0
           example: 20
+        arrival_location:
+          type: string
+          description: "Warehouse ID. Defaults to travel's arrival location if null"
+          example: "wh_001"
+        arrival_date:
+          type: string
+          format: date-time
+          description: "Defaults to current time if null"
+          example: "2024-02-20T18:00:00Z"
       example:
         id: "travel_mat_010"
         log_id: "arrival_log_001"

@@ -107,7 +107,8 @@ class DepartmentMapperTest {
             .comment("Test comment")
             .build();
 
-    when(companyMapper.toRestCrupdateCompany(company)).thenReturn(new CrupdateCompany().id("comp-1"));
+    when(companyMapper.toRestCrupdateCompany(company))
+        .thenReturn(new CrupdateCompany().id("comp-1"));
 
     Department result = mapper.toRestDepartment(domain);
 

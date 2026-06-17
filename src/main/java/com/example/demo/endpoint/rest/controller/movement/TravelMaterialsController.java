@@ -13,8 +13,8 @@ import com.example.demo.service.movement.TravelMaterialsService;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.AllArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -51,8 +51,6 @@ public class TravelMaterialsController {
       @RequestParam(name = "quantity", required = false) Integer quantity,
       @RequestParam(name = "quantity_received", required = false) Integer quantityReceived,
       @RequestParam(name = "arrival_location", required = false) String arrivalLocation,
-      @RequestParam(name = "arrival_date_min", required = false) java.time.Instant arrivalDateMin,
-      @RequestParam(name = "arrival_date_max", required = false) java.time.Instant arrivalDateMax,
       @RequestParam(name = "not_arrived", required = false) Boolean notArrived) {
     TravelMaterialsCriteria criteria = new TravelMaterialsCriteria();
     criteria.setTravelId(travelId);
@@ -60,8 +58,6 @@ public class TravelMaterialsController {
     criteria.setQuantity(quantity);
     criteria.setQuantityReceived(quantityReceived);
     criteria.setArrivalLocation(arrivalLocation);
-    criteria.setArrivalDateMin(arrivalDateMin);
-    criteria.setArrivalDateMax(arrivalDateMax);
     criteria.setNotArrived(notArrived);
 
     var result = travelMaterialsService.findAll(page, pageSize, criteria);

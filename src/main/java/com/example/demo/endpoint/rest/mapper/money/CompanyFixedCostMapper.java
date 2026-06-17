@@ -59,8 +59,7 @@ public class CompanyFixedCostMapper {
     restFixedCost.setName(domainFixedCost.getName());
     restFixedCost.setAmount(domainFixedCost.getAmount());
     restFixedCost.setDescription(domainFixedCost.getDescription());
-    restFixedCost.setCompany(
-        companyMapper.toRestCrupdateCompany(domainFixedCost.getCompany()));
+    restFixedCost.setCompany(companyMapper.toRestCrupdateCompany(domainFixedCost.getCompany()));
     restFixedCost.setStartDate(domainFixedCost.getStartDate());
     restFixedCost.setEndDate(domainFixedCost.getEndDate());
     RestAuditMapperUtils.mapAuditFields(

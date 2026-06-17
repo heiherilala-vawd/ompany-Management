@@ -41,7 +41,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   MaterialBreakdownResponse.JSON_PROPERTY_STOCK_VALUE_BY_WAREHOUSE,
   MaterialBreakdownResponse.JSON_PROPERTY_EXPIRING_MATERIALS
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-17T16:47:13.835321067+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-17T22:52:33.873707389+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class MaterialBreakdownResponse {
   public static final String JSON_PROPERTY_TOP5_STOCK_VALUE = "top5_stock_value";
   private List<Object> top5StockValue = new ArrayList<>();

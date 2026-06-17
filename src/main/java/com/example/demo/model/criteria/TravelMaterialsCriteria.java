@@ -1,6 +1,5 @@
 package com.example.demo.model.criteria;
 
-import java.time.Instant;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,7 +11,5 @@ public class TravelMaterialsCriteria {
   private Integer quantity;
   private Integer quantityReceived;
   private String arrivalLocation;
-  private Instant arrivalDateMin;
-  private Instant arrivalDateMax;
   private Boolean notArrived;
 }

@@ -65,8 +65,7 @@ public class MaterialMapper {
     restMaterial.setUnit(
         EnumMapper.mapEnum(
             domainMaterial.getUnit(), com.example.demo.client.model.MaterialUnit.class));
-    restMaterial.setCompany(
-        companyMapper.toRestCrupdateCompany(domainMaterial.getCompany()));
+    restMaterial.setCompany(companyMapper.toRestCrupdateCompany(domainMaterial.getCompany()));
     restMaterial.setUnitPrice(domainMaterial.getUnitPrice());
     if (domainMaterial.getMaterialWarehouses() != null) {
       restMaterial.setMaterialWarehouses(
