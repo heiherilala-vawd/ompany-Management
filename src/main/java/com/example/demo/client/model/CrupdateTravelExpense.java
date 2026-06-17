@@ -39,7 +39,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   CrupdateTravelExpense.JSON_PROPERTY_DEPARTURE_LOCATION,
   CrupdateTravelExpense.JSON_PROPERTY_ARRIVAL_LOCATION,
   CrupdateTravelExpense.JSON_PROPERTY_DEPARTURE_DATE,
-  CrupdateTravelExpense.JSON_PROPERTY_ARRIVAL_DATE
+  CrupdateTravelExpense.JSON_PROPERTY_ARRIVAL_DATE,
+  CrupdateTravelExpense.JSON_PROPERTY_DIRECT_ARRIVAL
 })
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-17T00:42:02.850500645+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdateTravelExpense {
@@ -60,6 +61,9 @@ public class CrupdateTravelExpense {
 
   public static final String JSON_PROPERTY_ARRIVAL_DATE = "arrival_date";
   private java.time.Instant arrivalDate;
+
+  public static final String JSON_PROPERTY_DIRECT_ARRIVAL = "direct_arrival";
+  private Boolean directArrival;
 
   public CrupdateTravelExpense() { 
   }
@@ -214,6 +218,31 @@ public class CrupdateTravelExpense {
   }
 
 
+  public CrupdateTravelExpense directArrival(Boolean directArrival) {
+    this.directArrival = directArrival;
+    return this;
+  }
+
+   /**
+   * Get directArrival
+   * @return directArrival
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_DIRECT_ARRIVAL)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public Boolean getDirectArrival() {
+    return directArrival;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_DIRECT_ARRIVAL)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setDirectArrival(Boolean directArrival) {
+    this.directArrival = directArrival;
+  }
+
+
   /**
    * Return true if this CrupdateTravelExpense object is equal to o.
    */
@@ -231,12 +260,13 @@ public class CrupdateTravelExpense {
         Objects.equals(this.departureLocation, crupdateTravelExpense.departureLocation) &&
         Objects.equals(this.arrivalLocation, crupdateTravelExpense.arrivalLocation) &&
         Objects.equals(this.departureDate, crupdateTravelExpense.departureDate) &&
-        Objects.equals(this.arrivalDate, crupdateTravelExpense.arrivalDate);
+        Objects.equals(this.arrivalDate, crupdateTravelExpense.arrivalDate) &&
+        Objects.equals(this.directArrival, crupdateTravelExpense.directArrival);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, expense, departureLocation, arrivalLocation, departureDate, arrivalDate);
+    return Objects.hash(id, expense, departureLocation, arrivalLocation, departureDate, arrivalDate, directArrival);
   }
 
   @Override
@@ -249,6 +279,7 @@ public class CrupdateTravelExpense {
     sb.append("    arrivalLocation: ").append(toIndentedString(arrivalLocation)).append("\n");
     sb.append("    departureDate: ").append(toIndentedString(departureDate)).append("\n");
     sb.append("    arrivalDate: ").append(toIndentedString(arrivalDate)).append("\n");
+    sb.append("    directArrival: ").append(toIndentedString(directArrival)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -324,6 +355,11 @@ public class CrupdateTravelExpense {
     // add `arrival_date` to the URL query string
     if (getArrivalDate() != null) {
       joiner.add(String.format("%sarrival_date%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getArrivalDate()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `direct_arrival` to the URL query string
+    if (getDirectArrival() != null) {
+      joiner.add(String.format("%sdirect_arrival%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getDirectArrival()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();
