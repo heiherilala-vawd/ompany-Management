@@ -2,22 +2,30 @@ package com.example.demo.Service.core;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.example.demo.client.model.CrupdateCompany;
 import com.example.demo.client.model.CrupdateDepartment;
 import com.example.demo.client.model.Department;
+import com.example.demo.endpoint.rest.mapper.CompanyMapper;
 import com.example.demo.endpoint.rest.mapper.core.DepartmentMapper;
 import com.example.demo.model.Company;
 import java.time.Instant;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+@ExtendWith(MockitoExtension.class)
 class DepartmentMapperTest {
+
+  @Mock private CompanyMapper companyMapper;
 
   private DepartmentMapper mapper;
 
   @BeforeEach
   void setUp() {
-    mapper = new DepartmentMapper();
+    mapper = new DepartmentMapper(companyMapper);
   }
 
   @Test
@@ -104,7 +112,8 @@ class DepartmentMapperTest {
     assertThat(result.getId()).isEqualTo("dept-1");
     assertThat(result.getName()).isEqualTo("Engineering");
     assertThat(result.getDescription()).isEqualTo("Engineering department");
-    assertThat(result.getCompanyId()).isEqualTo("comp-1");
+    assertThat(result.getCompany()).isNotNull();
+    assertThat(result.getCompany().getId()).isEqualTo("comp-1");
     assertThat(result.getCreatedAt()).isEqualTo(Instant.parse("2024-01-01T00:00:00Z"));
     assertThat(result.getUpdatedAt()).isEqualTo(Instant.parse("2024-06-01T00:00:00Z"));
     assertThat(result.getComment()).isEqualTo("Test comment");
@@ -128,7 +137,7 @@ class DepartmentMapperTest {
     Department result = mapper.toRestDepartment(domain);
 
     assertThat(result).isNotNull();
-    assertThat(result.getCompanyId()).isNull();
+    assertThat(result.getCompany()).isNull();
   }
 
   @Test

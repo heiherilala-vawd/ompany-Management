@@ -72,7 +72,7 @@ class TaskIT {
     Task task = api.getTaskById(ADMIN_ID, COMPANY1_ID, "task1_id");
     assertEquals("task1_id", task.getId());
     assertEquals("Vérifier le matériel", task.getTitle());
-    assertEquals(2, task.getAssignedUserIds().size());
+    assertEquals(2, task.getAssignedUsers().size());
     assertEquals(true, task.getCompleted());
   }
 

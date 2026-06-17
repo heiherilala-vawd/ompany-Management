@@ -2,6 +2,7 @@ package com.example.demo.endpoint.rest.mapper.movement;
 
 import com.example.demo.client.model.CrupdateMaterialConsumption;
 import com.example.demo.client.model.MaterialConsumption;
+import com.example.demo.endpoint.rest.mapper.JobMapper;
 import com.example.demo.endpoint.rest.mapper.RestAuditMapperUtils;
 import com.example.demo.service.JobService;
 import com.example.demo.service.movement.MaterialService;
@@ -17,6 +18,9 @@ public class MaterialConsumptionMapper {
   private final MaterialService materialService;
   private final WarehouseService warehouseService;
   private final JobService jobService;
+  private final MaterialMapper materialMapper;
+  private final WarehouseMapper warehouseMapper;
+  private final JobMapper jobMapper;
 
   public com.example.demo.model.movement.MaterialConsumption toDomain(
       CrupdateMaterialConsumption rest) {
@@ -54,11 +58,11 @@ public class MaterialConsumptionMapper {
 
     MaterialConsumption rest = new MaterialConsumption();
     rest.setId(domain.getId());
-    rest.setMaterialId(domain.getMaterial() != null ? domain.getMaterial().getId() : null);
-    rest.setWarehouseId(domain.getWarehouse() != null ? domain.getWarehouse().getId() : null);
+    rest.setMaterial(materialMapper.toRestCrupdateMaterial(domain.getMaterial()));
+    rest.setWarehouse(warehouseMapper.toRestCrupdateWarehouse(domain.getWarehouse()));
     rest.setQuantity(domain.getQuantity());
     rest.setConsumptionDate(domain.getConsumptionDate());
-    rest.setJobId(domain.getJob() != null ? domain.getJob().getId() : null);
+    rest.setJob(jobMapper.toRestCrupdateJob(domain.getJob()));
     rest.setReason(domain.getReason());
     rest.setConsumptionStatus(
         domain.getConsumptionStatus() != null ? domain.getConsumptionStatus().name() : null);

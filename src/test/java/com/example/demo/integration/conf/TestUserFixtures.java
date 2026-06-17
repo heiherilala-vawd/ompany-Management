@@ -1,5 +1,6 @@
 package com.example.demo.integration.conf;
 
+import com.example.demo.client.model.CrupdateCompany;
 import com.example.demo.client.model.CrupdateUser;
 import com.example.demo.client.model.Role;
 import com.example.demo.client.model.Sex;
@@ -11,6 +12,10 @@ final class TestUserFixtures {
 
   private TestUserFixtures() {}
 
+  private static CrupdateCompany company1() {
+    return TestOrganizationFixtures.companyToCrupdateCompany(TestOrganizationFixtures.company1());
+  }
+
   static User admin1() {
     User user = new User();
     user.setId(TestUtils.ADMIN_ID);
@@ -21,7 +26,7 @@ final class TestUserFixtures {
     user.setEmail(TestUtils.ADMIN_EMAIL);
     user.setCreatedAt(Instant.parse("2024-01-01T00:00:00Z"));
     user.setUpdatedAt(Instant.parse("2024-01-01T00:00:00Z"));
-    user.setCompanyId(TestUtils.COMPANY1_ID);
+    user.setCompany(company1());
     return user;
   }
 
@@ -35,7 +40,7 @@ final class TestUserFixtures {
     user.setEmail(TestUtils.WAREHOUSE_EMAIL);
     user.setCreatedAt(Instant.parse("2024-01-01T00:00:00Z"));
     user.setUpdatedAt(Instant.parse("2024-01-01T00:00:00Z"));
-    user.setCompanyId(TestUtils.COMPANY1_ID);
+    user.setCompany(company1());
     return user;
   }
 
@@ -49,7 +54,7 @@ final class TestUserFixtures {
     user.setEmail(TestUtils.EMPLOYEE_EMAIL);
     user.setCreatedAt(Instant.parse("2024-01-01T00:00:00Z"));
     user.setUpdatedAt(Instant.parse("2024-01-01T00:00:00Z"));
-    user.setCompanyId(TestUtils.COMPANY1_ID);
+    user.setCompany(company1());
     return user;
   }
 
@@ -63,7 +68,7 @@ final class TestUserFixtures {
     user.setEmail(TestUtils.ADMINISTRATION_EMAIL);
     user.setCreatedAt(Instant.parse("2024-01-01T00:00:00Z"));
     user.setUpdatedAt(Instant.parse("2024-01-01T00:00:00Z"));
-    user.setCompanyId(TestUtils.COMPANY1_ID);
+    user.setCompany(company1());
     return user;
   }
 
@@ -77,7 +82,7 @@ final class TestUserFixtures {
     user.setEmail(TestUtils.USER1_EMAIL);
     user.setCreatedAt(Instant.parse("2024-01-01T00:00:00Z"));
     user.setUpdatedAt(Instant.parse("2024-01-01T00:00:00Z"));
-    user.setCompanyId(TestUtils.COMPANY1_ID);
+    user.setCompany(company1());
     return user;
   }
 
@@ -91,7 +96,7 @@ final class TestUserFixtures {
     user.setEmail(TestUtils.USER2_EMAIL);
     user.setCreatedAt(Instant.parse("2024-01-01T00:00:00Z"));
     user.setUpdatedAt(Instant.parse("2024-01-01T00:00:00Z"));
-    user.setCompanyId(TestUtils.COMPANY1_ID);
+    user.setCompany(company1());
     return user;
   }
 

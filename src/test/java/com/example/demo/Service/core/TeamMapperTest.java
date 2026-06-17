@@ -266,7 +266,8 @@ class TeamMapperTest {
     assertThat(result.getName()).isEqualTo("Alpha Team");
     assertThat(result.getLeader()).isNotNull();
     assertThat(result.getLeader().getId()).isEqualTo("user-1");
-    assertThat(result.getJobId()).isEqualTo("job-1");
+    assertThat(result.getJob()).isNotNull();
+    assertThat(result.getJob().getId()).isEqualTo("job-1");
     assertThat(result.getMembers()).hasSize(1);
     assertThat(result.getMembers().get(0).getId()).isEqualTo("user-2");
     verify(userMapper).toRestUser(domainLeader);
@@ -288,7 +289,7 @@ class TeamMapperTest {
     com.example.demo.client.model.Team result = teamMapper.toRestTeam(domain);
 
     assertThat(result).isNotNull();
-    assertThat(result.getJobId()).isNull();
+    assertThat(result.getJob()).isNull();
   }
 
   @Test

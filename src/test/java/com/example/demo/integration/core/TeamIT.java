@@ -156,7 +156,7 @@ class TeamIT {
     List<Team> teams = extractData(resp, Team.class);
     assertEquals(1, teams.size());
     assertEquals(TEAM1_ID, teams.get(0).getId());
-    assertEquals(JOB1_ID, teams.get(0).getJobId());
+    assertEquals(JOB1_ID, teams.get(0).getJob() != null ? teams.get(0).getJob().getId() : null);
   }
 
   @Test
@@ -180,7 +180,7 @@ class TeamIT {
 
     assertEquals(1, created.size());
     assertEquals(toCreate.getName(), created.get(0).getName());
-    assertEquals(JOB1_ID, created.get(0).getJobId());
+    assertEquals(JOB1_ID, created.get(0).getJob() != null ? created.get(0).getJob().getId() : null);
   }
 
   @Test

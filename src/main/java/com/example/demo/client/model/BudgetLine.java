@@ -20,6 +20,7 @@ import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
 import com.example.demo.client.model.AuditUser;
+import com.example.demo.client.model.CrupdateCompany;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -36,7 +37,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  */
 @JsonPropertyOrder({
   BudgetLine.JSON_PROPERTY_ID,
-  BudgetLine.JSON_PROPERTY_COMPANY_ID,
+  BudgetLine.JSON_PROPERTY_COMPANY,
   BudgetLine.JSON_PROPERTY_CATEGORY,
   BudgetLine.JSON_PROPERTY_PLANNED_AMOUNT,
   BudgetLine.JSON_PROPERTY_ACTUAL_AMOUNT,
@@ -49,13 +50,13 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   BudgetLine.JSON_PROPERTY_UPDATED_BY,
   BudgetLine.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-16T16:39:05.632791630+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-17T00:42:02.850500645+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class BudgetLine {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
 
-  public static final String JSON_PROPERTY_COMPANY_ID = "company_id";
-  private String companyId;
+  public static final String JSON_PROPERTY_COMPANY = "company";
+  private CrupdateCompany company;
 
   public static final String JSON_PROPERTY_CATEGORY = "category";
   private String category;
@@ -118,28 +119,28 @@ public class BudgetLine {
   }
 
 
-  public BudgetLine companyId(String companyId) {
-    this.companyId = companyId;
+  public BudgetLine company(CrupdateCompany company) {
+    this.company = company;
     return this;
   }
 
    /**
-   * Get companyId
-   * @return companyId
+   * Get company
+   * @return company
   **/
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_COMPANY_ID)
+  @JsonProperty(JSON_PROPERTY_COMPANY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getCompanyId() {
-    return companyId;
+  public CrupdateCompany getCompany() {
+    return company;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_COMPANY_ID)
+  @JsonProperty(JSON_PROPERTY_COMPANY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setCompanyId(String companyId) {
-    this.companyId = companyId;
+  public void setCompany(CrupdateCompany company) {
+    this.company = company;
   }
 
 
@@ -431,7 +432,7 @@ public class BudgetLine {
     }
     BudgetLine budgetLine = (BudgetLine) o;
     return Objects.equals(this.id, budgetLine.id) &&
-        Objects.equals(this.companyId, budgetLine.companyId) &&
+        Objects.equals(this.company, budgetLine.company) &&
         Objects.equals(this.category, budgetLine.category) &&
         Objects.equals(this.plannedAmount, budgetLine.plannedAmount) &&
         Objects.equals(this.actualAmount, budgetLine.actualAmount) &&
@@ -447,7 +448,7 @@ public class BudgetLine {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, companyId, category, plannedAmount, actualAmount, periodStart, periodEnd, description, createdAt, updatedAt, createdBy, updatedBy, comment);
+    return Objects.hash(id, company, category, plannedAmount, actualAmount, periodStart, periodEnd, description, createdAt, updatedAt, createdBy, updatedBy, comment);
   }
 
   @Override
@@ -455,7 +456,7 @@ public class BudgetLine {
     StringBuilder sb = new StringBuilder();
     sb.append("class BudgetLine {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    companyId: ").append(toIndentedString(companyId)).append("\n");
+    sb.append("    company: ").append(toIndentedString(company)).append("\n");
     sb.append("    category: ").append(toIndentedString(category)).append("\n");
     sb.append("    plannedAmount: ").append(toIndentedString(plannedAmount)).append("\n");
     sb.append("    actualAmount: ").append(toIndentedString(actualAmount)).append("\n");

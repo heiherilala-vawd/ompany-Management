@@ -20,6 +20,9 @@ import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
 import com.example.demo.client.model.AuditUser;
+import com.example.demo.client.model.CrupdateCompany;
+import com.example.demo.client.model.CrupdateDepartment;
+import com.example.demo.client.model.CrupdateUser;
 import com.example.demo.client.model.Role;
 import com.example.demo.client.model.Sex;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -42,17 +45,17 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   User.JSON_PROPERTY_LAST_NAME,
   User.JSON_PROPERTY_SEX,
   User.JSON_PROPERTY_EMAIL,
-  User.JSON_PROPERTY_COMPANY_ID,
+  User.JSON_PROPERTY_COMPANY,
   User.JSON_PROPERTY_BIRTH_DATE,
-  User.JSON_PROPERTY_MANAGER_ID,
-  User.JSON_PROPERTY_DEPARTMENT_ID,
+  User.JSON_PROPERTY_MANAGER,
+  User.JSON_PROPERTY_DEPARTMENT,
   User.JSON_PROPERTY_CREATED_AT,
   User.JSON_PROPERTY_UPDATED_AT,
   User.JSON_PROPERTY_CREATED_BY,
   User.JSON_PROPERTY_UPDATED_BY,
   User.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-16T16:39:05.632791630+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-17T00:42:02.850500645+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class User {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -72,17 +75,17 @@ public class User {
   public static final String JSON_PROPERTY_EMAIL = "email";
   private String email;
 
-  public static final String JSON_PROPERTY_COMPANY_ID = "company_id";
-  private String companyId;
+  public static final String JSON_PROPERTY_COMPANY = "company";
+  private CrupdateCompany company;
 
   public static final String JSON_PROPERTY_BIRTH_DATE = "birth_date";
   private java.time.LocalDate birthDate;
 
-  public static final String JSON_PROPERTY_MANAGER_ID = "manager_id";
-  private String managerId;
+  public static final String JSON_PROPERTY_MANAGER = "manager";
+  private CrupdateUser manager;
 
-  public static final String JSON_PROPERTY_DEPARTMENT_ID = "department_id";
-  private String departmentId;
+  public static final String JSON_PROPERTY_DEPARTMENT = "department";
+  private CrupdateDepartment department;
 
   public static final String JSON_PROPERTY_CREATED_AT = "created_at";
   private java.time.Instant createdAt;
@@ -252,28 +255,28 @@ public class User {
   }
 
 
-  public User companyId(String companyId) {
-    this.companyId = companyId;
+  public User company(CrupdateCompany company) {
+    this.company = company;
     return this;
   }
 
    /**
-   * Get companyId
-   * @return companyId
+   * Get company
+   * @return company
   **/
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_COMPANY_ID)
+  @JsonProperty(JSON_PROPERTY_COMPANY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getCompanyId() {
-    return companyId;
+  public CrupdateCompany getCompany() {
+    return company;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_COMPANY_ID)
+  @JsonProperty(JSON_PROPERTY_COMPANY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setCompanyId(String companyId) {
-    this.companyId = companyId;
+  public void setCompany(CrupdateCompany company) {
+    this.company = company;
   }
 
 
@@ -302,53 +305,53 @@ public class User {
   }
 
 
-  public User managerId(String managerId) {
-    this.managerId = managerId;
+  public User manager(CrupdateUser manager) {
+    this.manager = manager;
     return this;
   }
 
    /**
-   * Get managerId
-   * @return managerId
+   * Get manager
+   * @return manager
   **/
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_MANAGER_ID)
+  @JsonProperty(JSON_PROPERTY_MANAGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getManagerId() {
-    return managerId;
+  public CrupdateUser getManager() {
+    return manager;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_MANAGER_ID)
+  @JsonProperty(JSON_PROPERTY_MANAGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setManagerId(String managerId) {
-    this.managerId = managerId;
+  public void setManager(CrupdateUser manager) {
+    this.manager = manager;
   }
 
 
-  public User departmentId(String departmentId) {
-    this.departmentId = departmentId;
+  public User department(CrupdateDepartment department) {
+    this.department = department;
     return this;
   }
 
    /**
-   * Get departmentId
-   * @return departmentId
+   * Get department
+   * @return department
   **/
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_DEPARTMENT_ID)
+  @JsonProperty(JSON_PROPERTY_DEPARTMENT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getDepartmentId() {
-    return departmentId;
+  public CrupdateDepartment getDepartment() {
+    return department;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_DEPARTMENT_ID)
+  @JsonProperty(JSON_PROPERTY_DEPARTMENT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setDepartmentId(String departmentId) {
-    this.departmentId = departmentId;
+  public void setDepartment(CrupdateDepartment department) {
+    this.department = department;
   }
 
 
@@ -495,10 +498,10 @@ public class User {
         Objects.equals(this.lastName, user.lastName) &&
         Objects.equals(this.sex, user.sex) &&
         Objects.equals(this.email, user.email) &&
-        Objects.equals(this.companyId, user.companyId) &&
+        Objects.equals(this.company, user.company) &&
         Objects.equals(this.birthDate, user.birthDate) &&
-        Objects.equals(this.managerId, user.managerId) &&
-        Objects.equals(this.departmentId, user.departmentId) &&
+        Objects.equals(this.manager, user.manager) &&
+        Objects.equals(this.department, user.department) &&
         Objects.equals(this.createdAt, user.createdAt) &&
         Objects.equals(this.updatedAt, user.updatedAt) &&
         Objects.equals(this.createdBy, user.createdBy) &&
@@ -508,7 +511,7 @@ public class User {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, role, firstName, lastName, sex, email, companyId, birthDate, managerId, departmentId, createdAt, updatedAt, createdBy, updatedBy, comment);
+    return Objects.hash(id, role, firstName, lastName, sex, email, company, birthDate, manager, department, createdAt, updatedAt, createdBy, updatedBy, comment);
   }
 
   @Override
@@ -521,10 +524,10 @@ public class User {
     sb.append("    lastName: ").append(toIndentedString(lastName)).append("\n");
     sb.append("    sex: ").append(toIndentedString(sex)).append("\n");
     sb.append("    email: ").append(toIndentedString(email)).append("\n");
-    sb.append("    companyId: ").append(toIndentedString(companyId)).append("\n");
+    sb.append("    company: ").append(toIndentedString(company)).append("\n");
     sb.append("    birthDate: ").append(toIndentedString(birthDate)).append("\n");
-    sb.append("    managerId: ").append(toIndentedString(managerId)).append("\n");
-    sb.append("    departmentId: ").append(toIndentedString(departmentId)).append("\n");
+    sb.append("    manager: ").append(toIndentedString(manager)).append("\n");
+    sb.append("    department: ").append(toIndentedString(department)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
     sb.append("    updatedAt: ").append(toIndentedString(updatedAt)).append("\n");
     sb.append("    createdBy: ").append(toIndentedString(createdBy)).append("\n");

@@ -4,6 +4,7 @@ import com.example.demo.client.model.CrupdateMaterial;
 import com.example.demo.client.model.Material;
 import com.example.demo.client.model.MaterialWarehouseInfo;
 import com.example.demo.client.model.MaterialWarehouseView;
+import com.example.demo.endpoint.rest.mapper.CompanyMapper;
 import com.example.demo.endpoint.rest.mapper.EnumMapper;
 import com.example.demo.endpoint.rest.mapper.RestAuditMapperUtils;
 import com.example.demo.model.Company;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Component;
 public class MaterialMapper {
 
   private final WarehouseMapper warehouseMapper;
+  private final CompanyMapper companyMapper;
 
   public com.example.demo.model.movement.Material toDomain(Material restMaterial) {
     if (restMaterial == null) return null;
@@ -63,8 +65,8 @@ public class MaterialMapper {
     restMaterial.setUnit(
         EnumMapper.mapEnum(
             domainMaterial.getUnit(), com.example.demo.client.model.MaterialUnit.class));
-    restMaterial.setCompanyId(
-        domainMaterial.getCompany() != null ? domainMaterial.getCompany().getId() : null);
+    restMaterial.setCompany(
+        companyMapper.toRestCrupdateCompany(domainMaterial.getCompany()));
     restMaterial.setUnitPrice(domainMaterial.getUnitPrice());
     if (domainMaterial.getMaterialWarehouses() != null) {
       restMaterial.setMaterialWarehouses(

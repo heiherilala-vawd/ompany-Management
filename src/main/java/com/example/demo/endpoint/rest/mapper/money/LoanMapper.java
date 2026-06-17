@@ -19,6 +19,7 @@ public class LoanMapper {
   private final JobService jobService;
   private final JobMapper jobMapper;
   private final OrganizationService organizationService;
+  private final OrganizationMapper organizationMapper;
 
   public com.example.demo.model.money.Loan toDomain(Loan restLoan) {
     if (restLoan == null) return null;
@@ -26,8 +27,8 @@ public class LoanMapper {
     return com.example.demo.model.money.Loan.builder()
         .id(restLoan.getId())
         .organization(
-            restLoan.getOrganizationId() != null
-                ? organizationService.findById(restLoan.getOrganizationId())
+            restLoan.getOrganization() != null
+                ? organizationService.findById(restLoan.getOrganization().getId())
                 : null)
         .interestRate(restLoan.getInterestRate())
         .startDate(restLoan.getStartDate())
@@ -85,8 +86,7 @@ public class LoanMapper {
 
     Loan restLoan = new Loan();
     restLoan.setId(domainLoan.getId());
-    restLoan.setOrganizationId(
-        domainLoan.getOrganization() != null ? domainLoan.getOrganization().getId() : null);
+    restLoan.setOrganization(organizationMapper.toCrupdate(domainLoan.getOrganization()));
     restLoan.setInterestRate(domainLoan.getInterestRate());
     restLoan.setStartDate(domainLoan.getStartDate());
     restLoan.setDueDate(domainLoan.getDueDate());

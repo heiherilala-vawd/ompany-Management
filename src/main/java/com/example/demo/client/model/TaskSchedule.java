@@ -20,6 +20,8 @@ import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
 import com.example.demo.client.model.AuditUser;
+import com.example.demo.client.model.CrupdateCompany;
+import com.example.demo.client.model.CrupdateUser;
 import com.example.demo.client.model.ScheduleStatus;
 import com.example.demo.client.model.TaskPriority;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -45,15 +47,15 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   TaskSchedule.JSON_PROPERTY_FREQUENCY,
   TaskSchedule.JSON_PROPERTY_SCHEDULED_DATE,
   TaskSchedule.JSON_PROPERTY_STATUS,
-  TaskSchedule.JSON_PROPERTY_COMPANY_ID,
-  TaskSchedule.JSON_PROPERTY_ASSIGNED_USER_IDS,
+  TaskSchedule.JSON_PROPERTY_COMPANY,
+  TaskSchedule.JSON_PROPERTY_ASSIGNED_USERS,
   TaskSchedule.JSON_PROPERTY_CREATED_AT,
   TaskSchedule.JSON_PROPERTY_UPDATED_AT,
   TaskSchedule.JSON_PROPERTY_CREATED_BY,
   TaskSchedule.JSON_PROPERTY_UPDATED_BY,
   TaskSchedule.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-16T16:39:05.632791630+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-17T00:42:02.850500645+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class TaskSchedule {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -76,11 +78,11 @@ public class TaskSchedule {
   public static final String JSON_PROPERTY_STATUS = "status";
   private ScheduleStatus status;
 
-  public static final String JSON_PROPERTY_COMPANY_ID = "company_id";
-  private String companyId;
+  public static final String JSON_PROPERTY_COMPANY = "company";
+  private CrupdateCompany company;
 
-  public static final String JSON_PROPERTY_ASSIGNED_USER_IDS = "assigned_user_ids";
-  private List<String> assignedUserIds = new ArrayList<>();
+  public static final String JSON_PROPERTY_ASSIGNED_USERS = "assigned_users";
+  private List<CrupdateUser> assignedUsers = new ArrayList<>();
 
   public static final String JSON_PROPERTY_CREATED_AT = "created_at";
   private java.time.Instant createdAt;
@@ -275,61 +277,61 @@ public class TaskSchedule {
   }
 
 
-  public TaskSchedule companyId(String companyId) {
-    this.companyId = companyId;
+  public TaskSchedule company(CrupdateCompany company) {
+    this.company = company;
     return this;
   }
 
    /**
-   * Get companyId
-   * @return companyId
+   * Get company
+   * @return company
   **/
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_COMPANY_ID)
+  @JsonProperty(JSON_PROPERTY_COMPANY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getCompanyId() {
-    return companyId;
+  public CrupdateCompany getCompany() {
+    return company;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_COMPANY_ID)
+  @JsonProperty(JSON_PROPERTY_COMPANY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setCompanyId(String companyId) {
-    this.companyId = companyId;
+  public void setCompany(CrupdateCompany company) {
+    this.company = company;
   }
 
 
-  public TaskSchedule assignedUserIds(List<String> assignedUserIds) {
-    this.assignedUserIds = assignedUserIds;
+  public TaskSchedule assignedUsers(List<CrupdateUser> assignedUsers) {
+    this.assignedUsers = assignedUsers;
     return this;
   }
 
-  public TaskSchedule addAssignedUserIdsItem(String assignedUserIdsItem) {
-    if (this.assignedUserIds == null) {
-      this.assignedUserIds = new ArrayList<>();
+  public TaskSchedule addAssignedUsersItem(CrupdateUser assignedUsersItem) {
+    if (this.assignedUsers == null) {
+      this.assignedUsers = new ArrayList<>();
     }
-    this.assignedUserIds.add(assignedUserIdsItem);
+    this.assignedUsers.add(assignedUsersItem);
     return this;
   }
 
    /**
-   * Get assignedUserIds
-   * @return assignedUserIds
+   * Get assignedUsers
+   * @return assignedUsers
   **/
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ASSIGNED_USER_IDS)
+  @JsonProperty(JSON_PROPERTY_ASSIGNED_USERS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public List<String> getAssignedUserIds() {
-    return assignedUserIds;
+  public List<CrupdateUser> getAssignedUsers() {
+    return assignedUsers;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_ASSIGNED_USER_IDS)
+  @JsonProperty(JSON_PROPERTY_ASSIGNED_USERS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setAssignedUserIds(List<String> assignedUserIds) {
-    this.assignedUserIds = assignedUserIds;
+  public void setAssignedUsers(List<CrupdateUser> assignedUsers) {
+    this.assignedUsers = assignedUsers;
   }
 
 
@@ -477,8 +479,8 @@ public class TaskSchedule {
         Objects.equals(this.frequency, taskSchedule.frequency) &&
         Objects.equals(this.scheduledDate, taskSchedule.scheduledDate) &&
         Objects.equals(this.status, taskSchedule.status) &&
-        Objects.equals(this.companyId, taskSchedule.companyId) &&
-        Objects.equals(this.assignedUserIds, taskSchedule.assignedUserIds) &&
+        Objects.equals(this.company, taskSchedule.company) &&
+        Objects.equals(this.assignedUsers, taskSchedule.assignedUsers) &&
         Objects.equals(this.createdAt, taskSchedule.createdAt) &&
         Objects.equals(this.updatedAt, taskSchedule.updatedAt) &&
         Objects.equals(this.createdBy, taskSchedule.createdBy) &&
@@ -488,7 +490,7 @@ public class TaskSchedule {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, title, description, priority, frequency, scheduledDate, status, companyId, assignedUserIds, createdAt, updatedAt, createdBy, updatedBy, comment);
+    return Objects.hash(id, title, description, priority, frequency, scheduledDate, status, company, assignedUsers, createdAt, updatedAt, createdBy, updatedBy, comment);
   }
 
   @Override
@@ -502,8 +504,8 @@ public class TaskSchedule {
     sb.append("    frequency: ").append(toIndentedString(frequency)).append("\n");
     sb.append("    scheduledDate: ").append(toIndentedString(scheduledDate)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
-    sb.append("    companyId: ").append(toIndentedString(companyId)).append("\n");
-    sb.append("    assignedUserIds: ").append(toIndentedString(assignedUserIds)).append("\n");
+    sb.append("    company: ").append(toIndentedString(company)).append("\n");
+    sb.append("    assignedUsers: ").append(toIndentedString(assignedUsers)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
     sb.append("    updatedAt: ").append(toIndentedString(updatedAt)).append("\n");
     sb.append("    createdBy: ").append(toIndentedString(createdBy)).append("\n");

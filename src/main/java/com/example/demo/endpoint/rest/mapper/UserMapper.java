@@ -4,6 +4,7 @@ import com.example.demo.client.model.CrupdateUser;
 import com.example.demo.client.model.Role;
 import com.example.demo.client.model.Sex;
 import com.example.demo.client.model.User;
+import com.example.demo.endpoint.rest.mapper.core.DepartmentMapper;
 import com.example.demo.model.Company;
 import com.example.demo.model.core.Department;
 import java.util.List;
@@ -14,6 +15,9 @@ import org.springframework.stereotype.Component;
 @Component
 @AllArgsConstructor
 public class UserMapper {
+
+  private final CompanyMapper companyMapper;
+  private final DepartmentMapper departmentMapper;
 
   public com.example.demo.model.User toDomain(User restUser) {
     return com.example.demo.model.User.builder()
@@ -64,14 +68,14 @@ public class UserMapper {
     restUser.setFirstName(domainUser.getFirstName());
     restUser.setSex(EnumMapper.mapEnum(domainUser.getSex(), Sex.class));
     restUser.setEmail(domainUser.getEmail());
-    restUser.setCompanyId(
-        domainUser.getCompanies() != null && !domainUser.getCompanies().isEmpty()
-            ? domainUser.getCompanies().iterator().next().getId()
-            : null);
+    if (domainUser.getCompanies() != null && !domainUser.getCompanies().isEmpty()) {
+      restUser.setCompany(companyMapper.toRestCrupdateCompany(domainUser.getCompanies().iterator().next()));
+    }
     restUser.setBirthDate(domainUser.getBirthDate());
-    restUser.setManagerId(domainUser.getManager() != null ? domainUser.getManager().getId() : null);
-    restUser.setDepartmentId(
-        domainUser.getDepartment() != null ? domainUser.getDepartment().getId() : null);
+    if (domainUser.getManager() != null) {
+      restUser.setManager(new CrupdateUser().id(domainUser.getManager().getId()));
+    }
+    restUser.setDepartment(departmentMapper.toRestCrupdateDepartment(domainUser.getDepartment()));
     RestAuditMapperUtils.mapAuditFields(
         domainUser,
         restUser::setCreatedAt,

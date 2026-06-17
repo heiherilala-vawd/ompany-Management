@@ -141,7 +141,7 @@ class MaterialConsumptionIT {
     List<MaterialConsumption> result = extractData(resp, MaterialConsumption.class);
 
     assertEquals(2, result.size());
-    assertTrue(result.stream().allMatch(mc -> JOB1_ID.equals(mc.getJobId())));
+    assertTrue(result.stream().allMatch(mc -> mc.getJob() != null && JOB1_ID.equals(mc.getJob().getId())));
   }
 
   @Test

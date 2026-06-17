@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 public class CashTransactionMapper {
 
   private final CashAccountService cashAccountService;
+  private final CashAccountMapper cashAccountMapper;
 
   public com.example.demo.model.money.CashTransaction toDomain(CrupdateCashTransaction rest) {
     if (rest == null) return null;
@@ -41,7 +42,7 @@ public class CashTransactionMapper {
 
     CashTransaction rest = new CashTransaction();
     rest.setId(domain.getId());
-    rest.setCashAccountId(domain.getCashAccount() != null ? domain.getCashAccount().getId() : null);
+    rest.setCashAccount(cashAccountMapper.toRestCrupdateCashAccount(domain.getCashAccount()));
     rest.setAmount(domain.getAmount());
     rest.setTransactionDate(domain.getTransactionDate());
     rest.setDescription(domain.getDescription());

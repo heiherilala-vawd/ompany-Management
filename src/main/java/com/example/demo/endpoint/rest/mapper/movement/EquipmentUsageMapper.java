@@ -4,6 +4,7 @@ import com.example.demo.client.model.CrupdateEquipmentUsage;
 import com.example.demo.client.model.EquipmentUsage;
 import com.example.demo.client.model.UsageStatus;
 import com.example.demo.endpoint.rest.mapper.EnumMapper;
+import com.example.demo.endpoint.rest.mapper.JobMapper;
 import com.example.demo.endpoint.rest.mapper.RestAuditMapperUtils;
 import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.service.JobService;
@@ -22,6 +23,8 @@ public class EquipmentUsageMapper {
   private final JobService jobService;
   private final WarehouseService warehouseService;
   private final UserService userService;
+  private final EquipmentMapper equipmentMapper;
+  private final JobMapper jobMapper;
 
   public com.example.demo.model.movement.EquipmentUsage toDomain(CrupdateEquipmentUsage rest) {
     if (rest == null) return null;
@@ -57,8 +60,8 @@ public class EquipmentUsageMapper {
 
     EquipmentUsage rest = new EquipmentUsage();
     rest.setId(domain.getId());
-    rest.setEquipmentId(domain.getEquipment() != null ? domain.getEquipment().getId() : null);
-    rest.setJobId(domain.getJob() != null ? domain.getJob().getId() : null);
+    rest.setEquipment(equipmentMapper.toRestCrupdateEquipment(domain.getEquipment()));
+    rest.setJob(jobMapper.toRestCrupdateJob(domain.getJob()));
     rest.setStartTime(domain.getStartTime());
     rest.setEndTime(domain.getEndTime());
     rest.setSourceLocation(

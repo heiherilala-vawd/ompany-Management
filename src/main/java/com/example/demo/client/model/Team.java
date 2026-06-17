@@ -20,6 +20,7 @@ import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
 import com.example.demo.client.model.AuditUser;
+import com.example.demo.client.model.CrupdateJob;
 import com.example.demo.client.model.User;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -39,7 +40,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   Team.JSON_PROPERTY_ID,
   Team.JSON_PROPERTY_NAME,
   Team.JSON_PROPERTY_LEADER,
-  Team.JSON_PROPERTY_JOB_ID,
+  Team.JSON_PROPERTY_JOB,
   Team.JSON_PROPERTY_MEMBERS,
   Team.JSON_PROPERTY_CREATED_AT,
   Team.JSON_PROPERTY_UPDATED_AT,
@@ -47,7 +48,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   Team.JSON_PROPERTY_UPDATED_BY,
   Team.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-16T16:39:05.632791630+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-17T00:42:02.850500645+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class Team {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -58,8 +59,8 @@ public class Team {
   public static final String JSON_PROPERTY_LEADER = "leader";
   private User leader;
 
-  public static final String JSON_PROPERTY_JOB_ID = "job_id";
-  private String jobId;
+  public static final String JSON_PROPERTY_JOB = "job";
+  private CrupdateJob job;
 
   public static final String JSON_PROPERTY_MEMBERS = "members";
   private List<User> members = new ArrayList<>();
@@ -157,28 +158,28 @@ public class Team {
   }
 
 
-  public Team jobId(String jobId) {
-    this.jobId = jobId;
+  public Team job(CrupdateJob job) {
+    this.job = job;
     return this;
   }
 
    /**
-   * Get jobId
-   * @return jobId
+   * Get job
+   * @return job
   **/
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_JOB_ID)
+  @JsonProperty(JSON_PROPERTY_JOB)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getJobId() {
-    return jobId;
+  public CrupdateJob getJob() {
+    return job;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_JOB_ID)
+  @JsonProperty(JSON_PROPERTY_JOB)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setJobId(String jobId) {
-    this.jobId = jobId;
+  public void setJob(CrupdateJob job) {
+    this.job = job;
   }
 
 
@@ -355,7 +356,7 @@ public class Team {
     return Objects.equals(this.id, team.id) &&
         Objects.equals(this.name, team.name) &&
         Objects.equals(this.leader, team.leader) &&
-        Objects.equals(this.jobId, team.jobId) &&
+        Objects.equals(this.job, team.job) &&
         Objects.equals(this.members, team.members) &&
         Objects.equals(this.createdAt, team.createdAt) &&
         Objects.equals(this.updatedAt, team.updatedAt) &&
@@ -366,7 +367,7 @@ public class Team {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, leader, jobId, members, createdAt, updatedAt, createdBy, updatedBy, comment);
+    return Objects.hash(id, name, leader, job, members, createdAt, updatedAt, createdBy, updatedBy, comment);
   }
 
   @Override
@@ -376,7 +377,7 @@ public class Team {
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    leader: ").append(toIndentedString(leader)).append("\n");
-    sb.append("    jobId: ").append(toIndentedString(jobId)).append("\n");
+    sb.append("    job: ").append(toIndentedString(job)).append("\n");
     sb.append("    members: ").append(toIndentedString(members)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
     sb.append("    updatedAt: ").append(toIndentedString(updatedAt)).append("\n");

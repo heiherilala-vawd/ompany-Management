@@ -2,6 +2,7 @@ package com.example.demo.endpoint.rest.mapper.money;
 
 import com.example.demo.client.model.CrupdateOtherExpenseType;
 import com.example.demo.client.model.OtherExpenseType;
+import com.example.demo.endpoint.rest.mapper.CompanyMapper;
 import com.example.demo.endpoint.rest.mapper.RestAuditMapperUtils;
 import com.example.demo.service.CompanyService;
 import java.util.List;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Component;
 public class OtherExpenseTypeMapper {
 
   private final CompanyService companyService;
+  private final CompanyMapper companyMapper;
 
   public com.example.demo.model.money.OtherExpenseType toDomain(
       OtherExpenseType restOtherExpenseType) {
@@ -23,8 +25,8 @@ public class OtherExpenseTypeMapper {
         .name(restOtherExpenseType.getName())
         .description(restOtherExpenseType.getDescription())
         .company(
-            restOtherExpenseType.getCompanyId() != null
-                ? companyService.findById(restOtherExpenseType.getCompanyId()).orElse(null)
+            restOtherExpenseType.getCompany() != null
+                ? companyService.findById(restOtherExpenseType.getCompany().getId()).orElse(null)
                 : null)
         .comment(restOtherExpenseType.getComment())
         .build();
@@ -51,10 +53,8 @@ public class OtherExpenseTypeMapper {
     restOtherExpenseType.setId(domainOtherExpenseType.getId());
     restOtherExpenseType.setName(domainOtherExpenseType.getName());
     restOtherExpenseType.setDescription(domainOtherExpenseType.getDescription());
-    restOtherExpenseType.setCompanyId(
-        domainOtherExpenseType.getCompany() != null
-            ? domainOtherExpenseType.getCompany().getId()
-            : null);
+    restOtherExpenseType.setCompany(
+        companyMapper.toRestCrupdateCompany(domainOtherExpenseType.getCompany()));
     RestAuditMapperUtils.mapAuditFields(
         domainOtherExpenseType,
         restOtherExpenseType::setCreatedAt,

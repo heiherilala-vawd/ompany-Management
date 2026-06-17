@@ -14,6 +14,7 @@ public class MaintenanceMapper {
 
   private final ExpenseMoneyService expenseMoneyService;
   private final ExpenseMoneyMapper expenseMoneyMapper;
+  private final EquipmentMapper equipmentMapper;
 
   public com.example.demo.model.movement.Maintenance toDomain(Maintenance restMaintenance) {
     if (restMaintenance == null) return null;
@@ -49,8 +50,8 @@ public class MaintenanceMapper {
     restMaintenance.setId(domainMaintenance.getId());
     restMaintenance.setExpense(
         expenseMoneyMapper.toRestCrupdateExpense(domainMaintenance.getExpense()));
-    restMaintenance.setEquipmentId(
-        domainMaintenance.getEquipment() != null ? domainMaintenance.getEquipment().getId() : null);
+    restMaintenance.setEquipment(
+        equipmentMapper.toRestCrupdateEquipment(domainMaintenance.getEquipment()));
     restMaintenance.setDescription(domainMaintenance.getDescription());
 
     return restMaintenance;

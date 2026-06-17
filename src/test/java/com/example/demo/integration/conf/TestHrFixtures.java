@@ -1,5 +1,6 @@
 package com.example.demo.integration.conf;
 
+import com.example.demo.client.model.CrupdateCompany;
 import com.example.demo.client.model.CrupdateEmployeeLeaveConfig;
 import com.example.demo.client.model.CrupdateLeave;
 import com.example.demo.client.model.CrupdateLeaveType;
@@ -25,7 +26,7 @@ final class TestHrFixtures {
     leaveType.setDeductFromBalance(true);
     leaveType.setColor("#4CAF50");
     leaveType.setDaysPerYear(30);
-    leaveType.setCompanyId(TestUtils.COMPANY1_ID);
+    leaveType.setCompany(new CrupdateCompany().id(TestUtils.COMPANY1_ID));
     return leaveType;
   }
 
@@ -37,7 +38,7 @@ final class TestHrFixtures {
     leaveType.setPaid(true);
     leaveType.setDeductFromBalance(false);
     leaveType.setColor("#F44336");
-    leaveType.setCompanyId(TestUtils.COMPANY1_ID);
+    leaveType.setCompany(new CrupdateCompany().id(TestUtils.COMPANY1_ID));
     return leaveType;
   }
 
@@ -50,7 +51,7 @@ final class TestHrFixtures {
     crupdate.setDeductFromBalance(leaveType.getDeductFromBalance());
     crupdate.setColor(leaveType.getColor());
     crupdate.setDaysPerYear(leaveType.getDaysPerYear());
-    crupdate.setCompanyId(leaveType.getCompanyId());
+    crupdate.setCompanyId(leaveType.getCompany() != null ? leaveType.getCompany().getId() : null);
     crupdate.setComment(leaveType.getComment());
     return crupdate;
   }

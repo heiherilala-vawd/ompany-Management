@@ -2,6 +2,7 @@ package com.example.demo.endpoint.rest.mapper.hr;
 
 import com.example.demo.client.model.CrupdateLeaveType;
 import com.example.demo.client.model.LeaveType;
+import com.example.demo.endpoint.rest.mapper.CompanyMapper;
 import com.example.demo.endpoint.rest.mapper.RestAuditMapperUtils;
 import com.example.demo.model.Company;
 import lombok.AllArgsConstructor;
@@ -10,6 +11,8 @@ import org.springframework.stereotype.Component;
 @Component
 @AllArgsConstructor
 public class LeaveTypeMapper {
+
+  private final CompanyMapper companyMapper;
 
   public com.example.demo.model.hr.LeaveType toDomain(LeaveType rest) {
     if (rest == null) return null;
@@ -23,7 +26,7 @@ public class LeaveTypeMapper {
         .color(rest.getColor())
         .daysPerYear(rest.getDaysPerYear())
         .company(
-            rest.getCompanyId() != null ? Company.builder().id(rest.getCompanyId()).build() : null)
+            rest.getCompany() != null ? Company.builder().id(rest.getCompany().getId()).build() : null)
         .build();
   }
 
@@ -54,7 +57,7 @@ public class LeaveTypeMapper {
     rest.setDeductFromBalance(domain.getDeductFromBalance());
     rest.setColor(domain.getColor());
     rest.setDaysPerYear(domain.getDaysPerYear());
-    rest.setCompanyId(domain.getCompany() != null ? domain.getCompany().getId() : null);
+    rest.setCompany(companyMapper.toRestCrupdateCompany(domain.getCompany()));
     RestAuditMapperUtils.mapAuditFields(
         domain,
         rest::setCreatedAt,
