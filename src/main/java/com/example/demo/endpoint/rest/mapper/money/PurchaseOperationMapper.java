@@ -166,6 +166,7 @@ public class PurchaseOperationMapper {
               .arrivalLocation(arrivalWarehouse)
               .departureDate(travel.getDepartureDate())
               .arrivalDate(travel.getArrivalDate())
+              .directArrival(false)
               .build();
     }
 
@@ -183,6 +184,7 @@ public class PurchaseOperationMapper {
                 .material(toMaterial(materialLine.getMaterial()))
                 .quantity(requirePositive(materialLine.getQuantity(), "material quantity"))
                 .quantityReceived(0)
+                .quantityLost(0)
                 .comment(request.getComment())
                 .build());
       }

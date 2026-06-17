@@ -13838,6 +13838,10 @@ components:
           type: string
           format: date-time
           example: "2024-02-20T18:00:00Z"
+        direct_arrival:
+          type: boolean
+          default: false
+          example: false
     CrupdateTravelExpense:
       properties:
         id:
@@ -13857,6 +13861,10 @@ components:
           type: string
           format: date-time
           example: "2024-02-20T18:00:00Z"
+        direct_arrival:
+          type: boolean
+          default: false
+          example: false
 
     # =========================
     # TRAVEL PEOPLE
@@ -13955,6 +13963,9 @@ components:
         quantity_received:
           type: integer
           example: 100
+        quantity_lost:
+          type: integer
+          example: 0
         arrival_date:
           type: string
           format: date-time

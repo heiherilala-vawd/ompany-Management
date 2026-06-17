@@ -42,6 +42,10 @@ public class TravelExpenseMapper {
                 : null)
         .departureDate(restTravelExpense.getDepartureDate())
         .arrivalDate(restTravelExpense.getArrivalDate())
+        .directArrival(
+            restTravelExpense.getDirectArrival() != null
+                ? restTravelExpense.getDirectArrival()
+                : false)
         .build();
   }
 
@@ -71,6 +75,10 @@ public class TravelExpenseMapper {
                 : null)
         .departureDate(restTravelExpense.getDepartureDate())
         .arrivalDate(restTravelExpense.getArrivalDate())
+        .directArrival(
+            restTravelExpense.getDirectArrival() != null
+                ? restTravelExpense.getDirectArrival()
+                : false)
         .build();
   }
 
@@ -88,6 +96,7 @@ public class TravelExpenseMapper {
         warehouseMapper.toRestCrupdateWarehouse(domainTravelExpense.getArrivalLocation()));
     restTravelExpense.setDepartureDate(domainTravelExpense.getDepartureDate());
     restTravelExpense.setArrivalDate(domainTravelExpense.getArrivalDate());
+    restTravelExpense.setDirectArrival(domainTravelExpense.getDirectArrival());
 
     return restTravelExpense;
   }
@@ -104,6 +113,7 @@ public class TravelExpenseMapper {
         .arrivalLocation(
             warehouseMapper.toRestCrupdateWarehouse(domainTravelExpense.getArrivalLocation()))
         .departureDate(domainTravelExpense.getDepartureDate())
-        .arrivalDate(domainTravelExpense.getArrivalDate());
+        .arrivalDate(domainTravelExpense.getArrivalDate())
+        .directArrival(domainTravelExpense.getDirectArrival());
   }
 }

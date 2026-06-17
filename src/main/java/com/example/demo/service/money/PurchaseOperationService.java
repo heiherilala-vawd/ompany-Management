@@ -229,6 +229,7 @@ public class PurchaseOperationService {
               .material(tm.getMaterial())
               .quantity(tm.getQuantity())
               .quantityReceived(tm.getQuantityReceived())
+              .quantityLost(tm.getQuantityLost())
               .comment(tm.getComment())
               .build());
     }

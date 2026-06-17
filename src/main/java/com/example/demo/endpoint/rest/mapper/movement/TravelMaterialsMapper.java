@@ -69,6 +69,10 @@ public class TravelMaterialsMapper {
                 : null)
         .quantity(restTravelMaterials.getQuantity())
         .quantityReceived(restTravelMaterials.getQuantityReceived())
+        .quantityLost(
+            restTravelMaterials.getQuantityLost() != null
+                ? restTravelMaterials.getQuantityLost()
+                : 0)
         .comment(restTravelMaterials.getComment())
         .arrivalLocation(
             restTravelMaterials.getArrivalLocation() != null
