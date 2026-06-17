@@ -194,6 +194,7 @@ public class TestUtils {
   public static final String TRAVEL_PEOPLE2_ID = "travel_people2_id";
   public static final String TRAVEL_MATERIALS1_ID = "travel_materials1_id";
   public static final String TRAVEL_MATERIALS2_ID = "travel_materials2_id";
+  public static final String TRAVEL_MAT_ARRIVAL_LOG1_ID = "travel_mat_arrival_log1_id";
   public static final String TRAVEL_EQUIPMENT1_ID = "travel_equipment1_id";
   public static final String TRAVEL_EQUIPMENT2_ID = "travel_equipment2_id";
   public static final String LOAN1_ID = "loan1_id";

@@ -350,6 +350,9 @@ public class MovementValidator {
     if (arrival != null && (arrival.getId() == null || arrival.getId().isBlank())) {
       errors.add("Travel materials id is mandatory");
     }
+    if (arrival != null && (arrival.getLogId() == null || arrival.getLogId().isBlank())) {
+      errors.add("Log id is mandatory");
+    }
     if (arrival != null
         && arrival.getQuantityReceived() != null
         && arrival.getQuantityReceived() < 0) {

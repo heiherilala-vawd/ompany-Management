@@ -8,9 +8,11 @@ import com.example.demo.client.model.TransportStatus;
 import com.example.demo.client.model.TravelEquipment;
 import com.example.demo.client.model.TravelExpense;
 import com.example.demo.client.model.TravelMaterials;
+import com.example.demo.client.model.TravelMaterialsArrivalLog;
 import com.example.demo.client.model.TravelPeople;
 import com.example.demo.client.model.User;
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 final class TestTravelFixtures {
@@ -159,6 +161,15 @@ final class TestTravelFixtures {
         TestOrganizationFixtures.warehouseToCrupdateWarehouse(
             TestOrganizationFixtures.warehouse1()));
     travelMaterials.setArrivalDate(Instant.parse("2024-03-01T12:00:00Z"));
+
+    TravelMaterialsArrivalLog arrivalLog = new TravelMaterialsArrivalLog();
+    arrivalLog.setId(TestUtils.TRAVEL_MAT_ARRIVAL_LOG1_ID);
+    arrivalLog.setTravelMaterialsId(TestUtils.TRAVEL_MATERIALS1_ID);
+    arrivalLog.setQuantityReceived(5);
+    arrivalLog.setQuantityLost(0);
+    arrivalLog.setArrivalDate(Instant.parse("2024-03-01T12:00:00Z"));
+    travelMaterials.setArrivalLogs(List.of(arrivalLog));
+
     return travelMaterials;
   }
 

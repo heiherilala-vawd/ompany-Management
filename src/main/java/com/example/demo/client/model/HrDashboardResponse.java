@@ -47,7 +47,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   HrDashboardResponse.JSON_PROPERTY_EMPLOYEES_BY_JOB,
   HrDashboardResponse.JSON_PROPERTY_LABOR_COST_BY_JOB
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-17T00:42:02.850500645+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-17T16:47:13.835321067+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class HrDashboardResponse {
   public static final String JSON_PROPERTY_TOTAL_EMPLOYEES = "total_employees";
   private Integer totalEmployees;

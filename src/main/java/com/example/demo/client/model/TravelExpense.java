@@ -42,7 +42,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   TravelExpense.JSON_PROPERTY_ARRIVAL_DATE,
   TravelExpense.JSON_PROPERTY_DIRECT_ARRIVAL
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-17T00:42:02.850500645+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-17T16:47:13.835321067+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class TravelExpense {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -63,7 +63,7 @@ public class TravelExpense {
   private java.time.Instant arrivalDate;
 
   public static final String JSON_PROPERTY_DIRECT_ARRIVAL = "direct_arrival";
-  private Boolean directArrival;
+  private Boolean directArrival = false;
 
   public TravelExpense() { 
   }

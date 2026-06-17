@@ -20,58 +20,46 @@ import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
 import com.example.demo.client.model.AuditUser;
-import com.example.demo.client.model.CrupdateCompany;
-import com.example.demo.client.model.CrupdateEquipment;
-import com.example.demo.client.model.MaintenanceScheduleStatus;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Arrays;
-import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
 /**
- * MaintenanceSchedule
+ * TravelMaterialsArrivalLog
  */
 @JsonPropertyOrder({
-  MaintenanceSchedule.JSON_PROPERTY_ID,
-  MaintenanceSchedule.JSON_PROPERTY_EQUIPMENT,
-  MaintenanceSchedule.JSON_PROPERTY_DESCRIPTION,
-  MaintenanceSchedule.JSON_PROPERTY_SCHEDULED_DATE,
-  MaintenanceSchedule.JSON_PROPERTY_FREQUENCY,
-  MaintenanceSchedule.JSON_PROPERTY_STATUS,
-  MaintenanceSchedule.JSON_PROPERTY_COMPANY,
-  MaintenanceSchedule.JSON_PROPERTY_CREATED_AT,
-  MaintenanceSchedule.JSON_PROPERTY_UPDATED_AT,
-  MaintenanceSchedule.JSON_PROPERTY_CREATED_BY,
-  MaintenanceSchedule.JSON_PROPERTY_UPDATED_BY,
-  MaintenanceSchedule.JSON_PROPERTY_COMMENT
+  TravelMaterialsArrivalLog.JSON_PROPERTY_ID,
+  TravelMaterialsArrivalLog.JSON_PROPERTY_TRAVEL_MATERIALS_ID,
+  TravelMaterialsArrivalLog.JSON_PROPERTY_QUANTITY_RECEIVED,
+  TravelMaterialsArrivalLog.JSON_PROPERTY_QUANTITY_LOST,
+  TravelMaterialsArrivalLog.JSON_PROPERTY_ARRIVAL_DATE,
+  TravelMaterialsArrivalLog.JSON_PROPERTY_CREATED_AT,
+  TravelMaterialsArrivalLog.JSON_PROPERTY_UPDATED_AT,
+  TravelMaterialsArrivalLog.JSON_PROPERTY_CREATED_BY,
+  TravelMaterialsArrivalLog.JSON_PROPERTY_UPDATED_BY,
+  TravelMaterialsArrivalLog.JSON_PROPERTY_COMMENT
 })
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-17T16:47:13.835321067+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
-public class MaintenanceSchedule {
+public class TravelMaterialsArrivalLog {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
 
-  public static final String JSON_PROPERTY_EQUIPMENT = "equipment";
-  private CrupdateEquipment equipment;
+  public static final String JSON_PROPERTY_TRAVEL_MATERIALS_ID = "travel_materials_id";
+  private String travelMaterialsId;
 
-  public static final String JSON_PROPERTY_DESCRIPTION = "description";
-  private String description;
+  public static final String JSON_PROPERTY_QUANTITY_RECEIVED = "quantity_received";
+  private Integer quantityReceived;
 
-  public static final String JSON_PROPERTY_SCHEDULED_DATE = "scheduled_date";
-  private java.time.LocalDate scheduledDate;
+  public static final String JSON_PROPERTY_QUANTITY_LOST = "quantity_lost";
+  private Integer quantityLost;
 
-  public static final String JSON_PROPERTY_FREQUENCY = "frequency";
-  private String frequency;
-
-  public static final String JSON_PROPERTY_STATUS = "status";
-  private MaintenanceScheduleStatus status;
-
-  public static final String JSON_PROPERTY_COMPANY = "company";
-  private CrupdateCompany company;
+  public static final String JSON_PROPERTY_ARRIVAL_DATE = "arrival_date";
+  private java.time.Instant arrivalDate;
 
   public static final String JSON_PROPERTY_CREATED_AT = "created_at";
   private java.time.Instant createdAt;
@@ -88,10 +76,10 @@ public class MaintenanceSchedule {
   public static final String JSON_PROPERTY_COMMENT = "comment";
   private String comment;
 
-  public MaintenanceSchedule() { 
+  public TravelMaterialsArrivalLog() { 
   }
 
-  public MaintenanceSchedule id(String id) {
+  public TravelMaterialsArrivalLog id(String id) {
     this.id = id;
     return this;
   }
@@ -116,157 +104,109 @@ public class MaintenanceSchedule {
   }
 
 
-  public MaintenanceSchedule equipment(CrupdateEquipment equipment) {
-    this.equipment = equipment;
+  public TravelMaterialsArrivalLog travelMaterialsId(String travelMaterialsId) {
+    this.travelMaterialsId = travelMaterialsId;
     return this;
   }
 
    /**
-   * Get equipment
-   * @return equipment
+   * Get travelMaterialsId
+   * @return travelMaterialsId
   **/
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_EQUIPMENT)
+  @JsonProperty(JSON_PROPERTY_TRAVEL_MATERIALS_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public CrupdateEquipment getEquipment() {
-    return equipment;
+  public String getTravelMaterialsId() {
+    return travelMaterialsId;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_EQUIPMENT)
+  @JsonProperty(JSON_PROPERTY_TRAVEL_MATERIALS_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setEquipment(CrupdateEquipment equipment) {
-    this.equipment = equipment;
+  public void setTravelMaterialsId(String travelMaterialsId) {
+    this.travelMaterialsId = travelMaterialsId;
   }
 
 
-  public MaintenanceSchedule description(String description) {
-    this.description = description;
+  public TravelMaterialsArrivalLog quantityReceived(Integer quantityReceived) {
+    this.quantityReceived = quantityReceived;
     return this;
   }
 
    /**
-   * Get description
-   * @return description
+   * Get quantityReceived
+   * minimum: 0
+   * @return quantityReceived
   **/
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_DESCRIPTION)
+  @JsonProperty(JSON_PROPERTY_QUANTITY_RECEIVED)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getDescription() {
-    return description;
+  public Integer getQuantityReceived() {
+    return quantityReceived;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_DESCRIPTION)
+  @JsonProperty(JSON_PROPERTY_QUANTITY_RECEIVED)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setDescription(String description) {
-    this.description = description;
+  public void setQuantityReceived(Integer quantityReceived) {
+    this.quantityReceived = quantityReceived;
   }
 
 
-  public MaintenanceSchedule scheduledDate(java.time.LocalDate scheduledDate) {
-    this.scheduledDate = scheduledDate;
+  public TravelMaterialsArrivalLog quantityLost(Integer quantityLost) {
+    this.quantityLost = quantityLost;
     return this;
   }
 
    /**
-   * Get scheduledDate
-   * @return scheduledDate
+   * Get quantityLost
+   * minimum: 0
+   * @return quantityLost
   **/
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SCHEDULED_DATE)
+  @JsonProperty(JSON_PROPERTY_QUANTITY_LOST)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public java.time.LocalDate getScheduledDate() {
-    return scheduledDate;
+  public Integer getQuantityLost() {
+    return quantityLost;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_SCHEDULED_DATE)
+  @JsonProperty(JSON_PROPERTY_QUANTITY_LOST)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setScheduledDate(java.time.LocalDate scheduledDate) {
-    this.scheduledDate = scheduledDate;
+  public void setQuantityLost(Integer quantityLost) {
+    this.quantityLost = quantityLost;
   }
 
 
-  public MaintenanceSchedule frequency(String frequency) {
-    this.frequency = frequency;
+  public TravelMaterialsArrivalLog arrivalDate(java.time.Instant arrivalDate) {
+    this.arrivalDate = arrivalDate;
     return this;
   }
 
    /**
-   * Get frequency
-   * @return frequency
+   * Get arrivalDate
+   * @return arrivalDate
   **/
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_FREQUENCY)
+  @JsonProperty(JSON_PROPERTY_ARRIVAL_DATE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getFrequency() {
-    return frequency;
+  public java.time.Instant getArrivalDate() {
+    return arrivalDate;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_FREQUENCY)
+  @JsonProperty(JSON_PROPERTY_ARRIVAL_DATE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setFrequency(String frequency) {
-    this.frequency = frequency;
+  public void setArrivalDate(java.time.Instant arrivalDate) {
+    this.arrivalDate = arrivalDate;
   }
 
 
-  public MaintenanceSchedule status(MaintenanceScheduleStatus status) {
-    this.status = status;
-    return this;
-  }
-
-   /**
-   * Get status
-   * @return status
-  **/
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_STATUS)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-  public MaintenanceScheduleStatus getStatus() {
-    return status;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_STATUS)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setStatus(MaintenanceScheduleStatus status) {
-    this.status = status;
-  }
-
-
-  public MaintenanceSchedule company(CrupdateCompany company) {
-    this.company = company;
-    return this;
-  }
-
-   /**
-   * Get company
-   * @return company
-  **/
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_COMPANY)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-  public CrupdateCompany getCompany() {
-    return company;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_COMPANY)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setCompany(CrupdateCompany company) {
-    this.company = company;
-  }
-
-
-  public MaintenanceSchedule createdAt(java.time.Instant createdAt) {
+  public TravelMaterialsArrivalLog createdAt(java.time.Instant createdAt) {
     this.createdAt = createdAt;
     return this;
   }
@@ -291,7 +231,7 @@ public class MaintenanceSchedule {
   }
 
 
-  public MaintenanceSchedule updatedAt(java.time.Instant updatedAt) {
+  public TravelMaterialsArrivalLog updatedAt(java.time.Instant updatedAt) {
     this.updatedAt = updatedAt;
     return this;
   }
@@ -316,7 +256,7 @@ public class MaintenanceSchedule {
   }
 
 
-  public MaintenanceSchedule createdBy(AuditUser createdBy) {
+  public TravelMaterialsArrivalLog createdBy(AuditUser createdBy) {
     this.createdBy = createdBy;
     return this;
   }
@@ -341,7 +281,7 @@ public class MaintenanceSchedule {
   }
 
 
-  public MaintenanceSchedule updatedBy(AuditUser updatedBy) {
+  public TravelMaterialsArrivalLog updatedBy(AuditUser updatedBy) {
     this.updatedBy = updatedBy;
     return this;
   }
@@ -366,7 +306,7 @@ public class MaintenanceSchedule {
   }
 
 
-  public MaintenanceSchedule comment(String comment) {
+  public TravelMaterialsArrivalLog comment(String comment) {
     this.comment = comment;
     return this;
   }
@@ -392,7 +332,7 @@ public class MaintenanceSchedule {
 
 
   /**
-   * Return true if this MaintenanceSchedule object is equal to o.
+   * Return true if this TravelMaterialsArrivalLog object is equal to o.
    */
   @Override
   public boolean equals(Object o) {
@@ -402,37 +342,33 @@ public class MaintenanceSchedule {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    MaintenanceSchedule maintenanceSchedule = (MaintenanceSchedule) o;
-    return Objects.equals(this.id, maintenanceSchedule.id) &&
-        Objects.equals(this.equipment, maintenanceSchedule.equipment) &&
-        Objects.equals(this.description, maintenanceSchedule.description) &&
-        Objects.equals(this.scheduledDate, maintenanceSchedule.scheduledDate) &&
-        Objects.equals(this.frequency, maintenanceSchedule.frequency) &&
-        Objects.equals(this.status, maintenanceSchedule.status) &&
-        Objects.equals(this.company, maintenanceSchedule.company) &&
-        Objects.equals(this.createdAt, maintenanceSchedule.createdAt) &&
-        Objects.equals(this.updatedAt, maintenanceSchedule.updatedAt) &&
-        Objects.equals(this.createdBy, maintenanceSchedule.createdBy) &&
-        Objects.equals(this.updatedBy, maintenanceSchedule.updatedBy) &&
-        Objects.equals(this.comment, maintenanceSchedule.comment);
+    TravelMaterialsArrivalLog travelMaterialsArrivalLog = (TravelMaterialsArrivalLog) o;
+    return Objects.equals(this.id, travelMaterialsArrivalLog.id) &&
+        Objects.equals(this.travelMaterialsId, travelMaterialsArrivalLog.travelMaterialsId) &&
+        Objects.equals(this.quantityReceived, travelMaterialsArrivalLog.quantityReceived) &&
+        Objects.equals(this.quantityLost, travelMaterialsArrivalLog.quantityLost) &&
+        Objects.equals(this.arrivalDate, travelMaterialsArrivalLog.arrivalDate) &&
+        Objects.equals(this.createdAt, travelMaterialsArrivalLog.createdAt) &&
+        Objects.equals(this.updatedAt, travelMaterialsArrivalLog.updatedAt) &&
+        Objects.equals(this.createdBy, travelMaterialsArrivalLog.createdBy) &&
+        Objects.equals(this.updatedBy, travelMaterialsArrivalLog.updatedBy) &&
+        Objects.equals(this.comment, travelMaterialsArrivalLog.comment);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, equipment, description, scheduledDate, frequency, status, company, createdAt, updatedAt, createdBy, updatedBy, comment);
+    return Objects.hash(id, travelMaterialsId, quantityReceived, quantityLost, arrivalDate, createdAt, updatedAt, createdBy, updatedBy, comment);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class MaintenanceSchedule {\n");
+    sb.append("class TravelMaterialsArrivalLog {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    equipment: ").append(toIndentedString(equipment)).append("\n");
-    sb.append("    description: ").append(toIndentedString(description)).append("\n");
-    sb.append("    scheduledDate: ").append(toIndentedString(scheduledDate)).append("\n");
-    sb.append("    frequency: ").append(toIndentedString(frequency)).append("\n");
-    sb.append("    status: ").append(toIndentedString(status)).append("\n");
-    sb.append("    company: ").append(toIndentedString(company)).append("\n");
+    sb.append("    travelMaterialsId: ").append(toIndentedString(travelMaterialsId)).append("\n");
+    sb.append("    quantityReceived: ").append(toIndentedString(quantityReceived)).append("\n");
+    sb.append("    quantityLost: ").append(toIndentedString(quantityLost)).append("\n");
+    sb.append("    arrivalDate: ").append(toIndentedString(arrivalDate)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
     sb.append("    updatedAt: ").append(toIndentedString(updatedAt)).append("\n");
     sb.append("    createdBy: ").append(toIndentedString(createdBy)).append("\n");

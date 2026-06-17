@@ -8,6 +8,8 @@ import com.example.demo.service.money.TravelExpenseService;
 import com.example.demo.service.movement.MaterialService;
 import com.example.demo.service.movement.WarehouseService;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -98,6 +100,10 @@ public class TravelMaterialsMapper {
     restTravelMaterials.setArrivalDate(domainTravelMaterials.getArrivalDate());
     restTravelMaterials.setArrivalLocation(
         warehouseMapper.toRestCrupdateWarehouse(domainTravelMaterials.getArrivalLocation()));
+    restTravelMaterials.setArrivalLogs(
+        Optional.ofNullable(domainTravelMaterials.getArrivalLogs())
+            .map(logs -> logs.stream().map(this::toRestArrivalLog).collect(Collectors.toList()))
+            .orElse(null));
     RestAuditMapperUtils.mapAuditFields(
         domainTravelMaterials,
         restTravelMaterials::setCreatedAt,
@@ -107,6 +113,26 @@ public class TravelMaterialsMapper {
         restTravelMaterials::setUpdatedBy);
 
     return restTravelMaterials;
+  }
+
+  public com.example.demo.client.model.TravelMaterialsArrivalLog toRestArrivalLog(
+      com.example.demo.model.movement.TravelMaterialsArrivalLog domainLog) {
+    if (domainLog == null) return null;
+
+    var restLog = new com.example.demo.client.model.TravelMaterialsArrivalLog();
+    restLog.setId(domainLog.getId());
+    restLog.setTravelMaterialsId(domainLog.getTravelMaterials().getId());
+    restLog.setQuantityReceived(domainLog.getQuantityReceived());
+    restLog.setQuantityLost(domainLog.getQuantityLost());
+    restLog.setArrivalDate(domainLog.getArrivalDate());
+    RestAuditMapperUtils.mapAuditFields(
+        domainLog,
+        restLog::setCreatedAt,
+        restLog::setUpdatedAt,
+        restLog::setComment,
+        restLog::setCreatedBy,
+        restLog::setUpdatedBy);
+    return restLog;
   }
 
   public List<TravelMaterials> toRestTravelMaterialsList(

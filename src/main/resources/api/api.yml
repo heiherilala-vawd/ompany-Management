@@ -13939,6 +13939,32 @@ components:
           example: "2024-02-20T18:00:00Z"
         arrival_location:
           $ref: '#/components/schemas/CrupdateWarehouse'
+        arrival_logs:
+          type: array
+          items:
+            $ref: '#/components/schemas/TravelMaterialsArrivalLog'
+    TravelMaterialsArrivalLog:
+      allOf:
+        - $ref: '#/components/schemas/AuditFields'
+      properties:
+        id:
+          type: string
+          example: "tml_001"
+        travel_materials_id:
+          type: string
+          example: "tm_001"
+        quantity_received:
+          type: integer
+          minimum: 0
+          example: 80
+        quantity_lost:
+          type: integer
+          minimum: 0
+          example: 20
+        arrival_date:
+          type: string
+          format: date-time
+          example: "2024-02-20T18:00:00Z"
     CrupdateTravelMaterials:
       required:
         - travel_id
@@ -14280,10 +14306,15 @@ components:
     ConfirmMaterialArrival:
       required:
         - id
+        - log_id
       properties:
         id:
           type: string
           example: "travel_mat_010"
+        log_id:
+          type: string
+          description: "Client-generated unique ID for this arrival batch (idempotency key)"
+          example: "arrival_log_001"
         quantity_received:
           type: integer
           minimum: 0
@@ -14294,6 +14325,7 @@ components:
           example: 20
       example:
         id: "travel_mat_010"
+        log_id: "arrival_log_001"
         quantity_received: 80
         quantity_lost: 20
 

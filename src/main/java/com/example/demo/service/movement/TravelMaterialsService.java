@@ -8,7 +8,9 @@ import com.example.demo.model.exception.BadRequestException;
 import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.model.movement.MaterialWarehouse;
 import com.example.demo.model.movement.TravelMaterials;
+import com.example.demo.model.movement.TravelMaterialsArrivalLog;
 import com.example.demo.model.movement.Warehouse;
+import com.example.demo.repository.movement.TravelMaterialsArrivalLogRepository;
 import com.example.demo.repository.movement.TravelMaterialsRepository;
 import com.example.demo.service.utils.ModificationUtils;
 import com.example.demo.service.utils.PageUtils;
@@ -30,6 +32,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class TravelMaterialsService {
 
   private final TravelMaterialsRepository travelMaterialsRepository;
+  private final TravelMaterialsArrivalLogRepository travelMaterialsArrivalLogRepository;
   private final ModificationUtils modificationUtils;
   private final MovementValidator movementValidator;
   private final MaterialWarehouseService materialWarehouseService;
@@ -79,45 +82,83 @@ public class TravelMaterialsService {
                       new NotFoundException(
                           "TravelMaterials with id " + arrival.getId() + " not found"));
 
-      int quantityReceived =
-          arrival.getQuantityReceived() != null ? arrival.getQuantityReceived() : 0;
-      int quantityLost = arrival.getQuantityLost() != null ? arrival.getQuantityLost() : 0;
+      int arrivalReceived =
+          arrival.getQuantityReceived() != null ? Math.max(arrival.getQuantityReceived(), 0) : 0;
+      int arrivalLost =
+          arrival.getQuantityLost() != null ? Math.max(arrival.getQuantityLost(), 0) : 0;
 
-      if (quantityReceived < 0 || quantityLost < 0) {
-        throw new BadRequestException("Quantities must be non-negative");
+      int currentReceived =
+          travelMaterials.getQuantityReceived() != null ? travelMaterials.getQuantityReceived() : 0;
+      int currentLost =
+          travelMaterials.getQuantityLost() != null ? travelMaterials.getQuantityLost() : 0;
+      Warehouse arrivalWarehouse = travelMaterials.getTravel().getArrivalLocation();
+
+      // Check for existing log (idempotency: replace & re-apply)
+      TravelMaterialsArrivalLog existingLog = null;
+      for (TravelMaterialsArrivalLog log : travelMaterials.getArrivalLogs()) {
+        if (arrival.getLogId().equals(log.getId())) {
+          existingLog = log;
+          break;
+        }
       }
-      if (quantityReceived + quantityLost > travelMaterials.getQuantity()) {
+      if (existingLog != null) {
+        int oldReceived =
+            existingLog.getQuantityReceived() != null ? existingLog.getQuantityReceived() : 0;
+        int oldLost =
+            existingLog.getQuantityLost() != null ? existingLog.getQuantityLost() : 0;
+        // Reverse old values
+        if (oldReceived > 0) {
+          materialWarehouseService.decrementQuantity(
+              MaterialWarehouse.builder()
+                  .material(travelMaterials.getMaterial())
+                  .warehouse(arrivalWarehouse)
+                  .quantity(oldReceived)
+                  .build());
+        }
+        currentReceived -= oldReceived;
+        currentLost -= oldLost;
+        // Update existing log in-place
+        existingLog.setQuantityReceived(arrivalReceived);
+        existingLog.setQuantityLost(arrivalLost);
+        existingLog.setArrivalDate(Instant.now());
+      } else {
+        TravelMaterialsArrivalLog newLog =
+            TravelMaterialsArrivalLog.builder()
+                .id(arrival.getLogId())
+                .travelMaterials(travelMaterials)
+                .quantityReceived(arrivalReceived)
+                .quantityLost(arrivalLost)
+                .arrivalDate(Instant.now())
+                .build();
+        travelMaterials.getArrivalLogs().add(newLog);
+      }
+
+      int newTotalReceived = currentReceived + arrivalReceived;
+      int newTotalLost = currentLost + arrivalLost;
+
+      if (newTotalReceived + newTotalLost > travelMaterials.getQuantity()) {
         throw new BadRequestException(
-            "quantity_received + quantity_lost must not exceed "
+            "Total received ("
+                + newTotalReceived
+                + ") + total lost ("
+                + newTotalLost
+                + ") must not exceed quantity ("
                 + travelMaterials.getQuantity()
-                + " for TravelMaterials "
+                + ") for TravelMaterials "
                 + arrival.getId());
       }
 
-      int oldQuantityReceived =
-          travelMaterials.getQuantityReceived() != null ? travelMaterials.getQuantityReceived() : 0;
-      int deltaReceived = quantityReceived - oldQuantityReceived;
-
-      if (deltaReceived > 0) {
-        Warehouse arrivalWarehouse = travelMaterials.getTravel().getArrivalLocation();
+      if (arrivalReceived > 0) {
         materialWarehouseService.incrementQuantity(
             MaterialWarehouse.builder()
                 .material(travelMaterials.getMaterial())
                 .warehouse(arrivalWarehouse)
-                .quantity(deltaReceived)
-                .build());
-      } else if (deltaReceived < 0) {
-        Warehouse arrivalWarehouse = travelMaterials.getTravel().getArrivalLocation();
-        materialWarehouseService.decrementQuantity(
-            MaterialWarehouse.builder()
-                .material(travelMaterials.getMaterial())
-                .warehouse(arrivalWarehouse)
-                .quantity(-deltaReceived)
+                .quantity(arrivalReceived)
                 .build());
       }
 
-      travelMaterials.setQuantityReceived(quantityReceived);
-      travelMaterials.setQuantityLost(quantityLost);
+      travelMaterials.setQuantityReceived(newTotalReceived);
+      travelMaterials.setQuantityLost(newTotalLost);
       travelMaterials.setArrivalDate(Instant.now());
 
       TravelMaterials saved = travelMaterialsRepository.save(travelMaterials);
