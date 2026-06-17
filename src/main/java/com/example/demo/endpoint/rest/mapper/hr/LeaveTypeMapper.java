@@ -26,7 +26,9 @@ public class LeaveTypeMapper {
         .color(rest.getColor())
         .daysPerYear(rest.getDaysPerYear())
         .company(
-            rest.getCompany() != null ? Company.builder().id(rest.getCompany().getId()).build() : null)
+            rest.getCompany() != null
+                ? Company.builder().id(rest.getCompany().getId()).build()
+                : null)
         .build();
   }
 

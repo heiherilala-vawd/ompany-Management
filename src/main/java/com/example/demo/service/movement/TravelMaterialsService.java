@@ -36,6 +36,7 @@ public class TravelMaterialsService {
   private final ModificationUtils modificationUtils;
   private final MovementValidator movementValidator;
   private final MaterialWarehouseService materialWarehouseService;
+  private final WarehouseService warehouseService;
 
   public Optional<TravelMaterials> findById(String id) {
     return travelMaterialsRepository.findById(id);
@@ -93,6 +94,18 @@ public class TravelMaterialsService {
           travelMaterials.getQuantityLost() != null ? travelMaterials.getQuantityLost() : 0;
       Warehouse arrivalWarehouse = travelMaterials.getTravel().getArrivalLocation();
 
+      // Resolve per-log arrival location and date from request or defaults
+      Warehouse logWarehouse =
+          arrival.getArrivalLocation() != null
+              ? warehouseService
+                  .findById(arrival.getArrivalLocation())
+                  .orElseThrow(
+                      () ->
+                          new NotFoundException(
+                              "Warehouse with id " + arrival.getArrivalLocation() + " not found"))
+              : arrivalWarehouse;
+      Instant logDate = arrival.getArrivalDate() != null ? arrival.getArrivalDate() : Instant.now();
+
       // Check for existing log (idempotency: replace & re-apply)
       TravelMaterialsArrivalLog existingLog = null;
       for (TravelMaterialsArrivalLog log : travelMaterials.getArrivalLogs()) {
@@ -104,8 +117,7 @@ public class TravelMaterialsService {
       if (existingLog != null) {
         int oldReceived =
             existingLog.getQuantityReceived() != null ? existingLog.getQuantityReceived() : 0;
-        int oldLost =
-            existingLog.getQuantityLost() != null ? existingLog.getQuantityLost() : 0;
+        int oldLost = existingLog.getQuantityLost() != null ? existingLog.getQuantityLost() : 0;
         // Reverse old values
         if (oldReceived > 0) {
           materialWarehouseService.decrementQuantity(
@@ -120,7 +132,8 @@ public class TravelMaterialsService {
         // Update existing log in-place
         existingLog.setQuantityReceived(arrivalReceived);
         existingLog.setQuantityLost(arrivalLost);
-        existingLog.setArrivalDate(Instant.now());
+        existingLog.setArrivalDate(logDate);
+        existingLog.setArrivalLocation(logWarehouse);
       } else {
         TravelMaterialsArrivalLog newLog =
             TravelMaterialsArrivalLog.builder()
@@ -128,7 +141,8 @@ public class TravelMaterialsService {
                 .travelMaterials(travelMaterials)
                 .quantityReceived(arrivalReceived)
                 .quantityLost(arrivalLost)
-                .arrivalDate(Instant.now())
+                .arrivalDate(logDate)
+                .arrivalLocation(logWarehouse)
                 .build();
         travelMaterials.getArrivalLogs().add(newLog);
       }
@@ -159,7 +173,6 @@ public class TravelMaterialsService {
 
       travelMaterials.setQuantityReceived(newTotalReceived);
       travelMaterials.setQuantityLost(newTotalLost);
-      travelMaterials.setArrivalDate(Instant.now());
 
       TravelMaterials saved = travelMaterialsRepository.save(travelMaterials);
       updated.add(saved);
@@ -185,14 +198,9 @@ public class TravelMaterialsService {
       }
       if (criteria.getArrivalLocation() != null) {
         predicates.add(
-            cb.equal(root.get("arrivalLocation").get("id"), criteria.getArrivalLocation()));
-      }
-      if (criteria.getArrivalDateMin() != null) {
-        predicates.add(
-            cb.greaterThanOrEqualTo(root.get("arrivalDate"), criteria.getArrivalDateMin()));
-      }
-      if (criteria.getArrivalDateMax() != null) {
-        predicates.add(cb.lessThanOrEqualTo(root.get("arrivalDate"), criteria.getArrivalDateMax()));
+            cb.equal(
+                root.get("travel").get("arrivalLocation").get("id"),
+                criteria.getArrivalLocation()));
       }
       if (criteria.getNotArrived() != null && criteria.getNotArrived()) {
         predicates.add(

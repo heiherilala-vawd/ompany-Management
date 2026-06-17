@@ -3,9 +3,7 @@ package com.example.demo.integration.conf;
 import com.example.demo.client.model.CrupdateEquipment;
 import com.example.demo.client.model.CrupdateEquipmentUsage;
 import com.example.demo.client.model.CrupdateJob;
-import com.example.demo.client.model.CrupdateMaterial;
 import com.example.demo.client.model.CrupdateMaterialConsumption;
-import com.example.demo.client.model.CrupdateWarehouse;
 import com.example.demo.client.model.EquipmentUsage;
 import com.example.demo.client.model.MaterialConsumption;
 import com.example.demo.client.model.UsageStatus;
@@ -20,8 +18,11 @@ final class TestMovementFixtures {
   static MaterialConsumption materialConsumption1() {
     MaterialConsumption mc = new MaterialConsumption();
     mc.setId(TestUtils.MAT_CONSUMPTION1_ID);
-    mc.setMaterial(TestOrganizationFixtures.materialToCrupdateMaterial(TestOrganizationFixtures.material1()));
-    mc.setWarehouse(TestOrganizationFixtures.warehouseToCrupdateWarehouse(TestOrganizationFixtures.warehouse1()));
+    mc.setMaterial(
+        TestOrganizationFixtures.materialToCrupdateMaterial(TestOrganizationFixtures.material1()));
+    mc.setWarehouse(
+        TestOrganizationFixtures.warehouseToCrupdateWarehouse(
+            TestOrganizationFixtures.warehouse1()));
     mc.setQuantity(10);
     mc.setConsumptionDate(LocalDate.of(2024, 6, 1));
     mc.setJob(TestOrganizationFixtures.jobToCrupdateJob(TestOrganizationFixtures.job1()));
@@ -33,8 +34,11 @@ final class TestMovementFixtures {
   static MaterialConsumption materialConsumption2() {
     MaterialConsumption mc = new MaterialConsumption();
     mc.setId(TestUtils.MAT_CONSUMPTION2_ID);
-    mc.setMaterial(TestOrganizationFixtures.materialToCrupdateMaterial(TestOrganizationFixtures.material1()));
-    mc.setWarehouse(TestOrganizationFixtures.warehouseToCrupdateWarehouse(TestOrganizationFixtures.warehouse1()));
+    mc.setMaterial(
+        TestOrganizationFixtures.materialToCrupdateMaterial(TestOrganizationFixtures.material1()));
+    mc.setWarehouse(
+        TestOrganizationFixtures.warehouseToCrupdateWarehouse(
+            TestOrganizationFixtures.warehouse1()));
     mc.setQuantity(5);
     mc.setConsumptionDate(LocalDate.of(2024, 6, 15));
     mc.setJob(TestOrganizationFixtures.jobToCrupdateJob(TestOrganizationFixtures.job1()));

@@ -12,21 +12,15 @@ import com.example.demo.client.model.CrupdateBankFee;
 import com.example.demo.client.model.CrupdateBudgetLine;
 import com.example.demo.client.model.CrupdateCashAccount;
 import com.example.demo.client.model.CrupdateCashTransaction;
-import com.example.demo.client.model.CrupdateCompany;
 import com.example.demo.client.model.CrupdateCompanyFixedCost;
-import com.example.demo.client.model.CrupdateDepartment;
 import com.example.demo.client.model.CrupdateEmployeePayment;
-import com.example.demo.client.model.CrupdateEquipment;
 import com.example.demo.client.model.CrupdateExpenseMoney;
 import com.example.demo.client.model.CrupdateIncomeMoney;
 import com.example.demo.client.model.CrupdateIncomeReceipt;
 import com.example.demo.client.model.CrupdateIncomeType;
-import com.example.demo.client.model.CrupdateJob;
 import com.example.demo.client.model.CrupdateLoan;
 import com.example.demo.client.model.CrupdateLoanRepayment;
 import com.example.demo.client.model.CrupdateMaintenance;
-import com.example.demo.client.model.CrupdateMaterial;
-import com.example.demo.client.model.CrupdateOrganization;
 import com.example.demo.client.model.CrupdateOtherExpense;
 import com.example.demo.client.model.CrupdateOtherExpenseType;
 import com.example.demo.client.model.CrupdatePurchase;
@@ -65,7 +59,9 @@ final class TestMoneyFixtures {
     IncomeMoney income = new IncomeMoney();
     income.setId(TestUtils.INCOME1_ID);
     income.setJob(TestOrganizationFixtures.jobToCrupdateJob(TestOrganizationFixtures.job1()));
-    income.setOrganization(TestOrganizationFixtures.organizationToCrupdateOrganization(TestOrganizationFixtures.organization2()));
+    income.setOrganization(
+        TestOrganizationFixtures.organizationToCrupdateOrganization(
+            TestOrganizationFixtures.organization2()));
     income.setInvoiceReference("INV-2024-001");
     income.setBillingStartDate(LocalDate.of(2024, 1, 15));
     income.setDueDate(LocalDate.of(2024, 2, 15));
@@ -86,7 +82,9 @@ final class TestMoneyFixtures {
     IncomeMoney income = new IncomeMoney();
     income.setId(TestUtils.INCOME2_ID);
     income.setJob(TestOrganizationFixtures.jobToCrupdateJob(TestOrganizationFixtures.job1()));
-    income.setOrganization(TestOrganizationFixtures.organizationToCrupdateOrganization(TestOrganizationFixtures.organization2()));
+    income.setOrganization(
+        TestOrganizationFixtures.organizationToCrupdateOrganization(
+            TestOrganizationFixtures.organization2()));
     income.setInvoiceReference("INV-2024-002");
     income.setBillingStartDate(LocalDate.of(2024, 2, 10));
     income.setDueDate(LocalDate.of(2024, 3, 12));
@@ -102,7 +100,8 @@ final class TestMoneyFixtures {
     incomeType.setId(TestUtils.INCOME_TYPE1_ID);
     incomeType.setName("Facturation client");
     incomeType.setDescription("Revenus issus de la facturation client");
-    incomeType.setCompany(TestOrganizationFixtures.companyToCrupdateCompany(TestOrganizationFixtures.company1()));
+    incomeType.setCompany(
+        TestOrganizationFixtures.companyToCrupdateCompany(TestOrganizationFixtures.company1()));
     return incomeType;
   }
 
@@ -111,7 +110,8 @@ final class TestMoneyFixtures {
     incomeType.setId(TestUtils.INCOME_TYPE2_ID);
     incomeType.setName("Subvention");
     incomeType.setDescription("Aides et subventions recues");
-    incomeType.setCompany(TestOrganizationFixtures.companyToCrupdateCompany(TestOrganizationFixtures.company1()));
+    incomeType.setCompany(
+        TestOrganizationFixtures.companyToCrupdateCompany(TestOrganizationFixtures.company1()));
     return incomeType;
   }
 
@@ -120,7 +120,8 @@ final class TestMoneyFixtures {
     crupdateIncomeType.setId(incomeType.getId());
     crupdateIncomeType.setName(incomeType.getName());
     crupdateIncomeType.setDescription(incomeType.getDescription());
-    crupdateIncomeType.setCompanyId(incomeType.getCompany() != null ? incomeType.getCompany().getId() : null);
+    crupdateIncomeType.setCompanyId(
+        incomeType.getCompany() != null ? incomeType.getCompany().getId() : null);
     crupdateIncomeType.setComment(incomeType.getComment());
     return crupdateIncomeType;
   }
@@ -138,7 +139,8 @@ final class TestMoneyFixtures {
     CrupdateIncomeMoney crupdateIncome = new CrupdateIncomeMoney();
     crupdateIncome.setId(income.getId());
     crupdateIncome.setJobId(income.getJob() != null ? income.getJob().getId() : null);
-    crupdateIncome.setOrganizationId(income.getOrganization() != null ? income.getOrganization().getId() : null);
+    crupdateIncome.setOrganizationId(
+        income.getOrganization() != null ? income.getOrganization().getId() : null);
     crupdateIncome.setInvoiceReference(income.getInvoiceReference());
     crupdateIncome.setBillingStartDate(income.getBillingStartDate());
     crupdateIncome.setDueDate(income.getDueDate());
@@ -322,7 +324,8 @@ final class TestMoneyFixtures {
     otherExpenseType.setId(TestUtils.OTHER_EXPENSE_TYPE1_ID);
     otherExpenseType.setName("Logistique");
     otherExpenseType.setDescription("Frais logistiques et transport");
-    otherExpenseType.setCompany(TestOrganizationFixtures.companyToCrupdateCompany(TestOrganizationFixtures.company1()));
+    otherExpenseType.setCompany(
+        TestOrganizationFixtures.companyToCrupdateCompany(TestOrganizationFixtures.company1()));
     return otherExpenseType;
   }
 
@@ -331,7 +334,8 @@ final class TestMoneyFixtures {
     otherExpenseType.setId(TestUtils.OTHER_EXPENSE_TYPE2_ID);
     otherExpenseType.setName("Administratif");
     otherExpenseType.setDescription("Frais administratifs et bureau");
-    otherExpenseType.setCompany(TestOrganizationFixtures.companyToCrupdateCompany(TestOrganizationFixtures.company1()));
+    otherExpenseType.setCompany(
+        TestOrganizationFixtures.companyToCrupdateCompany(TestOrganizationFixtures.company1()));
     return otherExpenseType;
   }
 
@@ -341,7 +345,8 @@ final class TestMoneyFixtures {
     crupdate.setId(otherExpenseType.getId());
     crupdate.setName(otherExpenseType.getName());
     crupdate.setDescription(otherExpenseType.getDescription());
-    crupdate.setCompanyId(otherExpenseType.getCompany() != null ? otherExpenseType.getCompany().getId() : null);
+    crupdate.setCompanyId(
+        otherExpenseType.getCompany() != null ? otherExpenseType.getCompany().getId() : null);
     crupdate.setComment(otherExpenseType.getComment());
     return crupdate;
   }
@@ -359,7 +364,9 @@ final class TestMoneyFixtures {
     Maintenance maintenance = new Maintenance();
     maintenance.setId(TestUtils.MAINTENANCE1_ID);
     maintenance.setExpense(expenseToCrupdateExpense(expense1()));
-    maintenance.setEquipment(TestOrganizationFixtures.equipmentToCrupdateEquipment(TestOrganizationFixtures.equipment1()));
+    maintenance.setEquipment(
+        TestOrganizationFixtures.equipmentToCrupdateEquipment(
+            TestOrganizationFixtures.equipment1()));
     maintenance.setDescription("Revision moteur periodique");
     return maintenance;
   }
@@ -368,7 +375,9 @@ final class TestMoneyFixtures {
     Maintenance maintenance = new Maintenance();
     maintenance.setId(TestUtils.MAINTENANCE2_ID);
     maintenance.setExpense(expenseToCrupdateExpense(expense2()));
-    maintenance.setEquipment(TestOrganizationFixtures.equipmentToCrupdateEquipment(TestOrganizationFixtures.equipment2()));
+    maintenance.setEquipment(
+        TestOrganizationFixtures.equipmentToCrupdateEquipment(
+            TestOrganizationFixtures.equipment2()));
     maintenance.setDescription("Remplacement pneus");
     return maintenance;
   }
@@ -377,7 +386,8 @@ final class TestMoneyFixtures {
     CrupdateMaintenance crupdate = new CrupdateMaintenance();
     crupdate.setId(maintenance.getId());
     crupdate.setExpense(maintenance.getExpense());
-    crupdate.setEquipmentId(maintenance.getEquipment() != null ? maintenance.getEquipment().getId() : null);
+    crupdate.setEquipmentId(
+        maintenance.getEquipment() != null ? maintenance.getEquipment().getId() : null);
     crupdate.setDescription(maintenance.getDescription());
     return crupdate;
   }
@@ -465,7 +475,9 @@ final class TestMoneyFixtures {
     Loan loan = new Loan();
     loan.setId(TestUtils.LOAN1_ID);
     loan.setJob(TestOrganizationFixtures.jobToCrupdateJob(TestOrganizationFixtures.job1()));
-    loan.setOrganization(TestOrganizationFixtures.organizationToCrupdateOrganization(TestOrganizationFixtures.organization1()));
+    loan.setOrganization(
+        TestOrganizationFixtures.organizationToCrupdateOrganization(
+            TestOrganizationFixtures.organization1()));
     loan.setInterestRate(1200);
     loan.setStartDate(LocalDate.of(2024, 2, 1));
     loan.setDueDate(LocalDate.of(2026, 12, 31));
@@ -493,7 +505,9 @@ final class TestMoneyFixtures {
     Loan loan = new Loan();
     loan.setId(TestUtils.LOAN2_ID);
     loan.setJob(TestOrganizationFixtures.jobToCrupdateJob(TestOrganizationFixtures.job1()));
-    loan.setOrganization(TestOrganizationFixtures.organizationToCrupdateOrganization(TestOrganizationFixtures.organization1()));
+    loan.setOrganization(
+        TestOrganizationFixtures.organizationToCrupdateOrganization(
+            TestOrganizationFixtures.organization1()));
     loan.setInterestRate(1500);
     loan.setStartDate(LocalDate.of(2024, 3, 1));
     loan.setStatus(LoanStatus.ACTIVE);
@@ -506,7 +520,8 @@ final class TestMoneyFixtures {
     CrupdateLoan crupdateLoan = new CrupdateLoan();
     crupdateLoan.setId(loan.getId());
     crupdateLoan.setJobId(loan.getJob() != null ? loan.getJob().getId() : null);
-    crupdateLoan.setOrganizationId(loan.getOrganization() != null ? loan.getOrganization().getId() : null);
+    crupdateLoan.setOrganizationId(
+        loan.getOrganization() != null ? loan.getOrganization().getId() : null);
     crupdateLoan.setInterestRate(loan.getInterestRate());
     crupdateLoan.setStartDate(loan.getStartDate());
     crupdateLoan.setDueDate(loan.getDueDate());
@@ -600,7 +615,9 @@ final class TestMoneyFixtures {
     Loan loan = new Loan();
     loan.setId(TestUtils.LOAN3_ID);
     loan.setJob(TestOrganizationFixtures.jobToCrupdateJob(TestOrganizationFixtures.job1()));
-    loan.setOrganization(TestOrganizationFixtures.organizationToCrupdateOrganization(TestOrganizationFixtures.organization1()));
+    loan.setOrganization(
+        TestOrganizationFixtures.organizationToCrupdateOrganization(
+            TestOrganizationFixtures.organization1()));
     loan.setInterestRate(1000);
     loan.setStartDate(LocalDate.of(2024, 1, 15));
     loan.setStatus(LoanStatus.PAID);
@@ -621,7 +638,9 @@ final class TestMoneyFixtures {
     Loan loan = new Loan();
     loan.setId(TestUtils.LOAN4_ID);
     loan.setJob(TestOrganizationFixtures.jobToCrupdateJob(TestOrganizationFixtures.job1()));
-    loan.setOrganization(TestOrganizationFixtures.organizationToCrupdateOrganization(TestOrganizationFixtures.organization1()));
+    loan.setOrganization(
+        TestOrganizationFixtures.organizationToCrupdateOrganization(
+            TestOrganizationFixtures.organization1()));
     loan.setInterestRate(1000);
     loan.setStartDate(LocalDate.of(2024, 3, 1));
     loan.setDueDate(LocalDate.of(2024, 6, 1));
@@ -636,7 +655,9 @@ final class TestMoneyFixtures {
     Loan loan = new Loan();
     loan.setId(TestUtils.LOAN5_ID);
     loan.setJob(TestOrganizationFixtures.jobToCrupdateJob(TestOrganizationFixtures.job1()));
-    loan.setOrganization(TestOrganizationFixtures.organizationToCrupdateOrganization(TestOrganizationFixtures.organization1()));
+    loan.setOrganization(
+        TestOrganizationFixtures.organizationToCrupdateOrganization(
+            TestOrganizationFixtures.organization1()));
     loan.setInterestRate(1000);
     loan.setStartDate(LocalDate.of(2024, 1, 1));
     loan.setDueDate(LocalDate.of(2024, 6, 1));
@@ -658,7 +679,9 @@ final class TestMoneyFixtures {
     IncomeMoney income = new IncomeMoney();
     income.setId(TestUtils.INCOME5_ID);
     income.setJob(TestOrganizationFixtures.jobToCrupdateJob(TestOrganizationFixtures.job1()));
-    income.setOrganization(TestOrganizationFixtures.organizationToCrupdateOrganization(TestOrganizationFixtures.organization2()));
+    income.setOrganization(
+        TestOrganizationFixtures.organizationToCrupdateOrganization(
+            TestOrganizationFixtures.organization2()));
     income.setInvoiceReference("INV-2024-005");
     income.setBillingStartDate(LocalDate.of(2024, 4, 1));
     income.setDueDate(LocalDate.of(2024, 5, 1));
@@ -679,7 +702,9 @@ final class TestMoneyFixtures {
     IncomeMoney income = new IncomeMoney();
     income.setId(TestUtils.INCOME6_ID);
     income.setJob(TestOrganizationFixtures.jobToCrupdateJob(TestOrganizationFixtures.job1()));
-    income.setOrganization(TestOrganizationFixtures.organizationToCrupdateOrganization(TestOrganizationFixtures.organization2()));
+    income.setOrganization(
+        TestOrganizationFixtures.organizationToCrupdateOrganization(
+            TestOrganizationFixtures.organization2()));
     income.setInvoiceReference("INV-2024-006");
     income.setBillingStartDate(LocalDate.of(2024, 4, 15));
     income.setDueDate(LocalDate.of(2024, 5, 15));
@@ -704,7 +729,9 @@ final class TestMoneyFixtures {
     IncomeMoney income = new IncomeMoney();
     income.setId(TestUtils.INCOME7_ID);
     income.setJob(TestOrganizationFixtures.jobToCrupdateJob(TestOrganizationFixtures.job1()));
-    income.setOrganization(TestOrganizationFixtures.organizationToCrupdateOrganization(TestOrganizationFixtures.organization2()));
+    income.setOrganization(
+        TestOrganizationFixtures.organizationToCrupdateOrganization(
+            TestOrganizationFixtures.organization2()));
     income.setInvoiceReference("INV-2024-007");
     income.setBillingStartDate(LocalDate.of(2024, 5, 1));
     income.setDueDate(LocalDate.of(2024, 5, 31));
@@ -731,7 +758,8 @@ final class TestMoneyFixtures {
     cost.setName("Loyer bureau");
     cost.setAmount(new java.math.BigDecimal("2000.00"));
     cost.setDescription("Loyer mensuel des locaux principaux");
-    cost.setCompany(TestOrganizationFixtures.companyToCrupdateCompany(TestOrganizationFixtures.company1()));
+    cost.setCompany(
+        TestOrganizationFixtures.companyToCrupdateCompany(TestOrganizationFixtures.company1()));
     cost.setStartDate(java.time.LocalDate.of(2024, 1, 1));
     cost.setEndDate(null);
     return cost;
@@ -743,7 +771,8 @@ final class TestMoneyFixtures {
     cost.setName("Assurance vehicule");
     cost.setAmount(new java.math.BigDecimal("500.00"));
     cost.setDescription("Assurance flotte automobile");
-    cost.setCompany(TestOrganizationFixtures.companyToCrupdateCompany(TestOrganizationFixtures.company1()));
+    cost.setCompany(
+        TestOrganizationFixtures.companyToCrupdateCompany(TestOrganizationFixtures.company1()));
     cost.setStartDate(java.time.LocalDate.of(2024, 3, 1));
     cost.setEndDate(java.time.LocalDate.of(2025, 3, 1));
     return cost;
@@ -758,7 +787,8 @@ final class TestMoneyFixtures {
     supplier.setEmail("contact@fourniturespro.mg");
     supplier.setPhone("+261341234567");
     supplier.setContactName("Jean Rajaonarison");
-    supplier.setCompany(TestOrganizationFixtures.companyToCrupdateCompany(TestOrganizationFixtures.company1()));
+    supplier.setCompany(
+        TestOrganizationFixtures.companyToCrupdateCompany(TestOrganizationFixtures.company1()));
     return supplier;
   }
 
@@ -771,7 +801,8 @@ final class TestMoneyFixtures {
     supplier.setEmail("info@materiauxbtp.mg");
     supplier.setPhone("+261337654321");
     supplier.setContactName("Marie Randrianarisoa");
-    supplier.setCompany(TestOrganizationFixtures.companyToCrupdateCompany(TestOrganizationFixtures.company1()));
+    supplier.setCompany(
+        TestOrganizationFixtures.companyToCrupdateCompany(TestOrganizationFixtures.company1()));
     return supplier;
   }
 
@@ -807,16 +838,19 @@ final class TestMoneyFixtures {
     po.setOrderDate(java.time.LocalDate.of(2024, 6, 1));
     po.setStatus(PurchaseOrderStatus.VALIDATED);
     po.setTotalAmount(new java.math.BigDecimal("150000.00"));
-    po.setCompany(TestOrganizationFixtures.companyToCrupdateCompany(TestOrganizationFixtures.company1()));
+    po.setCompany(
+        TestOrganizationFixtures.companyToCrupdateCompany(TestOrganizationFixtures.company1()));
     po.setJob(TestOrganizationFixtures.jobToCrupdateJob(TestOrganizationFixtures.job1()));
     PurchaseOrderLine line1 = new PurchaseOrderLine();
     line1.setId(TestUtils.POL1_ID);
-    line1.setMaterial(TestOrganizationFixtures.materialToCrupdateMaterial(TestOrganizationFixtures.material1()));
+    line1.setMaterial(
+        TestOrganizationFixtures.materialToCrupdateMaterial(TestOrganizationFixtures.material1()));
     line1.setQuantity(50);
     line1.setUnitPrice(new java.math.BigDecimal("1500.00"));
     PurchaseOrderLine line2 = new PurchaseOrderLine();
     line2.setId(TestUtils.POL2_ID);
-    line2.setMaterial(TestOrganizationFixtures.materialToCrupdateMaterial(TestOrganizationFixtures.material2()));
+    line2.setMaterial(
+        TestOrganizationFixtures.materialToCrupdateMaterial(TestOrganizationFixtures.material2()));
     line2.setQuantity(200);
     line2.setUnitPrice(new java.math.BigDecimal("350.00"));
     po.setLines(java.util.List.of(line1, line2));
@@ -830,11 +864,13 @@ final class TestMoneyFixtures {
     po.setOrderDate(java.time.LocalDate.of(2024, 6, 15));
     po.setStatus(PurchaseOrderStatus.PENDING);
     po.setTotalAmount(new java.math.BigDecimal("85000.00"));
-    po.setCompany(TestOrganizationFixtures.companyToCrupdateCompany(TestOrganizationFixtures.company1()));
+    po.setCompany(
+        TestOrganizationFixtures.companyToCrupdateCompany(TestOrganizationFixtures.company1()));
     po.setJob(TestOrganizationFixtures.jobToCrupdateJob(TestOrganizationFixtures.job1()));
     PurchaseOrderLine line = new PurchaseOrderLine();
     line.setId(TestUtils.POL3_ID);
-    line.setMaterial(TestOrganizationFixtures.materialToCrupdateMaterial(TestOrganizationFixtures.material1()));
+    line.setMaterial(
+        TestOrganizationFixtures.materialToCrupdateMaterial(TestOrganizationFixtures.material1()));
     line.setQuantity(20);
     line.setUnitPrice(new java.math.BigDecimal("1600.00"));
     po.setLines(java.util.List.of(line));
@@ -918,7 +954,8 @@ final class TestMoneyFixtures {
     cashAccount.setName("Compte bancaire principal");
     cashAccount.setBalance(new java.math.BigDecimal("1000000.00"));
     cashAccount.setDescription("Compte courant BNI");
-    cashAccount.setCompany(TestOrganizationFixtures.companyToCrupdateCompany(TestOrganizationFixtures.company1()));
+    cashAccount.setCompany(
+        TestOrganizationFixtures.companyToCrupdateCompany(TestOrganizationFixtures.company1()));
     return cashAccount;
   }
 
@@ -928,7 +965,8 @@ final class TestMoneyFixtures {
     cashAccount.setName("Caisse");
     cashAccount.setBalance(new java.math.BigDecimal("500000.00"));
     cashAccount.setDescription("Caisse entreprise");
-    cashAccount.setCompany(TestOrganizationFixtures.companyToCrupdateCompany(TestOrganizationFixtures.company1()));
+    cashAccount.setCompany(
+        TestOrganizationFixtures.companyToCrupdateCompany(TestOrganizationFixtures.company1()));
     return cashAccount;
   }
 
@@ -938,7 +976,8 @@ final class TestMoneyFixtures {
     crupdate.setName(cashAccount.getName());
     crupdate.setBalance(cashAccount.getBalance());
     crupdate.setDescription(cashAccount.getDescription());
-    crupdate.setCompanyId(cashAccount.getCompany() != null ? cashAccount.getCompany().getId() : null);
+    crupdate.setCompanyId(
+        cashAccount.getCompany() != null ? cashAccount.getCompany().getId() : null);
     crupdate.setComment(cashAccount.getComment());
     return crupdate;
   }
@@ -956,7 +995,8 @@ final class TestMoneyFixtures {
   static BudgetLine budgetLine1() {
     BudgetLine budgetLine = new BudgetLine();
     budgetLine.setId(TestUtils.BUDGET_LINE1_ID);
-    budgetLine.setCompany(TestOrganizationFixtures.companyToCrupdateCompany(TestOrganizationFixtures.company1()));
+    budgetLine.setCompany(
+        TestOrganizationFixtures.companyToCrupdateCompany(TestOrganizationFixtures.company1()));
     budgetLine.setCategory("Matériaux");
     budgetLine.setPlannedAmount(new java.math.BigDecimal("500000.00"));
     budgetLine.setActualAmount(new java.math.BigDecimal("450000.00"));
@@ -969,7 +1009,8 @@ final class TestMoneyFixtures {
   static BudgetLine budgetLine2() {
     BudgetLine budgetLine = new BudgetLine();
     budgetLine.setId(TestUtils.BUDGET_LINE2_ID);
-    budgetLine.setCompany(TestOrganizationFixtures.companyToCrupdateCompany(TestOrganizationFixtures.company1()));
+    budgetLine.setCompany(
+        TestOrganizationFixtures.companyToCrupdateCompany(TestOrganizationFixtures.company1()));
     budgetLine.setCategory("Main-d'œuvre");
     budgetLine.setPlannedAmount(new java.math.BigDecimal("300000.00"));
     budgetLine.setActualAmount(new java.math.BigDecimal("280000.00"));
@@ -1032,7 +1073,8 @@ final class TestMoneyFixtures {
       CashTransaction cashTransaction) {
     CrupdateCashTransaction crupdate = new CrupdateCashTransaction();
     crupdate.setId(cashTransaction.getId());
-    crupdate.setCashAccountId(cashTransaction.getCashAccount() != null ? cashTransaction.getCashAccount().getId() : null);
+    crupdate.setCashAccountId(
+        cashTransaction.getCashAccount() != null ? cashTransaction.getCashAccount().getId() : null);
     crupdate.setAmount(cashTransaction.getAmount());
     crupdate.setTransactionDate(cashTransaction.getTransactionDate());
     crupdate.setDescription(cashTransaction.getDescription());

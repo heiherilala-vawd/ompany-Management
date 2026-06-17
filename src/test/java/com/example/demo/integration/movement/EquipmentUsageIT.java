@@ -113,7 +113,8 @@ class EquipmentUsageIT {
     List<EquipmentUsage> result = extractData(resp, EquipmentUsage.class);
 
     assertEquals(2, result.size());
-    assertTrue(result.stream().allMatch(eu -> eu.getJob() != null && JOB1_ID.equals(eu.getJob().getId())));
+    assertTrue(
+        result.stream().allMatch(eu -> eu.getJob() != null && JOB1_ID.equals(eu.getJob().getId())));
   }
 
   @Test

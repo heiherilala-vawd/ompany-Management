@@ -69,7 +69,8 @@ public class UserMapper {
     restUser.setSex(EnumMapper.mapEnum(domainUser.getSex(), Sex.class));
     restUser.setEmail(domainUser.getEmail());
     if (domainUser.getCompanies() != null && !domainUser.getCompanies().isEmpty()) {
-      restUser.setCompany(companyMapper.toRestCrupdateCompany(domainUser.getCompanies().iterator().next()));
+      restUser.setCompany(
+          companyMapper.toRestCrupdateCompany(domainUser.getCompanies().iterator().next()));
     }
     restUser.setBirthDate(domainUser.getBirthDate());
     if (domainUser.getManager() != null) {

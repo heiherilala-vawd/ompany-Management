@@ -210,8 +210,6 @@ class PurchaseOperationIT {
             4,
             0,
             null,
-            null,
-            null,
             null);
     List<TravelMaterials> createdTravelMaterials = extractData(resp5, TravelMaterials.class);
     assertEquals(1, createdTravelMaterials.size());
@@ -341,8 +339,6 @@ class PurchaseOperationIT {
             "purchase_operation_travel_2",
             MATERIAL1_ID,
             4,
-            null,
-            null,
             null,
             null,
             null);

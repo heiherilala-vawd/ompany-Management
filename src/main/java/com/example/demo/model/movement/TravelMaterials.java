@@ -7,8 +7,6 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.io.Serializable;
-import java.time.Instant;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import lombok.AllArgsConstructor;
@@ -62,17 +60,10 @@ public class TravelMaterials extends CreatAndUpdateEntity implements Serializabl
     return getQuantityInTransit() > 0;
   }
 
-  @NotNull
-  @ManyToOne
-  @JoinColumn(name = "arrival_location")
-  private Warehouse arrivalLocation;
-
-  private Instant arrivalDate;
-
   @OneToMany(mappedBy = "travelMaterials", cascade = CascadeType.ALL, orphanRemoval = true)
   @JsonManagedReference
   @ToString.Exclude
-  private List<TravelMaterialsArrivalLog> arrivalLogs = new ArrayList<>();
+  private List<TravelMaterialsArrivalLog> arrivalLogs;
 
   @Override
   public boolean equals(Object o) {

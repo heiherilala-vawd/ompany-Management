@@ -51,8 +51,7 @@ public class IncomeTypeMapper {
     restIncomeType.setId(domainIncomeType.getId());
     restIncomeType.setName(domainIncomeType.getName());
     restIncomeType.setDescription(domainIncomeType.getDescription());
-    restIncomeType.setCompany(
-        companyMapper.toRestCrupdateCompany(domainIncomeType.getCompany()));
+    restIncomeType.setCompany(companyMapper.toRestCrupdateCompany(domainIncomeType.getCompany()));
     RestAuditMapperUtils.mapAuditFields(
         domainIncomeType,
         restIncomeType::setCreatedAt,

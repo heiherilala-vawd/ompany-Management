@@ -47,7 +47,8 @@ public class DepartmentMapper {
     return rest;
   }
 
-  public CrupdateDepartment toRestCrupdateDepartment(com.example.demo.model.core.Department domain) {
+  public CrupdateDepartment toRestCrupdateDepartment(
+      com.example.demo.model.core.Department domain) {
     if (domain == null) return null;
     return new CrupdateDepartment()
         .id(domain.getId())

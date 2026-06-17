@@ -10,7 +10,6 @@ import com.example.demo.client.model.CrupdateMaterial;
 import com.example.demo.client.model.Material;
 import com.example.demo.client.model.MaterialUnit;
 import com.example.demo.client.model.PaginatedResponse;
-import com.example.demo.client.model.Warehouse;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
 import com.example.demo.integration.conf.TestDataSqlLoader;
@@ -165,7 +164,8 @@ class MaterialIT {
     MaterialApi api = new MaterialApi(administrationClient);
 
     PaginatedResponse resp =
-        api.getMaterials(ADMIN_ID, COMPANY1_ID, 1, 100, "Ciment", "35kg", MaterialUnit.SAC, null, null);
+        api.getMaterials(
+            ADMIN_ID, COMPANY1_ID, 1, 100, "Ciment", "35kg", MaterialUnit.SAC, null, null);
 
     List<Material> materials = extractData(resp, Material.class);
 

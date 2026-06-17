@@ -4,7 +4,6 @@ import com.example.demo.client.model.CrupdateIncomeMoney;
 import com.example.demo.client.model.IncomeMoney;
 import com.example.demo.client.model.IncomeReceipt;
 import com.example.demo.endpoint.rest.mapper.JobMapper;
-import com.example.demo.endpoint.rest.mapper.money.OrganizationMapper;
 import com.example.demo.endpoint.rest.mapper.RestAuditMapperUtils;
 import com.example.demo.service.JobService;
 import com.example.demo.service.money.IncomeTypeService;
@@ -87,7 +86,9 @@ public class IncomeMoneyMapper {
     IncomeMoney restIncome = new IncomeMoney();
     restIncome.setId(domainIncome.getId());
     restIncome.setOrganization(
-        domainIncome.getOrganization() != null ? organizationMapper.toCrupdate(domainIncome.getOrganization()) : null);
+        domainIncome.getOrganization() != null
+            ? organizationMapper.toCrupdate(domainIncome.getOrganization())
+            : null);
     restIncome.setInvoiceReference(domainIncome.getInvoiceReference());
     restIncome.setBillingStartDate(domainIncome.getBillingStartDate());
     restIncome.setFacturationDate(domainIncome.getFacturationDate());

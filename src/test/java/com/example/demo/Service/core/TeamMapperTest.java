@@ -4,9 +4,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
+import com.example.demo.client.model.CrupdateJob;
 import com.example.demo.client.model.CrupdateTeam;
 import com.example.demo.client.model.User;
-import com.example.demo.client.model.CrupdateJob;
 import com.example.demo.endpoint.rest.mapper.JobMapper;
 import com.example.demo.endpoint.rest.mapper.UserMapper;
 import com.example.demo.endpoint.rest.mapper.core.TeamMapper;

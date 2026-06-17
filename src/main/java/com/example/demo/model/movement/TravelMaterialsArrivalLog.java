@@ -45,8 +45,12 @@ public class TravelMaterialsArrivalLog extends CreatAndUpdateEntity implements S
   @Min(0)
   private Integer quantityLost;
 
+  @NotNull private Instant arrivalDate;
+
   @NotNull
-  private Instant arrivalDate;
+  @ManyToOne
+  @JoinColumn(name = "arrival_location")
+  private Warehouse arrivalLocation;
 
   @Override
   public boolean equals(Object o) {

@@ -91,15 +91,26 @@ public class TravelEquipmentService {
       }
 
       TransportStatus newStatus = Enum.valueOf(TransportStatus.class, arrival.getStatus().name());
-      Warehouse targetWarehouse = resolveArrivalWarehouse(travelEquipment, newStatus);
-      Instant now = Instant.now();
+      Warehouse defaultWarehouse = resolveArrivalWarehouse(travelEquipment, newStatus);
+
+      Warehouse targetWarehouse =
+          arrival.getArrivalLocation() != null
+              ? warehouseService
+                  .findById(arrival.getArrivalLocation())
+                  .orElseThrow(
+                      () ->
+                          new NotFoundException(
+                              "Warehouse with id " + arrival.getArrivalLocation() + " not found"))
+              : defaultWarehouse;
+      Instant arrivalDate =
+          arrival.getArrivalDate() != null ? arrival.getArrivalDate() : Instant.now();
 
       Equipment equipment = travelEquipment.getEquipment();
       equipment.setWarehouse(targetWarehouse);
       equipmentService.createOrUpdateAll(List.of(equipment));
 
       travelEquipment.setStatus(newStatus);
-      travelEquipment.setArrivalDate(now);
+      travelEquipment.setArrivalDate(arrivalDate);
       travelEquipment.setArrivalLocation(targetWarehouse);
 
       TravelEquipment saved = travelEquipmentRepository.save(travelEquipment);
@@ -138,7 +149,9 @@ public class TravelEquipmentService {
       }
       if (criteria.getArrivalLocation() != null) {
         predicates.add(
-            cb.equal(root.get("arrivalLocation").get("id"), criteria.getArrivalLocation()));
+            cb.equal(
+                root.get("travel").get("arrivalLocation").get("id"),
+                criteria.getArrivalLocation()));
       }
       if (criteria.getArrivalDateMin() != null) {
         predicates.add(

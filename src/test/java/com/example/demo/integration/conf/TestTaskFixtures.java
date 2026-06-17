@@ -24,7 +24,8 @@ final class TestTaskFixtures {
     task.setPriority(TaskPriority.HIGH);
     task.setCompany(new CrupdateCompany().id(COMPANY1_ID));
     task.setCompleted(true);
-    task.setAssignedUsers(List.of(new CrupdateUser().id(ADMIN_ID), new CrupdateUser().id(EMPLOYEE_ID)));
+    task.setAssignedUsers(
+        List.of(new CrupdateUser().id(ADMIN_ID), new CrupdateUser().id(EMPLOYEE_ID)));
     return task;
   }
 

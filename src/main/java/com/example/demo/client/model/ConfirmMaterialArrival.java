@@ -35,9 +35,11 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   ConfirmMaterialArrival.JSON_PROPERTY_ID,
   ConfirmMaterialArrival.JSON_PROPERTY_LOG_ID,
   ConfirmMaterialArrival.JSON_PROPERTY_QUANTITY_RECEIVED,
-  ConfirmMaterialArrival.JSON_PROPERTY_QUANTITY_LOST
+  ConfirmMaterialArrival.JSON_PROPERTY_QUANTITY_LOST,
+  ConfirmMaterialArrival.JSON_PROPERTY_ARRIVAL_LOCATION,
+  ConfirmMaterialArrival.JSON_PROPERTY_ARRIVAL_DATE
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-17T16:47:13.835321067+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-17T22:52:33.873707389+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class ConfirmMaterialArrival {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -50,6 +52,12 @@ public class ConfirmMaterialArrival {
 
   public static final String JSON_PROPERTY_QUANTITY_LOST = "quantity_lost";
   private Integer quantityLost;
+
+  public static final String JSON_PROPERTY_ARRIVAL_LOCATION = "arrival_location";
+  private String arrivalLocation;
+
+  public static final String JSON_PROPERTY_ARRIVAL_DATE = "arrival_date";
+  private java.time.Instant arrivalDate;
 
   public ConfirmMaterialArrival() { 
   }
@@ -156,6 +164,56 @@ public class ConfirmMaterialArrival {
   }
 
 
+  public ConfirmMaterialArrival arrivalLocation(String arrivalLocation) {
+    this.arrivalLocation = arrivalLocation;
+    return this;
+  }
+
+   /**
+   * Warehouse ID. Defaults to travel&#39;s arrival location if null
+   * @return arrivalLocation
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_ARRIVAL_LOCATION)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getArrivalLocation() {
+    return arrivalLocation;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_ARRIVAL_LOCATION)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setArrivalLocation(String arrivalLocation) {
+    this.arrivalLocation = arrivalLocation;
+  }
+
+
+  public ConfirmMaterialArrival arrivalDate(java.time.Instant arrivalDate) {
+    this.arrivalDate = arrivalDate;
+    return this;
+  }
+
+   /**
+   * Defaults to current time if null
+   * @return arrivalDate
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_ARRIVAL_DATE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public java.time.Instant getArrivalDate() {
+    return arrivalDate;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_ARRIVAL_DATE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setArrivalDate(java.time.Instant arrivalDate) {
+    this.arrivalDate = arrivalDate;
+  }
+
+
   /**
    * Return true if this ConfirmMaterialArrival object is equal to o.
    */
@@ -171,12 +229,14 @@ public class ConfirmMaterialArrival {
     return Objects.equals(this.id, confirmMaterialArrival.id) &&
         Objects.equals(this.logId, confirmMaterialArrival.logId) &&
         Objects.equals(this.quantityReceived, confirmMaterialArrival.quantityReceived) &&
-        Objects.equals(this.quantityLost, confirmMaterialArrival.quantityLost);
+        Objects.equals(this.quantityLost, confirmMaterialArrival.quantityLost) &&
+        Objects.equals(this.arrivalLocation, confirmMaterialArrival.arrivalLocation) &&
+        Objects.equals(this.arrivalDate, confirmMaterialArrival.arrivalDate);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, logId, quantityReceived, quantityLost);
+    return Objects.hash(id, logId, quantityReceived, quantityLost, arrivalLocation, arrivalDate);
   }
 
   @Override
@@ -187,6 +247,8 @@ public class ConfirmMaterialArrival {
     sb.append("    logId: ").append(toIndentedString(logId)).append("\n");
     sb.append("    quantityReceived: ").append(toIndentedString(quantityReceived)).append("\n");
     sb.append("    quantityLost: ").append(toIndentedString(quantityLost)).append("\n");
+    sb.append("    arrivalLocation: ").append(toIndentedString(arrivalLocation)).append("\n");
+    sb.append("    arrivalDate: ").append(toIndentedString(arrivalDate)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -252,6 +314,16 @@ public class ConfirmMaterialArrival {
     // add `quantity_lost` to the URL query string
     if (getQuantityLost() != null) {
       joiner.add(String.format("%squantity_lost%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getQuantityLost()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `arrival_location` to the URL query string
+    if (getArrivalLocation() != null) {
+      joiner.add(String.format("%sarrival_location%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getArrivalLocation()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `arrival_date` to the URL query string
+    if (getArrivalDate() != null) {
+      joiner.add(String.format("%sarrival_date%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getArrivalDate()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

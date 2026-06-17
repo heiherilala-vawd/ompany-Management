@@ -50,7 +50,9 @@ public class TaskMapper {
     rest.setCompletedAt(domain.getCompletedAt());
     if (assignments != null) {
       rest.setAssignedUsers(
-          assignments.stream().map(a -> userMapper.toRestCrupdateUser(a.getUser())).collect(Collectors.toList()));
+          assignments.stream()
+              .map(a -> userMapper.toRestCrupdateUser(a.getUser()))
+              .collect(Collectors.toList()));
     }
     RestAuditMapperUtils.mapAuditFields(
         domain,

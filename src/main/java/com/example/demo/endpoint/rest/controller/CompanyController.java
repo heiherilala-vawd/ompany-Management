@@ -8,13 +8,12 @@ import com.example.demo.endpoint.rest.mapper.CompanyMapper;
 import com.example.demo.model.BoundedPageSize;
 import com.example.demo.model.PageFromOne;
 import com.example.demo.model.criteria.CompanyCriteria;
-import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.service.CompanyService;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.AllArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
