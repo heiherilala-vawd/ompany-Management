@@ -2,6 +2,7 @@ package com.example.demo.endpoint.rest.mapper.money;
 
 import com.example.demo.client.model.CashAccount;
 import com.example.demo.client.model.CrupdateCashAccount;
+import com.example.demo.endpoint.rest.mapper.CompanyMapper;
 import com.example.demo.endpoint.rest.mapper.RestAuditMapperUtils;
 import com.example.demo.model.Company;
 import java.util.List;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Component;
 @Component
 @AllArgsConstructor
 public class CashAccountMapper {
+
+  private final CompanyMapper companyMapper;
 
   public com.example.demo.model.money.CashAccount toDomain(
       CrupdateCashAccount rest, String companyId) {
@@ -34,7 +37,7 @@ public class CashAccountMapper {
     rest.setName(domain.getName());
     rest.setBalance(domain.getBalance());
     rest.setDescription(domain.getDescription());
-    rest.setCompanyId(domain.getCompany() != null ? domain.getCompany().getId() : null);
+    rest.setCompany(companyMapper.toRestCrupdateCompany(domain.getCompany()));
     RestAuditMapperUtils.mapAuditFields(
         domain,
         rest::setCreatedAt,
@@ -44,6 +47,17 @@ public class CashAccountMapper {
         rest::setUpdatedBy);
 
     return rest;
+  }
+
+  public CrupdateCashAccount toRestCrupdateCashAccount(com.example.demo.model.money.CashAccount domain) {
+    if (domain == null) return null;
+    return new CrupdateCashAccount()
+        .id(domain.getId())
+        .name(domain.getName())
+        .balance(domain.getBalance())
+        .description(domain.getDescription())
+        .companyId(domain.getCompany() != null ? domain.getCompany().getId() : null)
+        .comment(domain.getComment());
   }
 
   public List<CashAccount> toRestCashAccounts(

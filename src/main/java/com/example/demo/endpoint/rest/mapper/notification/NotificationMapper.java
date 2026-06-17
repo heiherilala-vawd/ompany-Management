@@ -4,6 +4,7 @@ import com.example.demo.client.model.CrupdateNotification;
 import com.example.demo.client.model.Notification;
 import com.example.demo.endpoint.rest.mapper.RestAuditMapperUtils;
 import com.example.demo.endpoint.rest.mapper.UserMapper;
+import com.example.demo.endpoint.rest.mapper.task.TaskMapper;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -13,17 +14,14 @@ import org.springframework.stereotype.Component;
 public class NotificationMapper {
 
   private final UserMapper userMapper;
+  private final TaskMapper taskMapper;
 
   public Notification toRestNotification(com.example.demo.model.notification.Notification domain) {
     if (domain == null) return null;
     var rest = new Notification();
     rest.setId(domain.getId());
     rest.setUser(userMapper.toRestCrupdateUser(domain.getUser()));
-    if (domain.getTask() != null) {
-      rest.setTaskId(domain.getTask().getId());
-    } else {
-      rest.setTaskId_JsonNullable(null);
-    }
+    rest.setTask(taskMapper.toRestCrupdateTask(domain.getTask()));
     rest.setTitle(domain.getTitle());
     rest.setMessage(domain.getMessage());
     rest.setRead(domain.getRead());

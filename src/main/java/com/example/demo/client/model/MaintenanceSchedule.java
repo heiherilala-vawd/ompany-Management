@@ -20,6 +20,8 @@ import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
 import com.example.demo.client.model.AuditUser;
+import com.example.demo.client.model.CrupdateCompany;
+import com.example.demo.client.model.CrupdateEquipment;
 import com.example.demo.client.model.MaintenanceScheduleStatus;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -36,25 +38,25 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  */
 @JsonPropertyOrder({
   MaintenanceSchedule.JSON_PROPERTY_ID,
-  MaintenanceSchedule.JSON_PROPERTY_EQUIPMENT_ID,
+  MaintenanceSchedule.JSON_PROPERTY_EQUIPMENT,
   MaintenanceSchedule.JSON_PROPERTY_DESCRIPTION,
   MaintenanceSchedule.JSON_PROPERTY_SCHEDULED_DATE,
   MaintenanceSchedule.JSON_PROPERTY_FREQUENCY,
   MaintenanceSchedule.JSON_PROPERTY_STATUS,
-  MaintenanceSchedule.JSON_PROPERTY_COMPANY_ID,
+  MaintenanceSchedule.JSON_PROPERTY_COMPANY,
   MaintenanceSchedule.JSON_PROPERTY_CREATED_AT,
   MaintenanceSchedule.JSON_PROPERTY_UPDATED_AT,
   MaintenanceSchedule.JSON_PROPERTY_CREATED_BY,
   MaintenanceSchedule.JSON_PROPERTY_UPDATED_BY,
   MaintenanceSchedule.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-16T16:39:05.632791630+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-17T00:42:02.850500645+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class MaintenanceSchedule {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
 
-  public static final String JSON_PROPERTY_EQUIPMENT_ID = "equipment_id";
-  private String equipmentId;
+  public static final String JSON_PROPERTY_EQUIPMENT = "equipment";
+  private CrupdateEquipment equipment;
 
   public static final String JSON_PROPERTY_DESCRIPTION = "description";
   private String description;
@@ -68,8 +70,8 @@ public class MaintenanceSchedule {
   public static final String JSON_PROPERTY_STATUS = "status";
   private MaintenanceScheduleStatus status;
 
-  public static final String JSON_PROPERTY_COMPANY_ID = "company_id";
-  private String companyId;
+  public static final String JSON_PROPERTY_COMPANY = "company";
+  private CrupdateCompany company;
 
   public static final String JSON_PROPERTY_CREATED_AT = "created_at";
   private java.time.Instant createdAt;
@@ -114,28 +116,28 @@ public class MaintenanceSchedule {
   }
 
 
-  public MaintenanceSchedule equipmentId(String equipmentId) {
-    this.equipmentId = equipmentId;
+  public MaintenanceSchedule equipment(CrupdateEquipment equipment) {
+    this.equipment = equipment;
     return this;
   }
 
    /**
-   * Get equipmentId
-   * @return equipmentId
+   * Get equipment
+   * @return equipment
   **/
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_EQUIPMENT_ID)
+  @JsonProperty(JSON_PROPERTY_EQUIPMENT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getEquipmentId() {
-    return equipmentId;
+  public CrupdateEquipment getEquipment() {
+    return equipment;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_EQUIPMENT_ID)
+  @JsonProperty(JSON_PROPERTY_EQUIPMENT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setEquipmentId(String equipmentId) {
-    this.equipmentId = equipmentId;
+  public void setEquipment(CrupdateEquipment equipment) {
+    this.equipment = equipment;
   }
 
 
@@ -239,28 +241,28 @@ public class MaintenanceSchedule {
   }
 
 
-  public MaintenanceSchedule companyId(String companyId) {
-    this.companyId = companyId;
+  public MaintenanceSchedule company(CrupdateCompany company) {
+    this.company = company;
     return this;
   }
 
    /**
-   * Get companyId
-   * @return companyId
+   * Get company
+   * @return company
   **/
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_COMPANY_ID)
+  @JsonProperty(JSON_PROPERTY_COMPANY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getCompanyId() {
-    return companyId;
+  public CrupdateCompany getCompany() {
+    return company;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_COMPANY_ID)
+  @JsonProperty(JSON_PROPERTY_COMPANY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setCompanyId(String companyId) {
-    this.companyId = companyId;
+  public void setCompany(CrupdateCompany company) {
+    this.company = company;
   }
 
 
@@ -402,12 +404,12 @@ public class MaintenanceSchedule {
     }
     MaintenanceSchedule maintenanceSchedule = (MaintenanceSchedule) o;
     return Objects.equals(this.id, maintenanceSchedule.id) &&
-        Objects.equals(this.equipmentId, maintenanceSchedule.equipmentId) &&
+        Objects.equals(this.equipment, maintenanceSchedule.equipment) &&
         Objects.equals(this.description, maintenanceSchedule.description) &&
         Objects.equals(this.scheduledDate, maintenanceSchedule.scheduledDate) &&
         Objects.equals(this.frequency, maintenanceSchedule.frequency) &&
         Objects.equals(this.status, maintenanceSchedule.status) &&
-        Objects.equals(this.companyId, maintenanceSchedule.companyId) &&
+        Objects.equals(this.company, maintenanceSchedule.company) &&
         Objects.equals(this.createdAt, maintenanceSchedule.createdAt) &&
         Objects.equals(this.updatedAt, maintenanceSchedule.updatedAt) &&
         Objects.equals(this.createdBy, maintenanceSchedule.createdBy) &&
@@ -417,7 +419,7 @@ public class MaintenanceSchedule {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, equipmentId, description, scheduledDate, frequency, status, companyId, createdAt, updatedAt, createdBy, updatedBy, comment);
+    return Objects.hash(id, equipment, description, scheduledDate, frequency, status, company, createdAt, updatedAt, createdBy, updatedBy, comment);
   }
 
   @Override
@@ -425,12 +427,12 @@ public class MaintenanceSchedule {
     StringBuilder sb = new StringBuilder();
     sb.append("class MaintenanceSchedule {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    equipmentId: ").append(toIndentedString(equipmentId)).append("\n");
+    sb.append("    equipment: ").append(toIndentedString(equipment)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("    scheduledDate: ").append(toIndentedString(scheduledDate)).append("\n");
     sb.append("    frequency: ").append(toIndentedString(frequency)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
-    sb.append("    companyId: ").append(toIndentedString(companyId)).append("\n");
+    sb.append("    company: ").append(toIndentedString(company)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
     sb.append("    updatedAt: ").append(toIndentedString(updatedAt)).append("\n");
     sb.append("    createdBy: ").append(toIndentedString(createdBy)).append("\n");

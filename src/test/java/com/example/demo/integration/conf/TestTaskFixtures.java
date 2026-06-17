@@ -2,7 +2,9 @@ package com.example.demo.integration.conf;
 
 import static com.example.demo.integration.conf.TestUtils.*;
 
+import com.example.demo.client.model.CrupdateCompany;
 import com.example.demo.client.model.CrupdateTask;
+import com.example.demo.client.model.CrupdateUser;
 import com.example.demo.client.model.Task;
 import com.example.demo.client.model.TaskPriority;
 import java.time.LocalDate;
@@ -20,9 +22,9 @@ final class TestTaskFixtures {
     task.setDescription("Inventaire du matériel sur le chantier A");
     task.setDueDate(LocalDate.of(2026, 6, 15));
     task.setPriority(TaskPriority.HIGH);
-    task.setCompanyId(COMPANY1_ID);
+    task.setCompany(new CrupdateCompany().id(COMPANY1_ID));
     task.setCompleted(true);
-    task.setAssignedUserIds(List.of(ADMIN_ID, EMPLOYEE_ID));
+    task.setAssignedUsers(List.of(new CrupdateUser().id(ADMIN_ID), new CrupdateUser().id(EMPLOYEE_ID)));
     return task;
   }
 
@@ -33,8 +35,8 @@ final class TestTaskFixtures {
     task.setDescription("Maintenance mensuelle des équipements");
     task.setDueDate(LocalDate.of(2026, 7, 1));
     task.setPriority(TaskPriority.MEDIUM);
-    task.setCompanyId(COMPANY1_ID);
-    task.setAssignedUserIds(List.of(EMPLOYEE_ID));
+    task.setCompany(new CrupdateCompany().id(COMPANY1_ID));
+    task.setAssignedUsers(List.of(new CrupdateUser().id(EMPLOYEE_ID)));
     return task;
   }
 
@@ -45,7 +47,10 @@ final class TestTaskFixtures {
     crupdate.setDescription(task.getDescription());
     crupdate.setDueDate(task.getDueDate());
     crupdate.setPriority(task.getPriority());
-    crupdate.setAssignedUserIds(task.getAssignedUserIds());
+    crupdate.setAssignedUserIds(
+        task.getAssignedUsers() != null
+            ? task.getAssignedUsers().stream().map(CrupdateUser::getId).toList()
+            : null);
     return crupdate;
   }
 

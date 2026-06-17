@@ -238,7 +238,7 @@ final class TestOrganizationFixtures {
     material.setName("Ciment");
     material.setDescription("Ciment Portland 35kg");
     material.setUnit(com.example.demo.client.model.MaterialUnit.SAC);
-    material.setCompanyId(TestUtils.COMPANY1_ID);
+    material.setCompany(companyToCrupdateCompany(company1()));
     material.setUnitPrice(new BigDecimal("5000.00"));
     List<MaterialWarehouseInfo> mws = new ArrayList<>();
     MaterialWarehouseInfo mw1 = new MaterialWarehouseInfo();
@@ -259,7 +259,7 @@ final class TestOrganizationFixtures {
     material.setName("Brique");
     material.setDescription("Brique rouge 20x10x5");
     material.setUnit(com.example.demo.client.model.MaterialUnit.U);
-    material.setCompanyId(TestUtils.COMPANY1_ID);
+    material.setCompany(companyToCrupdateCompany(company1()));
     material.setUnitPrice(new BigDecimal("200.00"));
     List<MaterialWarehouseInfo> mws = new ArrayList<>();
     MaterialWarehouseInfo mw = new MaterialWarehouseInfo();
@@ -276,7 +276,7 @@ final class TestOrganizationFixtures {
     material.setName("Peinture");
     material.setDescription("Peinture blanche mate");
     material.setUnit(com.example.demo.client.model.MaterialUnit.L);
-    material.setCompanyId(TestUtils.COMPANY1_ID);
+    material.setCompany(companyToCrupdateCompany(company1()));
     material.setUnitPrice(new BigDecimal("15000.00"));
     List<MaterialWarehouseInfo> mws = new ArrayList<>();
     MaterialWarehouseInfo mw = new MaterialWarehouseInfo();
@@ -311,7 +311,7 @@ final class TestOrganizationFixtures {
     team.setId(TestUtils.TEAM1_ID);
     team.setName("Équipe chantier A");
     team.setLeader(TestUserFixtures.employee1());
-    team.setJobId(TestUtils.JOB1_ID);
+    team.setJob(jobToCrupdateJob(job1()));
     team.setMembers(
         List.of(TestUserFixtures.employee1(), TestUserFixtures.user1(), TestUserFixtures.user2()));
     return team;
@@ -322,7 +322,7 @@ final class TestOrganizationFixtures {
     team.setId(TestUtils.TEAM2_ID);
     team.setName("Équipe rénovation hôtel");
     team.setLeader(TestUserFixtures.user1());
-    team.setJobId(null);
+    team.setJob(null);
     team.setMembers(List.of(TestUserFixtures.user1(), TestUserFixtures.employee1()));
     return team;
   }
@@ -334,8 +334,8 @@ final class TestOrganizationFixtures {
     if (team.getLeader() != null) {
       crupdate.setLeaderId(team.getLeader().getId());
     }
-    if (team.getJobId() != null) {
-      crupdate.setJobId(team.getJobId());
+    if (team.getJob() != null) {
+      crupdate.setJobId(team.getJob().getId());
     }
     if (team.getMembers() != null) {
       crupdate.setMemberIds(
@@ -369,7 +369,7 @@ final class TestOrganizationFixtures {
     department.setId(TestUtils.DEPARTMENT1_ID);
     department.setName("Génie Civil");
     department.setDescription("Département en charge des travaux de génie civil");
-    department.setCompanyId(TestUtils.COMPANY1_ID);
+    department.setCompany(companyToCrupdateCompany(company1()));
     return department;
   }
 
@@ -378,7 +378,7 @@ final class TestOrganizationFixtures {
     department.setId(TestUtils.DEPARTMENT2_ID);
     department.setName("Électricité");
     department.setDescription("Département en charge des installations électriques");
-    department.setCompanyId(TestUtils.COMPANY1_ID);
+    department.setCompany(companyToCrupdateCompany(company1()));
     return department;
   }
 
@@ -387,7 +387,7 @@ final class TestOrganizationFixtures {
     crupdate.setId(department.getId());
     crupdate.setName(department.getName());
     crupdate.setDescription(department.getDescription());
-    crupdate.setCompanyId(department.getCompanyId());
+    crupdate.setCompanyId(department.getCompany() != null ? department.getCompany().getId() : null);
     crupdate.setComment(department.getComment());
     return crupdate;
   }
@@ -409,7 +409,7 @@ final class TestOrganizationFixtures {
     org.setEmail("contact@bni.mg");
     org.setPhone("+261202212345");
     org.setContactName("Rakotoarisoa Jean");
-    org.setCompanyId(TestUtils.COMPANY1_ID);
+    org.setCompany(companyToCrupdateCompany(company1()));
     return org;
   }
 
@@ -421,7 +421,7 @@ final class TestOrganizationFixtures {
     org.setEmail("client.alpha@email.com");
     org.setPhone("+261320011223");
     org.setContactName("Marie Claire");
-    org.setCompanyId(TestUtils.COMPANY1_ID);
+    org.setCompany(companyToCrupdateCompany(company1()));
     return org;
   }
 
@@ -433,7 +433,7 @@ final class TestOrganizationFixtures {
     crupdate.setEmail(organization.getEmail());
     crupdate.setPhone(organization.getPhone());
     crupdate.setContactName(organization.getContactName());
-    crupdate.setCompanyId(organization.getCompanyId());
+    crupdate.setCompanyId(organization.getCompany() != null ? organization.getCompany().getId() : null);
     crupdate.setComment(organization.getComment());
     return crupdate;
   }

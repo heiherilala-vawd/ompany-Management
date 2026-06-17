@@ -2,6 +2,8 @@ package com.example.demo.endpoint.rest.mapper.task;
 
 import com.example.demo.client.model.CrupdateTaskSchedule;
 import com.example.demo.client.model.TaskSchedule;
+import com.example.demo.endpoint.rest.mapper.CompanyMapper;
+import com.example.demo.endpoint.rest.mapper.UserMapper;
 import com.example.demo.endpoint.rest.mapper.RestAuditMapperUtils;
 import com.example.demo.model.Company;
 import com.example.demo.model.User;
@@ -14,6 +16,9 @@ import org.springframework.stereotype.Component;
 @Component
 @AllArgsConstructor
 public class TaskScheduleMapper {
+
+  private final CompanyMapper companyMapper;
+  private final UserMapper userMapper;
 
   public com.example.demo.model.task.TaskSchedule toDomain(
       CrupdateTaskSchedule rest, String companyId) {
@@ -59,10 +64,10 @@ public class TaskScheduleMapper {
       rest.setStatus(
           com.example.demo.client.model.ScheduleStatus.fromValue(domain.getStatus().name()));
     }
-    rest.setCompanyId(domain.getCompany() != null ? domain.getCompany().getId() : null);
+    rest.setCompany(companyMapper.toRestCrupdateCompany(domain.getCompany()));
     if (domain.getAssignedUsers() != null) {
-      rest.setAssignedUserIds(
-          domain.getAssignedUsers().stream().map(User::getId).collect(Collectors.toList()));
+      rest.setAssignedUsers(
+          domain.getAssignedUsers().stream().map(u -> userMapper.toRestCrupdateUser(u)).collect(Collectors.toList()));
     }
     RestAuditMapperUtils.mapAuditFields(
         domain,

@@ -19,6 +19,7 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import com.example.demo.client.model.CrupdateUser;
 import com.example.demo.client.model.EntityType;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -36,12 +37,12 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   History.JSON_PROPERTY_ID,
   History.JSON_PROPERTY_PREVIOUS_VALUE,
   History.JSON_PROPERTY_NEW_VALUE,
-  History.JSON_PROPERTY_USER_ID,
+  History.JSON_PROPERTY_USER,
   History.JSON_PROPERTY_MODIFIED_AT,
   History.JSON_PROPERTY_ENTITY_TYPE,
   History.JSON_PROPERTY_ENTITY_ID
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-16T16:39:05.632791630+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-17T00:42:02.850500645+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class History {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -52,8 +53,8 @@ public class History {
   public static final String JSON_PROPERTY_NEW_VALUE = "new_value";
   private String newValue;
 
-  public static final String JSON_PROPERTY_USER_ID = "user_id";
-  private String userId;
+  public static final String JSON_PROPERTY_USER = "user";
+  private CrupdateUser user;
 
   public static final String JSON_PROPERTY_MODIFIED_AT = "modified_at";
   private java.time.Instant modifiedAt;
@@ -142,28 +143,28 @@ public class History {
   }
 
 
-  public History userId(String userId) {
-    this.userId = userId;
+  public History user(CrupdateUser user) {
+    this.user = user;
     return this;
   }
 
    /**
-   * ID of the user who made the modification
-   * @return userId
+   * Get user
+   * @return user
   **/
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_USER_ID)
+  @JsonProperty(JSON_PROPERTY_USER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getUserId() {
-    return userId;
+  public CrupdateUser getUser() {
+    return user;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_USER_ID)
+  @JsonProperty(JSON_PROPERTY_USER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setUserId(String userId) {
-    this.userId = userId;
+  public void setUser(CrupdateUser user) {
+    this.user = user;
   }
 
 
@@ -257,7 +258,7 @@ public class History {
     return Objects.equals(this.id, history.id) &&
         Objects.equals(this.previousValue, history.previousValue) &&
         Objects.equals(this.newValue, history.newValue) &&
-        Objects.equals(this.userId, history.userId) &&
+        Objects.equals(this.user, history.user) &&
         Objects.equals(this.modifiedAt, history.modifiedAt) &&
         Objects.equals(this.entityType, history.entityType) &&
         Objects.equals(this.entityId, history.entityId);
@@ -265,7 +266,7 @@ public class History {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, previousValue, newValue, userId, modifiedAt, entityType, entityId);
+    return Objects.hash(id, previousValue, newValue, user, modifiedAt, entityType, entityId);
   }
 
   @Override
@@ -275,7 +276,7 @@ public class History {
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    previousValue: ").append(toIndentedString(previousValue)).append("\n");
     sb.append("    newValue: ").append(toIndentedString(newValue)).append("\n");
-    sb.append("    userId: ").append(toIndentedString(userId)).append("\n");
+    sb.append("    user: ").append(toIndentedString(user)).append("\n");
     sb.append("    modifiedAt: ").append(toIndentedString(modifiedAt)).append("\n");
     sb.append("    entityType: ").append(toIndentedString(entityType)).append("\n");
     sb.append("    entityId: ").append(toIndentedString(entityId)).append("\n");
@@ -341,9 +342,9 @@ public class History {
       joiner.add(String.format("%snew_value%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getNewValue()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `user_id` to the URL query string
-    if (getUserId() != null) {
-      joiner.add(String.format("%suser_id%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getUserId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    // add `user` to the URL query string
+    if (getUser() != null) {
+      joiner.add(getUser().toUrlQueryString(prefix + "user" + suffix));
     }
 
     // add `modified_at` to the URL query string

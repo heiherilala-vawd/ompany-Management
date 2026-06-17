@@ -1,11 +1,16 @@
 package com.example.demo.endpoint.rest.mapper.money;
 
+import com.example.demo.endpoint.rest.mapper.CompanyMapper;
 import com.example.demo.model.Company;
 import com.example.demo.model.money.Supplier;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@AllArgsConstructor
 public class SupplierMapper {
+
+  private final CompanyMapper companyMapper;
 
   public Supplier toDomain(com.example.demo.client.model.CrupdateSupplier rest, String companyId) {
     if (rest == null) return null;
@@ -31,9 +36,7 @@ public class SupplierMapper {
     rest.setEmail(domain.getEmail());
     rest.setPhone(domain.getPhone());
     rest.setContactName(domain.getContactName());
-    if (domain.getCompany() != null) {
-      rest.setCompanyId(domain.getCompany().getId());
-    }
+    rest.setCompany(companyMapper.toRestCrupdateCompany(domain.getCompany()));
     return rest;
   }
 

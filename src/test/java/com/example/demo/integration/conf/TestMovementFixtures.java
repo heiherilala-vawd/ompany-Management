@@ -1,7 +1,11 @@
 package com.example.demo.integration.conf;
 
+import com.example.demo.client.model.CrupdateEquipment;
 import com.example.demo.client.model.CrupdateEquipmentUsage;
+import com.example.demo.client.model.CrupdateJob;
+import com.example.demo.client.model.CrupdateMaterial;
 import com.example.demo.client.model.CrupdateMaterialConsumption;
+import com.example.demo.client.model.CrupdateWarehouse;
 import com.example.demo.client.model.EquipmentUsage;
 import com.example.demo.client.model.MaterialConsumption;
 import com.example.demo.client.model.UsageStatus;
@@ -16,11 +20,11 @@ final class TestMovementFixtures {
   static MaterialConsumption materialConsumption1() {
     MaterialConsumption mc = new MaterialConsumption();
     mc.setId(TestUtils.MAT_CONSUMPTION1_ID);
-    mc.setMaterialId(TestUtils.MATERIAL1_ID);
-    mc.setWarehouseId(TestUtils.WAREHOUSE1_ID);
+    mc.setMaterial(TestOrganizationFixtures.materialToCrupdateMaterial(TestOrganizationFixtures.material1()));
+    mc.setWarehouse(TestOrganizationFixtures.warehouseToCrupdateWarehouse(TestOrganizationFixtures.warehouse1()));
     mc.setQuantity(10);
     mc.setConsumptionDate(LocalDate.of(2024, 6, 1));
-    mc.setJobId(TestUtils.JOB1_ID);
+    mc.setJob(TestOrganizationFixtures.jobToCrupdateJob(TestOrganizationFixtures.job1()));
     mc.setReason("Utilisation pour fondation");
     mc.setConsumptionStatus("COMPLETED");
     return mc;
@@ -29,11 +33,11 @@ final class TestMovementFixtures {
   static MaterialConsumption materialConsumption2() {
     MaterialConsumption mc = new MaterialConsumption();
     mc.setId(TestUtils.MAT_CONSUMPTION2_ID);
-    mc.setMaterialId(TestUtils.MATERIAL1_ID);
-    mc.setWarehouseId(TestUtils.WAREHOUSE1_ID);
+    mc.setMaterial(TestOrganizationFixtures.materialToCrupdateMaterial(TestOrganizationFixtures.material1()));
+    mc.setWarehouse(TestOrganizationFixtures.warehouseToCrupdateWarehouse(TestOrganizationFixtures.warehouse1()));
     mc.setQuantity(5);
     mc.setConsumptionDate(LocalDate.of(2024, 6, 15));
-    mc.setJobId(TestUtils.JOB1_ID);
+    mc.setJob(TestOrganizationFixtures.jobToCrupdateJob(TestOrganizationFixtures.job1()));
     mc.setReason("Utilisation pour r\u00e9paration");
     mc.setConsumptionStatus("COMPLETED");
     return mc;
@@ -43,11 +47,11 @@ final class TestMovementFixtures {
       MaterialConsumption mc) {
     CrupdateMaterialConsumption crupdate = new CrupdateMaterialConsumption();
     crupdate.setId(mc.getId());
-    crupdate.setMaterialId(mc.getMaterialId());
-    crupdate.setWarehouseId(mc.getWarehouseId());
+    crupdate.setMaterialId(mc.getMaterial() != null ? mc.getMaterial().getId() : null);
+    crupdate.setWarehouseId(mc.getWarehouse() != null ? mc.getWarehouse().getId() : null);
     crupdate.setQuantity(mc.getQuantity());
     crupdate.setConsumptionDate(mc.getConsumptionDate());
-    crupdate.setJobId(mc.getJobId());
+    crupdate.setJobId(mc.getJob() != null ? mc.getJob().getId() : null);
     crupdate.setReason(mc.getReason());
     crupdate.setConsumptionStatus(mc.getConsumptionStatus());
     crupdate.setComment(mc.getComment());
@@ -70,8 +74,8 @@ final class TestMovementFixtures {
   static EquipmentUsage equipmentUsage1() {
     EquipmentUsage eu = new EquipmentUsage();
     eu.setId(TestUtils.EQUIP_USAGE1_ID);
-    eu.setEquipmentId(TestUtils.EQUIPMENT1_ID);
-    eu.setJobId(TestUtils.JOB1_ID);
+    eu.setEquipment(new CrupdateEquipment().id(TestUtils.EQUIPMENT1_ID));
+    eu.setJob(new CrupdateJob().id(TestUtils.JOB1_ID));
     eu.setStartTime(Instant.parse("2024-06-01T05:00:00Z"));
     eu.setEndTime(Instant.parse("2024-06-01T14:00:00Z"));
     eu.setUsageStatus(UsageStatus.RETURNED);
@@ -82,8 +86,8 @@ final class TestMovementFixtures {
   static EquipmentUsage equipmentUsage2() {
     EquipmentUsage eu = new EquipmentUsage();
     eu.setId(TestUtils.EQUIP_USAGE2_ID);
-    eu.setEquipmentId(TestUtils.EQUIPMENT1_ID);
-    eu.setJobId(TestUtils.JOB1_ID);
+    eu.setEquipment(new CrupdateEquipment().id(TestUtils.EQUIPMENT1_ID));
+    eu.setJob(new CrupdateJob().id(TestUtils.JOB1_ID));
     eu.setStartTime(Instant.parse("2024-06-02T05:00:00Z"));
     eu.setEndTime(Instant.parse("2024-06-02T14:00:00Z"));
     eu.setUsageStatus(UsageStatus.RETURNED);
@@ -94,8 +98,8 @@ final class TestMovementFixtures {
   static CrupdateEquipmentUsage equipmentUsageToCrupdateEquipmentUsage(EquipmentUsage eu) {
     CrupdateEquipmentUsage crupdate = new CrupdateEquipmentUsage();
     crupdate.setId(eu.getId());
-    crupdate.setEquipmentId(eu.getEquipmentId());
-    crupdate.setJobId(eu.getJobId());
+    crupdate.setEquipmentId(eu.getEquipment() != null ? eu.getEquipment().getId() : null);
+    crupdate.setJobId(eu.getJob() != null ? eu.getJob().getId() : null);
     crupdate.setStartTime(eu.getStartTime());
     crupdate.setEndTime(eu.getEndTime());
     crupdate.setSourceLocation(eu.getSourceLocation());

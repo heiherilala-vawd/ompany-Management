@@ -20,6 +20,7 @@ import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
 import com.example.demo.client.model.AuditUser;
+import com.example.demo.client.model.CrupdateTask;
 import com.example.demo.client.model.CrupdateUser;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -40,7 +41,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
   Notification.JSON_PROPERTY_ID,
   Notification.JSON_PROPERTY_USER,
-  Notification.JSON_PROPERTY_TASK_ID,
+  Notification.JSON_PROPERTY_TASK,
   Notification.JSON_PROPERTY_TITLE,
   Notification.JSON_PROPERTY_MESSAGE,
   Notification.JSON_PROPERTY_READ,
@@ -54,7 +55,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   Notification.JSON_PROPERTY_UPDATED_BY,
   Notification.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-16T16:39:05.632791630+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-17T00:42:02.850500645+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class Notification {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -62,8 +63,8 @@ public class Notification {
   public static final String JSON_PROPERTY_USER = "user";
   private CrupdateUser user;
 
-  public static final String JSON_PROPERTY_TASK_ID = "task_id";
-  private JsonNullable<String> taskId = JsonNullable.<String>undefined();
+  public static final String JSON_PROPERTY_TASK = "task";
+  private CrupdateTask task;
 
   public static final String JSON_PROPERTY_TITLE = "title";
   private String title;
@@ -154,36 +155,28 @@ public class Notification {
   }
 
 
-  public Notification taskId(String taskId) {
-    this.taskId = JsonNullable.<String>of(taskId);
+  public Notification task(CrupdateTask task) {
+    this.task = task;
     return this;
   }
 
    /**
-   * Get taskId
-   * @return taskId
+   * Get task
+   * @return task
   **/
   @jakarta.annotation.Nullable
-  @JsonIgnore
-
-  public String getTaskId() {
-        return taskId.orElse(null);
-  }
-
-  @JsonProperty(JSON_PROPERTY_TASK_ID)
+  @JsonProperty(JSON_PROPERTY_TASK)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public JsonNullable<String> getTaskId_JsonNullable() {
-    return taskId;
-  }
-  
-  @JsonProperty(JSON_PROPERTY_TASK_ID)
-  public void setTaskId_JsonNullable(JsonNullable<String> taskId) {
-    this.taskId = taskId;
+  public CrupdateTask getTask() {
+    return task;
   }
 
-  public void setTaskId(String taskId) {
-    this.taskId = JsonNullable.<String>of(taskId);
+
+  @JsonProperty(JSON_PROPERTY_TASK)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setTask(CrupdateTask task) {
+    this.task = task;
   }
 
 
@@ -525,7 +518,7 @@ public class Notification {
     Notification notification = (Notification) o;
     return Objects.equals(this.id, notification.id) &&
         Objects.equals(this.user, notification.user) &&
-        equalsNullable(this.taskId, notification.taskId) &&
+        Objects.equals(this.task, notification.task) &&
         Objects.equals(this.title, notification.title) &&
         equalsNullable(this.message, notification.message) &&
         Objects.equals(this.read, notification.read) &&
@@ -546,7 +539,7 @@ public class Notification {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, user, hashCodeNullable(taskId), title, hashCodeNullable(message), read, hashCodeNullable(readAt), completed, hashCodeNullable(completedAt), effectiveCompleted, createdAt, updatedAt, createdBy, updatedBy, comment);
+    return Objects.hash(id, user, task, title, hashCodeNullable(message), read, hashCodeNullable(readAt), completed, hashCodeNullable(completedAt), effectiveCompleted, createdAt, updatedAt, createdBy, updatedBy, comment);
   }
 
   private static <T> int hashCodeNullable(JsonNullable<T> a) {
@@ -562,7 +555,7 @@ public class Notification {
     sb.append("class Notification {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    user: ").append(toIndentedString(user)).append("\n");
-    sb.append("    taskId: ").append(toIndentedString(taskId)).append("\n");
+    sb.append("    task: ").append(toIndentedString(task)).append("\n");
     sb.append("    title: ").append(toIndentedString(title)).append("\n");
     sb.append("    message: ").append(toIndentedString(message)).append("\n");
     sb.append("    read: ").append(toIndentedString(read)).append("\n");

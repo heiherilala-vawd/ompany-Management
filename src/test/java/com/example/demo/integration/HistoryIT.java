@@ -145,7 +145,7 @@ class HistoryIT {
     List<History> histories = extractData(resp, History.class);
 
     assertEquals(3, histories.size());
-    assertTrue(histories.stream().allMatch(h -> ADMIN_ID.equals(h.getUserId())));
+    assertTrue(histories.stream().allMatch(h -> h.getUser() != null && ADMIN_ID.equals(h.getUser().getId())));
   }
 
   @Test
@@ -218,7 +218,8 @@ class HistoryIT {
         histories.stream()
             .allMatch(
                 h ->
-                    ADMIN_ID.equals(h.getUserId())
+                    h.getUser() != null
+                        && ADMIN_ID.equals(h.getUser().getId())
                         && EntityType.COMPANY.equals(h.getEntityType())
                         && COMPANY1_ID.equals(h.getEntityId())));
   }
@@ -239,7 +240,9 @@ class HistoryIT {
     assertEquals(expected.getId(), actual.getId());
     assertEquals(expected.getPreviousValue(), actual.getPreviousValue());
     assertEquals(expected.getNewValue(), actual.getNewValue());
-    assertEquals(expected.getUserId(), actual.getUserId());
+    assertEquals(
+        expected.getUser() != null ? expected.getUser().getId() : null,
+        actual.getUser() != null ? actual.getUser().getId() : null);
     assertEquals(expected.getEntityType(), actual.getEntityType());
     assertEquals(expected.getEntityId(), actual.getEntityId());
   }

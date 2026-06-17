@@ -2,6 +2,7 @@ package com.example.demo.endpoint.rest.mapper.money;
 
 import com.example.demo.client.model.CrupdateIncomeType;
 import com.example.demo.client.model.IncomeType;
+import com.example.demo.endpoint.rest.mapper.CompanyMapper;
 import com.example.demo.endpoint.rest.mapper.RestAuditMapperUtils;
 import com.example.demo.service.CompanyService;
 import java.util.List;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Component;
 public class IncomeTypeMapper {
 
   private final CompanyService companyService;
+  private final CompanyMapper companyMapper;
 
   public com.example.demo.model.money.IncomeType toDomain(IncomeType restIncomeType) {
     if (restIncomeType == null) return null;
@@ -22,8 +24,8 @@ public class IncomeTypeMapper {
         .name(restIncomeType.getName())
         .description(restIncomeType.getDescription())
         .company(
-            restIncomeType.getCompanyId() != null
-                ? companyService.findById(restIncomeType.getCompanyId()).orElse(null)
+            restIncomeType.getCompany() != null
+                ? companyService.findById(restIncomeType.getCompany().getId()).orElse(null)
                 : null)
         .comment(restIncomeType.getComment())
         .build();
@@ -49,8 +51,8 @@ public class IncomeTypeMapper {
     restIncomeType.setId(domainIncomeType.getId());
     restIncomeType.setName(domainIncomeType.getName());
     restIncomeType.setDescription(domainIncomeType.getDescription());
-    restIncomeType.setCompanyId(
-        domainIncomeType.getCompany() != null ? domainIncomeType.getCompany().getId() : null);
+    restIncomeType.setCompany(
+        companyMapper.toRestCrupdateCompany(domainIncomeType.getCompany()));
     RestAuditMapperUtils.mapAuditFields(
         domainIncomeType,
         restIncomeType::setCreatedAt,

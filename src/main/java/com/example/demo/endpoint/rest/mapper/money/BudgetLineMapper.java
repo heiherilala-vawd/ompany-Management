@@ -2,6 +2,7 @@ package com.example.demo.endpoint.rest.mapper.money;
 
 import com.example.demo.client.model.BudgetLine;
 import com.example.demo.client.model.CrupdateBudgetLine;
+import com.example.demo.endpoint.rest.mapper.CompanyMapper;
 import com.example.demo.endpoint.rest.mapper.RestAuditMapperUtils;
 import com.example.demo.model.Company;
 import java.util.List;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Component;
 @Component
 @AllArgsConstructor
 public class BudgetLineMapper {
+
+  private final CompanyMapper companyMapper;
 
   public com.example.demo.model.money.BudgetLine toDomain(
       CrupdateBudgetLine rest, String companyId) {
@@ -34,7 +37,7 @@ public class BudgetLineMapper {
 
     BudgetLine rest = new BudgetLine();
     rest.setId(domain.getId());
-    rest.setCompanyId(domain.getCompany() != null ? domain.getCompany().getId() : null);
+    rest.setCompany(companyMapper.toRestCrupdateCompany(domain.getCompany()));
     rest.setCategory(domain.getCategory());
     rest.setPlannedAmount(domain.getPlannedAmount());
     rest.setActualAmount(domain.getActualAmount());

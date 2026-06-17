@@ -19,6 +19,7 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import com.example.demo.client.model.CrupdateMaterial;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -34,17 +35,17 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  */
 @JsonPropertyOrder({
   PurchaseOrderLine.JSON_PROPERTY_ID,
-  PurchaseOrderLine.JSON_PROPERTY_MATERIAL_ID,
+  PurchaseOrderLine.JSON_PROPERTY_MATERIAL,
   PurchaseOrderLine.JSON_PROPERTY_QUANTITY,
   PurchaseOrderLine.JSON_PROPERTY_UNIT_PRICE
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-16T16:39:05.632791630+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-17T00:42:02.850500645+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class PurchaseOrderLine {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
 
-  public static final String JSON_PROPERTY_MATERIAL_ID = "material_id";
-  private String materialId;
+  public static final String JSON_PROPERTY_MATERIAL = "material";
+  private CrupdateMaterial material;
 
   public static final String JSON_PROPERTY_QUANTITY = "quantity";
   private Integer quantity;
@@ -80,28 +81,28 @@ public class PurchaseOrderLine {
   }
 
 
-  public PurchaseOrderLine materialId(String materialId) {
-    this.materialId = materialId;
+  public PurchaseOrderLine material(CrupdateMaterial material) {
+    this.material = material;
     return this;
   }
 
    /**
-   * Get materialId
-   * @return materialId
+   * Get material
+   * @return material
   **/
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_MATERIAL_ID)
+  @JsonProperty(JSON_PROPERTY_MATERIAL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getMaterialId() {
-    return materialId;
+  public CrupdateMaterial getMaterial() {
+    return material;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_MATERIAL_ID)
+  @JsonProperty(JSON_PROPERTY_MATERIAL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setMaterialId(String materialId) {
-    this.materialId = materialId;
+  public void setMaterial(CrupdateMaterial material) {
+    this.material = material;
   }
 
 
@@ -168,14 +169,14 @@ public class PurchaseOrderLine {
     }
     PurchaseOrderLine purchaseOrderLine = (PurchaseOrderLine) o;
     return Objects.equals(this.id, purchaseOrderLine.id) &&
-        Objects.equals(this.materialId, purchaseOrderLine.materialId) &&
+        Objects.equals(this.material, purchaseOrderLine.material) &&
         Objects.equals(this.quantity, purchaseOrderLine.quantity) &&
         Objects.equals(this.unitPrice, purchaseOrderLine.unitPrice);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, materialId, quantity, unitPrice);
+    return Objects.hash(id, material, quantity, unitPrice);
   }
 
   @Override
@@ -183,7 +184,7 @@ public class PurchaseOrderLine {
     StringBuilder sb = new StringBuilder();
     sb.append("class PurchaseOrderLine {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    materialId: ").append(toIndentedString(materialId)).append("\n");
+    sb.append("    material: ").append(toIndentedString(material)).append("\n");
     sb.append("    quantity: ").append(toIndentedString(quantity)).append("\n");
     sb.append("    unitPrice: ").append(toIndentedString(unitPrice)).append("\n");
     sb.append("}");
@@ -238,9 +239,9 @@ public class PurchaseOrderLine {
       joiner.add(String.format("%sid%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `material_id` to the URL query string
-    if (getMaterialId() != null) {
-      joiner.add(String.format("%smaterial_id%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getMaterialId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    // add `material` to the URL query string
+    if (getMaterial() != null) {
+      joiner.add(getMaterial().toUrlQueryString(prefix + "material" + suffix));
     }
 
     // add `quantity` to the URL query string

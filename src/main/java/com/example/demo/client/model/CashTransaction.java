@@ -21,6 +21,7 @@ import java.util.Map;
 import java.util.HashMap;
 import com.example.demo.client.model.AuditUser;
 import com.example.demo.client.model.CashTransactionType;
+import com.example.demo.client.model.CrupdateCashAccount;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -37,7 +38,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  */
 @JsonPropertyOrder({
   CashTransaction.JSON_PROPERTY_ID,
-  CashTransaction.JSON_PROPERTY_CASH_ACCOUNT_ID,
+  CashTransaction.JSON_PROPERTY_CASH_ACCOUNT,
   CashTransaction.JSON_PROPERTY_AMOUNT,
   CashTransaction.JSON_PROPERTY_TRANSACTION_DATE,
   CashTransaction.JSON_PROPERTY_DESCRIPTION,
@@ -48,13 +49,13 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   CashTransaction.JSON_PROPERTY_UPDATED_BY,
   CashTransaction.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-16T16:39:05.632791630+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-17T00:42:02.850500645+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CashTransaction {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
 
-  public static final String JSON_PROPERTY_CASH_ACCOUNT_ID = "cash_account_id";
-  private String cashAccountId;
+  public static final String JSON_PROPERTY_CASH_ACCOUNT = "cash_account";
+  private CrupdateCashAccount cashAccount;
 
   public static final String JSON_PROPERTY_AMOUNT = "amount";
   private BigDecimal amount;
@@ -111,28 +112,28 @@ public class CashTransaction {
   }
 
 
-  public CashTransaction cashAccountId(String cashAccountId) {
-    this.cashAccountId = cashAccountId;
+  public CashTransaction cashAccount(CrupdateCashAccount cashAccount) {
+    this.cashAccount = cashAccount;
     return this;
   }
 
    /**
-   * Get cashAccountId
-   * @return cashAccountId
+   * Get cashAccount
+   * @return cashAccount
   **/
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_CASH_ACCOUNT_ID)
+  @JsonProperty(JSON_PROPERTY_CASH_ACCOUNT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getCashAccountId() {
-    return cashAccountId;
+  public CrupdateCashAccount getCashAccount() {
+    return cashAccount;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_CASH_ACCOUNT_ID)
+  @JsonProperty(JSON_PROPERTY_CASH_ACCOUNT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setCashAccountId(String cashAccountId) {
-    this.cashAccountId = cashAccountId;
+  public void setCashAccount(CrupdateCashAccount cashAccount) {
+    this.cashAccount = cashAccount;
   }
 
 
@@ -374,7 +375,7 @@ public class CashTransaction {
     }
     CashTransaction cashTransaction = (CashTransaction) o;
     return Objects.equals(this.id, cashTransaction.id) &&
-        Objects.equals(this.cashAccountId, cashTransaction.cashAccountId) &&
+        Objects.equals(this.cashAccount, cashTransaction.cashAccount) &&
         Objects.equals(this.amount, cashTransaction.amount) &&
         Objects.equals(this.transactionDate, cashTransaction.transactionDate) &&
         Objects.equals(this.description, cashTransaction.description) &&
@@ -388,7 +389,7 @@ public class CashTransaction {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, cashAccountId, amount, transactionDate, description, type, createdAt, updatedAt, createdBy, updatedBy, comment);
+    return Objects.hash(id, cashAccount, amount, transactionDate, description, type, createdAt, updatedAt, createdBy, updatedBy, comment);
   }
 
   @Override
@@ -396,7 +397,7 @@ public class CashTransaction {
     StringBuilder sb = new StringBuilder();
     sb.append("class CashTransaction {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    cashAccountId: ").append(toIndentedString(cashAccountId)).append("\n");
+    sb.append("    cashAccount: ").append(toIndentedString(cashAccount)).append("\n");
     sb.append("    amount: ").append(toIndentedString(amount)).append("\n");
     sb.append("    transactionDate: ").append(toIndentedString(transactionDate)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");

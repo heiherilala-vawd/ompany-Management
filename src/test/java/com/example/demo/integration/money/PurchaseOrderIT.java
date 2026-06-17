@@ -97,7 +97,7 @@ class PurchaseOrderIT {
     List<PurchaseOrder> result = extractData(resp, PurchaseOrder.class);
 
     assertEquals(2, result.size());
-    assertTrue(result.stream().allMatch(po -> JOB1_ID.equals(po.getJobId())));
+    assertTrue(result.stream().allMatch(po -> po.getJob() != null && JOB1_ID.equals(po.getJob().getId())));
   }
 
   @Test
@@ -115,7 +115,7 @@ class PurchaseOrderIT {
         api.crupdatePurchaseOrders(ADMIN_ID, COMPANY1_ID, List.of(toCreate));
     assertEquals(1, created.size());
     assertEquals(toCreate.getTotalAmount(), created.get(0).getTotalAmount());
-    assertEquals(toCreate.getSupplierId(), created.get(0).getSupplierId());
+    assertEquals(toCreate.getSupplierId(), created.get(0).getSupplier() != null ? created.get(0).getSupplier().getId() : null);
   }
 
   @Test

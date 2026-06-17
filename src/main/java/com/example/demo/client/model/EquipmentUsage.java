@@ -20,6 +20,8 @@ import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
 import com.example.demo.client.model.AuditUser;
+import com.example.demo.client.model.CrupdateEquipment;
+import com.example.demo.client.model.CrupdateJob;
 import com.example.demo.client.model.UsageStatus;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -35,8 +37,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  */
 @JsonPropertyOrder({
   EquipmentUsage.JSON_PROPERTY_ID,
-  EquipmentUsage.JSON_PROPERTY_EQUIPMENT_ID,
-  EquipmentUsage.JSON_PROPERTY_JOB_ID,
+  EquipmentUsage.JSON_PROPERTY_EQUIPMENT,
+  EquipmentUsage.JSON_PROPERTY_JOB,
   EquipmentUsage.JSON_PROPERTY_START_TIME,
   EquipmentUsage.JSON_PROPERTY_END_TIME,
   EquipmentUsage.JSON_PROPERTY_SOURCE_LOCATION,
@@ -48,16 +50,16 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   EquipmentUsage.JSON_PROPERTY_UPDATED_BY,
   EquipmentUsage.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-16T16:39:05.632791630+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-17T00:42:02.850500645+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class EquipmentUsage {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
 
-  public static final String JSON_PROPERTY_EQUIPMENT_ID = "equipment_id";
-  private String equipmentId;
+  public static final String JSON_PROPERTY_EQUIPMENT = "equipment";
+  private CrupdateEquipment equipment;
 
-  public static final String JSON_PROPERTY_JOB_ID = "job_id";
-  private String jobId;
+  public static final String JSON_PROPERTY_JOB = "job";
+  private CrupdateJob job;
 
   public static final String JSON_PROPERTY_START_TIME = "start_time";
   private java.time.Instant startTime;
@@ -117,53 +119,53 @@ public class EquipmentUsage {
   }
 
 
-  public EquipmentUsage equipmentId(String equipmentId) {
-    this.equipmentId = equipmentId;
+  public EquipmentUsage equipment(CrupdateEquipment equipment) {
+    this.equipment = equipment;
     return this;
   }
 
    /**
-   * Get equipmentId
-   * @return equipmentId
+   * Get equipment
+   * @return equipment
   **/
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_EQUIPMENT_ID)
+  @JsonProperty(JSON_PROPERTY_EQUIPMENT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getEquipmentId() {
-    return equipmentId;
+  public CrupdateEquipment getEquipment() {
+    return equipment;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_EQUIPMENT_ID)
+  @JsonProperty(JSON_PROPERTY_EQUIPMENT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setEquipmentId(String equipmentId) {
-    this.equipmentId = equipmentId;
+  public void setEquipment(CrupdateEquipment equipment) {
+    this.equipment = equipment;
   }
 
 
-  public EquipmentUsage jobId(String jobId) {
-    this.jobId = jobId;
+  public EquipmentUsage job(CrupdateJob job) {
+    this.job = job;
     return this;
   }
 
    /**
-   * Get jobId
-   * @return jobId
+   * Get job
+   * @return job
   **/
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_JOB_ID)
+  @JsonProperty(JSON_PROPERTY_JOB)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getJobId() {
-    return jobId;
+  public CrupdateJob getJob() {
+    return job;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_JOB_ID)
+  @JsonProperty(JSON_PROPERTY_JOB)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setJobId(String jobId) {
-    this.jobId = jobId;
+  public void setJob(CrupdateJob job) {
+    this.job = job;
   }
 
 
@@ -430,8 +432,8 @@ public class EquipmentUsage {
     }
     EquipmentUsage equipmentUsage = (EquipmentUsage) o;
     return Objects.equals(this.id, equipmentUsage.id) &&
-        Objects.equals(this.equipmentId, equipmentUsage.equipmentId) &&
-        Objects.equals(this.jobId, equipmentUsage.jobId) &&
+        Objects.equals(this.equipment, equipmentUsage.equipment) &&
+        Objects.equals(this.job, equipmentUsage.job) &&
         Objects.equals(this.startTime, equipmentUsage.startTime) &&
         Objects.equals(this.endTime, equipmentUsage.endTime) &&
         Objects.equals(this.sourceLocation, equipmentUsage.sourceLocation) &&
@@ -446,7 +448,7 @@ public class EquipmentUsage {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, equipmentId, jobId, startTime, endTime, sourceLocation, usageStatus, usedBy, createdAt, updatedAt, createdBy, updatedBy, comment);
+    return Objects.hash(id, equipment, job, startTime, endTime, sourceLocation, usageStatus, usedBy, createdAt, updatedAt, createdBy, updatedBy, comment);
   }
 
   @Override
@@ -454,8 +456,8 @@ public class EquipmentUsage {
     StringBuilder sb = new StringBuilder();
     sb.append("class EquipmentUsage {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    equipmentId: ").append(toIndentedString(equipmentId)).append("\n");
-    sb.append("    jobId: ").append(toIndentedString(jobId)).append("\n");
+    sb.append("    equipment: ").append(toIndentedString(equipment)).append("\n");
+    sb.append("    job: ").append(toIndentedString(job)).append("\n");
     sb.append("    startTime: ").append(toIndentedString(startTime)).append("\n");
     sb.append("    endTime: ").append(toIndentedString(endTime)).append("\n");
     sb.append("    sourceLocation: ").append(toIndentedString(sourceLocation)).append("\n");

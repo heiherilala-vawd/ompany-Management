@@ -2,6 +2,7 @@ package com.example.demo.endpoint.rest.mapper.core;
 
 import com.example.demo.client.model.CrupdateDepartment;
 import com.example.demo.client.model.Department;
+import com.example.demo.endpoint.rest.mapper.CompanyMapper;
 import com.example.demo.endpoint.rest.mapper.RestAuditMapperUtils;
 import com.example.demo.model.Company;
 import java.util.List;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Component;
 @Component
 @AllArgsConstructor
 public class DepartmentMapper {
+
+  private final CompanyMapper companyMapper;
 
   public com.example.demo.model.core.Department toDomain(
       CrupdateDepartment rest, String companyId) {
@@ -32,7 +35,7 @@ public class DepartmentMapper {
     rest.setId(domain.getId());
     rest.setName(domain.getName());
     rest.setDescription(domain.getDescription());
-    rest.setCompanyId(domain.getCompany() != null ? domain.getCompany().getId() : null);
+    rest.setCompany(companyMapper.toRestCrupdateCompany(domain.getCompany()));
     RestAuditMapperUtils.mapAuditFields(
         domain,
         rest::setCreatedAt,
@@ -42,6 +45,15 @@ public class DepartmentMapper {
         rest::setUpdatedBy);
 
     return rest;
+  }
+
+  public CrupdateDepartment toRestCrupdateDepartment(com.example.demo.model.core.Department domain) {
+    if (domain == null) return null;
+    return new CrupdateDepartment()
+        .id(domain.getId())
+        .name(domain.getName())
+        .companyId(domain.getCompany() != null ? domain.getCompany().getId() : null)
+        .comment(domain.getComment());
   }
 
   public List<Department> toRestDepartments(List<com.example.demo.model.core.Department> domains) {

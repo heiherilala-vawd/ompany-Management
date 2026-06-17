@@ -2,6 +2,7 @@ package com.example.demo.endpoint.rest.mapper.task;
 
 import com.example.demo.client.model.CrupdateTask;
 import com.example.demo.client.model.Task;
+import com.example.demo.endpoint.rest.mapper.CompanyMapper;
 import com.example.demo.endpoint.rest.mapper.RestAuditMapperUtils;
 import com.example.demo.model.Company;
 import com.example.demo.model.task.TaskAssignment;
@@ -14,6 +15,9 @@ import org.springframework.stereotype.Component;
 @Component
 @AllArgsConstructor
 public class TaskMapper {
+
+  private final CompanyMapper companyMapper;
+  private final com.example.demo.endpoint.rest.mapper.UserMapper userMapper;
 
   public com.example.demo.model.task.Task toDomain(CrupdateTask rest, String companyId) {
     if (rest == null) return null;
@@ -41,12 +45,12 @@ public class TaskMapper {
       rest.setPriority(
           com.example.demo.client.model.TaskPriority.fromValue(domain.getPriority().name()));
     }
-    rest.setCompanyId(domain.getCompany() != null ? domain.getCompany().getId() : null);
+    rest.setCompany(companyMapper.toRestCrupdateCompany(domain.getCompany()));
     rest.setCompleted(domain.getCompleted());
     rest.setCompletedAt(domain.getCompletedAt());
     if (assignments != null) {
-      rest.setAssignedUserIds(
-          assignments.stream().map(a -> a.getUser().getId()).collect(Collectors.toList()));
+      rest.setAssignedUsers(
+          assignments.stream().map(a -> userMapper.toRestCrupdateUser(a.getUser())).collect(Collectors.toList()));
     }
     RestAuditMapperUtils.mapAuditFields(
         domain,
@@ -56,6 +60,15 @@ public class TaskMapper {
         rest::setCreatedBy,
         rest::setUpdatedBy);
     return rest;
+  }
+
+  public CrupdateTask toRestCrupdateTask(com.example.demo.model.task.Task domain) {
+    if (domain == null) return null;
+    return new CrupdateTask()
+        .id(domain.getId())
+        .title(domain.getTitle())
+        .description(domain.getDescription())
+        .companyId(domain.getCompany() != null ? domain.getCompany().getId() : null);
   }
 
   public List<Task> toRestTasks(List<com.example.demo.model.task.Task> domains) {

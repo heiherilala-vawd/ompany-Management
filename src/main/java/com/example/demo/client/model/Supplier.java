@@ -20,6 +20,7 @@ import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
 import com.example.demo.client.model.AuditUser;
+import com.example.demo.client.model.CrupdateCompany;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -40,14 +41,14 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   Supplier.JSON_PROPERTY_EMAIL,
   Supplier.JSON_PROPERTY_PHONE,
   Supplier.JSON_PROPERTY_CONTACT_NAME,
-  Supplier.JSON_PROPERTY_COMPANY_ID,
+  Supplier.JSON_PROPERTY_COMPANY,
   Supplier.JSON_PROPERTY_CREATED_AT,
   Supplier.JSON_PROPERTY_UPDATED_AT,
   Supplier.JSON_PROPERTY_CREATED_BY,
   Supplier.JSON_PROPERTY_UPDATED_BY,
   Supplier.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-16T16:39:05.632791630+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-17T00:42:02.850500645+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class Supplier {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -70,8 +71,8 @@ public class Supplier {
   public static final String JSON_PROPERTY_CONTACT_NAME = "contact_name";
   private String contactName;
 
-  public static final String JSON_PROPERTY_COMPANY_ID = "company_id";
-  private String companyId;
+  public static final String JSON_PROPERTY_COMPANY = "company";
+  private CrupdateCompany company;
 
   public static final String JSON_PROPERTY_CREATED_AT = "created_at";
   private java.time.Instant createdAt;
@@ -266,28 +267,28 @@ public class Supplier {
   }
 
 
-  public Supplier companyId(String companyId) {
-    this.companyId = companyId;
+  public Supplier company(CrupdateCompany company) {
+    this.company = company;
     return this;
   }
 
    /**
-   * Get companyId
-   * @return companyId
+   * Get company
+   * @return company
   **/
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_COMPANY_ID)
+  @JsonProperty(JSON_PROPERTY_COMPANY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getCompanyId() {
-    return companyId;
+  public CrupdateCompany getCompany() {
+    return company;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_COMPANY_ID)
+  @JsonProperty(JSON_PROPERTY_COMPANY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setCompanyId(String companyId) {
-    this.companyId = companyId;
+  public void setCompany(CrupdateCompany company) {
+    this.company = company;
   }
 
 
@@ -435,7 +436,7 @@ public class Supplier {
         Objects.equals(this.email, supplier.email) &&
         Objects.equals(this.phone, supplier.phone) &&
         Objects.equals(this.contactName, supplier.contactName) &&
-        Objects.equals(this.companyId, supplier.companyId) &&
+        Objects.equals(this.company, supplier.company) &&
         Objects.equals(this.createdAt, supplier.createdAt) &&
         Objects.equals(this.updatedAt, supplier.updatedAt) &&
         Objects.equals(this.createdBy, supplier.createdBy) &&
@@ -445,7 +446,7 @@ public class Supplier {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, siret, address, email, phone, contactName, companyId, createdAt, updatedAt, createdBy, updatedBy, comment);
+    return Objects.hash(id, name, siret, address, email, phone, contactName, company, createdAt, updatedAt, createdBy, updatedBy, comment);
   }
 
   @Override
@@ -459,7 +460,7 @@ public class Supplier {
     sb.append("    email: ").append(toIndentedString(email)).append("\n");
     sb.append("    phone: ").append(toIndentedString(phone)).append("\n");
     sb.append("    contactName: ").append(toIndentedString(contactName)).append("\n");
-    sb.append("    companyId: ").append(toIndentedString(companyId)).append("\n");
+    sb.append("    company: ").append(toIndentedString(company)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
     sb.append("    updatedAt: ").append(toIndentedString(updatedAt)).append("\n");
     sb.append("    createdBy: ").append(toIndentedString(createdBy)).append("\n");

@@ -20,6 +20,9 @@ import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
 import com.example.demo.client.model.AuditUser;
+import com.example.demo.client.model.CrupdateJob;
+import com.example.demo.client.model.CrupdateMaterial;
+import com.example.demo.client.model.CrupdateWarehouse;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -35,11 +38,11 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  */
 @JsonPropertyOrder({
   MaterialConsumption.JSON_PROPERTY_ID,
-  MaterialConsumption.JSON_PROPERTY_MATERIAL_ID,
-  MaterialConsumption.JSON_PROPERTY_WAREHOUSE_ID,
+  MaterialConsumption.JSON_PROPERTY_MATERIAL,
+  MaterialConsumption.JSON_PROPERTY_WAREHOUSE,
   MaterialConsumption.JSON_PROPERTY_QUANTITY,
   MaterialConsumption.JSON_PROPERTY_CONSUMPTION_DATE,
-  MaterialConsumption.JSON_PROPERTY_JOB_ID,
+  MaterialConsumption.JSON_PROPERTY_JOB,
   MaterialConsumption.JSON_PROPERTY_REASON,
   MaterialConsumption.JSON_PROPERTY_CONSUMPTION_STATUS,
   MaterialConsumption.JSON_PROPERTY_CREATED_AT,
@@ -48,16 +51,16 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   MaterialConsumption.JSON_PROPERTY_UPDATED_BY,
   MaterialConsumption.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-16T16:39:05.632791630+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-17T00:42:02.850500645+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class MaterialConsumption {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
 
-  public static final String JSON_PROPERTY_MATERIAL_ID = "material_id";
-  private String materialId;
+  public static final String JSON_PROPERTY_MATERIAL = "material";
+  private CrupdateMaterial material;
 
-  public static final String JSON_PROPERTY_WAREHOUSE_ID = "warehouse_id";
-  private String warehouseId;
+  public static final String JSON_PROPERTY_WAREHOUSE = "warehouse";
+  private CrupdateWarehouse warehouse;
 
   public static final String JSON_PROPERTY_QUANTITY = "quantity";
   private Integer quantity;
@@ -65,8 +68,8 @@ public class MaterialConsumption {
   public static final String JSON_PROPERTY_CONSUMPTION_DATE = "consumption_date";
   private java.time.LocalDate consumptionDate;
 
-  public static final String JSON_PROPERTY_JOB_ID = "job_id";
-  private String jobId;
+  public static final String JSON_PROPERTY_JOB = "job";
+  private CrupdateJob job;
 
   public static final String JSON_PROPERTY_REASON = "reason";
   private String reason;
@@ -117,53 +120,53 @@ public class MaterialConsumption {
   }
 
 
-  public MaterialConsumption materialId(String materialId) {
-    this.materialId = materialId;
+  public MaterialConsumption material(CrupdateMaterial material) {
+    this.material = material;
     return this;
   }
 
    /**
-   * Get materialId
-   * @return materialId
+   * Get material
+   * @return material
   **/
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_MATERIAL_ID)
+  @JsonProperty(JSON_PROPERTY_MATERIAL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getMaterialId() {
-    return materialId;
+  public CrupdateMaterial getMaterial() {
+    return material;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_MATERIAL_ID)
+  @JsonProperty(JSON_PROPERTY_MATERIAL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setMaterialId(String materialId) {
-    this.materialId = materialId;
+  public void setMaterial(CrupdateMaterial material) {
+    this.material = material;
   }
 
 
-  public MaterialConsumption warehouseId(String warehouseId) {
-    this.warehouseId = warehouseId;
+  public MaterialConsumption warehouse(CrupdateWarehouse warehouse) {
+    this.warehouse = warehouse;
     return this;
   }
 
    /**
-   * Get warehouseId
-   * @return warehouseId
+   * Get warehouse
+   * @return warehouse
   **/
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_WAREHOUSE_ID)
+  @JsonProperty(JSON_PROPERTY_WAREHOUSE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getWarehouseId() {
-    return warehouseId;
+  public CrupdateWarehouse getWarehouse() {
+    return warehouse;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_WAREHOUSE_ID)
+  @JsonProperty(JSON_PROPERTY_WAREHOUSE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setWarehouseId(String warehouseId) {
-    this.warehouseId = warehouseId;
+  public void setWarehouse(CrupdateWarehouse warehouse) {
+    this.warehouse = warehouse;
   }
 
 
@@ -217,28 +220,28 @@ public class MaterialConsumption {
   }
 
 
-  public MaterialConsumption jobId(String jobId) {
-    this.jobId = jobId;
+  public MaterialConsumption job(CrupdateJob job) {
+    this.job = job;
     return this;
   }
 
    /**
-   * Get jobId
-   * @return jobId
+   * Get job
+   * @return job
   **/
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_JOB_ID)
+  @JsonProperty(JSON_PROPERTY_JOB)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getJobId() {
-    return jobId;
+  public CrupdateJob getJob() {
+    return job;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_JOB_ID)
+  @JsonProperty(JSON_PROPERTY_JOB)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setJobId(String jobId) {
-    this.jobId = jobId;
+  public void setJob(CrupdateJob job) {
+    this.job = job;
   }
 
 
@@ -430,11 +433,11 @@ public class MaterialConsumption {
     }
     MaterialConsumption materialConsumption = (MaterialConsumption) o;
     return Objects.equals(this.id, materialConsumption.id) &&
-        Objects.equals(this.materialId, materialConsumption.materialId) &&
-        Objects.equals(this.warehouseId, materialConsumption.warehouseId) &&
+        Objects.equals(this.material, materialConsumption.material) &&
+        Objects.equals(this.warehouse, materialConsumption.warehouse) &&
         Objects.equals(this.quantity, materialConsumption.quantity) &&
         Objects.equals(this.consumptionDate, materialConsumption.consumptionDate) &&
-        Objects.equals(this.jobId, materialConsumption.jobId) &&
+        Objects.equals(this.job, materialConsumption.job) &&
         Objects.equals(this.reason, materialConsumption.reason) &&
         Objects.equals(this.consumptionStatus, materialConsumption.consumptionStatus) &&
         Objects.equals(this.createdAt, materialConsumption.createdAt) &&
@@ -446,7 +449,7 @@ public class MaterialConsumption {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, materialId, warehouseId, quantity, consumptionDate, jobId, reason, consumptionStatus, createdAt, updatedAt, createdBy, updatedBy, comment);
+    return Objects.hash(id, material, warehouse, quantity, consumptionDate, job, reason, consumptionStatus, createdAt, updatedAt, createdBy, updatedBy, comment);
   }
 
   @Override
@@ -454,11 +457,11 @@ public class MaterialConsumption {
     StringBuilder sb = new StringBuilder();
     sb.append("class MaterialConsumption {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    materialId: ").append(toIndentedString(materialId)).append("\n");
-    sb.append("    warehouseId: ").append(toIndentedString(warehouseId)).append("\n");
+    sb.append("    material: ").append(toIndentedString(material)).append("\n");
+    sb.append("    warehouse: ").append(toIndentedString(warehouse)).append("\n");
     sb.append("    quantity: ").append(toIndentedString(quantity)).append("\n");
     sb.append("    consumptionDate: ").append(toIndentedString(consumptionDate)).append("\n");
-    sb.append("    jobId: ").append(toIndentedString(jobId)).append("\n");
+    sb.append("    job: ").append(toIndentedString(job)).append("\n");
     sb.append("    reason: ").append(toIndentedString(reason)).append("\n");
     sb.append("    consumptionStatus: ").append(toIndentedString(consumptionStatus)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");

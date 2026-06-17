@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 public class HistoryMapper {
 
+  private final UserMapper userMapper;
+
   public History toRestHistory(com.example.demo.model.History domainHistory) {
     if (domainHistory == null) return null;
 
@@ -17,7 +19,7 @@ public class HistoryMapper {
     restHistory.setId(domainHistory.getId());
     restHistory.setPreviousValue(domainHistory.getPreviousValue());
     restHistory.setNewValue(domainHistory.getNewValue());
-    restHistory.setUserId(domainHistory.getUser() != null ? domainHistory.getUser().getId() : null);
+    restHistory.setUser(userMapper.toRestCrupdateUser(domainHistory.getUser()));
     restHistory.setModifiedAt(
         domainHistory.getModifiedAt() != null ? domainHistory.getModifiedAt() : null);
     restHistory.setEntityType(EnumMapper.mapEnum(domainHistory.getEntityType(), EntityType.class));

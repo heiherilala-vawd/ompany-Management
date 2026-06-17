@@ -21,6 +21,7 @@ import java.util.Map;
 import java.util.HashMap;
 import com.example.demo.client.model.AuditUser;
 import com.example.demo.client.model.CrupdateJob;
+import com.example.demo.client.model.CrupdateOrganization;
 import com.example.demo.client.model.LoanRepayment;
 import com.example.demo.client.model.LoanStatus;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -41,7 +42,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  */
 @JsonPropertyOrder({
   Loan.JSON_PROPERTY_ID,
-  Loan.JSON_PROPERTY_ORGANIZATION_ID,
+  Loan.JSON_PROPERTY_ORGANIZATION,
   Loan.JSON_PROPERTY_INTEREST_RATE,
   Loan.JSON_PROPERTY_START_DATE,
   Loan.JSON_PROPERTY_DUE_DATE,
@@ -57,13 +58,13 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   Loan.JSON_PROPERTY_UPDATED_BY,
   Loan.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-16T16:39:05.632791630+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-17T00:42:02.850500645+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class Loan {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
 
-  public static final String JSON_PROPERTY_ORGANIZATION_ID = "organization_id";
-  private String organizationId;
+  public static final String JSON_PROPERTY_ORGANIZATION = "organization";
+  private CrupdateOrganization organization;
 
   public static final String JSON_PROPERTY_INTEREST_RATE = "interest_rate";
   private Integer interestRate;
@@ -135,28 +136,28 @@ public class Loan {
   }
 
 
-  public Loan organizationId(String organizationId) {
-    this.organizationId = organizationId;
+  public Loan organization(CrupdateOrganization organization) {
+    this.organization = organization;
     return this;
   }
 
    /**
-   * Get organizationId
-   * @return organizationId
+   * Get organization
+   * @return organization
   **/
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ORGANIZATION_ID)
+  @JsonProperty(JSON_PROPERTY_ORGANIZATION)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getOrganizationId() {
-    return organizationId;
+  public CrupdateOrganization getOrganization() {
+    return organization;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_ORGANIZATION_ID)
+  @JsonProperty(JSON_PROPERTY_ORGANIZATION)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setOrganizationId(String organizationId) {
-    this.organizationId = organizationId;
+  public void setOrganization(CrupdateOrganization organization) {
+    this.organization = organization;
   }
 
 
@@ -531,7 +532,7 @@ public class Loan {
     }
     Loan loan = (Loan) o;
     return Objects.equals(this.id, loan.id) &&
-        Objects.equals(this.organizationId, loan.organizationId) &&
+        Objects.equals(this.organization, loan.organization) &&
         Objects.equals(this.interestRate, loan.interestRate) &&
         Objects.equals(this.startDate, loan.startDate) &&
         Objects.equals(this.dueDate, loan.dueDate) &&
@@ -550,7 +551,7 @@ public class Loan {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, organizationId, interestRate, startDate, dueDate, status, job, repayments, remainingAmount, amount, description, createdAt, updatedAt, createdBy, updatedBy, comment);
+    return Objects.hash(id, organization, interestRate, startDate, dueDate, status, job, repayments, remainingAmount, amount, description, createdAt, updatedAt, createdBy, updatedBy, comment);
   }
 
   @Override
@@ -558,7 +559,7 @@ public class Loan {
     StringBuilder sb = new StringBuilder();
     sb.append("class Loan {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    organizationId: ").append(toIndentedString(organizationId)).append("\n");
+    sb.append("    organization: ").append(toIndentedString(organization)).append("\n");
     sb.append("    interestRate: ").append(toIndentedString(interestRate)).append("\n");
     sb.append("    startDate: ").append(toIndentedString(startDate)).append("\n");
     sb.append("    dueDate: ").append(toIndentedString(dueDate)).append("\n");
