@@ -8,6 +8,10 @@ VALUES
 ('travel_materials1_id', 'travel_expense1_id', 'material1_id', 10, 5, 'warehouse1_id', '2024-03-01 12:00:00'),
 ('travel_materials2_id', 'travel_expense2_id', 'material2_id', 20, NULL, 'warehouse2_id', '2024-03-05 15:00:00');
 
+INSERT INTO "travel_materials_arrival_log" (id, travel_materials_id, quantity_received, quantity_lost, arrival_date)
+VALUES
+('travel_mat_arrival_log1_id', 'travel_materials1_id', 5, 0, '2024-03-01 12:00:00');
+
 INSERT INTO "travel_equipment" (id, travel_id, equipment, quantity, status, arrival_location, arrival_date)
 VALUES
 ('travel_equipment1_id', 'travel_expense1_id', 'equipment1_id', 2, 'IN_PROGRESS', 'warehouse1_id', '2024-03-01 12:00:00'),

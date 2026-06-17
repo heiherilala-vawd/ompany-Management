@@ -63,6 +63,15 @@ class TravelMaterialsIT {
     expected.setUpdatedBy(actual.getUpdatedBy());
     expected.setComment(actual.getComment());
 
+    if (actual.getArrivalLogs() != null && !actual.getArrivalLogs().isEmpty()) {
+      for (int i = 0; i < expected.getArrivalLogs().size() && i < actual.getArrivalLogs().size(); i++) {
+        expected.getArrivalLogs().get(i).setCreatedAt(actual.getArrivalLogs().get(i).getCreatedAt());
+        expected.getArrivalLogs().get(i).setUpdatedAt(actual.getArrivalLogs().get(i).getUpdatedAt());
+        expected.getArrivalLogs().get(i).setCreatedBy(actual.getArrivalLogs().get(i).getCreatedBy());
+        expected.getArrivalLogs().get(i).setUpdatedBy(actual.getArrivalLogs().get(i).getUpdatedBy());
+      }
+    }
+
     assertEquals(expected, actual);
   }
 

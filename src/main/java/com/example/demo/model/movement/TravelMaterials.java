@@ -3,10 +3,13 @@ package com.example.demo.model.movement;
 import com.example.demo.model.CreatAndUpdateEntity;
 import com.example.demo.model.money.TravelExpense;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -65,6 +68,11 @@ public class TravelMaterials extends CreatAndUpdateEntity implements Serializabl
   private Warehouse arrivalLocation;
 
   private Instant arrivalDate;
+
+  @OneToMany(mappedBy = "travelMaterials", cascade = CascadeType.ALL, orphanRemoval = true)
+  @JsonManagedReference
+  @ToString.Exclude
+  private List<TravelMaterialsArrivalLog> arrivalLogs = new ArrayList<>();
 
   @Override
   public boolean equals(Object o) {

@@ -38,7 +38,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   MaterialSummaryResponse.JSON_PROPERTY_TOTAL_MATERIALS_COUNT,
   MaterialSummaryResponse.JSON_PROPERTY_EXPIRING_COUNT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-17T00:42:02.850500645+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-17T16:47:13.835321067+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class MaterialSummaryResponse {
   public static final String JSON_PROPERTY_STOCK_VALUE_TOTAL = "stock_value_total";
   private BigDecimal stockValueTotal;

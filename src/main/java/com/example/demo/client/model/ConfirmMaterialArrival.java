@@ -33,13 +33,17 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  */
 @JsonPropertyOrder({
   ConfirmMaterialArrival.JSON_PROPERTY_ID,
+  ConfirmMaterialArrival.JSON_PROPERTY_LOG_ID,
   ConfirmMaterialArrival.JSON_PROPERTY_QUANTITY_RECEIVED,
   ConfirmMaterialArrival.JSON_PROPERTY_QUANTITY_LOST
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-17T00:42:02.850500645+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-17T16:47:13.835321067+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class ConfirmMaterialArrival {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
+
+  public static final String JSON_PROPERTY_LOG_ID = "log_id";
+  private String logId;
 
   public static final String JSON_PROPERTY_QUANTITY_RECEIVED = "quantity_received";
   private Integer quantityReceived;
@@ -72,6 +76,31 @@ public class ConfirmMaterialArrival {
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setId(String id) {
     this.id = id;
+  }
+
+
+  public ConfirmMaterialArrival logId(String logId) {
+    this.logId = logId;
+    return this;
+  }
+
+   /**
+   * Client-generated unique ID for this arrival batch (idempotency key)
+   * @return logId
+  **/
+  @jakarta.annotation.Nonnull
+  @JsonProperty(JSON_PROPERTY_LOG_ID)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+
+  public String getLogId() {
+    return logId;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_LOG_ID)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setLogId(String logId) {
+    this.logId = logId;
   }
 
 
@@ -140,13 +169,14 @@ public class ConfirmMaterialArrival {
     }
     ConfirmMaterialArrival confirmMaterialArrival = (ConfirmMaterialArrival) o;
     return Objects.equals(this.id, confirmMaterialArrival.id) &&
+        Objects.equals(this.logId, confirmMaterialArrival.logId) &&
         Objects.equals(this.quantityReceived, confirmMaterialArrival.quantityReceived) &&
         Objects.equals(this.quantityLost, confirmMaterialArrival.quantityLost);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, quantityReceived, quantityLost);
+    return Objects.hash(id, logId, quantityReceived, quantityLost);
   }
 
   @Override
@@ -154,6 +184,7 @@ public class ConfirmMaterialArrival {
     StringBuilder sb = new StringBuilder();
     sb.append("class ConfirmMaterialArrival {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    logId: ").append(toIndentedString(logId)).append("\n");
     sb.append("    quantityReceived: ").append(toIndentedString(quantityReceived)).append("\n");
     sb.append("    quantityLost: ").append(toIndentedString(quantityLost)).append("\n");
     sb.append("}");
@@ -206,6 +237,11 @@ public class ConfirmMaterialArrival {
     // add `id` to the URL query string
     if (getId() != null) {
       joiner.add(String.format("%sid%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `log_id` to the URL query string
+    if (getLogId() != null) {
+      joiner.add(String.format("%slog_id%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getLogId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `quantity_received` to the URL query string

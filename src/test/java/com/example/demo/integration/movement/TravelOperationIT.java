@@ -531,17 +531,29 @@ class TravelOperationIT {
     assertEquals(1, materialsList.size());
     assertEquals(0, materialsList.get(0).getQuantityReceived().intValue());
 
-    // Confirm material arrival with partial quantity and explicit loss
+    // Progressive arrival: first batch (50 received, 10 lost)
     tmApi.confirmMaterialArrival(
         ADMIN_ID,
         COMPANY1_ID,
         List.of(
             new ConfirmMaterialArrival()
                 .id(travelMaterialId)
-                .quantityReceived(80)
-                .quantityLost(20)));
+                .logId(travelMaterialId + "_batch1")
+                .quantityReceived(50)
+                .quantityLost(10)));
 
-    // Verify quantity_received and quantity_lost were updated
+    // Second batch (30 received, 10 lost)
+    tmApi.confirmMaterialArrival(
+        ADMIN_ID,
+        COMPANY1_ID,
+        List.of(
+            new ConfirmMaterialArrival()
+                .id(travelMaterialId)
+                .logId(travelMaterialId + "_batch2")
+                .quantityReceived(30)
+                .quantityLost(10)));
+
+    // Verify cumulative totals: 80 received, 20 lost
     tmResp =
         tmApi.getTravelMaterials(
             ADMIN_ID,
@@ -562,6 +574,8 @@ class TravelOperationIT {
     assertEquals(80, materialsList.get(0).getQuantityReceived().intValue());
     assertEquals(20, materialsList.get(0).getQuantityLost().intValue());
     assertNotNull(materialsList.get(0).getArrivalDate());
+    assertNotNull(materialsList.get(0).getArrivalLogs());
+    assertEquals(2, materialsList.get(0).getArrivalLogs().size());
   }
 
   @Test

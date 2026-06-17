@@ -39,7 +39,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   JobWithFinancials.JSON_PROPERTY_TOTAL_EXPENSE,
   JobWithFinancials.JSON_PROPERTY_NET_PROFIT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-17T00:42:02.850500645+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-17T16:47:13.835321067+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class JobWithFinancials {
   public static final String JSON_PROPERTY_JOB = "job";
   private Job job;
