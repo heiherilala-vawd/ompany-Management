@@ -48,6 +48,11 @@ public class TravelMaterials extends CreatAndUpdateEntity implements Serializabl
 
   private Integer quantityLost;
 
+  @ManyToOne
+  @JoinColumn(name = "container_id")
+  @JsonBackReference
+  private TravelContainer container;
+
   @Transient
   public int getQuantityInTransit() {
     int received = quantityReceived != null ? quantityReceived : 0;

@@ -2,6 +2,7 @@ package com.example.demo.service.movement;
 
 import com.example.demo.model.money.ExpenseMoney;
 import com.example.demo.model.money.TravelExpense;
+import com.example.demo.model.movement.TravelContainer;
 import com.example.demo.model.movement.TravelEquipment;
 import com.example.demo.model.movement.TravelMaterials;
 import com.example.demo.model.movement.TravelPeople;
@@ -13,6 +14,7 @@ public record TravelOperationAggregate(
     ExpenseMoney travelExpenseMoney,
     Warehouse departureWarehouse,
     Warehouse arrivalWarehouse,
+    List<TravelContainer> containers,
     List<TravelEquipment> travelEquipment,
     List<TravelMaterials> travelMaterials,
     List<TravelPeople> travelPeople) {}

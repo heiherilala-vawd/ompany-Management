@@ -40,9 +40,10 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   CrupdateTravelEquipment.JSON_PROPERTY_STATUS,
   CrupdateTravelEquipment.JSON_PROPERTY_ARRIVAL_DATE,
   CrupdateTravelEquipment.JSON_PROPERTY_ARRIVAL_LOCATION,
+  CrupdateTravelEquipment.JSON_PROPERTY_CONTAINER_ID,
   CrupdateTravelEquipment.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-18T03:48:50.102368263+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-20T18:35:32.000500430+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdateTravelEquipment {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -64,6 +65,9 @@ public class CrupdateTravelEquipment {
 
   public static final String JSON_PROPERTY_ARRIVAL_LOCATION = "arrival_location";
   private String arrivalLocation;
+
+  public static final String JSON_PROPERTY_CONTAINER_ID = "container_id";
+  private String containerId;
 
   public static final String JSON_PROPERTY_COMMENT = "comment";
   private String comment;
@@ -247,6 +251,31 @@ public class CrupdateTravelEquipment {
   }
 
 
+  public CrupdateTravelEquipment containerId(String containerId) {
+    this.containerId = containerId;
+    return this;
+  }
+
+   /**
+   * Get containerId
+   * @return containerId
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_CONTAINER_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getContainerId() {
+    return containerId;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_CONTAINER_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setContainerId(String containerId) {
+    this.containerId = containerId;
+  }
+
+
   public CrupdateTravelEquipment comment(String comment) {
     this.comment = comment;
     return this;
@@ -291,12 +320,13 @@ public class CrupdateTravelEquipment {
         Objects.equals(this.status, crupdateTravelEquipment.status) &&
         Objects.equals(this.arrivalDate, crupdateTravelEquipment.arrivalDate) &&
         Objects.equals(this.arrivalLocation, crupdateTravelEquipment.arrivalLocation) &&
+        Objects.equals(this.containerId, crupdateTravelEquipment.containerId) &&
         Objects.equals(this.comment, crupdateTravelEquipment.comment);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, travelId, equipment, quantity, status, arrivalDate, arrivalLocation, comment);
+    return Objects.hash(id, travelId, equipment, quantity, status, arrivalDate, arrivalLocation, containerId, comment);
   }
 
   @Override
@@ -310,6 +340,7 @@ public class CrupdateTravelEquipment {
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("    arrivalDate: ").append(toIndentedString(arrivalDate)).append("\n");
     sb.append("    arrivalLocation: ").append(toIndentedString(arrivalLocation)).append("\n");
+    sb.append("    containerId: ").append(toIndentedString(containerId)).append("\n");
     sb.append("    comment: ").append(toIndentedString(comment)).append("\n");
     sb.append("}");
     return sb.toString();

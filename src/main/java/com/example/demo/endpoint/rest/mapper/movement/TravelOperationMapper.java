@@ -3,6 +3,7 @@ package com.example.demo.endpoint.rest.mapper.movement;
 import com.example.demo.client.model.CrupdateEquipment;
 import com.example.demo.client.model.CrupdateMaterial;
 import com.example.demo.client.model.CrupdateWarehouse;
+import com.example.demo.client.model.TravelOperationContainerLine;
 import com.example.demo.client.model.TravelOperationEquipmentLine;
 import com.example.demo.client.model.TravelOperationMaterialLine;
 import com.example.demo.client.model.TravelOperationPeopleLine;
@@ -15,6 +16,7 @@ import com.example.demo.model.money.ExpenseMoney;
 import com.example.demo.model.money.TravelExpense;
 import com.example.demo.model.movement.Equipment;
 import com.example.demo.model.movement.Material;
+import com.example.demo.model.movement.TravelContainer;
 import com.example.demo.model.movement.TravelEquipment;
 import com.example.demo.model.movement.TravelMaterials;
 import com.example.demo.model.movement.TravelPeople;
@@ -32,6 +34,9 @@ public class TravelOperationMapper {
       String jobId, String userId, TravelOperationRequest request) {
     if (request == null || request.getTravel() == null) {
       throw new BadRequestException("travel is required");
+    }
+    if (request.getContainers() == null) {
+      throw new BadRequestException("containers must not be null");
     }
 
     Job job = Job.builder().id(jobId).build();
@@ -59,29 +64,51 @@ public class TravelOperationMapper {
             .directArrival(request.getDirectArrival() != null ? request.getDirectArrival() : false)
             .build();
 
+    List<TravelContainer> containers = new ArrayList<>();
     List<TravelEquipment> travelEquipment = new ArrayList<>();
-    for (TravelOperationEquipmentLine line : equipmentLines(request)) {
-      travelEquipment.add(
-          TravelEquipment.builder()
-              .id(line.getId())
-              .travel(travel)
-              .equipment(toEquipment(line.getEquipment()))
-              .quantity(1)
-              .comment(line.getComment() != null ? line.getComment() : request.getComment())
-              .build());
-    }
-
     List<TravelMaterials> travelMaterials = new ArrayList<>();
-    for (TravelOperationMaterialLine line : materialLines(request)) {
-      travelMaterials.add(
-          TravelMaterials.builder()
-              .id(line.getId())
+
+    for (TravelOperationContainerLine containerLine : request.getContainers()) {
+      TravelContainer container =
+          TravelContainer.builder()
+              .id(containerLine.getId())
               .travel(travel)
-              .material(toMaterial(line.getMaterial()))
-              .quantity(line.getQuantity())
-              .quantityReceived(0)
-              .comment(line.getComment() != null ? line.getComment() : request.getComment())
-              .build());
+              .name(containerLine.getName())
+              .description(containerLine.getDescription())
+              .comment(containerLine.getComment())
+              .build();
+      containers.add(container);
+
+      for (TravelOperationEquipmentLine eqLine : equipmentLines(containerLine)) {
+        travelEquipment.add(
+            TravelEquipment.builder()
+                .id(eqLine.getId())
+                .travel(travel)
+                .equipment(toEquipment(eqLine.getEquipment()))
+                .quantity(1)
+                .container(container)
+                .comment(
+                    eqLine.getComment() != null
+                        ? eqLine.getComment()
+                        : request.getComment())
+                .build());
+      }
+
+      for (TravelOperationMaterialLine matLine : materialLines(containerLine)) {
+        travelMaterials.add(
+            TravelMaterials.builder()
+                .id(matLine.getId())
+                .travel(travel)
+                .material(toMaterial(matLine.getMaterial()))
+                .quantity(matLine.getQuantity())
+                .quantityReceived(0)
+                .container(container)
+                .comment(
+                    matLine.getComment() != null
+                        ? matLine.getComment()
+                        : request.getComment())
+                .build());
+      }
     }
 
     List<TravelPeople> travelPeople = new ArrayList<>();
@@ -91,7 +118,8 @@ public class TravelOperationMapper {
               .id(line.getId())
               .travel(travel)
               .user(User.builder().id(line.getUserId()).build())
-              .comment(line.getComment() != null ? line.getComment() : request.getComment())
+              .comment(
+                  line.getComment() != null ? line.getComment() : request.getComment())
               .build());
     }
 
@@ -100,17 +128,24 @@ public class TravelOperationMapper {
         travelExpenseMoney,
         toWarehouse(restTravel.getDepartureLocation()),
         toWarehouse(restTravel.getArrivalLocation()),
+        containers,
         travelEquipment,
         travelMaterials,
         travelPeople);
   }
 
-  private List<TravelOperationEquipmentLine> equipmentLines(TravelOperationRequest request) {
-    return request.getEquipmentLines() != null ? request.getEquipmentLines() : List.of();
+  private List<TravelOperationEquipmentLine> equipmentLines(
+      TravelOperationContainerLine containerLine) {
+    return containerLine.getEquipmentLines() != null
+        ? containerLine.getEquipmentLines()
+        : List.of();
   }
 
-  private List<TravelOperationMaterialLine> materialLines(TravelOperationRequest request) {
-    return request.getMaterialLines() != null ? request.getMaterialLines() : List.of();
+  private List<TravelOperationMaterialLine> materialLines(
+      TravelOperationContainerLine containerLine) {
+    return containerLine.getMaterialLines() != null
+        ? containerLine.getMaterialLines()
+        : List.of();
   }
 
   private List<TravelOperationPeopleLine> peopleLines(TravelOperationRequest request) {

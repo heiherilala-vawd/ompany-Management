@@ -6,6 +6,7 @@ import com.example.demo.endpoint.rest.mapper.RestAuditMapperUtils;
 import com.example.demo.endpoint.rest.mapper.money.TravelExpenseMapper;
 import com.example.demo.service.money.TravelExpenseService;
 import com.example.demo.service.movement.MaterialService;
+import com.example.demo.service.movement.TravelContainerService;
 import com.example.demo.service.movement.WarehouseService;
 import java.util.List;
 import java.util.Optional;
@@ -20,9 +21,11 @@ public class TravelMaterialsMapper {
   private final TravelExpenseService travelExpenseService;
   private final MaterialService materialService;
   private final WarehouseService warehouseService;
+  private final TravelContainerService travelContainerService;
   private final TravelExpenseMapper travelExpenseMapper;
   private final MaterialMapper materialMapper;
   private final WarehouseMapper warehouseMapper;
+  private final TravelContainerMapper travelContainerMapper;
 
   public com.example.demo.model.movement.TravelMaterials toDomain(
       TravelMaterials restTravelMaterials) {
@@ -68,6 +71,10 @@ public class TravelMaterialsMapper {
             restTravelMaterials.getQuantityLost() != null
                 ? restTravelMaterials.getQuantityLost()
                 : 0)
+        .container(
+            restTravelMaterials.getContainerId() != null
+                ? travelContainerService.findById(restTravelMaterials.getContainerId()).orElse(null)
+                : null)
         .comment(restTravelMaterials.getComment())
         .build();
   }
@@ -89,6 +96,8 @@ public class TravelMaterialsMapper {
         Optional.ofNullable(domainTravelMaterials.getArrivalLogs())
             .map(logs -> logs.stream().map(this::toRestArrivalLog).collect(Collectors.toList()))
             .orElse(null));
+    restTravelMaterials.setContainer(
+        travelContainerMapper.toRestTravelContainer(domainTravelMaterials.getContainer()));
     RestAuditMapperUtils.mapAuditFields(
         domainTravelMaterials,
         restTravelMaterials::setCreatedAt,

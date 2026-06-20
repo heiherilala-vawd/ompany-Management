@@ -8,6 +8,7 @@ import com.example.demo.model.money.TravelExpense;
 import com.example.demo.model.movement.Equipment;
 import com.example.demo.model.movement.Material;
 import com.example.demo.model.movement.MaterialWarehouse;
+import com.example.demo.model.movement.TravelContainer;
 import com.example.demo.model.movement.TravelEquipment;
 import com.example.demo.model.movement.TravelEquipment.TransportStatus;
 import com.example.demo.model.movement.TravelMaterials;
@@ -28,6 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class TravelOperationService {
 
   private final TravelExpenseService travelExpenseService;
+  private final TravelContainerService travelContainerService;
   private final TravelEquipmentService travelEquipmentService;
   private final TravelMaterialsService travelMaterialsService;
   private final TravelPeopleService travelPeopleService;
@@ -62,6 +64,7 @@ public class TravelOperationService {
     TravelExpense savedTravel =
         saveTravel(aggregate.travel(), aggregate.travelExpenseMoney(), departure, arrival);
 
+    saveContainers(aggregate.containers(), savedTravel);
     moveEquipment(aggregate.travelEquipment(), savedTravel, departure, arrival);
     moveMaterials(aggregate.travelMaterials(), savedTravel, departure, arrival);
     saveTravelPeople(aggregate.travelPeople(), savedTravel);
@@ -72,8 +75,19 @@ public class TravelOperationService {
     if (aggregate.travelEquipment().isEmpty()
         && aggregate.travelMaterials().isEmpty()
         && aggregate.travelPeople().isEmpty()) {
-      throw new BadRequestException("At least one equipment, material or people line is required");
+      throw new BadRequestException(
+          "At least one equipment, material or people line is required");
     }
+  }
+
+  private void saveContainers(List<TravelContainer> containers, TravelExpense travel) {
+    if (containers == null || containers.isEmpty()) {
+      return;
+    }
+    for (TravelContainer container : containers) {
+      container.setTravel(travel);
+    }
+    travelContainerService.createOrUpdateAll(containers);
   }
 
   private Warehouse resolveWarehouse(Warehouse warehouse, String fieldName) {
@@ -166,6 +180,7 @@ public class TravelOperationService {
               .equipment(existingEquipment)
               .quantity(1)
               .status(isImmediateArrival ? TransportStatus.ARRIVED : TransportStatus.IN_PROGRESS)
+              .container(travelEquipment.getContainer())
               .arrivalDate(isImmediateArrival ? Instant.now() : null)
               .comment(travelEquipment.getComment())
               .build());
@@ -253,6 +268,7 @@ public class TravelOperationService {
               .quantity(quantity)
               .quantityReceived(quantityReceived)
               .quantityLost(quantityLost)
+              .container(travelMaterials.getContainer())
               .comment(travelMaterials.getComment())
               .build();
 

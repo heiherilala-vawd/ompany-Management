@@ -1,6 +1,7 @@
 package com.example.demo.model.money;
 
 import com.example.demo.model.CreatAndUpdateEntity;
+import com.example.demo.model.movement.TravelContainer;
 import com.example.demo.model.movement.TravelEquipment;
 import com.example.demo.model.movement.TravelMaterials;
 import com.example.demo.model.movement.TravelPeople;
@@ -67,6 +68,10 @@ public class TravelExpense extends CreatAndUpdateEntity implements Serializable 
   @OneToMany(mappedBy = "travel", cascade = CascadeType.ALL)
   @JsonManagedReference
   private List<TravelEquipment> travelEquipment = new ArrayList<>();
+
+  @OneToMany(mappedBy = "travel", cascade = CascadeType.ALL)
+  @JsonManagedReference
+  private List<TravelContainer> travelContainers = new ArrayList<>();
 
   @Override
   public boolean equals(Object o) {

@@ -40,7 +40,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   HrSummaryResponse.JSON_PROPERTY_LEAVE_DAYS_APPROVED,
   HrSummaryResponse.JSON_PROPERTY_ABSENCE_RATE
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-18T03:48:50.102368263+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-20T18:35:32.000500430+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class HrSummaryResponse {
   public static final String JSON_PROPERTY_TOTAL_EMPLOYEES = "total_employees";
   private Integer totalEmployees;

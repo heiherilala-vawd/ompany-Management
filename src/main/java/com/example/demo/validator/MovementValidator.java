@@ -10,6 +10,7 @@ import com.example.demo.model.movement.Maintenance;
 import com.example.demo.model.movement.Material;
 import com.example.demo.model.movement.MaterialConsumption;
 import com.example.demo.model.movement.MaterialWarehouse;
+import com.example.demo.model.movement.TravelContainer;
 import com.example.demo.model.movement.TravelEquipment;
 import com.example.demo.model.movement.TravelMaterials;
 import com.example.demo.model.movement.TravelPeople;
@@ -237,6 +238,31 @@ public class MovementValidator {
       throw new BadRequestException(String.join("; ", errors));
     }
     travelPeoples.forEach(this::validateTravelPeople);
+  }
+
+  public void validateTravelContainer(TravelContainer container) {
+    List<String> errors = new ArrayList<>();
+    if (container == null) {
+      errors.add("Travel container cannot be null");
+    }
+    if (container != null
+        && (container.getTravel() == null || container.getTravel().getId() == null)) {
+      errors.add("Travel container must be linked to a travel expense");
+    }
+    if (container != null
+        && (container.getName() == null || container.getName().isBlank())) {
+      errors.add("Container name is mandatory");
+    }
+    if (!errors.isEmpty()) {
+      throw new BadRequestException(String.join("; ", errors));
+    }
+  }
+
+  public void validateTravelContainers(List<TravelContainer> containers) {
+    if (containers == null || containers.isEmpty()) {
+      return;
+    }
+    containers.forEach(this::validateTravelContainer);
   }
 
   public void validateMaterialConsumption(MaterialConsumption consumption) {

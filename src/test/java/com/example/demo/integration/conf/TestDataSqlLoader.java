@@ -37,6 +37,7 @@ public final class TestDataSqlLoader {
           "db/testdata/V100_29__testdata_teams.sql",
           "db/testdata/V100_11__testdata_travel_expenses.sql",
           "db/testdata/V100_12__testdata_travel_details.sql",
+          "db/testdata/V100_50__testdata_travel_containers.sql",
           "db/testdata/V100_13__testdata_purchases.sql",
           "db/testdata/V100_14__testdata_bank_fees.sql",
           "db/testdata/V100_15__testdata_other_expenses.sql",

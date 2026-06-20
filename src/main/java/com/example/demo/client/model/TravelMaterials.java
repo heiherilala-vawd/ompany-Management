@@ -22,6 +22,7 @@ import java.util.HashMap;
 import com.example.demo.client.model.AuditUser;
 import com.example.demo.client.model.CrupdateMaterial;
 import com.example.demo.client.model.CrupdateTravelExpense;
+import com.example.demo.client.model.TravelContainer;
 import com.example.demo.client.model.TravelMaterialsArrivalLog;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -45,13 +46,14 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   TravelMaterials.JSON_PROPERTY_QUANTITY_RECEIVED,
   TravelMaterials.JSON_PROPERTY_QUANTITY_LOST,
   TravelMaterials.JSON_PROPERTY_ARRIVAL_LOGS,
+  TravelMaterials.JSON_PROPERTY_CONTAINER,
   TravelMaterials.JSON_PROPERTY_CREATED_AT,
   TravelMaterials.JSON_PROPERTY_UPDATED_AT,
   TravelMaterials.JSON_PROPERTY_CREATED_BY,
   TravelMaterials.JSON_PROPERTY_UPDATED_BY,
   TravelMaterials.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-18T03:48:50.102368263+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-20T18:35:32.000500430+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class TravelMaterials {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -73,6 +75,9 @@ public class TravelMaterials {
 
   public static final String JSON_PROPERTY_ARRIVAL_LOGS = "arrival_logs";
   private List<TravelMaterialsArrivalLog> arrivalLogs = new ArrayList<>();
+
+  public static final String JSON_PROPERTY_CONTAINER = "container";
+  private TravelContainer container;
 
   public static final String JSON_PROPERTY_CREATED_AT = "created_at";
   private java.time.Instant createdAt;
@@ -275,6 +280,31 @@ public class TravelMaterials {
   }
 
 
+  public TravelMaterials container(TravelContainer container) {
+    this.container = container;
+    return this;
+  }
+
+   /**
+   * Get container
+   * @return container
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_CONTAINER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public TravelContainer getContainer() {
+    return container;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_CONTAINER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setContainer(TravelContainer container) {
+    this.container = container;
+  }
+
+
   public TravelMaterials createdAt(java.time.Instant createdAt) {
     this.createdAt = createdAt;
     return this;
@@ -419,6 +449,7 @@ public class TravelMaterials {
         Objects.equals(this.quantityReceived, travelMaterials.quantityReceived) &&
         Objects.equals(this.quantityLost, travelMaterials.quantityLost) &&
         Objects.equals(this.arrivalLogs, travelMaterials.arrivalLogs) &&
+        Objects.equals(this.container, travelMaterials.container) &&
         Objects.equals(this.createdAt, travelMaterials.createdAt) &&
         Objects.equals(this.updatedAt, travelMaterials.updatedAt) &&
         Objects.equals(this.createdBy, travelMaterials.createdBy) &&
@@ -428,7 +459,7 @@ public class TravelMaterials {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, travel, material, quantity, quantityReceived, quantityLost, arrivalLogs, createdAt, updatedAt, createdBy, updatedBy, comment);
+    return Objects.hash(id, travel, material, quantity, quantityReceived, quantityLost, arrivalLogs, container, createdAt, updatedAt, createdBy, updatedBy, comment);
   }
 
   @Override
@@ -442,6 +473,7 @@ public class TravelMaterials {
     sb.append("    quantityReceived: ").append(toIndentedString(quantityReceived)).append("\n");
     sb.append("    quantityLost: ").append(toIndentedString(quantityLost)).append("\n");
     sb.append("    arrivalLogs: ").append(toIndentedString(arrivalLogs)).append("\n");
+    sb.append("    container: ").append(toIndentedString(container)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
     sb.append("    updatedAt: ").append(toIndentedString(updatedAt)).append("\n");
     sb.append("    createdBy: ").append(toIndentedString(createdBy)).append("\n");

@@ -3,6 +3,7 @@ package com.example.demo.model.movement;
 import com.example.demo.model.CreatAndUpdateEntity;
 import com.example.demo.model.money.TravelExpense;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.io.Serializable;
@@ -56,6 +57,11 @@ public class TravelEquipment extends CreatAndUpdateEntity implements Serializabl
   private Warehouse arrivalLocation;
 
   private Instant arrivalDate;
+
+  @ManyToOne
+  @JoinColumn(name = "container_id")
+  @JsonBackReference
+  private TravelContainer container;
 
   @Override
   public boolean equals(Object o) {

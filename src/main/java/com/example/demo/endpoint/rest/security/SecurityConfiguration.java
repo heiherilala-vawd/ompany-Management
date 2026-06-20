@@ -341,6 +341,20 @@ public class SecurityConfiguration {
                     .authenticated()
 
                     // =========================
+                    // TRAVEL CONTAINER
+                    // =========================
+                    .requestMatchers(
+                        GET,
+                        "/users/*/companies/*/jobs/*/travel_containers",
+                        "/users/*/companies/*/jobs/*/travel_containers/*")
+                    .authenticated()
+                    .requestMatchers(PUT, "/users/*/companies/*/jobs/*/travel_containers")
+                    .authenticated()
+                    // DELETE /travel_containers - ADMIN uniquement
+                    .requestMatchers(DELETE, "/users/*/companies/*/jobs/*/travel_containers/*")
+                    .hasRole("ADMIN")
+
+                    // =========================
                     // OPERATION
                     // =========================
                     .requestMatchers(POST, "/users/*/companies/*/jobs/*/travel_operations")
