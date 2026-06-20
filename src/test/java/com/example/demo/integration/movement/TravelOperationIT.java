@@ -19,6 +19,7 @@ import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.client.model.TravelEquipment;
 import com.example.demo.client.model.TravelExpense;
 import com.example.demo.client.model.TravelMaterials;
+import com.example.demo.client.model.TravelOperationContainerLine;
 import com.example.demo.client.model.TravelOperationEquipmentLine;
 import com.example.demo.client.model.TravelOperationMaterialLine;
 import com.example.demo.client.model.TravelOperationPeopleLine;
@@ -73,6 +74,7 @@ class TravelOperationIT {
 
     String travelId = "travel_operation_travel_1";
     String travelExpenseId = "travel_operation_travel_expense_1";
+    String containerId = "travel_operation_container_1";
     String travelEquipmentId = "travel_operation_travel_equipment_1";
     String travelMaterialId = "travel_operation_travel_material_1";
     String travelPeopleId = "travel_operation_travel_people_1";
@@ -90,19 +92,25 @@ class TravelOperationIT {
             .departureDate(Instant.parse("2024-05-01T08:00:00Z"))
             .arrivalDate(Instant.parse("2024-05-02T10:00:00Z"))
             .fee(BigDecimal.valueOf(1500)));
-    request.setEquipmentLines(
+    request.setContainers(
         List.of(
-            new TravelOperationEquipmentLine()
-                .id(travelEquipmentId)
-                .equipment(equipmentRef(EQUIPMENT1_ID))
-                .comment("Moving equipment 1")));
-    request.setMaterialLines(
-        List.of(
-            new TravelOperationMaterialLine()
-                .id(travelMaterialId)
-                .material(materialRef(MATERIAL1_ID))
-                .quantity(50)
-                .comment("Moving 50 units of material 1")));
+            new TravelOperationContainerLine()
+                .id(containerId)
+                .name("Test Box")
+                .description("Conteneur de test")
+                .equipmentLines(
+                    List.of(
+                        new TravelOperationEquipmentLine()
+                            .id(travelEquipmentId)
+                            .equipment(equipmentRef(EQUIPMENT1_ID))
+                            .comment("Moving equipment 1")))
+                .materialLines(
+                    List.of(
+                        new TravelOperationMaterialLine()
+                            .id(travelMaterialId)
+                            .material(materialRef(MATERIAL1_ID))
+                            .quantity(50)
+                            .comment("Moving 50 units of material 1")))));
     request.setPeopleLines(
         List.of(
             new TravelOperationPeopleLine()
@@ -130,23 +138,13 @@ class TravelOperationIT {
     TravelEquipmentApi travelEquipmentApi = new TravelEquipmentApi(anApiClient(ADMIN_TOKEN));
     PaginatedResponse resp1 =
         travelEquipmentApi.getTravelEquipment(
-            ADMIN_ID,
-            COMPANY1_ID,
-            JOB1_ID,
-            1,
-            100,
-            travelId,
-            EQUIPMENT1_ID,
-            1,
-            null,
-            null,
-            null,
-            null,
-            null);
+            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, travelId, EQUIPMENT1_ID, 1, null, null, null, null, null);
     List<TravelEquipment> createdTravelEquipment = extractData(resp1, TravelEquipment.class);
     assertEquals(1, createdTravelEquipment.size());
     assertEquals(travelEquipmentId, createdTravelEquipment.get(0).getId());
     assertEquals(EQUIPMENT1_ID, createdTravelEquipment.get(0).getEquipment().getId());
+    assertNotNull(createdTravelEquipment.get(0).getContainer());
+    assertEquals(containerId, createdTravelEquipment.get(0).getContainer().getId());
 
     // Verify TravelMaterials
     TravelMaterialsApi travelMaterialsApi = new TravelMaterialsApi(anApiClient(ADMIN_TOKEN));
@@ -157,6 +155,8 @@ class TravelOperationIT {
     assertEquals(1, createdTravelMaterials.size());
     assertEquals(travelMaterialId, createdTravelMaterials.get(0).getId());
     assertEquals(MATERIAL1_ID, createdTravelMaterials.get(0).getMaterial().getId());
+    assertNotNull(createdTravelMaterials.get(0).getContainer());
+    assertEquals(containerId, createdTravelMaterials.get(0).getContainer().getId());
 
     // Verify TravelPeople
     TravelPeopleApi travelPeopleApi = new TravelPeopleApi(anApiClient(ADMIN_TOKEN));
@@ -209,19 +209,7 @@ class TravelOperationIT {
     TravelEquipmentApi travelEquipmentApi = new TravelEquipmentApi(anApiClient(ADMIN_TOKEN));
     PaginatedResponse resp1 =
         travelEquipmentApi.getTravelEquipment(
-            ADMIN_ID,
-            COMPANY1_ID,
-            JOB1_ID,
-            1,
-            100,
-            travelId,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null);
+            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, travelId, null, null, null, null, null, null, null);
     List<TravelEquipment> equipmentList = extractData(resp1, TravelEquipment.class);
     assertTrue(equipmentList.isEmpty());
 
@@ -240,6 +228,7 @@ class TravelOperationIT {
 
     String travelId = "travel_operation_existing_entities";
     String travelExpenseId = "travel_operation_existing_entities_expense";
+    String containerId = "travel_operation_existing_container";
     String travelEquipmentId = "travel_operation_existing_equipment";
     String travelPeopleId = "travel_operation_existing_people";
 
@@ -252,11 +241,16 @@ class TravelOperationIT {
             .arrivalLocation(new CrupdateWarehouse().id(WAREHOUSE2_ID).name("Existing Wh2"))
             .departureDate(Instant.parse("2024-07-01T08:00:00Z"))
             .arrivalDate(Instant.parse("2024-07-02T08:00:00Z")));
-    request.setEquipmentLines(
+    request.setContainers(
         List.of(
-            new TravelOperationEquipmentLine()
-                .id(travelEquipmentId)
-                .equipment(equipmentRef(EQUIPMENT2_ID))));
+            new TravelOperationContainerLine()
+                .id(containerId)
+                .name("Existing Box")
+                .equipmentLines(
+                    List.of(
+                        new TravelOperationEquipmentLine()
+                            .id(travelEquipmentId)
+                            .equipment(equipmentRef(EQUIPMENT2_ID))))));
     request.setPeopleLines(
         List.of(new TravelOperationPeopleLine().id(travelPeopleId).userId(USER1_ID)));
 
@@ -265,22 +259,12 @@ class TravelOperationIT {
     TravelEquipmentApi travelEquipmentApi = new TravelEquipmentApi(anApiClient(ADMIN_TOKEN));
     PaginatedResponse resp =
         travelEquipmentApi.getTravelEquipment(
-            ADMIN_ID,
-            COMPANY1_ID,
-            JOB1_ID,
-            1,
-            100,
-            travelId,
-            EQUIPMENT2_ID,
-            1,
-            null,
-            null,
-            null,
-            null,
-            null);
+            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, travelId, EQUIPMENT2_ID, 1, null, null, null, null, null);
     List<TravelEquipment> equipmentList = extractData(resp, TravelEquipment.class);
     assertEquals(1, equipmentList.size());
     assertEquals(travelEquipmentId, equipmentList.get(0).getId());
+    assertNotNull(equipmentList.get(0).getContainer());
+    assertEquals(containerId, equipmentList.get(0).getContainer().getId());
 
     TravelPeopleApi travelPeopleApi = new TravelPeopleApi(anApiClient(ADMIN_TOKEN));
     PaginatedResponse resp1 =
@@ -307,7 +291,6 @@ class TravelOperationIT {
     request.setPeopleLines(
         List.of(new TravelOperationPeopleLine().id("tp_forbidden").userId(USER2_ID)));
 
-    // Attempting to create for USER1_ID (another user) should fail
     assertThrowsForbiddenException(
         () -> api.createTravelOperation(ADMIN_ID, COMPANY1_ID, JOB1_ID, request));
   }
@@ -319,6 +302,7 @@ class TravelOperationIT {
 
     String travelId = "travel_confirm_arrival_1";
     String travelExpenseId = "travel_confirm_arrival_expense_1";
+    String containerId = "travel_confirm_arrival_container_1";
     String travelEquipmentId = "travel_confirm_equipment_1";
     String travelMaterialId = "travel_confirm_material_1";
 
@@ -332,17 +316,22 @@ class TravelOperationIT {
             .arrivalLocation(new CrupdateWarehouse().id(WAREHOUSE2_ID).name("Wh2"))
             .departureDate(Instant.parse("2024-09-01T08:00:00Z"))
             .arrivalDate(Instant.parse("2024-09-01T17:00:00Z")));
-    request.setEquipmentLines(
+    request.setContainers(
         List.of(
-            new TravelOperationEquipmentLine()
-                .id(travelEquipmentId)
-                .equipment(equipmentRef(EQUIPMENT1_ID))));
-    request.setMaterialLines(
-        List.of(
-            new TravelOperationMaterialLine()
-                .id(travelMaterialId)
-                .material(materialRef(MATERIAL1_ID))
-                .quantity(50)));
+            new TravelOperationContainerLine()
+                .id(containerId)
+                .name("Arrival Box")
+                .equipmentLines(
+                    List.of(
+                        new TravelOperationEquipmentLine()
+                            .id(travelEquipmentId)
+                            .equipment(equipmentRef(EQUIPMENT1_ID))))
+                .materialLines(
+                    List.of(
+                        new TravelOperationMaterialLine()
+                            .id(travelMaterialId)
+                            .material(materialRef(MATERIAL1_ID))
+                            .quantity(50)))));
 
     travelOpApi.createTravelOperation(EMPLOYEE_ID, COMPANY1_ID, JOB1_ID, request);
 
@@ -350,19 +339,8 @@ class TravelOperationIT {
     TravelEquipmentApi teApi = new TravelEquipmentApi(anApiClient(ADMIN_TOKEN));
     PaginatedResponse teResp =
         teApi.getTravelEquipment(
-            ADMIN_ID,
-            COMPANY1_ID,
-            JOB1_ID,
-            1,
-            100,
-            travelId,
-            EQUIPMENT1_ID,
-            1,
-            com.example.demo.client.model.TransportStatus.IN_PROGRESS,
-            null,
-            null,
-            null,
-            null);
+            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, travelId, EQUIPMENT1_ID, 1,
+            com.example.demo.client.model.TransportStatus.IN_PROGRESS, null, null, null, null);
     List<TravelEquipment> equipmentList = extractData(teResp, TravelEquipment.class);
     assertEquals(1, equipmentList.size());
     assertEquals(
@@ -371,29 +349,16 @@ class TravelOperationIT {
 
     // Confirm equipment arrival as ARRIVED
     teApi.confirmEquipmentArrival(
-        ADMIN_ID,
-        COMPANY1_ID,
-        List.of(
-            new ConfirmEquipmentArrival()
-                .id(travelEquipmentId)
-                .status(com.example.demo.client.model.TransportStatus.ARRIVED)));
+        ADMIN_ID, COMPANY1_ID,
+        List.of(new ConfirmEquipmentArrival()
+            .id(travelEquipmentId)
+            .status(com.example.demo.client.model.TransportStatus.ARRIVED)));
 
     // Verify equipment is now ARRIVED
     teResp =
         teApi.getTravelEquipment(
-            ADMIN_ID,
-            COMPANY1_ID,
-            JOB1_ID,
-            1,
-            100,
-            travelId,
-            EQUIPMENT1_ID,
-            1,
-            com.example.demo.client.model.TransportStatus.ARRIVED,
-            null,
-            null,
-            null,
-            null);
+            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, travelId, EQUIPMENT1_ID, 1,
+            com.example.demo.client.model.TransportStatus.ARRIVED, null, null, null, null);
     equipmentList = extractData(teResp, TravelEquipment.class);
     assertEquals(1, equipmentList.size());
     assertEquals(
@@ -408,6 +373,7 @@ class TravelOperationIT {
 
     String travelId = "travel_confirm_lost_1";
     String travelExpenseId = "travel_confirm_lost_expense_1";
+    String containerId = "travel_confirm_lost_container_1";
     String travelEquipmentId = "travel_confirm_lost_equipment_1";
 
     TravelOperationRequest request = new TravelOperationRequest();
@@ -419,40 +385,31 @@ class TravelOperationIT {
             .arrivalLocation(new CrupdateWarehouse().id(WAREHOUSE2_ID).name("Wh2"))
             .departureDate(Instant.parse("2024-10-01T08:00:00Z"))
             .arrivalDate(Instant.parse("2024-10-01T17:00:00Z")));
-    request.setEquipmentLines(
+    request.setContainers(
         List.of(
-            new TravelOperationEquipmentLine()
-                .id(travelEquipmentId)
-                .equipment(equipmentRef(EQUIPMENT2_ID))));
+            new TravelOperationContainerLine()
+                .id(containerId)
+                .name("Lost Box")
+                .equipmentLines(
+                    List.of(
+                        new TravelOperationEquipmentLine()
+                            .id(travelEquipmentId)
+                            .equipment(equipmentRef(EQUIPMENT2_ID))))));
 
     travelOpApi.createTravelOperation(EMPLOYEE_ID, COMPANY1_ID, JOB1_ID, request);
 
     // Confirm equipment as LOST
     TravelEquipmentApi teApi = new TravelEquipmentApi(anApiClient(ADMIN_TOKEN));
     teApi.confirmEquipmentArrival(
-        ADMIN_ID,
-        COMPANY1_ID,
-        List.of(
-            new ConfirmEquipmentArrival()
-                .id(travelEquipmentId)
-                .status(com.example.demo.client.model.TransportStatus.LOST)));
+        ADMIN_ID, COMPANY1_ID,
+        List.of(new ConfirmEquipmentArrival()
+            .id(travelEquipmentId)
+            .status(com.example.demo.client.model.TransportStatus.LOST)));
 
-    // Verify status is LOST
     PaginatedResponse teResp =
         teApi.getTravelEquipment(
-            ADMIN_ID,
-            COMPANY1_ID,
-            JOB1_ID,
-            1,
-            100,
-            travelId,
-            EQUIPMENT2_ID,
-            1,
-            com.example.demo.client.model.TransportStatus.LOST,
-            null,
-            null,
-            null,
-            null);
+            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, travelId, EQUIPMENT2_ID, 1,
+            com.example.demo.client.model.TransportStatus.LOST, null, null, null, null);
     List<TravelEquipment> equipmentList = extractData(teResp, TravelEquipment.class);
     assertEquals(1, equipmentList.size());
     assertEquals(
@@ -466,6 +423,7 @@ class TravelOperationIT {
 
     String travelId = "travel_confirm_mat_1";
     String travelExpenseId = "travel_confirm_mat_expense_1";
+    String containerId = "travel_confirm_mat_container_1";
     String travelMaterialId = "travel_confirm_mat_line_1";
 
     TravelOperationRequest request = new TravelOperationRequest();
@@ -477,16 +435,20 @@ class TravelOperationIT {
             .arrivalLocation(new CrupdateWarehouse().id(WAREHOUSE2_ID).name("Wh2"))
             .departureDate(Instant.parse("2024-11-01T08:00:00Z"))
             .arrivalDate(Instant.parse("2024-11-01T17:00:00Z")));
-    request.setMaterialLines(
+    request.setContainers(
         List.of(
-            new TravelOperationMaterialLine()
-                .id(travelMaterialId)
-                .material(materialRef(MATERIAL1_ID))
-                .quantity(100)));
+            new TravelOperationContainerLine()
+                .id(containerId)
+                .name("Mat Box")
+                .materialLines(
+                    List.of(
+                        new TravelOperationMaterialLine()
+                            .id(travelMaterialId)
+                            .material(materialRef(MATERIAL1_ID))
+                            .quantity(100)))));
 
     travelOpApi.createTravelOperation(EMPLOYEE_ID, COMPANY1_ID, JOB1_ID, request);
 
-    // Verify materials have quantityReceived = 0 (in transit)
     TravelMaterialsApi tmApi = new TravelMaterialsApi(anApiClient(ADMIN_TOKEN));
     PaginatedResponse tmResp =
         tmApi.getTravelMaterials(
@@ -495,29 +457,22 @@ class TravelOperationIT {
     assertEquals(1, materialsList.size());
     assertEquals(0, materialsList.get(0).getQuantityReceived().intValue());
 
-    // Progressive arrival: first batch (50 received, 10 lost)
     tmApi.confirmMaterialArrival(
-        ADMIN_ID,
-        COMPANY1_ID,
-        List.of(
-            new ConfirmMaterialArrival()
-                .id(travelMaterialId)
-                .logId(travelMaterialId + "_batch1")
-                .quantityReceived(50)
-                .quantityLost(10)));
+        ADMIN_ID, COMPANY1_ID,
+        List.of(new ConfirmMaterialArrival()
+            .id(travelMaterialId)
+            .logId(travelMaterialId + "_batch1")
+            .quantityReceived(50)
+            .quantityLost(10)));
 
-    // Second batch (30 received, 10 lost)
     tmApi.confirmMaterialArrival(
-        ADMIN_ID,
-        COMPANY1_ID,
-        List.of(
-            new ConfirmMaterialArrival()
-                .id(travelMaterialId)
-                .logId(travelMaterialId + "_batch2")
-                .quantityReceived(30)
-                .quantityLost(10)));
+        ADMIN_ID, COMPANY1_ID,
+        List.of(new ConfirmMaterialArrival()
+            .id(travelMaterialId)
+            .logId(travelMaterialId + "_batch2")
+            .quantityReceived(30)
+            .quantityLost(10)));
 
-    // Verify cumulative totals: 80 received, 20 lost
     tmResp =
         tmApi.getTravelMaterials(
             ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, travelId, MATERIAL1_ID, 100, 80, null, null);
@@ -538,6 +493,7 @@ class TravelOperationIT {
 
     String travelId = "travel_direct_arrival_1";
     String travelExpenseId = "travel_direct_arrival_expense_1";
+    String containerId = "travel_direct_arrival_container_1";
     String travelEquipmentId = "travel_direct_arrival_equipment_1";
     String travelMaterialId = "travel_direct_arrival_material_1";
 
@@ -552,17 +508,22 @@ class TravelOperationIT {
             .arrivalLocation(new CrupdateWarehouse().id(WAREHOUSE2_ID).name("Wh2"))
             .departureDate(Instant.parse("2024-12-01T08:00:00Z"))
             .arrivalDate(Instant.parse("2024-12-01T17:00:00Z")));
-    request.setEquipmentLines(
+    request.setContainers(
         List.of(
-            new TravelOperationEquipmentLine()
-                .id(travelEquipmentId)
-                .equipment(equipmentRef(EQUIPMENT2_ID))));
-    request.setMaterialLines(
-        List.of(
-            new TravelOperationMaterialLine()
-                .id(travelMaterialId)
-                .material(materialRef(MATERIAL1_ID))
-                .quantity(50)));
+            new TravelOperationContainerLine()
+                .id(containerId)
+                .name("Direct Box")
+                .equipmentLines(
+                    List.of(
+                        new TravelOperationEquipmentLine()
+                            .id(travelEquipmentId)
+                            .equipment(equipmentRef(EQUIPMENT2_ID))))
+                .materialLines(
+                    List.of(
+                        new TravelOperationMaterialLine()
+                            .id(travelMaterialId)
+                            .material(materialRef(MATERIAL1_ID))
+                            .quantity(50)))));
 
     travelOpApi.createTravelOperation(EMPLOYEE_ID, COMPANY1_ID, JOB1_ID, request);
 
@@ -570,19 +531,8 @@ class TravelOperationIT {
     TravelEquipmentApi teApi = new TravelEquipmentApi(anApiClient(ADMIN_TOKEN));
     PaginatedResponse teResp =
         teApi.getTravelEquipment(
-            ADMIN_ID,
-            COMPANY1_ID,
-            JOB1_ID,
-            1,
-            100,
-            travelId,
-            EQUIPMENT2_ID,
-            1,
-            com.example.demo.client.model.TransportStatus.ARRIVED,
-            null,
-            null,
-            null,
-            null);
+            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, travelId, EQUIPMENT2_ID, 1,
+            com.example.demo.client.model.TransportStatus.ARRIVED, null, null, null, null);
     List<TravelEquipment> equipmentList = extractData(teResp, TravelEquipment.class);
     assertEquals(1, equipmentList.size());
     assertEquals(travelEquipmentId, equipmentList.get(0).getId());

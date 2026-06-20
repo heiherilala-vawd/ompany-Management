@@ -46,6 +46,7 @@ x-tagGroups:
       - TravelPeople
       - TravelMaterials
       - TravelEquipment
+      - TravelContainer
       - History
       - CompanyFixedCost
       - CashAccount
@@ -129,6 +130,8 @@ tags:
     description: Materials transported on travel
   - name: TravelEquipment
     description: Equipment transported on travel
+  - name: TravelContainer
+    description: Containers/packaging used on travel
   - name: History
     description: Modification history
   - name: CompanyFixedCost
@@ -7240,6 +7243,219 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
+  '/users/{userId}/companies/{companyId}/jobs/{jobId}/travel_containers/{id}':
+    get:
+      tags:
+        - TravelContainer
+      summary: Get travel container by identifier
+      operationId: getTravelContainerById
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+        - name: companyId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: jobId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "job_001"
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "tc_001"
+      responses:
+        '200':
+          description: The identified travel container
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TravelContainer'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      tags:
+        - TravelContainer
+      summary: Delete travel container by identifier
+      operationId: deleteTravelContainerById
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+        - name: companyId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: jobId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "job_001"
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "tc_001"
+      responses:
+        '204':
+          description: Travel container deleted successfully
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+
+  '/users/{userId}/companies/{companyId}/jobs/{jobId}/travel_containers':
+    get:
+      tags:
+        - TravelContainer
+      summary: Get all travel containers
+      operationId: getTravelContainers
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+        - name: companyId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: jobId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "job_001"
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+          example: 1
+        - name: page_size
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 500
+          example: 20
+        - name: travel_id
+          in: query
+          required: false
+          schema:
+            type: string
+          example: "travel_001"
+        - name: name
+          in: query
+          required: false
+          schema:
+            type: string
+          example: "Blue Box"
+      responses:
+        '200':
+          description: Paginated list of travel containers
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      tags:
+        - TravelContainer
+      summary: Create or update travel containers
+      operationId: crupdateTravelContainers
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "user_123456"
+        - name: companyId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "comp_btp001"
+        - name: jobId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "job_001"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/CrupdateTravelContainer'
+      responses:
+        '200':
+          description: Created or updated travel containers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TravelContainer'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+
   /users/{userId}/companies/{companyId}/fixed_costs:
     get:
       tags:
@@ -10509,15 +10725,19 @@ paths:
                 departure_date: "2024-02-25T09:00:00Z"
                 arrival_date: "2024-02-25T17:00:00Z"
                 fee: 500
-              equipment_lines:
-                - id: "travel_eq_010"
-                  equipment:
-                    id: "eq_003"
-              material_lines:
-                - id: "travel_mat_010"
-                  material:
-                    id: "mat_004"
-                  quantity: 100
+              containers:
+                - id: "tc_010"
+                  name: "Blue Box"
+                  description: "Grande boîte plastique"
+                  equipment_lines:
+                    - id: "travel_eq_010"
+                      equipment:
+                        id: "eq_003"
+                  material_lines:
+                    - id: "travel_mat_010"
+                      material:
+                        id: "mat_004"
+                      quantity: 100
               people_lines:
                 - id: "travel_people_010"
                   user_id: "usr_999"
@@ -13923,6 +14143,8 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/TravelMaterialsArrivalLog'
+        container:
+          $ref: '#/components/schemas/TravelContainer'
     TravelMaterialsArrivalLog:
       allOf:
         - $ref: '#/components/schemas/AuditFields'
@@ -13974,6 +14196,9 @@ components:
         quantity_lost:
           type: integer
           example: 0
+        container_id:
+          type: string
+          example: "tc_001"
 
     # =========================
     # TRAVEL EQUIPMENT
@@ -14000,6 +14225,8 @@ components:
           example: "2024-02-20T18:00:00Z"
         arrival_location:
           $ref: '#/components/schemas/CrupdateWarehouse'
+        container:
+          $ref: '#/components/schemas/TravelContainer'
     CrupdateTravelEquipment:
       required:
         - travel_id
@@ -14030,6 +14257,47 @@ components:
         arrival_location:
           type: string
           example: "wh_001"
+        container_id:
+          type: string
+          example: "tc_001"
+
+    # =========================
+    # TRAVEL CONTAINER
+    # =========================
+    TravelContainer:
+      allOf:
+        - $ref: '#/components/schemas/AuditFields'
+      properties:
+        id:
+          type: string
+          example: "tc_001"
+        travel:
+          $ref: '#/components/schemas/CrupdateTravelExpense'
+        name:
+          type: string
+          example: "Blue Box"
+        description:
+          type: string
+          example: "Grande boîte plastique"
+    CrupdateTravelContainer:
+      required:
+        - travel_id
+        - name
+      allOf:
+        - $ref: '#/components/schemas/comment'
+      properties:
+        id:
+          type: string
+          example: "tc_001"
+        travel_id:
+          type: string
+          example: "travel_001"
+        name:
+          type: string
+          example: "Blue Box"
+        description:
+          type: string
+          example: "Grande boîte plastique"
 
     # =========================
     # PURCHASE
@@ -14240,6 +14508,27 @@ components:
         user_id:
           type: string
           example: "usr_999"
+    TravelOperationContainerLine:
+      allOf:
+        - $ref: '#/components/schemas/comment'
+      properties:
+        id:
+          type: string
+          example: "tc_010"
+        name:
+          type: string
+          example: "Blue Box"
+        description:
+          type: string
+          example: "Grande boîte plastique"
+        equipment_lines:
+          type: array
+          items:
+            $ref: '#/components/schemas/TravelOperationEquipmentLine'
+        material_lines:
+          type: array
+          items:
+            $ref: '#/components/schemas/TravelOperationMaterialLine'
     TravelOperationRequest:
       allOf:
         - $ref: '#/components/schemas/comment'
@@ -14250,14 +14539,10 @@ components:
           type: boolean
           default: false
           description: "If true, all equipment and materials arrive directly at destination. If false (default), they are en route."
-        equipment_lines:
+        containers:
           type: array
           items:
-            $ref: '#/components/schemas/TravelOperationEquipmentLine'
-        material_lines:
-          type: array
-          items:
-            $ref: '#/components/schemas/TravelOperationMaterialLine'
+            $ref: '#/components/schemas/TravelOperationContainerLine'
         people_lines:
           type: array
           items:

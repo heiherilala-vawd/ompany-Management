@@ -15,6 +15,7 @@ DELETE FROM "leave_type";
 DELETE FROM "history";
 DELETE FROM "travel_equipment";
 DELETE FROM "travel_materials";
+DELETE FROM "travel_container";
 DELETE FROM "travel_people";
 DELETE FROM "travel_expense";
 DELETE FROM "other_expense";

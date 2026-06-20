@@ -38,9 +38,10 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   CrupdateTravelMaterials.JSON_PROPERTY_QUANTITY,
   CrupdateTravelMaterials.JSON_PROPERTY_QUANTITY_RECEIVED,
   CrupdateTravelMaterials.JSON_PROPERTY_QUANTITY_LOST,
+  CrupdateTravelMaterials.JSON_PROPERTY_CONTAINER_ID,
   CrupdateTravelMaterials.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-18T03:48:50.102368263+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-20T18:35:32.000500430+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdateTravelMaterials {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -59,6 +60,9 @@ public class CrupdateTravelMaterials {
 
   public static final String JSON_PROPERTY_QUANTITY_LOST = "quantity_lost";
   private Integer quantityLost;
+
+  public static final String JSON_PROPERTY_CONTAINER_ID = "container_id";
+  private String containerId;
 
   public static final String JSON_PROPERTY_COMMENT = "comment";
   private String comment;
@@ -217,6 +221,31 @@ public class CrupdateTravelMaterials {
   }
 
 
+  public CrupdateTravelMaterials containerId(String containerId) {
+    this.containerId = containerId;
+    return this;
+  }
+
+   /**
+   * Get containerId
+   * @return containerId
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_CONTAINER_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getContainerId() {
+    return containerId;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_CONTAINER_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setContainerId(String containerId) {
+    this.containerId = containerId;
+  }
+
+
   public CrupdateTravelMaterials comment(String comment) {
     this.comment = comment;
     return this;
@@ -260,12 +289,13 @@ public class CrupdateTravelMaterials {
         Objects.equals(this.quantity, crupdateTravelMaterials.quantity) &&
         Objects.equals(this.quantityReceived, crupdateTravelMaterials.quantityReceived) &&
         Objects.equals(this.quantityLost, crupdateTravelMaterials.quantityLost) &&
+        Objects.equals(this.containerId, crupdateTravelMaterials.containerId) &&
         Objects.equals(this.comment, crupdateTravelMaterials.comment);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, travelId, material, quantity, quantityReceived, quantityLost, comment);
+    return Objects.hash(id, travelId, material, quantity, quantityReceived, quantityLost, containerId, comment);
   }
 
   @Override
@@ -278,6 +308,7 @@ public class CrupdateTravelMaterials {
     sb.append("    quantity: ").append(toIndentedString(quantity)).append("\n");
     sb.append("    quantityReceived: ").append(toIndentedString(quantityReceived)).append("\n");
     sb.append("    quantityLost: ").append(toIndentedString(quantityLost)).append("\n");
+    sb.append("    containerId: ").append(toIndentedString(containerId)).append("\n");
     sb.append("    comment: ").append(toIndentedString(comment)).append("\n");
     sb.append("}");
     return sb.toString();

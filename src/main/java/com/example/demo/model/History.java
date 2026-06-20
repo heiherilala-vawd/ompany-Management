@@ -81,6 +81,7 @@ public class History implements Serializable {
     TRAVELPEOPLE,
     TRAVELMATERIALS,
     TRAVELEQUIPMENT,
+    TRAVELCONTAINER,
     PURCHASE,
     BANK_FEE,
     OTHER_EXPENSE,

@@ -19,8 +19,7 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
-import com.example.demo.client.model.TravelOperationEquipmentLine;
-import com.example.demo.client.model.TravelOperationMaterialLine;
+import com.example.demo.client.model.TravelOperationContainerLine;
 import com.example.demo.client.model.TravelOperationPeopleLine;
 import com.example.demo.client.model.TravelOperationTravel;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -40,12 +39,11 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
   TravelOperationRequest.JSON_PROPERTY_TRAVEL,
   TravelOperationRequest.JSON_PROPERTY_DIRECT_ARRIVAL,
-  TravelOperationRequest.JSON_PROPERTY_EQUIPMENT_LINES,
-  TravelOperationRequest.JSON_PROPERTY_MATERIAL_LINES,
+  TravelOperationRequest.JSON_PROPERTY_CONTAINERS,
   TravelOperationRequest.JSON_PROPERTY_PEOPLE_LINES,
   TravelOperationRequest.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-18T03:48:50.102368263+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-20T18:35:32.000500430+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class TravelOperationRequest {
   public static final String JSON_PROPERTY_TRAVEL = "travel";
   private TravelOperationTravel travel;
@@ -53,11 +51,8 @@ public class TravelOperationRequest {
   public static final String JSON_PROPERTY_DIRECT_ARRIVAL = "direct_arrival";
   private Boolean directArrival = false;
 
-  public static final String JSON_PROPERTY_EQUIPMENT_LINES = "equipment_lines";
-  private List<TravelOperationEquipmentLine> equipmentLines = new ArrayList<>();
-
-  public static final String JSON_PROPERTY_MATERIAL_LINES = "material_lines";
-  private List<TravelOperationMaterialLine> materialLines = new ArrayList<>();
+  public static final String JSON_PROPERTY_CONTAINERS = "containers";
+  private List<TravelOperationContainerLine> containers = new ArrayList<>();
 
   public static final String JSON_PROPERTY_PEOPLE_LINES = "people_lines";
   private List<TravelOperationPeopleLine> peopleLines = new ArrayList<>();
@@ -118,69 +113,36 @@ public class TravelOperationRequest {
   }
 
 
-  public TravelOperationRequest equipmentLines(List<TravelOperationEquipmentLine> equipmentLines) {
-    this.equipmentLines = equipmentLines;
+  public TravelOperationRequest containers(List<TravelOperationContainerLine> containers) {
+    this.containers = containers;
     return this;
   }
 
-  public TravelOperationRequest addEquipmentLinesItem(TravelOperationEquipmentLine equipmentLinesItem) {
-    if (this.equipmentLines == null) {
-      this.equipmentLines = new ArrayList<>();
+  public TravelOperationRequest addContainersItem(TravelOperationContainerLine containersItem) {
+    if (this.containers == null) {
+      this.containers = new ArrayList<>();
     }
-    this.equipmentLines.add(equipmentLinesItem);
+    this.containers.add(containersItem);
     return this;
   }
 
    /**
-   * Get equipmentLines
-   * @return equipmentLines
+   * Get containers
+   * @return containers
   **/
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_EQUIPMENT_LINES)
+  @JsonProperty(JSON_PROPERTY_CONTAINERS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public List<TravelOperationEquipmentLine> getEquipmentLines() {
-    return equipmentLines;
+  public List<TravelOperationContainerLine> getContainers() {
+    return containers;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_EQUIPMENT_LINES)
+  @JsonProperty(JSON_PROPERTY_CONTAINERS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setEquipmentLines(List<TravelOperationEquipmentLine> equipmentLines) {
-    this.equipmentLines = equipmentLines;
-  }
-
-
-  public TravelOperationRequest materialLines(List<TravelOperationMaterialLine> materialLines) {
-    this.materialLines = materialLines;
-    return this;
-  }
-
-  public TravelOperationRequest addMaterialLinesItem(TravelOperationMaterialLine materialLinesItem) {
-    if (this.materialLines == null) {
-      this.materialLines = new ArrayList<>();
-    }
-    this.materialLines.add(materialLinesItem);
-    return this;
-  }
-
-   /**
-   * Get materialLines
-   * @return materialLines
-  **/
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_MATERIAL_LINES)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-  public List<TravelOperationMaterialLine> getMaterialLines() {
-    return materialLines;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_MATERIAL_LINES)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setMaterialLines(List<TravelOperationMaterialLine> materialLines) {
-    this.materialLines = materialLines;
+  public void setContainers(List<TravelOperationContainerLine> containers) {
+    this.containers = containers;
   }
 
 
@@ -256,15 +218,14 @@ public class TravelOperationRequest {
     TravelOperationRequest travelOperationRequest = (TravelOperationRequest) o;
     return Objects.equals(this.travel, travelOperationRequest.travel) &&
         Objects.equals(this.directArrival, travelOperationRequest.directArrival) &&
-        Objects.equals(this.equipmentLines, travelOperationRequest.equipmentLines) &&
-        Objects.equals(this.materialLines, travelOperationRequest.materialLines) &&
+        Objects.equals(this.containers, travelOperationRequest.containers) &&
         Objects.equals(this.peopleLines, travelOperationRequest.peopleLines) &&
         Objects.equals(this.comment, travelOperationRequest.comment);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(travel, directArrival, equipmentLines, materialLines, peopleLines, comment);
+    return Objects.hash(travel, directArrival, containers, peopleLines, comment);
   }
 
   @Override
@@ -273,8 +234,7 @@ public class TravelOperationRequest {
     sb.append("class TravelOperationRequest {\n");
     sb.append("    travel: ").append(toIndentedString(travel)).append("\n");
     sb.append("    directArrival: ").append(toIndentedString(directArrival)).append("\n");
-    sb.append("    equipmentLines: ").append(toIndentedString(equipmentLines)).append("\n");
-    sb.append("    materialLines: ").append(toIndentedString(materialLines)).append("\n");
+    sb.append("    containers: ").append(toIndentedString(containers)).append("\n");
     sb.append("    peopleLines: ").append(toIndentedString(peopleLines)).append("\n");
     sb.append("    comment: ").append(toIndentedString(comment)).append("\n");
     sb.append("}");

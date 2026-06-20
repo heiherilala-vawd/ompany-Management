@@ -8,6 +8,7 @@ import com.example.demo.endpoint.rest.mapper.RestAuditMapperUtils;
 import com.example.demo.endpoint.rest.mapper.money.TravelExpenseMapper;
 import com.example.demo.service.money.TravelExpenseService;
 import com.example.demo.service.movement.EquipmentService;
+import com.example.demo.service.movement.TravelContainerService;
 import com.example.demo.service.movement.WarehouseService;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -20,9 +21,11 @@ public class TravelEquipmentMapper {
   private final TravelExpenseService travelExpenseService;
   private final EquipmentService equipmentService;
   private final WarehouseService warehouseService;
+  private final TravelContainerService travelContainerService;
   private final TravelExpenseMapper travelExpenseMapper;
   private final EquipmentMapper equipmentMapper;
   private final WarehouseMapper warehouseMapper;
+  private final TravelContainerMapper travelContainerMapper;
 
   public com.example.demo.model.movement.TravelEquipment toDomain(
       TravelEquipment restTravelEquipment) {
@@ -82,6 +85,10 @@ public class TravelEquipmentMapper {
                 ? warehouseService.findById(restTravelEquipment.getArrivalLocation()).orElse(null)
                 : null)
         .arrivalDate(restTravelEquipment.getArrivalDate())
+        .container(
+            restTravelEquipment.getContainerId() != null
+                ? travelContainerService.findById(restTravelEquipment.getContainerId()).orElse(null)
+                : null)
         .build();
   }
 
@@ -101,6 +108,8 @@ public class TravelEquipmentMapper {
     restTravelEquipment.setArrivalDate(domainTravelEquipment.getArrivalDate());
     restTravelEquipment.setArrivalLocation(
         warehouseMapper.toRestCrupdateWarehouse(domainTravelEquipment.getArrivalLocation()));
+    restTravelEquipment.setContainer(
+        travelContainerMapper.toRestTravelContainer(domainTravelEquipment.getContainer()));
     RestAuditMapperUtils.mapAuditFields(
         domainTravelEquipment,
         restTravelEquipment::setCreatedAt,
