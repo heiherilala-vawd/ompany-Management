@@ -45,7 +45,9 @@ public class EquipmentController {
       @RequestParam(name = "description", required = false) String description,
       @RequestParam(name = "floor_number", required = false) Integer floorNumber,
       @RequestParam(name = "storage_number", required = false) Integer storageNumber,
-      @RequestParam(name = "not_arrived", required = false) Boolean notArrived) {
+      @RequestParam(name = "not_arrived", required = false) Boolean notArrived,
+      @RequestParam(name = "is_damaged", required = false) Boolean isDamaged,
+      @RequestParam(name = "is_lost", required = false) Boolean isLost) {
     EquipmentCriteria criteria = new EquipmentCriteria();
     criteria.setWarehouseId(warehouseId);
     criteria.setName(name);
@@ -53,6 +55,8 @@ public class EquipmentController {
     criteria.setFloorNumber(floorNumber);
     criteria.setStorageNumber(storageNumber);
     criteria.setNotArrived(notArrived);
+    criteria.setIsDamaged(isDamaged);
+    criteria.setIsLost(isLost);
 
     var result = equipmentService.findAll(page, pageSize, criteria);
     return new PaginatedResponse(
@@ -66,9 +70,6 @@ public class EquipmentController {
       @PathVariable String userId,
       @PathVariable String companyId,
       @Valid @RequestBody List<CrupdateEquipment> toWrite) {
-    System.out.println("----------------------------------------");
-    System.out.println(toWrite.toString());
-    System.out.println("----------------------------------------");
     List<com.example.demo.model.movement.Equipment> saved =
         equipmentService.createOrUpdateAll(
             toWrite.stream().map(equipmentMapper::toDomain).toList());

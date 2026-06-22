@@ -83,7 +83,7 @@ class WarehouseIT {
 
     List<Warehouse> warehouses = extractData(resp, Warehouse.class);
 
-    assertEquals(7, warehouses.size());
+    assertEquals(5, warehouses.size());
     assertTrue(warehouses.stream().anyMatch(warehouse -> WAREHOUSE1_ID.equals(warehouse.getId())));
     assertTrue(warehouses.stream().anyMatch(warehouse -> WAREHOUSE2_ID.equals(warehouse.getId())));
     assertTrue(
@@ -91,9 +91,6 @@ class WarehouseIT {
     assertTrue(
         warehouses.stream()
             .anyMatch(warehouse -> AT_SELLER_WAREHOUSE_ID.equals(warehouse.getId())));
-    assertTrue(
-        warehouses.stream()
-            .anyMatch(warehouse -> UNFINDABLE_WAREHOUSE_ID.equals(warehouse.getId())));
     assertTrue(
         warehouses.stream().anyMatch(warehouse -> USED_WAREHOUSE_ID.equals(warehouse.getId())));
   }
@@ -143,7 +140,7 @@ class WarehouseIT {
 
     List<Warehouse> warehouses = extractData(resp, Warehouse.class);
 
-    assertEquals(6, warehouses.size());
+    assertEquals(4, warehouses.size());
     assertTrue(warehouses.stream().anyMatch(warehouse -> WAREHOUSE2_ID.equals(warehouse.getId())));
   }
 
@@ -212,13 +209,13 @@ class WarehouseIT {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     WarehouseApi api = new WarehouseApi(adminClient);
 
-    api.deleteWarehouseById(ADMIN_ID, COMPANY1_ID, UNFINDABLE_WAREHOUSE_ID);
+    api.deleteWarehouseById(ADMIN_ID, COMPANY1_ID, USED_WAREHOUSE_ID);
 
     assertThrowsApiException(
         "{\"type\":\"404 NOT_FOUND\",\"message\":\"Warehouse with id "
-            + UNFINDABLE_WAREHOUSE_ID
+            + USED_WAREHOUSE_ID
             + " not found\"}",
-        () -> api.getWarehouseById(ADMIN_ID, COMPANY1_ID, UNFINDABLE_WAREHOUSE_ID));
+        () -> api.getWarehouseById(ADMIN_ID, COMPANY1_ID, USED_WAREHOUSE_ID));
   }
 
   @Test

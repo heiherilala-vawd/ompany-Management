@@ -49,10 +49,6 @@ public class EquipmentService {
 
   @Transactional
   public List<Equipment> createOrUpdateAll(List<Equipment> equipmentList) {
-    System.out.println("----------------------------------------");
-    System.out.println(equipmentList.toString());
-    System.out.println("----------------------------------------");
-
     movementValidator.validateEquipments(equipmentList);
     List<Equipment> processedEquipments = new ArrayList<>();
     for (Equipment equipment : equipmentList) {
@@ -74,6 +70,8 @@ public class EquipmentService {
         .and(containsIgnoreCase(criteria.getName(), "name"))
         .and(containsIgnoreCase(criteria.getDescription(), "description"))
         .and(equal(criteria.getFloorNumber(), "floorNumber"))
-        .and(equal(criteria.getStorageNumber(), "storageNumber"));
+        .and(equal(criteria.getStorageNumber(), "storageNumber"))
+        .and(equal(criteria.getIsDamaged(), "isDamaged"))
+        .and(equal(criteria.getIsLost(), "isLost"));
   }
 }

@@ -29,6 +29,8 @@ public class EquipmentMapper {
         .floorNumber(restEquipment.getFloorNumber())
         .storageNumber(restEquipment.getStorageNumber())
         .estEnPanne(restEquipment.getEstEnPanne())
+        .isDamaged(restEquipment.getIsDamaged())
+        .isLost(restEquipment.getIsLost())
         .comment(restEquipment.getComment())
         .purchasePrice(restEquipment.getPurchasePrice())
         .purchaseDate(restEquipment.getPurchaseDate())
@@ -50,6 +52,8 @@ public class EquipmentMapper {
         .floorNumber(restEquipment.getFloorNumber())
         .storageNumber(restEquipment.getStorageNumber())
         .estEnPanne(restEquipment.getEstEnPanne())
+        .isDamaged(Boolean.TRUE.equals(restEquipment.getIsDamaged()))
+        .isLost(Boolean.TRUE.equals(restEquipment.getIsLost()))
         .comment(restEquipment.getComment())
         .purchasePrice(restEquipment.getPurchasePrice())
         .purchaseDate(restEquipment.getPurchaseDate())
@@ -69,6 +73,8 @@ public class EquipmentMapper {
     restEquipment.setFloorNumber(domainEquipment.getFloorNumber());
     restEquipment.setStorageNumber(domainEquipment.getStorageNumber());
     restEquipment.setEstEnPanne(domainEquipment.getEstEnPanne());
+    restEquipment.setIsDamaged(domainEquipment.getIsDamaged());
+    restEquipment.setIsLost(domainEquipment.getIsLost());
     restEquipment.setPurchasePrice(domainEquipment.getPurchasePrice());
     restEquipment.setPurchaseDate(domainEquipment.getPurchaseDate());
     restEquipment.setCategory(domainEquipment.getCategory());
@@ -96,6 +102,8 @@ public class EquipmentMapper {
         .floorNumber(domainEquipment.getFloorNumber())
         .storageNumber(domainEquipment.getStorageNumber())
         .estEnPanne(domainEquipment.getEstEnPanne())
+        .isDamaged(domainEquipment.getIsDamaged())
+        .isLost(domainEquipment.getIsLost())
         .comment(domainEquipment.getComment());
   }
 

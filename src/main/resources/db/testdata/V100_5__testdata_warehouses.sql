@@ -4,6 +4,4 @@ VALUES
 ('warehouse2_id', 'Entrepôt Sud', 'Stockage équipements', 'job2_id', NOW(), NOW()),
 ('warehouse_route_id', 'En route', 'Emplacement virtuel pour les équipements en déplacement', NULL, NOW(), NOW()),
 ('warehouse_at_seller_id', 'Chez le vendeur', 'Emplacement virtuel pour les équipements encore chez le vendeur', NULL, NOW(), NOW()),
-('warehouse_unfindable_id', 'Introuvable', 'Emplacement virtuel pour les équipements introuvables', NULL, NOW(), NOW()),
-('warehouse_used_id', 'Utilisé', 'Emplacement virtuel pour les matériaux/équipements utilisés', NULL, NOW(), NOW()),
-('warehouse_damaged_id', 'Détérioré', 'Emplacement virtuel pour les équipements détériorés à l''arrivée', NULL, NOW(), NOW());
+('warehouse_used_id', 'Utilisé', 'Emplacement virtuel pour les matériaux/équipements utilisés', NULL, NOW(), NOW());

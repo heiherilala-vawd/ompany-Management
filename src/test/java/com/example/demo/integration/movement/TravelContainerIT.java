@@ -172,8 +172,7 @@ class TravelContainerIT {
     toCreate.setName("New Box");
 
     assertThrowsForbiddenException(
-        () ->
-            api.crupdateTravelContainers(ADMIN_ID, COMPANY1_ID, JOB1_ID, List.of(toCreate)));
+        () -> api.crupdateTravelContainers(ADMIN_ID, COMPANY1_ID, JOB1_ID, List.of(toCreate)));
   }
 
   static class ContextInitializer extends AbstractContextInitializer {

@@ -4,9 +4,7 @@ public final class SpecialWarehouseUtils {
 
   private static final String ROUTE_WAREHOUSE_ID = "warehouse_route_id";
   private static final String AT_SELLER_WAREHOUSE_ID = "warehouse_at_seller_id";
-  private static final String UNFINDABLE_WAREHOUSE_ID = "warehouse_unfindable_id";
   private static final String USED_WAREHOUSE_ID = "warehouse_used_id";
-  private static final String DAMAGED_WAREHOUSE_ID = "warehouse_damaged_id";
 
   private SpecialWarehouseUtils() {}
 
@@ -18,15 +16,7 @@ public final class SpecialWarehouseUtils {
     return AT_SELLER_WAREHOUSE_ID;
   }
 
-  public static String unfindableWarehouseId() {
-    return UNFINDABLE_WAREHOUSE_ID;
-  }
-
   public static String usedWarehouseId() {
     return USED_WAREHOUSE_ID;
-  }
-
-  public static String damagedWarehouseId() {
-    return DAMAGED_WAREHOUSE_ID;
   }
 }

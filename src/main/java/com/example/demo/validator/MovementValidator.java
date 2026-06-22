@@ -249,8 +249,7 @@ public class MovementValidator {
         && (container.getTravel() == null || container.getTravel().getId() == null)) {
       errors.add("Travel container must be linked to a travel expense");
     }
-    if (container != null
-        && (container.getName() == null || container.getName().isBlank())) {
+    if (container != null && (container.getName() == null || container.getName().isBlank())) {
       errors.add("Container name is mandatory");
     }
     if (!errors.isEmpty()) {

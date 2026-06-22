@@ -12,6 +12,7 @@ DELETE FROM "department";
 DELETE FROM "leave";
 DELETE FROM "employee_leave_config";
 DELETE FROM "leave_type";
+DELETE FROM "equipment_incident";
 DELETE FROM "history";
 DELETE FROM "travel_equipment";
 DELETE FROM "travel_materials";

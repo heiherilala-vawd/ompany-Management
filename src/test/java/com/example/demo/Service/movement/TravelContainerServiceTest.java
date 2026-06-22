@@ -110,11 +110,7 @@ class TravelContainerServiceTest {
   @Test
   void createOrUpdateAll_ShouldUpdateExistingContainer_WhenExists() {
     TravelContainer existing =
-        TravelContainer.builder()
-            .id("container-1")
-            .travel(travel)
-            .name("Old Name")
-            .build();
+        TravelContainer.builder().id("container-1").travel(travel).name("Old Name").build();
 
     doNothing().when(movementValidator).validateTravelContainers(anyList());
     when(modificationUtils.takePrimaryUser()).thenReturn(user);

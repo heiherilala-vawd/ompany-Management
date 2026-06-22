@@ -6,7 +6,9 @@ import com.example.demo.model.User;
 import com.example.demo.model.exception.BadRequestException;
 import com.example.demo.model.exception.ForbiddenException;
 import com.example.demo.model.exception.NotFoundException;
+import com.example.demo.model.movement.EquipmentIncident;
 import com.example.demo.model.movement.EquipmentUsage;
+import com.example.demo.model.movement.IncidentType;
 import com.example.demo.model.movement.Warehouse;
 import com.example.demo.repository.movement.EquipmentUsageRepository;
 import com.example.demo.repository.specification.SpecificationUtils;
@@ -34,6 +36,7 @@ public class EquipmentUsageService {
   private final EquipmentService equipmentService;
   private final WarehouseService warehouseService;
   private final MovementValidator movementValidator;
+  private final EquipmentIncidentService equipmentIncidentService;
 
   public Optional<EquipmentUsage> findById(String id) {
     Optional<EquipmentUsage> usage = equipmentUsageRepository.findById(id);
@@ -100,16 +103,27 @@ public class EquipmentUsageService {
         Warehouse source = usage.getSourceLocation();
         if (source != null) {
           equipment.setWarehouse(source);
-          equipmentService.createOrUpdateAll(List.of(equipment));
         }
+        equipment.setIsDamaged(false);
+        equipment.setIsLost(false);
+        equipment.setEstEnPanne(false);
+        equipmentService.createOrUpdateAll(List.of(equipment));
       }
       case LOST -> {
-        Warehouse unfindable =
-            warehouseService.findById(SpecialWarehouseUtils.unfindableWarehouseId()).orElse(null);
-        if (unfindable != null) {
-          equipment.setWarehouse(unfindable);
-          equipmentService.createOrUpdateAll(List.of(equipment));
-        }
+        equipment.setIsLost(true);
+        equipmentService.createOrUpdateAll(List.of(equipment));
+        String incidentId =
+            "lost_" + usage.getEquipment().getId() + "_" + System.currentTimeMillis();
+        EquipmentIncident incident =
+            EquipmentIncident.builder()
+                .id(incidentId)
+                .incidentType(IncidentType.LOST)
+                .equipment(equipment)
+                .user(modificationUtils.takePrimaryUser())
+                .location(
+                    usage.getSourceLocation() != null ? usage.getSourceLocation().getId() : null)
+                .build();
+        equipmentIncidentService.createOrUpdateAll(List.of(incident));
       }
       case BROKEN -> {
         Warehouse source = usage.getSourceLocation();
@@ -117,7 +131,20 @@ public class EquipmentUsageService {
           equipment.setWarehouse(source);
         }
         equipment.setEstEnPanne(true);
+        equipment.setIsDamaged(true);
         equipmentService.createOrUpdateAll(List.of(equipment));
+        String incidentId =
+            "damaged_" + usage.getEquipment().getId() + "_" + System.currentTimeMillis();
+        EquipmentIncident incident =
+            EquipmentIncident.builder()
+                .id(incidentId)
+                .incidentType(IncidentType.DAMAGED)
+                .equipment(equipment)
+                .user(modificationUtils.takePrimaryUser())
+                .location(
+                    usage.getSourceLocation() != null ? usage.getSourceLocation().getId() : null)
+                .build();
+        equipmentIncidentService.createOrUpdateAll(List.of(incident));
       }
     }
 

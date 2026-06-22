@@ -138,7 +138,19 @@ class TravelOperationIT {
     TravelEquipmentApi travelEquipmentApi = new TravelEquipmentApi(anApiClient(ADMIN_TOKEN));
     PaginatedResponse resp1 =
         travelEquipmentApi.getTravelEquipment(
-            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, travelId, EQUIPMENT1_ID, 1, null, null, null, null, null);
+            ADMIN_ID,
+            COMPANY1_ID,
+            JOB1_ID,
+            1,
+            100,
+            travelId,
+            EQUIPMENT1_ID,
+            1,
+            null,
+            null,
+            null,
+            null,
+            null);
     List<TravelEquipment> createdTravelEquipment = extractData(resp1, TravelEquipment.class);
     assertEquals(1, createdTravelEquipment.size());
     assertEquals(travelEquipmentId, createdTravelEquipment.get(0).getId());
@@ -209,7 +221,19 @@ class TravelOperationIT {
     TravelEquipmentApi travelEquipmentApi = new TravelEquipmentApi(anApiClient(ADMIN_TOKEN));
     PaginatedResponse resp1 =
         travelEquipmentApi.getTravelEquipment(
-            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, travelId, null, null, null, null, null, null, null);
+            ADMIN_ID,
+            COMPANY1_ID,
+            JOB1_ID,
+            1,
+            100,
+            travelId,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null);
     List<TravelEquipment> equipmentList = extractData(resp1, TravelEquipment.class);
     assertTrue(equipmentList.isEmpty());
 
@@ -259,7 +283,19 @@ class TravelOperationIT {
     TravelEquipmentApi travelEquipmentApi = new TravelEquipmentApi(anApiClient(ADMIN_TOKEN));
     PaginatedResponse resp =
         travelEquipmentApi.getTravelEquipment(
-            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, travelId, EQUIPMENT2_ID, 1, null, null, null, null, null);
+            ADMIN_ID,
+            COMPANY1_ID,
+            JOB1_ID,
+            1,
+            100,
+            travelId,
+            EQUIPMENT2_ID,
+            1,
+            null,
+            null,
+            null,
+            null,
+            null);
     List<TravelEquipment> equipmentList = extractData(resp, TravelEquipment.class);
     assertEquals(1, equipmentList.size());
     assertEquals(travelEquipmentId, equipmentList.get(0).getId());
@@ -339,8 +375,19 @@ class TravelOperationIT {
     TravelEquipmentApi teApi = new TravelEquipmentApi(anApiClient(ADMIN_TOKEN));
     PaginatedResponse teResp =
         teApi.getTravelEquipment(
-            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, travelId, EQUIPMENT1_ID, 1,
-            com.example.demo.client.model.TransportStatus.IN_PROGRESS, null, null, null, null);
+            ADMIN_ID,
+            COMPANY1_ID,
+            JOB1_ID,
+            1,
+            100,
+            travelId,
+            EQUIPMENT1_ID,
+            1,
+            com.example.demo.client.model.TransportStatus.IN_PROGRESS,
+            null,
+            null,
+            null,
+            null);
     List<TravelEquipment> equipmentList = extractData(teResp, TravelEquipment.class);
     assertEquals(1, equipmentList.size());
     assertEquals(
@@ -349,16 +396,29 @@ class TravelOperationIT {
 
     // Confirm equipment arrival as ARRIVED
     teApi.confirmEquipmentArrival(
-        ADMIN_ID, COMPANY1_ID,
-        List.of(new ConfirmEquipmentArrival()
-            .id(travelEquipmentId)
-            .status(com.example.demo.client.model.TransportStatus.ARRIVED)));
+        ADMIN_ID,
+        COMPANY1_ID,
+        List.of(
+            new ConfirmEquipmentArrival()
+                .id(travelEquipmentId)
+                .status(com.example.demo.client.model.TransportStatus.ARRIVED)));
 
     // Verify equipment is now ARRIVED
     teResp =
         teApi.getTravelEquipment(
-            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, travelId, EQUIPMENT1_ID, 1,
-            com.example.demo.client.model.TransportStatus.ARRIVED, null, null, null, null);
+            ADMIN_ID,
+            COMPANY1_ID,
+            JOB1_ID,
+            1,
+            100,
+            travelId,
+            EQUIPMENT1_ID,
+            1,
+            com.example.demo.client.model.TransportStatus.ARRIVED,
+            null,
+            null,
+            null,
+            null);
     equipmentList = extractData(teResp, TravelEquipment.class);
     assertEquals(1, equipmentList.size());
     assertEquals(
@@ -401,15 +461,28 @@ class TravelOperationIT {
     // Confirm equipment as LOST
     TravelEquipmentApi teApi = new TravelEquipmentApi(anApiClient(ADMIN_TOKEN));
     teApi.confirmEquipmentArrival(
-        ADMIN_ID, COMPANY1_ID,
-        List.of(new ConfirmEquipmentArrival()
-            .id(travelEquipmentId)
-            .status(com.example.demo.client.model.TransportStatus.LOST)));
+        ADMIN_ID,
+        COMPANY1_ID,
+        List.of(
+            new ConfirmEquipmentArrival()
+                .id(travelEquipmentId)
+                .status(com.example.demo.client.model.TransportStatus.LOST)));
 
     PaginatedResponse teResp =
         teApi.getTravelEquipment(
-            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, travelId, EQUIPMENT2_ID, 1,
-            com.example.demo.client.model.TransportStatus.LOST, null, null, null, null);
+            ADMIN_ID,
+            COMPANY1_ID,
+            JOB1_ID,
+            1,
+            100,
+            travelId,
+            EQUIPMENT2_ID,
+            1,
+            com.example.demo.client.model.TransportStatus.LOST,
+            null,
+            null,
+            null,
+            null);
     List<TravelEquipment> equipmentList = extractData(teResp, TravelEquipment.class);
     assertEquals(1, equipmentList.size());
     assertEquals(
@@ -458,20 +531,24 @@ class TravelOperationIT {
     assertEquals(0, materialsList.get(0).getQuantityReceived().intValue());
 
     tmApi.confirmMaterialArrival(
-        ADMIN_ID, COMPANY1_ID,
-        List.of(new ConfirmMaterialArrival()
-            .id(travelMaterialId)
-            .logId(travelMaterialId + "_batch1")
-            .quantityReceived(50)
-            .quantityLost(10)));
+        ADMIN_ID,
+        COMPANY1_ID,
+        List.of(
+            new ConfirmMaterialArrival()
+                .id(travelMaterialId)
+                .logId(travelMaterialId + "_batch1")
+                .quantityReceived(50)
+                .quantityLost(10)));
 
     tmApi.confirmMaterialArrival(
-        ADMIN_ID, COMPANY1_ID,
-        List.of(new ConfirmMaterialArrival()
-            .id(travelMaterialId)
-            .logId(travelMaterialId + "_batch2")
-            .quantityReceived(30)
-            .quantityLost(10)));
+        ADMIN_ID,
+        COMPANY1_ID,
+        List.of(
+            new ConfirmMaterialArrival()
+                .id(travelMaterialId)
+                .logId(travelMaterialId + "_batch2")
+                .quantityReceived(30)
+                .quantityLost(10)));
 
     tmResp =
         tmApi.getTravelMaterials(
@@ -531,8 +608,19 @@ class TravelOperationIT {
     TravelEquipmentApi teApi = new TravelEquipmentApi(anApiClient(ADMIN_TOKEN));
     PaginatedResponse teResp =
         teApi.getTravelEquipment(
-            ADMIN_ID, COMPANY1_ID, JOB1_ID, 1, 100, travelId, EQUIPMENT2_ID, 1,
-            com.example.demo.client.model.TransportStatus.ARRIVED, null, null, null, null);
+            ADMIN_ID,
+            COMPANY1_ID,
+            JOB1_ID,
+            1,
+            100,
+            travelId,
+            EQUIPMENT2_ID,
+            1,
+            com.example.demo.client.model.TransportStatus.ARRIVED,
+            null,
+            null,
+            null,
+            null);
     List<TravelEquipment> equipmentList = extractData(teResp, TravelEquipment.class);
     assertEquals(1, equipmentList.size());
     assertEquals(travelEquipmentId, equipmentList.get(0).getId());
