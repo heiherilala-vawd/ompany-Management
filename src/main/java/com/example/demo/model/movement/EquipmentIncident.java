@@ -2,11 +2,9 @@ package com.example.demo.model.movement;
 
 import com.example.demo.model.CreatAndUpdateEntity;
 import com.example.demo.model.money.TravelExpense;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.time.Instant;
 import java.util.Objects;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,66 +17,50 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 @Entity
-@Table(name = "travel_equipment")
+@Table(name = "equipment_incident")
 @Getter
 @Setter
 @ToString
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
-public class TravelEquipment extends CreatAndUpdateEntity implements Serializable {
+public class EquipmentIncident extends CreatAndUpdateEntity implements Serializable {
 
   @Id private String id;
 
   @NotNull
-  @ManyToOne
-  @JoinColumn(name = "travel_id")
-  @JsonBackReference
-  private TravelExpense travel;
-
-  @NotNull
-  @ManyToOne
-  @JoinColumn(name = "equipment")
-  private Equipment equipment;
-
-  @NotNull
-  @Min(0)
-  private Integer quantity;
-
-  @NotNull
   @Enumerated(EnumType.STRING)
   @JdbcTypeCode(SqlTypes.NAMED_ENUM)
-  private TransportStatus status;
+  @Column(name = "incident_type")
+  private IncidentType incidentType;
 
   @NotNull
   @ManyToOne
-  @JoinColumn(name = "arrival_location")
-  private Warehouse arrivalLocation;
-
-  private Instant arrivalDate;
+  @JoinColumn(name = "equipment_id")
+  private Equipment equipment;
 
   @ManyToOne
-  @JoinColumn(name = "container_id")
-  @JsonBackReference
-  private TravelContainer container;
+  @JoinColumn(name = "user_id")
+  private com.example.demo.model.User user;
+
+  @ManyToOne
+  @JoinColumn(name = "travel_id")
+  private TravelExpense travel;
+
+  private String location;
+
+  private String comment;
 
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-    TravelEquipment that = (TravelEquipment) o;
+    EquipmentIncident that = (EquipmentIncident) o;
     return id != null && Objects.equals(id, that.id);
   }
 
   @Override
   public int hashCode() {
     return getClass().hashCode();
-  }
-
-  public enum TransportStatus {
-    IN_PROGRESS,
-    LOST,
-    ARRIVED,
-    DAMAGED
   }
 }

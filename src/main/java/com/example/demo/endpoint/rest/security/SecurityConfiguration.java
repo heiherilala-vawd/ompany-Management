@@ -355,6 +355,20 @@ public class SecurityConfiguration {
                     .hasRole("ADMIN")
 
                     // =========================
+                    // EQUIPMENT INCIDENT
+                    // =========================
+                    .requestMatchers(
+                        GET,
+                        "/users/*/companies/*/equipment_incidents",
+                        "/users/*/companies/*/equipment_incidents/*")
+                    .authenticated()
+                    .requestMatchers(PUT, "/users/*/companies/*/equipment_incidents")
+                    .authenticated()
+                    // DELETE /equipment_incidents - ADMIN uniquement
+                    .requestMatchers(DELETE, "/users/*/companies/*/equipment_incidents/*")
+                    .hasRole("ADMIN")
+
+                    // =========================
                     // OPERATION
                     // =========================
                     .requestMatchers(POST, "/users/*/companies/*/jobs/*/travel_operations")

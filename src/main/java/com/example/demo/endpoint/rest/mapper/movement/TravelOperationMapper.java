@@ -87,10 +87,7 @@ public class TravelOperationMapper {
                 .equipment(toEquipment(eqLine.getEquipment()))
                 .quantity(1)
                 .container(container)
-                .comment(
-                    eqLine.getComment() != null
-                        ? eqLine.getComment()
-                        : request.getComment())
+                .comment(eqLine.getComment() != null ? eqLine.getComment() : request.getComment())
                 .build());
       }
 
@@ -103,10 +100,7 @@ public class TravelOperationMapper {
                 .quantity(matLine.getQuantity())
                 .quantityReceived(0)
                 .container(container)
-                .comment(
-                    matLine.getComment() != null
-                        ? matLine.getComment()
-                        : request.getComment())
+                .comment(matLine.getComment() != null ? matLine.getComment() : request.getComment())
                 .build());
       }
     }
@@ -118,8 +112,7 @@ public class TravelOperationMapper {
               .id(line.getId())
               .travel(travel)
               .user(User.builder().id(line.getUserId()).build())
-              .comment(
-                  line.getComment() != null ? line.getComment() : request.getComment())
+              .comment(line.getComment() != null ? line.getComment() : request.getComment())
               .build());
     }
 
@@ -143,9 +136,7 @@ public class TravelOperationMapper {
 
   private List<TravelOperationMaterialLine> materialLines(
       TravelOperationContainerLine containerLine) {
-    return containerLine.getMaterialLines() != null
-        ? containerLine.getMaterialLines()
-        : List.of();
+    return containerLine.getMaterialLines() != null ? containerLine.getMaterialLines() : List.of();
   }
 
   private List<TravelOperationPeopleLine> peopleLines(TravelOperationRequest request) {

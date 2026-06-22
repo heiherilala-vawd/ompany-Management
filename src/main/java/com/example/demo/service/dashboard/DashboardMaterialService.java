@@ -136,7 +136,6 @@ public class DashboardMaterialService {
     return List.of(
         SpecialWarehouseUtils.routeWarehouseId(),
         SpecialWarehouseUtils.atSellerWarehouseId(),
-        SpecialWarehouseUtils.unfindableWarehouseId(),
         SpecialWarehouseUtils.usedWarehouseId());
   }
 

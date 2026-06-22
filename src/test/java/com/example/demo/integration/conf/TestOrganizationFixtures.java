@@ -164,6 +164,8 @@ final class TestOrganizationFixtures {
     equipment.setFloorNumber(1);
     equipment.setStorageNumber(10);
     equipment.setEstEnPanne(false);
+    equipment.setIsDamaged(false);
+    equipment.setIsLost(false);
     return equipment;
   }
 
@@ -176,6 +178,8 @@ final class TestOrganizationFixtures {
     equipment.setFloorNumber(1);
     equipment.setStorageNumber(15);
     equipment.setEstEnPanne(false);
+    equipment.setIsDamaged(false);
+    equipment.setIsLost(false);
     return equipment;
   }
 
@@ -188,6 +192,8 @@ final class TestOrganizationFixtures {
     equipment.setFloorNumber(2);
     equipment.setStorageNumber(5);
     equipment.setEstEnPanne(false);
+    equipment.setIsDamaged(false);
+    equipment.setIsLost(false);
     return equipment;
   }
 
@@ -201,6 +207,8 @@ final class TestOrganizationFixtures {
     crupdateEquipment.setFloorNumber(equipment.getFloorNumber());
     crupdateEquipment.setStorageNumber(equipment.getStorageNumber());
     crupdateEquipment.setEstEnPanne(equipment.getEstEnPanne());
+    crupdateEquipment.setIsDamaged(equipment.getIsDamaged());
+    crupdateEquipment.setIsLost(equipment.getIsLost());
     crupdateEquipment.setComment(equipment.getComment());
     return crupdateEquipment;
   }
@@ -213,6 +221,8 @@ final class TestOrganizationFixtures {
     equipment.setWarehouseId(TestUtils.WAREHOUSE1_ID);
     equipment.setFloorNumber(1);
     equipment.setStorageNumber(20);
+    equipment.setIsDamaged(false);
+    equipment.setIsLost(false);
     return equipment;
   }
 

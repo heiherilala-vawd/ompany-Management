@@ -59,6 +59,16 @@ public class Equipment extends CreatAndUpdateEntity implements Serializable {
   private LocalDate purchaseDate;
 
   @NotNull
+  @Column(name = "is_damaged")
+  @Builder.Default
+  private Boolean isDamaged = false;
+
+  @NotNull
+  @Column(name = "is_lost")
+  @Builder.Default
+  private Boolean isLost = false;
+
+  @NotNull
   @Column(name = "is_leased")
   @Builder.Default
   private Boolean isLeased = false;

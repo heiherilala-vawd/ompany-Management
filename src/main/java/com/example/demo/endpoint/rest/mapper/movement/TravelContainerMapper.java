@@ -4,7 +4,6 @@ import com.example.demo.client.model.CrupdateTravelContainer;
 import com.example.demo.client.model.TravelContainer;
 import com.example.demo.endpoint.rest.mapper.RestAuditMapperUtils;
 import com.example.demo.endpoint.rest.mapper.money.TravelExpenseMapper;
-import com.example.demo.model.money.TravelExpense;
 import com.example.demo.service.money.TravelExpenseService;
 import java.util.List;
 import lombok.AllArgsConstructor;

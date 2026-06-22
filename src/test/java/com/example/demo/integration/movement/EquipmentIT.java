@@ -79,7 +79,8 @@ class EquipmentIT {
     EquipmentApi api = new EquipmentApi(employeeClient);
 
     PaginatedResponse resp =
-        api.getEquipment(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null, null, null, null);
+        api.getEquipment(
+            ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null, null, null, null, null, null);
 
     List<Equipment> equipment = extractData(resp, Equipment.class);
 
@@ -98,7 +99,7 @@ class EquipmentIT {
 
     PaginatedResponse resp =
         api.getEquipment(
-            ADMIN_ID, COMPANY1_ID, 1, 100, WAREHOUSE2_ID, null, null, null, null, null);
+            ADMIN_ID, COMPANY1_ID, 1, 100, WAREHOUSE2_ID, null, null, null, null, null, null, null);
     List<Equipment> equipment = extractData(resp, Equipment.class);
 
     assertEquals(1, equipment.size());
@@ -111,7 +112,8 @@ class EquipmentIT {
     EquipmentApi api = new EquipmentApi(employeeClient);
 
     PaginatedResponse resp =
-        api.getEquipment(ADMIN_ID, COMPANY1_ID, 1, 100, null, "Bétonnière", null, null, null, null);
+        api.getEquipment(
+            ADMIN_ID, COMPANY1_ID, 1, 100, null, "Bétonnière", null, null, null, null, null, null);
 
     List<Equipment> equipment = extractData(resp, Equipment.class);
 
@@ -125,7 +127,8 @@ class EquipmentIT {
     EquipmentApi api = new EquipmentApi(employeeClient);
 
     PaginatedResponse resp =
-        api.getEquipment(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, "extérieure", null, null, null);
+        api.getEquipment(
+            ADMIN_ID, COMPANY1_ID, 1, 100, null, null, "extérieure", null, null, null, null, null);
 
     List<Equipment> equipment = extractData(resp, Equipment.class);
 
@@ -139,7 +142,8 @@ class EquipmentIT {
     EquipmentApi api = new EquipmentApi(employeeClient);
 
     PaginatedResponse resp =
-        api.getEquipment(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null, 2, null, null);
+        api.getEquipment(
+            ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null, 2, null, null, null, null);
 
     List<Equipment> equipment = extractData(resp, Equipment.class);
 
@@ -153,7 +157,8 @@ class EquipmentIT {
     EquipmentApi api = new EquipmentApi(employeeClient);
 
     PaginatedResponse resp =
-        api.getEquipment(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null, null, 10, null);
+        api.getEquipment(
+            ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null, null, 10, null, null, null);
 
     List<Equipment> equipment = extractData(resp, Equipment.class);
 
@@ -245,7 +250,8 @@ class EquipmentIT {
     EquipmentApi api = new EquipmentApi(adminClient);
 
     PaginatedResponse resp =
-        api.getEquipment(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null, null, null, true);
+        api.getEquipment(
+            ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null, null, null, true, null, null);
 
     List<Equipment> notArrivedEquipment = extractData(resp, Equipment.class);
 
@@ -263,7 +269,8 @@ class EquipmentIT {
     EquipmentApi api = new EquipmentApi(adminClient);
 
     PaginatedResponse resp =
-        api.getEquipment(ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null, null, null, false);
+        api.getEquipment(
+            ADMIN_ID, COMPANY1_ID, 1, 100, null, null, null, null, null, false, null, null);
 
     List<Equipment> equipment = extractData(resp, Equipment.class);
 

@@ -37,8 +37,7 @@ public class TravelContainer extends CreatAndUpdateEntity implements Serializabl
   @JsonBackReference
   private TravelExpense travel;
 
-  @NotBlank
-  private String name;
+  @NotBlank private String name;
 
   private String description;
 

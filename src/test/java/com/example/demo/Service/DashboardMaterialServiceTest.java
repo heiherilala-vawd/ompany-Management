@@ -38,7 +38,7 @@ class DashboardMaterialServiceTest {
     try (MockedStatic<SpecialWarehouseUtils> utils = mockStatic(SpecialWarehouseUtils.class)) {
       utils.when(SpecialWarehouseUtils::routeWarehouseId).thenReturn("r");
       utils.when(SpecialWarehouseUtils::atSellerWarehouseId).thenReturn("s");
-      utils.when(SpecialWarehouseUtils::unfindableWarehouseId).thenReturn("u");
+
       utils.when(SpecialWarehouseUtils::usedWarehouseId).thenReturn("x");
 
       when(materialWarehouseRepository.sumStockValueExcludingWarehouses(anyList()))
@@ -62,7 +62,7 @@ class DashboardMaterialServiceTest {
     try (MockedStatic<SpecialWarehouseUtils> utils = mockStatic(SpecialWarehouseUtils.class)) {
       utils.when(SpecialWarehouseUtils::routeWarehouseId).thenReturn("r");
       utils.when(SpecialWarehouseUtils::atSellerWarehouseId).thenReturn("s");
-      utils.when(SpecialWarehouseUtils::unfindableWarehouseId).thenReturn("u");
+
       utils.when(SpecialWarehouseUtils::usedWarehouseId).thenReturn("x");
 
       when(materialWarehouseRepository.sumStockValueExcludingWarehouses(anyList()))
@@ -95,7 +95,7 @@ class DashboardMaterialServiceTest {
     try (MockedStatic<SpecialWarehouseUtils> utils = mockStatic(SpecialWarehouseUtils.class)) {
       utils.when(SpecialWarehouseUtils::routeWarehouseId).thenReturn("r");
       utils.when(SpecialWarehouseUtils::atSellerWarehouseId).thenReturn("s");
-      utils.when(SpecialWarehouseUtils::unfindableWarehouseId).thenReturn("u");
+
       utils.when(SpecialWarehouseUtils::usedWarehouseId).thenReturn("x");
 
       when(materialWarehouseRepository.sumStockValueExcludingWarehouses(anyList()))
@@ -128,7 +128,7 @@ class DashboardMaterialServiceTest {
     try (MockedStatic<SpecialWarehouseUtils> utils = mockStatic(SpecialWarehouseUtils.class)) {
       utils.when(SpecialWarehouseUtils::routeWarehouseId).thenReturn("r");
       utils.when(SpecialWarehouseUtils::atSellerWarehouseId).thenReturn("s");
-      utils.when(SpecialWarehouseUtils::unfindableWarehouseId).thenReturn("u");
+
       utils.when(SpecialWarehouseUtils::usedWarehouseId).thenReturn("x");
 
       when(materialWarehouseRepository.findTopStockValue(anyList()))
@@ -158,7 +158,7 @@ class DashboardMaterialServiceTest {
     try (MockedStatic<SpecialWarehouseUtils> utils = mockStatic(SpecialWarehouseUtils.class)) {
       utils.when(SpecialWarehouseUtils::routeWarehouseId).thenReturn("r");
       utils.when(SpecialWarehouseUtils::atSellerWarehouseId).thenReturn("s");
-      utils.when(SpecialWarehouseUtils::unfindableWarehouseId).thenReturn("u");
+
       utils.when(SpecialWarehouseUtils::usedWarehouseId).thenReturn("x");
 
       when(materialWarehouseRepository.findTopStockValue(anyList())).thenReturn(List.of());

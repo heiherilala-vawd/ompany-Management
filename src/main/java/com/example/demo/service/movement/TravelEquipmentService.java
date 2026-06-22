@@ -7,13 +7,14 @@ import com.example.demo.model.criteria.TravelEquipmentCriteria;
 import com.example.demo.model.exception.BadRequestException;
 import com.example.demo.model.exception.NotFoundException;
 import com.example.demo.model.movement.Equipment;
+import com.example.demo.model.movement.EquipmentIncident;
+import com.example.demo.model.movement.IncidentType;
 import com.example.demo.model.movement.TravelEquipment;
 import com.example.demo.model.movement.TravelEquipment.TransportStatus;
 import com.example.demo.model.movement.Warehouse;
 import com.example.demo.repository.movement.TravelEquipmentRepository;
 import com.example.demo.service.utils.ModificationUtils;
 import com.example.demo.service.utils.PageUtils;
-import com.example.demo.service.utils.SpecialWarehouseUtils;
 import com.example.demo.validator.MovementValidator;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -36,6 +37,7 @@ public class TravelEquipmentService {
   private final MovementValidator movementValidator;
   private final EquipmentService equipmentService;
   private final WarehouseService warehouseService;
+  private final EquipmentIncidentService equipmentIncidentService;
 
   public Optional<TravelEquipment> findById(String id) {
     return travelEquipmentRepository.findById(id);
@@ -91,8 +93,8 @@ public class TravelEquipmentService {
       }
 
       TransportStatus newStatus = Enum.valueOf(TransportStatus.class, arrival.getStatus().name());
-      Warehouse defaultWarehouse = resolveArrivalWarehouse(travelEquipment, newStatus);
 
+      Warehouse defaultWarehouse = travelEquipment.getTravel().getArrivalLocation();
       Warehouse targetWarehouse =
           arrival.getArrivalLocation() != null
               ? warehouseService
@@ -106,7 +108,28 @@ public class TravelEquipmentService {
           arrival.getArrivalDate() != null ? arrival.getArrivalDate() : Instant.now();
 
       Equipment equipment = travelEquipment.getEquipment();
-      equipment.setWarehouse(targetWarehouse);
+
+      switch (newStatus) {
+        case ARRIVED -> {
+          equipment.setWarehouse(targetWarehouse);
+          equipment.setIsDamaged(false);
+          equipment.setIsLost(false);
+        }
+        case LOST -> {
+          equipment.setWarehouse(defaultWarehouse);
+          equipment.setIsLost(true);
+          createIncident(equipment, IncidentType.LOST, travelEquipment, arrival);
+        }
+        case DAMAGED -> {
+          equipment.setWarehouse(defaultWarehouse);
+          equipment.setIsDamaged(true);
+          createIncident(equipment, IncidentType.DAMAGED, travelEquipment, arrival);
+        }
+        default ->
+            throw new BadRequestException(
+                "Invalid arrival status: " + newStatus + ". Must be ARRIVED, LOST or DAMAGED.");
+      }
+
       equipmentService.createOrUpdateAll(List.of(equipment));
 
       travelEquipment.setStatus(newStatus);
@@ -119,16 +142,28 @@ public class TravelEquipmentService {
     return updated;
   }
 
-  private Warehouse resolveArrivalWarehouse(
-      TravelEquipment travelEquipment, TransportStatus newStatus) {
-    return switch (newStatus) {
-      case ARRIVED -> travelEquipment.getTravel().getArrivalLocation();
-      case LOST -> Warehouse.builder().id(SpecialWarehouseUtils.unfindableWarehouseId()).build();
-      case DAMAGED -> Warehouse.builder().id(SpecialWarehouseUtils.damagedWarehouseId()).build();
-      default ->
-          throw new BadRequestException(
-              "Invalid arrival status: " + newStatus + ". Must be ARRIVED, LOST or DAMAGED.");
-    };
+  private void createIncident(
+      Equipment equipment,
+      IncidentType incidentType,
+      TravelEquipment travelEquipment,
+      ConfirmEquipmentArrival arrival) {
+    String incidentId =
+        arrival.getIncidentId() != null
+            ? arrival.getIncidentId()
+            : incidentType.name().toLowerCase() + "_" + equipment.getId();
+    EquipmentIncident incident =
+        EquipmentIncident.builder()
+            .id(incidentId)
+            .incidentType(incidentType)
+            .equipment(equipment)
+            .user(modificationUtils.takePrimaryUser())
+            .travel(travelEquipment.getTravel())
+            .location(
+                travelEquipment.getTravel().getArrivalLocation() != null
+                    ? travelEquipment.getTravel().getArrivalLocation().getId()
+                    : null)
+            .build();
+    equipmentIncidentService.createOrUpdateAll(List.of(incident));
   }
 
   private Specification<TravelEquipment> toSpecification(TravelEquipmentCriteria criteria) {

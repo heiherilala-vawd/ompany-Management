@@ -44,8 +44,7 @@ public class TravelContainerService {
     movementValidator.validateTravelContainers(containers);
     List<TravelContainer> processed = new ArrayList<>();
     for (TravelContainer container : containers) {
-      TravelContainer existing =
-          travelContainerRepository.findById(container.getId()).orElse(null);
+      TravelContainer existing = travelContainerRepository.findById(container.getId()).orElse(null);
       modificationUtils.createOrUpdateModel(
           container, existing, container.getId(), modificationUtils.takePrimaryUser());
       processed.add(container);

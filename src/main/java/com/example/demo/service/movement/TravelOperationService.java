@@ -75,8 +75,7 @@ public class TravelOperationService {
     if (aggregate.travelEquipment().isEmpty()
         && aggregate.travelMaterials().isEmpty()
         && aggregate.travelPeople().isEmpty()) {
-      throw new BadRequestException(
-          "At least one equipment, material or people line is required");
+      throw new BadRequestException("At least one equipment, material or people line is required");
     }
   }
 

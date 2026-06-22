@@ -12,4 +12,6 @@ public class EquipmentCriteria {
   private Integer floorNumber;
   private Integer storageNumber;
   private Boolean notArrived;
+  private Boolean isDamaged;
+  private Boolean isLost;
 }
