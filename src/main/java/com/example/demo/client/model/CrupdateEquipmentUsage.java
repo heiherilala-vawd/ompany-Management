@@ -40,9 +40,10 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   CrupdateEquipmentUsage.JSON_PROPERTY_SOURCE_LOCATION,
   CrupdateEquipmentUsage.JSON_PROPERTY_USAGE_STATUS,
   CrupdateEquipmentUsage.JSON_PROPERTY_USED_BY,
+  CrupdateEquipmentUsage.JSON_PROPERTY_INCIDENT_ID,
   CrupdateEquipmentUsage.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-23T02:32:35.190314305+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-23T21:43:44.019603563+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdateEquipmentUsage {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -67,6 +68,9 @@ public class CrupdateEquipmentUsage {
 
   public static final String JSON_PROPERTY_USED_BY = "used_by";
   private String usedBy;
+
+  public static final String JSON_PROPERTY_INCIDENT_ID = "incident_id";
+  private String incidentId;
 
   public static final String JSON_PROPERTY_COMMENT = "comment";
   private String comment;
@@ -274,6 +278,31 @@ public class CrupdateEquipmentUsage {
   }
 
 
+  public CrupdateEquipmentUsage incidentId(String incidentId) {
+    this.incidentId = incidentId;
+    return this;
+  }
+
+   /**
+   * Client-generated ID for the equipment incident (auto-generated if not provided on LOST/BROKEN)
+   * @return incidentId
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_INCIDENT_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getIncidentId() {
+    return incidentId;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_INCIDENT_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setIncidentId(String incidentId) {
+    this.incidentId = incidentId;
+  }
+
+
   public CrupdateEquipmentUsage comment(String comment) {
     this.comment = comment;
     return this;
@@ -319,12 +348,13 @@ public class CrupdateEquipmentUsage {
         Objects.equals(this.sourceLocation, crupdateEquipmentUsage.sourceLocation) &&
         Objects.equals(this.usageStatus, crupdateEquipmentUsage.usageStatus) &&
         Objects.equals(this.usedBy, crupdateEquipmentUsage.usedBy) &&
+        Objects.equals(this.incidentId, crupdateEquipmentUsage.incidentId) &&
         Objects.equals(this.comment, crupdateEquipmentUsage.comment);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, equipmentId, jobId, startTime, endTime, sourceLocation, usageStatus, usedBy, comment);
+    return Objects.hash(id, equipmentId, jobId, startTime, endTime, sourceLocation, usageStatus, usedBy, incidentId, comment);
   }
 
   @Override
@@ -339,6 +369,7 @@ public class CrupdateEquipmentUsage {
     sb.append("    sourceLocation: ").append(toIndentedString(sourceLocation)).append("\n");
     sb.append("    usageStatus: ").append(toIndentedString(usageStatus)).append("\n");
     sb.append("    usedBy: ").append(toIndentedString(usedBy)).append("\n");
+    sb.append("    incidentId: ").append(toIndentedString(incidentId)).append("\n");
     sb.append("    comment: ").append(toIndentedString(comment)).append("\n");
     sb.append("}");
     return sb.toString();

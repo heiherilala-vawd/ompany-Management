@@ -5,9 +5,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import com.example.demo.SentryConf;
 import com.example.demo.client.api.MaterialConsumptionApi;
+import com.example.demo.client.api.MaterialWarehouseApi;
 import com.example.demo.client.invoker.ApiClient;
 import com.example.demo.client.model.CrupdateMaterialConsumption;
 import com.example.demo.client.model.MaterialConsumption;
+import com.example.demo.client.model.MaterialWarehouseView;
 import com.example.demo.client.model.PaginatedResponse;
 import com.example.demo.endpoint.rest.security.jwt.JwtUtils;
 import com.example.demo.integration.conf.AbstractContextInitializer;
@@ -267,6 +269,9 @@ class MaterialConsumptionIT {
   void admin_can_return_materials_from_consumption() throws Exception {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     MaterialConsumptionApi api = new MaterialConsumptionApi(adminClient);
+    MaterialWarehouseApi mwApi = new MaterialWarehouseApi(adminClient);
+
+    int initialStock = stockQuantity(mwApi, MATERIAL1_ID, WAREHOUSE1_ID);
 
     CrupdateMaterialConsumption creatable = someCreatableMaterialConsumption();
     creatable.setConsumptionStatus("IN_PROGRESS");
@@ -285,6 +290,9 @@ class MaterialConsumptionIT {
             + newId
             + "/complete");
 
+    assertEquals(initialStock - 10, stockQuantity(mwApi, MATERIAL1_ID, WAREHOUSE1_ID));
+    assertEquals(10, stockQuantity(mwApi, MATERIAL1_ID, USED_WAREHOUSE_ID));
+
     HttpResponse<String> returnResponse =
         authenticatedPut(
             ADMIN_TOKEN,
@@ -297,6 +305,19 @@ class MaterialConsumptionIT {
                 + "/return?quantity=3");
 
     assertEquals(HttpStatus.OK.value(), returnResponse.statusCode());
+
+    assertEquals(initialStock - 7, stockQuantity(mwApi, MATERIAL1_ID, WAREHOUSE1_ID));
+    assertEquals(7, stockQuantity(mwApi, MATERIAL1_ID, USED_WAREHOUSE_ID));
+  }
+
+  private int stockQuantity(MaterialWarehouseApi api, String materialId, String warehouseId)
+      throws Exception {
+    PaginatedResponse resp =
+        api.getMaterialWarehouses(
+            ADMIN_ID, COMPANY1_ID, 1, 100, materialId, warehouseId, null, null);
+    List<MaterialWarehouseView> views = extractData(resp, MaterialWarehouseView.class);
+    if (views.isEmpty()) return 0;
+    return views.get(0).getQuantity();
   }
 
   @Test

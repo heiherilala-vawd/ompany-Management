@@ -40,7 +40,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   EquipmentSummaryResponse.JSON_PROPERTY_AVG_AGE_YEARS,
   EquipmentSummaryResponse.JSON_PROPERTY_TOTAL_USAGE_HOURS
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-23T02:32:35.190314305+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-23T21:43:44.019603563+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class EquipmentSummaryResponse {
   public static final String JSON_PROPERTY_TOTAL_EQUIPMENT = "total_equipment";
   private Integer totalEquipment;

@@ -4,6 +4,7 @@ import static com.example.demo.integration.conf.TestUtils.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.example.demo.SentryConf;
+import com.example.demo.client.api.EquipmentApi;
 import com.example.demo.client.api.EquipmentUsageApi;
 import com.example.demo.client.invoker.ApiClient;
 import com.example.demo.client.model.CrupdateEquipmentUsage;
@@ -208,12 +209,18 @@ class EquipmentUsageIT {
   void admin_can_return_equipment_with_returned_status() throws Exception {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     EquipmentUsageApi api = new EquipmentUsageApi(adminClient);
+    EquipmentApi equipmentApi = new EquipmentApi(adminClient);
 
     CrupdateEquipmentUsage creatable = someCreatableEquipmentUsage();
     creatable.setUsageStatus("IN_USE");
     List<EquipmentUsage> created =
         api.crupdateEquipmentUsages(ADMIN_ID, COMPANY1_ID, List.of(creatable));
     String newId = created.get(0).getId();
+    String equipmentId = creatable.getEquipmentId();
+
+    assertEquals(
+        USED_WAREHOUSE_ID,
+        equipmentApi.getEquipmentById(ADMIN_ID, COMPANY1_ID, equipmentId).getWarehouse().getId());
 
     HttpResponse<String> response =
         authenticatedPut(
@@ -227,6 +234,12 @@ class EquipmentUsageIT {
                 + "/return?status=RETURNED");
 
     assertEquals(HttpStatus.OK.value(), response.statusCode());
+
+    com.example.demo.client.model.Equipment returned =
+        equipmentApi.getEquipmentById(ADMIN_ID, COMPANY1_ID, equipmentId);
+    assertEquals(WAREHOUSE1_ID, returned.getWarehouse().getId());
+    assertFalse(returned.getIsDamaged());
+    assertFalse(returned.getIsLost());
   }
 
   @Test
@@ -234,12 +247,18 @@ class EquipmentUsageIT {
   void admin_can_return_equipment_with_lost_status() throws Exception {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     EquipmentUsageApi api = new EquipmentUsageApi(adminClient);
+    EquipmentApi equipmentApi = new EquipmentApi(adminClient);
 
     CrupdateEquipmentUsage creatable = someCreatableEquipmentUsage();
     creatable.setUsageStatus("IN_USE");
     List<EquipmentUsage> created =
         api.crupdateEquipmentUsages(ADMIN_ID, COMPANY1_ID, List.of(creatable));
     String newId = created.get(0).getId();
+    String equipmentId = creatable.getEquipmentId();
+
+    assertEquals(
+        USED_WAREHOUSE_ID,
+        equipmentApi.getEquipmentById(ADMIN_ID, COMPANY1_ID, equipmentId).getWarehouse().getId());
 
     HttpResponse<String> response =
         authenticatedPut(
@@ -253,6 +272,11 @@ class EquipmentUsageIT {
                 + "/return?status=LOST");
 
     assertEquals(HttpStatus.OK.value(), response.statusCode());
+
+    com.example.demo.client.model.Equipment lost =
+        equipmentApi.getEquipmentById(ADMIN_ID, COMPANY1_ID, equipmentId);
+    assertEquals(USED_WAREHOUSE_ID, lost.getWarehouse().getId());
+    assertTrue(lost.getIsLost());
   }
 
   @Test
@@ -260,12 +284,18 @@ class EquipmentUsageIT {
   void admin_can_return_equipment_with_broken_status() throws Exception {
     ApiClient adminClient = anApiClient(ADMIN_TOKEN);
     EquipmentUsageApi api = new EquipmentUsageApi(adminClient);
+    EquipmentApi equipmentApi = new EquipmentApi(adminClient);
 
     CrupdateEquipmentUsage creatable = someCreatableEquipmentUsage();
     creatable.setUsageStatus("IN_USE");
     List<EquipmentUsage> created =
         api.crupdateEquipmentUsages(ADMIN_ID, COMPANY1_ID, List.of(creatable));
     String newId = created.get(0).getId();
+    String equipmentId = creatable.getEquipmentId();
+
+    assertEquals(
+        USED_WAREHOUSE_ID,
+        equipmentApi.getEquipmentById(ADMIN_ID, COMPANY1_ID, equipmentId).getWarehouse().getId());
 
     HttpResponse<String> response =
         authenticatedPut(
@@ -279,6 +309,11 @@ class EquipmentUsageIT {
                 + "/return?status=BROKEN");
 
     assertEquals(HttpStatus.OK.value(), response.statusCode());
+
+    com.example.demo.client.model.Equipment broken =
+        equipmentApi.getEquipmentById(ADMIN_ID, COMPANY1_ID, equipmentId);
+    assertEquals(WAREHOUSE1_ID, broken.getWarehouse().getId());
+    assertTrue(broken.getIsDamaged());
   }
 
   @Test

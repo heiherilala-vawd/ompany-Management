@@ -35,23 +35,26 @@ public class EquipmentUsageMapper {
           com.example.demo.model.movement.EquipmentUsage.UsageStatus.valueOf(rest.getUsageStatus());
     }
 
-    return com.example.demo.model.movement.EquipmentUsage.builder()
-        .id(rest.getId())
-        .equipment(
-            rest.getEquipmentId() != null
-                ? equipmentService.findById(rest.getEquipmentId()).orElse(null)
-                : null)
-        .job(rest.getJobId() != null ? jobService.findById(rest.getJobId()).orElse(null) : null)
-        .startTime(rest.getStartTime())
-        .endTime(rest.getEndTime())
-        .sourceLocation(
-            rest.getSourceLocation() != null
-                ? warehouseService.findById(rest.getSourceLocation()).orElse(null)
-                : null)
-        .usageStatus(usageStatus)
-        .usedBy(rest.getUsedBy() != null ? findUserById(rest.getUsedBy()) : null)
-        .comment(rest.getComment())
-        .build();
+    com.example.demo.model.movement.EquipmentUsage domain =
+        com.example.demo.model.movement.EquipmentUsage.builder()
+            .id(rest.getId())
+            .equipment(
+                rest.getEquipmentId() != null
+                    ? equipmentService.findById(rest.getEquipmentId()).orElse(null)
+                    : null)
+            .job(rest.getJobId() != null ? jobService.findById(rest.getJobId()).orElse(null) : null)
+            .startTime(rest.getStartTime())
+            .endTime(rest.getEndTime())
+            .sourceLocation(
+                rest.getSourceLocation() != null
+                    ? warehouseService.findById(rest.getSourceLocation()).orElse(null)
+                    : null)
+            .usageStatus(usageStatus)
+            .usedBy(rest.getUsedBy() != null ? findUserById(rest.getUsedBy()) : null)
+            .comment(rest.getComment())
+            .build();
+    domain.setIncidentId(rest.getIncidentId());
+    return domain;
   }
 
   public EquipmentUsage toRestEquipmentUsage(
