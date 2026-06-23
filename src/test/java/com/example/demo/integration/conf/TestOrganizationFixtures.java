@@ -163,7 +163,6 @@ final class TestOrganizationFixtures {
     equipment.setWarehouse(warehouseToCrupdateWarehouse(warehouse1()));
     equipment.setFloorNumber(1);
     equipment.setStorageNumber(10);
-    equipment.setEstEnPanne(false);
     equipment.setIsDamaged(false);
     equipment.setIsLost(false);
     return equipment;
@@ -177,7 +176,6 @@ final class TestOrganizationFixtures {
     equipment.setWarehouse(warehouseToCrupdateWarehouse(warehouse1()));
     equipment.setFloorNumber(1);
     equipment.setStorageNumber(15);
-    equipment.setEstEnPanne(false);
     equipment.setIsDamaged(false);
     equipment.setIsLost(false);
     return equipment;
@@ -191,7 +189,6 @@ final class TestOrganizationFixtures {
     equipment.setWarehouse(warehouseToCrupdateWarehouse(warehouse2()));
     equipment.setFloorNumber(2);
     equipment.setStorageNumber(5);
-    equipment.setEstEnPanne(false);
     equipment.setIsDamaged(false);
     equipment.setIsLost(false);
     return equipment;
@@ -206,7 +203,6 @@ final class TestOrganizationFixtures {
         equipment.getWarehouse() != null ? equipment.getWarehouse().getId() : null);
     crupdateEquipment.setFloorNumber(equipment.getFloorNumber());
     crupdateEquipment.setStorageNumber(equipment.getStorageNumber());
-    crupdateEquipment.setEstEnPanne(equipment.getEstEnPanne());
     crupdateEquipment.setIsDamaged(equipment.getIsDamaged());
     crupdateEquipment.setIsLost(equipment.getIsLost());
     crupdateEquipment.setComment(equipment.getComment());

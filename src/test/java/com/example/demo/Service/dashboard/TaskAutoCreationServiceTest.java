@@ -194,11 +194,7 @@ class TaskAutoCreationServiceTest {
   void autoCreateTasks_ShouldFilterNonAdminUsers() {
     User currentUser = User.builder().id("user-current").build();
     User employee =
-        User.builder()
-            .id("employee-001")
-            .email("emp@test.com")
-            .role(User.Role.EMPLOYEE)
-            .build();
+        User.builder().id("employee-001").email("emp@test.com").role(User.Role.EMPLOYEE).build();
 
     when(incomeMoneyRepository.findAll()).thenReturn(List.of(dueIncome));
     when(jobRepository.findByEndDateBefore(any())).thenReturn(List.of());
@@ -215,11 +211,7 @@ class TaskAutoCreationServiceTest {
   void autoCreateTasks_ShouldFilterNonAdminUsers_WhenCreatingClientReminders() {
     User currentUser = User.builder().id("user-current").build();
     User employee =
-        User.builder()
-            .id("employee-001")
-            .email("emp@test.com")
-            .role(User.Role.EMPLOYEE)
-            .build();
+        User.builder().id("employee-001").email("emp@test.com").role(User.Role.EMPLOYEE).build();
 
     when(incomeMoneyRepository.findAll()).thenReturn(List.of());
     when(jobRepository.findByEndDateBefore(any())).thenReturn(List.of(endedJobWithNoIncome));
@@ -238,11 +230,7 @@ class TaskAutoCreationServiceTest {
   void autoCreateTasks_ShouldNotifyAllAdmins() {
     User currentUser = User.builder().id("user-current").build();
     User admin2 =
-        User.builder()
-            .id("admin-002")
-            .email("admin2@test.com")
-            .role(User.Role.ADMIN)
-            .build();
+        User.builder().id("admin-002").email("admin2@test.com").role(User.Role.ADMIN).build();
 
     when(incomeMoneyRepository.findAll()).thenReturn(List.of(dueIncome));
     when(jobRepository.findByEndDateBefore(any())).thenReturn(List.of());

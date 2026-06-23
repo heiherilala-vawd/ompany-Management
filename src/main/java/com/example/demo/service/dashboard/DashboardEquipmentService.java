@@ -51,7 +51,7 @@ public class DashboardEquipmentService {
     List<Equipment> allEquipment = equipmentRepository.findAll();
 
     int totalEquipment = allEquipment.size();
-    long brokenCount = allEquipment.stream().filter(Equipment::getEstEnPanne).count();
+    long brokenCount = allEquipment.stream().filter(Equipment::getIsDamaged).count();
     int availableCount = totalEquipment - (int) brokenCount;
 
     BigDecimal avgAgeYears = BigDecimal.ZERO;
@@ -108,7 +108,7 @@ public class DashboardEquipmentService {
                         .build())
             .collect(Collectors.toList());
 
-    long brokenCount = allEquipment.stream().filter(Equipment::getEstEnPanne).count();
+    long brokenCount = allEquipment.stream().filter(Equipment::getIsDamaged).count();
     long lostCount =
         allEquipment.stream()
             .filter(
@@ -206,7 +206,7 @@ public class DashboardEquipmentService {
   private EquipmentDashboardResponse buildDashboard(
       List<Equipment> allEquipment, String jobId, LocalDate dateFrom, LocalDate dateTo) {
     int totalEquipment = allEquipment.size();
-    long brokenCount = allEquipment.stream().filter(Equipment::getEstEnPanne).count();
+    long brokenCount = allEquipment.stream().filter(Equipment::getIsDamaged).count();
     int availableCount = totalEquipment - (int) brokenCount;
 
     BigDecimal avgAgeYears = BigDecimal.ZERO;

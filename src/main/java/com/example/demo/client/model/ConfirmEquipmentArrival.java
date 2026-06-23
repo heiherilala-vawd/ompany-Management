@@ -36,9 +36,10 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   ConfirmEquipmentArrival.JSON_PROPERTY_ID,
   ConfirmEquipmentArrival.JSON_PROPERTY_STATUS,
   ConfirmEquipmentArrival.JSON_PROPERTY_ARRIVAL_LOCATION,
-  ConfirmEquipmentArrival.JSON_PROPERTY_ARRIVAL_DATE
+  ConfirmEquipmentArrival.JSON_PROPERTY_ARRIVAL_DATE,
+  ConfirmEquipmentArrival.JSON_PROPERTY_INCIDENT_ID
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-20T18:35:32.000500430+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-23T02:32:35.190314305+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class ConfirmEquipmentArrival {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -51,6 +52,9 @@ public class ConfirmEquipmentArrival {
 
   public static final String JSON_PROPERTY_ARRIVAL_DATE = "arrival_date";
   private java.time.Instant arrivalDate;
+
+  public static final String JSON_PROPERTY_INCIDENT_ID = "incident_id";
+  private String incidentId;
 
   public ConfirmEquipmentArrival() { 
   }
@@ -155,6 +159,31 @@ public class ConfirmEquipmentArrival {
   }
 
 
+  public ConfirmEquipmentArrival incidentId(String incidentId) {
+    this.incidentId = incidentId;
+    return this;
+  }
+
+   /**
+   * Client-generated ID for the equipment incident (auto-generated if not provided)
+   * @return incidentId
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_INCIDENT_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getIncidentId() {
+    return incidentId;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_INCIDENT_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setIncidentId(String incidentId) {
+    this.incidentId = incidentId;
+  }
+
+
   /**
    * Return true if this ConfirmEquipmentArrival object is equal to o.
    */
@@ -170,12 +199,13 @@ public class ConfirmEquipmentArrival {
     return Objects.equals(this.id, confirmEquipmentArrival.id) &&
         Objects.equals(this.status, confirmEquipmentArrival.status) &&
         Objects.equals(this.arrivalLocation, confirmEquipmentArrival.arrivalLocation) &&
-        Objects.equals(this.arrivalDate, confirmEquipmentArrival.arrivalDate);
+        Objects.equals(this.arrivalDate, confirmEquipmentArrival.arrivalDate) &&
+        Objects.equals(this.incidentId, confirmEquipmentArrival.incidentId);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, status, arrivalLocation, arrivalDate);
+    return Objects.hash(id, status, arrivalLocation, arrivalDate, incidentId);
   }
 
   @Override
@@ -186,6 +216,7 @@ public class ConfirmEquipmentArrival {
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("    arrivalLocation: ").append(toIndentedString(arrivalLocation)).append("\n");
     sb.append("    arrivalDate: ").append(toIndentedString(arrivalDate)).append("\n");
+    sb.append("    incidentId: ").append(toIndentedString(incidentId)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -251,6 +282,11 @@ public class ConfirmEquipmentArrival {
     // add `arrival_date` to the URL query string
     if (getArrivalDate() != null) {
       joiner.add(String.format("%sarrival_date%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getArrivalDate()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `incident_id` to the URL query string
+    if (getIncidentId() != null) {
+      joiner.add(String.format("%sincident_id%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getIncidentId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

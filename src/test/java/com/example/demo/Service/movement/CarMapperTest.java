@@ -6,7 +6,6 @@ import com.example.demo.endpoint.rest.mapper.movement.CarMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
@@ -18,5 +17,4 @@ class CarMapperTest {
   void toDomain_null_returnsNull() {
     assertThat(mapper.toDomain(null)).isNull();
   }
-
 }

@@ -41,7 +41,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   Car.JSON_PROPERTY_WAREHOUSE_ID,
   Car.JSON_PROPERTY_EQUIPMENT_NAME,
   Car.JSON_PROPERTY_EQUIPMENT_CATEGORY,
-  Car.JSON_PROPERTY_EST_EN_PANNE,
   Car.JSON_PROPERTY_PURCHASE_PRICE,
   Car.JSON_PROPERTY_PURCHASE_DATE,
   Car.JSON_PROPERTY_WAREHOUSE_NAME,
@@ -60,7 +59,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   Car.JSON_PROPERTY_UPDATED_BY,
   Car.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-20T18:35:32.000500430+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-23T02:32:35.190314305+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class Car {
   public static final String JSON_PROPERTY_EQUIPMENT_ID = "equipment_id";
   private String equipmentId;
@@ -73,9 +72,6 @@ public class Car {
 
   public static final String JSON_PROPERTY_EQUIPMENT_CATEGORY = "equipment_category";
   private String equipmentCategory;
-
-  public static final String JSON_PROPERTY_EST_EN_PANNE = "est_en_panne";
-  private Boolean estEnPanne;
 
   public static final String JSON_PROPERTY_PURCHASE_PRICE = "purchase_price";
   private BigDecimal purchasePrice;
@@ -228,31 +224,6 @@ public class Car {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setEquipmentCategory(String equipmentCategory) {
     this.equipmentCategory = equipmentCategory;
-  }
-
-
-  public Car estEnPanne(Boolean estEnPanne) {
-    this.estEnPanne = estEnPanne;
-    return this;
-  }
-
-   /**
-   * Get estEnPanne
-   * @return estEnPanne
-  **/
-  @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_EST_EN_PANNE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-  public Boolean getEstEnPanne() {
-    return estEnPanne;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_EST_EN_PANNE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setEstEnPanne(Boolean estEnPanne) {
-    this.estEnPanne = estEnPanne;
   }
 
 
@@ -697,7 +668,6 @@ public class Car {
         Objects.equals(this.warehouseId, car.warehouseId) &&
         Objects.equals(this.equipmentName, car.equipmentName) &&
         Objects.equals(this.equipmentCategory, car.equipmentCategory) &&
-        Objects.equals(this.estEnPanne, car.estEnPanne) &&
         Objects.equals(this.purchasePrice, car.purchasePrice) &&
         Objects.equals(this.purchaseDate, car.purchaseDate) &&
         Objects.equals(this.warehouseName, car.warehouseName) &&
@@ -719,7 +689,7 @@ public class Car {
 
   @Override
   public int hashCode() {
-    return Objects.hash(equipmentId, warehouseId, equipmentName, equipmentCategory, estEnPanne, purchasePrice, purchaseDate, warehouseName, warehouseDescription, licensePlate, fuelType, status, brand, model, year, color, mileage, createdAt, updatedAt, createdBy, updatedBy, comment);
+    return Objects.hash(equipmentId, warehouseId, equipmentName, equipmentCategory, purchasePrice, purchaseDate, warehouseName, warehouseDescription, licensePlate, fuelType, status, brand, model, year, color, mileage, createdAt, updatedAt, createdBy, updatedBy, comment);
   }
 
   @Override
@@ -730,7 +700,6 @@ public class Car {
     sb.append("    warehouseId: ").append(toIndentedString(warehouseId)).append("\n");
     sb.append("    equipmentName: ").append(toIndentedString(equipmentName)).append("\n");
     sb.append("    equipmentCategory: ").append(toIndentedString(equipmentCategory)).append("\n");
-    sb.append("    estEnPanne: ").append(toIndentedString(estEnPanne)).append("\n");
     sb.append("    purchasePrice: ").append(toIndentedString(purchasePrice)).append("\n");
     sb.append("    purchaseDate: ").append(toIndentedString(purchaseDate)).append("\n");
     sb.append("    warehouseName: ").append(toIndentedString(warehouseName)).append("\n");

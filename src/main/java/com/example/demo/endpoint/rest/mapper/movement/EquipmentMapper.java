@@ -28,7 +28,6 @@ public class EquipmentMapper {
                 : null)
         .floorNumber(restEquipment.getFloorNumber())
         .storageNumber(restEquipment.getStorageNumber())
-        .estEnPanne(restEquipment.getEstEnPanne())
         .isDamaged(restEquipment.getIsDamaged())
         .isLost(restEquipment.getIsLost())
         .comment(restEquipment.getComment())
@@ -51,7 +50,6 @@ public class EquipmentMapper {
                 : null)
         .floorNumber(restEquipment.getFloorNumber())
         .storageNumber(restEquipment.getStorageNumber())
-        .estEnPanne(restEquipment.getEstEnPanne())
         .isDamaged(Boolean.TRUE.equals(restEquipment.getIsDamaged()))
         .isLost(Boolean.TRUE.equals(restEquipment.getIsLost()))
         .comment(restEquipment.getComment())
@@ -72,7 +70,6 @@ public class EquipmentMapper {
         warehouseMapper.toRestCrupdateWarehouse(domainEquipment.getWarehouse()));
     restEquipment.setFloorNumber(domainEquipment.getFloorNumber());
     restEquipment.setStorageNumber(domainEquipment.getStorageNumber());
-    restEquipment.setEstEnPanne(domainEquipment.getEstEnPanne());
     restEquipment.setIsDamaged(domainEquipment.getIsDamaged());
     restEquipment.setIsLost(domainEquipment.getIsLost());
     restEquipment.setPurchasePrice(domainEquipment.getPurchasePrice());
@@ -101,7 +98,6 @@ public class EquipmentMapper {
             domainEquipment.getWarehouse() != null ? domainEquipment.getWarehouse().getId() : null)
         .floorNumber(domainEquipment.getFloorNumber())
         .storageNumber(domainEquipment.getStorageNumber())
-        .estEnPanne(domainEquipment.getEstEnPanne())
         .isDamaged(domainEquipment.getIsDamaged())
         .isLost(domainEquipment.getIsLost())
         .comment(domainEquipment.getComment());
