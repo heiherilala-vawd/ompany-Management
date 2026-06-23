@@ -40,13 +40,14 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   CrupdateEquipment.JSON_PROPERTY_WAREHOUSE_ID,
   CrupdateEquipment.JSON_PROPERTY_FLOOR_NUMBER,
   CrupdateEquipment.JSON_PROPERTY_STORAGE_NUMBER,
-  CrupdateEquipment.JSON_PROPERTY_EST_EN_PANNE,
+  CrupdateEquipment.JSON_PROPERTY_IS_DAMAGED,
+  CrupdateEquipment.JSON_PROPERTY_IS_LOST,
   CrupdateEquipment.JSON_PROPERTY_PURCHASE_PRICE,
   CrupdateEquipment.JSON_PROPERTY_PURCHASE_DATE,
   CrupdateEquipment.JSON_PROPERTY_CATEGORY,
   CrupdateEquipment.JSON_PROPERTY_COMMENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-20T18:35:32.000500430+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-23T02:32:35.190314305+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class CrupdateEquipment {
   public static final String JSON_PROPERTY_ID = "id";
   private String id;
@@ -66,8 +67,11 @@ public class CrupdateEquipment {
   public static final String JSON_PROPERTY_STORAGE_NUMBER = "storage_number";
   private Integer storageNumber;
 
-  public static final String JSON_PROPERTY_EST_EN_PANNE = "est_en_panne";
-  private Boolean estEnPanne;
+  public static final String JSON_PROPERTY_IS_DAMAGED = "is_damaged";
+  private Boolean isDamaged;
+
+  public static final String JSON_PROPERTY_IS_LOST = "is_lost";
+  private Boolean isLost;
 
   public static final String JSON_PROPERTY_PURCHASE_PRICE = "purchase_price";
   private BigDecimal purchasePrice;
@@ -234,28 +238,53 @@ public class CrupdateEquipment {
   }
 
 
-  public CrupdateEquipment estEnPanne(Boolean estEnPanne) {
-    this.estEnPanne = estEnPanne;
+  public CrupdateEquipment isDamaged(Boolean isDamaged) {
+    this.isDamaged = isDamaged;
     return this;
   }
 
    /**
-   * Whether the equipment is broken
-   * @return estEnPanne
+   * Whether the equipment has been damaged
+   * @return isDamaged
   **/
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_EST_EN_PANNE)
+  @JsonProperty(JSON_PROPERTY_IS_DAMAGED)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public Boolean getEstEnPanne() {
-    return estEnPanne;
+  public Boolean getIsDamaged() {
+    return isDamaged;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_EST_EN_PANNE)
+  @JsonProperty(JSON_PROPERTY_IS_DAMAGED)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setEstEnPanne(Boolean estEnPanne) {
-    this.estEnPanne = estEnPanne;
+  public void setIsDamaged(Boolean isDamaged) {
+    this.isDamaged = isDamaged;
+  }
+
+
+  public CrupdateEquipment isLost(Boolean isLost) {
+    this.isLost = isLost;
+    return this;
+  }
+
+   /**
+   * Whether the equipment has been lost
+   * @return isLost
+  **/
+  @jakarta.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_IS_LOST)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public Boolean getIsLost() {
+    return isLost;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_IS_LOST)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setIsLost(Boolean isLost) {
+    this.isLost = isLost;
   }
 
 
@@ -377,7 +406,8 @@ public class CrupdateEquipment {
         Objects.equals(this.warehouseId, crupdateEquipment.warehouseId) &&
         Objects.equals(this.floorNumber, crupdateEquipment.floorNumber) &&
         Objects.equals(this.storageNumber, crupdateEquipment.storageNumber) &&
-        Objects.equals(this.estEnPanne, crupdateEquipment.estEnPanne) &&
+        Objects.equals(this.isDamaged, crupdateEquipment.isDamaged) &&
+        Objects.equals(this.isLost, crupdateEquipment.isLost) &&
         Objects.equals(this.purchasePrice, crupdateEquipment.purchasePrice) &&
         Objects.equals(this.purchaseDate, crupdateEquipment.purchaseDate) &&
         Objects.equals(this.category, crupdateEquipment.category) &&
@@ -386,7 +416,7 @@ public class CrupdateEquipment {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, description, warehouseId, floorNumber, storageNumber, estEnPanne, purchasePrice, purchaseDate, category, comment);
+    return Objects.hash(id, name, description, warehouseId, floorNumber, storageNumber, isDamaged, isLost, purchasePrice, purchaseDate, category, comment);
   }
 
   @Override
@@ -399,7 +429,8 @@ public class CrupdateEquipment {
     sb.append("    warehouseId: ").append(toIndentedString(warehouseId)).append("\n");
     sb.append("    floorNumber: ").append(toIndentedString(floorNumber)).append("\n");
     sb.append("    storageNumber: ").append(toIndentedString(storageNumber)).append("\n");
-    sb.append("    estEnPanne: ").append(toIndentedString(estEnPanne)).append("\n");
+    sb.append("    isDamaged: ").append(toIndentedString(isDamaged)).append("\n");
+    sb.append("    isLost: ").append(toIndentedString(isLost)).append("\n");
     sb.append("    purchasePrice: ").append(toIndentedString(purchasePrice)).append("\n");
     sb.append("    purchaseDate: ").append(toIndentedString(purchaseDate)).append("\n");
     sb.append("    category: ").append(toIndentedString(category)).append("\n");

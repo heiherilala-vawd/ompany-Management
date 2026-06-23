@@ -51,7 +51,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-20T18:35:32.000500430+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-23T02:32:35.190314305+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class EquipmentApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -283,11 +283,13 @@ public class EquipmentApi {
    * @param floorNumber  (optional)
    * @param storageNumber  (optional)
    * @param notArrived Filter equipment not yet arrived (in route or at seller warehouse) (optional)
+   * @param isDamaged Filter equipment by damaged status (optional)
+   * @param isLost Filter equipment by lost status (optional)
    * @return PaginatedResponse
    * @throws ApiException if fails to make API call
    */
-  public PaginatedResponse getEquipment(String userId, String companyId, Integer page, Integer pageSize, String warehouseId, String name, String description, Integer floorNumber, Integer storageNumber, Boolean notArrived) throws ApiException {
-    ApiResponse<PaginatedResponse> localVarResponse = getEquipmentWithHttpInfo(userId, companyId, page, pageSize, warehouseId, name, description, floorNumber, storageNumber, notArrived);
+  public PaginatedResponse getEquipment(String userId, String companyId, Integer page, Integer pageSize, String warehouseId, String name, String description, Integer floorNumber, Integer storageNumber, Boolean notArrived, Boolean isDamaged, Boolean isLost) throws ApiException {
+    ApiResponse<PaginatedResponse> localVarResponse = getEquipmentWithHttpInfo(userId, companyId, page, pageSize, warehouseId, name, description, floorNumber, storageNumber, notArrived, isDamaged, isLost);
     return localVarResponse.getData();
   }
 
@@ -304,11 +306,13 @@ public class EquipmentApi {
    * @param floorNumber  (optional)
    * @param storageNumber  (optional)
    * @param notArrived Filter equipment not yet arrived (in route or at seller warehouse) (optional)
+   * @param isDamaged Filter equipment by damaged status (optional)
+   * @param isLost Filter equipment by lost status (optional)
    * @return ApiResponse&lt;PaginatedResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<PaginatedResponse> getEquipmentWithHttpInfo(String userId, String companyId, Integer page, Integer pageSize, String warehouseId, String name, String description, Integer floorNumber, Integer storageNumber, Boolean notArrived) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = getEquipmentRequestBuilder(userId, companyId, page, pageSize, warehouseId, name, description, floorNumber, storageNumber, notArrived);
+  public ApiResponse<PaginatedResponse> getEquipmentWithHttpInfo(String userId, String companyId, Integer page, Integer pageSize, String warehouseId, String name, String description, Integer floorNumber, Integer storageNumber, Boolean notArrived, Boolean isDamaged, Boolean isLost) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getEquipmentRequestBuilder(userId, companyId, page, pageSize, warehouseId, name, description, floorNumber, storageNumber, notArrived, isDamaged, isLost);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -336,7 +340,7 @@ public class EquipmentApi {
     }
   }
 
-  private HttpRequest.Builder getEquipmentRequestBuilder(String userId, String companyId, Integer page, Integer pageSize, String warehouseId, String name, String description, Integer floorNumber, Integer storageNumber, Boolean notArrived) throws ApiException {
+  private HttpRequest.Builder getEquipmentRequestBuilder(String userId, String companyId, Integer page, Integer pageSize, String warehouseId, String name, String description, Integer floorNumber, Integer storageNumber, Boolean notArrived, Boolean isDamaged, Boolean isLost) throws ApiException {
     // verify the required parameter 'userId' is set
     if (userId == null) {
       throw new ApiException(400, "Missing the required parameter 'userId' when calling getEquipment");
@@ -371,6 +375,10 @@ public class EquipmentApi {
     localVarQueryParams.addAll(ApiClient.parameterToPairs("storage_number", storageNumber));
     localVarQueryParameterBaseName = "not_arrived";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("not_arrived", notArrived));
+    localVarQueryParameterBaseName = "is_damaged";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("is_damaged", isDamaged));
+    localVarQueryParameterBaseName = "is_lost";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("is_lost", isLost));
 
     if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
       StringJoiner queryJoiner = new StringJoiner("&");

@@ -46,11 +46,6 @@ public class Equipment extends CreatAndUpdateEntity implements Serializable {
   private Integer storageNumber;
 
   @NotNull
-  @Column(name = "est_en_panne")
-  @Builder.Default
-  private Boolean estEnPanne = false;
-
-  @NotNull
   @PositiveOrZero
   @Column(name = "purchase_price")
   private BigDecimal purchasePrice;

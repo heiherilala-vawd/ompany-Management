@@ -95,8 +95,7 @@ class LeaveAccruedByMonthServiceTest {
 
   @Test
   void getAccruedDaysForYear_ShouldReturnZero_WhenNoData() {
-    when(repository.sumAccruedDaysByUserAndYear(userId, 2026))
-        .thenReturn(Optional.empty());
+    when(repository.sumAccruedDaysByUserAndYear(userId, 2026)).thenReturn(Optional.empty());
 
     BigDecimal result = service.getAccruedDaysForYear(userId, 2026);
 
@@ -195,14 +194,9 @@ class LeaveAccruedByMonthServiceTest {
             .build();
 
     User userWithoutConfig =
-        User.builder()
-            .id("user-003")
-            .email("user3@test.com")
-            .role(User.Role.EMPLOYEE)
-            .build();
+        User.builder().id("user-003").email("user3@test.com").role(User.Role.EMPLOYEE).build();
 
-    Page<User> userPage =
-        new PageImpl<>(List.of(user, userWithConfig, userWithoutConfig));
+    Page<User> userPage = new PageImpl<>(List.of(user, userWithConfig, userWithoutConfig));
 
     int year = 2026;
     int month = 6;
@@ -211,8 +205,7 @@ class LeaveAccruedByMonthServiceTest {
     when(repository.existsByUserIdAndYearAndMonth(user.getId(), year, month)).thenReturn(true);
     when(repository.existsByUserIdAndYearAndMonth(userWithConfig.getId(), year, month))
         .thenReturn(false);
-    when(repository.saveAll(anyList()))
-        .thenAnswer(invocation -> invocation.getArgument(0));
+    when(repository.saveAll(anyList())).thenAnswer(invocation -> invocation.getArgument(0));
 
     service.accrueForCurrentMonth();
 
@@ -271,11 +264,9 @@ class LeaveAccruedByMonthServiceTest {
 
   @Test
   void accrueForCurrentMonth_ShouldHandleMultiplePages() {
-    Page<User> page1 =
-        new PageImpl<>(List.of(user), PageRequest.of(0, 100), 150);
+    Page<User> page1 = new PageImpl<>(List.of(user), PageRequest.of(0, 100), 150);
 
-    Page<User> page2 =
-        new PageImpl<>(List.of(), PageRequest.of(1, 100), 150);
+    Page<User> page2 = new PageImpl<>(List.of(), PageRequest.of(1, 100), 150);
 
     int year = 2026;
     int month = 6;
@@ -283,8 +274,7 @@ class LeaveAccruedByMonthServiceTest {
     when(userRepository.findAll(PageRequest.of(0, 100))).thenReturn(page1);
     when(userRepository.findAll(PageRequest.of(1, 100))).thenReturn(page2);
     when(repository.existsByUserIdAndYearAndMonth(user.getId(), year, month)).thenReturn(false);
-    when(repository.saveAll(anyList()))
-        .thenAnswer(invocation -> invocation.getArgument(0));
+    when(repository.saveAll(anyList())).thenAnswer(invocation -> invocation.getArgument(0));
 
     service.accrueForCurrentMonth();
 

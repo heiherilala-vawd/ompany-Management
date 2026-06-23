@@ -106,7 +106,6 @@ public class EquipmentUsageService {
         }
         equipment.setIsDamaged(false);
         equipment.setIsLost(false);
-        equipment.setEstEnPanne(false);
         equipmentService.createOrUpdateAll(List.of(equipment));
       }
       case LOST -> {
@@ -130,7 +129,6 @@ public class EquipmentUsageService {
         if (source != null) {
           equipment.setWarehouse(source);
         }
-        equipment.setEstEnPanne(true);
         equipment.setIsDamaged(true);
         equipmentService.createOrUpdateAll(List.of(equipment));
         String incidentId =

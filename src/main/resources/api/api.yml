@@ -13372,17 +13372,13 @@ components:
         storage_number:
           type: integer
           example: 5
-        est_en_panne:
-          type: boolean
-          description: "Whether the equipment is broken"
-          example: false
         is_damaged:
           type: boolean
-          description: "Whether the equipment has been damaged during transport"
+          description: "Whether the equipment has been damaged"
           example: false
         is_lost:
           type: boolean
-          description: "Whether the equipment has been lost during transport"
+          description: "Whether the equipment has been lost"
           example: false
         purchase_price:
           type: number
@@ -13426,17 +13422,13 @@ components:
         storage_number:
           type: integer
           example: 5
-        est_en_panne:
-          type: boolean
-          description: "Whether the equipment is broken"
-          example: false
         is_damaged:
           type: boolean
-          description: "Whether the equipment has been damaged during transport"
+          description: "Whether the equipment has been damaged"
           example: false
         is_lost:
           type: boolean
-          description: "Whether the equipment has been lost during transport"
+          description: "Whether the equipment has been lost"
           example: false
         purchase_price:
           type: number
@@ -13468,9 +13460,6 @@ components:
         equipment_category:
           type: string
           example: "Véhicule"
-        est_en_panne:
-          type: boolean
-          example: false
         purchase_price:
           type: number
           example: 50000.00
@@ -13522,9 +13511,6 @@ components:
         equipment_category:
           type: string
           example: "Véhicule"
-        est_en_panne:
-          type: boolean
-          example: false
         purchase_price:
           type: number
           example: 50000.00

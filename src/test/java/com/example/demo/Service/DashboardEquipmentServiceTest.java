@@ -49,8 +49,8 @@ class DashboardEquipmentServiceTest {
 
   @Test
   void getSummary_should_count_broken_equipment() {
-    Equipment broken = Equipment.builder().id("e1").estEnPanne(true).build();
-    Equipment working = Equipment.builder().id("e2").estEnPanne(false).build();
+    Equipment broken = Equipment.builder().id("e1").isDamaged(true).build();
+    Equipment working = Equipment.builder().id("e2").isDamaged(false).build();
 
     when(equipmentRepository.findAll()).thenReturn(List.of(broken, working));
     when(equipmentUsageRepository.sumUsageHours(any(), any(), any())).thenReturn(BigDecimal.ZERO);

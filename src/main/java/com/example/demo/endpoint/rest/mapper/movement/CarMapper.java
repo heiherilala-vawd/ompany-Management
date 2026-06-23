@@ -30,7 +30,6 @@ public class CarMapper {
             .id(dto.getEquipmentId())
             .name(dto.getEquipmentName())
             .category(dto.getEquipmentCategory())
-            .estEnPanne(dto.getEstEnPanne() != null ? dto.getEstEnPanne() : false)
             .purchasePrice(dto.getPurchasePrice())
             .purchaseDate(dto.getPurchaseDate())
             .warehouse(warehouse)
@@ -61,7 +60,6 @@ public class CarMapper {
     response.setEquipmentName(car.getEquipment() != null ? car.getEquipment().getName() : null);
     response.setEquipmentCategory(
         car.getEquipment() != null ? car.getEquipment().getCategory() : null);
-    response.setEstEnPanne(car.getEquipment() != null ? car.getEquipment().getEstEnPanne() : null);
     response.setPurchasePrice(
         car.getEquipment() != null ? car.getEquipment().getPurchasePrice() : null);
     response.setPurchaseDate(
