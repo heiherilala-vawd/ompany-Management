@@ -67,11 +67,12 @@ public class EquipmentUsageController {
       @PathVariable String userId,
       @PathVariable String companyId,
       @PathVariable String id,
-      @RequestParam(name = "status") String status) {
+      @RequestParam(name = "status") String status,
+      @RequestParam(name = "incident_id", required = false) String incidentId) {
     com.example.demo.model.movement.EquipmentUsage.UsageStatus usageStatus =
         com.example.demo.model.movement.EquipmentUsage.UsageStatus.valueOf(status);
     return equipmentUsageMapper.toRestEquipmentUsage(
-        equipmentUsageService.returnEquipment(id, usageStatus));
+        equipmentUsageService.returnEquipment(id, usageStatus, incidentId));
   }
 
   @DeleteMapping("/users/{userId}/companies/{companyId}/equipment_usages/{id}")

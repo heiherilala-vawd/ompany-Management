@@ -35,7 +35,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   ModelApiException.JSON_PROPERTY_TYPE,
   ModelApiException.JSON_PROPERTY_MESSAGE
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-23T02:32:35.190314305+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-23T21:43:44.019603563+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class ModelApiException {
   public static final String JSON_PROPERTY_TYPE = "type";
   private String type;

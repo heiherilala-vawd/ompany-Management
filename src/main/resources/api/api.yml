@@ -11191,6 +11191,13 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/UsageStatus'
+        - name: incident_id
+          in: query
+          required: false
+          schema:
+            type: string
+          description: "Client-generated ID for the equipment incident (auto-generated if not provided)"
+          example: "inc_001"
       responses:
         '200':
           description: Equipment returned successfully
@@ -12970,6 +12977,10 @@ components:
         used_by:
           type: string
           example: "user_001"
+        incident_id:
+          type: string
+          description: "Client-generated ID for the equipment incident (auto-generated if not provided on LOST/BROKEN)"
+          example: "inc_001"
 
     # =========================
     # MATERIAL CONSUMPTION

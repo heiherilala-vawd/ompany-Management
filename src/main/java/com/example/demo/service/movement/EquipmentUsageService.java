@@ -72,8 +72,13 @@ public class EquipmentUsageService {
 
       if (usage.getUsageStatus() != null) {
         boolean wasNull = existing == null || existing.getUsageStatus() == null;
-        if (wasNull) {
+        if (wasNull && isActiveStatus(usage.getUsageStatus())) {
+          if (usage.getSourceLocation() == null && usage.getEquipment() != null) {
+            usage.setSourceLocation(usage.getEquipment().getWarehouse());
+          }
           moveEquipmentToUsed(usage);
+        } else if (wasNull) {
+          applyStatusLogic(usage, usage.getUsageStatus(), usage.getIncidentId());
         }
       }
       processed.add(usage);
@@ -82,7 +87,8 @@ public class EquipmentUsageService {
   }
 
   @Transactional
-  public EquipmentUsage returnEquipment(String id, EquipmentUsage.UsageStatus status) {
+  public EquipmentUsage returnEquipment(
+      String id, EquipmentUsage.UsageStatus status, String incidentId) {
     EquipmentUsage usage =
         equipmentUsageRepository
             .findById(id)
@@ -98,6 +104,18 @@ public class EquipmentUsageService {
       throw new BadRequestException("Equipment usage has no equipment");
     }
 
+    applyStatusLogic(usage, status, incidentId);
+
+    return equipmentUsageRepository.save(usage);
+  }
+
+  private void applyStatusLogic(
+      EquipmentUsage usage, EquipmentUsage.UsageStatus status, String incidentId) {
+    var equipment = usage.getEquipment();
+    if (equipment == null) {
+      return;
+    }
+
     switch (status) {
       case RETURNED -> {
         Warehouse source = usage.getSourceLocation();
@@ -111,11 +129,13 @@ public class EquipmentUsageService {
       case LOST -> {
         equipment.setIsLost(true);
         equipmentService.createOrUpdateAll(List.of(equipment));
-        String incidentId =
-            "lost_" + usage.getEquipment().getId() + "_" + System.currentTimeMillis();
+        String id =
+            incidentId != null
+                ? incidentId
+                : "lost_" + equipment.getId() + "_" + System.currentTimeMillis();
         EquipmentIncident incident =
             EquipmentIncident.builder()
-                .id(incidentId)
+                .id(id)
                 .incidentType(IncidentType.LOST)
                 .equipment(equipment)
                 .user(modificationUtils.takePrimaryUser())
@@ -131,11 +151,13 @@ public class EquipmentUsageService {
         }
         equipment.setIsDamaged(true);
         equipmentService.createOrUpdateAll(List.of(equipment));
-        String incidentId =
-            "damaged_" + usage.getEquipment().getId() + "_" + System.currentTimeMillis();
+        String id =
+            incidentId != null
+                ? incidentId
+                : "damaged_" + equipment.getId() + "_" + System.currentTimeMillis();
         EquipmentIncident incident =
             EquipmentIncident.builder()
-                .id(incidentId)
+                .id(id)
                 .incidentType(IncidentType.DAMAGED)
                 .equipment(equipment)
                 .user(modificationUtils.takePrimaryUser())
@@ -145,8 +167,10 @@ public class EquipmentUsageService {
         equipmentIncidentService.createOrUpdateAll(List.of(incident));
       }
     }
+  }
 
-    return equipmentUsageRepository.save(usage);
+  private boolean isActiveStatus(EquipmentUsage.UsageStatus status) {
+    return status == EquipmentUsage.UsageStatus.IN_USE;
   }
 
   @Transactional

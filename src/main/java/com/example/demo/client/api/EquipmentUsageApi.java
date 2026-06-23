@@ -52,7 +52,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-23T02:32:35.190314305+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-23T21:43:44.019603563+03:00[Indian/Antananarivo]", comments = "Generator version: 7.6.0")
 public class EquipmentUsageApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -470,11 +470,12 @@ public class EquipmentUsageApi {
    * @param companyId  (required)
    * @param id  (required)
    * @param status  (required)
+   * @param incidentId Client-generated ID for the equipment incident (auto-generated if not provided) (optional)
    * @return EquipmentUsage
    * @throws ApiException if fails to make API call
    */
-  public EquipmentUsage returnEquipment(String userId, String companyId, String id, UsageStatus status) throws ApiException {
-    ApiResponse<EquipmentUsage> localVarResponse = returnEquipmentWithHttpInfo(userId, companyId, id, status);
+  public EquipmentUsage returnEquipment(String userId, String companyId, String id, UsageStatus status, String incidentId) throws ApiException {
+    ApiResponse<EquipmentUsage> localVarResponse = returnEquipmentWithHttpInfo(userId, companyId, id, status, incidentId);
     return localVarResponse.getData();
   }
 
@@ -485,11 +486,12 @@ public class EquipmentUsageApi {
    * @param companyId  (required)
    * @param id  (required)
    * @param status  (required)
+   * @param incidentId Client-generated ID for the equipment incident (auto-generated if not provided) (optional)
    * @return ApiResponse&lt;EquipmentUsage&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<EquipmentUsage> returnEquipmentWithHttpInfo(String userId, String companyId, String id, UsageStatus status) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = returnEquipmentRequestBuilder(userId, companyId, id, status);
+  public ApiResponse<EquipmentUsage> returnEquipmentWithHttpInfo(String userId, String companyId, String id, UsageStatus status, String incidentId) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = returnEquipmentRequestBuilder(userId, companyId, id, status, incidentId);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -517,7 +519,7 @@ public class EquipmentUsageApi {
     }
   }
 
-  private HttpRequest.Builder returnEquipmentRequestBuilder(String userId, String companyId, String id, UsageStatus status) throws ApiException {
+  private HttpRequest.Builder returnEquipmentRequestBuilder(String userId, String companyId, String id, UsageStatus status, String incidentId) throws ApiException {
     // verify the required parameter 'userId' is set
     if (userId == null) {
       throw new ApiException(400, "Missing the required parameter 'userId' when calling returnEquipment");
@@ -547,6 +549,8 @@ public class EquipmentUsageApi {
     String localVarQueryParameterBaseName;
     localVarQueryParameterBaseName = "status";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("status", status));
+    localVarQueryParameterBaseName = "incident_id";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("incident_id", incidentId));
 
     if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
       StringJoiner queryJoiner = new StringJoiner("&");

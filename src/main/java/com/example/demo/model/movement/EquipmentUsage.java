@@ -52,7 +52,11 @@ public class EquipmentUsage extends CreatAndUpdateEntity implements Serializable
   @Column(name = "end_time")
   private Instant endTime;
 
-  @Transient private Warehouse sourceLocation;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "source_location")
+  private Warehouse sourceLocation;
+
+  @Transient private String incidentId;
 
   @NotNull
   @Enumerated(EnumType.STRING)
